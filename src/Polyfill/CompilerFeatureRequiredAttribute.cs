@@ -1,6 +1,7 @@
 #if(!NET7_0_OR_GREATER)
 
 namespace System.Runtime.CompilerServices;
+
 /// <summary>
 /// Indicates that compiler support for a particular feature is required for the location where this attribute is applied.
 /// </summary>

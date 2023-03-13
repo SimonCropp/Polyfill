@@ -1,4 +1,5 @@
 #if(NETFRAMEWORK || NETSTANDARD || NETCOREAPP2_0 || NETCOREAPP2_1)
+
 namespace System.Runtime.CompilerServices;
 
 [AttributeUsage(AttributeTargets.Parameter)]

@@ -16,7 +16,7 @@ namespace System;
 /// </remarks>
 public readonly struct Index : IEquatable<Index>
 {
-    private readonly int _value;
+    readonly int _value;
 
     /// <summary>Construct an Index using a value and indicating if the index is from the start or from the end.</summary>
     /// <param name="value">The index value. it has to be zero or positive number.</param>
@@ -43,7 +43,7 @@ public readonly struct Index : IEquatable<Index>
     }
 
     // The following private constructors mainly created for perf reason to avoid the checks
-    private Index(int value) =>
+    Index(int value) =>
         _value = value;
 
     /// <summary>Create an Index pointing at first element.</summary>
@@ -143,7 +143,7 @@ public readonly struct Index : IEquatable<Index>
         return ((uint)Value).ToString();
     }
 
-    private string ToStringFromEnd() =>
+    string ToStringFromEnd() =>
         '^' + Value.ToString();
 }
 #endif

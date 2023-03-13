@@ -5,15 +5,16 @@ namespace System.Diagnostics.CodeAnalysis;
 using Targets = AttributeTargets;
 
 /// <summary>
-///     Specifies that <see langword="null"/> is disallowed as an input even if the
-///     corresponding type allows it.
+///   Specifies that <see langword="null"/> is disallowed as an input even if the
+///   corresponding type allows it.
 /// </summary>
 [AttributeUsage(Targets.Field | Targets.Parameter | Targets.Property)]
 sealed class DisallowNullAttribute : Attribute
 {
     /// <summary>
-    ///     Initializes a new instance of the <see cref="DisallowNullAttribute"/> class.
+    ///   Initializes a new instance of the <see cref="DisallowNullAttribute"/> class.
     /// </summary>
     public DisallowNullAttribute() { }
 }
+
 #endif
