@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32120.378
+MinimumVisualStudioVersion = 16.0.29201.188
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9A6C4741-C83D-4E05-A62F-8049F65B9B6C}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		..\.gitignore = ..\.gitignore
+		appveyor.yml = appveyor.yml
+		Directory.Build.props = Directory.Build.props
+		global.json = global.json
+		mdsnippets.json = mdsnippets.json
+		..\readme.md = ..\readme.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Polyfill.Source", "Polyfill.Source\Polyfill.Source.csproj", "{698FB675-3480-4107-8CAE-51452C6138CE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Polyfill.Source.Usage", "Polyfill.Source.Usage\Polyfill.Source.Usage.csproj", "{B4BAD33E-CF70-448F-AAF1-ED8941E5C875}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Polyfill", "Polyfill\Polyfill.csproj", "{811A10AA-10F6-4279-986C-7A6FCA3EA43C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Polyfill.Source.Tests", "Polyfill.Source.Tests\Polyfill.Source.Tests.csproj", "{CA1869D1-4531-40C7-AE55-5885F4DD8448}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Polyfill.Tests", "Polyfill.Tests\Polyfill.Tests.csproj", "{7CE517ED-600A-4F6D-B452-308F6FE0CA35}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{698FB675-3480-4107-8CAE-51452C6138CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{698FB675-3480-4107-8CAE-51452C6138CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{698FB675-3480-4107-8CAE-51452C6138CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{698FB675-3480-4107-8CAE-51452C6138CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4BAD33E-CF70-448F-AAF1-ED8941E5C875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4BAD33E-CF70-448F-AAF1-ED8941E5C875}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4BAD33E-CF70-448F-AAF1-ED8941E5C875}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4BAD33E-CF70-448F-AAF1-ED8941E5C875}.Release|Any CPU.Build.0 = Release|Any CPU
+		{811A10AA-10F6-4279-986C-7A6FCA3EA43C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{811A10AA-10F6-4279-986C-7A6FCA3EA43C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{811A10AA-10F6-4279-986C-7A6FCA3EA43C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{811A10AA-10F6-4279-986C-7A6FCA3EA43C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA1869D1-4531-40C7-AE55-5885F4DD8448}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA1869D1-4531-40C7-AE55-5885F4DD8448}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA1869D1-4531-40C7-AE55-5885F4DD8448}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA1869D1-4531-40C7-AE55-5885F4DD8448}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CE517ED-600A-4F6D-B452-308F6FE0CA35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CE517ED-600A-4F6D-B452-308F6FE0CA35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CE517ED-600A-4F6D-B452-308F6FE0CA35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CE517ED-600A-4F6D-B452-308F6FE0CA35}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B0B94980-5385-4EC6-A0EE-C9A191DDFC05}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;netstandard2.0</TargetFrameworks>
+    <NoWarn>$(NoWarn);CS0649;CS8618;CS0105</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\Polyfill.Source\*.cs">
+    </Compile>
+  </ItemGroup>
+</Project>

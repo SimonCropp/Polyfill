@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Polyfill.Source</id>
+    <version>$version$</version>
+    <authors>$authors$</authors>
+    <developmentDependency>true</developmentDependency>
+    <license type="expression">MIT</license>
+    <projectUrl>$projectUrl$</projectUrl>
+    <icon>icon.png</icon>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <copyright>$copyright$</copyright>
+    <tags>$tags$</tags>
+    <contentFiles>
+      <files include="**/*.cs"/>
+    </contentFiles>
+  </metadata>
+  <files>
+    <file src="../icon.png" target="icon.png" />
+
+    <file src="*.cs"
+          target="contentFiles/cs/netstandard2.0/Nullability.Source/"/>
+  </files>
+</package>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup>
+    <Version>0.1.0</Version>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <PackageTags>Polyfill</PackageTags>
+    <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+    <SignAssembly>false</SignAssembly>
+    <NoWarn>CS8600;CS8602;CS8604;IDE0049;IDE0007;CS1591;NETSDK1138</NoWarn>
+    <LangVersion>11</LangVersion>
+    <ImplicitUsings>true</ImplicitUsings>
+  </PropertyGroup>
+</Project>
