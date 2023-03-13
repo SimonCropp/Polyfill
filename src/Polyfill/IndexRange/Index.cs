@@ -33,22 +33,24 @@ public readonly struct Index : IEquatable<Index>
         }
 
         if (fromEnd)
+        {
             _value = ~value;
+        }
         else
+        {
             _value = value;
+        }
     }
 
     // The following private constructors mainly created for perf reason to avoid the checks
-    private Index(int value)
-    {
+    private Index(int value) =>
         _value = value;
-    }
 
     /// <summary>Create an Index pointing at first element.</summary>
-    public static Index Start => new Index(0);
+    public static Index Start => new(0);
 
     /// <summary>Create an Index pointing at beyond last element.</summary>
-    public static Index End => new Index(~0);
+    public static Index End => new(~0);
 
     /// <summary>Create an Index from the start at the position indicated by the value.</summary>
     /// <param name="value">The index value from the start.</param>
@@ -134,7 +136,9 @@ public readonly struct Index : IEquatable<Index>
     public override string ToString()
     {
         if (IsFromEnd)
+        {
             return ToStringFromEnd();
+        }
 
         return ((uint)Value).ToString();
     }
