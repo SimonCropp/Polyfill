@@ -29,7 +29,7 @@ public void ModuleInitTest() =>
 public static void ModuleInit() =>
     InitCalled = true;
 ```
-<sup><a href='/src/Tests/Samples.cs#L4-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-moduleinitializerattribute' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/ModuleInitSample.cs#L4-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-moduleinitializerattribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
