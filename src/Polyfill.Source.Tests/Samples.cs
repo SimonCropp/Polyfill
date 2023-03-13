@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-public class Samples
+﻿public class Samples
 {
     #region ModuleInitializerAttribute
 
