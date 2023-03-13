@@ -70,10 +70,10 @@ public readonly struct Index : IEquatable<Index>
     {
         if (value < 0)
         {
-            ThrowHelper.ThrowValueArgumentOutOfRange_NeedNonNegNumException();
+            throw new IndexOutOfRangeException(nameof(value));
         }
 
-        return new Index(~value);
+        return new(~value);
     }
 
     /// <summary>Returns the index value.</summary>
