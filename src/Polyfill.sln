@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Polyfill", "Polyfill\Polyfi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{CA1869D1-4531-40C7-AE55-5885F4DD8448}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consume", "Consume\Consume.csproj", "{32C38E3C-4040-455F-A27D-4EA5DB0F8EFA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{CA1869D1-4531-40C7-AE55-5885F4DD8448}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA1869D1-4531-40C7-AE55-5885F4DD8448}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA1869D1-4531-40C7-AE55-5885F4DD8448}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32C38E3C-4040-455F-A27D-4EA5DB0F8EFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32C38E3C-4040-455F-A27D-4EA5DB0F8EFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32C38E3C-4040-455F-A27D-4EA5DB0F8EFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32C38E3C-4040-455F-A27D-4EA5DB0F8EFA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

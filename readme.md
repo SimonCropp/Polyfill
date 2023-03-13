@@ -31,7 +31,7 @@ public void ModuleInitTest() =>
 public static void ModuleInit() =>
     InitCalled = true;
 ```
-<sup><a href='/src/Tests/ModuleInitSample.cs#L4-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-moduleinitializerattribute' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/ModuleInitSample.cs#L4-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-moduleinitializerattribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -53,7 +53,7 @@ class InitExample
     }
 }
 ```
-<sup><a href='/src/Tests/MyRecord.cs#L1-L14' title='Snippet source file'>snippet source</a> | <a href='#snippet-isexternalinit' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/MyRecord.cs#L1-L14' title='Snippet source file'>snippet source</a> | <a href='#snippet-isexternalinit' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -95,7 +95,7 @@ public class Person
     public required string Name { get; init; }
 }
 ```
-<sup><a href='/src/Tests/Required.cs#L2-L13' title='Snippet source file'>snippet source</a> | <a href='#snippet-required' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Required.cs#L2-L13' title='Snippet source file'>snippet source</a> | <a href='#snippet-required' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -128,7 +128,39 @@ class SkipLocalsInitExample
     }
 }
 ```
-<sup><a href='/src/Tests/SkipLocalsInitExample.cs#L1-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-skiplocalsinit' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/SkipLocalsInitExample.cs#L1-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-skiplocalsinit' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+
+### CallerArgumentExpressionAttribute
+
+Reference: [CallerArgumentExpression](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/caller-argument-expression)
+
+<!-- snippet: CallerArgumentExpression -->
+<a id='snippet-callerargumentexpression'></a>
+```cs
+static class Guard
+{
+    public static void FileExists(string path, [CallerArgumentExpression("path")] string argumentName = "")
+    {
+        if (!File.Exists(path))
+        {
+            throw new ArgumentException($"File not found. Path: {path}", argumentName);
+        }
+    }
+}
+
+static class GuardUsage
+{
+    public static string[] Method(string path)
+    {
+        Guard.FileExists(path);
+        return File.ReadAllLines(path);
+    }
+}
+```
+<sup><a href='/src/Consume/Guard.cs#L1-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-callerargumentexpression' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
