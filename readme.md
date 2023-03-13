@@ -5,6 +5,11 @@
 
 Source only package that exposes newer .net and C# features to older runtimes.
 
+The package targets `netstandard2.0` and is designed to support the following runtimes.
+
+ * net461 net462 net47 net471 net472 net48
+ * netcoreapp2.0 netcoreapp2.1 netcoreapp3.0 netcoreapp3.1
+ * net5.0 net6.0 net7.0 net8.0
 
 ## Nuget
 
