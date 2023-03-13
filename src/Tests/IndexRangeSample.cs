@@ -15,8 +15,8 @@ class IndexRangeSample
     [Test]
     public void Index()
     {
-        var substring = "value"[^2];
-        Assert.AreEqual("u", substring);
+        var ch = "value"[^2];
+        Assert.AreEqual('u', ch);
     }
 }
 
