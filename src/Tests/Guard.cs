@@ -1,4 +1,8 @@
-﻿#region CallerArgumentExpression
+﻿// ReSharper disable RedundantUsingDirective
+#region CallerArgumentExpression
+
+using System.IO;
+
 static class Guard
 {
     public static void FileExists(string path, [CallerArgumentExpression("path")] string argumentName = "")
