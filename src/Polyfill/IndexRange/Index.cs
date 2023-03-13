@@ -1,5 +1,7 @@
 #if(NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP2_1)
 
+#pragma warning disable CS0436
+
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable UnusedMember.Global
 using System.Diagnostics.CodeAnalysis;
