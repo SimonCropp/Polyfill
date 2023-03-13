@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net5.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <NuSpecFile>Polyfill.Source.nuspec</NuSpecFile>
     <Description>Exposes newer .net and C# features to older runtimes.</Description>
     <RootNamespace>Polyfill.Source</RootNamespace>

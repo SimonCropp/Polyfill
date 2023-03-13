@@ -45,6 +45,13 @@ public static void ModuleInit() =>
 <!-- endSnippet -->
 
 
+### IsExternalInit
+
+`IsExternalInit` is required to use records in older runtimes
+
+snippet: IsExternalInit
+
+
 ## Icon
 
 [Crack](https://thenounproject.com/term/crack/3968590/) designed by [Adrien Coquet](https://thenounproject.com/coquet_adrien/) from [The Noun Project](https://thenounproject.com).
