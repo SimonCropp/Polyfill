@@ -1,6 +1,6 @@
 #region SkipLocalsInit
 
-class SkipLocalsInitExample
+class SkipLocalsInitSample
 {
     [SkipLocalsInit]
     static void ReadUninitializedMemory()

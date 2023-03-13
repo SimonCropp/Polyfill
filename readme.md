@@ -115,7 +115,7 @@ Reference: (SkipLocalsInit attribute)(https://learn.microsoft.com/en-us/dotnet/c
 <!-- snippet: SkipLocalsInit -->
 <a id='snippet-skiplocalsinit'></a>
 ```cs
-class SkipLocalsInitExample
+class SkipLocalsInitSample
 {
     [SkipLocalsInit]
     static void ReadUninitializedMemory()

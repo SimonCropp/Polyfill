@@ -1,5 +1,6 @@
 #if(NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP2_1)
 
+// ReSharper disable once RedundantUsingDirective
 using System.Runtime.CompilerServices;
 
 namespace System;

@@ -1,6 +1,6 @@
 #if(NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP2_1)
 
-using System.Diagnostics;
+// ReSharper disable RedundantUsingDirective
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
@@ -120,7 +120,7 @@ public readonly struct Index : IEquatable<Index>
 
     /// <summary>Indicates whether the current Index object is equal to another object of the same type.</summary>
     /// <param name="value">An object to compare with this object</param>
-    public override bool Equals([NotNullWhen(true)] object? value) => value is Index && _value == ((Index)value)._value;
+    public override bool Equals(object value) => value is Index index && _value == index._value;
 
     /// <summary>Indicates whether the current Index object is equal to another Index object.</summary>
     /// <param name="other">An object to compare with this object</param>
