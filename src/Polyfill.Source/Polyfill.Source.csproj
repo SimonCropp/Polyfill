@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net5.0</TargetFrameworks>
-    <NuSpecFile>Nullability.Source.nuspec</NuSpecFile>
+    <NuSpecFile>Polyfill.Source.nuspec</NuSpecFile>
     <Description>Exposes newer .net and C# features to older runtimes.</Description>
-    <RootNamespace>Nullability.Source</RootNamespace>
+    <RootNamespace>Polyfill.Source</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ProjectDefaults" Version="1.0.89" PrivateAssets="all" />

@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net7.0;net48</TargetFrameworks>
     <NoWarn>$(NoWarn);CS0649;CS8618;CS0105</NoWarn>
-    <RootNamespace>Nullability.Source.Tests</RootNamespace>
+    <RootNamespace>Polyfill.Source.Tests</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(OS)' != 'Windows_NT' ">
     <TargetFramework>net6.0</TargetFramework>
