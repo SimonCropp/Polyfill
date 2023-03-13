@@ -6,9 +6,6 @@ namespace System.Diagnostics.CodeAnalysis;
 ///     Specifies that a method that will never return under any circumstance.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method, Inherited = false)]
-#if(PublicPolyfill)
-public
-#endif
 sealed class DoesNotReturnAttribute : Attribute
 {
     /// <summary>

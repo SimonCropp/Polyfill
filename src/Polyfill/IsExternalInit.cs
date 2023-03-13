@@ -2,9 +2,6 @@
 
 namespace System.Runtime.CompilerServices;
 
-#if(PublicPolyfill)
-public
-#endif
 static class IsExternalInit
 {
 }

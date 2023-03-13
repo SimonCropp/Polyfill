@@ -7,9 +7,6 @@ namespace System.Diagnostics.CodeAnalysis;
 ///     parameter is passed the specified value.
 /// </summary>
 [AttributeUsage(AttributeTargets.Parameter)]
-#if(PublicPolyfill)
-public
-#endif
 sealed class DoesNotReturnIfAttribute : Attribute
 {
     /// <summary>

@@ -7,9 +7,6 @@ namespace System.Diagnostics.CodeAnalysis;
 ///     not-<see langword="null"/> values.
 /// </summary>
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, Inherited = false, AllowMultiple = true)]
-#if(PublicPolyfill)
-public
-#endif
 sealed class MemberNotNullAttribute : Attribute
 {
     /// <summary>

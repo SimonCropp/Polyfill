@@ -8,9 +8,6 @@ namespace System.Diagnostics.CodeAnalysis;
 /// </summary>
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, Inherited = false, AllowMultiple = true)]
 [ExcludeFromCodeCoverage, DebuggerNonUserCode]
-#if(PublicPolyfill)
-public
-#endif
 sealed class MemberNotNullWhenAttribute : Attribute
 {
     /// <summary>

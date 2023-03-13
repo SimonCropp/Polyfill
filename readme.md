@@ -3,6 +3,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/s6eqqg4ipeovebgd?svg=true)](https://ci.appveyor.com/project/SimonCropp/Polyfill)
 [![Polyfill NuGet Status](https://img.shields.io/nuget/v/Polyfill.svg)](https://www.nuget.org/packages/Polyfill/)
 
+Source only packages that exposes newer .net and C# features to older runtimes.
 
 
 ## Nuget
@@ -47,17 +48,23 @@ record MyRecord(string property);
 
 ### Nullable attributes
 
-  * `AllowNullAttribute`
-  * `DisallowNullAttribute`
-  * `DoesNotReturnAttribute`
-  * `DoesNotReturnIfAttribute`
-  * `MaybeNullAttribute`
-  * `MaybeNullWhenAttribute`
-  * `MemberNotNullAttribute`
-  * `MemberNotNullWhenAttribute`
-  * `NotNullAttribute`
-  * `NotNullIfNotNullAttribute`
-  * `NotNullWhenAttribute`
+  * `[AllowNull]`
+  * `[DisallowNull]`
+  * `[DoesNotReturn]`
+  * `[DoesNotReturnIf]`
+  * `[MaybeNull]`
+  * `[MaybeNullWhen]`
+  * `[MemberNotNull]`
+  * `[MemberNotNullWhen]`
+  * `[NotNull]`
+  * `[NotNullIfNotNull]`
+  * `[NotNullWhen]`
+
+
+### Required members
+
+ * [`[RequiredMember]`](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.requiredmemberattribute)
+ * [`[SetsRequiredMembers]`](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.setsrequiredmembersattribute)
 
 
 ## Icon

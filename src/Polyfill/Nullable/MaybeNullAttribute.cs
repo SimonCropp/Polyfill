@@ -7,9 +7,6 @@ namespace System.Diagnostics.CodeAnalysis;
 ///     corresponding type disallows it.
 /// </summary>
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.ReturnValue)]
-#if(PublicPolyfill)
-public
-#endif
 sealed class MaybeNullAttribute : Attribute
 {
     /// <summary>

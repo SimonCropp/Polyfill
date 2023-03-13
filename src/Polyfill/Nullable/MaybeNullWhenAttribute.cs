@@ -7,9 +7,6 @@ namespace System.Diagnostics.CodeAnalysis;
 ///     the parameter may be <see langword="null"/> even if the corresponding type disallows it.
 /// </summary>
 [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
-#if(PublicPolyfill)
-public
-#endif
 sealed class MaybeNullWhenAttribute : Attribute
 {
     /// <summary>

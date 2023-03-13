@@ -1,5 +1,5 @@
 ﻿[TestFixture]
-public class Samples
+public class ModuleInitSample
 {
     #region ModuleInitializerAttribute
 

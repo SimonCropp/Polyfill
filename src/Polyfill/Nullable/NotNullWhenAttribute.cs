@@ -7,9 +7,6 @@ namespace System.Diagnostics.CodeAnalysis;
 ///     the parameter will not be <see langword="null"/> even if the corresponding type allows it.
 /// </summary>
 [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
-#if(PublicPolyfill)
-public
-#endif
 sealed class NotNullWhenAttribute : Attribute
 {
     /// <summary>

@@ -7,9 +7,6 @@ namespace System.Diagnostics.CodeAnalysis;
 ///     corresponding type disallows it.
 /// </summary>
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property)]
-#if(PublicPolyfill)
-public
-#endif
 sealed class AllowNullAttribute : Attribute
 {
     /// <summary>

@@ -4,9 +4,6 @@ namespace System.Diagnostics.CodeAnalysis;
 [AttributeUsage(
     AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.ReturnValue,
     AllowMultiple = true)]
-#if(PublicPolyfill)
-public
-#endif
 sealed class NotNullIfNotNullAttribute : Attribute
 {
     /// <summary>

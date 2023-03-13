@@ -8,11 +8,11 @@
 
     <Compile Include="..\Polyfill\*.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>%(RecursiveDir)%(Filename).cs</Link>
+      <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
     <Compile Include="..\Polyfill\Nullable\*.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>Nullable\%(RecursiveDir)%(Filename).cs</Link>
+      <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="Verify.NUnit" Version="19.11.1" />
