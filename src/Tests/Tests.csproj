@@ -5,7 +5,7 @@
     <NoWarn>$(NoWarn);CS0649;CS8618;CS0105</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-
+    <Using Remove="System.Net.Http" />
     <Compile Include="..\Polyfill\*.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>

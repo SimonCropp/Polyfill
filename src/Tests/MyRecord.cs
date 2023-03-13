@@ -1,5 +1,14 @@
 #region IsExternalInit
 
-record MyRecord(string property);
+class InitExample
+{
+    private int member;
+
+    public int Member
+    {
+        get => member;
+        init => member = value;
+    }
+}
 
 #endregion

@@ -11,10 +11,12 @@ Source only packages that exposes newer .net and C# features to older runtimes.
 https://nuget.org/packages/Polyfill/
 
 
-## Usage
+## Included polyfills
 
 
 ### ModuleInitializerAttribute
+
+Reference: [Module Initializers](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/module-initializers)
 
 <!-- snippet: ModuleInitializerAttribute -->
 <a id='snippet-moduleinitializerattribute'></a>
@@ -35,18 +37,29 @@ public static void ModuleInit() =>
 
 ### IsExternalInit
 
-`IsExternalInit` is required to use records in older runtimes
+Reference: [init (C# Reference)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/init)
 
 <!-- snippet: IsExternalInit -->
 <a id='snippet-isexternalinit'></a>
 ```cs
-record MyRecord(string property);
+class InitExample
+{
+    private int member;
+
+    public int Member
+    {
+        get => member;
+        init => member = value;
+    }
+}
 ```
-<sup><a href='/src/Tests/MyRecord.cs#L1-L5' title='Snippet source file'>snippet source</a> | <a href='#snippet-isexternalinit' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/MyRecord.cs#L1-L14' title='Snippet source file'>snippet source</a> | <a href='#snippet-isexternalinit' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
 ### Nullable attributes
+
+Reference: [Nullable reference types](https://learn.microsoft.com/en-us/dotnet/csharp/nullable-references)
 
   * `[AllowNull]`
   * `[DisallowNull]`
@@ -61,10 +74,36 @@ record MyRecord(string property);
   * `[NotNullWhen]`
 
 
-### Required members
+### Required attributes
+
+Reference: [C# required modifier](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/required)
 
  * [`[RequiredMember]`](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.requiredmemberattribute)
  * [`[SetsRequiredMembers]`](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.setsrequiredmembersattribute)
+
+<!-- snippet: Required -->
+<a id='snippet-required'></a>
+```cs
+public class Person
+{
+    public Person() { }
+
+    [SetsRequiredMembers]
+    public Person(string name) =>
+        Name = name;
+
+    public required string Name { get; init; }
+}
+```
+<sup><a href='/src/Tests/Required.cs#L2-L13' title='Snippet source file'>snippet source</a> | <a href='#snippet-required' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+## CompilerFeatureRequiredAttribute
+
+Reference: [CompilerFeatureRequiredAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute)
+
+Indicates that compiler support for a particular feature is required for the location where this attribute is applied.
 
 
 ## Icon
