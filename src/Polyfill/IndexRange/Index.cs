@@ -82,9 +82,11 @@ public readonly struct Index : IEquatable<Index>
         get
         {
             if (_value < 0)
+            {
                 return ~_value;
-            else
-                return _value;
+            }
+
+            return _value;
         }
     }
 
