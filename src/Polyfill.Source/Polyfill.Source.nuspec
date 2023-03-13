@@ -21,5 +21,7 @@
 
     <file src="*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill.Source/"/>
+    <file src="*.cs"
+          target="contentFiles/cs/netstandard2.0/Polyfill.Source/Nullable"/>
   </files>
 </package>
