@@ -21,7 +21,6 @@ https://nuget.org/packages/Polyfill/
 If consuming in a project that targets `net461` or `net462`, a reference to [System.ValueTuple](https://www.nuget.org/packages/System.ValueTuple/) nuget is required.
 
 ```
-
 <PackageReference Include="System.ValueTuple"
                   Version="4.5.0"
                   Condition="'$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'" />
