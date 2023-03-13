@@ -1,8 +1,8 @@
 # <img src="/src/icon.png" height="30px"> Polyfill
 
-[![Build status](https://ci.appveyor.com/api/projects/status/636i70gvxfuwdq38?svg=true)](https://ci.appveyor.com/project/SimonCropp/Polyfill)
+[![Build status](https://ci.appveyor.com/api/projects/status/s6eqqg4ipeovebgd?svg=true)](https://ci.appveyor.com/project/SimonCropp/Polyfill)
 [![Polyfill.Source NuGet Status](https://img.shields.io/nuget/v/Polyfill.Source.svg?label=Polyfill.Source)](https://www.nuget.org/packages/Polyfill.Source/)
-[![Polyfill NuGet Status](https://img.shields.io/nuget/v/Polyfill.svg?label=Nullability)](https://www.nuget.org/packages/Polyfill/)
+[![Polyfill NuGet Status](https://img.shields.io/nuget/v/Polyfill.svg?label=Polyfill)](https://www.nuget.org/packages/Polyfill/)
 
 
 
