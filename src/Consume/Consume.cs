@@ -22,5 +22,9 @@ class Consume
         type = typeof(RequiredMemberAttribute);
         type = typeof(SetsRequiredMembersAttribute);
         type = typeof(SkipLocalsInitAttribute);
+        type = typeof(TupleElementNamesAttribute);
     }
+
+    static (string value1, bool value2) NamedTupleMethod() =>
+        new("value", false);
 }
