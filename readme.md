@@ -3,12 +3,24 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/s6eqqg4ipeovebgd?svg=true)](https://ci.appveyor.com/project/SimonCropp/Polyfill)
 [![Polyfill NuGet Status](https://img.shields.io/nuget/v/Polyfill.svg)](https://www.nuget.org/packages/Polyfill/)
 
-Source only packages that exposes newer .net and C# features to older runtimes.
+Source only package that exposes newer .net and C# features to older runtimes.
 
 
 ## Nuget
 
 https://nuget.org/packages/Polyfill/
+
+
+## ValueTuple
+
+If consuming in a project that targets `net461` or `net462`, a reference to [System.ValueTuple](https://www.nuget.org/packages/System.ValueTuple/) nuget will be required.
+
+```
+
+<PackageReference Include="System.ValueTuple"
+                  Version="4.5.0"
+                  Condition="'$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'" />
+```
 
 
 ## Included polyfills
@@ -199,6 +211,22 @@ static class GuardUsage
 ### Index and Range
 
 https://learn.microsoft.com/en-us/dotnet/api/system.range
+
+
+## Alternatives
+
+
+### PolySharp
+
+https://github.com/Sergio0694/PolySharp
+
+
+### Combination of
+
+ * https://github.com/manuelroemer/Nullable
+ * https://github.com/bgrainger/IndexRange
+ * https://github.com/manuelroemer/IsExternalInit
+
 
 ## Icon
 
