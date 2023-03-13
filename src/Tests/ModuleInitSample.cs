@@ -1,4 +1,6 @@
-﻿[TestFixture]
+﻿using NUnit.Framework;
+
+[TestFixture]
 public class ModuleInitSample
 {
     #region ModuleInitializerAttribute

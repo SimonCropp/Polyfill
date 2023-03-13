@@ -8,6 +8,6 @@
     <SignAssembly>false</SignAssembly>
     <NoWarn>CS8600;CS8602;CS8604;IDE0049;IDE0007;CS1591;NETSDK1138</NoWarn>
     <LangVersion>11</LangVersion>
-    <ImplicitUsings>true</ImplicitUsings>
+    <ImplicitUsings>false</ImplicitUsings>
   </PropertyGroup>
 </Project>
