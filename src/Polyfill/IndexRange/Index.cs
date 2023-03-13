@@ -15,7 +15,7 @@ namespace System;
 /// int lastElement = someArray[^1]; // lastElement = 5
 /// </code>
 /// </remarks>
-public readonly struct Index : IEquatable<Index>
+readonly struct Index : IEquatable<Index>
 {
     readonly int _value;
 

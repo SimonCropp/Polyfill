@@ -15,7 +15,7 @@ namespace System;
 /// int[] subArray2 = someArray[1..^0]; // { 2, 3, 4, 5 }
 /// </code>
 /// </remarks>
-public record Range(Index Start, Index End)
+record Range(Index Start, Index End)
 {
     /// <summary>Converts the value of the current Range object to its equivalent string representation.</summary>
     public override string ToString() =>
