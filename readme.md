@@ -99,11 +99,37 @@ public class Person
 <!-- endSnippet -->
 
 
-## CompilerFeatureRequiredAttribute
+### CompilerFeatureRequiredAttribute
 
 Reference: [CompilerFeatureRequiredAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute)
 
-Indicates that compiler support for a particular feature is required for the location where this attribute is applied.
+> Indicates that compiler support for a particular feature is required for the location where this attribute is applied.
+
+
+### SkipLocalsInit attribute
+
+Reference: (SkipLocalsInit attribute)(https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/attributes/general#skiplocalsinit-attribute)
+
+> the SkipLocalsInit attribute prevents the compiler from setting the .locals init flag when emitting to metadata. The SkipLocalsInit attribute is a single-use attribute and can be applied to a method, a property, a class, a struct, an interface, or a module, but not to an assembly. SkipLocalsInit is an alias for SkipLocalsInitAttribute.
+
+<!-- snippet: SkipLocalsInit -->
+<a id='snippet-skiplocalsinit'></a>
+```cs
+class SkipLocalsInitExample
+{
+    [SkipLocalsInit]
+    static void ReadUninitializedMemory()
+    {
+        Span<int> numbers = stackalloc int[120];
+        for (int i = 0; i < 120; i++)
+        {
+            Console.WriteLine(numbers[i]);
+        }
+    }
+}
+```
+<sup><a href='/src/Tests/SkipLocalsInitExample.cs#L1-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-skiplocalsinit' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
 
 
 ## Icon
