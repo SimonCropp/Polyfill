@@ -13,7 +13,7 @@ https://nuget.org/packages/Polyfill/
 
 ## ValueTuple
 
-If consuming in a project that targets `net461` or `net462`, a reference to [System.ValueTuple](https://www.nuget.org/packages/System.ValueTuple/) nuget will be required.
+If consuming in a project that targets `net461` or `net462`, a reference to [System.ValueTuple](https://www.nuget.org/packages/System.ValueTuple/) nuget is required.
 
 ```
 
