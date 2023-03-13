@@ -33,7 +33,7 @@ A traditional nuget that ships a single assembly `Polyfill.dll`.
 ```cs
 static bool InitCalled;
 
-[Fact]
+[Test]
 public void ModuleInitTest() =>
     Assert.True(InitCalled);
 
@@ -41,7 +41,7 @@ public void ModuleInitTest() =>
 public static void ModuleInit() =>
     InitCalled = true;
 ```
-<sup><a href='/src/Polyfill.Source.Tests/Samples.cs#L3-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-moduleinitializerattribute' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill.Source.Tests/Samples.cs#L4-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-moduleinitializerattribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -49,7 +49,13 @@ public static void ModuleInit() =>
 
 `IsExternalInit` is required to use records in older runtimes
 
-snippet: IsExternalInit
+<!-- snippet: IsExternalInit -->
+<a id='snippet-isexternalinit'></a>
+```cs
+record MyRecord(string property);
+```
+<sup><a href='/src/Polyfill.Source.Tests/MyRecord.cs#L1-L5' title='Snippet source file'>snippet source</a> | <a href='#snippet-isexternalinit' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
 
 
 ## Icon

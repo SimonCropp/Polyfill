@@ -1,10 +1,11 @@
-﻿public class Samples
+﻿[TestFixture]
+public class Samples
 {
     #region ModuleInitializerAttribute
 
     static bool InitCalled;
 
-    [Fact]
+    [Test]
     public void ModuleInitTest() =>
         Assert.True(InitCalled);
 
