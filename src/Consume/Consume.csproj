@@ -13,5 +13,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
+    <Compile Include="..\Polyfill\IndexRange\*.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 </Project>

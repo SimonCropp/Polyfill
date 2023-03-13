@@ -22,5 +22,7 @@
           target="contentFiles/cs/netstandard2.0/Polyfill/"/>
     <file src="Nullable\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/Nullable"/>
+    <file src="IndexRange\*.cs"
+          target="contentFiles/cs/netstandard2.0/Polyfill/IndexRange"/>
   </files>
 </package>

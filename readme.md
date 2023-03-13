@@ -164,6 +164,10 @@ static class GuardUsage
 <!-- endSnippet -->
 
 
+### Index and Range
+
+https://learn.microsoft.com/en-us/dotnet/api/system.range
+
 ## Icon
 
 [Crack](https://thenounproject.com/term/crack/3968590/) designed by [Adrien Coquet](https://thenounproject.com/coquet_adrien/) from [The Noun Project](https://thenounproject.com).

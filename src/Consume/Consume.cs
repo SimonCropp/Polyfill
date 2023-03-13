@@ -22,5 +22,6 @@ class Consume
         type = typeof(RequiredMemberAttribute);
         type = typeof(SetsRequiredMembersAttribute);
         type = typeof(SkipLocalsInitAttribute);
+        var subString = "value"[1..];
     }
 }
