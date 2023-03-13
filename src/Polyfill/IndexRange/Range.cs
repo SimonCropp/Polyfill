@@ -1,6 +1,7 @@
 #if(NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP2_1)
 
 // ReSharper disable once RedundantUsingDirective
+// ReSharper disable UnusedMember.Global
 using System.Runtime.CompilerServices;
 
 namespace System;

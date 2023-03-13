@@ -228,6 +228,21 @@ https://github.com/Sergio0694/PolySharp
  * https://github.com/manuelroemer/IsExternalInit
 
 
+### Reason this project was created instead of using the above
+
+PolySharp uses c# source generators. In my opinion a "source-only package" implementation is better because:
+
+ * Simpler implementation
+ * Easier to debug if something goes wrong.
+ * Uses less memory at compile time. Since there is no source generator assembly to load.
+ * Faster at compile time. Since no source generator is required to execute.
+
+The combination of the other 3 packages is not ideal because:
+
+ * Required multiple packages to be referenced.
+ * Does not cover all the scenarios included in this package.
+
+
 ## Icon
 
 [Crack](https://thenounproject.com/term/crack/3968590/) designed by [Adrien Coquet](https://thenounproject.com/coquet_adrien/) from [The Noun Project](https://thenounproject.com).
