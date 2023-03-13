@@ -9,7 +9,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Using Remove="System.Net.Http" />
-    <Compile Include="..\Polyfill.Source\*.cs" />
+
+    <Compile Include="..\Polyfill.Source\*.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="..\Polyfill.Source\Nullable\*.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>Nullable\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
     <PackageReference Include="ProjectDefaults" Version="1.0.89" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" Condition="$(Configuration) == 'Release'" />
   </ItemGroup>
