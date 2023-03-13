@@ -132,6 +132,36 @@ class SkipLocalsInitSample
 <!-- endSnippet -->
 
 
+### Index and Range
+
+Reference: [Indices and ranges](https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/ranges-indexes)
+
+<!-- snippet: IndexRange -->
+<a id='snippet-indexrange'></a>
+```cs
+using NUnit.Framework;
+
+[TestFixture]
+class IndexRangeSample
+{
+    [Test]
+    public void Range()
+    {
+        var substring = "value"[2..];
+        Assert.AreEqual("lue", substring);
+    }
+
+    [Test]
+    public void Index()
+    {
+        var substring = "value"[^2];
+        Assert.AreEqual("u", substring);
+    }
+}
+```
+<sup><a href='/src/Tests/IndexRangeSample.cs#L1-L23' title='Snippet source file'>snippet source</a> | <a href='#snippet-indexrange' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
 
 ### CallerArgumentExpressionAttribute
 

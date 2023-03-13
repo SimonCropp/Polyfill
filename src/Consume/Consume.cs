@@ -23,7 +23,8 @@ class Consume
         type = typeof(SetsRequiredMembersAttribute);
         type = typeof(SkipLocalsInitAttribute);
         type = typeof(TupleElementNamesAttribute);
-        var subString = "value"[1..];
+        var range = "value"[1..];
+        var index = "value"[^2];
     }
 
     static (string value1, bool value2) NamedTupleMethod() =>
