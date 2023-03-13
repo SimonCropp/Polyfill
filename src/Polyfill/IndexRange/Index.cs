@@ -1,4 +1,4 @@
-#if(NETFRAMEWORK || NETSTANDARD || NETCOREAPP2_0 || NETCOREAPP2_1)
+#if(NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP2_1)
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -143,17 +143,7 @@ public readonly struct Index : IEquatable<Index>
         return ((uint)Value).ToString();
     }
 
-    private string ToStringFromEnd()
-    {
-#if (!NETSTANDARD2_0 && !NETFRAMEWORK)
-        Span<char> span = stackalloc char[11]; // 1 for ^ and 10 for longest possible uint value
-        bool formatted = ((uint)Value).TryFormat(span.Slice(1), out int charsWritten);
-        Debug.Assert(formatted);
-        span[0] = '^';
-        return new string(span.Slice(0, charsWritten + 1));
-#else
-        return '^' + Value.ToString();
-#endif
-    }
+    private string ToStringFromEnd() =>
+        '^' + Value.ToString();
 }
 #endif
