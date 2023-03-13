@@ -166,8 +166,8 @@ class IndexRangeSample
     [Test]
     public void Index()
     {
-        var ch = "value"[^2];
-        Assert.AreEqual('u', ch);
+        var substring = "value"[^2];
+        Assert.AreEqual("u", substring);
     }
 }
 ```
@@ -206,11 +206,6 @@ static class GuardUsage
 ```
 <sup><a href='/src/Tests/Guard.cs#L2-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-callerargumentexpression' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
-
-
-### Index and Range
-
-https://learn.microsoft.com/en-us/dotnet/api/system.range
 
 
 ## Alternatives
