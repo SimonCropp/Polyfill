@@ -2,11 +2,13 @@
 
 namespace System.Diagnostics.CodeAnalysis;
 
+using Targets = AttributeTargets;
+
 /// <summary>
 ///     Specifies that <see langword="null"/> is allowed as an input even if the
 ///     corresponding type disallows it.
 /// </summary>
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property)]
+[AttributeUsage(Targets.Field | Targets.Parameter | Targets.Property)]
 sealed class AllowNullAttribute : Attribute
 {
     /// <summary>

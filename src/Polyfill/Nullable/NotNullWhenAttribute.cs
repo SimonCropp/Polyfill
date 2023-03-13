@@ -6,7 +6,7 @@ namespace System.Diagnostics.CodeAnalysis;
 ///     Specifies that when a method returns <see cref="ReturnValue"/>,
 ///     the parameter will not be <see langword="null"/> even if the corresponding type allows it.
 /// </summary>
-[AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
+[AttributeUsage(AttributeTargets.Parameter)]
 sealed class NotNullWhenAttribute : Attribute
 {
     /// <summary>

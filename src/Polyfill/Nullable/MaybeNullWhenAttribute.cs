@@ -6,7 +6,7 @@ namespace System.Diagnostics.CodeAnalysis;
 ///     Specifies that when a method returns <see cref="ReturnValue"/>,
 ///     the parameter may be <see langword="null"/> even if the corresponding type disallows it.
 /// </summary>
-[AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
+[AttributeUsage(AttributeTargets.Parameter)]
 sealed class MaybeNullWhenAttribute : Attribute
 {
     /// <summary>

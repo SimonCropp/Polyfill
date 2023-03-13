@@ -7,7 +7,6 @@ namespace System.Diagnostics.CodeAnalysis;
 /// do not need to set any required members themselves.
 /// </summary>
 [AttributeUsage(AttributeTargets.Constructor)]
-
 sealed class SetsRequiredMembersAttribute : Attribute
 {
 }

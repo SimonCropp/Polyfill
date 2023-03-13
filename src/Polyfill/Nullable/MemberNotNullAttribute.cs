@@ -2,11 +2,16 @@
 
 namespace System.Diagnostics.CodeAnalysis;
 
+using Targets = AttributeTargets;
+
 /// <summary>
 ///     Specifies that the method or property will ensure that the listed field and property members have
 ///     not-<see langword="null"/> values.
 /// </summary>
-[AttributeUsage(AttributeTargets.Method | AttributeTargets.Property, Inherited = false, AllowMultiple = true)]
+[AttributeUsage(
+    Targets.Method | Targets.Property,
+    Inherited = false,
+    AllowMultiple = true)]
 sealed class MemberNotNullAttribute : Attribute
 {
     /// <summary>

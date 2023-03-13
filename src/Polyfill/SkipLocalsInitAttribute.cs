@@ -2,6 +2,8 @@
 
 namespace System.Runtime.CompilerServices;
 
+using Targets = AttributeTargets;
+
 /// <summary>
 /// Used to indicate to the compiler that the <c>.locals init</c>
 /// flag should not be set in method headers.
@@ -17,9 +19,9 @@ namespace System.Runtime.CompilerServices;
 /// declarations.
 /// </remarks>
 [AttributeUsage(
-    AttributeTargets.Module | AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface | AttributeTargets.Constructor | AttributeTargets.Method | AttributeTargets.Property | AttributeTargets.Event,
+    Targets.Module | Targets.Class | Targets.Struct | Targets.Interface | Targets.Constructor | Targets.Method | Targets.Property | Targets.Event,
     Inherited = false)]
-public sealed class SkipLocalsInitAttribute : Attribute
+sealed class SkipLocalsInitAttribute : Attribute
 {
 }
 

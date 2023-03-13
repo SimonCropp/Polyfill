@@ -1,8 +1,11 @@
 #if(NETSTANDARD2_0 || NETFRAMEWORK || NETCOREAPP2_1 || NETCOREAPP2_0)
 
 namespace System.Diagnostics.CodeAnalysis;
+
+using Targets = AttributeTargets;
+
 [AttributeUsage(
-    AttributeTargets.Parameter | AttributeTargets.Property | AttributeTargets.ReturnValue,
+    Targets.Parameter | Targets.Property | Targets.ReturnValue,
     AllowMultiple = true)]
 sealed class NotNullIfNotNullAttribute : Attribute
 {
