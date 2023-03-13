@@ -18,7 +18,6 @@
   </metadata>
   <files>
     <file src="../icon.png" target="icon.png" />
-
     <file src="*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/"/>
     <file src="*.cs"

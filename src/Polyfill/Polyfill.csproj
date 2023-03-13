@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <NuSpecFile>Polyfill.Source.nuspec</NuSpecFile>
+    <NuSpecFile>Polyfill.nuspec</NuSpecFile>
     <Description>Exposes newer .net and C# features to older runtimes.</Description>
-    <RootNamespace>Polyfill.Source</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ProjectDefaults" Version="1.0.89" PrivateAssets="all" />
