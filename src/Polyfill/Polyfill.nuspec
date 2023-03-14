@@ -26,7 +26,5 @@
           target="contentFiles/cs/netstandard2.0/Polyfill/IndexRange"/>
     <file src="Polyfill.props"
           target="build"/>
-    <file src="Polyfill.targets"
-          target="build"/>
   </files>
 </package>
