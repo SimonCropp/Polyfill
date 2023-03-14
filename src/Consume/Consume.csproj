@@ -5,6 +5,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Using Remove="System.Net.Http" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0"
+                      Condition="'$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462' " />
     <Compile Include="..\Polyfill\*.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
