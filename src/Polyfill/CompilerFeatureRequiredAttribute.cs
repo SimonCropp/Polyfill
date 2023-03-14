@@ -11,6 +11,9 @@ namespace System.Runtime.CompilerServices;
     Inherited = false)]
 public sealed class CompilerFeatureRequiredAttribute : Attribute
 {
+    /// <summary>
+    /// Initialize a new instance of <see cref="CompilerFeatureRequiredAttribute"/>
+    /// </summary>
     public CompilerFeatureRequiredAttribute(string featureName) =>
         FeatureName = featureName;
 
