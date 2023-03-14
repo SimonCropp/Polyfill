@@ -1,0 +1,6 @@
+<Project>
+  <ItemGroup>
+    <PackageReference Include="System.ValueTuple" Version="4.5.0"
+                      Condition="'$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462' " />
+  </ItemGroup>
+</Project>
