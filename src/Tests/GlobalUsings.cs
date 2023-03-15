@@ -2,3 +2,4 @@
 
 global using NUnit.Framework;
 global using Polyfill;
+global using System;
