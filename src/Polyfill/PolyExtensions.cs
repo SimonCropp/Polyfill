@@ -93,13 +93,14 @@ public static class PolyExtensions
 
     public static bool EndsWith(this string value, char ch)
     {
-        var lastPos = value.Length - 1;
-        if (lastPos >= value.Length)
+        if (value.Length == 0)
         {
             return false;
         }
 
-        return value[lastPos] == ch;
+        var lastPos = value.Length - 1;
+        return lastPos < value.Length &&
+               value[lastPos] == ch;
     }
 #endif
 }

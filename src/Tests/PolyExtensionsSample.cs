@@ -18,10 +18,16 @@ class PolyExtensionsSample
     }
 
     [Test]
-    public void EndsWith() =>
+    public void EndsWith()
+    {
         Assert.True("value".EndsWith('e'));
+        Assert.False("".EndsWith('e'));
+    }
 
     [Test]
-    public void StartsWith() =>
+    public void StartsWith()
+    {
         Assert.True("value".StartsWith('v'));
+        Assert.False("".StartsWith('v'));
+    }
 }
