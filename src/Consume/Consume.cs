@@ -25,6 +25,8 @@ class Consume
         type = typeof(TupleElementNamesAttribute);
         var range = "value"[1..];
         var index = "value"[^2];
+        var startsWith = "value".StartsWith('a');
+        var endsWith = "value".EndsWith('a');
     }
 
     static (string value1, bool value2) NamedTupleMethod() =>

@@ -47,7 +47,7 @@ public void ModuleInitTest() =>
 public static void ModuleInit() =>
     InitCalled = true;
 ```
-<sup><a href='/src/Tests/ModuleInitSample.cs#L6-L18' title='Snippet source file'>snippet source</a> | <a href='#snippet-moduleinitializerattribute' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/ModuleInitSample.cs#L4-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-moduleinitializerattribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -155,8 +155,6 @@ Reference: [Indices and ranges](https://learn.microsoft.com/en-us/dotnet/csharp/
 <!-- snippet: IndexRange -->
 <a id='snippet-indexrange'></a>
 ```cs
-using NUnit.Framework;
-
 [TestFixture]
 class IndexRangeSample
 {
@@ -175,7 +173,7 @@ class IndexRangeSample
     }
 }
 ```
-<sup><a href='/src/Tests/IndexRangeSample.cs#L1-L23' title='Snippet source file'>snippet source</a> | <a href='#snippet-indexrange' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/IndexRangeSample.cs#L1-L21' title='Snippet source file'>snippet source</a> | <a href='#snippet-indexrange' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

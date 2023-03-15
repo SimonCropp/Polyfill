@@ -1,7 +1,5 @@
 #region IndexRange
 
-using NUnit.Framework;
-
 [TestFixture]
 class IndexRangeSample
 {
