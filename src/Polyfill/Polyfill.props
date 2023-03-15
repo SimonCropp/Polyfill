@@ -1,5 +1,5 @@
 <Project>
-  <PropertyGroup Condition="$(AllowUnsafeBlocks)">
+  <PropertyGroup Condition="'$(AllowUnsafeBlocks)' == 'true' ">
     <DefineConstants>$(DefineConstants);AllowUnsafeBlocks</DefineConstants>
   </PropertyGroup>
   <ItemGroup>

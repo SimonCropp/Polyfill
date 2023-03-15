@@ -16,24 +16,6 @@ The package targets `netstandard2.0` and is designed to support the following ru
 https://nuget.org/packages/Polyfill/
 
 
-## References
-
-If consuming in a project that targets `net461` or `net462`, a reference to [System.ValueTuple](https://www.nuget.org/packages/System.ValueTuple/) nuget is required.
-
-```
-<PackageReference Include="System.ValueTuple"
-                  Version="4.5.0"
-                  Condition="'$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'" />
-```
-
-If consuming in a project that targets `netstandard`, `netframework`, or `netcoreapp`, a reference to [System.Memory](https://www.nuget.org/packages/System.Memory/) nuget is required.
-
-```
-<PackageReference Include="System.Memory"
-                  Version="4.5.5"
-                  Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' OR '$(TargetFrameworkIdentifier)' == '.NETFramework' OR '$(TargetFrameworkIdentifier)' == '.NETCOREAPP'" />
-```
-
 ## Included polyfills
 
 
@@ -245,6 +227,25 @@ The combination of the other 3 packages is not ideal because:
 
  * Required multiple packages to be referenced.
  * Does not cover all the scenarios included in this package.
+
+
+## References
+
+If consuming in a project that targets `net461` or `net462`, a reference to [System.ValueTuple](https://www.nuget.org/packages/System.ValueTuple/) nuget is required.
+
+```
+<PackageReference Include="System.ValueTuple"
+                  Version="4.5.0"
+                  Condition="'$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'" />
+```
+
+If consuming in a project that targets `netstandard`, `netframework`, or `netcoreapp`, a reference to [System.Memory](https://www.nuget.org/packages/System.Memory/) nuget is required.
+
+```
+<PackageReference Include="System.Memory"
+                  Version="4.5.5"
+                  Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' OR '$(TargetFrameworkIdentifier)' == '.NETFramework' OR '$(TargetFrameworkIdentifier)' == '.NETCOREAPP'" />
+```
 
 
 ## Icon
