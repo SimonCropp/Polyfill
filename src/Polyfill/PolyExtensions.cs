@@ -9,7 +9,7 @@ namespace Polyfill;
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-public static partial class PolyExtensions
+static partial class PolyExtensions
 {
 #if NET461 || NET462 || NET47 || NET471 || NET472 || NET48 || NET481 || NETSTANDARD2_0
 
