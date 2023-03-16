@@ -13,26 +13,29 @@ public static partial class PolyExtensions
 {
 #if NET461 || NET462 || NET47 || NET471 || NET472 || NET48 || NET481 || NETSTANDARD2_0
 
-    public static bool StartsWith(this string value, char ch)
+    public static bool Contains(this string target, string value, StringComparison comparisonType) =>
+        target.IndexOf(value, comparisonType) >= 0;
+
+    public static bool StartsWith(this string target, char value)
     {
-        if (value.Length == 0)
+        if (target.Length == 0)
         {
             return false;
         }
 
-        return value[0] == ch;
+        return target[0] == value;
     }
 
-    public static bool EndsWith(this string value, char ch)
+    public static bool EndsWith(this string target, char value)
     {
-        if (value.Length == 0)
+        if (target.Length == 0)
         {
             return false;
         }
 
-        var lastPos = value.Length - 1;
-        return lastPos < value.Length &&
-               value[lastPos] == ch;
+        var lastPos = target.Length - 1;
+        return lastPos < target.Length &&
+               target[lastPos] == value;
     }
 #endif
 }

@@ -18,6 +18,13 @@ class PolyExtensionsSample
         builder.Append("value".AsSpan());
         Assert.AreEqual("value", builder.ToString());
     }
+
+    [Test]
+    public void StringEqualsSpan()
+    {
+        var builder = new StringBuilder("value");
+        Assert.IsTrue(builder.Equals("value".AsSpan()));
+    }
 #endif
 
     [Test]
@@ -37,6 +44,10 @@ class PolyExtensionsSample
         Assert.True("value".EndsWith('e'));
         Assert.False("".EndsWith('e'));
     }
+
+    [Test]
+    public void StringContainsStringComparison() =>
+        Assert.True("value".Contains("E", StringComparison.OrdinalIgnoreCase));
 
     [Test]
     public void StartsWith()

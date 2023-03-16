@@ -260,6 +260,19 @@ To not include memory extension, and avoid requiring System.Memory, add a csproj
 ```
 
 
+## Extensions
+
+The class `Polyfill.PolyExtensions` includes the following extension methods:
+
+  * `bool StartsWith(this string value, char ch)`
+  * `bool EndsWith(this string value, char ch)`
+  * `bool Contains(this ReadOnlySpan<char> span, char value)`
+  * `void Append(this StringBuilder builder, ReadOnlySpan<char> value)`
+  * `bool SequenceEqual(this ReadOnlySpan<char> span, string other)`
+  * `bool Equals(this StringBuilder builder, ReadOnlySpan<char> span)`
+  * `bool SequenceEqual(this Span<char> span, string other)`
+
+
 ## Icon
 
 [Crack](https://thenounproject.com/term/crack/3968590/) designed by [Adrien Coquet](https://thenounproject.com/coquet_adrien/) from [The Noun Project](https://thenounproject.com).
