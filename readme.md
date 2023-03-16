@@ -245,8 +245,6 @@ If consuming in a project that targets `net461` or `net462`, a reference to [Sys
 
 ### System.Memory
 
-snippet: PolyOmitMemoryExtensions
-
 If consuming in a project that targets `netstandard`, `netframework`, or `netcoreapp`, a reference to [System.Memory](https://www.nuget.org/packages/System.Memory/) nuget is required.
 
 ```

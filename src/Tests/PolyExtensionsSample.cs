@@ -1,4 +1,5 @@
 [TestFixture]
+[DebuggerNonUserCode]
 class PolyExtensionsSample
 {
 #if !PolyOmitMemoryExtensions

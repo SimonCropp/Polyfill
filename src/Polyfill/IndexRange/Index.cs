@@ -1,9 +1,10 @@
-#if(NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2)
+#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
 
 #pragma warning disable CS0436
 
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable UnusedMember.Global
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
@@ -17,6 +18,8 @@ namespace System;
 /// int lastElement = someArray[^1]; // lastElement = 5
 /// </code>
 /// </remarks>
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 readonly struct Index : IEquatable<Index>
 {
     readonly int _value;

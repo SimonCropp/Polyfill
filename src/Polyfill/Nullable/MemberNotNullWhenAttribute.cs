@@ -8,12 +8,12 @@ using Targets = AttributeTargets;
 ///   Specifies that the method or property will ensure that the listed field and property members have
 ///   non-<see langword="null"/> values when returning with the specified return value condition.
 /// </summary>
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 [AttributeUsage(
     Targets.Method | Targets.Property,
     Inherited = false,
-    AllowMultiple = true)]
-[ExcludeFromCodeCoverage, DebuggerNonUserCode]
-sealed class MemberNotNullWhenAttribute : Attribute
+    AllowMultiple = true)]sealed class MemberNotNullWhenAttribute : Attribute
 {
     /// <summary>
     ///   Gets the return value condition.

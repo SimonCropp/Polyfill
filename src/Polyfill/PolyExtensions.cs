@@ -2,9 +2,13 @@
 // ReSharper disable PartialTypeWithSinglePart
 using System;
 using System.Text;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Polyfill;
 
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 public static partial class PolyExtensions
 {
 #if NET461 || NET462 || NET47 || NET471 || NET472 || NET48 || NET481 || NETSTANDARD2_0

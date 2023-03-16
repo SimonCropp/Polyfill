@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
@@ -23,6 +24,7 @@ class Consume
         type = typeof(SetsRequiredMembersAttribute);
         type = typeof(SkipLocalsInitAttribute);
         type = typeof(TupleElementNamesAttribute);
+        type = typeof(DebuggerNonUserCodeAttribute);
         var range = "value"[1..];
         var index = "value"[^2];
         var startsWith = "value".StartsWith('a');

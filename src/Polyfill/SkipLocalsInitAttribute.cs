@@ -1,4 +1,8 @@
+// ReSharper disable RedundantUsingDirective
 #if(!NET5_0_OR_GREATER)
+
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics;
 
 namespace System.Runtime.CompilerServices;
 
@@ -18,6 +22,8 @@ using Targets = AttributeTargets;
 /// assemblies. Use at the module level instead to apply to multiple type
 /// declarations.
 /// </remarks>
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 [AttributeUsage(
     Targets.Module | Targets.Class | Targets.Struct | Targets.Interface | Targets.Constructor | Targets.Method | Targets.Property | Targets.Event,
     Inherited = false)]

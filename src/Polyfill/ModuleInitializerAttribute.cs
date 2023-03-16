@@ -1,4 +1,8 @@
-#if(!NET5_0_OR_GREATER)
+// ReSharper disable RedundantUsingDirective
+#if !NET5_0_OR_GREATER
+
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics;
 
 namespace System.Runtime.CompilerServices;
 
@@ -22,6 +26,8 @@ namespace System.Runtime.CompilerServices;
 /// The specification for module initializers in the .NET runtime can be found here:
 /// https://github.com/dotnet/runtime/blob/master/docs/design/specs/Ecma-335-Augments.md#module-initializer
 /// </remarks>
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 [AttributeUsage(
     AttributeTargets.Method,
     Inherited = false)]

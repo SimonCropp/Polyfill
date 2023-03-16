@@ -1,10 +1,15 @@
-#if(!NET7_0_OR_GREATER)
+// ReSharper disable RedundantUsingDirective
+#if !NET7_0_OR_GREATER
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics;
 
 namespace System.Runtime.CompilerServices;
 
 /// <summary>
 /// Indicates that compiler support for a particular feature is required for the location where this attribute is applied.
 /// </summary>
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 [AttributeUsage(
     AttributeTargets.All,
     AllowMultiple = true,

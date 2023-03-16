@@ -1,4 +1,4 @@
-#if(NETSTANDARD2_0 || NETFRAMEWORK || NETCOREAPP2_1 || NETCOREAPP2_0 || NETCOREAPP2_2)
+#if NETSTANDARD2_0 || NETFRAMEWORK || NETCOREAPP2_1 || NETCOREAPP2_0 || NETCOREAPP2_2
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -6,6 +6,8 @@ namespace System.Diagnostics.CodeAnalysis;
 ///   Specifies that when a method returns <see cref="ReturnValue"/>,
 ///   the parameter may be <see langword="null"/> even if the corresponding type disallows it.
 /// </summary>
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
 sealed class MaybeNullWhenAttribute : Attribute
 {

@@ -1,4 +1,4 @@
-#if(NETSTANDARD2_0 || NETSTANDARD2_1 || NETFRAMEWORK || NETCOREAPP2_1 || NETCOREAPP2_0 || NETCOREAPP2_2 || NETCOREAPP3_1 || NETCOREAPP3_0)
+#if NETSTANDARD2_0 || NETSTANDARD2_1 || NETFRAMEWORK || NETCOREAPP2_1 || NETCOREAPP2_0 || NETCOREAPP2_2 || NETCOREAPP3_1 || NETCOREAPP3_0
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -8,6 +8,8 @@ using Targets = AttributeTargets;
 ///   Specifies that the method or property will ensure that the listed field and property members have
 ///   not-<see langword="null"/> values.
 /// </summary>
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 [AttributeUsage(
     Targets.Method | Targets.Property,
     Inherited = false,

@@ -1,9 +1,12 @@
+// ReSharper disable RedundantUsingDirective
 #if(NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2)
 
 #pragma warning disable CS0436
 
 // ReSharper disable once RedundantUsingDirective
 // ReSharper disable UnusedMember.Global
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace System;
@@ -17,6 +20,8 @@ namespace System;
 /// int[] subArray2 = someArray[1..^0]; // { 2, 3, 4, 5 }
 /// </code>
 /// </remarks>
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 record Range(Index Start, Index End)
 {
     /// <summary>Converts the value of the current Range object to its equivalent string representation.</summary>

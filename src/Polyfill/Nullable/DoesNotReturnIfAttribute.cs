@@ -1,4 +1,4 @@
-#if(NETSTANDARD2_0 || NETFRAMEWORK || NETCOREAPP2_1 || NETCOREAPP2_0 || NETCOREAPP2_2)
+#if NETSTANDARD2_0 || NETFRAMEWORK || NETCOREAPP2_1 || NETCOREAPP2_0 || NETCOREAPP2_2
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -6,6 +6,8 @@ namespace System.Diagnostics.CodeAnalysis;
 ///   Specifies that the method will not return if the associated <see cref="Boolean"/>
 ///   parameter is passed the specified value.
 /// </summary>
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
 sealed class DoesNotReturnIfAttribute : Attribute
 {
