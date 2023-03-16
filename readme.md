@@ -231,6 +231,9 @@ The combination of the other 3 packages is not ideal because:
 
 ## References
 
+
+### System.ValueTuple
+
 If consuming in a project that targets `net461` or `net462`, a reference to [System.ValueTuple](https://www.nuget.org/packages/System.ValueTuple/) nuget is required.
 
 ```
@@ -239,12 +242,23 @@ If consuming in a project that targets `net461` or `net462`, a reference to [Sys
                   Condition="'$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'" />
 ```
 
+
+### System.Memory
+
+snippet: PolyOmitMemoryExtensions
+
 If consuming in a project that targets `netstandard`, `netframework`, or `netcoreapp`, a reference to [System.Memory](https://www.nuget.org/packages/System.Memory/) nuget is required.
 
 ```
 <PackageReference Include="System.Memory"
                   Version="4.5.5"
                   Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' OR '$(TargetFrameworkIdentifier)' == '.NETFramework' OR '$(TargetFrameworkIdentifier)' == '.NETCOREAPP'" />
+```
+
+To not include memory extension, and avoid requiring System.Memory, add a csproj constant `PolyOmitMemoryExtensions`:
+
+```
+<DefineConstants>PolyOmitMemoryExtensions</DefineConstants>
 ```
 
 

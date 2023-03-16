@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT'">net462;net472;net48</TargetFrameworks>
     <TargetFrameworks>$(TargetFrameworks);netcoreapp3.1;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
+    <DefineConstants>PolyOmitMemoryExtensions</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Using Remove="System.Net.Http" />
@@ -14,6 +15,7 @@
     <Compile Include="..\Polyfill\IndexRange\*.cs">
       <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
+    <Compile Include="..\Tests\*.cs" />
     <PackageReference Include="Verify.NUnit" Version="19.11.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.4.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />

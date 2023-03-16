@@ -1,6 +1,7 @@
 [TestFixture]
 class PolyExtensionsSample
 {
+#if !PolyOmitMemoryExtensions
     [Test]
     public void SpanContains() =>
         Assert.True("value".AsSpan().Contains('e'));
@@ -16,6 +17,7 @@ class PolyExtensionsSample
         builder.Append("value".AsSpan());
         Assert.AreEqual("value", builder.ToString());
     }
+#endif
 
     [Test]
     public void EndsWith()
