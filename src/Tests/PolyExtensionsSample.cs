@@ -21,6 +21,17 @@ class PolyExtensionsSample
 #endif
 
     [Test]
+    public void Deconstruct()
+    {
+        var (a, b) = MethodWithNamedTuple();
+        Assert.AreEqual("", a);
+        Assert.AreEqual(0, b);
+    }
+
+    static (string a, int b) MethodWithNamedTuple() =>
+        ("", 0);
+
+    [Test]
     public void EndsWith()
     {
         Assert.True("value".EndsWith('e'));
