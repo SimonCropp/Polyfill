@@ -11,9 +11,36 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `netcoreapp2.0`, `netcoreapp2.1`, `netcoreapp3.0`, `netcoreapp3.1`
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`
 
+
 ## Nuget
 
 https://nuget.org/packages/Polyfill/
+
+
+### SDK / LangVersion
+
+This project leverages features the current stable SDK and c# language. As such consuming projects should target those:
+
+
+### LangVersion
+
+```
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+```
+
+
+### global.json
+
+```
+{
+  "sdk": {
+    "version": "7.0.202",
+    "rollForward": "latestFeature"
+  }
+}
+```
 
 
 ## Included polyfills
@@ -229,6 +256,19 @@ The combination of the other 3 packages is not ideal because:
  * Does not cover all the scenarios included in this package.
 
 
+## Extensions
+
+The class `Polyfill.PolyExtensions` includes the following extension methods:
+
+  * `bool StartsWith(this string value, char ch)`
+  * `bool EndsWith(this string value, char ch)`
+  * `bool Contains(this ReadOnlySpan<char> span, char value)`
+  * `void Append(this StringBuilder builder, ReadOnlySpan<char> value)`
+  * `bool SequenceEqual(this ReadOnlySpan<char> span, string other)`
+  * `bool Equals(this StringBuilder builder, ReadOnlySpan<char> span)`
+  * `bool SequenceEqual(this Span<char> span, string other)`
+
+
 ## References
 
 
@@ -258,19 +298,6 @@ To not include memory extension, and avoid requiring System.Memory, add a csproj
 ```
 <DefineConstants>PolyOmitMemoryExtensions</DefineConstants>
 ```
-
-
-## Extensions
-
-The class `Polyfill.PolyExtensions` includes the following extension methods:
-
-  * `bool StartsWith(this string value, char ch)`
-  * `bool EndsWith(this string value, char ch)`
-  * `bool Contains(this ReadOnlySpan<char> span, char value)`
-  * `void Append(this StringBuilder builder, ReadOnlySpan<char> value)`
-  * `bool SequenceEqual(this ReadOnlySpan<char> span, string other)`
-  * `bool Equals(this StringBuilder builder, ReadOnlySpan<char> span)`
-  * `bool SequenceEqual(this Span<char> span, string other)`
 
 
 ## Icon
