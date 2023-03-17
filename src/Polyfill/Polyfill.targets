@@ -4,7 +4,10 @@
     <PropertyGroup>
       <ValueTupleReferenced Condition="@(PackageReference->WithMetadataValue('Identity', 'System.ValueTuple')->Count()) != 0">true</ValueTupleReferenced>
       <MemoryReferenced Condition="@(PackageReference->WithMetadataValue('Identity', 'System.Memory')->Count()) != 0">true</MemoryReferenced>
+      <DefineConstants Condition="'$(MemoryReferenced)' != 'true'">$(DefineConstants);PolyOmitMemoryExtensions</DefineConstants>
+      <DefineConstants Condition="'$(ValueTupleReferenced)' != 'true'">$(DefineConstants);PolyOmitValueTuple</DefineConstants>
     </PropertyGroup>
-    <Message Text="AAAA $(ValueTupleReferenced)" Importance="High" />
+    <Message Text="ValueTupleReferenced $(ValueTupleReferenced)" Importance="High" />
+    <Message Text="MemoryReferenced $(MemoryReferenced)" Importance="High" />
   </Target>
 </Project>
