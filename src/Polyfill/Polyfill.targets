@@ -1,0 +1,10 @@
+<Project>
+  <Target Name="PolyfillBeforeCompile"
+          AfterTargets="BeforeCompile">
+    <PropertyGroup>
+      <ValueTupleReferenced Condition="@(PackageReference->WithMetadataValue('Identity', 'System.ValueTuple')->Count()) != 0">true</ValueTupleReferenced>
+      <MemoryReferenced Condition="@(PackageReference->WithMetadataValue('Identity', 'System.Memory')->Count()) != 0">true</MemoryReferenced>
+    </PropertyGroup>
+    <Message Text="AAAA $(ValueTupleReferenced)" Importance="High" />
+  </Target>
+</Project>
