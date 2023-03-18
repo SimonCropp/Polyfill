@@ -3,6 +3,8 @@
     <DefineConstants>$(DefineConstants);AllowUnsafeBlocks</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
+    <ValueTupleReferenced>false</ValueTupleReferenced>
+    <PolyMemoryReferenced>false</PolyMemoryReferenced>
     <LowerFramework>$(TargetFramework.ToLower())</LowerFramework>
   </PropertyGroup>
   <PropertyGroup Condition="$(LowerFramework.StartsWith('netcoreapp2'))">
