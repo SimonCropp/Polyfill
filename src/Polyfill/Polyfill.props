@@ -13,6 +13,15 @@
   <PropertyGroup Condition="$(LowerFramework.StartsWith('netcoreapp3'))">
     <DefineConstants>$(DefineConstants);NETCOREAPP3X</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="$(LowerFramework.StartsWith('net46'))">
+    <DefineConstants>$(DefineConstants);NET46X</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(LowerFramework.StartsWith('net47'))">
+    <DefineConstants>$(DefineConstants);NET47X</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(LowerFramework.StartsWith('net48'))">
+    <DefineConstants>$(DefineConstants);NET48X</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition="$(LowerFramework.StartsWith('netcoreapp2')) or
                             $(LowerFramework.StartsWith('netcoreapp3'))">
     <DefineConstants>$(DefineConstants);NETCOREAPPX</DefineConstants>
