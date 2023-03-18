@@ -2,6 +2,15 @@
   <PropertyGroup Condition="'$(AllowUnsafeBlocks)' == 'true' ">
     <DefineConstants>$(DefineConstants);AllowUnsafeBlocks</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.ToLower().StartsWith('netcoreapp2'))">
+    <DefineConstants>$(DefineConstants);NETCOREAPP2X</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.ToLower().StartsWith('netcoreapp3'))">
+    <DefineConstants>$(DefineConstants);NETCOREAPP3X</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFramework.ToLower().StartsWith('netcoreapp2')) or $(TargetFramework.ToLower().StartsWith('netcoreapp3'))">
+    <DefineConstants>$(DefineConstants);NETCOREAPPX</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Update="@(Compile)">
       <Visible Condition="'%(NuGetItemType)' == 'Compile' and '%(NuGetPackageId)' == 'Polyfill'">false</Visible>
