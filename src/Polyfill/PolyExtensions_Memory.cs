@@ -1,5 +1,6 @@
-// ReSharper disable RedundantUsingDirective
 #if !PolyOmitMemoryExtensions && (NETFRAMEWORK || NETSTANDARD2_0)
+
+// ReSharper disable RedundantUsingDirective
 using System;
 using System.Text;
 
