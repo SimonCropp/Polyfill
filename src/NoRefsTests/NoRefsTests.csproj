@@ -28,5 +28,8 @@
     <PackageReference Include="ProjectDefaults"
                       Version="1.0.90"
                       PrivateAssets="all" />
+    <PackageReference Include="System.ValueTuple"
+                      Version="4.5.0"
+                      Condition="'$(TargetFramework)' == 'net462'" />
   </ItemGroup>
 </Project>
