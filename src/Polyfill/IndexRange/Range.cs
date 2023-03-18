@@ -1,4 +1,4 @@
-#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2X
+#if (NET46X && ValueTupleReferenced) || NET47X ||NET48X || NETSTANDARD2_0 || NETCOREAPP2X
 
 // ReSharper disable RedundantUsingDirective
 

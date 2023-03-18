@@ -29,4 +29,6 @@
                       Version="4.5.0"
                       Condition="'$(TargetFramework)' == 'net462'" />
   </ItemGroup>
+  <Import Project="$(ProjectDir)..\Polyfill\Polyfill.props" />
+  <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />
 </Project>

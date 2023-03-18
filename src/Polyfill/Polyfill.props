@@ -4,7 +4,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <ValueTupleReferenced>false</ValueTupleReferenced>
-    <PolyMemoryReferenced>false</PolyMemoryReferenced>
+    <MemoryReferenced>false</MemoryReferenced>
     <LowerFramework>$(TargetFramework.ToLower())</LowerFramework>
   </PropertyGroup>
   <PropertyGroup Condition="$(LowerFramework.StartsWith('netcoreapp2'))">
