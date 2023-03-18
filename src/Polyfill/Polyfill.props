@@ -8,12 +8,14 @@
   <PropertyGroup Condition="$(TargetFramework.ToLower().StartsWith('netcoreapp3'))">
     <DefineConstants>$(DefineConstants);NETCOREAPP3X</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFramework.ToLower().StartsWith('netcoreapp2')) or $(TargetFramework.ToLower().StartsWith('netcoreapp3'))">
+  <PropertyGroup Condition="$(TargetFramework.ToLower().StartsWith('netcoreapp2')) or
+                            $(TargetFramework.ToLower().StartsWith('netcoreapp3'))">
     <DefineConstants>$(DefineConstants);NETCOREAPPX</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="@(Compile)">
-      <Visible Condition="'%(NuGetItemType)' == 'Compile' and '%(NuGetPackageId)' == 'Polyfill'">false</Visible>
+      <Visible Condition="'%(NuGetItemType)' == 'Compile' and
+                          '%(NuGetPackageId)' == 'Polyfill'">false</Visible>
     </Compile>
   </ItemGroup>
 </Project>
