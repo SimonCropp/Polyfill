@@ -7,9 +7,9 @@
       <MemoryReferenced
               Condition="@(PackageReference->WithMetadataValue('Identity', 'System.Memory')->Count()) != 0">true</MemoryReferenced>
       <DefineConstants
-              Condition="$(MemoryReferenced)">$(DefineConstants);MemoryReferenced</DefineConstants>
+              Condition="$(MemoryReferenced)">$(DefineConstants);MEMORYREFERENCED</DefineConstants>
       <DefineConstants
-              Condition="$(ValueTupleReferenced)">$(DefineConstants);ValueTupleReferenced</DefineConstants>
+              Condition="$(ValueTupleReferenced)">$(DefineConstants);VALUETUPLEREFERENCED</DefineConstants>
     </PropertyGroup>
     <Message Text="ValueTupleReferenced $(ValueTupleReferenced)"
              Importance="High" />

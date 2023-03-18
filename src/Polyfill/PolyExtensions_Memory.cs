@@ -1,4 +1,4 @@
-#if !PolyOmitMemoryExtensions && (NETFRAMEWORK || NETSTANDARD2_0)
+#if MEMORYREFERENCED
 
 // ReSharper disable RedundantUsingDirective
 using System;
