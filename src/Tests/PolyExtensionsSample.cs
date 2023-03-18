@@ -2,7 +2,7 @@
 [DebuggerNonUserCode]
 class PolyExtensionsSample
 {
-#if !PolyOmitMemoryExtensions
+#if MEMORYREFERENCED
     [Test]
     public void SpanContains() =>
         Assert.True("value".AsSpan().Contains('e'));

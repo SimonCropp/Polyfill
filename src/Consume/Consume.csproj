@@ -6,9 +6,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Using Remove="System.Net.Http" />
-    <PackageReference Include="System.Memory" Version="4.5.5" Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' OR '$(TargetFrameworkIdentifier)' == '.NETFramework' OR '$(TargetFrameworkIdentifier)' == '.NETCOREAPP'" />
-    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="System.Memory"
+                      Version="4.5.5"
+                      Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' or
+                                 '$(TargetFrameworkIdentifier)' == '.NETFramework' or
+                                 '$(TargetFrameworkIdentifier)' == '.NETCOREAPP'" />
+    <PackageReference Include="System.ValueTuple"
+                      Version="4.5.0"
+                      Condition="'$(TargetFramework)' == 'net461' or
+                                 '$(TargetFramework)' == 'net462' " />
     <Compile Include="..\Polyfill\*.cs">
       <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
@@ -20,4 +26,5 @@
     </Compile>
   </ItemGroup>
   <Import Project="$(ProjectDir)..\Polyfill\Polyfill.props" />
+  <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />
 </Project>

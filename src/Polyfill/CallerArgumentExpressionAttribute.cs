@@ -1,5 +1,7 @@
+#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X
+
 // ReSharper disable RedundantUsingDirective
-#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2
+
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics;
 

@@ -1,4 +1,4 @@
-#if(NETSTANDARD2_0 || NETSTANDARD2_1 || NETFRAMEWORK || NETCOREAPP2_1 || NETCOREAPP2_0 || NETCOREAPP2_2 || NETCOREAPP3_1 || NETCOREAPP3_0)
+#if NETSTANDARD || NETFRAMEWORK || NETCOREAPPX
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -13,7 +13,8 @@ using Targets = AttributeTargets;
 [AttributeUsage(
     Targets.Method | Targets.Property,
     Inherited = false,
-    AllowMultiple = true)]sealed class MemberNotNullWhenAttribute : Attribute
+    AllowMultiple = true)]
+sealed class MemberNotNullWhenAttribute : Attribute
 {
     /// <summary>
     ///   Gets the return value condition.

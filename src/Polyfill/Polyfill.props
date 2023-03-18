@@ -2,9 +2,34 @@
   <PropertyGroup Condition="'$(AllowUnsafeBlocks)' == 'true' ">
     <DefineConstants>$(DefineConstants);AllowUnsafeBlocks</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup>
+    <ValueTupleReferenced>false</ValueTupleReferenced>
+    <MemoryReferenced>false</MemoryReferenced>
+    <LowerFramework>$(TargetFramework.ToLower())</LowerFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(LowerFramework.StartsWith('netcoreapp2'))">
+    <DefineConstants>$(DefineConstants);NETCOREAPP2X</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(LowerFramework.StartsWith('netcoreapp3'))">
+    <DefineConstants>$(DefineConstants);NETCOREAPP3X</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(LowerFramework.StartsWith('net46'))">
+    <DefineConstants>$(DefineConstants);NET46X</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(LowerFramework.StartsWith('net47'))">
+    <DefineConstants>$(DefineConstants);NET47X</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(LowerFramework.StartsWith('net48'))">
+    <DefineConstants>$(DefineConstants);NET48X</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(LowerFramework.StartsWith('netcoreapp2')) or
+                            $(LowerFramework.StartsWith('netcoreapp3'))">
+    <DefineConstants>$(DefineConstants);NETCOREAPPX</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Update="@(Compile)">
-      <Visible Condition="'%(NuGetItemType)' == 'Compile' and '%(NuGetPackageId)' == 'Polyfill'">false</Visible>
+      <Visible Condition="'%(NuGetItemType)' == 'Compile' and
+                          '%(NuGetPackageId)' == 'Polyfill'">false</Visible>
     </Compile>
   </ItemGroup>
 </Project>

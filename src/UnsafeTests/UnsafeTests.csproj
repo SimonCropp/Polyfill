@@ -16,10 +16,19 @@
       <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
     <Compile Include="..\Tests\*.cs" />
-    <PackageReference Include="Verify.NUnit" Version="19.11.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.4.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
-    <PackageReference Include="ProjectDefaults" Version="1.0.90" PrivateAssets="all" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" Condition="'$(TargetFramework)' == 'net462'" />
+    <PackageReference Include="Verify.NUnit"
+                      Version="19.11.1" />
+    <PackageReference Include="NUnit3TestAdapter"
+                      Version="4.4.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk"
+                      Version="17.5.0" />
+    <PackageReference Include="ProjectDefaults"
+                      Version="1.0.90"
+                      PrivateAssets="all" />
+    <PackageReference Include="System.ValueTuple" 
+                      Version="4.5.0"
+                      Condition="'$(TargetFramework)' == 'net462'" />
   </ItemGroup>
+  <Import Project="$(ProjectDir)..\Polyfill\Polyfill.props" />
+  <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />
 </Project>

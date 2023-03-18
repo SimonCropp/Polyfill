@@ -293,12 +293,6 @@ If consuming in a project that targets `netstandard`, `netframework`, or `netcor
                   Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' OR '$(TargetFrameworkIdentifier)' == '.NETFramework' OR '$(TargetFrameworkIdentifier)' == '.NETCOREAPP'" />
 ```
 
-To not include memory extension, and avoid requiring System.Memory, add a csproj constant `PolyOmitMemoryExtensions`:
-
-```
-<DefineConstants>PolyOmitMemoryExtensions</DefineConstants>
-```
-
 
 ## Icon
 
