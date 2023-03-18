@@ -13,7 +13,8 @@ using Targets = AttributeTargets;
 [AttributeUsage(
     Targets.Method | Targets.Property,
     Inherited = false,
-    AllowMultiple = true)]sealed class MemberNotNullWhenAttribute : Attribute
+    AllowMultiple = true)]
+sealed class MemberNotNullWhenAttribute : Attribute
 {
     /// <summary>
     ///   Gets the return value condition.
