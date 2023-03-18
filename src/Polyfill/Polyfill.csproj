@@ -5,11 +5,17 @@
     <Description>Source only packages that exposes newer .net and C# features to older runtimes.</Description>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="ProjectDefaults" Version="1.0.90" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" Condition="$(Configuration) == 'Release'" />
+    <PackageReference Include="ProjectDefaults"
+                      Version="1.0.90"
+                      PrivateAssets="all" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub"
+                      Version="1.1.1"
+                      PrivateAssets="All"
+                      Condition="$(Configuration) == 'Release'" />
     <PackageReference Include="System.Memory" Version="4.5.5" />
   </ItemGroup>
-  <Target Name="SetPackageDependencies" BeforeTargets="GenerateNuspec">
+  <Target Name="SetPackageDependencies"
+          BeforeTargets="GenerateNuspec">
     <PropertyGroup>
       <NuspecProperties>configuration=$(Configuration);version=$(PackageVersion);authors=$(Authors);projectUrl=$(PackageProjectUrl);description=$(Description);tags=$(PackageTags)</NuspecProperties>
     </PropertyGroup>
