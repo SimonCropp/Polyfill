@@ -1,5 +1,6 @@
+#if !NET5_0_OR_GREATER
+
 // ReSharper disable RedundantUsingDirective
-#if(!NET5_0_OR_GREATER)
 
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics;

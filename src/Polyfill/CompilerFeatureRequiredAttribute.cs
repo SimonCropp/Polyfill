@@ -1,5 +1,7 @@
-// ReSharper disable RedundantUsingDirective
 #if !NET7_0_OR_GREATER
+
+// ReSharper disable RedundantUsingDirective
+
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics;
 

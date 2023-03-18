@@ -11,7 +11,7 @@ namespace Polyfill;
 [DebuggerNonUserCode]
 static partial class PolyExtensions
 {
-#if NET461 || NET462 || NET47 || NET471 || NET472 || NET48 || NET481 || NETSTANDARD2_0
+#if NETFRAMEWORK || NETSTANDARD2_0
 
     public static bool Contains(this string target, string value, StringComparison comparisonType) =>
         target.IndexOf(value, comparisonType) >= 0;

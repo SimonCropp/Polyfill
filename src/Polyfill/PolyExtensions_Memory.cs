@@ -1,5 +1,6 @@
+#if !PolyOmitMemoryExtensions && (NETFRAMEWORK || NETSTANDARD2_0)
+
 // ReSharper disable RedundantUsingDirective
-#if !PolyOmitMemoryExtensions && (NET461 || NET462 || NET47 || NET471 || NET472 || NET48 || NET481 || NETSTANDARD2_0)
 using System;
 using System.Text;
 

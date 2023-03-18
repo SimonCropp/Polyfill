@@ -1,5 +1,6 @@
+#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2X
+
 // ReSharper disable RedundantUsingDirective
-#if(NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0 || NETCOREAPP2_1 || NETCOREAPP2_2)
 
 #pragma warning disable CS0436
 
