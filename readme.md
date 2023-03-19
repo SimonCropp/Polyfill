@@ -300,32 +300,33 @@ If consuming in a project that targets `net461` or `net462`, a reference to [Sys
 ```
 <PackageReference Include="System.ValueTuple"
                   Version="4.5.0"
-                  Condition="'$(TargetFramework)' == 'net461' or
-                             '$(TargetFramework)' == 'net462'" />
+                  Condition="$(TargetFramework.StartsWith('net46'))" />
 ```
 
 
 ### System.Memory
 
-If consuming in a project that targets `netstandard`, `netframework`, or `netcoreapp`, a reference to [System.Memory](https://www.nuget.org/packages/System.Memory/) nuget is required.
+If consuming in a project that targets `netstandard`, `netframework`, or `netcoreapp2*`, a reference to [System.Memory](https://www.nuget.org/packages/System.Memory/) nuget is required.
 
 ```
 <PackageReference Include="System.Memory"
                   Version="4.5.5"
-                  Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' or
-                             '$(TargetFrameworkIdentifier)' == '.NETFramework' or
-                             '$(TargetFrameworkIdentifier)' == '.NETCOREAPP'" />
+                  Condition="$(TargetFrameworkIdentifier) == '.NETStandard' or
+                             $(TargetFrameworkIdentifier) == '.NETFramework' or
+                             $(TargetFramework.StartsWith('netcoreapp2'))" />
 ```
 
 
 ### System.Threading.Tasks.Extensions
 
-If consuming in a project that target `netframework`, a reference to [System.Threading.Tasks.Extensions](https://www.nuget.org/packages/System.Threading.Tasks.Extensions/) nuget is required.
+If consuming in a project that target `netframework`, `netstandard2`, or 'netcoreapp2', a reference to [System.Threading.Tasks.Extensions](https://www.nuget.org/packages/System.Threading.Tasks.Extensions/) nuget is required.
 
 ```
 <PackageReference Include="System.Threading.Tasks.Extensions"
                   Version="4.5.4"
-                  Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" />
+                  Condition="$(TargetFramework) == 'netstandard2.0' or
+                             $(TargetFramework) == 'netcoreapp2.0' or
+                             $(TargetFrameworkIdentifier) == '.NETFramework'" />
 ```
 
 
