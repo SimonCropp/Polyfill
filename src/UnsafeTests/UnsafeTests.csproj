@@ -34,7 +34,7 @@
                                  '$(TargetFrameworkIdentifier)' == '.NETCOREAPP'" />
     <PackageReference Include="System.Threading.Tasks.Extensions"
                       Version="4.5.4"
-                      Condition="'$(TargetFramework)' == 'net462'" />
+                      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" />
   </ItemGroup>
   <Import Project="$(ProjectDir)..\Polyfill\Polyfill.props" />
   <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />

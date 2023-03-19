@@ -260,19 +260,36 @@ The combination of the other 3 packages is not ideal because:
 
 The class `Polyfill.PolyExtensions` includes the following extension methods:
 
+
+### String
+
   * `bool StartsWith(this string, char)`
   * `bool EndsWith(this string, char)`
+
+
+### Memory
+
+[System.Memory](#systemmemory) reference required.
+
   * `bool Contains(this ReadOnlySpan<char>, char)`
   * `void Append(this StringBuilder, ReadOnlySpan<char>)`
   * `bool SequenceEqual(this ReadOnlySpan<char>, string)`
   * `bool Equals(this StringBuilder, ReadOnlySpan<char>)`
   * `bool SequenceEqual(this Span<char>, string)`
+
+
+### Stream
+
+[System.Threading.Tasks.Extensions](#systemthreadingtasksextensions) reference required.
+
   * `ValueTask<int> ReadAsync(this Stream, Memory<byte>, CancellationToken)` [ref](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken))
   * `ValueTask WriteAsync(this Stream, ReadOnlyMemory<byte>, CancellationToken)` [ref](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
   * `ValueTask<int> ReadAsync(this StreamReader, Memory<char>, CancellationToken)` [ref](https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken))
 
 
 ## References
+
+If any of the below reference are included, the related polyfills will be disabled.
 
 
 ### System.ValueTuple
@@ -297,6 +314,17 @@ If consuming in a project that targets `netstandard`, `netframework`, or `netcor
                   Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' or
                              '$(TargetFrameworkIdentifier)' == '.NETFramework' or
                              '$(TargetFrameworkIdentifier)' == '.NETCOREAPP'" />
+```
+
+
+### System.Threading.Tasks.Extensions
+
+If consuming in a project that target `netframework`, a reference to [System.Threading.Tasks.Extensions](https://www.nuget.org/packages/System.Threading.Tasks.Extensions/) nuget is required.
+
+```
+<PackageReference Include="System.Threading.Tasks.Extensions"
+                  Version="4.5.4"
+                  Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" />
 ```
 
 
