@@ -279,7 +279,8 @@ If consuming in a project that targets `net461` or `net462`, a reference to [Sys
 ```
 <PackageReference Include="System.ValueTuple"
                   Version="4.5.0"
-                  Condition="'$(TargetFramework)' == 'net461' OR '$(TargetFramework)' == 'net462'" />
+                  Condition="'$(TargetFramework)' == 'net461' or
+                             '$(TargetFramework)' == 'net462'" />
 ```
 
 
@@ -290,7 +291,9 @@ If consuming in a project that targets `netstandard`, `netframework`, or `netcor
 ```
 <PackageReference Include="System.Memory"
                   Version="4.5.5"
-                  Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' OR '$(TargetFrameworkIdentifier)' == '.NETFramework' OR '$(TargetFrameworkIdentifier)' == '.NETCOREAPP'" />
+                  Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' or
+                             '$(TargetFrameworkIdentifier)' == '.NETFramework' or
+                             '$(TargetFrameworkIdentifier)' == '.NETCOREAPP'" />
 ```
 
 

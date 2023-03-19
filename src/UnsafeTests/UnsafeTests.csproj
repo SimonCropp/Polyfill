@@ -28,6 +28,10 @@
     <PackageReference Include="System.ValueTuple" 
                       Version="4.5.0"
                       Condition="'$(TargetFramework)' == 'net462'" />
+    <PackageReference Include="System.Memory"
+                      Version="4.5.5"
+                      Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' or
+                                 '$(TargetFrameworkIdentifier)' == '.NETCOREAPP'" />
   </ItemGroup>
   <Import Project="$(ProjectDir)..\Polyfill\Polyfill.props" />
   <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />
