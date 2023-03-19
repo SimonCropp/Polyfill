@@ -27,6 +27,8 @@ class PolyExtensionsSample
     }
 #endif
 
+#if (NET46X && VALUETUPLEREFERENCED) || NET47X ||NET48X || NETSTANDARD2_0 || NETCOREAPP2X
+
     [Test]
     public void Deconstruct()
     {
@@ -37,6 +39,8 @@ class PolyExtensionsSample
 
     static (string a, int b) MethodWithNamedTuple() =>
         ("", 0);
+
+#endif
 
     [Test]
     public void EndsWith()
