@@ -1,4 +1,4 @@
-#if MEMORYREFERENCED && (NET4X || NETCOREAPPX)
+#if (MEMORYREFERENCED && (NET4X || NETCOREAPPX || NETSTANDARD2_0)) || NETCOREAPP2_0 || NETSTANDARD2_1
 
 // ReSharper disable RedundantUsingDirective
 using System;
