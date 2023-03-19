@@ -4,12 +4,16 @@
     <PropertyGroup>
       <ValueTupleReferenced
               Condition="@(PackageReference->WithMetadataValue('Identity', 'System.ValueTuple')->Count()) != 0">true</ValueTupleReferenced>
+      <DefineConstants
+              Condition="$(ValueTupleReferenced)">$(DefineConstants);VALUETUPLEREFERENCED</DefineConstants>
       <MemoryReferenced
               Condition="@(PackageReference->WithMetadataValue('Identity', 'System.Memory')->Count()) != 0">true</MemoryReferenced>
       <DefineConstants
               Condition="$(MemoryReferenced)">$(DefineConstants);MEMORYREFERENCED</DefineConstants>
+      <TasksExtensionsReferenced
+              Condition="@(PackageReference->WithMetadataValue('Identity', 'System.Threading.Tasks.Extensions')->Count()) != 0">true</TasksExtensionsReferenced>
       <DefineConstants
-              Condition="$(ValueTupleReferenced)">$(DefineConstants);VALUETUPLEREFERENCED</DefineConstants>
+              Condition="$(TasksExtensionsReferenced)">$(DefineConstants);TASKSEXTENSIONSREFERENCED</DefineConstants>
     </PropertyGroup>
   </Target>
 </Project>

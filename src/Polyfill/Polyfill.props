@@ -5,6 +5,7 @@
   <PropertyGroup>
     <ValueTupleReferenced>false</ValueTupleReferenced>
     <MemoryReferenced>false</MemoryReferenced>
+    <TasksExtensionsReferenced>false</TasksExtensionsReferenced>
     <LowerFramework>$(TargetFramework.ToLower())</LowerFramework>
   </PropertyGroup>
   <PropertyGroup Condition="$(LowerFramework.StartsWith('netcoreapp2'))">
