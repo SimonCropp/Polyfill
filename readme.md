@@ -260,13 +260,16 @@ The combination of the other 3 packages is not ideal because:
 
 The class `Polyfill.PolyExtensions` includes the following extension methods:
 
-  * `bool StartsWith(this string value, char ch)`
-  * `bool EndsWith(this string value, char ch)`
-  * `bool Contains(this ReadOnlySpan<char> span, char value)`
-  * `void Append(this StringBuilder builder, ReadOnlySpan<char> value)`
-  * `bool SequenceEqual(this ReadOnlySpan<char> span, string other)`
-  * `bool Equals(this StringBuilder builder, ReadOnlySpan<char> span)`
-  * `bool SequenceEqual(this Span<char> span, string other)`
+  * `bool StartsWith(this string, char)`
+  * `bool EndsWith(this string, char)`
+  * `bool Contains(this ReadOnlySpan<char>, char)`
+  * `void Append(this StringBuilder, ReadOnlySpan<char>)`
+  * `bool SequenceEqual(this ReadOnlySpan<char>, string)`
+  * `bool Equals(this StringBuilder, ReadOnlySpan<char>)`
+  * `bool SequenceEqual(this Span<char>, string)`
+  * `ValueTask<int> ReadAsync(this Stream, Memory<byte>, CancellationToken)` [ref](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken))
+  * `ValueTask WriteAsync(this Stream, ReadOnlyMemory<byte>, CancellationToken)` [ref](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+  * `ValueTask<int> ReadAsync(this StreamReader, Memory<char>, CancellationToken)` [ref](https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken))
 
 
 ## References
