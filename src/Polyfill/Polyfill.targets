@@ -11,9 +11,5 @@
       <DefineConstants
               Condition="$(ValueTupleReferenced)">$(DefineConstants);VALUETUPLEREFERENCED</DefineConstants>
     </PropertyGroup>
-    <Message Text="ValueTupleReferenced $(ValueTupleReferenced)"
-             Importance="High" />
-    <Message Text="MemoryReferenced $(MemoryReferenced)"
-             Importance="High" />
   </Target>
 </Project>
