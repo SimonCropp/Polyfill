@@ -5,8 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Using Remove="System.Net.Http" />
-    <Compile Include="..\Polyfill\*.cs"
-             Exclude="..\Polyfill\NamedTupleSample.cs">
+    <Compile Include="..\Polyfill\*.cs">
       <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
     <Compile Include="..\Polyfill\Nullable\*.cs">
@@ -16,6 +15,9 @@
       <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
     <Compile Include="..\Tests\*.cs" />
+    <Compile Remove="..\Tests\IndexRangeSample.cs" />
+    <Compile Remove="..\Tests\NamedTupleSample.cs" />
+    <Compile Remove="..\Tests\RangeIndexUsage.cs" />
     <PackageReference Include="Verify.NUnit"
                       Version="19.11.1" />
     <PackageReference Include="NUnit3TestAdapter"
@@ -25,9 +27,6 @@
     <PackageReference Include="ProjectDefaults"
                       Version="1.0.90"
                       PrivateAssets="all" />
-    <PackageReference Include="System.ValueTuple"
-                      Version="4.5.0"
-                      Condition="'$(TargetFramework)' == 'net462'" />
   </ItemGroup>
   <Import Project="$(ProjectDir)..\Polyfill\Polyfill.props" />
   <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />
