@@ -1,4 +1,4 @@
-#if MEMORYREFERENCED && (NET46X)
+#if MEMORYREFERENCED && (NET4X || NETCOREAPPX)
 
 // ReSharper disable RedundantUsingDirective
 using System;

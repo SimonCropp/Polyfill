@@ -18,6 +18,7 @@
     <Compile Remove="..\Tests\IndexRangeSample.cs" />
     <Compile Remove="..\Tests\NamedTupleSample.cs" />
     <Compile Remove="..\Tests\RangeIndexUsage.cs" />
+    <Compile Remove="..\Tests\PolyExtensionsSample_Memory.cs" />
     <PackageReference Include="Verify.NUnit"
                       Version="19.11.1" />
     <PackageReference Include="NUnit3TestAdapter"
