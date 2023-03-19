@@ -5,13 +5,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Using Remove="System.Net.Http" />
-    <Compile Include="..\Polyfill\*.cs">
+    <Compile Include="..\Polyfill\*.cs"
+             Exclude="..\Polyfill\NamedTupleSample.cs">
       <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
     <Compile Include="..\Polyfill\Nullable\*.cs">
       <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
-    <Compile Include="..\Polyfill\IndexRange\*.cs">
+    <Compile Include="..\Polyfill\IndexRange\*.cs" >
       <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
     <Compile Include="..\Tests\*.cs" />
