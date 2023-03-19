@@ -22,6 +22,9 @@
   <PropertyGroup Condition="$(LowerFramework.StartsWith('net48'))">
     <DefineConstants>$(DefineConstants);NET48X</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="$(LowerFramework.StartsWith('net4'))">
+    <DefineConstants>$(DefineConstants);NET4X</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition="$(LowerFramework.StartsWith('netcoreapp2')) or
                             $(LowerFramework.StartsWith('netcoreapp3'))">
     <DefineConstants>$(DefineConstants);NETCOREAPPX</DefineConstants>
