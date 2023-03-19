@@ -1,5 +1,5 @@
 <Project>
-  <PropertyGroup Condition="'$(AllowUnsafeBlocks)' == 'true' ">
+  <PropertyGroup Condition="$(AllowUnsafeBlocks) == 'true' ">
     <DefineConstants>$(DefineConstants);AllowUnsafeBlocks</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
@@ -32,8 +32,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="@(Compile)">
-      <Visible Condition="'%(NuGetItemType)' == 'Compile' and
-                          '%(NuGetPackageId)' == 'Polyfill'">false</Visible>
+      <Visible Condition="%(NuGetItemType) == 'Compile' and
+                          %(NuGetPackageId) == 'Polyfill'">false</Visible>
     </Compile>
   </ItemGroup>
   <ItemGroup Condition="$(ImplicitUsings) == 'enable' or
