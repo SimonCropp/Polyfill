@@ -1,11 +1,8 @@
 #if (NET46X && VALUETUPLEREFERENCED) || NET47X ||NET48X || NETSTANDARD2_0
 
-// ReSharper disable RedundantUsingDirective
-
 using System;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
