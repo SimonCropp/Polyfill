@@ -14,11 +14,7 @@
     <PackageReference Include="System.ValueTuple"
                       Version="4.5.0"
                       Condition="'$(TargetFramework)' == 'net461' or
-                                 '$(TargetFramework)' == 'net462' " />
-    <PackageReference Include="System.Threading.Tasks.Extensions"
-                      Version="4.5.4"
-                      Condition="'$(TargetFramework)' == 'net461' or
-                                 '$(TargetFramework)' == 'net462' " />
+                                 '$(TargetFramework)' == 'net462'" />
     <Compile Include="..\Polyfill\*.cs">
       <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
