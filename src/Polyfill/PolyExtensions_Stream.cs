@@ -1,4 +1,4 @@
-#if (NET46X && VALUETUPLEREFERENCED) || NET47X ||NET48X || NETSTANDARD2_0
+#if TASKSEXTENSIONSREFERENCED && NET46X
 
 // ReSharper disable RedundantUsingDirective
 
