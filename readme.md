@@ -282,10 +282,10 @@ The class `Polyfill.PolyExtensions` includes the following extension methods:
 
 [System.Threading.Tasks.Extensions](#systemthreadingtasksextensions) reference required.
 
-  * `ValueTask<int> ReadAsync(this Stream, Memory<byte>, CancellationToken)` [ref](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken))
-  * `ValueTask WriteAsync(this Stream, ReadOnlyMemory<byte>, CancellationToken)` [ref](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
-  * `ValueTask<int> ReadAsync(this StreamReader, Memory<char>, CancellationToken)` [ref](https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken))
-  * `ValueTask<int> WriteAsync(this StreamWriter, ReadOnlyMemory<char>, CancellationToken)` [ref](https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))
+  * `ValueTask<int> ReadAsync(this Stream, Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken))
+  * `ValueTask WriteAsync(this Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+  * `ValueTask<int> ReadAsync(this StreamReader, Memory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken))
+  * `ValueTask<int> WriteAsync(this StreamWriter, ReadOnlyMemory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))
 
 
 ## References
