@@ -5,6 +5,7 @@ using System.Diagnostics;
 namespace System.Diagnostics.CodeAnalysis;
 
 using Targets = AttributeTargets;
+
 /// <summary>
 /// Used to indicate a byref escapes and is not scoped.
 /// </summary>

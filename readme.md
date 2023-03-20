@@ -246,6 +246,12 @@ static class GuardUsage
 <!-- endSnippet -->
 
 
+### InterpolatedStringHandler
+
+ * `InterpolatedStringHandlerAttribute`
+ * `InterpolatedStringHandlerArgumentAttribute`
+
+
 ## Alternatives
 
 
