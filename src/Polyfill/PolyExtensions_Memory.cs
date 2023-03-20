@@ -1,6 +1,8 @@
 #if (MEMORYREFERENCED && (NET4X || NETSTANDARD || NETCOREAPP2X))
 
 // ReSharper disable RedundantUsingDirective
+// ReSharper disable UnusedMember.Global
+
 using System;
 using System.Text;
 

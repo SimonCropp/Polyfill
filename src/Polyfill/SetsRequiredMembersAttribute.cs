@@ -1,5 +1,8 @@
 #if !NET7_0_OR_GREATER
 
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable UnusedMember.Global
+
 namespace System.Diagnostics.CodeAnalysis;
 
 /// <summary>

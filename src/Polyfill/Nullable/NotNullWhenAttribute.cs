@@ -1,5 +1,8 @@
 #if NETSTANDARD2_0 || NETFRAMEWORK || NETCOREAPP2X
 
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable UnusedMember.Global
+
 namespace System.Diagnostics.CodeAnalysis;
 
 /// <summary>

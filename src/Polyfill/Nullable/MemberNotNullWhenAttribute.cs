@@ -1,5 +1,8 @@
 #if NETSTANDARD || NETFRAMEWORK || NETCOREAPPX
 
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable UnusedMember.Global
+
 namespace System.Diagnostics.CodeAnalysis;
 
 using Targets = AttributeTargets;

@@ -2,6 +2,7 @@
 
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable PartialTypeWithSinglePart
+
 using System;
 using System.Text;
 using System.Diagnostics;

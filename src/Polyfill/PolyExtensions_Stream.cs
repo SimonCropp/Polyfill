@@ -1,6 +1,7 @@
 #if TASKSEXTENSIONSREFERENCED && (NET4X || NETSTANDARD2_0 || NETCOREAPP2_0)
 
 // ReSharper disable RedundantUsingDirective
+// ReSharper disable UnusedMember.Global
 
 using System;
 using System.IO;

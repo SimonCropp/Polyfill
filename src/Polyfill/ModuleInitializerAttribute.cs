@@ -1,6 +1,7 @@
 #if !NET5_0_OR_GREATER
 
 // ReSharper disable RedundantUsingDirective
+// ReSharper disable UnusedMember.Global
 
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics;
