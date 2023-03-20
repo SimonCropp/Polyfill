@@ -9,9 +9,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Polyfill;
-
-static partial class PolyExtensions
+static partial class PolyfillExtensions
 {
     public static ValueTask<int> ReadAsync(
         this Stream stream,

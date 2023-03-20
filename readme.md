@@ -286,7 +286,7 @@ The combination of the other 3 packages is not ideal because:
 
 ## Extensions
 
-The class `Polyfill.PolyExtensions` includes the following extension methods:
+The class `PolyfillExtensions` includes the following extension methods:
 
 
 ### String

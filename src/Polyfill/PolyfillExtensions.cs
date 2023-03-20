@@ -4,10 +4,8 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Polyfill;
-
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-static partial class PolyExtensions
+static partial class PolyfillExtensions
 {
 }

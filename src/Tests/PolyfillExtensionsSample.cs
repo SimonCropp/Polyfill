@@ -2,7 +2,7 @@
 
 [TestFixture]
 [DebuggerNonUserCode]
-partial class PolyExtensionsSample
+partial class PolyfillExtensionsSample
 {
     [Test]
     public void EndsWith()

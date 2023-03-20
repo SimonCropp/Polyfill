@@ -1,4 +1,4 @@
-partial class PolyExtensionsSample
+partial class PolyfillExtensionsSample
 {
     [Test]
     public void SpanContains() =>

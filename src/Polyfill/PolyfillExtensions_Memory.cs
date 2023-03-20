@@ -6,9 +6,7 @@
 using System;
 using System.Text;
 
-namespace Polyfill;
-
-static partial class PolyExtensions
+static partial class PolyfillExtensions
 {
     public static bool Contains(this ReadOnlySpan<char> target, char value)
     {

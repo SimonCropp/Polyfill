@@ -8,9 +8,7 @@ using System.Text;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Polyfill;
-
-static partial class PolyExtensions
+static partial class PolyfillExtensions
 {
     public static bool Contains(this string target, string value, StringComparison comparisonType) =>
         target.IndexOf(value, comparisonType) >= 0;
