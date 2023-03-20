@@ -248,6 +248,8 @@ static class GuardUsage
 
 ### InterpolatedStringHandler
 
+Reference: [Write a custom string interpolation handler](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/interpolated-string-handler)
+
  * `InterpolatedStringHandlerAttribute`
  * `InterpolatedStringHandlerArgumentAttribute`
 
