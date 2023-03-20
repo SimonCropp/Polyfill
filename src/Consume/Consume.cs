@@ -31,6 +31,9 @@ class Consume
         type = typeof(DebuggerNonUserCodeAttribute);
         type = typeof(ValueTuple<>);
         type = typeof(ValueTuple);
+        type = typeof(UnscopedRefAttribute);
+        type = typeof(InterpolatedStringHandlerArgumentAttribute);
+        type = typeof(InterpolatedStringHandlerAttribute);
         var range = "value"[1..];
         var index = "value"[^2];
         var startsWith = "value".StartsWith('a');

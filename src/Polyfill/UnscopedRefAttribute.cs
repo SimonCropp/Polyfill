@@ -1,7 +1,6 @@
 #if !NET7_0_OR_GREATER
 
-/// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+using System.Diagnostics;
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -17,9 +16,9 @@ using Targets = AttributeTargets;
 /// <para>
 /// For example:
 /// <list type="number">
-///     <item><see langword="this"/> for <see langword="struct"/> instance methods.</item>
-///     <item><see langword="ref"/> parameters that refer to <see langword="ref"/> <see langword="struct"/> types.</item>
-///     <item><see langword="out"/> parameters.</item>
+///   <item><see langword="this"/> for <see langword="struct"/> instance methods.</item>
+///   <item><see langword="ref"/> parameters that refer to <see langword="ref"/> <see langword="struct"/> types.</item>
+///   <item><see langword="out"/> parameters.</item>
 /// </list>
 /// </para>
 /// <para>
@@ -30,15 +29,13 @@ using Targets = AttributeTargets;
 /// API authors to understand the lifetime implications of applying this attribute and how it may impact their users.
 /// </para>
 /// </remarks>
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 [AttributeUsage(
     Targets.Method | Targets.Property | Targets.Parameter,
     Inherited = false)]
 sealed class UnscopedRefAttribute : Attribute
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UnscopedRefAttribute"/> class.
-    /// </summary>
-    public UnscopedRefAttribute() { }
 }
 
 #endif
