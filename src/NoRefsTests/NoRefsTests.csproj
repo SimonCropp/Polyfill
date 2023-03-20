@@ -19,8 +19,7 @@
     <Compile Remove="..\Tests\NamedTupleSample.cs" />
     <Compile Remove="..\Tests\RangeIndexUsage.cs" />
     <Compile Remove="..\Tests\PolyfillExtensionsSample_*.cs" />
-    <PackageReference Include="Verify.NUnit"
-                      Version="19.11.1" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter"
                       Version="4.4.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk"

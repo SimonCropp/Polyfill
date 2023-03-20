@@ -16,8 +16,7 @@
       <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
     <Compile Include="..\Tests\*.cs" />
-    <PackageReference Include="Verify.NUnit"
-                      Version="19.11.1" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter"
                       Version="4.4.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk"
