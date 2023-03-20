@@ -193,6 +193,26 @@ class IndexRangeSample
 <!-- endSnippet -->
 
 
+### UnscopedRefAttribute
+
+Reference: [Low Level Struct Improvements](https://github.com/dotnet/csharplang/blob/main/proposals/csharp-11.0/low-level-struct-improvements.md)
+
+<!-- snippet: UnscopedRefUsage.cs -->
+<a id='snippet-UnscopedRefUsage.cs'></a>
+```cs
+using System.Diagnostics.CodeAnalysis;
+
+struct UnscopedRefUsage
+{
+    int field;
+
+    [UnscopedRef] ref int Prop1 => ref field;
+}
+```
+<sup><a href='/src/Consume/UnscopedRefUsage.cs#L1-L8' title='Snippet source file'>snippet source</a> | <a href='#snippet-UnscopedRefUsage.cs' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
 ### CallerArgumentExpressionAttribute
 
 Reference: [CallerArgumentExpression](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/caller-argument-expression)

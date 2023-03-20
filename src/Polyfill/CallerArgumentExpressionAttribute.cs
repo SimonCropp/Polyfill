@@ -7,7 +7,6 @@ using System.Diagnostics;
 
 namespace System.Runtime.CompilerServices;
 
-
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
