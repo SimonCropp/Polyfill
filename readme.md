@@ -292,6 +292,13 @@ Reference: [Prepare .NET libraries for trimming](https://learn.microsoft.com/en-
 Reference: [Platform compatibility analyzer](https://learn.microsoft.com/en-us/dotnet/standard/analyzers/platform-compat-analyzer)
 
 
+### StackTraceHiddenAttribute
+
+ * [StackTraceHiddenAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.stacktracehiddenattribute)
+
+Reference: [C# – Hide a method from the stack trace](https://makolyte.com/csharp-exclude-exception-throw-helper-methods-from-the-stack-trace/)
+
+
 ## Alternatives
 
 

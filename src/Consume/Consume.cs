@@ -49,6 +49,7 @@ class Consume
         type = typeof(TargetPlatformAttribute);
         type = typeof(UnsupportedOSPlatformAttribute);
         type = typeof(UnsupportedOSPlatformGuardAttribute);
+        type = typeof(StackTraceHiddenAttribute);
 
         var range = "value"[1..];
         var index = "value"[^2];
