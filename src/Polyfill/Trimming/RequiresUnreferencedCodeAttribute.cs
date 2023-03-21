@@ -20,7 +20,9 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    Targets.Method | Targets.Constructor | Targets.Class,
+    validOn: Targets.Method |
+             Targets.Constructor |
+             Targets.Class,
     Inherited = false)]
 sealed class RequiresUnreferencedCodeAttribute : Attribute
 {
@@ -45,4 +47,5 @@ sealed class RequiresUnreferencedCodeAttribute : Attribute
     /// </summary>
     public string? Url { get; set; }
 }
+
 #endif

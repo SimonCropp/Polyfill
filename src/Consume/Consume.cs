@@ -54,6 +54,7 @@ class Consume
         type = typeof(UnmanagedCallersOnlyAttribute);
         type = typeof(SuppressGCTransitionAttribute);
         type = typeof(DisableRuntimeMarshallingAttribute);
+        type = typeof(RequiresUnreferencedCodeAttribute);
 
         var range = "value"[1..];
         var index = "value"[^2];
