@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -41,6 +42,13 @@ class Consume
         type = typeof(RequiresUnreferencedCodeAttribute);
         type = typeof(UnconditionalSuppressMessageAttribute);
         type = typeof(CompilerFeatureRequiredAttribute);
+        type = typeof(AsyncMethodBuilderAttribute);
+        type = typeof(ObsoletedOSPlatformAttribute);
+        type = typeof(SupportedOSPlatformAttribute);
+        type = typeof(SupportedOSPlatformGuardAttribute);
+        type = typeof(TargetPlatformAttribute);
+        type = typeof(UnsupportedOSPlatformAttribute);
+        type = typeof(UnsupportedOSPlatformGuardAttribute);
 
         var range = "value"[1..];
         var index = "value"[^2];

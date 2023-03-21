@@ -10,7 +10,9 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    Targets.Parameter | Targets.Property | Targets.ReturnValue,
+    validOn: Targets.Parameter |
+             Targets.Property |
+             Targets.ReturnValue,
     AllowMultiple = true)]
 sealed class NotNullIfNotNullAttribute : Attribute
 {

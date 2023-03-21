@@ -11,14 +11,11 @@ namespace System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    AttributeTargets.Method,
+    validOn: AttributeTargets.Method,
     Inherited = false)]
-sealed class DoesNotReturnAttribute : Attribute
+sealed class DoesNotReturnAttribute :
+    Attribute
 {
-    /// <summary>
-    ///   Initializes a new instance of the <see cref="DoesNotReturnAttribute"/> class.
-    /// </summary>
-    public DoesNotReturnAttribute() { }
 }
 
 #endif

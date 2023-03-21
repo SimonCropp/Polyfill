@@ -13,13 +13,14 @@ using Targets = AttributeTargets;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-[AttributeUsage(Targets.Field | Targets.Parameter | Targets.Property | Targets.ReturnValue)]
-sealed class NotNullAttribute : Attribute
+[AttributeUsage(
+    validOn: Targets.Field |
+             Targets.Parameter |
+             Targets.Property |
+             Targets.ReturnValue)]
+sealed class NotNullAttribute :
+    Attribute
 {
-    /// <summary>
-    ///   Initializes a new instance of the <see cref="NotNullAttribute"/> class.
-    /// </summary>
-    public NotNullAttribute() { }
 }
 
 #endif

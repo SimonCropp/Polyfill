@@ -12,7 +12,7 @@ namespace System.Runtime.CompilerServices;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    AttributeTargets.Class | AttributeTargets.Struct,
+    validOn: AttributeTargets.Class | AttributeTargets.Struct,
     Inherited = false)]
 sealed class InterpolatedStringHandlerAttribute : Attribute
 {

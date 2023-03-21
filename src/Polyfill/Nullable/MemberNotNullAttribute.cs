@@ -14,10 +14,12 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    Targets.Method | Targets.Property,
+    validOn: Targets.Method |
+             Targets.Property,
     Inherited = false,
     AllowMultiple = true)]
-sealed class MemberNotNullAttribute : Attribute
+sealed class MemberNotNullAttribute :
+    Attribute
 {
     /// <summary>
     ///   Gets field or property member names.

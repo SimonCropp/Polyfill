@@ -14,7 +14,7 @@ namespace System.Runtime.CompilerServices;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    AttributeTargets.All,
+    validOn: AttributeTargets.All,
     AllowMultiple = true,
     Inherited = false)]
 sealed class CompilerFeatureRequiredAttribute : Attribute

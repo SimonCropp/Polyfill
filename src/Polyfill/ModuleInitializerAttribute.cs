@@ -31,7 +31,7 @@ namespace System.Runtime.CompilerServices;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    AttributeTargets.Method,
+    validOn: AttributeTargets.Method,
     Inherited = false)]
 sealed class ModuleInitializerAttribute : Attribute
 {

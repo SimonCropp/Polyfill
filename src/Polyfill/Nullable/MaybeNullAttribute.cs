@@ -13,13 +13,14 @@ using Targets = AttributeTargets;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-[AttributeUsage(Targets.Field | Targets.Parameter | Targets.Property | Targets.ReturnValue)]
-sealed class MaybeNullAttribute : Attribute
+[AttributeUsage(
+    validOn: Targets.Field |
+             Targets.Parameter |
+             Targets.Property |
+             Targets.ReturnValue)]
+sealed class MaybeNullAttribute :
+    Attribute
 {
-    /// <summary>
-    ///   Initializes a new instance of the <see cref="MaybeNullAttribute"/> class.
-    /// </summary>
-    public MaybeNullAttribute() { }
 }
 
 #endif

@@ -12,7 +12,8 @@ namespace System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
-sealed class MaybeNullWhenAttribute : Attribute
+sealed class MaybeNullWhenAttribute :
+    Attribute
 {
     /// <summary>
     ///   Gets the return value condition.

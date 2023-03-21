@@ -12,7 +12,8 @@ namespace System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
-sealed class DoesNotReturnIfAttribute : Attribute
+sealed class DoesNotReturnIfAttribute :
+    Attribute
 {
     /// <summary>
     ///   Gets the condition parameter value.

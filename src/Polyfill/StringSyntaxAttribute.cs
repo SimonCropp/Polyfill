@@ -13,8 +13,12 @@ using Targets = AttributeTargets;
 /// Specifies the syntax used in a string.</summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-[AttributeUsage(Targets.Parameter | Targets.Field | Targets.Property)]
-sealed class StringSyntaxAttribute : Attribute
+[AttributeUsage(
+    validOn: Targets.Parameter |
+             Targets.Field |
+             Targets.Property)]
+sealed class StringSyntaxAttribute :
+    Attribute
 {
     /// <summary>
     /// Initializes the <see cref="StringSyntaxAttribute"/> with the identifier of the syntax used.</summary>

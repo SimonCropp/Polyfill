@@ -27,7 +27,14 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    Targets.Module | Targets.Class | Targets.Struct | Targets.Interface | Targets.Constructor | Targets.Method | Targets.Property | Targets.Event,
+    validOn: Targets.Module |
+             Targets.Class |
+             Targets.Struct |
+             Targets.Interface |
+             Targets.Constructor |
+             Targets.Method |
+             Targets.Property |
+             Targets.Event,
     Inherited = false)]
 sealed class SkipLocalsInitAttribute : Attribute
 {

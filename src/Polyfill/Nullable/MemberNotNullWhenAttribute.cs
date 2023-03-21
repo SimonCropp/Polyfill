@@ -14,10 +14,12 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    Targets.Method | Targets.Property,
+    validOn: Targets.Method |
+             Targets.Property,
     Inherited = false,
     AllowMultiple = true)]
-sealed class MemberNotNullWhenAttribute : Attribute
+sealed class MemberNotNullWhenAttribute :
+    Attribute
 {
     /// <summary>
     ///   Gets the return value condition.

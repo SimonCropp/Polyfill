@@ -36,7 +36,9 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    Targets.Method | Targets.Property | Targets.Parameter,
+    validOn: Targets.Method |
+             Targets.Property |
+             Targets.Parameter,
     Inherited = false)]
 sealed class UnscopedRefAttribute : Attribute
 {

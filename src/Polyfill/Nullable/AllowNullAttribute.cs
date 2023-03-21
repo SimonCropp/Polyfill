@@ -13,13 +13,13 @@ using Targets = AttributeTargets;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-[AttributeUsage(Targets.Field | Targets.Parameter | Targets.Property)]
-sealed class AllowNullAttribute : Attribute
+[AttributeUsage(
+    validOn: Targets.Field |
+             Targets.Parameter |
+             Targets.Property)]
+sealed class AllowNullAttribute :
+    Attribute
 {
-    /// <summary>
-    ///   Initializes a new instance of the <see cref="AllowNullAttribute"/> class.
-    /// </summary>
-    public AllowNullAttribute() { }
 }
 
 #endif

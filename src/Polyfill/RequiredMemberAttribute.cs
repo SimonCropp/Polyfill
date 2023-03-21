@@ -16,9 +16,13 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    Targets.Class | Targets.Struct | Targets.Field | Targets.Property,
+    validOn: Targets.Class |
+             Targets.Struct |
+             Targets.Field |
+             Targets.Property,
     Inherited = false)]
-sealed class RequiredMemberAttribute : Attribute
+sealed class RequiredMemberAttribute :
+    Attribute
 { }
 
 #endif
