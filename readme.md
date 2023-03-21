@@ -299,6 +299,23 @@ Reference: [Platform compatibility analyzer](https://learn.microsoft.com/en-us/d
 Reference: [C# – Hide a method from the stack trace](https://makolyte.com/csharp-exclude-exception-throw-helper-methods-from-the-stack-trace/)
 
 
+### UnmanagedCallersOnly
+
+ * [UnmanagedCallersOnlyAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.unmanagedcallersonlyattribute)
+
+Reference: [Improvements in native code interop in .NET 5.0](https://devblogs.microsoft.com/dotnet/improvements-in-native-code-interop-in-net-5-0/)
+
+
+### SuppressGCTransition
+
+ * [SuppressGCTransitionAttribte](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.suppressgctransitionattribute)
+
+
+### DisableRuntimeMarshalling
+
+ * [DisableRuntimeMarshallingAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.disableruntimemarshallingattribute)
+
+
 ## Alternatives
 
 

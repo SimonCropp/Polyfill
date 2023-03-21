@@ -5,6 +5,9 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable UnusedMember.Global
 
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics;
+
 namespace System.Diagnostics.CodeAnalysis;
 
 using Targets = AttributeTargets;

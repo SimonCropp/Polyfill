@@ -21,7 +21,7 @@ using Targets = AttributeTargets;
              Targets.Constructor |
              Targets.Struct,
     Inherited = false)]
-public sealed class StackTraceHiddenAttribute :
+sealed class StackTraceHiddenAttribute :
     Attribute
 {
 }

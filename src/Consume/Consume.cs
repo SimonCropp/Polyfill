@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
@@ -50,6 +51,8 @@ class Consume
         type = typeof(UnsupportedOSPlatformAttribute);
         type = typeof(UnsupportedOSPlatformGuardAttribute);
         type = typeof(StackTraceHiddenAttribute);
+        type = typeof(UnmanagedCallersOnlyAttribute);
+        type = typeof(SuppressGCTransitionAttribute);
 
         var range = "value"[1..];
         var index = "value"[^2];
