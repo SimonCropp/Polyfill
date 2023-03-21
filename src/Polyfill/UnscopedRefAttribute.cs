@@ -40,7 +40,8 @@ using Targets = AttributeTargets;
              Targets.Property |
              Targets.Parameter,
     Inherited = false)]
-sealed class UnscopedRefAttribute : Attribute
+sealed class UnscopedRefAttribute :
+    Attribute
 {
 }
 

@@ -19,9 +19,12 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    Targets.Constructor | Targets.Field | Targets.Method,
+    validOn: Targets.Constructor |
+             Targets.Field |
+             Targets.Method,
     AllowMultiple = true, Inherited = false)]
-sealed class DynamicDependencyAttribute : Attribute
+sealed class DynamicDependencyAttribute :
+    Attribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DynamicDependencyAttribute"/> class

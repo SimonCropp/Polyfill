@@ -14,7 +14,8 @@ using Targets = AttributeTargets;
              Targets.Property |
              Targets.ReturnValue,
     AllowMultiple = true)]
-sealed class NotNullIfNotNullAttribute : Attribute
+sealed class NotNullIfNotNullAttribute :
+    Attribute
 {
     /// <summary>
     ///   Gets the associated parameter name.

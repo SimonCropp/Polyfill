@@ -12,7 +12,8 @@ namespace System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
-sealed class NotNullWhenAttribute : Attribute
+sealed class NotNullWhenAttribute :
+    Attribute
 {
     /// <summary>
     ///   Gets the return value condition.

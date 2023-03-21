@@ -12,7 +12,8 @@ namespace System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Constructor)]
-sealed class SetsRequiredMembersAttribute : Attribute
+sealed class SetsRequiredMembersAttribute :
+    Attribute
 {
 }
 

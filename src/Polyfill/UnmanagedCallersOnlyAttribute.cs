@@ -8,6 +8,8 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
+#pragma warning disable CS0649
+
 namespace System.Runtime.InteropServices;
 
 /// <summary>

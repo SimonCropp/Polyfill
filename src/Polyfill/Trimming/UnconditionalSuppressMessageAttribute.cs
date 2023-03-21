@@ -19,10 +19,11 @@ namespace System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    AttributeTargets.All,
+    validOn: AttributeTargets.All,
     Inherited = false,
     AllowMultiple = true)]
-sealed class UnconditionalSuppressMessageAttribute : Attribute
+sealed class UnconditionalSuppressMessageAttribute :
+    Attribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="UnconditionalSuppressMessageAttribute"/>

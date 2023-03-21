@@ -36,7 +36,8 @@ using Targets = AttributeTargets;
              Targets.Property |
              Targets.Event,
     Inherited = false)]
-sealed class SkipLocalsInitAttribute : Attribute
+sealed class SkipLocalsInitAttribute :
+    Attribute
 {
 }
 

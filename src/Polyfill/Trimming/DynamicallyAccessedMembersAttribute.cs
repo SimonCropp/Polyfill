@@ -28,14 +28,15 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    Targets.Field |
-    Targets.ReturnValue |
-    Targets.GenericParameter |
-    Targets.Parameter |
-    Targets.Property |
-    Targets.Method,
+    validOn: Targets.Field |
+             Targets.ReturnValue |
+             Targets.GenericParameter |
+             Targets.Parameter |
+             Targets.Property |
+             Targets.Method,
     Inherited = false)]
-sealed class DynamicallyAccessedMembersAttribute : Attribute
+sealed class DynamicallyAccessedMembersAttribute :
+    Attribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="DynamicallyAccessedMembersAttribute"/> class

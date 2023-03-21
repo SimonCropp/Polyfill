@@ -8,13 +8,17 @@ using System.Diagnostics;
 
 namespace System.Runtime.CompilerServices;
 
+using Targets = AttributeTargets;
+
 /// <summary>Indicates the attributed type is to be used as an interpolated string handler.</summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: AttributeTargets.Class | AttributeTargets.Struct,
+    validOn: Targets.Class |
+             Targets.Struct,
     Inherited = false)]
-sealed class InterpolatedStringHandlerAttribute : Attribute
+sealed class InterpolatedStringHandlerAttribute :
+    Attribute
 {
 }
 

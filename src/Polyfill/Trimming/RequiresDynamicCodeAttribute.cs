@@ -19,9 +19,12 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    Targets.Method | Targets.Constructor | Targets.Class,
+    validOn: Targets.Method |
+             Targets.Constructor |
+             Targets.Class,
     Inherited = false)]
-sealed class RequiresDynamicCodeAttribute : Attribute
+sealed class RequiresDynamicCodeAttribute :
+    Attribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="RequiresDynamicCodeAttribute"/> class

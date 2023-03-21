@@ -24,7 +24,8 @@ using Targets = AttributeTargets;
              Targets.Constructor |
              Targets.Class,
     Inherited = false)]
-sealed class RequiresUnreferencedCodeAttribute : Attribute
+sealed class RequiresUnreferencedCodeAttribute :
+    Attribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="RequiresUnreferencedCodeAttribute"/> class

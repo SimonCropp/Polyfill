@@ -17,7 +17,8 @@ namespace System.Runtime.CompilerServices;
     validOn: AttributeTargets.All,
     AllowMultiple = true,
     Inherited = false)]
-sealed class CompilerFeatureRequiredAttribute : Attribute
+sealed class CompilerFeatureRequiredAttribute :
+    Attribute
 {
     /// <summary>
     /// Initialize a new instance of <see cref="CompilerFeatureRequiredAttribute"/>
