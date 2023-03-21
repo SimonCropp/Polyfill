@@ -53,6 +53,7 @@ class Consume
         type = typeof(StackTraceHiddenAttribute);
         type = typeof(UnmanagedCallersOnlyAttribute);
         type = typeof(SuppressGCTransitionAttribute);
+        type = typeof(DisableRuntimeMarshallingAttribute);
 
         var range = "value"[1..];
         var index = "value"[^2];
