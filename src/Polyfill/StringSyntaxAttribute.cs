@@ -1,12 +1,18 @@
 #if !NET7_0_OR_GREATER
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+
+#nullable enable
+
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable UnusedMember.Global
 
 namespace System.Diagnostics.CodeAnalysis;
 
 using Targets = AttributeTargets;
 
-/// <summary>Specifies the syntax used in a string.</summary>
+/// <summary>
+/// Specifies the syntax used in a string.</summary>
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 [AttributeUsage(Targets.Parameter | Targets.Field | Targets.Property)]
 sealed class StringSyntaxAttribute : Attribute
 {

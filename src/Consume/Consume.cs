@@ -35,6 +35,13 @@ class Consume
         type = typeof(InterpolatedStringHandlerArgumentAttribute);
         type = typeof(InterpolatedStringHandlerAttribute);
         type = typeof(StringSyntaxAttribute);
+        type = typeof(DynamicallyAccessedMembersAttribute);
+        type = typeof(DynamicDependencyAttribute);
+        type = typeof(RequiresDynamicCodeAttribute);
+        type = typeof(RequiresUnreferencedCodeAttribute);
+        type = typeof(UnconditionalSuppressMessageAttribute);
+        type = typeof(CompilerFeatureRequiredAttribute);
+
         var range = "value"[1..];
         var index = "value"[^2];
         var startsWith = "value".StartsWith('a');

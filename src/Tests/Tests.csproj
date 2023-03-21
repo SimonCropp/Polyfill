@@ -14,6 +14,9 @@
     <Compile Include="..\Polyfill\IndexRange\*.cs">
       <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
+    <Compile Include="..\Polyfill\Trimming\*.cs">
+      <Link>Pollyfill\Trimming\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" 
                       Version="4.4.2" />
