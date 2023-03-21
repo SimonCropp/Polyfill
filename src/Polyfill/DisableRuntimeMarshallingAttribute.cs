@@ -28,7 +28,7 @@ namespace System.Runtime.CompilerServices;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Assembly)]
-public sealed class DisableRuntimeMarshallingAttribute :
+sealed class DisableRuntimeMarshallingAttribute :
     Attribute
 {
 }
