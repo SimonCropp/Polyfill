@@ -34,6 +34,7 @@ class Consume
         type = typeof(UnscopedRefAttribute);
         type = typeof(InterpolatedStringHandlerArgumentAttribute);
         type = typeof(InterpolatedStringHandlerAttribute);
+        type = typeof(StringSyntaxAttribute);
         var range = "value"[1..];
         var index = "value"[^2];
         var startsWith = "value".StartsWith('a');

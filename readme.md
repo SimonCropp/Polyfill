@@ -254,6 +254,11 @@ Reference: [Write a custom string interpolation handler](https://learn.microsoft
  * `InterpolatedStringHandlerArgumentAttribute`
 
 
+### StringSyntaxAttribute
+
+Reference: [.NET 7 - The StringSyntaxAttribute](https://bartwullems.blogspot.com/2022/12/net-7-stringsyntaxattribute.html)
+
+
 ## Alternatives
 
 
