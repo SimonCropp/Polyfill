@@ -19,7 +19,7 @@ https://nuget.org/packages/Polyfill/
 
 ### SDK / LangVersion
 
-This project leverages features the current stable SDK and c# language. As such consuming projects should target those:
+This project uses features from the current stable SDK and c# language. As such consuming projects should target those:
 
 
 ### LangVersion
