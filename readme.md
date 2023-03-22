@@ -316,36 +316,6 @@ Reference: [Improvements in native code interop in .NET 5.0](https://devblogs.mi
  * [DisableRuntimeMarshallingAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.disableruntimemarshallingattribute)
 
 
-## Alternatives
-
-
-### PolySharp
-
-https://github.com/Sergio0694/PolySharp
-
-
-### Combination of
-
- * https://github.com/manuelroemer/Nullable
- * https://github.com/bgrainger/IndexRange
- * https://github.com/manuelroemer/IsExternalInit
-
-
-### Reason this project was created instead of using the above
-
-PolySharp uses c# source generators. In my opinion a "source-only package" implementation is better because:
-
- * Simpler implementation
- * Easier to debug if something goes wrong.
- * Uses less memory at compile time. Since there is no source generator assembly to load.
- * Faster at compile time. Since no source generator is required to execute.
-
-The combination of the other 3 packages is not ideal because:
-
- * Required multiple packages to be referenced.
- * Does not cover all the scenarios included in this package.
-
-
 ## Extensions
 
 The class `PolyfillExtensions` includes the following extension methods:
@@ -418,6 +388,36 @@ If consuming in a project that target `netframework`, `netstandard2`, or 'netcor
                              $(TargetFramework) == 'netcoreapp2.0' or
                              $(TargetFrameworkIdentifier) == '.NETFramework'" />
 ```
+
+
+## Alternatives
+
+
+### PolySharp
+
+https://github.com/Sergio0694/PolySharp
+
+
+### Combination of
+
+ * https://github.com/manuelroemer/Nullable
+ * https://github.com/bgrainger/IndexRange
+ * https://github.com/manuelroemer/IsExternalInit
+
+
+### Reason this project was created instead of using the above
+
+PolySharp uses c# source generators. In my opinion a "source-only package" implementation is better because:
+
+ * Simpler implementation
+ * Easier to debug if something goes wrong.
+ * Uses less memory at compile time. Since there is no source generator assembly to load.
+ * Faster at compile time. Since no source generator is required to execute.
+
+The combination of the other 3 packages is not ideal because:
+
+ * Required multiple packages to be referenced.
+ * Does not cover all the scenarios included in this package.
 
 
 ## Icon
