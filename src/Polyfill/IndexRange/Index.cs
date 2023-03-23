@@ -1,4 +1,4 @@
-#if (NET46X && VALUETUPLEREFERENCED) || NET47X ||NET48X || NETSTANDARD2_0 || NETCOREAPP2X
+#if (NET46X && VALUETUPLEREFERENCED) || NET47X || NET48X || NETSTANDARD2_0 || NETCOREAPP2X
 
 #pragma warning disable CS0436
 
@@ -115,15 +115,12 @@ readonly struct Index : IEquatable<Index>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int GetOffset(int length)
     {
-        int offset = _value;
+        var offset = _value;
         if (IsFromEnd)
         {
-            // offset = length - (~value)
-            // offset = length + (~(~value) + 1)
-            // offset = length + value + 1
-
             offset += length + 1;
         }
+
         return offset;
     }
 

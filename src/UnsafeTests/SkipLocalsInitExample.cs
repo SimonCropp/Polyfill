@@ -6,7 +6,7 @@ class SkipLocalsInitSample
     static void ReadUninitializedMemory()
     {
         Span<int> numbers = stackalloc int[120];
-        for (int i = 0; i < 120; i++)
+        for (var i = 0; i < 120; i++)
         {
             Console.WriteLine(numbers[i]);
         }
