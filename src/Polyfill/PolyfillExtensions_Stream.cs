@@ -71,5 +71,11 @@ static partial class PolyfillExtensions
 
         return new(stream.WriteAsync(segment.Array!, segment.Offset, segment.Count));
     }
+
+    public static Task CopyToAsync(
+        this Stream stream,
+        Stream destination,
+        CancellationToken cancellationToken = default) =>
+        stream.CopyToAsync(destination, 81920, cancellationToken);
 }
 #endif
