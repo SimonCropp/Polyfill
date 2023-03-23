@@ -22,6 +22,9 @@ namespace System;
 /// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyPublic
+public
+#endif
 record Range(Index Start, Index End)
 {
     /// <summary>Converts the value of the current Range object to its equivalent string representation.</summary>

@@ -12,6 +12,9 @@ namespace System.Diagnostics.CodeAnalysis;
 /// bitwise combination of its member values.
 /// </summary>
 [Flags]
+#if PolyPublic
+public
+#endif
 enum DynamicallyAccessedMemberTypes
 {
     /// <summary>

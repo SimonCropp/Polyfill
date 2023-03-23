@@ -12,6 +12,9 @@ namespace System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Constructor)]
+#if PolyPublic
+public
+#endif
 sealed class SetsRequiredMembersAttribute :
     Attribute
 {

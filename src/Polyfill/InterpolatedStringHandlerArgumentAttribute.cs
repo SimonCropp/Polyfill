@@ -14,6 +14,9 @@ namespace System.Runtime.CompilerServices;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
+#if PolyPublic
+public
+#endif
 sealed class InterpolatedStringHandlerArgumentAttribute :
     Attribute
 {

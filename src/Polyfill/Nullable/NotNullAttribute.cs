@@ -18,6 +18,9 @@ using Targets = AttributeTargets;
              Targets.Parameter |
              Targets.Property |
              Targets.ReturnValue)]
+#if PolyPublic
+public
+#endif
 sealed class NotNullAttribute :
     Attribute
 {

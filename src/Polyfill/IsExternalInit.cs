@@ -13,6 +13,9 @@ namespace System.Runtime.CompilerServices;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyPublic
+public
+#endif
 static class IsExternalInit
 {
 }

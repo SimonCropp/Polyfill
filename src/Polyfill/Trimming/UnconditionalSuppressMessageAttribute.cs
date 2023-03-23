@@ -22,6 +22,9 @@ namespace System.Diagnostics.CodeAnalysis;
     validOn: AttributeTargets.All,
     Inherited = false,
     AllowMultiple = true)]
+#if PolyPublic
+public
+#endif
 sealed class UnconditionalSuppressMessageAttribute :
     Attribute
 {

@@ -16,6 +16,9 @@ namespace System.Runtime.Versioning;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Assembly)]
+#if PolyPublic
+public
+#endif
 sealed class TargetPlatformAttribute :
     OSPlatformAttribute
 {

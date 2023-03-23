@@ -35,6 +35,9 @@ using Targets = AttributeTargets;
              Targets.Property |
              Targets.Method,
     Inherited = false)]
+#if PolyPublic
+public
+#endif
 sealed class DynamicallyAccessedMembersAttribute :
     Attribute
 {

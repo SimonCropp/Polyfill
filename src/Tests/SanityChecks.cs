@@ -8,10 +8,15 @@ public class SanityChecks
     {
         var visibleTypes = typeof(SanityChecks).Assembly
             .GetExportedTypes()
-            .Where(type => type.Namespace?.StartsWith("System") == true || type.Namespace == "Polyfill")
+            .Where(type => type.Namespace?.StartsWith("System") == true)
             .ToList();
-
+#if PolyPublic
+#if !NET7_0_OR_GREATER
+        Assert.That(visibleTypes, Is.Not.Empty);
+#endif
+#else
         Assert.That(visibleTypes, Is.Empty);
+#endif
     }
 
     [Test]

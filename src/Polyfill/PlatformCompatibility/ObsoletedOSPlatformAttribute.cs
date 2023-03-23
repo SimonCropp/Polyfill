@@ -36,6 +36,9 @@ using Targets = AttributeTargets;
              Targets.Struct,
     AllowMultiple = true,
     Inherited = false)]
+#if PolyPublic
+public
+#endif
 sealed class ObsoletedOSPlatformAttribute :
     OSPlatformAttribute
 {

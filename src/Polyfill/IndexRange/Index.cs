@@ -20,6 +20,9 @@ namespace System;
 /// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyPublic
+public
+#endif
 readonly struct Index : IEquatable<Index>
 {
     readonly int _value;

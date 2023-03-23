@@ -33,6 +33,9 @@ namespace System.Runtime.CompilerServices;
 [AttributeUsage(
     validOn: AttributeTargets.Method,
     Inherited = false)]
+#if PolyPublic
+public
+#endif
 sealed class ModuleInitializerAttribute :
     Attribute
 {
