@@ -13,6 +13,9 @@ namespace System.Runtime.Versioning;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyPublic
+public
+#endif
 abstract class OSPlatformAttribute :
     Attribute
 {

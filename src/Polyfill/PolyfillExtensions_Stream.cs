@@ -9,6 +9,9 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 
+#if PolyPublic
+public
+#endif
 static partial class PolyfillExtensions
 {
     public static ValueTask<int> ReadAsync(

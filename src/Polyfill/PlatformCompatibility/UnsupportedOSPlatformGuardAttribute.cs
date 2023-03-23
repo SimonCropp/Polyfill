@@ -30,6 +30,9 @@ using Targets = AttributeTargets;
              Targets.Property,
     AllowMultiple = true,
     Inherited = false)]
+#if PolyPublic
+public
+#endif
 sealed class UnsupportedOSPlatformGuardAttribute :
     OSPlatformAttribute
 {

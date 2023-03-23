@@ -40,6 +40,9 @@ using Targets = AttributeTargets;
              Targets.Property |
              Targets.Parameter,
     Inherited = false)]
+#if PolyPublic
+public
+#endif
 sealed class UnscopedRefAttribute :
     Attribute
 {

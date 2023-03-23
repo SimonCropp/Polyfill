@@ -17,6 +17,9 @@ using Targets = AttributeTargets;
     validOn: Targets.Class |
              Targets.Struct,
     Inherited = false)]
+#if PolyPublic
+public
+#endif
 sealed class InterpolatedStringHandlerAttribute :
     Attribute
 {

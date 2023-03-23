@@ -17,6 +17,9 @@ namespace System.Runtime.CompilerServices;
     validOn: AttributeTargets.All,
     AllowMultiple = true,
     Inherited = false)]
+#if PolyPublic
+public
+#endif
 sealed class CompilerFeatureRequiredAttribute :
     Attribute
 {

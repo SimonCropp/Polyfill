@@ -12,6 +12,9 @@ namespace System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
+#if PolyPublic
+public
+#endif
 sealed class DoesNotReturnIfAttribute :
     Attribute
 {

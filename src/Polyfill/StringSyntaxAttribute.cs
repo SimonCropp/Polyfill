@@ -20,6 +20,9 @@ using Targets = AttributeTargets;
     validOn: Targets.Parameter |
              Targets.Field |
              Targets.Property)]
+#if PolyPublic
+public
+#endif
 sealed class StringSyntaxAttribute :
     Attribute
 {
