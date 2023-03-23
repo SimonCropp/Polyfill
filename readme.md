@@ -65,7 +65,7 @@ Then all consuming projects, like tests, will not need to use the Polyfill nuget
 
 If Polyfill is being consumed in a solution that produce a library (and usually a nuget), then the Polyfill nuget can be added to all projects.
 
-If, however, `InternalsVisibileTo` is being used to expose APIs to a test project, then the Polyfill nuget should be added only to the root library project.
+If, however, `InternalsVisibileTo` is being used to expose APIs (for example to test projects), then the Polyfill nuget should be added only to the root library project.
 
 
 ## Included polyfills
