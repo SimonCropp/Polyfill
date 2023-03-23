@@ -182,7 +182,7 @@ class SkipLocalsInitSample
     static void ReadUninitializedMemory()
     {
         Span<int> numbers = stackalloc int[120];
-        for (int i = 0; i < 120; i++)
+        for (var i = 0; i < 120; i++)
         {
             Console.WriteLine(numbers[i]);
         }
@@ -363,7 +363,7 @@ The class `PolyfillExtensions` includes the following extension methods:
   * `bool SequenceEqual(this Span<char>, string)`
 
 
-### Stream
+### Stream / StreamReader
 
 [System.Threading.Tasks.Extensions](#systemthreadingtasksextensions) reference required.
 
@@ -371,6 +371,11 @@ The class `PolyfillExtensions` includes the following extension methods:
   * `ValueTask WriteAsync(this Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
   * `ValueTask<int> ReadAsync(this StreamReader, Memory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader.readasync#system-io-streamreader-readasync(system-memory((system-char))-system-threading-cancellationtoken))
   * `ValueTask<int> WriteAsync(this StreamWriter, ReadOnlyMemory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))
+
+
+### KeyValuePair
+
+ * `public static void Deconstruct<TKey, TValue>(this KeyValuePair<TKey, TValue>, out TKey, out TValue)`
 
 
 ## References

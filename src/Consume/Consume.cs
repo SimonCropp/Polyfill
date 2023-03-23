@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -60,6 +61,13 @@ class Consume
         var index = "value"[^2];
         var startsWith = "value".StartsWith('a');
         var endsWith = "value".EndsWith('a');
+    }
+
+    void KeyValuePairDeconstruct(IEnumerable<KeyValuePair<string, string>> variables)
+    {
+        foreach (var (name, value) in variables)
+        {
+        }
     }
 
     static (string value1, bool value2) NamedTupleMethod() =>

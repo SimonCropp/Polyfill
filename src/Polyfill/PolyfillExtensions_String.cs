@@ -5,8 +5,6 @@
 
 using System;
 using System.Text;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
 #if PolyPublic
 public
