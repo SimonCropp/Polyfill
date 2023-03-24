@@ -1,5 +1,7 @@
 #if NET4X || NETSTANDARD2_0
 
+#pragma warning disable
+
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable PartialTypeWithSinglePart
 // ReSharper disable UnusedMember.Global

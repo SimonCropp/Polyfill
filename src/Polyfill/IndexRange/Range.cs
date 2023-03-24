@@ -1,9 +1,9 @@
 #if (NET46X && VALUETUPLEREFERENCED) || NET47X || NET48X || NETSTANDARD2_0 || NETCOREAPP2X
 
+#pragma warning disable
+
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable UnusedMember.Global
-
-#pragma warning disable CS0436
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;

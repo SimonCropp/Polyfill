@@ -1,5 +1,6 @@
 ﻿#if !NET5_0_OR_GREATER
 
+#pragma warning disable
 #nullable enable
 
 // ReSharper disable RedundantUsingDirective
