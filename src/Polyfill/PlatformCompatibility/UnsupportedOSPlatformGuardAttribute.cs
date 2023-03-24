@@ -1,6 +1,6 @@
 #if !NET6_0_OR_GREATER
 
-#pragma warning disable CS0436
+#pragma warning disable
 
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable PartialTypeWithSinglePart

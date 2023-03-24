@@ -1,5 +1,7 @@
 ﻿#if !NET5_0_OR_GREATER
 
+#pragma warning disable
+
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable UnusedMember.Global
 

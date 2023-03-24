@@ -1,5 +1,7 @@
 #if MEMORYREFERENCED && (NET4X || NETSTANDARD || NETCOREAPP2X)
 
+#pragma warning disable
+
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable UnusedMember.Global
 

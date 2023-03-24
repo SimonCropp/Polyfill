@@ -1,5 +1,7 @@
 ﻿#if !NET6_0_OR_GREATER
 
+#pragma warning disable
+
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable UnusedType.Global
 

@@ -1,3 +1,5 @@
+#pragma warning disable
+
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable PartialTypeWithSinglePart
 
