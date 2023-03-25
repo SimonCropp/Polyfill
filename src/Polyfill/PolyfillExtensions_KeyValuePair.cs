@@ -9,9 +9,6 @@
 using System;
 using System.Collections.Generic;
 
-#if PolyPublic
-public
-#endif
 static partial class PolyfillExtensions
 {
     public static void Deconstruct<TKey, TValue>(

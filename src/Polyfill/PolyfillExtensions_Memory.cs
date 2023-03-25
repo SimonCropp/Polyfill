@@ -8,9 +8,6 @@
 using System;
 using System.Text;
 
-#if PolyPublic
-public
-#endif
 static partial class PolyfillExtensions
 {
     public static bool Contains(this ReadOnlySpan<char> target, char value)
