@@ -350,11 +350,10 @@ The class `PolyfillExtensions` includes the following extension methods:
 
   * `bool StartsWith(this string, char)`
   * `bool EndsWith(this string, char)`
+  * `public int GetHashCode(this string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode#system-string-gethashcode(system-stringcomparison))
 
 
 ### Memory
-
-[System.Memory](#systemmemory) reference required.
 
   * `bool Contains(this ReadOnlySpan<char>, char)`
   * `void Append(this StringBuilder, ReadOnlySpan<char>)`
@@ -364,8 +363,6 @@ The class `PolyfillExtensions` includes the following extension methods:
 
 
 ### Stream / StreamReader
-
-[System.Threading.Tasks.Extensions](#systemthreadingtasksextensions) reference required.
 
   * `ValueTask<int> ReadAsync(this Stream, Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken))
   * `ValueTask WriteAsync(this Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
@@ -380,7 +377,7 @@ The class `PolyfillExtensions` includes the following extension methods:
 
 ## References
 
-If any of the below reference are included, the related polyfills will be disabled.
+If any of the below reference are not included, the related polyfills will be disabled.
 
 
 ### System.ValueTuple
@@ -396,7 +393,7 @@ If consuming in a project that targets `net461` or `net462`, a reference to [Sys
 
 ### System.Memory
 
-If consuming in a project that targets `netstandard`, `netframework`, or `netcoreapp2*`, a reference to [System.Memory](https://www.nuget.org/packages/System.Memory/) nuget is required.
+If using Span APIs and consuming in a project that targets `netstandard`, `netframework`, or `netcoreapp2*`, a reference to [System.Memory](https://www.nuget.org/packages/System.Memory/) nuget is required.
 
 ```
 <PackageReference Include="System.Memory"
@@ -409,7 +406,7 @@ If consuming in a project that targets `netstandard`, `netframework`, or `netcor
 
 ### System.Threading.Tasks.Extensions
 
-If consuming in a project that target `netframework`, `netstandard2`, or 'netcoreapp2', a reference to [System.Threading.Tasks.Extensions](https://www.nuget.org/packages/System.Threading.Tasks.Extensions/) nuget is required.
+If using ValueTask APIs and consuming in a project that target `netframework`, `netstandard2`, or 'netcoreapp2', a reference to [System.Threading.Tasks.Extensions](https://www.nuget.org/packages/System.Threading.Tasks.Extensions/) nuget is required.
 
 ```
 <PackageReference Include="System.Threading.Tasks.Extensions"

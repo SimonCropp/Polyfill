@@ -10,6 +10,20 @@ using System.Text;
 
 static partial class PolyfillExtensions
 {
+    public static int GetHashCode(this string target, StringComparison comparisonType) =>
+        FromComparison(comparisonType).GetHashCode(target);
+
+    static StringComparer FromComparison(StringComparison comparison) =>
+        comparison switch
+        {
+            StringComparison.CurrentCulture => StringComparer.CurrentCulture,
+            StringComparison.CurrentCultureIgnoreCase => StringComparer.CurrentCultureIgnoreCase,
+            StringComparison.InvariantCulture => StringComparer.InvariantCulture,
+            StringComparison.InvariantCultureIgnoreCase => StringComparer.InvariantCultureIgnoreCase,
+            StringComparison.Ordinal => StringComparer.Ordinal,
+            StringComparison.OrdinalIgnoreCase => StringComparer.OrdinalIgnoreCase,
+        };
+
     public static bool Contains(this string target, string value, StringComparison comparisonType) =>
         target.IndexOf(value, comparisonType) >= 0;
 
