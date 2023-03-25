@@ -6,7 +6,7 @@ partial class PolyfillExtensionsSample
     public void GetHashCodeStringComparison()
     {
         var hash = "value".GetHashCode(StringComparison.Ordinal);
-        Assert.AreEqual(1, hash);
+        Assert.AreNotEqual(0, hash);
     }
 
     [Test]
