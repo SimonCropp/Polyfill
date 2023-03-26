@@ -1,3 +1,6 @@
+# Contributing
+
+
 ## Solution Structure
 
 
@@ -28,4 +31,44 @@ Some feature of Polyfill leverage unsafe code for better performance. For exampl
 
 ### Consume
 
-Polufill supports back to `net461` and `netcoreapp2.0`. However nUnit only support back to `net462` and `netcoreapp3.1`. The Consume project targets all frameworks that Polyfill supports, and consumes all APIs to ensure that they all compile on those frameworks
+Polyfill supports back to `net461` and `netcoreapp2.0`. However nUnit only support back to `net462` and `netcoreapp3.1`. The Consume project targets all frameworks that Polyfill supports, and consumes all APIs to ensure that they all compile on those frameworks
+
+
+## Submitting a new polyfill API
+
+
+### Valid APIs
+
+An API is a valid candidate to be polyfilled if it exists in the current stable version of .net or is planned for a future version .net
+
+APIs that require a reference to a bridging nuget (similar to [System.ValueTuple](https://www.nuget.org/packages/System.ValueTuple/) or [System.Memory](https://www.nuget.org/packages/System.Memory/)) will only be accepted if, in a future version of .net that nuget is not required.
+
+
+### Raise Pull Request not an Issue
+
+If a new API is valid, dont bother raising a GitHub issue to ask about it. Instead submit a Pull Request that adds that API. Any discussion can happen in the PR comments.
+
+
+### Add the new API to the Polyfill project
+
+
+#### Conditional Compilation
+
+The code for the API should be wrapped in conditional compilation statements
+
+```
+#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X
+```
+
+The following additional compilation constants are provided:
+
+ * `NETCOREAPPX`: indicates if netcore is being targeted.
+ * `NETCOREAPP2X`: indicates if any major or minor version of netcore 2 is being targeted.
+ * `NETCOREAPP3X`: indicates if any major or minor version of netcore 3 is being targeted.
+ * `NET4X`: indicates if any major or minor version of NET46 is being targeted.
+ * `NET46X`: indicates if any major or minor version of NET46 is being targeted.
+ * `NET47X`: indicates if any major or minor version of NET47 is being targeted.
+ * `NET48X`: indicates if any major or minor version of NET48 is being targeted.
+ * `MEMORYREFERENCED`: indicates if [System.Memory](https://www.nuget.org/packages/System.Memory/)) is referenced.
+ * `TASKSEXTENSIONSREFERENCED`: indicates if [System.Threading.Tasks.Extensions](https://www.nuget.org/packages/System.Threading.Tasks.Extensions/)) is referenced. 
+ * `VALUETUPLEREFERENCED`: indicates if [System.ValueTuple](https://www.nuget.org/packages/System.ValueTuple/)) is referenced.
