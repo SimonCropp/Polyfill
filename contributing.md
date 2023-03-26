@@ -4,32 +4,32 @@
 ## Solution Structure
 
 
-### Polyfill
+### Polyfill project
 
 The main project that produces the nuget.
 
 
-### Tests
+### Tests project
 
 A NUnit test project that verifies all the APIs.
 
 
-### NoRefsTests
+### NoRefsTests project
 
 Some features of Polyfill [require nuget references](/#references) to be enabled. The NoRefsTests project had none of those refecences and tests the subset of features that do not require references.
 
 
-### PublicTests
+### PublicTests project
 
 Polyfill supports [making all APIs public](#consuming-and-type-visibility). The PublicTests project tests that scenario.
 
 
-### UnsafeTests
+### UnsafeTests project
 
 Some feature of Polyfill leverage unsafe code for better performance. For example `Append(this StringBuilder, ReadOnlySpan<char>)`. The UnsafeTests project tests this scenario vie enabling `<AllowUnsafeBlocks>True</AllowUnsafeBlocks>`.
 
 
-### Consume
+### Consume project
 
 Polyfill supports back to `net461` and `netcoreapp2.0`. However NUnit only support back to `net462` and `netcoreapp3.1`. The Consume project targets all frameworks that Polyfill supports, and consumes all APIs to ensure that they all compile on those frameworks
 
@@ -236,7 +236,26 @@ Add a for the new API to the Tests project.
 
 Extension method tests to `PolyfillExtensionsTests_TYPE.cs` where `TYPE` is the type the method extending. So, for example, APIs that target `StreamWriter` go in `PolyfillExtensionsTests_StreamWriter.cs`. For example:
 
-snippet: PolyfillExtensionsTests_StreamReader.cs
+<!-- snippet: PolyfillExtensionsTests_StreamReader.cs -->
+<a id='snippet-PolyfillExtensionsTests_StreamReader.cs'></a>
+```cs
+partial class PolyfillExtensionsTests
+{
+    [Test]
+    public async Task StreamReaderReadAsync()
+    {
+        using var stream = new MemoryStream("value"u8.ToArray());
+        var result = new char[5];
+        var memory = new Memory<char>(result);
+        using var reader = new StreamReader(stream);
+        var read = await reader.ReadAsync(memory);
+        Assert.AreEqual(5, read);
+        Assert.IsTrue("value".SequenceEqual(result));
+    }
+}
+```
+<sup><a href='/src/Tests/PolyfillExtensionsTests_StreamReader.cs#L1-L14' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensionsTests_StreamReader.cs' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
 
 
 ### Add documentation
