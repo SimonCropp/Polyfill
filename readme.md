@@ -333,7 +333,7 @@ Reference: [Improvements in native code interop in .NET 5.0](https://devblogs.mi
 
 ### SuppressGCTransition
 
- * [SuppressGCTransitionAttribte](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.suppressgctransitionattribute)
+ * [SuppressGCTransitionAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.suppressgctransitionattribute)
 
 
 ### DisableRuntimeMarshalling
