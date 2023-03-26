@@ -110,6 +110,10 @@ public
 sealed class ...
 ```
 
+#### XML API comment
+
+The XML API comments should match the actual API.
+
 
 #### If the API is attribute based
 
@@ -224,3 +228,22 @@ static partial class PolyfillExtensions
 ```
 <sup><a href='/src/Polyfill/PolyfillExtensions_StreamWriter.cs#L1-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensions_StreamWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
+
+
+### Add a test
+
+Add a for the new API to the Tests project.
+
+Extension method tests to `PolyfillExtensionsTests_TYPE.cs` where `TYPE` is the type the method extending. So, for example, APIs that target `StreamWriter` go in `PolyfillExtensionsTests_StreamWriter.cs`. For example:
+
+snippet: PolyfillExtensionsTests_StreamReader.cs
+
+
+### Add documentation
+
+Add documentation for the API to the `readme.md`.
+
+
+### Add to the Consume project
+
+Add a simple usage of the API to the Consume project.
