@@ -72,3 +72,29 @@ The following additional compilation constants are provided:
  * `MEMORYREFERENCED`: indicates if [System.Memory](https://www.nuget.org/packages/System.Memory/)) is referenced.
  * `TASKSEXTENSIONSREFERENCED`: indicates if [System.Threading.Tasks.Extensions](https://www.nuget.org/packages/System.Threading.Tasks.Extensions/)) is referenced. 
  * `VALUETUPLEREFERENCED`: indicates if [System.ValueTuple](https://www.nuget.org/packages/System.ValueTuple/)) is referenced.
+
+
+#### Warnings disabled
+
+Warnings must be disabled with a pragma.
+
+```
+#pragma warning disable
+```
+
+This is required to prevent custom code formatting rule in consuming projects from giving false warnings
+
+
+#### ReSharper / Rider
+
+Any potential ReSharper or Rider cde formatting issues should be disabled. For example:
+
+```
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable UnusedMember.Global
+```
+
+
+#### Assume Implicit usings is disabled
+
+Having Implicit enabled is optional for the consuming project. So ensure all using statements are included.
