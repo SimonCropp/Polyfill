@@ -86,7 +86,7 @@ This is required to prevent custom code formatting rule in consuming projects fr
 
 #### ReSharper / Rider
 
-Any potential ReSharper or Rider cde formatting issues should be disabled. For example:
+Any potential ReSharper or Rider code formatting issues should be disabled. For example:
 
 ```
 // ReSharper disable RedundantUsingDirective
