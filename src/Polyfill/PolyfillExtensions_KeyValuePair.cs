@@ -1,4 +1,4 @@
-#if NET4X || NETSTANDARD2_0
+#if NETFRAMEWORK || NETSTANDARD2_0
 
 #pragma warning disable
 
@@ -12,12 +12,12 @@ using System.Collections.Generic;
 static partial class PolyfillExtensions
 {
     public static void Deconstruct<TKey, TValue>(
-        this KeyValuePair<TKey, TValue> pair,
+        this KeyValuePair<TKey, TValue> target,
         out TKey key,
         out TValue value)
     {
-        key = pair.Key;
-        value = pair.Value;
+        key = target.Key;
+        value = target.Value;
     }
 }
 #endif

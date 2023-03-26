@@ -65,7 +65,6 @@ The following additional compilation constants are provided:
  * `NETCOREAPPX`: indicates if netcore is being targeted.
  * `NETCOREAPP2X`: indicates if any major or minor version of netcore 2 is being targeted.
  * `NETCOREAPP3X`: indicates if any major or minor version of netcore 3 is being targeted.
- * `NET4X`: indicates if any major or minor version of NET46 is being targeted.
  * `NET46X`: indicates if any major or minor version of NET46 is being targeted.
  * `NET47X`: indicates if any major or minor version of NET47 is being targeted.
  * `NET48X`: indicates if any major or minor version of NET48 is being targeted.

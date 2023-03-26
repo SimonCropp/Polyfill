@@ -1,4 +1,4 @@
-#if MEMORYREFERENCED && (NET4X || NETSTANDARD || NETCOREAPP2X)
+#if MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)
 
 #pragma warning disable
 
@@ -7,6 +7,7 @@
 
 using System;
 using System.Text;
+using System.Runtime.InteropServices;
 
 static partial class PolyfillExtensions
 {
@@ -33,7 +34,7 @@ static partial class PolyfillExtensions
 #if AllowUnsafeBlocks
         unsafe
         {
-            fixed (char* valueChars = &System.Runtime.InteropServices.MemoryMarshal.GetReference(value))
+            fixed (char* valueChars = &MemoryMarshal.GetReference(value))
             {
                 target.Append(valueChars, value.Length);
             }

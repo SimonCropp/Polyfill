@@ -1,4 +1,4 @@
-#if TASKSEXTENSIONSREFERENCED && (NET4X || NETSTANDARD2_0 || NETCOREAPP2_0)
+#if TASKSEXTENSIONSREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
 
 #pragma warning disable
 
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 static partial class PolyfillExtensions
 {
     public static ValueTask<int> ReadAsync(
-        this StreamReader reader,
+        this StreamReader target,
         Memory<char> buffer,
         CancellationToken cancellationToken = default)
     {
@@ -26,7 +26,7 @@ static partial class PolyfillExtensions
             segment = new(buffer.ToArray());
         }
 
-        return new(reader.ReadAsync(segment.Array!, segment.Offset, segment.Count));
+        return new(target.ReadAsync(segment.Array!, segment.Offset, segment.Count));
     }
 }
 #endif

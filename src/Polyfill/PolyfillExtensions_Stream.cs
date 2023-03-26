@@ -1,4 +1,4 @@
-#if TASKSEXTENSIONSREFERENCED && (NET4X || NETSTANDARD2_0 || NETCOREAPP2_0)
+#if TASKSEXTENSIONSREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
 
 #pragma warning disable
 
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 static partial class PolyfillExtensions
 {
     public static ValueTask<int> ReadAsync(
-        this Stream stream,
+        this Stream target,
         Memory<byte> buffer,
         CancellationToken cancellationToken = default)
     {
@@ -23,11 +23,11 @@ static partial class PolyfillExtensions
             segment = new(buffer.ToArray());
         }
 
-        return new(stream.ReadAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken));
+        return new(target.ReadAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken));
     }
 
     public static ValueTask WriteAsync(
-        this Stream stream,
+        this Stream target,
         ReadOnlyMemory<byte> buffer,
         CancellationToken cancellationToken = default)
     {
@@ -36,13 +36,13 @@ static partial class PolyfillExtensions
             segment = new(buffer.ToArray());
         }
 
-        return new(stream.WriteAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken));
+        return new(target.WriteAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken));
     }
 
     public static Task CopyToAsync(
-        this Stream stream,
+        this Stream target,
         Stream destination,
         CancellationToken cancellationToken = default) =>
-        stream.CopyToAsync(destination, 81920, cancellationToken);
+        target.CopyToAsync(destination, 81920, cancellationToken);
 }
 #endif
