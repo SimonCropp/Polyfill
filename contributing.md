@@ -195,6 +195,15 @@ using System.Threading.Tasks;
 
 static partial class PolyfillExtensions
 {
+    /// <summary>
+    /// Asynchronously writes a character memory region to the stream.
+    /// </summary>
+    /// <param name="buffer">The character memory region to write to the stream.</param>
+    /// <param name="cancellationToken">
+    /// The token to monitor for cancellation requests.
+    /// The default value is <see cref="Cancellation.None"/>.
+    /// </param>
+    /// <returns>A task that represents the asynchronous write operation.</returns>
     public static ValueTask WriteAsync(
         this StreamWriter target,
         ReadOnlyMemory<char> buffer,
@@ -213,5 +222,5 @@ static partial class PolyfillExtensions
 }
 #endif
 ```
-<sup><a href='/src/Polyfill/PolyfillExtensions_StreamWriter.cs#L1-L32' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensions_StreamWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/PolyfillExtensions_StreamWriter.cs#L1-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensions_StreamWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->

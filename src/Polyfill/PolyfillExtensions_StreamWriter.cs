@@ -13,6 +13,15 @@ using System.Threading.Tasks;
 
 static partial class PolyfillExtensions
 {
+    /// <summary>
+    /// Asynchronously writes a character memory region to the stream.
+    /// </summary>
+    /// <param name="buffer">The character memory region to write to the stream.</param>
+    /// <param name="cancellationToken">
+    /// The token to monitor for cancellation requests.
+    /// The default value is <see cref="Cancellation.None"/>.
+    /// </param>
+    /// <returns>A task that represents the asynchronous write operation.</returns>
     public static ValueTask WriteAsync(
         this StreamWriter target,
         ReadOnlyMemory<char> buffer,
