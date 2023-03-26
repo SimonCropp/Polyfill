@@ -12,9 +12,6 @@
     <description>$description$</description>
     <copyright>$copyright$</copyright>
     <tags>$tags$</tags>
-    <contentFiles>
-      <files include="**/*.cs"/>
-    </contentFiles>
   </metadata>
   <files>
     <file src="../icon.png" target="icon.png" />
