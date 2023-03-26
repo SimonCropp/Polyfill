@@ -26,22 +26,6 @@ static partial class PolyfillExtensions
         return new(stream.ReadAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken));
     }
 
-    public static ValueTask<int> ReadAsync(
-        this StreamReader reader,
-        Memory<char> buffer,
-        CancellationToken cancellationToken = default)
-    {
-        // StreamReader doesn't accept cancellation token (pre-netstd2.1)
-        cancellationToken.ThrowIfCancellationRequested();
-
-        if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<char>)buffer, out var segment))
-        {
-            segment = new(buffer.ToArray());
-        }
-
-        return new(reader.ReadAsync(segment.Array!, segment.Offset, segment.Count));
-    }
-
     public static ValueTask WriteAsync(
         this Stream stream,
         ReadOnlyMemory<byte> buffer,
@@ -53,22 +37,6 @@ static partial class PolyfillExtensions
         }
 
         return new(stream.WriteAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken));
-    }
-
-    public static ValueTask WriteAsync(
-        this StreamWriter stream,
-        ReadOnlyMemory<char> buffer,
-        CancellationToken cancellationToken = default)
-    {
-        // StreamReader doesn't accept cancellation token (pre-netstd2.1)
-        cancellationToken.ThrowIfCancellationRequested();
-
-        if (!MemoryMarshal.TryGetArray(buffer, out var segment))
-        {
-            segment = new(buffer.ToArray());
-        }
-
-        return new(stream.WriteAsync(segment.Array!, segment.Offset, segment.Count));
     }
 
     public static Task CopyToAsync(
