@@ -16,5 +16,4 @@
       <NuspecProperties>configuration=$(Configuration);version=$(PackageVersion);authors=$(Authors);projectUrl=$(PackageProjectUrl);description=$(Description);tags=$(PackageTags)</NuspecProperties>
     </PropertyGroup>
   </Target>
-
 </Project>
