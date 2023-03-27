@@ -346,6 +346,11 @@ Reference: [Improvements in native code interop in .NET 5.0](https://devblogs.mi
 The class `PolyfillExtensions` includes the following extension methods:
 
 
+### IReadOnlyDictionary
+
+  * ` TValue GetValueOrDefault<TKey, TValue>(TKey, TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault)
+
+
 ### String
 
   * `bool StartsWith(this string, char)`
