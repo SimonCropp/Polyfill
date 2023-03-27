@@ -67,8 +67,10 @@ static partial class PolyfillExtensions
     /// cancellation token. Both streams positions are advanced by the number of bytes copied.
     /// </summary>
     /// <param name="destination">The stream to which the contents of the current stream will be copied.</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is None.</param>
-    /// <returns></returns>
+    /// <param name="cancellationToken">
+    /// The token to monitor for cancellation requests. The default value is None.
+    /// </param>
+    /// <returns>A task that represents the asynchronous copy operation.</returns>
     public static Task CopyToAsync(
         this Stream target,
         Stream destination,
