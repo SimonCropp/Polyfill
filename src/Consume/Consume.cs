@@ -67,6 +67,10 @@ class Consume
 
         var enumerable = (IEnumerable<string>)new List<string> {"a", "b"};
         var append = enumerable.Append("c");
+
+        var split = "a b".Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        split = "a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+        var contains = "a b".Contains(' ');
     }
 
     void KeyValuePairDeconstruct(IEnumerable<KeyValuePair<string, string>> variables)
