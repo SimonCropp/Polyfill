@@ -70,6 +70,7 @@ class Consume
 
         var enumerable = (IEnumerable<string>)new List<string> {"a", "b"};
         var append = enumerable.Append("c");
+        var skipLast = enumerable.SkipLast(1);
 
         var dictionary = new Dictionary<string,string?>
         {

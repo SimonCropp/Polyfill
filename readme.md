@@ -349,6 +349,7 @@ The class `PolyfillExtensions` includes the following extension methods:
 ### IEnumerable
 
   * `IEnumerable<TSource> Append<TSource>(this IEnumerable<TSource>, TSource)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.append)
+  * ` IEnumerable<T> SkipLast<T>(this IEnumerable<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.skiplast)
 
 
 ### IReadOnlyDictionary
