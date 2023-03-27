@@ -1,3 +1,5 @@
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -61,6 +63,13 @@ class Consume
         var index = "value"[^2];
         var startsWith = "value".StartsWith('a');
         var endsWith = "value".EndsWith('a');
+        var dictionary = new Dictionary<string,string?>
+        {
+            {"key", "value"}
+        };
+
+        dictionary.GetValueOrDefault("key");
+        dictionary.GetValueOrDefault("key", "default");
     }
 
     void KeyValuePairDeconstruct(IEnumerable<KeyValuePair<string, string>> variables)
