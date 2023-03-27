@@ -61,6 +61,10 @@ class Consume
         var index = "value"[^2];
         var startsWith = "value".StartsWith('a');
         var endsWith = "value".EndsWith('a');
+
+        var split = "a b".Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        split = "a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+        var contains = "a b".Contains(' ');
     }
 
     void KeyValuePairDeconstruct(IEnumerable<KeyValuePair<string, string>> variables)

@@ -48,5 +48,39 @@ static partial class PolyfillExtensions
         return lastPos < target.Length &&
                target[lastPos] == value;
     }
+
+    /// <summary>
+    /// Splits a string into a maximum number of substrings based on a specified delimiting character and, optionally,
+    /// options. Splits a string into a maximum number of substrings based on the provided character separator,
+    /// optionally omitting empty substrings from the result.
+    /// </summary>
+    /// <param name="separator">A character that delimits the substrings in this instance.</param>
+    /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim substrings
+    /// and include empty substrings.</param>
+    /// <returns>An array that contains at most count substrings from this instance that are delimited by separator.</returns>
+    public static string[] Split(this string target, char separator, StringSplitOptions options = StringSplitOptions.None) =>
+        target.Split(new[] {separator}, options);
+
+    /// <summary>
+    /// Splits a string into a maximum number of substrings based on a specified delimiting character and, optionally,
+    /// options. Splits a string into a maximum number of substrings based on the provided character separator,
+    /// optionally omitting empty substrings from the result.
+    /// </summary>
+    /// <param name="separator">A character that delimits the substrings in this instance.</param>
+    /// <param name="count">The maximum number of elements expected in the array.</param>
+    /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim substrings
+    /// and include empty substrings.</param>
+    /// <returns>An array that contains at most count substrings from this instance that are delimited by separator.</returns>
+    public static string[] Split(this string target, char separator, int count, StringSplitOptions options = StringSplitOptions.None) =>
+        target.Split(new[] {separator}, count, options);
+
+    /// <summary>
+    /// Returns a value indicating whether a specified character occurs within this string.
+    /// </summary>
+    /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison.</remarks>
+    /// <param name="value">The character to seek.</param>
+    /// <returns>true if the value parameter occurs within this string; otherwise, false.</returns>
+    public static bool Contains(this string target, char value) =>
+        target.IndexOf(value) >= 0;
 }
 #endif
