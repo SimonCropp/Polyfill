@@ -355,7 +355,10 @@ The class `PolyfillExtensions` includes the following extension methods:
 
   * `bool StartsWith(this string, char)`
   * `bool EndsWith(this string, char)`
-  * `public int GetHashCode(this string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode#system-string-gethashcode(system-stringcomparison))
+  * `int GetHashCode(this string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode#system-string-gethashcode(system-stringcomparison))
+  * `string[] Split(this string, char, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?system-string-split(system-char-system-stringsplitoptions))
+  * `string[] Split(char, int, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?system-string-split(system-char-system-int32-system-stringsplitoptions))
+  * `bool Contains(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?system-string-contains(system-char))
 
 
 ### ReadOnlySpan
