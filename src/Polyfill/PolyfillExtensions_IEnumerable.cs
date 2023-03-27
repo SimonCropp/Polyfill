@@ -1,4 +1,3 @@
-#if NET46X || NET47 
 
 #pragma warning disable
 
@@ -8,9 +7,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 static partial class PolyfillExtensions
 {
+#if NET46X || NET47
+
     /// <summary>
     /// Appends a value to the end of the sequence.
     /// </summary>
@@ -29,5 +31,10 @@ static partial class PolyfillExtensions
 
         yield return element;
     }
-}
 #endif
+
+#if NETFRAMEWORK || NETSTANDARD2_0
+      public static IEnumerable<T> SkipLast<T>(this IEnumerable<T> source, int count) =>
+                source.Reverse().Skip(count).Reverse();
+#endif
+}
