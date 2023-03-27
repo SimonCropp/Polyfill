@@ -1,4 +1,6 @@
 // ReSharper disable RedundantUsingDirective
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -65,8 +67,17 @@ class Consume
         var startsWith = "value".StartsWith('a');
         var endsWith = "value".EndsWith('a');
 
+
         var enumerable = (IEnumerable<string>)new List<string> {"a", "b"};
         var append = enumerable.Append("c");
+
+        var dictionary = new Dictionary<string,string?>
+        {
+            {"key", "value"}
+        };
+
+        dictionary.GetValueOrDefault("key");
+        dictionary.GetValueOrDefault("key", "default");
 
         var split = "a b".Split(' ', StringSplitOptions.RemoveEmptyEntries);
         split = "a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);

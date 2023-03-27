@@ -351,6 +351,11 @@ The class `PolyfillExtensions` includes the following extension methods:
   * `IEnumerable<TSource> Append<TSource>(this IEnumerable<TSource>, TSource)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.append)
 
 
+### IReadOnlyDictionary
+
+  * ` TValue GetValueOrDefault<TKey, TValue>(TKey, TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault)
+
+
 ### String
 
   * `bool StartsWith(this string, char)`
