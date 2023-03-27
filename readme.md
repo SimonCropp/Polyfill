@@ -346,6 +346,11 @@ Reference: [Improvements in native code interop in .NET 5.0](https://devblogs.mi
 The class `PolyfillExtensions` includes the following extension methods:
 
 
+### IEnumerable
+
+  * `IEnumerable<TSource> Append<TSource>(this IEnumerable<TSource>, TSource)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.append)
+
+
 ### String
 
   * `bool StartsWith(this string, char)`
