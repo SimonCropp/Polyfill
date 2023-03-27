@@ -1,4 +1,3 @@
-#if NETFRAMEWORK || NETSTANDARD2_0
 
 #pragma warning disable
 
@@ -10,6 +9,8 @@ using System.Text;
 
 static partial class PolyfillExtensions
 {
+#if NETFRAMEWORK || NETSTANDARD2_0
+
     public static int GetHashCode(this string target, StringComparison comparisonType) =>
         FromComparison(comparisonType).GetHashCode(target);
 
@@ -73,7 +74,9 @@ static partial class PolyfillExtensions
     /// <returns>An array that contains at most count substrings from this instance that are delimited by separator.</returns>
     public static string[] Split(this string target, char separator, int count, StringSplitOptions options = StringSplitOptions.None) =>
         target.Split(new[] {separator}, count, options);
+#endif
 
+#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
     /// <summary>
     /// Returns a value indicating whether a specified character occurs within this string.
     /// </summary>
@@ -82,5 +85,5 @@ static partial class PolyfillExtensions
     /// <returns>true if the value parameter occurs within this string; otherwise, false.</returns>
     public static bool Contains(this string target, char value) =>
         target.IndexOf(value) >= 0;
-}
 #endif
+}
