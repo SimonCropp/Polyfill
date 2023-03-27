@@ -34,7 +34,16 @@ static partial class PolyfillExtensions
 #endif
 
 #if NETFRAMEWORK || NETSTANDARD2_0
-      public static IEnumerable<T> SkipLast<T>(this IEnumerable<T> source, int count) =>
-                source.Reverse().Skip(count).Reverse();
+    /// <summary>
+    /// Returns a new enumerable collection that contains the elements from source with the last count elements of the
+    /// source collection omitted.
+    /// </summary>
+    /// <param name="source">An enumerable collection instance.</param>
+    /// <param name="count">The number of elements to omit from the end of the collection.</param>
+    /// <typeparam name="TSource">The type of the elements in the enumerable collection.</typeparam>
+    /// <returns>A new enumerable collection that contains the elements from source minus count elements from the end
+    /// of the collection.</returns>
+    public static IEnumerable<TSource> SkipLast<TSource>(this IEnumerable<TSource> source, int count) =>
+        source.Reverse().Skip(count).Reverse();
 #endif
 }
