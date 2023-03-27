@@ -1,7 +1,7 @@
 partial class PolyfillExtensionsTests
 {
     [Test]
-    public async Task StreamReadAsync()
+    public async Task StreamReadAsyncMemory()
     {
         var input = new byte[]{1,2};
         using var stream = new MemoryStream(input);
