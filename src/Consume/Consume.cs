@@ -1,3 +1,4 @@
+// ReSharper disable RedundantUsingDirective
 #nullable enable
 
 using System;
@@ -5,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
@@ -61,8 +63,13 @@ class Consume
 
         var range = "value"[1..];
         var index = "value"[^2];
+
         var startsWith = "value".StartsWith('a');
         var endsWith = "value".EndsWith('a');
+
+
+        var enumerable = (IEnumerable<string>)new List<string> {"a", "b"};
+        var append = enumerable.Append("c");
 
         var dictionary = new Dictionary<string,string?>
         {
