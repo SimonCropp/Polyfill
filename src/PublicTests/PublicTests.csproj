@@ -5,7 +5,6 @@
     <PolyPublic>true</PolyPublic>
   </PropertyGroup>
   <ItemGroup>
-    <Using Remove="System.Net.Http" />
     <Compile Include="..\Polyfill\*.cs">
       <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
