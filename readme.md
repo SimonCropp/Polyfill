@@ -197,6 +197,8 @@ class SkipLocalsInitSample
 
 Reference: [Indices and ranges](https://learn.microsoft.com/en-us/dotnet/csharp/tutorials/ranges-indexes)
 
+If consuming in a project that targets net461 or net462, a reference to System.ValueTuple is required. See [References: System.ValueTuple](#systemvaluetuple).
+
 <!-- snippet: IndexRange -->
 <a id='snippet-indexrange'></a>
 ```cs
