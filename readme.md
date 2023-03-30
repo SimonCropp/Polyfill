@@ -3,7 +3,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/s6eqqg4ipeovebgd?svg=true)](https://ci.appveyor.com/project/SimonCropp/Polyfill)
 [![Polyfill NuGet Status](https://img.shields.io/nuget/v/Polyfill.svg)](https://www.nuget.org/packages/Polyfill/)
 
-Source only package that exposes newer .net and C# features to older runtimes.
+Source only package that exposes newer .NET and C# features to older runtimes.
 
 The package targets `netstandard2.0` and is designed to support the following runtimes.
 
@@ -19,12 +19,12 @@ https://nuget.org/packages/Polyfill/
 
 ### SDK / LangVersion
 
-This project uses features from the current stable SDK and c# language. As such consuming projects should target those:
+This project uses features from the current stable SDK and C# language. As such consuming projects should target those:
 
 
 ### LangVersion
 
-```
+```xml
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
@@ -33,7 +33,7 @@ This project uses features from the current stable SDK and c# language. As such 
 
 ### global.json
 
-```
+```json
 {
   "sdk": {
     "version": "7.0.202",
@@ -52,7 +52,7 @@ The default type visibility for all polyfills is `internal`. This means it can b
 
 If Polyfill is being consumed in a solution that produce an app, then it is recommended to use the Polyfill nuget only in the root "app project" and enable `PolyPublic`.
 
-```
+```xml
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PolyPublic>true</PolyPublic>
@@ -356,7 +356,7 @@ The class `PolyfillExtensions` includes the following extension methods:
 
 ### IReadOnlyDictionary
 
-  * ` TValue GetValueOrDefault<TKey, TValue>(TKey, TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault)
+  * `TValue GetValueOrDefault<TKey, TValue>(TKey, TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault)
 
 
 ### String
@@ -417,7 +417,7 @@ If any of the below reference are not included, the related polyfills will be di
 
 If consuming in a project that targets `net461` or `net462`, a reference to [System.ValueTuple](https://www.nuget.org/packages/System.ValueTuple/) nuget is required.
 
-```
+```xml
 <PackageReference Include="System.ValueTuple"
                   Version="4.5.0"
                   Condition="$(TargetFramework.StartsWith('net46'))" />
@@ -428,7 +428,7 @@ If consuming in a project that targets `net461` or `net462`, a reference to [Sys
 
 If using Span APIs and consuming in a project that targets `netstandard`, `netframework`, or `netcoreapp2*`, a reference to [System.Memory](https://www.nuget.org/packages/System.Memory/) nuget is required.
 
-```
+```xml
 <PackageReference Include="System.Memory"
                   Version="4.5.5"
                   Condition="$(TargetFrameworkIdentifier) == '.NETStandard' or
@@ -441,7 +441,7 @@ If using Span APIs and consuming in a project that targets `netstandard`, `netfr
 
 If using ValueTask APIs and consuming in a project that target `netframework`, `netstandard2`, or 'netcoreapp2', a reference to [System.Threading.Tasks.Extensions](https://www.nuget.org/packages/System.Threading.Tasks.Extensions/) nuget is required.
 
-```
+```xml
 <PackageReference Include="System.Threading.Tasks.Extensions"
                   Version="4.5.4"
                   Condition="$(TargetFramework) == 'netstandard2.0' or
