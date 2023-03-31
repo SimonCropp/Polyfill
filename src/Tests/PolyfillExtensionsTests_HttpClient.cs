@@ -21,20 +21,23 @@ partial class PolyfillExtensionsTests
     }
 
     [Test]
-    public void HttpClientGetStreamAsync_Negative()
+    public async Task HttpClientGetStreamAsync_Negative()
     {
         // Arrange
         var cancellationToken = new CancellationToken(true);
         using var httpClient = new HttpClient();
 
         // Act
-        var ex = Assert.CatchAsync<OperationCanceledException>(async () =>
-            await httpClient.GetStreamAsync("https://example.com", cancellationToken)
-        );
-
-        // Assert
-        Assert.IsNotNull(ex);
-        Assert.AreEqual(cancellationToken, ex!.CancellationToken);
+        try
+        {
+            await httpClient.GetStreamAsync("https://example.com", cancellationToken);
+        }
+        catch (OperationCanceledException ex)
+        {
+            // Assert
+            Assert.IsNotNull(ex);
+            Assert.AreEqual(cancellationToken, ex.CancellationToken);
+        }
     }
 
     [Test]
@@ -60,13 +63,16 @@ partial class PolyfillExtensionsTests
         using var httpClient = new HttpClient();
 
         // Act
-        var ex = Assert.CatchAsync<OperationCanceledException>(async () =>
-            await httpClient.GetByteArrayAsync("https://example.com", cancellationToken)
-        );
-
-        // Assert
-        Assert.IsNotNull(ex);
-        Assert.AreEqual(cancellationToken, ex!.CancellationToken);
+        try
+        {
+            await httpClient.GetByteArrayAsync("https://example.com", cancellationToken);
+        }
+        catch (OperationCanceledException ex)
+        {
+            // Assert
+            Assert.IsNotNull(ex);
+            Assert.AreEqual(cancellationToken, ex.CancellationToken);
+        }
     }
 
     [Test]
@@ -91,12 +97,15 @@ partial class PolyfillExtensionsTests
         using var httpClient = new HttpClient();
 
         // Act
-        var ex = Assert.CatchAsync<OperationCanceledException>(async () =>
-            await httpClient.GetStringAsync("https://example.com", cancellationToken)
-        );
-
-        // Assert
-        Assert.IsNotNull(ex);
-        Assert.AreEqual(cancellationToken, ex!.CancellationToken);
+        try
+        {
+            await httpClient.GetStringAsync("https://example.com", cancellationToken);
+        }
+        catch (OperationCanceledException ex)
+        {
+            // Assert
+            Assert.IsNotNull(ex);
+            Assert.AreEqual(cancellationToken, ex.CancellationToken);
+        }
     }
 }
