@@ -22,7 +22,7 @@
     </Compile>
     <Compile Include="..\Polyfill\PlatformCompatibility\*.cs">
       <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>    
+    </Compile>
   </ItemGroup>
   <Import Project="$(ProjectDir)..\Polyfill\Polyfill.props" />
   <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />
