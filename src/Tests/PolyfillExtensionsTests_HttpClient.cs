@@ -31,6 +31,7 @@ partial class PolyfillExtensionsTests
         try
         {
             await httpClient.GetStreamAsync("https://example.com", cancellationToken);
+            Assert.Fail();
         }
         catch (OperationCanceledException ex)
         {
@@ -56,7 +57,7 @@ partial class PolyfillExtensionsTests
     }
 
     [Test]
-    public void HttpClientGetByteArrayAsync_Negative()
+    public async Task HttpClientGetByteArrayAsync_Negative()
     {
         // Arrange
         var cancellationToken = new CancellationToken(true);
@@ -66,6 +67,7 @@ partial class PolyfillExtensionsTests
         try
         {
             await httpClient.GetByteArrayAsync("https://example.com", cancellationToken);
+            Assert.Fail();
         }
         catch (OperationCanceledException ex)
         {
@@ -90,7 +92,7 @@ partial class PolyfillExtensionsTests
     }
 
     [Test]
-    public void HttpClientGetStringAsync_Negative()
+    public async Task HttpClientGetStringAsync_Negative()
     {
         // Arrange
         var cancellationToken = new CancellationToken(true);
@@ -100,6 +102,7 @@ partial class PolyfillExtensionsTests
         try
         {
             await httpClient.GetStringAsync("https://example.com", cancellationToken);
+            Assert.Fail();
         }
         catch (OperationCanceledException ex)
         {
