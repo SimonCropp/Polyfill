@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="System.Memory" Version="4.5.5" Condition="$(TargetFrameworkIdentifier) == '.NETStandard' or $(TargetFrameworkIdentifier) == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp2'))" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" Condition="$(TargetFramework.StartsWith('net46'))" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" Condition="$(TargetFramework.StartsWith('net4'))" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" Condition="$(TargetFramework) == 'netstandard2.0' or $(TargetFramework) == 'netcoreapp2.0' or $(TargetFrameworkIdentifier) == '.NETFramework'" />
     <Compile Include="..\Polyfill\*.cs">
       <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
@@ -22,7 +23,7 @@
     </Compile>
     <Compile Include="..\Polyfill\PlatformCompatibility\*.cs">
       <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>    
+    </Compile>
   </ItemGroup>
   <Import Project="$(ProjectDir)..\Polyfill\Polyfill.props" />
   <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />
