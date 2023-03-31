@@ -5,6 +5,7 @@
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable UnusedMember.Global
 
+using System;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
