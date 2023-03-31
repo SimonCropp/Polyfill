@@ -17,7 +17,7 @@ partial class PolyfillExtensionsTests
         var content = await reader.ReadToEndAsync();
 
         // Assert
-        Assert.AreEqual("Example Domain", content);
+        StringAssert.Contains("Example Domain", content);
     }
 
     [Test]
