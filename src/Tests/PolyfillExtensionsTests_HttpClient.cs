@@ -49,7 +49,7 @@ partial class PolyfillExtensionsTests
         var content = Encoding.UTF8.GetString(bytes);
 
         // Assert
-        Assert.AreEqual("Example Domain", content);
+        StringAssert.Contains("Example Domain", content);
     }
 
     [Test]
@@ -80,7 +80,7 @@ partial class PolyfillExtensionsTests
         var content = await httpClient.GetStringAsync("https://example.com", cancellationToken);
 
         // Assert
-        Assert.AreEqual("Example Domain", content);
+        StringAssert.Contains("Example Domain", content);
     }
 
     [Test]
