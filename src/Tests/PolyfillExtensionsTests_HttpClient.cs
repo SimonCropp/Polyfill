@@ -36,7 +36,6 @@ partial class PolyfillExtensionsTests
         catch (OperationCanceledException ex)
         {
             // Assert
-            Assert.IsNotNull(ex);
             Assert.AreEqual(cancellationToken, ex.CancellationToken);
         }
     }
@@ -72,7 +71,6 @@ partial class PolyfillExtensionsTests
         catch (OperationCanceledException ex)
         {
             // Assert
-            Assert.IsNotNull(ex);
             Assert.AreEqual(cancellationToken, ex.CancellationToken);
         }
     }
@@ -107,7 +105,6 @@ partial class PolyfillExtensionsTests
         catch (OperationCanceledException ex)
         {
             // Assert
-            Assert.IsNotNull(ex);
             Assert.AreEqual(cancellationToken, ex.CancellationToken);
         }
     }
