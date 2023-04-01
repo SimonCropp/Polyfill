@@ -23,12 +23,12 @@ static partial class PolyfillExtensions
     /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    public static async Task<Stream> ReadAsStreamAsync(
+    public static Task<Stream> ReadAsStreamAsync(
         this HttpContent httpContent,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return await httpContent.ReadAsStreamAsync().ConfigureAwait(false);
+        return httpContent.ReadAsStreamAsync();
     }
 
     /// <summary>
@@ -42,12 +42,12 @@ static partial class PolyfillExtensions
     /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    public static async Task<byte[]> ReadAsByteArrayAsync(
+    public static Task<byte[]> ReadAsByteArrayAsync(
         this HttpContent httpContent,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return await httpContent.ReadAsByteArrayAsync().ConfigureAwait(false);
+        return httpContent.ReadAsByteArrayAsync();
     }
 
     /// <summary>
@@ -61,12 +61,12 @@ static partial class PolyfillExtensions
     /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    public static async Task<string> ReadAsStringAsync(
+    public static Task<string> ReadAsStringAsync(
         this HttpContent httpContent,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return await httpContent.ReadAsStringAsync().ConfigureAwait(false);
+        return httpContent.ReadAsStringAsync();
     }
 }
 #endif
