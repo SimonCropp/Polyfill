@@ -408,6 +408,16 @@ The class `PolyfillExtensions` includes the following extension methods:
  * `public static void Deconstruct<TKey, TValue>(out TKey, out TValue)`
 
 
+### HttpClient
+
+ * `public async Task<Stream> GetStreamAsync(string, CancellationToken)`
+ * `public async Task<Stream> GetStreamAsync(Uri, CancellationToken)`
+ * `public async Task<byte[]> GetByteArrayAsync(string, CancellationToken)`
+ * `public async Task<byte[]> GetByteArrayAsync(Uri, CancellationToken)`
+ * `public async Task<string> GetStringAsync(string, CancellationToken)`
+ * `public Task<string> GetStringAsync(Uri, CancellationToken)`
+
+
 ## References
 
 If any of the below reference are not included, the related polyfills will be disabled.
