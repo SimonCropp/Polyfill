@@ -13,6 +13,15 @@ using System.Threading.Tasks;
 
 static partial class PolyfillExtensions
 {
+    /// <summary>
+    /// Asynchronously reads the characters from the current stream into a memory block.
+    /// </summary>
+    /// <param name="buffer">
+    /// When this method returns, contains the specified memory block of characters replaced by the characters read
+    /// from the current source.
+    /// </param>
+    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.</param>
+    /// <returns></returns>
     public static ValueTask<int> ReadAsync(
         this StreamReader target,
         Memory<char> buffer,

@@ -19,7 +19,7 @@ static partial class PolyfillExtensions
     /// </summary>
     /// <param name="buffer">The region of memory to write the data into.</param>
     /// <param name="cancellationToken">
-    /// The token to monitor for cancellation requests. The default value is None.
+    /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>
     /// A task that represents the asynchronous read operation. The value of its Result property contains the
@@ -46,7 +46,7 @@ static partial class PolyfillExtensions
     /// </summary>
     /// <param name="buffer">The region of memory to write data from.</param>
     /// <param name="cancellationToken">
-    /// The token to monitor for cancellation requests. The default value is None.
+    /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
     public static ValueTask WriteAsync(
@@ -68,7 +68,7 @@ static partial class PolyfillExtensions
     /// </summary>
     /// <param name="destination">The stream to which the contents of the current stream will be copied.</param>
     /// <param name="cancellationToken">
-    /// The token to monitor for cancellation requests. The default value is None.
+    /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous copy operation.</returns>
     public static Task CopyToAsync(

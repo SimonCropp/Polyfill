@@ -16,9 +16,12 @@ static partial class PolyfillExtensions
     /// Serializes the HTTP content and returns a stream that represents the content.
     /// </summary>
     /// <remarks>
-    /// Note that this method will internally buffer the content unless <c>CreateContentReadStreamAsync()</c> has been implemented to do otherwise.
+    /// Note that this method will internally buffer the content unless <c>CreateContentReadStreamAsync()</c> has been
+    /// implemented to do otherwise.
     /// </remarks>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is None.</param>
+    /// <param name="cancellationToken">
+    /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
+    /// </param>
     /// <returns>The task object representing the asynchronous operation.</returns>
     public static async Task<Stream> ReadAsStreamAsync(
         this HttpContent httpContent,
@@ -32,9 +35,12 @@ static partial class PolyfillExtensions
     /// Serializes the HTTP content to a byte array as an asynchronous operation.
     /// </summary>
     /// <remarks>
-    /// Note that this method will internally buffer the content unless <c>CreateContentReadStreamAsync()</c> has been implemented to do otherwise.
+    /// Note that this method will internally buffer the content unless <c>CreateContentReadStreamAsync()</c> has been
+    /// implemented to do otherwise.
     /// </remarks>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is None.</param>
+    /// <param name="cancellationToken">
+    /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
+    /// </param>
     /// <returns>The task object representing the asynchronous operation.</returns>
     public static async Task<byte[]> ReadAsByteArrayAsync(
         this HttpContent httpContent,
@@ -48,9 +54,12 @@ static partial class PolyfillExtensions
     /// Serializes the HTTP content to a string as an asynchronous operation.
     /// </summary>
     /// <remarks>
-    /// Note that this method will internally buffer the content unless <c>CreateContentReadStreamAsync()</c> has been implemented to do otherwise.
+    /// Note that this method will internally buffer the content unless <c>CreateContentReadStreamAsync()</c> has been
+    /// implemented to do otherwise.
     /// </remarks>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests. The default value is None.</param>
+    /// <param name="cancellationToken">
+    /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
+    /// </param>
     /// <returns>The task object representing the asynchronous operation.</returns>
     public static async Task<string> ReadAsStringAsync(
         this HttpContent httpContent,
