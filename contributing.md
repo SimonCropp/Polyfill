@@ -34,6 +34,11 @@ Some feature of Polyfill leverage unsafe code for better performance. For exampl
 Polyfill supports back to `net461` and `netcoreapp2.0`. However NUnit only support back to `net462` and `netcoreapp3.1`. The Consume project targets all frameworks that Polyfill supports, and consumes all APIs to ensure that they all compile on those frameworks
 
 
+### ConsumeClassicReferences Project
+
+Test the scenario when references are added through `<Reference` instead of `<PackageReference`.
+
+
 ## Submitting a new polyfill API
 
 
@@ -252,9 +257,18 @@ partial class PolyfillExtensionsTests
         Assert.AreEqual(5, read);
         Assert.IsTrue("value".SequenceEqual(result));
     }
+
+    [Test]
+    public async Task StreamReaderReadToEndAsync()
+    {
+        using var stream = new MemoryStream("value"u8.ToArray());
+        using var reader = new StreamReader(stream);
+        var read = await reader.ReadToEndAsync(CancellationToken.None);
+        Assert.AreEqual("value", read);
+    }
 }
 ```
-<sup><a href='/src/Tests/PolyfillExtensionsTests_StreamReader.cs#L1-L14' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensionsTests_StreamReader.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/PolyfillExtensionsTests_StreamReader.cs#L1-L23' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensionsTests_StreamReader.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -350,8 +350,8 @@ The class `PolyfillExtensions` includes the following extension methods:
 
 ### IEnumerable
 
-  * `IEnumerable<TSource> Append<TSource>(this IEnumerable<TSource>, TSource)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.append)
-  * ` IEnumerable<T> SkipLast<T>(this IEnumerable<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.skiplast)
+  * `IEnumerable<TSource> Append<TSource>(TSource)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.append)
+  * ` IEnumerable<T> SkipLast<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.skiplast)
 
 
 ### IReadOnlyDictionary
@@ -361,51 +361,51 @@ The class `PolyfillExtensions` includes the following extension methods:
 
 ### String
 
-  * `bool StartsWith(this string, char)`
-  * `bool EndsWith(this string, char)`
-  * `int GetHashCode(this string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode#system-string-gethashcode(system-stringcomparison))
-  * `string[] Split(this string, char, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?system-string-split(system-char-system-stringsplitoptions))
+  * `bool StartsWith(char)`
+  * `bool EndsWith(char)`
+  * `int GetHashCode(StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode#system-string-gethashcode(system-stringcomparison))
+  * `string[] Split(char, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?system-string-split(system-char-system-stringsplitoptions))
   * `string[] Split(char, int, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?system-string-split(system-char-system-int32-system-stringsplitoptions))
   * `bool Contains(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?system-string-contains(system-char))
 
 
 ### ReadOnlySpan
 
-  * `bool Contains(this ReadOnlySpan<char>, char)`
-  * `bool SequenceEqual(this ReadOnlySpan<char>, string)`
+  * `bool Contains(char)`
+  * `bool SequenceEqual(string)`
 
 
 ### Span
 
-  * `bool SequenceEqual(this Span<char>, string)`
+  * `bool SequenceEqual(string)`
 
 
 ### StringBuilder
 
-  * `void Append(this StringBuilder, ReadOnlySpan<char>)`. Will perform better if `<AllowUnsafeBlocks>True</AllowUnsafeBlocks>` is enabled in the consuming project.
-  * `bool Equals(this StringBuilder, ReadOnlySpan<char>)`
+  * `void Append(ReadOnlySpan<char>)`. Will perform better if `<AllowUnsafeBlocks>True</AllowUnsafeBlocks>` is enabled in the consuming project.
+  * `bool Equals(ReadOnlySpan<char>)`
 
 
 ### Stream
 
-  * `ValueTask<int> ReadAsync(this Stream, Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken))
-  * `ValueTask WriteAsync(this Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+  * `ValueTask<int> ReadAsync(Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken))
+  * `ValueTask WriteAsync(ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
 
 
 ### StreamReader
 
-  * `ValueTask<int> ReadAsync(this Stream, Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken))
-  * `ValueTask WriteAsync(this Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+  * `ValueTask<int> ReadAsync(Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken))
+  * `ValueTask ReadToEndAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader.readtoendasync?system-io-streamreader-readtoendasync(system-threading-cancellationtoken))
 
 
 ### StreamWriter
 
-  * `ValueTask<int> WriteAsync(this StreamWriter, ReadOnlyMemory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))
+  * `ValueTask<int> WriteAsync(ReadOnlyMemory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))
 
 
 ### KeyValuePair
 
- * `public static void Deconstruct<TKey, TValue>(this KeyValuePair<TKey, TValue>, out TKey, out TValue)`
+ * `public static void Deconstruct<TKey, TValue>(out TKey, out TValue)`
 
 
 ## References

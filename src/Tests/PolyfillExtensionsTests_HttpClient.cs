@@ -5,13 +5,13 @@ using System.Net.Http;
 
 partial class PolyfillExtensionsTests
 {
-    private class FakeHttpMessageHandler : HttpMessageHandler
+    class FakeHttpMessageHandler : HttpMessageHandler
     {
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request,
-            CancellationToken cancellationToken)
+            CancellationToken cancellation)
         {
-            cancellationToken.ThrowIfCancellationRequested();
+            cancellation.ThrowIfCancellationRequested();
 
             return Task.FromResult(
                 new HttpResponseMessage(HttpStatusCode.OK)
@@ -27,13 +27,13 @@ partial class PolyfillExtensionsTests
     public async Task HttpClientGetStreamAsync_Positive()
     {
         // Arrange
-        var cancellationToken = new CancellationToken();
+        var cancellation = new CancellationToken();
         using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
 
         // Act
-        using var stream = await httpClient.GetStreamAsync("https://example.com", cancellationToken);
+        using var stream = await httpClient.GetStreamAsync("https://example.com", cancellation);
         using var reader = new StreamReader(stream);
-        var content = await reader.ReadToEndAsync();
+        var content = await reader.ReadToEndAsync(cancellation);
 
         // Assert
         Assert.AreEqual("Fake Content", content);
@@ -43,19 +43,19 @@ partial class PolyfillExtensionsTests
     public async Task HttpClientGetStreamAsync_Negative()
     {
         // Arrange
-        var cancellationToken = new CancellationToken(true);
+        var cancellation = new CancellationToken(true);
         using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
 
         // Act
         try
         {
-            await httpClient.GetStreamAsync("https://example.com", cancellationToken);
+            await httpClient.GetStreamAsync("https://example.com", cancellation);
             Assert.Fail();
         }
-        catch (OperationCanceledException ex)
+        catch (OperationCanceledException exception)
         {
             // Assert
-            Assert.IsTrue(ex.CancellationToken.IsCancellationRequested);
+            Assert.IsTrue(exception.CancellationToken.IsCancellationRequested);
         }
     }
 
@@ -63,11 +63,11 @@ partial class PolyfillExtensionsTests
     public async Task HttpClientGetByteArrayAsync_Positive()
     {
         // Arrange
-        var cancellationToken = new CancellationToken();
+        var cancellation = new CancellationToken();
         using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
 
         // Act
-        var bytes = await httpClient.GetByteArrayAsync("https://example.com", cancellationToken);
+        var bytes = await httpClient.GetByteArrayAsync("https://example.com", cancellation);
         var content = Encoding.UTF8.GetString(bytes);
 
         // Assert
@@ -78,19 +78,19 @@ partial class PolyfillExtensionsTests
     public async Task HttpClientGetByteArrayAsync_Negative()
     {
         // Arrange
-        var cancellationToken = new CancellationToken(true);
+        var cancellation = new CancellationToken(true);
         using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
 
         // Act
         try
         {
-            await httpClient.GetByteArrayAsync("https://example.com", cancellationToken);
+            await httpClient.GetByteArrayAsync("https://example.com", cancellation);
             Assert.Fail();
         }
-        catch (OperationCanceledException ex)
+        catch (OperationCanceledException exception)
         {
             // Assert
-            Assert.IsTrue(ex.CancellationToken.IsCancellationRequested);
+            Assert.IsTrue(exception.CancellationToken.IsCancellationRequested);
         }
     }
 
@@ -112,19 +112,19 @@ partial class PolyfillExtensionsTests
     public async Task HttpClientGetStringAsync_Negative()
     {
         // Arrange
-        var cancellationToken = new CancellationToken(true);
+        var cancellation = new CancellationToken(true);
         using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
 
         // Act
         try
         {
-            await httpClient.GetStringAsync("https://example.com", cancellationToken);
+            await httpClient.GetStringAsync("https://example.com", cancellation);
             Assert.Fail();
         }
-        catch (OperationCanceledException ex)
+        catch (OperationCanceledException exception)
         {
             // Assert
-            Assert.IsTrue(ex.CancellationToken.IsCancellationRequested);
+            Assert.IsTrue(exception.CancellationToken.IsCancellationRequested);
         }
     }
 }

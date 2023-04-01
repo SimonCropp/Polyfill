@@ -1,5 +1,3 @@
-#if TASKSEXTENSIONSREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
-
 #pragma warning disable
 
 // ReSharper disable RedundantUsingDirective
@@ -13,6 +11,7 @@ using System.Threading.Tasks;
 
 static partial class PolyfillExtensions
 {
+#if TASKSEXTENSIONSREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
     /// <summary>
     /// Asynchronously reads the characters from the current stream into a memory block.
     /// </summary>
@@ -34,7 +33,6 @@ static partial class PolyfillExtensions
         Memory<char> buffer,
         CancellationToken cancellationToken = default)
     {
-        // StreamReader doesn't accept cancellation token (pre-netstd2.1)
         cancellationToken.ThrowIfCancellationRequested();
 
         if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<char>)buffer, out var segment))
@@ -44,5 +42,39 @@ static partial class PolyfillExtensions
 
         return new(target.ReadAsync(segment.Array!, segment.Offset, segment.Count));
     }
-}
 #endif
+
+#if !NET7_0_OR_GREATER
+    /// <summary>
+    /// Reads all characters from the current position to the end of the stream asynchronously and returns them as one string.
+    /// </summary>
+    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
+    /// <returns>A task that represents the asynchronous read operation. The value of the <c>TResult</c> parameter contains
+    /// a string with the characters from the current position to the end of the stream.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">The number of characters is larger than <see cref="int.MaxValue"/>.</exception>
+    /// <exception cref="ObjectDisposedException">The stream reader has been disposed.</exception>
+    /// <exception cref="InvalidOperationException">The reader is currently in use by a previous read operation.</exception>
+    /// <example>
+    /// The following example shows how to read the contents of a file by using the <see cref="ReadToEndAsync(CancellationToken)"/> method.
+    /// <code lang="C#">
+    /// using CancellationTokenSource tokenSource = new (TimeSpan.FromSeconds(1));
+    /// using StreamReader reader = File.OpenText("existingfile.txt");
+    ///
+    /// Console.WriteLine(await reader.ReadToEndAsync(tokenSource.Token));
+    /// </code>
+    /// </example>
+    /// <remarks>
+    /// If this method is canceled via <paramref name="cancellationToken"/>, some data
+    /// that has been read from the current <see cref="Stream"/> but not stored (by the
+    /// <see cref="StreamReader"/>) or returned (to the caller) may be lost.
+    /// </remarks>
+    public static Task<string> ReadToEndAsync(
+        this StreamReader target,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        return target.ReadToEndAsync();
+    }
+#endif
+}

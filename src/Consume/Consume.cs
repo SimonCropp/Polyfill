@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 class Consume
@@ -97,11 +98,16 @@ class Consume
 
     async Task StreamReaderReadAsync()
     {
-        using var stream = new MemoryStream("value"u8.ToArray());
         var result = new char[5];
         var memory = new Memory<char>(result);
-        using var reader = new StreamReader(stream);
+        var reader = new StreamReader(new MemoryStream());
         var read = await reader.ReadAsync(memory);
+    }
+
+    async Task StreamReaderReadToEndAsync()
+    {
+        var reader = new StreamReader(new MemoryStream());
+        var read = await reader.ReadToEndAsync(CancellationToken.None);
     }
 
     async Task StreamReadAsync()
