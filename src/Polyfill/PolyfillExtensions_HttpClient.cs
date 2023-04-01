@@ -60,11 +60,11 @@ static partial class PolyfillExtensions
     /// <param name="requestUri">The Uri the request is sent to.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    public static async Task<Stream> GetStreamAsync(
+    public static Task<Stream> GetStreamAsync(
         this HttpClient httpClient,
         Uri requestUri,
         CancellationToken cancellationToken = default) =>
-        await httpClient.GetStreamAsync(requestUri.ToString(), cancellationToken).ConfigureAwait(false);
+        httpClient.GetStreamAsync(requestUri.ToString(), cancellationToken);
 
     /// <summary>
     /// Send a GET request to the specified Uri and return the response body as a byte array in an asynchronous operation.
@@ -94,11 +94,11 @@ static partial class PolyfillExtensions
             return await response.Content.ReadAsByteArrayAsync(cancellationToken).ConfigureAwait(false);
         }
         // Older versions of HttpClient methods don't propagate the cancellation token inside the exception
-        catch (OperationCanceledException ex) when (
-            ex.CancellationToken != cancellationToken &&
+        catch (OperationCanceledException exception) when (
+            exception.CancellationToken != cancellationToken &&
             cancellationToken.IsCancellationRequested)
         {
-            throw new OperationCanceledException(ex.Message, ex.InnerException, cancellationToken);
+            throw new OperationCanceledException(exception.Message, exception.InnerException, cancellationToken);
         }
     }
 
@@ -112,11 +112,11 @@ static partial class PolyfillExtensions
     /// <param name="requestUri">The Uri the request is sent to.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    public static async Task<byte[]> GetByteArrayAsync(
+    public static Task<byte[]> GetByteArrayAsync(
         this HttpClient httpClient,
         Uri requestUri,
         CancellationToken cancellationToken = default) =>
-        await httpClient.GetByteArrayAsync(requestUri.ToString(), cancellationToken).ConfigureAwait(false);
+        httpClient.GetByteArrayAsync(requestUri.ToString(), cancellationToken);
 
     /// <summary>
     /// Send a GET request to the specified Uri and return the response body as a string in an asynchronous operation.
@@ -146,11 +146,11 @@ static partial class PolyfillExtensions
             return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
         }
         // Older versions of HttpClient methods don't propagate the cancellation token inside the exception
-        catch (OperationCanceledException ex) when (
-            ex.CancellationToken != cancellationToken &&
+        catch (OperationCanceledException exception) when (
+            exception.CancellationToken != cancellationToken &&
             cancellationToken.IsCancellationRequested)
         {
-            throw new OperationCanceledException(ex.Message, ex.InnerException, cancellationToken);
+            throw new OperationCanceledException(exception.Message, exception.InnerException, cancellationToken);
         }
     }
 
@@ -164,10 +164,10 @@ static partial class PolyfillExtensions
     /// <param name="requestUri">The Uri the request is sent to.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    public static async Task<string> GetStringAsync(
+    public static Task<string> GetStringAsync(
         this HttpClient httpClient,
         Uri requestUri,
         CancellationToken cancellationToken = default) =>
-        await httpClient.GetStringAsync(requestUri.ToString(), cancellationToken).ConfigureAwait(false);
+        httpClient.GetStringAsync(requestUri.ToString(), cancellationToken);
 }
 #endif
