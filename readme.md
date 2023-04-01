@@ -405,17 +405,24 @@ The class `PolyfillExtensions` includes the following extension methods:
 
 ### KeyValuePair
 
- * `public static void Deconstruct<TKey, TValue>(out TKey, out TValue)`
+ * `void Deconstruct<TKey, TValue>(out TKey, out TValue)`
 
 
 ### HttpClient
 
- * `public async Task<Stream> GetStreamAsync(string, CancellationToken)`
- * `public async Task<Stream> GetStreamAsync(Uri, CancellationToken)`
- * `public async Task<byte[]> GetByteArrayAsync(string, CancellationToken)`
- * `public async Task<byte[]> GetByteArrayAsync(Uri, CancellationToken)`
- * `public async Task<string> GetStringAsync(string, CancellationToken)`
- * `public Task<string> GetStringAsync(Uri, CancellationToken)`
+ * `Task<Stream> GetStreamAsync(string, CancellationToken)`
+ * `Task<Stream> GetStreamAsync(Uri, CancellationToken)`
+ * `Task<byte[]> GetByteArrayAsync(string, CancellationToken)`
+ * `Task<byte[]> GetByteArrayAsync(Uri, CancellationToken)`
+ * `Task<string> GetStringAsync(string, CancellationToken)`
+ * `Task<string> GetStringAsync(Uri, CancellationToken)`
+
+
+### HttpContent
+
+ * `Task<Stream> ReadAsStreamAsync(CancellationToken cancellationToken)`
+ * `Task<byte[]> ReadAsByteArrayAsync(CancellationToken cancellationToken)`
+ * `Task<string> ReadAsStringAsync(CancellationToken)`
 
 
 ## References
