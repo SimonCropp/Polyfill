@@ -11,4 +11,13 @@ partial class PolyfillExtensionsTests
         Assert.AreEqual(5, read);
         Assert.IsTrue("value".SequenceEqual(result));
     }
+
+    [Test]
+    public async Task StreamReaderReadToEndAsync()
+    {
+        using var stream = new MemoryStream("value"u8.ToArray());
+        using var reader = new StreamReader(stream);
+        var read = await reader.ReadToEndAsync(CancellationToken.None);
+        Assert.AreEqual("value", read);
+    }
 }
