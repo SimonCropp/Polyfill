@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicTests", "PublicTests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeClassicReferences", "ConsumeClassicReferences\ConsumeClassicReferences.csproj", "{CF7D4778-6A32-4E7D-B80B-3507974B443B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeIndirect", "ConsumeIndirect\ConsumeIndirect.csproj", "{955038AF-1073-4BB0-8AF7-D4597B7C2DAB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,10 @@ Global
 		{CF7D4778-6A32-4E7D-B80B-3507974B443B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF7D4778-6A32-4E7D-B80B-3507974B443B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF7D4778-6A32-4E7D-B80B-3507974B443B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{955038AF-1073-4BB0-8AF7-D4597B7C2DAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{955038AF-1073-4BB0-8AF7-D4597B7C2DAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{955038AF-1073-4BB0-8AF7-D4597B7C2DAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{955038AF-1073-4BB0-8AF7-D4597B7C2DAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
