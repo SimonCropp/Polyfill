@@ -14,6 +14,7 @@ using System.Runtime.Versioning;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+#pragma warning disable CS4014
 
 class Consume
 {
@@ -69,17 +70,6 @@ class Consume
         var startsWith = "value".StartsWith('a');
         var endsWith = "value".EndsWith('a');
 
-        new HttpClient().GetStreamAsync("", CancellationToken.None);
-        new HttpClient().GetStreamAsync(new Uri(""), CancellationToken.None);
-        new HttpClient().GetByteArrayAsync("", CancellationToken.None);
-        new HttpClient().GetByteArrayAsync(new Uri(""), CancellationToken.None);
-        new HttpClient().GetStringAsync("", CancellationToken.None);
-        new HttpClient().GetStringAsync(new Uri(""), CancellationToken.None);
-
-        new ByteArrayContent(new byte[]{}).ReadAsStreamAsync(CancellationToken.None);
-        new ByteArrayContent(new byte[]{}).ReadAsByteArrayAsync(CancellationToken.None);
-        new ByteArrayContent(new byte[]{}).ReadAsStringAsync(CancellationToken.None);
-
         var enumerable = (IEnumerable<string>)new List<string> {"a", "b"};
         var append = enumerable.Append("c");
         var skipLast = enumerable.SkipLast(1);
@@ -95,6 +85,20 @@ class Consume
         var split = "a b".Split(' ', StringSplitOptions.RemoveEmptyEntries);
         split = "a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
         var contains = "a b".Contains(' ');
+    }
+
+    static void Http()
+    {
+        new HttpClient().GetStreamAsync("", CancellationToken.None);
+        new HttpClient().GetStreamAsync(new Uri(""), CancellationToken.None);
+        new HttpClient().GetByteArrayAsync("", CancellationToken.None);
+        new HttpClient().GetByteArrayAsync(new Uri(""), CancellationToken.None);
+        new HttpClient().GetStringAsync("", CancellationToken.None);
+        new HttpClient().GetStringAsync(new Uri(""), CancellationToken.None);
+
+        new ByteArrayContent(new byte[] { }).ReadAsStreamAsync(CancellationToken.None);
+        new ByteArrayContent(new byte[] { }).ReadAsByteArrayAsync(CancellationToken.None);
+        new ByteArrayContent(new byte[] { }).ReadAsStringAsync(CancellationToken.None);
     }
 
     void KeyValuePairDeconstruct(IEnumerable<KeyValuePair<string, string>> variables)
