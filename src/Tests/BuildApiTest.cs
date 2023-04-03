@@ -24,13 +24,13 @@ class BuildApiTest
         var extensions = module.GetTypes().Single(_ => _.Name == nameof(PolyfillExtensions));
         using var writer = File.CreateText(md);
 
-        foreach (var type in extensions.Methods.GroupBy(_ => _.Parameters[0].ParameterType))
+        foreach (var type in extensions.Methods.GroupBy(_ => _.Parameters[0].ParameterType).OrderBy(_ => _.Key.Name))
         {
             var targetType = type.Key;
             var targetFullName = targetType.FullName.Replace("`1", "").Replace("`2", "");
             writer.WriteLine($"### {SimpleTypeName(targetFullName)}");
             writer.WriteLine();
-            foreach (var method in type)
+            foreach (var method in type.OrderBy(_ => _.Name))
             {
                 if (!method.IsPublic)
                 {
