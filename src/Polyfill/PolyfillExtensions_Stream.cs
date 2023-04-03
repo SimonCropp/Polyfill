@@ -10,6 +10,8 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
+// ReSharper disable RedundantAttributeSuffix
 
 static partial class PolyfillExtensions
 {
@@ -27,6 +29,7 @@ static partial class PolyfillExtensions
     /// the buffer if that many bytes are not currently available, or it can be 0 (zero) if the end of the stream has
     /// been reached.
     /// </returns>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken)")]
     public static ValueTask<int> ReadAsync(
         this Stream target,
         Memory<byte> buffer,
@@ -49,6 +52,7 @@ static partial class PolyfillExtensions
     /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken)")]
     public static ValueTask WriteAsync(
         this Stream target,
         ReadOnlyMemory<byte> buffer,
@@ -71,6 +75,7 @@ static partial class PolyfillExtensions
     /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous copy operation.</returns>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.copytoasync#system-io-stream-copytoasync(system-io-stream-system-threading-cancellationtoken)")]
     public static Task CopyToAsync(
         this Stream target,
         Stream destination,

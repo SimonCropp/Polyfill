@@ -7,7 +7,9 @@
 
 using System;
 using System.Collections.Generic;
+using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
 using System.Linq;
+// ReSharper disable RedundantAttributeSuffix
 
 static partial class PolyfillExtensions
 {
@@ -20,6 +22,7 @@ static partial class PolyfillExtensions
     /// <param name="element">The value to append to source.</param>
     /// <typeparam name="TSource">The type of the elements of source.</typeparam>
     /// <returns>A new sequence that ends with element.</returns>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.append")]
     public static IEnumerable<TSource> Append<TSource>(
         this IEnumerable<TSource> source,
         TSource element)
@@ -43,6 +46,7 @@ static partial class PolyfillExtensions
     /// <typeparam name="TSource">The type of the elements in the enumerable collection.</typeparam>
     /// <returns>A new enumerable collection that contains the elements from source minus count elements from the end
     /// of the collection.</returns>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.skiplast")]
     public static IEnumerable<TSource> SkipLast<TSource>(this IEnumerable<TSource> source, int count) =>
         source.Reverse().Skip(count).Reverse();
 #endif

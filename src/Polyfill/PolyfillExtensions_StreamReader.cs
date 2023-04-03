@@ -6,8 +6,10 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
+// ReSharper disable RedundantAttributeSuffix
 
 static partial class PolyfillExtensions
 {
@@ -28,6 +30,7 @@ static partial class PolyfillExtensions
     /// The number will be less than or equal to the <paramref name="buffer"/> length, depending on whether the data is
     /// available within the stream.
     /// </returns>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken)")]
     public static ValueTask<int> ReadAsync(
         this StreamReader target,
         Memory<char> buffer,
@@ -68,6 +71,7 @@ static partial class PolyfillExtensions
     /// that has been read from the current <see cref="Stream"/> but not stored (by the
     /// <see cref="StreamReader"/>) or returned (to the caller) may be lost.
     /// </remarks>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader.readtoendasync#system-io-streamreader-readtoendasync(system-threading-cancellationtoken)")]
     public static Task<string> ReadToEndAsync(
         this StreamReader target,
         CancellationToken cancellationToken)
