@@ -75,6 +75,7 @@ static partial class PolyfillExtensions
     /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous copy operation.</returns>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.copytoasync#system-io-stream-copytoasync(system-io-stream-system-threading-cancellationtoken)")]
     public static Task CopyToAsync(
         this Stream target,
         Stream destination,

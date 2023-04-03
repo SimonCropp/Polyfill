@@ -3,6 +3,7 @@
 #pragma warning disable
 
 // ReSharper disable RedundantUsingDirective
+// ReSharper disable RedundantAttributeSuffix
 // ReSharper disable UnusedMember.Global
 
 using System.IO;
@@ -24,6 +25,7 @@ static partial class PolyfillExtensions
     /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>The task object representing the asynchronous operation.</returns>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasstreamasync#system-net-http-httpcontent-readasstreamasync(system-threading-cancellationtoken)")]
     public static Task<Stream> ReadAsStreamAsync(
         this HttpContent httpContent,
         CancellationToken cancellationToken = default)
@@ -43,6 +45,7 @@ static partial class PolyfillExtensions
     /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>The task object representing the asynchronous operation.</returns>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasbytearrayasync#system-net-http-httpcontent-readasbytearrayasync(system-threading-cancellationtoken)")]
     public static Task<byte[]> ReadAsByteArrayAsync(
         this HttpContent httpContent,
         CancellationToken cancellationToken = default)
@@ -62,6 +65,7 @@ static partial class PolyfillExtensions
     /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>The task object representing the asynchronous operation.</returns>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasstringasync#system-net-http-httpcontent-readasstringasync(system-threading-cancellationtoken)")]
     public static Task<string> ReadAsStringAsync(
         this HttpContent httpContent,
         CancellationToken cancellationToken = default)

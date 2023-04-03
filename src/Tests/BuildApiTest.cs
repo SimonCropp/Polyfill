@@ -32,13 +32,25 @@ class BuildApiTest
             writer.WriteLine();
             foreach (var method in type)
             {
+                if (!method.IsPublic)
+                {
+                    continue;
+                }
                 var parameters = string.Join(", ", method.Parameters.Skip(1).Select(_ => SimpleTypeName(_.ParameterType.FullName)));
                 var typeArgs = "";
                 if (method.HasGenericParameters)
                 {
                     typeArgs = $"<{string.Join(", ", method.GenericParameters.Select(_ => _.Name))}>";
                 }
-                writer.WriteLine($" * `{SimpleTypeName(method.ReturnType.FullName)} {method.Name}{typeArgs}({parameters})`");
+
+                var signature = $"{SimpleTypeName(method.ReturnType.FullName)} {method.Name}{typeArgs}({parameters})";
+                var descriptionAttribute = method.CustomAttributes
+                    .SingleOrDefault(_ => _.AttributeType.Name == "DescriptionAttribute");
+                if (descriptionAttribute == null)
+                {
+                    throw new($"Description required {method.FullName}");
+                }
+                writer.WriteLine($" * `{signature}` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))");
             }
 
             writer.WriteLine();
