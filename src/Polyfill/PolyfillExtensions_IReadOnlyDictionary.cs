@@ -20,6 +20,7 @@ static partial class PolyfillExtensions
     /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
     /// <returns>A TValue instance. When the method is successful, the returned object is the value associated with
     /// the specified key. When the method fails, it returns the default value for TValue.</returns>
+    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault")]
     public static TValue? GetValueOrDefault<TKey, TValue>(
         this IReadOnlyDictionary<TKey, TValue> target,
         TKey key)

@@ -11,6 +11,7 @@ static partial class PolyfillExtensions
 {
 #if NETFRAMEWORK || NETSTANDARD2_0
 
+    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode#system-string-gethashcode(system-stringcomparison)")]
     public static int GetHashCode(this string target, StringComparison comparisonType) =>
         FromComparison(comparisonType).GetHashCode(target);
 
@@ -59,6 +60,7 @@ static partial class PolyfillExtensions
     /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim substrings
     /// and include empty substrings.</param>
     /// <returns>An array that contains at most count substrings from this instance that are delimited by separator.</returns>
+    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.string.split?system-string-split(system-char-system-stringsplitoptions)")]
     public static string[] Split(this string target, char separator, StringSplitOptions options = StringSplitOptions.None) =>
         target.Split(new[] {separator}, options);
 
@@ -72,6 +74,7 @@ static partial class PolyfillExtensions
     /// <param name="options">A bitwise combination of the enumeration values that specifies whether to trim substrings
     /// and include empty substrings.</param>
     /// <returns>An array that contains at most count substrings from this instance that are delimited by separator.</returns>
+    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.string.split?system-string-split(system-char-system-int32-system-stringsplitoptions)")]
     public static string[] Split(this string target, char separator, int count, StringSplitOptions options = StringSplitOptions.None) =>
         target.Split(new[] {separator}, count, options);
 #endif
@@ -83,6 +86,7 @@ static partial class PolyfillExtensions
     /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison.</remarks>
     /// <param name="value">The character to seek.</param>
     /// <returns>true if the value parameter occurs within this string; otherwise, false.</returns>
+    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?system-string-contains(system-char)")]
     public static bool Contains(this string target, char value) =>
         target.IndexOf(value) >= 0;
 #endif
