@@ -60,7 +60,7 @@ static partial class PolyfillExtensions
         return target;
     }
 
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal?view=net-7.0#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")]
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")]
     public static bool SequenceEqual(this ReadOnlySpan<char> target, string other)
     {
         if (target.Length != other.Length)

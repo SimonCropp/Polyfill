@@ -39,7 +39,7 @@ static partial class PolyfillExtensions
     /// <param name="value">The string to seek.</param>
     /// <param name="comparisonType">One of the enumeration values that specifies the rules to use in the comparison.</param>
     /// <returns>true if the value parameter occurs within this string, or if value is the empty string (""); otherwise, false.</returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-8.0#system-string-contains(system-string-system-stringcomparison)")]
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.string.contains#system-string-contains(system-string-system-stringcomparison)")]
     public static bool Contains(this string target, string value, StringComparison comparisonType) =>
         target.IndexOf(value, comparisonType) >= 0;
 
