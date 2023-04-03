@@ -1,4 +1,4 @@
- ### HttpClient
+### HttpClient
 
  * Task<Stream> GetStreamAsync(String, CancellationToken)
  * Task<Stream> GetStreamAsync(Uri, CancellationToken)
@@ -7,61 +7,61 @@
  * Task<String> GetStringAsync(String, CancellationToken)
  * Task<String> GetStringAsync(Uri, CancellationToken)
 
- ### HttpContent
+### HttpContent
 
  * Task<Stream> ReadAsStreamAsync(CancellationToken)
  * Task<Byte[]> ReadAsByteArrayAsync(CancellationToken)
  * Task<String> ReadAsStringAsync(CancellationToken)
 
- ### IEnumerable<TSource>
+### IEnumerable<TSource>
 
- * IEnumerable<TSource> SkipLast(Int32)
+ * IEnumerable<TSource> SkipLast<TSource>(Int32)
 
- ### IReadOnlyDictionary<TKey,TValue>
+### IReadOnlyDictionary<TKey,TValue>
 
- * TValue GetValueOrDefault(TKey)
+ * TValue GetValueOrDefault<TKey, TValue>(TKey)
 
- ### IReadOnlyDictionary<TKey,TValue>
+### IReadOnlyDictionary<TKey,TValue>
 
- * TValue GetValueOrDefault(TKey, TValue)
+ * TValue GetValueOrDefault<TKey, TValue>(TKey, TValue)
 
- ### KeyValuePair<TKey,TValue>
+### KeyValuePair<TKey,TValue>
 
- * Void Deconstruct(TKey&, TValue&)
+ * Void Deconstruct<TKey, TValue>(TKey&, TValue&)
 
- ### ReadOnlySpan<Char>
+### ReadOnlySpan<Char>
 
  * Boolean Contains(Char)
 
- ### .StringBuilder
+### StringBuilder
 
  * Void Append(ReadOnlySpan<Char>)
  * Boolean Equals(ReadOnlySpan<Char>)
 
- ### ReadOnlySpan<Char>
+### ReadOnlySpan<Char>
 
  * Boolean SequenceEqual(String)
 
- ### Span<Char>
+### Span<Char>
 
  * Boolean SequenceEqual(String)
 
- ### Stream
+### Stream
 
  * ValueTask<Int32> ReadAsync(Memory<Byte>, CancellationToken)
  * ValueTask WriteAsync(ReadOnlyMemory<Byte>, CancellationToken)
  * Task CopyToAsync(Stream, CancellationToken)
 
- ### StreamReader
+### StreamReader
 
  * ValueTask<Int32> ReadAsync(Memory<Char>, CancellationToken)
  * Task<String> ReadToEndAsync(CancellationToken)
 
- ### StreamWriter
+### StreamWriter
 
  * ValueTask WriteAsync(ReadOnlyMemory<Char>, CancellationToken)
 
- ### String
+### String
 
  * Int32 GetHashCode(StringComparison)
  * Boolean Contains(String, StringComparison)
@@ -71,7 +71,7 @@
  * String[] Split(Char, Int32, StringSplitOptions)
  * Boolean Contains(Char)
 
- ### StringComparison
+### StringComparison
 
  * StringComparer FromComparison()
 

@@ -1,14 +1,14 @@
+#if NET8_0 && DEBUG
 [TestFixture]
 class BuildApiTest
 {
-#if NET8_0 && DEBUG
     static string[] namespacesToClean =
     {
         "System.Collections.Generic.",
         "System.Threading.Tasks.",
         "System.Threading.",
         "System.Net.Http.",
-        "System.Text",
+        "System.Text.",
         "System.IO.",
         "System.",
     };
@@ -28,12 +28,17 @@ class BuildApiTest
         {
             var targetType = type.Key;
             var targetFullName = targetType.FullName.Replace("`1", "").Replace("`2", "");
-            writer.WriteLine($" ### {SimpleTypeName(targetFullName)}");
+            writer.WriteLine($"### {SimpleTypeName(targetFullName)}");
             writer.WriteLine();
             foreach (var method in type)
             {
                 var parameters = string.Join(", ", method.Parameters.Skip(1).Select(_ => SimpleTypeName(_.ParameterType.FullName)));
-                writer.WriteLine($" * {SimpleTypeName(method.ReturnType.FullName)} {method.Name}({parameters})");
+                var typeArgs = "";
+                if (method.HasGenericParameters)
+                {
+                    typeArgs = $"<{string.Join(", ", method.GenericParameters.Select(_ => _.Name))}>";
+                }
+                writer.WriteLine($" * {SimpleTypeName(method.ReturnType.FullName)} {method.Name}{typeArgs}({parameters})");
             }
 
             writer.WriteLine();
@@ -50,5 +55,5 @@ class BuildApiTest
         
         return name;
     }
-#endif
 }
+#endif
