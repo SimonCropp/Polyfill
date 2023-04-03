@@ -13,7 +13,6 @@ using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
 
 static partial class PolyfillExtensions
 {
-    //TODO: move to generic
     /// <summary>
     /// Indicates whether a specified value is found in a read-only span. Values are compared using IEquatable{T}.Equals(T).
     /// </summary>
@@ -23,8 +22,9 @@ static partial class PolyfillExtensions
     public static bool Contains<T>(this ReadOnlySpan<T> target, T value)
         where T : IEquatable<T>
     {
-        foreach (var item in target)
+        for (var index = 0; index < target.Length; index++)
         {
+            var item = target[index];
             if (item.Equals(value))
             {
                 return true;
@@ -43,8 +43,9 @@ static partial class PolyfillExtensions
     public static bool Contains<T>(this Span<T> target, T value)
         where T : IEquatable<T>
     {
-        foreach (var item in target)
+        for (var index = 0; index < target.Length; index++)
         {
+            var item = target[index];
             if (item.Equals(value))
             {
                 return true;

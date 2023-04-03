@@ -9,8 +9,12 @@ partial class PolyfillExtensionsTests
     }
 
     [Test]
-    public void SpanSequenceEqual() =>
+    public void SpanSequenceEqual()
+    {
         Assert.True("value".AsSpan().SequenceEqual("value"));
+        var span = new Span<char>("value".ToCharArray());
+        Assert.True(span.SequenceEqual("value"));
+    }
 
     [Test]
     public void SpanStringBuilderAppend()
