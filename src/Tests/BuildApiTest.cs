@@ -38,7 +38,7 @@ class BuildApiTest
                 {
                     typeArgs = $"<{string.Join(", ", method.GenericParameters.Select(_ => _.Name))}>";
                 }
-                writer.WriteLine($" * {SimpleTypeName(method.ReturnType.FullName)} {method.Name}{typeArgs}({parameters})");
+                writer.WriteLine($" * `{SimpleTypeName(method.ReturnType.FullName)} {method.Name}{typeArgs}({parameters})`");
             }
 
             writer.WriteLine();
