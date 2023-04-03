@@ -14,7 +14,6 @@ class BuildApiTest
     };
 
     [Test]
-    [Explicit]
     public void Run()
     {
         var solutionDirectory = VerifyTests.AttributeReader.GetSolutionDirectory();
