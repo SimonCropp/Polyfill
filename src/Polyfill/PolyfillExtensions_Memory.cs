@@ -20,11 +20,32 @@ static partial class PolyfillExtensions
     /// <param name="value">The value to search for.</param>
     /// <returns>true if found, false otherwise.</returns>
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)")]
-    public static bool Contains(this ReadOnlySpan<char> target, char value)
+    public static bool Contains<T>(this ReadOnlySpan<T> target, T value)
+        where T : IEquatable<T>
     {
-        foreach (var ch in target)
+        foreach (var item in target)
         {
-            if (ch == value)
+            if (item.Equals(value))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Indicates whether a specified value is found in a only span. Values are compared using IEquatable{T}.Equals(T).
+    /// </summary>
+    /// <param name="value">The value to search for.</param>
+    /// <returns>true if found, false otherwise.</returns>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-span((-0))-0)")]
+    public static bool Contains<T>(this Span<T> target, T value)
+        where T : IEquatable<T>
+    {
+        foreach (var item in target)
+        {
+            if (item.Equals(value))
             {
                 return true;
             }

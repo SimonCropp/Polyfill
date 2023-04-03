@@ -1,8 +1,12 @@
 partial class PolyfillExtensionsTests
 {
     [Test]
-    public void SpanContains() =>
+    public void SpanContains()
+    {
         Assert.True("value".AsSpan().Contains('e'));
+        var span = new Span<char>("value".ToCharArray());
+        Assert.True(span.Contains('e'));
+    }
 
     [Test]
     public void SpanSequenceEqual() =>

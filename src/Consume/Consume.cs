@@ -141,6 +141,7 @@ class Consume
     void SpanContains()
     {
         var contains = "value".AsSpan().Contains('e');
+        contains = new Span<char>().Contains('e');
     }
 
     void SpanSequenceEqual()

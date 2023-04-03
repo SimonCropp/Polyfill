@@ -65,7 +65,7 @@ class BuildApiTest
         {
             name = name.Replace(toClean, "");
         }
-        
+
         return name;
     }
 }
