@@ -347,8 +347,7 @@ Reference: [Improvements in native code interop in .NET 5.0](https://devblogs.mi
 
 The class `PolyfillExtensions` includes the following extension methods:
 
-<!-- emptyInclude: api_list. path: /api_list.include.md -->
-<!-- emptyInclude: api_list -->
+include: api_list.include.md
 
 
 ## References
