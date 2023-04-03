@@ -42,14 +42,13 @@ class BuildApiTest
 
     static string SimpleTypeName(string fullName)
     {
-        return fullName;
-        // var name = fullName.Replace("`1", "").Replace("`2", "");
-        // foreach (var toClean in namespacesToClean)
-        // {
-        //     name = name.Replace(toClean, "");
-        // }
-        //
-        // return name;
+        var name = fullName.Replace("`1", "").Replace("`2", "");
+        foreach (var toClean in namespacesToClean)
+        {
+            name = name.Replace(toClean, "");
+        }
+        
+        return name;
     }
 #endif
 }

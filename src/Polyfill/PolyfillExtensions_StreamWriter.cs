@@ -8,8 +8,10 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
+// ReSharper disable RedundantAttributeSuffix
 
 static partial class PolyfillExtensions
 {
@@ -22,7 +24,7 @@ static partial class PolyfillExtensions
     /// The default value is <see cref="Cancellation.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
     public static ValueTask WriteAsync(
         this StreamWriter target,
         ReadOnlyMemory<char> buffer,

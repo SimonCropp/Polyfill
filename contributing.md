@@ -199,8 +199,10 @@ Example:
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
+// ReSharper disable RedundantAttributeSuffix
 
 static partial class PolyfillExtensions
 {
@@ -213,6 +215,7 @@ static partial class PolyfillExtensions
     /// The default value is <see cref="Cancellation.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
     public static ValueTask WriteAsync(
         this StreamWriter target,
         ReadOnlyMemory<char> buffer,
@@ -231,7 +234,7 @@ static partial class PolyfillExtensions
 }
 #endif
 ```
-<sup><a href='/src/Polyfill/PolyfillExtensions_StreamWriter.cs#L1-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensions_StreamWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/PolyfillExtensions_StreamWriter.cs#L1-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensions_StreamWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

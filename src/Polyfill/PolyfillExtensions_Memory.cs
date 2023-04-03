@@ -8,6 +8,7 @@
 using System;
 using System.Text;
 using System.Runtime.InteropServices;
+using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
 
 static partial class PolyfillExtensions
 {
