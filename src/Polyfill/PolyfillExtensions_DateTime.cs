@@ -14,11 +14,23 @@ static partial class PolyfillExtensions
     const long TicksPerMicrosecond = 10;
 
     /// <summary>
-    /// Gets the nanosecond component of the time represented by the current DateTime object.
+    /// Gets the nanosecond component of the time represented by the current <see cref="TimeSpan"/> object.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds")]
+    public static int Nanoseconds(this TimeSpan target)
+    {
+#if NET7_0_OR_GREATER
+        return target.Nanoseconds;
+#else
+        return (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
+#endif
+    }
+
+    /// <summary>
+    /// Gets the nanosecond component of the time represented by the current <see cref="DateTime"/> object.
     /// </summary>
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.datetime.nanosecond")]
-    public static int Nanosecond(
-        this DateTime target)
+    public static int Nanosecond(this DateTime target)
     {
 #if NET7_0_OR_GREATER
         return target.Nanosecond;
@@ -28,11 +40,10 @@ static partial class PolyfillExtensions
     }
 
     /// <summary>
-    /// Gets the nanosecond component of the time represented by the current DateTimeOffset object.
+    /// Gets the nanosecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
     /// </summary>
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.nanosecond")]
-    public static int Nanosecond(
-        this DateTimeOffset target)
+    public static int Nanosecond(this DateTimeOffset target)
     {
 #if NET7_0_OR_GREATER
         return target.Nanosecond;
@@ -40,12 +51,26 @@ static partial class PolyfillExtensions
         return (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
 #endif
     }
+
     /// <summary>
-    /// Gets the microsecond component of the time represented by the current DateTime object.
+    /// Gets the microsecond component of the time represented by the current <see cref="TimeSpan"/> object.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecond")]
+    public static int Microseconds(this TimeSpan target)
+    {
+#if NET7_0_OR_GREATER
+        return target.Microseconds;
+#else
+        return (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
+#endif
+    }
+
+
+    /// <summary>
+    /// Gets the microsecond component of the time represented by the current <see cref="DateTime"/> object.
     /// </summary>
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.datetime.microsecond")]
-    public static int Microsecond(
-        this DateTime target)
+    public static int Microsecond(this DateTime target)
     {
 #if NET7_0_OR_GREATER
         return target.Microsecond;
@@ -55,30 +80,36 @@ static partial class PolyfillExtensions
     }
 
     /// <summary>
-    /// Gets the microsecond component of the time represented by the current DateTimeOffset object.
+    /// Gets the microsecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
     /// </summary>
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.microsecond")]
-    public static int Microsecond(
-        this DateTimeOffset target)
+    public static int Microsecond(this DateTimeOffset target)
     {
 #if NET7_0_OR_GREATER
         return target.Microsecond;
 #else
         return (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
 #endif
+    }
+
+    static long TicksComponent(this TimeSpan target)
+    {
+        var noSeconds = new TimeSpan(target.Days, target.Hours, target.Minutes, 0);
+        var secondsPart = target - noSeconds;
+        return secondsPart.Ticks;
     }
 
     static long TicksComponent(this DateTime target)
     {
-        var withNoSeconds = new DateTime(target.Year, target.Month, target.Day, target.Hour, target.Minute, 0, target.Kind);
-        var secondsPart = target - withNoSeconds;
+        var noSeconds = new DateTime(target.Year, target.Month, target.Day, target.Hour, target.Minute, 0, target.Kind);
+        var secondsPart = target - noSeconds;
         return secondsPart.Ticks;
     }
 
     static long TicksComponent(this DateTimeOffset target)
     {
-        var withNoSeconds = new DateTimeOffset(target.Year, target.Month, target.Day, target.Hour, target.Minute, 0, target.Offset);
-        var secondsPart = target - withNoSeconds;
+        var noSeconds = new DateTimeOffset(target.Year, target.Month, target.Day, target.Hour, target.Minute, 0, target.Offset);
+        var secondsPart = target - noSeconds;
         return secondsPart.Ticks;
     }
 }
