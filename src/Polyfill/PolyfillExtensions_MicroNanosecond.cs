@@ -17,80 +17,67 @@ static partial class PolyfillExtensions
     /// Gets the nanosecond component of the time represented by the current <see cref="TimeSpan"/> object.
     /// </summary>
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds")]
-    public static int Nanoseconds(this TimeSpan target)
-    {
+    public static int Nanoseconds(this TimeSpan target) =>
 #if NET7_0_OR_GREATER
-        return target.Nanoseconds;
+        target.Nanoseconds;
 #else
-        return (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
+        (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
 #endif
-    }
 
     /// <summary>
     /// Gets the nanosecond component of the time represented by the current <see cref="DateTime"/> object.
     /// </summary>
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.datetime.nanosecond")]
-    public static int Nanosecond(this DateTime target)
-    {
+    public static int Nanosecond(this DateTime target) =>
 #if NET7_0_OR_GREATER
-        return target.Nanosecond;
+        target.Nanosecond;
 #else
-        return (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
+        (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
 #endif
-    }
 
     /// <summary>
     /// Gets the nanosecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
     /// </summary>
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.nanosecond")]
-    public static int Nanosecond(this DateTimeOffset target)
-    {
+    public static int Nanosecond(this DateTimeOffset target) =>
 #if NET7_0_OR_GREATER
-        return target.Nanosecond;
+        target.Nanosecond;
 #else
-        return (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
+        (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
 #endif
-    }
 
     /// <summary>
     /// Gets the microsecond component of the time represented by the current <see cref="TimeSpan"/> object.
     /// </summary>
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecond")]
-    public static int Microseconds(this TimeSpan target)
-    {
+    public static int Microseconds(this TimeSpan target) =>
 #if NET7_0_OR_GREATER
-        return target.Microseconds;
+        target.Microseconds;
 #else
-        return (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
+        (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
 #endif
-    }
-
 
     /// <summary>
     /// Gets the microsecond component of the time represented by the current <see cref="DateTime"/> object.
     /// </summary>
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.datetime.microsecond")]
-    public static int Microsecond(this DateTime target)
-    {
+    public static int Microsecond(this DateTime target) =>
 #if NET7_0_OR_GREATER
-        return target.Microsecond;
+        target.Microsecond;
 #else
-        return (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
+        (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
 #endif
-    }
 
     /// <summary>
     /// Gets the microsecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
     /// </summary>
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.microsecond")]
-    public static int Microsecond(this DateTimeOffset target)
-    {
+    public static int Microsecond(this DateTimeOffset target) =>
 #if NET7_0_OR_GREATER
-        return target.Microsecond;
+        target.Microsecond;
 #else
-        return (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
+        (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
 #endif
-    }
 
     static long TicksComponent(this TimeSpan target)
     {
