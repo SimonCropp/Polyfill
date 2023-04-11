@@ -138,10 +138,11 @@ class Consume
         var read = await stream.ReadAsync(memory);
     }
 
-    void SpanContains()
+    void StringBuilderCopyTo()
     {
-        var contains = "value".AsSpan().Contains('e');
-        contains = new Span<char>().Contains('e');
+        var builder = new StringBuilder("value");
+        var span = new Span<char>(new char[1]);
+        builder.CopyTo(0, span, 1);
     }
 
     void SpanSequenceEqual()
