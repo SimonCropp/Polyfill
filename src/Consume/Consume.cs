@@ -150,6 +150,11 @@ class Consume
         var sequenceEqual = "value".AsSpan().SequenceEqual("value");
     }
 
+    void SpanStartsWith()
+    {
+        var sequenceEqual = "value".AsSpan().StartsWith("value");
+    }
+
     void SpanStringBuilderAppend()
     {
         var builder = new StringBuilder();

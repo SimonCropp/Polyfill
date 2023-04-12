@@ -24,8 +24,7 @@ static partial class PolyfillExtensions
     {
         for (var index = 0; index < target.Length; index++)
         {
-            var item = target[index];
-            if (item.Equals(value))
+            if (target[index].Equals(value))
             {
                 return true;
             }
@@ -45,8 +44,7 @@ static partial class PolyfillExtensions
     {
         for (var index = 0; index < target.Length; index++)
         {
-            var item = target[index];
-            if (item.Equals(value))
+            if (target[index].Equals(value))
             {
                 return true;
             }
@@ -65,9 +63,7 @@ static partial class PolyfillExtensions
 
         for (var index = 0; index < target.Length; index++)
         {
-            var ch1 = target[index];
-            var ch2 = other[index];
-            if (ch1 != ch2)
+            if (target[index] != other[index])
             {
                 return false;
             }
@@ -86,9 +82,45 @@ static partial class PolyfillExtensions
 
         for (var index = 0; index < target.Length; index++)
         {
-            var ch1 = target[index];
-            var ch2 = other[index];
-            if (ch1 != ch2)
+            if (target[index] != other[index])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")]
+    public static bool StartsWith(this ReadOnlySpan<char> target, string other)
+    {
+        if (other.Length > target.Length)
+        {
+            return false;
+        }
+
+        for (var index = 0; index < other.Length; index++)
+        {
+            if (target[index] != other[index])
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith#system-memoryextensions-startswith-1(system-span((-0))-system-readonlyspan((-0)))")]
+    public static bool StartsWith(this Span<char> target, string other)
+    {
+        if (other.Length > target.Length)
+        {
+            return false;
+        }
+
+        for (var index = 0; index < other.Length; index++)
+        {
+            if (target[index] != other[index])
             {
                 return false;
             }
