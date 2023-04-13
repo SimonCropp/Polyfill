@@ -12,8 +12,24 @@ partial class PolyfillExtensionsTests
     public void SpanSequenceEqual()
     {
         Assert.True("value".AsSpan().SequenceEqual("value"));
+        Assert.False("value".AsSpan().SequenceEqual("value2"));
+        Assert.False("value".AsSpan().SequenceEqual("v"));
         var span = new Span<char>("value".ToCharArray());
         Assert.True(span.SequenceEqual("value"));
+        Assert.False(span.SequenceEqual("value2"));
+        Assert.False(span.SequenceEqual("v"));
+    }
+
+    [Test]
+    public void SpanStartsWith()
+    {
+        Assert.True("value".AsSpan().StartsWith("value"));
+        Assert.False("value".AsSpan().StartsWith("value2"));
+        Assert.True("value".AsSpan().StartsWith("v"));
+        var span = new Span<char>("value".ToCharArray());
+        Assert.True(span.StartsWith("value"));
+        Assert.False(span.StartsWith("value2"));
+        Assert.True(span.StartsWith("val"));
     }
 
     [Test]

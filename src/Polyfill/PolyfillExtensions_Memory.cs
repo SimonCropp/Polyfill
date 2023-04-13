@@ -24,8 +24,7 @@ static partial class PolyfillExtensions
     {
         for (var index = 0; index < target.Length; index++)
         {
-            var item = target[index];
-            if (item.Equals(value))
+            if (target[index].Equals(value))
             {
                 return true;
             }
@@ -45,8 +44,7 @@ static partial class PolyfillExtensions
     {
         for (var index = 0; index < target.Length; index++)
         {
-            var item = target[index];
-            if (item.Equals(value))
+            if (target[index].Equals(value))
             {
                 return true;
             }
@@ -56,45 +54,19 @@ static partial class PolyfillExtensions
     }
 
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")]
-    public static bool SequenceEqual(this ReadOnlySpan<char> target, string other)
-    {
-        if (target.Length != other.Length)
-        {
-            return false;
-        }
-
-        for (var index = 0; index < target.Length; index++)
-        {
-            var ch1 = target[index];
-            var ch2 = other[index];
-            if (ch1 != ch2)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
+    public static bool SequenceEqual(this ReadOnlySpan<char> target, string other) =>
+        target.SequenceEqual(other.AsSpan());
 
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))")]
-    public static bool SequenceEqual(this Span<char> target, string other)
-    {
-        if (target.Length != other.Length)
-        {
-            return false;
-        }
+    public static bool SequenceEqual(this Span<char> target, string other) =>
+        target.SequenceEqual(other.AsSpan());
 
-        for (var index = 0; index < target.Length; index++)
-        {
-            var ch1 = target[index];
-            var ch2 = other[index];
-            if (ch1 != ch2)
-            {
-                return false;
-            }
-        }
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")]
+    public static bool StartsWith(this ReadOnlySpan<char> target, string other) =>
+        target.StartsWith(other.AsSpan());
 
-        return true;
-    }
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith#system-memoryextensions-startswith-1(system-span((-0))-system-readonlyspan((-0)))")]
+    public static bool StartsWith(this Span<char> target, string other) =>
+        target.StartsWith(other.AsSpan());
 }
 #endif
