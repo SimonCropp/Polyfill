@@ -152,7 +152,15 @@ class Consume
 
     void SpanStartsWith()
     {
-        var sequenceEqual = "value".AsSpan().StartsWith("value");
+        var startsWith = "value".AsSpan().StartsWith("value");
+        startsWith = "value".AsSpan().StartsWith("value", StringComparison.Ordinal);
+    }
+
+
+    void SpanEndsWith()
+    {
+        var endsWith = "value".AsSpan().EndsWith("value");
+        endsWith = "value".AsSpan().EndsWith("value", StringComparison.Ordinal);
     }
 
     void SpanStringBuilderAppend()
