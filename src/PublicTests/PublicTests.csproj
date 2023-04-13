@@ -21,7 +21,7 @@
       <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
     <Compile Include="..\Tests\*.cs" Exclude="..\Tests\BuildApiTest.cs" />
-    <PackageReference Include="Verify.NUnit" Version="19.12.1" />
+    <PackageReference Include="Verify.NUnit" Version="19.12.2" />
     <PackageReference Include="Verify.DiffPlex" Version="2.2.0" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.4.2" />
