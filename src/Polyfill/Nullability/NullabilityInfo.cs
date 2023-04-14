@@ -1,4 +1,13 @@
 #nullable enable
+
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable UnusedMember.Global
+// ReSharper disable ArrangeNamespaceBody
+// ReSharper disable MergeIntoPattern
+// ReSharper disable RedundantSuppressNullableWarningExpression
+// ReSharper disable RedundantIfElseBlock
+// ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
+
 using System.Linq;
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.

@@ -1,4 +1,13 @@
 #nullable enable
+
+// ReSharper disable RedundantUsingDirective
+// ReSharper disable UnusedMember.Global
+// ReSharper disable ArrangeNamespaceBody
+// ReSharper disable MergeIntoPattern
+// ReSharper disable RedundantSuppressNullableWarningExpression
+// ReSharper disable RedundantIfElseBlock
+// ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
+
 using System.Linq;
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -67,7 +76,6 @@ namespace System.Reflection
         /// <returns><see cref="NullabilityInfo" /></returns>
         public NullabilityInfo Create(ParameterInfo parameterInfo)
         {
-            
 
             EnsureIsSupported();
 
@@ -180,7 +188,6 @@ namespace System.Reflection
         /// <returns><see cref="NullabilityInfo" /></returns>
         public NullabilityInfo Create(PropertyInfo propertyInfo)
         {
-            
 
             EnsureIsSupported();
 
@@ -202,7 +209,7 @@ namespace System.Reflection
 
             if (setter != null)
             {
-                CheckNullabilityAttributes(nullability, setter.GetParameters().Last().GetCustomAttributesData());
+                CheckNullabilityAttributes(nullability, setter.GetParameters()[^1].GetCustomAttributesData());
             }
             else
             {
@@ -233,7 +240,6 @@ namespace System.Reflection
         /// <returns><see cref="NullabilityInfo" /></returns>
         public NullabilityInfo Create(EventInfo eventInfo)
         {
-            
 
             EnsureIsSupported();
 
@@ -250,7 +256,6 @@ namespace System.Reflection
         /// <returns><see cref="NullabilityInfo" /></returns>
         public NullabilityInfo Create(FieldInfo fieldInfo)
         {
-            
 
             EnsureIsSupported();
 
