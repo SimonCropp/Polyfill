@@ -1,9 +1,9 @@
 ﻿// ReSharper disable RedundantUsingDirective
 #nullable enable
 
+using System;
 using System.Collections.Concurrent;
-
-namespace System.Reflection;
+using System.Reflection;
 
 /// <summary>
 /// Static and thread safe wrapper around <see cref="NullabilityInfoContext"/>.
@@ -11,7 +11,7 @@ namespace System.Reflection;
 #if PolyPublic
 public
 #endif
-static class NullabilityInfoExtensions
+static partial class PolyfillExtensions
 {
     static ConcurrentDictionary<ParameterInfo, NullabilityInfo> parameterCache = new();
     static ConcurrentDictionary<PropertyInfo, NullabilityInfo> propertyCache = new();
