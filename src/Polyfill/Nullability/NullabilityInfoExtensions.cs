@@ -38,10 +38,8 @@ static class NullabilityInfoExtensions
         throw new ArgumentException($"Unsupported type:{info.GetType().FullName}");
     }
 
-    public static NullabilityState GetNullability(this MemberInfo info)
-    {
-        return GetReadOrWriteState(info.GetNullabilityInfo());
-    }
+    public static NullabilityState GetNullability(this MemberInfo info) =>
+        GetReadOrWriteState(info.GetNullabilityInfo());
 
     public static bool IsNullable(this MemberInfo info)
     {
@@ -49,19 +47,15 @@ static class NullabilityInfoExtensions
         return IsNullable(info.Name, nullability);
     }
 
-    public static NullabilityInfo GetNullabilityInfo(this FieldInfo info)
-    {
-        return fieldCache.GetOrAdd(info, inner =>
+    public static NullabilityInfo GetNullabilityInfo(this FieldInfo info) =>
+        fieldCache.GetOrAdd(info, inner =>
         {
             var nullabilityContext = new NullabilityInfoContext();
             return nullabilityContext.Create(inner);
         });
-    }
 
-    public static NullabilityState GetNullability(this FieldInfo info)
-    {
-        return GetReadOrWriteState(info.GetNullabilityInfo());
-    }
+    public static NullabilityState GetNullability(this FieldInfo info) =>
+        GetReadOrWriteState(info.GetNullabilityInfo());
 
     public static bool IsNullable(this FieldInfo info)
     {
@@ -69,19 +63,15 @@ static class NullabilityInfoExtensions
         return IsNullable(info.Name, nullability);
     }
 
-    public static NullabilityInfo GetNullabilityInfo(this EventInfo info)
-    {
-        return eventCache.GetOrAdd(info, inner =>
+    public static NullabilityInfo GetNullabilityInfo(this EventInfo info) =>
+        eventCache.GetOrAdd(info, inner =>
         {
             var nullabilityContext = new NullabilityInfoContext();
             return nullabilityContext.Create(inner);
         });
-    }
 
-    public static NullabilityState GetNullability(this EventInfo info)
-    {
-        return GetReadOrWriteState(info.GetNullabilityInfo());
-    }
+    public static NullabilityState GetNullability(this EventInfo info) =>
+        GetReadOrWriteState(info.GetNullabilityInfo());
 
     public static bool IsNullable(this EventInfo info)
     {
@@ -89,19 +79,15 @@ static class NullabilityInfoExtensions
         return IsNullable(info.Name, nullability);
     }
 
-    public static NullabilityInfo GetNullabilityInfo(this PropertyInfo info)
-    {
-        return propertyCache.GetOrAdd(info, inner =>
+    public static NullabilityInfo GetNullabilityInfo(this PropertyInfo info) =>
+        propertyCache.GetOrAdd(info, inner =>
         {
             var nullabilityContext = new NullabilityInfoContext();
             return nullabilityContext.Create(inner);
         });
-    }
 
-    public static NullabilityState GetNullability(this PropertyInfo info)
-    {
-        return GetReadOrWriteState(info.GetNullabilityInfo());
-    }
+    public static NullabilityState GetNullability(this PropertyInfo info) =>
+        GetReadOrWriteState(info.GetNullabilityInfo());
 
     public static bool IsNullable(this PropertyInfo info)
     {
@@ -109,19 +95,15 @@ static class NullabilityInfoExtensions
         return IsNullable(info.Name, nullability);
     }
 
-    public static NullabilityInfo GetNullabilityInfo(this ParameterInfo info)
-    {
-        return parameterCache.GetOrAdd(info, inner =>
+    public static NullabilityInfo GetNullabilityInfo(this ParameterInfo info) =>
+        parameterCache.GetOrAdd(info, inner =>
         {
             var nullabilityContext = new NullabilityInfoContext();
             return nullabilityContext.Create(inner);
         });
-    }
 
-    public static NullabilityState GetNullability(this ParameterInfo info)
-    {
-        return GetReadOrWriteState(info.GetNullabilityInfo());
-    }
+    public static NullabilityState GetNullability(this ParameterInfo info) =>
+        GetReadOrWriteState(info.GetNullabilityInfo());
 
     public static bool IsNullable(this ParameterInfo info)
     {
@@ -156,8 +138,6 @@ static class NullabilityInfoExtensions
         throw new($"The nullability of '{nullability.Type.FullName}.{name}' is unknown. Assembly: {nullability.Type.Assembly.FullName}.");
     }
 
-    static bool IsNullable(string name, NullabilityInfo nullability)
-    {
-        return GetKnownState(name, nullability) == NullabilityState.Nullable;
-    }
+    static bool IsNullable(string name, NullabilityInfo nullability) =>
+        GetKnownState(name, nullability) == NullabilityState.Nullable;
 }
