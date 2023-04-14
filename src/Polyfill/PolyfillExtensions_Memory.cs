@@ -7,6 +7,7 @@
 // ReSharper disable RedundantAttributeSuffix
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
@@ -62,11 +63,19 @@ static partial class PolyfillExtensions
         target.SequenceEqual(other.AsSpan());
 
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")]
-    public static bool StartsWith(this ReadOnlySpan<char> target, string other) =>
-        target.StartsWith(other.AsSpan());
+    public static bool StartsWith(this ReadOnlySpan<char> target, string other, StringComparison comparison = StringComparison.CurrentCulture) =>
+        target.StartsWith(other.AsSpan(), comparison);
 
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith#system-memoryextensions-startswith-1(system-span((-0))-system-readonlyspan((-0)))")]
     public static bool StartsWith(this Span<char> target, string other) =>
         target.StartsWith(other.AsSpan());
+
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith#system-memoryextensions-endswith-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")]
+    public static bool EndsWith(this ReadOnlySpan<char> target, string other, StringComparison comparison = StringComparison.CurrentCulture) =>
+        target.EndsWith(other.AsSpan(), comparison);
+
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith#system-memoryextensions-endswith-1(system-span((-0))-system-readonlyspan((-0)))")]
+    public static bool EndsWith(this Span<char> target, string other) =>
+        target.EndsWith(other.AsSpan());
 }
 #endif
