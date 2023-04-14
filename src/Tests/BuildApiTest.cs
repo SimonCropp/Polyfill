@@ -36,6 +36,7 @@ class BuildApiTest
                 {
                     continue;
                 }
+
                 var parameters = string.Join(", ", method.Parameters.Skip(1).Select(_ => SimpleTypeName(_.ParameterType.FullName)));
                 var typeArgs = "";
                 if (method.HasGenericParameters)
@@ -50,7 +51,8 @@ class BuildApiTest
                 {
                     throw new($"Description required {method.FullName}");
                 }
-                writer.WriteLine($" * `{signature}` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))");
+
+                writer.WriteLine($" * `{signature}` [reference]({descriptionAttribute.ConstructorArguments.Single().Value})");
             }
 
             writer.WriteLine();
