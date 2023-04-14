@@ -14,7 +14,6 @@ public class Sync
         var infoContext = await client.GetStringAsync("https://raw.githubusercontent.com/dotnet/runtime/main/src/libraries/System.Private.CoreLib/src/System/Reflection/NullabilityInfoContext.cs");
 
         infoContext = infoContext
-            .Replace("[^1]", ".Last()")
             .Replace(".IsGenericMethodParameter", ".IsGenericMethodParameter()")
             .Replace("SR.NullabilityInfoContext_NotSupported", "\"NullabilityInfoContext is not supported\"")
             .Replace("ArgumentNullException.ThrowIfNull(propertyInfo);", "")
