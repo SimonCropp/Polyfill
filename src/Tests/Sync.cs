@@ -20,13 +20,7 @@ public class Sync
             .Replace("ArgumentNullException.ThrowIfNull(propertyInfo);", "")
             .Replace("ArgumentNullException.ThrowIfNull(eventInfo);", "")
             .Replace("ArgumentNullException.ThrowIfNull(fieldInfo);", "")
-            .Replace("ArgumentNullException.ThrowIfNull(parameterInfo);", "")
-            .Replace(
-                "if (info.HasSameMetadataDefinitionAs(member))",
-                "if (NullabilityInfoExtensions.HasSameMetadataDefinitionAs(info,member))")
-            .Replace(
-                "return type.GetGenericTypeDefinition().GetMemberWithSameMetadataDefinitionAs(member);",
-                "return NullabilityInfoExtensions.GetMemberWithSameMetadataDefinitionAs(type.GetGenericTypeDefinition(), member);");
+            .Replace("ArgumentNullException.ThrowIfNull(parameterInfo);", "");
 
         infoContext = infoContext.Replace("!!", "");
 
