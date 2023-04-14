@@ -23,23 +23,25 @@ public class NullabilitySync
 
         var info = await client.GetStringAsync("https://raw.githubusercontent.com/dotnet/runtime/main/src/libraries/System.Private.CoreLib/src/System/Reflection/NullabilityInfo.cs");
 
-        var prefix = @"#nullable enable
+        var prefix = @"
+#if !NET6_0_OR_GREATER
 
-// ReSharper disable RedundantUsingDirective
-// ReSharper disable UnusedMember.Global
-// ReSharper disable ArrangeNamespaceBody
-// ReSharper disable MergeIntoPattern
-// ReSharper disable RedundantSuppressNullableWarningExpression
-// ReSharper disable RedundantIfElseBlock
-// ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
+#nullable enable
+
+// ReSharper disable All
 
 using System.Linq;
 ";
-        infoContext = prefix + infoContext;
+
+        var suffix = @"
+#endif
+";
+
+        infoContext = prefix + infoContext + suffix;
         infoContext = MakeInternal(infoContext);
         OverWrite(infoContext, "NullabilityInfoContext.cs");
 
-        info = prefix + info;
+        info = prefix + info + suffix;
         info = MakeInternal(info);
         OverWrite(info, "NullabilityInfo.cs");
     }

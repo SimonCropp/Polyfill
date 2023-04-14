@@ -1,12 +1,9 @@
+
+#if !NET6_0_OR_GREATER
+
 #nullable enable
 
-// ReSharper disable RedundantUsingDirective
-// ReSharper disable UnusedMember.Global
-// ReSharper disable ArrangeNamespaceBody
-// ReSharper disable MergeIntoPattern
-// ReSharper disable RedundantSuppressNullableWarningExpression
-// ReSharper disable RedundantIfElseBlock
-// ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
+// ReSharper disable All
 
 using System.Linq;
 // Licensed to the .NET Foundation under one or more agreements.
@@ -73,3 +70,5 @@ namespace System.Reflection
         Nullable
     }
 }
+
+#endif
