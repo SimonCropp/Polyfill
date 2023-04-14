@@ -22,7 +22,6 @@ public class NullabilitySync
         infoContext = infoContext.Replace("!!", "");
 
         var info = await client.GetStringAsync("https://raw.githubusercontent.com/dotnet/runtime/main/src/libraries/System.Private.CoreLib/src/System/Reflection/NullabilityInfo.cs");
-        info = info.Replace("!!", "");
 
         var prefix = @"#nullable enable
 
