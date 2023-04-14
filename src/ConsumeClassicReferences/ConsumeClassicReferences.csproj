@@ -16,6 +16,9 @@
     <Compile Include="..\Polyfill\Nullable\*.cs">
       <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
+    <Compile Include="..\Polyfill\Nullability\*.cs">
+      <Link>Pollyfill\Nullability\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
     <Compile Include="..\Polyfill\IndexRange\*.cs">
       <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
