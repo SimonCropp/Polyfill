@@ -26,6 +26,11 @@ class BuildApiTest
 
         foreach (var type in extensions.Methods.Where(_ => !_.IsConstructor).GroupBy(_ => _.Parameters[0].ParameterType).OrderBy(_ => _.Key.Name))
         {
+            if (!type.Any(_ => _.IsPublic))
+            {
+                continue;
+            }
+
             var targetType = type.Key;
             var targetFullName = targetType.FullName.Replace("`1", "").Replace("`2", "");
             writer.WriteLine($"### {SimpleTypeName(targetFullName)}");
