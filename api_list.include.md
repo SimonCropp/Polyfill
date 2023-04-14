@@ -10,6 +10,18 @@
  * `Int32 Microsecond()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.microsecond)
  * `Int32 Nanosecond()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.nanosecond)
 
+### Reflection.EventInfo
+
+ * `Reflection.NullabilityState GetNullability()`
+ * `Reflection.NullabilityInfo GetNullabilityInfo()`
+ * `Boolean IsNullable()`
+
+### Reflection.FieldInfo
+
+ * `Reflection.NullabilityState GetNullability()`
+ * `Reflection.NullabilityInfo GetNullabilityInfo()`
+ * `Boolean IsNullable()`
+
 ### HttpClient
 
  * `Task<Byte[]> GetByteArrayAsync(String, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-string-system-threading-cancellationtoken))
@@ -43,7 +55,25 @@
 
 ### Reflection.MemberInfo
 
+ * `Reflection.NullabilityState GetNullability()`
+ * `Reflection.NullabilityInfo GetNullabilityInfo()`
  * `Boolean HasSameMetadataDefinitionAs(Reflection.MemberInfo)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas)
+ * `Boolean IsNullable()`
+
+### Reflection.NullabilityInfo
+
+
+### Reflection.ParameterInfo
+
+ * `Reflection.NullabilityState GetNullability()`
+ * `Reflection.NullabilityInfo GetNullabilityInfo()`
+ * `Boolean IsNullable()`
+
+### Reflection.PropertyInfo
+
+ * `Reflection.NullabilityState GetNullability()`
+ * `Reflection.NullabilityInfo GetNullabilityInfo()`
+ * `Boolean IsNullable()`
 
 ### ReadOnlySpan<T>
 
