@@ -50,8 +50,8 @@ static partial class PolyfillExtensions
     public static NullabilityInfo GetNullabilityInfo(this FieldInfo info) =>
         fieldCache.GetOrAdd(info, inner =>
         {
-            var nullabilityContext = new NullabilityInfoContext();
-            return nullabilityContext.Create(inner);
+            var context = new NullabilityInfoContext();
+            return context.Create(inner);
         });
 
     public static NullabilityState GetNullability(this FieldInfo info) =>
@@ -66,8 +66,8 @@ static partial class PolyfillExtensions
     public static NullabilityInfo GetNullabilityInfo(this EventInfo info) =>
         eventCache.GetOrAdd(info, inner =>
         {
-            var nullabilityContext = new NullabilityInfoContext();
-            return nullabilityContext.Create(inner);
+            var context = new NullabilityInfoContext();
+            return context.Create(inner);
         });
 
     public static NullabilityState GetNullability(this EventInfo info) =>
@@ -82,8 +82,8 @@ static partial class PolyfillExtensions
     public static NullabilityInfo GetNullabilityInfo(this PropertyInfo info) =>
         propertyCache.GetOrAdd(info, inner =>
         {
-            var nullabilityContext = new NullabilityInfoContext();
-            return nullabilityContext.Create(inner);
+            var context = new NullabilityInfoContext();
+            return context.Create(inner);
         });
 
     public static NullabilityState GetNullability(this PropertyInfo info) =>
@@ -98,8 +98,8 @@ static partial class PolyfillExtensions
     public static NullabilityInfo GetNullabilityInfo(this ParameterInfo info) =>
         parameterCache.GetOrAdd(info, inner =>
         {
-            var nullabilityContext = new NullabilityInfoContext();
-            return nullabilityContext.Create(inner);
+            var context = new NullabilityInfoContext();
+            return context.Create(inner);
         });
 
     public static NullabilityState GetNullability(this ParameterInfo info) =>
