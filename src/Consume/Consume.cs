@@ -8,6 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
@@ -147,12 +148,27 @@ class Consume
 
     void SpanSequenceEqual()
     {
-        var sequenceEqual = "value".AsSpan().SequenceEqual("value");
+        var result = "value".AsSpan().SequenceEqual("value");
     }
 
     void SpanStartsWith()
     {
-        var sequenceEqual = "value".AsSpan().StartsWith("value");
+        var result = "value".AsSpan().StartsWith("value");
+    }
+
+    void IsGenericMethodParameter()
+    {
+        var result = typeof(string).IsGenericMethodParameter();
+    }
+
+    void HasSameMetadataDefinitionAs(MemberInfo info)
+    {
+        var result = info.HasSameMetadataDefinitionAs(info);
+    }
+
+    void GetMemberWithSameMetadataDefinitionAs(MemberInfo info)
+    {
+        var result = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
     }
 
     void SpanStringBuilderAppend()
