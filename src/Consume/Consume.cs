@@ -153,8 +153,16 @@ class Consume
 
     void SpanStartsWith()
     {
-        var result = "value".AsSpan().StartsWith("value");
+       var startsWith = "value".AsSpan().StartsWith("value");
+       startsWith = "value".AsSpan().StartsWith("value", StringComparison.Ordinal);
     }
+
+
+    void SpanEndsWith()
+    {
+        var result = "value".AsSpan().EndsWith("value");
+        result = "value".AsSpan().EndsWith("value", StringComparison.Ordinal);
+   }
 
     void IsGenericMethodParameter()
     {
@@ -169,7 +177,7 @@ class Consume
     void GetMemberWithSameMetadataDefinitionAs(MemberInfo info)
     {
         var result = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
-    }
+   }
 
     void SpanStringBuilderAppend()
     {

@@ -33,6 +33,18 @@ partial class PolyfillExtensionsTests
     }
 
     [Test]
+    public void SpanEndsWith()
+    {
+        Assert.True("value".AsSpan().EndsWith("value"));
+        Assert.False("value".AsSpan().EndsWith("value2"));
+        Assert.True("value".AsSpan().EndsWith("e"));
+        var span = new Span<char>("value".ToCharArray());
+        Assert.True(span.EndsWith("value"));
+        Assert.False(span.EndsWith("value2"));
+        Assert.True(span.EndsWith("lue"));
+    }
+
+    [Test]
     public void SpanStringBuilderAppend()
     {
         var builder = new StringBuilder();
