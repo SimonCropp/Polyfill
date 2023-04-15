@@ -48,8 +48,19 @@ using System.Linq;
 
     static string MakeInternal(string source) =>
         source
-            .Replace("public enum", "enum")
-            .Replace("public sealed class", "sealed class");
+            .Replace(
+                "public enum",
+                @"
+#if PolyPublic
+public
+#endif
+enum")
+            .Replace(
+                "public sealed class",
+                @"#if PolyPublic
+public
+#endif
+sealed class");
 
     static void OverWrite(string? content, string file)
     {

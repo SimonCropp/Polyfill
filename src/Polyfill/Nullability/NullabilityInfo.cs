@@ -16,7 +16,10 @@ namespace System.Reflection
     /// <summary>
     /// A class that represents nullability info
     /// </summary>
-    sealed class NullabilityInfo
+    #if PolyPublic
+public
+#endif
+sealed class NullabilityInfo
     {
         internal NullabilityInfo(Type type, NullabilityState readState, NullabilityState writeState,
             NullabilityInfo? elementType, NullabilityInfo[] typeArguments)
@@ -54,7 +57,11 @@ namespace System.Reflection
     /// <summary>
     /// An enum that represents nullability state
     /// </summary>
-    enum NullabilityState
+    
+#if PolyPublic
+public
+#endif
+enum NullabilityState
     {
         /// <summary>
         /// Nullability context not enabled (oblivious)
