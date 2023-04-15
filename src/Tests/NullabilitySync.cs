@@ -9,9 +9,12 @@ public class NullabilitySync
     static string dir = Path.Combine(solutionDir, "PolyFill", "Nullability");
 
     [Test]
-    [Platform("Windows")]
     public async Task Run()
     {
+        if (!OperatingSystem.IsWindows())
+        {
+            return;
+        }
         using var client = new HttpClient();
         var infoContext = await client.GetStringAsync("https://raw.githubusercontent.com/dotnet/runtime/main/src/libraries/System.Private.CoreLib/src/System/Reflection/NullabilityInfoContext.cs");
 
