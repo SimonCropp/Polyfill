@@ -392,6 +392,103 @@ If using ValueTask APIs and consuming in a project that target `netframework`, `
 ```
 
 
+## Nullability
+
+
+### Example target class
+
+Given the following class
+
+<!-- snippet: NullabilityTarget -->
+<a id='snippet-nullabilitytarget'></a>
+```cs
+class NullabilityTarget
+{
+    public string? StringField;
+    public string?[] ArrayField;
+    public Dictionary<string, object?> GenericField;
+}
+```
+<sup><a href='/src/Tests/NullabilityTarget.cs#L3-L10' title='Snippet source file'>snippet source</a> | <a href='#snippet-nullabilitytarget' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+### NullabilityInfoContext
+
+From the Nullability.Source package
+
+<!-- snippet: NullabilityUsage -->
+<a id='snippet-nullabilityusage'></a>
+```cs
+[Test]
+public void Test()
+{
+    var type = typeof(NullabilityTarget);
+    var arrayField = type.GetField("ArrayField")!;
+    var genericField = type.GetField("GenericField")!;
+
+    var context = new NullabilityInfoContext();
+
+    var arrayInfo = context.Create(arrayField);
+
+    Assert.AreEqual(NullabilityState.NotNull, arrayInfo.ReadState);
+    Assert.AreEqual(NullabilityState.Nullable, arrayInfo.ElementType!.ReadState);
+
+    var genericInfo = context.Create(genericField);
+
+    Assert.AreEqual(NullabilityState.NotNull, genericInfo.ReadState);
+    Assert.AreEqual(NullabilityState.NotNull, genericInfo.GenericTypeArguments[0].ReadState);
+    Assert.AreEqual(NullabilityState.Nullable, genericInfo.GenericTypeArguments[1].ReadState);
+}
+```
+<sup><a href='/src/Tests/NullabilitySamples.cs#L6-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-nullabilityusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+### NullabilityInfoContextEx
+
+From the Nullability package
+
+<!-- snippet: NullabilityUsage -->
+<a id='snippet-nullabilityusage'></a>
+```cs
+[Test]
+public void Test()
+{
+    var type = typeof(NullabilityTarget);
+    var arrayField = type.GetField("ArrayField")!;
+    var genericField = type.GetField("GenericField")!;
+
+    var context = new NullabilityInfoContext();
+
+    var arrayInfo = context.Create(arrayField);
+
+    Assert.AreEqual(NullabilityState.NotNull, arrayInfo.ReadState);
+    Assert.AreEqual(NullabilityState.Nullable, arrayInfo.ElementType!.ReadState);
+
+    var genericInfo = context.Create(genericField);
+
+    Assert.AreEqual(NullabilityState.NotNull, genericInfo.ReadState);
+    Assert.AreEqual(NullabilityState.NotNull, genericInfo.GenericTypeArguments[0].ReadState);
+    Assert.AreEqual(NullabilityState.Nullable, genericInfo.GenericTypeArguments[1].ReadState);
+}
+```
+<sup><a href='/src/Tests/NullabilitySamples.cs#L6-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-nullabilityusage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+### NullabilityInfoExtensions
+
+`NullabilityInfoExtensions` provides static and thread safe wrapper around <see cref="NullabilityInfoContext"/>. It adds three extension methods to each of ParameterInfo, PropertyInfo, EventInfo, and FieldInfo.
+
+ * `GetNullabilityInfo`: returns the `NullabilityInfo` for the target info.
+ * `GetNullability`: returns the `NullabilityState` for the state (`NullabilityInfo.ReadState` or `NullabilityInfo.WriteState` depending on which has more info) of target info.
+ * `IsNullable`: given the state (`NullabilityInfo.ReadState` or `NullabilityInfo.WriteState` depending on which has more info) of the info:
+   * Returns true if state is `NullabilityState.Nullable`.
+   * Returns false if state is `NullabilityState.NotNull`.
+   * Throws an exception if state is `NullabilityState.Unknown`.
+
+
 ## Alternatives
 
 

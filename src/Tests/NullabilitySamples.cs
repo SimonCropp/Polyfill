@@ -1,16 +1,9 @@
 ﻿#pragma warning disable CS0649
 #pragma warning disable CS8618
 
-class NullabilityTarget
-{
-    public string? StringField;
-    public string?[] ArrayField;
-    public Dictionary<string, object?> GenericField;
-}
-
 public class NullabilitySamples
 {
-    #region SourceUsage
+    #region NullabilityUsage
 
     [Test]
     public void Test()
@@ -35,7 +28,7 @@ public class NullabilitySamples
 
     #endregion
 
-    #region Extension
+    #region NullabilityExtension
 
     [Test]
     public void ExtensionTests()
@@ -48,7 +41,6 @@ public class NullabilitySamples
     }
 
     #endregion
-
 
     class PropertyTarget
     {
