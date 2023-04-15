@@ -15,6 +15,7 @@ public class NullabilitySync
         {
             return;
         }
+
         using var client = new HttpClient();
         var infoContext = await client.GetStringAsync("https://raw.githubusercontent.com/dotnet/runtime/main/src/libraries/System.Private.CoreLib/src/System/Reflection/NullabilityInfoContext.cs");
 
