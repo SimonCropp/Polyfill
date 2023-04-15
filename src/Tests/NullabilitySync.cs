@@ -10,7 +10,7 @@ public class NullabilitySync
     [Test]
     public async Task Run()
     {
-        var client = new HttpClient();
+        using var client = new HttpClient();
         var infoContext = await client.GetStringAsync("https://raw.githubusercontent.com/dotnet/runtime/main/src/libraries/System.Private.CoreLib/src/System/Reflection/NullabilityInfoContext.cs");
 
         infoContext = infoContext
