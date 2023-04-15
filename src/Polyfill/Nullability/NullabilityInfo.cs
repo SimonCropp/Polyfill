@@ -57,8 +57,7 @@ sealed class NullabilityInfo
     /// <summary>
     /// An enum that represents nullability state
     /// </summary>
-    
-#if PolyPublic
+    #if PolyPublic
 public
 #endif
 enum NullabilityState

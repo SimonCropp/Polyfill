@@ -50,17 +50,20 @@ using System.Linq;
         source
             .Replace(
                 "public enum",
-                @"
-#if PolyPublic
-public
-#endif
-enum")
+                """
+                    #if PolyPublic
+                    public
+                    #endif
+                    enum
+                    """)
             .Replace(
                 "public sealed class",
-                @"#if PolyPublic
-public
-#endif
-sealed class");
+                """
+                    #if PolyPublic
+                    public
+                    #endif
+                    sealed class
+                    """);
 
     static void OverWrite(string? content, string file)
     {
