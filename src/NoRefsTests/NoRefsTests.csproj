@@ -22,7 +22,7 @@
     <Compile Include="..\Polyfill\PlatformCompatibility\*.cs">
       <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
-    <Compile Include="..\Tests\*.cs" Exclude="..\Tests\BuildApiTest.cs" />
+    <Compile Include="..\Tests\*.cs" Exclude="..\Tests\BuildApiTest.cs;..\Tests\NullabilitySync.cs" />
     <Compile Remove="..\Tests\IndexRangeSample.cs" />
     <Compile Remove="..\Tests\NamedTupleSample.cs" />
     <Compile Remove="..\Tests\RangeIndexUsage.cs" />
