@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿#if NET8_0
+using System.Net.Http;
 using VerifyTests;
 
 [TestFixture]
@@ -65,10 +66,11 @@ using System.Linq;
                     sealed class
                     """);
 
-    static void OverWrite(string? content, string file)
+    static void OverWrite(string content, string file)
     {
         var path = Path.Combine(sourceOnlyDir, file);
         File.Delete(path);
         File.WriteAllText(path, content);
     }
 }
+#endif
