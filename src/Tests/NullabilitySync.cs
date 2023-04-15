@@ -6,7 +6,7 @@ using VerifyTests;
 public class NullabilitySync
 {
     static string solutionDir = AttributeReader.GetSolutionDirectory();
-    static string sourceOnlyDir = Path.Combine(solutionDir, "PolyFill", "Nullability");
+    static string dir = Path.Combine(solutionDir, "PolyFill", "Nullability");
 
     [Test]
     public async Task Run()
@@ -20,7 +20,6 @@ public class NullabilitySync
 
         var lines = infoContext.Split('\r', '\n');
         infoContext = string.Join(Environment.NewLine, lines.Where(_ => !_.Contains("ArgumentNullException.ThrowIfNull")));
-        infoContext = infoContext.Replace("!!", "");
 
         var info = await client.GetStringAsync("https://raw.githubusercontent.com/dotnet/runtime/main/src/libraries/System.Private.CoreLib/src/System/Reflection/NullabilityInfo.cs");
 
@@ -68,7 +67,7 @@ using System.Linq;
 
     static void OverWrite(string content, string file)
     {
-        var path = Path.Combine(sourceOnlyDir, file);
+        var path = Path.Combine(dir, file);
         File.Delete(path);
         File.WriteAllText(path, content);
     }
