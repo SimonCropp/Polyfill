@@ -9,6 +9,7 @@ public class NullabilitySync
     static string dir = Path.Combine(solutionDir, "PolyFill", "Nullability");
 
     [Test]
+    [Platform("Windows")]
     public async Task Run()
     {
         using var client = new HttpClient();
