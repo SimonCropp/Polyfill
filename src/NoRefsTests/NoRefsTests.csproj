@@ -29,7 +29,7 @@
     <Compile Remove="..\Tests\NamedTupleSample.cs" />
     <Compile Remove="..\Tests\RangeIndexUsage.cs" />
     <Compile Remove="..\Tests\PolyfillExtensionsTests_*.cs" />
-    <PackageReference Include="Verify.NUnit" Version="19.12.2" />
+    <PackageReference Include="Verify.NUnit" Version="19.12.3" />
     <PackageReference Include="Verify.DiffPlex" Version="2.2.0" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.4.2" />
