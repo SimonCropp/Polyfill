@@ -415,40 +415,6 @@ class NullabilityTarget
 
 ### NullabilityInfoContext
 
-From the Nullability.Source package
-
-<!-- snippet: NullabilityUsage -->
-<a id='snippet-nullabilityusage'></a>
-```cs
-[Test]
-public void Test()
-{
-    var type = typeof(NullabilityTarget);
-    var arrayField = type.GetField("ArrayField")!;
-    var genericField = type.GetField("GenericField")!;
-
-    var context = new NullabilityInfoContext();
-
-    var arrayInfo = context.Create(arrayField);
-
-    Assert.AreEqual(NullabilityState.NotNull, arrayInfo.ReadState);
-    Assert.AreEqual(NullabilityState.Nullable, arrayInfo.ElementType!.ReadState);
-
-    var genericInfo = context.Create(genericField);
-
-    Assert.AreEqual(NullabilityState.NotNull, genericInfo.ReadState);
-    Assert.AreEqual(NullabilityState.NotNull, genericInfo.GenericTypeArguments[0].ReadState);
-    Assert.AreEqual(NullabilityState.Nullable, genericInfo.GenericTypeArguments[1].ReadState);
-}
-```
-<sup><a href='/src/Tests/NullabilitySamples.cs#L6-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-nullabilityusage' title='Start of snippet'>anchor</a></sup>
-<!-- endSnippet -->
-
-
-### NullabilityInfoContextEx
-
-From the Nullability package
-
 <!-- snippet: NullabilityUsage -->
 <a id='snippet-nullabilityusage'></a>
 ```cs
