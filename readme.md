@@ -479,7 +479,7 @@ public void Test()
 
 ### NullabilityInfoExtensions
 
-`NullabilityInfoExtensions` provides static and thread safe wrapper around <see cref="NullabilityInfoContext"/>. It adds three extension methods to each of ParameterInfo, PropertyInfo, EventInfo, and FieldInfo.
+`NullabilityInfoExtensions` provides static and thread safe wrapper around `NullabilityInfoContext`. It adds three extension methods to each of ParameterInfo, PropertyInfo, EventInfo, and FieldInfo.
 
  * `GetNullabilityInfo`: returns the `NullabilityInfo` for the target info.
  * `GetNullability`: returns the `NullabilityState` for the state (`NullabilityInfo.ReadState` or `NullabilityInfo.WriteState` depending on which has more info) of target info.
