@@ -11,6 +11,9 @@
     <Compile Include="..\Polyfill\Nullable\*.cs">
       <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
+    <Compile Include="..\Polyfill\Nullability\*.cs">
+      <Link>Pollyfill\Nullability\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
     <Compile Include="..\Polyfill\IndexRange\*.cs">
       <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
@@ -20,7 +23,7 @@
     <Compile Include="..\Polyfill\PlatformCompatibility\*.cs">
       <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
-    <Compile Include="..\Tests\*.cs" Exclude="..\Tests\BuildApiTest.cs" />
+    <Compile Include="..\Tests\*.cs" Exclude="..\Tests\BuildApiTest.cs;..\Tests\NullabilitySync.cs" />
     <PackageReference Include="Verify.NUnit" Version="19.12.3" />
     <PackageReference Include="Verify.DiffPlex" Version="2.2.0" />
     <PackageReference Include="NUnit" Version="3.13.3" />

@@ -19,6 +19,8 @@
           target="contentFiles/cs/netstandard2.0/Polyfill/"/>
     <file src="Nullable\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/Nullable"/>
+    <file src="Nullability\*.cs"
+          target="contentFiles/cs/netstandard2.0/Polyfill/Nullability"/>
     <file src="IndexRange\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/IndexRange"/>
     <file src="Trimming\*.cs"

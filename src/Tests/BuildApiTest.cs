@@ -24,8 +24,13 @@ class BuildApiTest
         var extensions = module.GetTypes().Single(_ => _.Name == nameof(PolyfillExtensions));
         using var writer = File.CreateText(md);
 
-        foreach (var type in extensions.Methods.GroupBy(_ => _.Parameters[0].ParameterType).OrderBy(_ => _.Key.Name))
+        foreach (var type in extensions.Methods.Where(_ => !_.IsConstructor).GroupBy(_ => _.Parameters[0].ParameterType).OrderBy(_ => _.Key.Name))
         {
+            if (!type.Any(_ => _.IsPublic))
+            {
+                continue;
+            }
+
             var targetType = type.Key;
             var targetFullName = targetType.FullName.Replace("`1", "").Replace("`2", "");
             writer.WriteLine($"### {SimpleTypeName(targetFullName)}");
@@ -49,10 +54,12 @@ class BuildApiTest
                     .SingleOrDefault(_ => _.AttributeType.Name == "DescriptionAttribute");
                 if (descriptionAttribute == null)
                 {
-                    throw new($"Description required {method.FullName}");
+                    writer.WriteLine($" * `{signature}`");
                 }
-
-                writer.WriteLine($" * `{signature}` [reference]({descriptionAttribute.ConstructorArguments.Single().Value})");
+                else
+                {
+                    writer.WriteLine($" * `{signature}` [reference]({descriptionAttribute.ConstructorArguments.Single().Value})");
+                }
             }
 
             writer.WriteLine();
