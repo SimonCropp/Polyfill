@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT'">net461;net462;net47;net471;net472;net48;net481;net6.0-windows</TargetFrameworks>
+    <TargetFrameworks>$(TargetFrameworks);netstandard2.0;netstandard2.1;netcoreapp2.0;netcoreapp2.1;netcoreapp2.2;netcoreapp3.0;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\Consume\*.cs" />
+    <Compile Include="..\Polyfill\*.cs">
+      <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="..\Polyfill\Nullable\*.cs">
+      <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="..\Polyfill\Nullability\*.cs">
+      <Link>Pollyfill\Nullability\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="..\Polyfill\IndexRange\*.cs">
+      <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="..\Polyfill\Trimming\*.cs">
+      <Link>Pollyfill\Trimming\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="..\Polyfill\PlatformCompatibility\*.cs">
+      <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(ProjectDir)..\Polyfill\Polyfill.props" />
+  <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />
+</Project>
