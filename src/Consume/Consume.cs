@@ -64,8 +64,10 @@ class Consume
         type = typeof(DisableRuntimeMarshallingAttribute);
         type = typeof(RequiresUnreferencedCodeAttribute);
 
+#if (NET46X && VALUETUPLEREFERENCED) || NET47X || NET48X || NETSTANDARD2_0 || NETCOREAPP2X
         var range = "value"[1..];
         var index = "value"[^2];
+#endif
 
         var startsWith = "value".StartsWith('a');
         var endsWith = "value".EndsWith('a');
@@ -124,7 +126,7 @@ class Consume
         }
     }
 
-#if VALUETUPLEREFERENCED
+#if (NET46X && VALUETUPLEREFERENCED) || NET47X || NET48X || NETSTANDARD2_0 || NETCOREAPP2X
 
     static (string value1, bool value2) NamedTupleMethod() =>
         new("value", false);
