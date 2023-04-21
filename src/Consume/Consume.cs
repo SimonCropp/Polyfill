@@ -40,8 +40,6 @@ class Consume
         type = typeof(SkipLocalsInitAttribute);
         type = typeof(TupleElementNamesAttribute);
         type = typeof(DebuggerNonUserCodeAttribute);
-        type = typeof(ValueTuple<>);
-        type = typeof(ValueTuple);
         type = typeof(UnscopedRefAttribute);
         type = typeof(InterpolatedStringHandlerArgumentAttribute);
         type = typeof(InterpolatedStringHandlerAttribute);
@@ -185,6 +183,18 @@ class Consume
         result = "value".AsSpan().EndsWith("value", StringComparison.Ordinal);
     }
 
+    void SpanStringBuilderAppend()
+    {
+        var builder = new StringBuilder();
+        builder.Append("value".AsSpan());
+    }
+
+    void StringEqualsSpan()
+    {
+        var builder = new StringBuilder("value");
+        var equals = builder.Equals("value".AsSpan());
+    }
+
 #endif
 
     void IsGenericMethodParameter()
@@ -200,17 +210,5 @@ class Consume
     void GetMemberWithSameMetadataDefinitionAs(MemberInfo info)
     {
         var result = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
-    }
-
-    void SpanStringBuilderAppend()
-    {
-        var builder = new StringBuilder();
-        builder.Append("value".AsSpan());
-    }
-
-    void StringEqualsSpan()
-    {
-        var builder = new StringBuilder("value");
-        var equals = builder.Equals("value".AsSpan());
     }
 }
