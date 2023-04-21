@@ -94,6 +94,8 @@ class Consume
         var contains = "a b".Contains(' ');
     }
 
+#if HTTPREFERENCED
+
     static void Http()
     {
         new HttpClient().GetStreamAsync("", CancellationToken.None);
@@ -114,15 +116,20 @@ class Consume
         }).ReadAsStringAsync(CancellationToken.None);
     }
 
+#endif
+
     void KeyValuePairDeconstruct(IEnumerable<KeyValuePair<string, string>> variables)
     {
         foreach (var (name, value) in variables)
         {
         }
     }
+
 #if VALUETUPLEREFERENCED
+
     static (string value1, bool value2) NamedTupleMethod() =>
         new("value", false);
+
 #endif
 
     async Task StreamReaderReadAsync()
