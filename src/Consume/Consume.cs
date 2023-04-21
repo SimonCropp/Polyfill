@@ -132,6 +132,14 @@ class Consume
 
 #endif
 
+    async Task StreamReaderReadToEndAsync()
+    {
+        var reader = new StreamReader(new MemoryStream());
+        var read = await reader.ReadToEndAsync(CancellationToken.None);
+    }
+
+#if MEMORYREFERENCED
+
     async Task StreamReaderReadAsync()
     {
         var result = new char[5];
@@ -139,13 +147,6 @@ class Consume
         var reader = new StreamReader(new MemoryStream());
         var read = await reader.ReadAsync(memory);
     }
-
-    async Task StreamReaderReadToEndAsync()
-    {
-        var reader = new StreamReader(new MemoryStream());
-        var read = await reader.ReadToEndAsync(CancellationToken.None);
-    }
-
     async Task StreamReadAsync()
     {
         var input = new byte[]
@@ -183,6 +184,8 @@ class Consume
         var result = "value".AsSpan().EndsWith("value");
         result = "value".AsSpan().EndsWith("value", StringComparison.Ordinal);
     }
+
+#endif
 
     void IsGenericMethodParameter()
     {
