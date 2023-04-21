@@ -1,4 +1,4 @@
-﻿#if NET8_0
+﻿#if NET8_0 && DEBUG
 using System.Net.Http;
 using VerifyTests;
 
@@ -26,7 +26,7 @@ public class NullabilitySync
                 "CheckNullabilityAttributes(nullability, setter.GetParameters()[^1].GetCustomAttributesData());",
                 """
                 var parameters = setter.GetParameters();
-                CheckNullabilityAttributes(nullability, parameters[parameters.Length-1].GetCustomAttributesData());
+                                CheckNullabilityAttributes(nullability, parameters[parameters.Length-1].GetCustomAttributesData());
                 """);
 
         var lines = infoContext.Split('\r', '\n');

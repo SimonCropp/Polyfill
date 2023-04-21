@@ -211,7 +211,7 @@ sealed class NullabilityInfoContext
             {
                 var parameters = setter.GetParameters();
 
-CheckNullabilityAttributes(nullability, parameters[parameters.Length-1].GetCustomAttributesData());
+                CheckNullabilityAttributes(nullability, parameters[parameters.Length-1].GetCustomAttributesData());
             }
             else
             {
