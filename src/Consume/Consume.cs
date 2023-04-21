@@ -71,13 +71,19 @@ class Consume
         var startsWith = "value".StartsWith('a');
         var endsWith = "value".EndsWith('a');
 
-        var enumerable = (IEnumerable<string>)new List<string> {"a", "b"};
+        var enumerable = (IEnumerable<string>) new List<string>
+        {
+            "a",
+            "b"
+        };
         var append = enumerable.Append("c");
         var skipLast = enumerable.SkipLast(1);
 
-        var dictionary = new Dictionary<string,string?>
+        var dictionary = new Dictionary<string, string?>
         {
-            {"key", "value"}
+            {
+                "key", "value"
+            }
         };
 
         dictionary.GetValueOrDefault("key");
@@ -97,9 +103,15 @@ class Consume
         new HttpClient().GetStringAsync("", CancellationToken.None);
         new HttpClient().GetStringAsync(new Uri(""), CancellationToken.None);
 
-        new ByteArrayContent(new byte[] { }).ReadAsStreamAsync(CancellationToken.None);
-        new ByteArrayContent(new byte[] { }).ReadAsByteArrayAsync(CancellationToken.None);
-        new ByteArrayContent(new byte[] { }).ReadAsStringAsync(CancellationToken.None);
+        new ByteArrayContent(new byte[]
+        {
+        }).ReadAsStreamAsync(CancellationToken.None);
+        new ByteArrayContent(new byte[]
+        {
+        }).ReadAsByteArrayAsync(CancellationToken.None);
+        new ByteArrayContent(new byte[]
+        {
+        }).ReadAsStringAsync(CancellationToken.None);
     }
 
     void KeyValuePairDeconstruct(IEnumerable<KeyValuePair<string, string>> variables)
@@ -108,9 +120,10 @@ class Consume
         {
         }
     }
-
+#if VALUETUPLEREFERENCED
     static (string value1, bool value2) NamedTupleMethod() =>
         new("value", false);
+#endif
 
     async Task StreamReaderReadAsync()
     {
@@ -153,8 +166,8 @@ class Consume
 
     void SpanStartsWith()
     {
-       var startsWith = "value".AsSpan().StartsWith("value");
-       startsWith = "value".AsSpan().StartsWith("value", StringComparison.Ordinal);
+        var startsWith = "value".AsSpan().StartsWith("value");
+        startsWith = "value".AsSpan().StartsWith("value", StringComparison.Ordinal);
     }
 
 
@@ -162,7 +175,7 @@ class Consume
     {
         var result = "value".AsSpan().EndsWith("value");
         result = "value".AsSpan().EndsWith("value", StringComparison.Ordinal);
-   }
+    }
 
     void IsGenericMethodParameter()
     {
@@ -177,7 +190,7 @@ class Consume
     void GetMemberWithSameMetadataDefinitionAs(MemberInfo info)
     {
         var result = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
-   }
+    }
 
     void SpanStringBuilderAppend()
     {
