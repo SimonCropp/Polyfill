@@ -21,7 +21,13 @@ public class NullabilitySync
 
         infoContext = infoContext
             .Replace(".IsGenericMethodParameter", ".IsGenericMethodParameter()")
-            .Replace("SR.NullabilityInfoContext_NotSupported", "\"NullabilityInfoContext is not supported\"");
+            .Replace("SR.NullabilityInfoContext_NotSupported", "\"NullabilityInfoContext is not supported\"")
+            .Replace(
+                "CheckNullabilityAttributes(nullability, setter.GetParameters()[^1].GetCustomAttributesData());",
+                """
+                var parameters = setter.GetParameters();
+                CheckNullabilityAttributes(nullability, parameters[parameters.Length-1].GetCustomAttributesData());
+                """);
 
         var lines = infoContext.Split('\r', '\n');
         infoContext = string.Join(Environment.NewLine, lines.Where(_ => !_.Contains("ArgumentNullException.ThrowIfNull")));
