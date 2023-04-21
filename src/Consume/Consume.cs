@@ -38,7 +38,8 @@ class Consume
         type = typeof(RequiredMemberAttribute);
         type = typeof(SetsRequiredMembersAttribute);
         type = typeof(SkipLocalsInitAttribute);
-        type = typeof(TupleElementNamesAttribute);
+        //TODO:
+        // type = typeof(TupleElementNamesAttribute);
         type = typeof(DebuggerNonUserCodeAttribute);
         type = typeof(UnscopedRefAttribute);
         type = typeof(InterpolatedStringHandlerArgumentAttribute);
