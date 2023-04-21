@@ -50,7 +50,8 @@ class Consume
         type = typeof(RequiresUnreferencedCodeAttribute);
         type = typeof(UnconditionalSuppressMessageAttribute);
         type = typeof(CompilerFeatureRequiredAttribute);
-        type = typeof(AsyncMethodBuilderAttribute);
+        //TODO:
+        //type = typeof(AsyncMethodBuilderAttribute);
         type = typeof(ObsoletedOSPlatformAttribute);
         type = typeof(SupportedOSPlatformAttribute);
         type = typeof(SupportedOSPlatformGuardAttribute);
