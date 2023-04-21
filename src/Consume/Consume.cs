@@ -40,8 +40,6 @@ class Consume
         type = typeof(SkipLocalsInitAttribute);
         type = typeof(TupleElementNamesAttribute);
         type = typeof(DebuggerNonUserCodeAttribute);
-        type = typeof(ValueTuple<>);
-        type = typeof(ValueTuple);
         type = typeof(UnscopedRefAttribute);
         type = typeof(InterpolatedStringHandlerArgumentAttribute);
         type = typeof(InterpolatedStringHandlerAttribute);
@@ -52,7 +50,8 @@ class Consume
         type = typeof(RequiresUnreferencedCodeAttribute);
         type = typeof(UnconditionalSuppressMessageAttribute);
         type = typeof(CompilerFeatureRequiredAttribute);
-        type = typeof(AsyncMethodBuilderAttribute);
+        //TODO:
+        //type = typeof(AsyncMethodBuilderAttribute);
         type = typeof(ObsoletedOSPlatformAttribute);
         type = typeof(SupportedOSPlatformAttribute);
         type = typeof(SupportedOSPlatformGuardAttribute);
@@ -71,13 +70,19 @@ class Consume
         var startsWith = "value".StartsWith('a');
         var endsWith = "value".EndsWith('a');
 
-        var enumerable = (IEnumerable<string>)new List<string> {"a", "b"};
+        var enumerable = (IEnumerable<string>) new List<string>
+        {
+            "a",
+            "b"
+        };
         var append = enumerable.Append("c");
         var skipLast = enumerable.SkipLast(1);
 
-        var dictionary = new Dictionary<string,string?>
+        var dictionary = new Dictionary<string, string?>
         {
-            {"key", "value"}
+            {
+                "key", "value"
+            }
         };
 
         dictionary.GetValueOrDefault("key");
@@ -88,6 +93,8 @@ class Consume
         var contains = "a b".Contains(' ');
     }
 
+#if HTTPREFERENCED
+
     static void Http()
     {
         new HttpClient().GetStreamAsync("", CancellationToken.None);
@@ -97,10 +104,18 @@ class Consume
         new HttpClient().GetStringAsync("", CancellationToken.None);
         new HttpClient().GetStringAsync(new Uri(""), CancellationToken.None);
 
-        new ByteArrayContent(new byte[] { }).ReadAsStreamAsync(CancellationToken.None);
-        new ByteArrayContent(new byte[] { }).ReadAsByteArrayAsync(CancellationToken.None);
-        new ByteArrayContent(new byte[] { }).ReadAsStringAsync(CancellationToken.None);
+        new ByteArrayContent(new byte[]
+        {
+        }).ReadAsStreamAsync(CancellationToken.None);
+        new ByteArrayContent(new byte[]
+        {
+        }).ReadAsByteArrayAsync(CancellationToken.None);
+        new ByteArrayContent(new byte[]
+        {
+        }).ReadAsStringAsync(CancellationToken.None);
     }
+
+#endif
 
     void KeyValuePairDeconstruct(IEnumerable<KeyValuePair<string, string>> variables)
     {
@@ -109,8 +124,20 @@ class Consume
         }
     }
 
+#if VALUETUPLEREFERENCED
+
     static (string value1, bool value2) NamedTupleMethod() =>
         new("value", false);
+
+#endif
+
+    async Task StreamReaderReadToEndAsync()
+    {
+        var reader = new StreamReader(new MemoryStream());
+        var read = await reader.ReadToEndAsync(CancellationToken.None);
+    }
+
+#if MEMORYREFERENCED
 
     async Task StreamReaderReadAsync()
     {
@@ -119,13 +146,6 @@ class Consume
         var reader = new StreamReader(new MemoryStream());
         var read = await reader.ReadAsync(memory);
     }
-
-    async Task StreamReaderReadToEndAsync()
-    {
-        var reader = new StreamReader(new MemoryStream());
-        var read = await reader.ReadToEndAsync(CancellationToken.None);
-    }
-
     async Task StreamReadAsync()
     {
         var input = new byte[]
@@ -153,8 +173,8 @@ class Consume
 
     void SpanStartsWith()
     {
-       var startsWith = "value".AsSpan().StartsWith("value");
-       startsWith = "value".AsSpan().StartsWith("value", StringComparison.Ordinal);
+        var startsWith = "value".AsSpan().StartsWith("value");
+        startsWith = "value".AsSpan().StartsWith("value", StringComparison.Ordinal);
     }
 
 
@@ -162,7 +182,21 @@ class Consume
     {
         var result = "value".AsSpan().EndsWith("value");
         result = "value".AsSpan().EndsWith("value", StringComparison.Ordinal);
-   }
+    }
+
+    void SpanStringBuilderAppend()
+    {
+        var builder = new StringBuilder();
+        builder.Append("value".AsSpan());
+    }
+
+    void StringEqualsSpan()
+    {
+        var builder = new StringBuilder("value");
+        var equals = builder.Equals("value".AsSpan());
+    }
+
+#endif
 
     void IsGenericMethodParameter()
     {
@@ -177,17 +211,5 @@ class Consume
     void GetMemberWithSameMetadataDefinitionAs(MemberInfo info)
     {
         var result = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
-   }
-
-    void SpanStringBuilderAppend()
-    {
-        var builder = new StringBuilder();
-        builder.Append("value".AsSpan());
-    }
-
-    void StringEqualsSpan()
-    {
-        var builder = new StringBuilder("value");
-        var equals = builder.Equals("value".AsSpan());
     }
 }
