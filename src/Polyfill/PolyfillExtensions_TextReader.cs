@@ -30,9 +30,9 @@ static partial class PolyfillExtensions
     /// The number will be less than or equal to the <paramref name="buffer"/> length, depending on whether the data is
     /// available within the stream.
     /// </returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken)")]
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readasync#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)")]
     public static ValueTask<int> ReadAsync(
-        this StreamReader target,
+        this TextReader target,
         Memory<char> buffer,
         CancellationToken cancellationToken = default)
     {
@@ -57,23 +57,9 @@ static partial class PolyfillExtensions
     /// <exception cref="ArgumentOutOfRangeException">The number of characters is larger than <see cref="int.MaxValue"/>.</exception>
     /// <exception cref="ObjectDisposedException">The stream reader has been disposed.</exception>
     /// <exception cref="InvalidOperationException">The reader is currently in use by a previous read operation.</exception>
-    /// <example>
-    /// The following example shows how to read the contents of a file by using the <see cref="ReadToEndAsync(CancellationToken)"/> method.
-    /// <code lang="C#">
-    /// using CancellationTokenSource tokenSource = new (TimeSpan.FromSeconds(1));
-    /// using StreamReader reader = File.OpenText("existingfile.txt");
-    ///
-    /// Console.WriteLine(await reader.ReadToEndAsync(tokenSource.Token));
-    /// </code>
-    /// </example>
-    /// <remarks>
-    /// If this method is canceled via <paramref name="cancellationToken"/>, some data
-    /// that has been read from the current <see cref="Stream"/> but not stored (by the
-    /// <see cref="StreamReader"/>) or returned (to the caller) may be lost.
-    /// </remarks>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.streamreader.readtoendasync#system-io-streamreader-readtoendasync(system-threading-cancellationtoken)")]
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readtoendasync#system-io-textreader-readtoendasync(system-threading-cancellationtoken)")]
     public static Task<string> ReadToEndAsync(
-        this StreamReader target,
+        this TextReader target,
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();

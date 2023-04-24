@@ -186,8 +186,8 @@ Add an extension method to `PolyfillExtensions_TYPE.cs` where `TYPE` is the type
 
 Example:
 
-<!-- snippet: PolyfillExtensions_StreamWriter.cs -->
-<a id='snippet-PolyfillExtensions_StreamWriter.cs'></a>
+<!-- snippet: PolyfillExtensions_TextWriter.cs -->
+<a id='snippet-PolyfillExtensions_TextWriter.cs'></a>
 ```cs
 #if TASKSEXTENSIONSREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
 
@@ -215,9 +215,9 @@ static partial class PolyfillExtensions
     /// The default value is <see cref="Cancellation.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
     public static ValueTask WriteAsync(
-        this StreamWriter target,
+        this TextWriter target,
         ReadOnlyMemory<char> buffer,
         CancellationToken cancellationToken = default)
     {
@@ -241,9 +241,9 @@ static partial class PolyfillExtensions
     /// The default value is <see cref="Cancellation.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writelineasync#system-io-streamwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
     public static ValueTask WriteLineAsync(
-        this StreamWriter target,
+        this TextWriter target,
         ReadOnlyMemory<char> buffer,
         CancellationToken cancellationToken = default)
     {
@@ -260,7 +260,7 @@ static partial class PolyfillExtensions
 }
 #endif
 ```
-<sup><a href='/src/Polyfill/PolyfillExtensions_StreamWriter.cs#L1-L70' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensions_StreamWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/PolyfillExtensions_TextWriter.cs#L1-L70' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensions_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
