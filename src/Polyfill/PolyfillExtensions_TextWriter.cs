@@ -24,9 +24,9 @@ static partial class PolyfillExtensions
     /// The default value is <see cref="Cancellation.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writeasync#system-io-streamwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
     public static ValueTask WriteAsync(
-        this StreamWriter target,
+        this TextWriter target,
         ReadOnlyMemory<char> buffer,
         CancellationToken cancellationToken = default)
     {
@@ -50,9 +50,9 @@ static partial class PolyfillExtensions
     /// The default value is <see cref="Cancellation.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.streamwriter.writelineasync#system-io-streamwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
     public static ValueTask WriteLineAsync(
-        this StreamWriter target,
+        this TextWriter target,
         ReadOnlyMemory<char> buffer,
         CancellationToken cancellationToken = default)
     {
