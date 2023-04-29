@@ -42,6 +42,23 @@ static partial class PolyfillExtensions
     }
 
     /// <summary>
+    /// Wwrites a character memory region to the stream.
+    /// </summary>
+    /// <param name="buffer">The character memory region to write to the stream.</param>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))")]
+    public static void Write(
+        this TextWriter target,
+        ReadOnlyMemory<char> buffer)
+    {
+        if (!MemoryMarshal.TryGetArray(buffer, out var segment))
+        {
+            segment = new(buffer.ToArray());
+        }
+
+        target.Write(segment.Array!, segment.Offset, segment.Count);
+    }
+
+    /// <summary>
     /// Asynchronously writes the text representation of a character memory region to the stream, followed by a line terminator.
     /// </summary>
     /// <param name="buffer">The character memory region to write to the stream.</param>
@@ -65,6 +82,23 @@ static partial class PolyfillExtensions
         }
 
         return new(target.WriteLineAsync(segment.Array!, segment.Offset, segment.Count));
+    }
+
+    /// <summary>
+    /// Writes the text representation of a character memory region to the stream, followed by a line terminator.
+    /// </summary>
+    /// <param name="buffer">The character memory region to write to the stream.</param>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline#system-io-textwriter-writeline(system-readonlyspan((system-char)))")]
+    public static void WriteLine(
+        this TextWriter target,
+        ReadOnlyMemory<char> buffer)
+    {
+        if (!MemoryMarshal.TryGetArray(buffer, out var segment))
+        {
+            segment = new(buffer.ToArray());
+        }
+
+        target.WriteLine(segment.Array!, segment.Offset, segment.Count);
     }
 }
 #endif
