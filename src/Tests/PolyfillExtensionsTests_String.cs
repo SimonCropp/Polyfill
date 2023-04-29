@@ -17,6 +17,22 @@ partial class PolyfillExtensionsTests
     }
 
     [Test]
+    public void CopyTo()
+    {
+        var span = new Span<char>(new char[1]);
+        "a".CopyTo(span);
+        Assert.Equals("a", span.ToString());
+    }
+
+    [Test]
+    public void TryCopyTo()
+    {
+        var span = new Span<char>(new char[1]);
+        Assert.IsTrue("a".TryCopyTo(span));
+        Assert.Equals("a", span.ToString());
+    }
+
+    [Test]
     public void StringContainsStringComparison() =>
         Assert.True("value".Contains("E", StringComparison.OrdinalIgnoreCase));
 
