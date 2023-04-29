@@ -2,6 +2,9 @@
   <PropertyGroup>
     <PrepareForBuildDependsOn>$(PrepareForBuildDependsOn);PreparePolyfill</PrepareForBuildDependsOn>
   </PropertyGroup>
+  <PropertyGroup Condition="$(PolyPublic) == 'true' ">
+    <DefineConstants>$(DefineConstants);PolyPublic</DefineConstants>
+  </PropertyGroup>
 
   <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets">
     <PropertyGroup>

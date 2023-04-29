@@ -2,9 +2,6 @@
   <PropertyGroup Condition="$(AllowUnsafeBlocks) == 'true' ">
     <DefineConstants>$(DefineConstants);AllowUnsafeBlocks</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$(PolyPublic) == 'true' ">
-    <DefineConstants>$(DefineConstants);PolyPublic</DefineConstants>
-  </PropertyGroup>
   <PropertyGroup>
     <ValueTupleReferenced>false</ValueTupleReferenced>
     <MemoryReferenced>false</MemoryReferenced>
