@@ -11,6 +11,26 @@ using System.Text;
 
 static partial class PolyfillExtensions
 {
+#if (MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP)) || NET5_0
+
+    /// <summary>
+    /// Copies the contents of this string into the destination span.
+    /// </summary>
+    /// <param name="destination">The span into which to copy this string's contents</param>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.string.copyto")]
+    public static void CopyTo(this string target, Span<char> destination) =>
+        target.AsSpan().CopyTo(destination);
+
+    /// <summary>
+    /// Copies the contents of this string into the destination span.
+    /// </summary>
+    /// <param name="destination">The span into which to copy this string's contents</param>
+    /// <returns>true if the data was copied; false if the destination was too short to fit the contents of the string.</returns>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.string.trycopyto")]
+    public static bool TryCopyTo(this string target, Span<char> destination) =>
+        target.AsSpan().TryCopyTo(destination);
+#endif
+
 #if NETFRAMEWORK || NETSTANDARD2_0
 
     /// <summary>
