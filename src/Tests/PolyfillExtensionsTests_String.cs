@@ -21,7 +21,7 @@ partial class PolyfillExtensionsTests
     {
         var span = new Span<char>(new char[1]);
         "a".CopyTo(span);
-        Assert.Equals("a", span.ToString());
+        Assert.AreEqual("a", span.ToString());
     }
 
     [Test]
@@ -29,7 +29,7 @@ partial class PolyfillExtensionsTests
     {
         var span = new Span<char>(new char[1]);
         Assert.IsTrue("a".TryCopyTo(span));
-        Assert.Equals("a", span.ToString());
+        Assert.AreEqual("a", span.ToString());
     }
 
     [Test]
