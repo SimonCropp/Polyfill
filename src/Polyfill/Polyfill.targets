@@ -4,8 +4,6 @@
   </PropertyGroup>
 
   <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets">
-    <Message Condition="'$(PrintAllDeps)' == 'true'" Importance="High" Text="This project depends on the following exhaustive set of dependencies:" />
-    <Message Condition="'$(PrintAllDeps)' == 'true'" Importance="High" Text="@(PackageDependencies)" />
     <PropertyGroup>
       <ValueTupleReferenced
               Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.ValueTuple')->Count()) != 0">true</ValueTupleReferenced>
