@@ -27,8 +27,6 @@
           target="contentFiles/cs/netstandard2.0/Polyfill/Trimming"/>
     <file src="PlatformCompatibility\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/PlatformCompatibility"/>
-    <file src="Polyfill.props"
-          target="build"/>
     <file src="Polyfill.targets"
           target="build"/>
   </files>
