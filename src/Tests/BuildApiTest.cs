@@ -63,6 +63,7 @@ class BuildApiTest
             }
 
             writer.WriteLine();
+            writer.WriteLine();
         }
     }
 
