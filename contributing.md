@@ -236,7 +236,7 @@ static partial class PolyfillExtensions
     /// Wwrites a character memory region to the stream.
     /// </summary>
     /// <param name="buffer">The character memory region to write to the stream.</param>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write?view=net-7.0#system-io-textwriter-write(system-readonlyspan((system-char)))")]
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))")]
     public static void Write(
         this TextWriter target,
         ReadOnlyMemory<char> buffer)
@@ -279,7 +279,7 @@ static partial class PolyfillExtensions
     /// Writes the text representation of a character memory region to the stream, followed by a line terminator.
     /// </summary>
     /// <param name="buffer">The character memory region to write to the stream.</param>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline?view=net-7.0#system-io-textwriter-writeline(system-readonlyspan((system-char)))")]
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline#system-io-textwriter-writeline(system-readonlyspan((system-char)))")]
     public static void WriteLine(
         this TextWriter target,
         ReadOnlyMemory<char> buffer)
