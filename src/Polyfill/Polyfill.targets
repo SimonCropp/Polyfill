@@ -1,11 +1,11 @@
 <Project>
   <PropertyGroup>
-    <PrepareForBuildDependsOn>$(PrepareForBuildDependsOn);PrintAllDeps</PrepareForBuildDependsOn>
+    <PrepareForBuildDependsOn>$(PrepareForBuildDependsOn);PreparePolyfill</PrepareForBuildDependsOn>
   </PropertyGroup>
 
-  <Target Name="PrintAllDeps" DependsOnTargets="ResolvePackageAssets">
-    <Message Importance="High" Text="This project depends on the following exhaustive set of dependencies:" />
-    <Message Importance="High" Text="@(PackageDependencies)" />
+  <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets">
+    <Message Condition="'$(PrintAllDeps)' == 'true'" Importance="High" Text="This project depends on the following exhaustive set of dependencies:" />
+    <Message Condition="'$(PrintAllDeps)' == 'true'" Importance="High" Text="@(PackageDependencies)" />
     <PropertyGroup>
       <ValueTupleReferenced
               Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.ValueTuple')->Count()) != 0">true</ValueTupleReferenced>
