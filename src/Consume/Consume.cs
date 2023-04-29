@@ -107,15 +107,9 @@ class Consume
         new HttpClient().GetStringAsync("", CancellationToken.None);
         new HttpClient().GetStringAsync(new Uri(""), CancellationToken.None);
 
-        new ByteArrayContent(new byte[]
-        {
-        }).ReadAsStreamAsync(CancellationToken.None);
-        new ByteArrayContent(new byte[]
-        {
-        }).ReadAsByteArrayAsync(CancellationToken.None);
-        new ByteArrayContent(new byte[]
-        {
-        }).ReadAsStringAsync(CancellationToken.None);
+        new ByteArrayContent(Array.Empty<byte>()).ReadAsStreamAsync(CancellationToken.None);
+        new ByteArrayContent(Array.Empty<byte>()).ReadAsByteArrayAsync(CancellationToken.None);
+        new ByteArrayContent(Array.Empty<byte>()).ReadAsStringAsync(CancellationToken.None);
     }
 
 #endif
