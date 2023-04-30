@@ -234,6 +234,16 @@ static partial class PolyfillExtensions
 
         return CopyToSpan(destination, out charsWritten, result);
     }
+
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.boolean.tryformat")]
+    public static bool TryFormat(this bool target, Span<char> destination, out int charsWritten)
+    {
+        var result = target.ToString();
+        return CopyToSpan(destination, out charsWritten, result);
+    }
 #endif
 
 #if (MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)) || NET6_0
@@ -299,9 +309,29 @@ static partial class PolyfillExtensions
 
         return CopyToSpan(destination, out charsWritten, result);
     }
+
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.tryformat")]
+    public static bool TryFormat(this TimeOnly target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
+    {
+        string result;
+
+        if (format.Length == 0)
+        {
+            result = target.ToString(provider);
+        }
+        else
+        {
+            result = target.ToString(format.ToString(), provider);
+        }
+
+        return CopyToSpan(destination, out charsWritten, result);
+    }
 #endif
 
-#if NET6_0_OR_GREATER ||  (MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X))
+#if NET6_0_OR_GREATER || (MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X))
     static bool CopyToSpan(Span<char> destination, out int charsWritten, string result)
     {
         if (result.Length == 0)
