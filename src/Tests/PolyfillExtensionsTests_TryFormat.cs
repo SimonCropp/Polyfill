@@ -2,14 +2,12 @@ using System.Globalization;
 
 partial class PolyfillExtensionsTests
 {
-#if NET8_0
-
     [Test]
     public void TryFormatSByte()
     {
         sbyte value = 9;
         Span<char> buffer = stackalloc char[1];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
+        var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
         Assert.AreEqual("9", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
@@ -20,7 +18,7 @@ partial class PolyfillExtensionsTests
     {
         byte value = 9;
         Span<char> buffer = stackalloc char[1];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
+        var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
         Assert.AreEqual("9", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
@@ -31,7 +29,7 @@ partial class PolyfillExtensionsTests
     {
         short value = 9;
         Span<char> buffer = stackalloc char[1];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
+        var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
         Assert.AreEqual("9", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
@@ -42,7 +40,7 @@ partial class PolyfillExtensionsTests
     {
         ushort value = 9;
         Span<char> buffer = stackalloc char[1];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
+        var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
         Assert.AreEqual("9", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
@@ -53,7 +51,7 @@ partial class PolyfillExtensionsTests
     {
         int value = 9;
         Span<char> buffer = stackalloc char[1];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
+        var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
         Assert.AreEqual("9", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
@@ -64,7 +62,7 @@ partial class PolyfillExtensionsTests
     {
         uint value = 9;
         Span<char> buffer = stackalloc char[1];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
+        var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
         Assert.AreEqual("9", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
@@ -75,7 +73,7 @@ partial class PolyfillExtensionsTests
     {
         long value = 9;
         Span<char> buffer = stackalloc char[1];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
+        var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
         Assert.AreEqual("9", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
@@ -86,29 +84,7 @@ partial class PolyfillExtensionsTests
     {
         ulong value = 9;
         Span<char> buffer = stackalloc char[1];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9", buffer.ToString());
-        Assert.AreEqual(buffer.Length, written);
-    }
-
-    [Test]
-    public void TryFormatIntPtr()
-    {
-        nint value = 9;
-        Span<char> buffer = stackalloc char[1];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9", buffer.ToString());
-        Assert.AreEqual(buffer.Length, written);
-    }
-
-    [Test]
-    public void TryFormatUIntPtr()
-    {
-        nuint value = 9;
-        Span<char> buffer = stackalloc char[1];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
+        var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
         Assert.AreEqual("9", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
@@ -119,7 +95,7 @@ partial class PolyfillExtensionsTests
     {
         float value = 9;
         Span<char> buffer = stackalloc char[1];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
+        var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
         Assert.AreEqual("9", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
@@ -130,7 +106,7 @@ partial class PolyfillExtensionsTests
     {
         double value = 9;
         Span<char> buffer = stackalloc char[1];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
+        var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
         Assert.AreEqual("9", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
@@ -141,11 +117,12 @@ partial class PolyfillExtensionsTests
     {
         decimal value = 9;
         Span<char> buffer = stackalloc char[1];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
+        var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
         Assert.AreEqual("9", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
     }
+#if NET8_0
 
     [Test]
     public void TryFormatDateTimeOffset()

@@ -17,8 +17,8 @@ static partial class PolyfillExtensions
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryformat")]
-    public static bool Contains<T>(this int target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryformat")]
+    public static bool TryFormat(this sbyte target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
 
@@ -28,14 +28,222 @@ static partial class PolyfillExtensions
         }
         else
         {
-            result = target.ToString(format.ToString(),provider);
-            
+            result = target.ToString(format.ToString(), provider);
         }
 
-        if (result <= destination.Length)
+        return CopyToSpan(destination, out charsWritten, result);
+    }
+
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryformat")]
+    public static bool TryFormat(this byte target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
+    {
+        string result;
+
+        if (format.Length == 0)
         {
-            result.cop
+            result = target.ToString(provider);
         }
+        else
+        {
+            result = target.ToString(format.ToString(), provider);
+        }
+
+        return CopyToSpan(destination, out charsWritten, result);
+    }
+
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.int16.tryformat")]
+    public static bool TryFormat(this short target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
+    {
+        string result;
+
+        if (format.Length == 0)
+        {
+            result = target.ToString(provider);
+        }
+        else
+        {
+            result = target.ToString(format.ToString(), provider);
+        }
+
+        return CopyToSpan(destination, out charsWritten, result);
+    }
+
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryformat")]
+    public static bool TryFormat(this ushort target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
+    {
+        string result;
+
+        if (format.Length == 0)
+        {
+            result = target.ToString(provider);
+        }
+        else
+        {
+            result = target.ToString(format.ToString(), provider);
+        }
+
+        return CopyToSpan(destination, out charsWritten, result);
+    }
+
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryformat")]
+    public static bool TryFormat(this int target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
+    {
+        string result;
+
+        if (format.Length == 0)
+        {
+            result = target.ToString(provider);
+        }
+        else
+        {
+            result = target.ToString(format.ToString(), provider);
+        }
+
+        return CopyToSpan(destination, out charsWritten, result);
+    }
+
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryformat")]
+    public static bool TryFormat(this uint target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
+    {
+        string result;
+
+        if (format.Length == 0)
+        {
+            result = target.ToString(provider);
+        }
+        else
+        {
+            result = target.ToString(format.ToString(), provider);
+        }
+
+        return CopyToSpan(destination, out charsWritten, result);
+    }
+
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryformat")]
+    public static bool TryFormat(this long target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
+    {
+        string result;
+
+        if (format.Length == 0)
+        {
+            result = target.ToString(provider);
+        }
+        else
+        {
+            result = target.ToString(format.ToString(), provider);
+        }
+
+        return CopyToSpan(destination, out charsWritten, result);
+    }
+
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryformat")]
+    public static bool TryFormat(this ulong target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
+    {
+        string result;
+
+        if (format.Length == 0)
+        {
+            result = target.ToString(provider);
+        }
+        else
+        {
+            result = target.ToString(format.ToString(), provider);
+        }
+
+        return CopyToSpan(destination, out charsWritten, result);
+    }
+
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.single.tryformat")]
+    public static bool TryFormat(this float target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
+    {
+        string result;
+
+        if (format.Length == 0)
+        {
+            result = target.ToString(provider);
+        }
+        else
+        {
+            result = target.ToString(format.ToString(), provider);
+        }
+
+        return CopyToSpan(destination, out charsWritten, result);
+    }
+
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.double.tryformat")]
+    public static bool TryFormat(this double target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
+    {
+        string result;
+
+        if (format.Length == 0)
+        {
+            result = target.ToString(provider);
+        }
+        else
+        {
+            result = target.ToString(format.ToString(), provider);
+        }
+
+        return CopyToSpan(destination, out charsWritten, result);
+    }
+
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryformat")]
+    public static bool TryFormat(this decimal target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
+    {
+        string result;
+
+        if (format.Length == 0)
+        {
+            result = target.ToString(provider);
+        }
+        else
+        {
+            result = target.ToString(format.ToString(), provider);
+        }
+
+        return CopyToSpan(destination, out charsWritten, result);
+    }
+
+    static bool CopyToSpan(Span<char> destination, out int charsWritten, string result)
+    {
+        if (result.Length == 0)
+        {
+            charsWritten = 0;
+            return true;
+        }
+
+        charsWritten = result.Length;
+        return result.TryCopyTo(destination);
     }
 }
 #endif
