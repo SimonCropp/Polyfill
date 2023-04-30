@@ -122,29 +122,29 @@ partial class PolyfillExtensionsTests
         Assert.AreEqual("9", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
     }
-#if NET8_0
-
     [Test]
     public void TryFormatDateTimeOffset()
     {
         var value = new DateTimeOffset(new DateTime(2001,10,1),TimeSpan.Zero);
         Span<char> buffer = stackalloc char[29];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
+        var result = value.TryFormat(buffer, out var written, format: "R".AsSpan(), CultureInfo.InvariantCulture);
         Assert.True(result);
         Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
     }
-
     [Test]
     public void TryFormatDateTime()
     {
         var value = new DateTime(2001,10,1);
         Span<char> buffer = stackalloc char[29];
-        var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
+        var result = value.TryFormat(buffer, out var written, format: "R".AsSpan(), CultureInfo.InvariantCulture);
         Assert.True(result);
         Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
     }
+#if NET8_0
+
+
 
     [Test]
     public void TryFormatDate()
