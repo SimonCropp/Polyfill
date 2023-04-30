@@ -142,10 +142,8 @@ partial class PolyfillExtensionsTests
         Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
     }
-#if NET8_0
 
-
-
+#if NET6_0_OR_GREATER
     [Test]
     public void TryFormatDate()
     {
@@ -156,6 +154,10 @@ partial class PolyfillExtensionsTests
         Assert.AreEqual("Mon, 01 Oct 2001", buffer.ToString());
         Assert.AreEqual(buffer.Length, written);
     }
+#endif
+#if NET8_0
+
+
 
     [Test]
     public void TryFormatTime()

@@ -277,6 +277,31 @@ static partial class PolyfillExtensions
         return CopyToSpan(destination, out charsWritten, result);
     }
 
+#endif
+#if NET6_0_OR_GREATER
+
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.dateonly.tryformat")]
+    public static bool TryFormat(this DateOnly target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
+    {
+        string result;
+
+        if (format.Length == 0)
+        {
+            result = target.ToString(provider);
+        }
+        else
+        {
+            result = target.ToString(format.ToString(), provider);
+        }
+
+        return CopyToSpan(destination, out charsWritten, result);
+    }
+#endif
+
+#if NET6_0_OR_GREATER ||  (MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X))
     static bool CopyToSpan(Span<char> destination, out int charsWritten, string result)
     {
         if (result.Length == 0)
