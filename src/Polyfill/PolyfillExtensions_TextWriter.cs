@@ -6,6 +6,7 @@
 // ReSharper disable UnusedMember.Global
 
 using System;
+using System.Buffers;
 using System.IO;
 using System.Runtime.InteropServices;
 using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
@@ -99,6 +100,50 @@ static partial class PolyfillExtensions
         }
 
         target.WriteLine(segment.Array!, segment.Offset, segment.Count);
+    }
+
+    /// <summary>
+    /// Wwrites a character memory region to the stream.
+    /// </summary>
+    /// <param name="buffer">The character memory region to write to the stream.</param>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))")]
+    public static void Write(
+        this TextWriter target,
+        ReadOnlySpan<char> buffer)
+    {
+        var array = ArrayPool<char>.Shared.Rent(buffer.Length);
+
+        try
+        {
+            buffer.CopyTo(new(array));
+            target.Write(array, 0, buffer.Length);
+        }
+        finally
+        {
+            ArrayPool<char>.Shared.Return(array);
+        }
+    }
+
+    /// <summary>
+    /// Writes the text representation of a character memory region to the stream, followed by a line terminator.
+    /// </summary>
+    /// <param name="buffer">The character memory region to write to the stream.</param>
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline#system-io-textwriter-writeline(system-readonlyspan((system-char)))")]
+    public static void WriteLine(
+        this TextWriter target,
+        ReadOnlySpan<char> buffer)
+    {
+        var array = ArrayPool<char>.Shared.Rent(buffer.Length);
+
+        try
+        {
+            buffer.CopyTo(new(array));
+            target.WriteLine(array, 0, buffer.Length);
+        }
+        finally
+        {
+            ArrayPool<char>.Shared.Return(array);
+        }
     }
 }
 #endif
