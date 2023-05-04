@@ -77,7 +77,8 @@ static partial class PolyfillExtensions
         this TextWriter target,
         ReadOnlySpan<char> buffer)
     {
-        var array = ArrayPool<char>.Shared.Rent(buffer.Length);
+        var pool = ArrayPool<char>.Shared;
+        var array = pool.Rent(buffer.Length);
 
         try
         {
@@ -86,7 +87,7 @@ static partial class PolyfillExtensions
         }
         finally
         {
-            ArrayPool<char>.Shared.Return(array);
+            pool.Return(array);
         }
     }
 
@@ -99,7 +100,8 @@ static partial class PolyfillExtensions
         this TextWriter target,
         ReadOnlySpan<char> buffer)
     {
-        var array = ArrayPool<char>.Shared.Rent(buffer.Length);
+        var pool = ArrayPool<char>.Shared;
+        var array = pool.Rent(buffer.Length);
 
         try
         {
@@ -108,7 +110,7 @@ static partial class PolyfillExtensions
         }
         finally
         {
-            ArrayPool<char>.Shared.Return(array);
+            pool.Return(array);
         }
     }
 }
