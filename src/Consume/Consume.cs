@@ -134,6 +134,18 @@ class Consume
         var read = await reader.ReadToEndAsync(CancellationToken.None);
     }
 
+    void WaitAsync()
+    {
+        var action = () => {};
+        var func = () => 0;
+        new Task(action).WaitAsync(CancellationToken.None);
+        new Task(action).WaitAsync(TimeSpan.Zero);
+        new Task(action).WaitAsync(TimeSpan.Zero, CancellationToken.None);
+        new Task<int>(func).WaitAsync(CancellationToken.None);
+        new Task<int>(func).WaitAsync(TimeSpan.Zero);
+        new Task<int>(func).WaitAsync(TimeSpan.Zero, CancellationToken.None);
+    }
+
 #if MEMORYREFERENCED
 
     async Task StreamReaderReadAsync()

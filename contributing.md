@@ -268,7 +268,8 @@ static partial class PolyfillExtensions
         this TextWriter target,
         ReadOnlySpan<char> buffer)
     {
-        var array = ArrayPool<char>.Shared.Rent(buffer.Length);
+        var pool = ArrayPool<char>.Shared;
+        var array = pool.Rent(buffer.Length);
 
         try
         {
@@ -277,7 +278,7 @@ static partial class PolyfillExtensions
         }
         finally
         {
-            ArrayPool<char>.Shared.Return(array);
+            pool.Return(array);
         }
     }
 
@@ -290,7 +291,8 @@ static partial class PolyfillExtensions
         this TextWriter target,
         ReadOnlySpan<char> buffer)
     {
-        var array = ArrayPool<char>.Shared.Rent(buffer.Length);
+        var pool = ArrayPool<char>.Shared;
+        var array = pool.Rent(buffer.Length);
 
         try
         {
@@ -299,13 +301,13 @@ static partial class PolyfillExtensions
         }
         finally
         {
-            ArrayPool<char>.Shared.Return(array);
+            pool.Return(array);
         }
     }
 }
 #endif
 ```
-<sup><a href='/src/Polyfill/PolyfillExtensions_TextWriter.cs#L1-L115' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensions_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/PolyfillExtensions_TextWriter.cs#L1-L117' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensions_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
