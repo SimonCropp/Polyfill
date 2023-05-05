@@ -49,7 +49,7 @@ static partial class PolyfillExtensions
     /// <summary>
     /// Gets the microsecond component of the time represented by the current <see cref="TimeSpan"/> object.
     /// </summary>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecond")]
+    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds")]
     public static int Microseconds(this TimeSpan target) =>
 #if NET7_0_OR_GREATER
         target.Microseconds;
