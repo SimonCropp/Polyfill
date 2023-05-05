@@ -6,6 +6,7 @@
 // ReSharper disable PartialTypeWithSinglePart
 // ReSharper disable UnusedMember.Global
 // ReSharper disable RedundantAttributeSuffix
+// ReSharper disable RedundantTypeArgumentsOfMethod
 
 using System;
 using System.Reflection;
