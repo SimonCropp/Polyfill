@@ -16,16 +16,16 @@ using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
 static partial class PolyfillExtensions
 {
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)")]
-    public static Task WaitAsync(this Task task, CancellationToken cancellationToken) =>
-        task.WaitAsync(Timeout.InfiniteTimeSpan, cancellationToken);
+    public static Task WaitAsync(this Task target, CancellationToken cancellationToken) =>
+        target.WaitAsync(Timeout.InfiniteTimeSpan, cancellationToken);
 
     [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan)")]
-    public static async Task WaitAsync(this Task task, TimeSpan timeout)
+    public static async Task WaitAsync(this Task target, TimeSpan timeout)
     {
         var cancellationSource = new CancellationTokenSource();
         try
         {
-            await task.WaitAsync(timeout, cancellationSource.Token);
+            await target.WaitAsync(timeout, cancellationSource.Token);
         }
         finally
         {
