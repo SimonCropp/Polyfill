@@ -128,6 +128,12 @@ class Consume
 
 #endif
 
+    async Task CancellationTokenSource()
+    {
+        var source = new CancellationTokenSource();
+        await source.CancelAsync();
+    }
+
     async Task StreamReaderReadToEndAsync()
     {
         var reader = new StreamReader(new MemoryStream());
