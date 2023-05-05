@@ -11,15 +11,15 @@ using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
+using Description = System.ComponentModel.DescriptionAttribute;
 
 static partial class PolyfillExtensions
 {
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)")]
+    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)")]
     public static Task WaitAsync(this Task target, CancellationToken cancellationToken) =>
         target.WaitAsync(Timeout.InfiniteTimeSpan, cancellationToken);
 
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan)")]
+    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan)")]
     public static async Task WaitAsync(this Task target, TimeSpan timeout)
     {
         var cancellationSource = new CancellationTokenSource();
@@ -34,7 +34,7 @@ static partial class PolyfillExtensions
         }
     }
 
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)")]
+    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)")]
     public static async Task WaitAsync(this Task task, TimeSpan timeout, CancellationToken cancellationToken)
     {
         var delayTask = Task.Delay(timeout, cancellationToken);
@@ -47,11 +47,11 @@ static partial class PolyfillExtensions
         await task;
     }
 
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)")]
+    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)")]
     public static Task<TResult> WaitAsync<TResult>(this Task<TResult> task, CancellationToken cancellationToken) =>
         task.WaitAsync<TResult>(Timeout.InfiniteTimeSpan, cancellationToken);
 
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-threading-cancellationtoken)")]
+    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-threading-cancellationtoken)")]
     public static async Task<TResult> WaitAsync<TResult>(this Task<TResult> task, TimeSpan timeout)
     {
         var cancellationSource = new CancellationTokenSource();
@@ -66,7 +66,7 @@ static partial class PolyfillExtensions
         }
     }
 
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)")]
+    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)")]
     public static async Task<TResult> WaitAsync<TResult>(this Task<TResult> task, TimeSpan timeout, CancellationToken cancellationToken)
     {
         var delayTask = Task.Delay(timeout, cancellationToken);
