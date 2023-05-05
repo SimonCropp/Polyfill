@@ -10,13 +10,13 @@ using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
+using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class PolyfillExtensions
 {
 #if !NET8_0_OR_GREATER
 
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancelasync")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancelasync")]
     public static Task CancelAsync(this CancellationTokenSource target)
     {
          target.Cancel();

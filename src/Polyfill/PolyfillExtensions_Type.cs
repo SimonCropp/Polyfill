@@ -8,11 +8,11 @@
 
 using System;
 using System.Reflection;
-using Description = System.ComponentModel.DescriptionAttribute;
+using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class PolyfillExtensions
 {
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas")]
     public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other)
     {
 #if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
@@ -26,7 +26,7 @@ static partial class PolyfillExtensions
     /// <summary>
     /// Gets a value that indicates whether the current Type represents a type parameter in the definition of a generic method.
     /// </summary>
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter")]
     public static bool IsGenericMethodParameter(this Type target)
     {
 #if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
@@ -45,7 +45,7 @@ static partial class PolyfillExtensions
     /// <param name="type">The MemberInfo to find on the current Type.</param>
     /// <param name="member">The MemberInfo to find on the current Type.</param>
     /// <returns>An object representing the member on the current Type that matches the specified member.</returns>
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.type.getmemberwithsamemetadatadefinitionas")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.type.getmemberwithsamemetadatadefinitionas")]
     internal static MemberInfo GetMemberWithSameMetadataDefinitionAs(this Type type, MemberInfo member)
     {
         const BindingFlags all = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;

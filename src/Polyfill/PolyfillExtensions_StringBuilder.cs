@@ -9,7 +9,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using Description = System.ComponentModel.DescriptionAttribute;
+using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
 // ReSharper disable RedundantAttributeSuffix
@@ -22,7 +22,7 @@ static partial class PolyfillExtensions
     /// <param name="sourceIndex">The starting position in this instance where characters will be copied from. The index is zero-based.</param>
     /// <param name="destination">The writable span where characters will be copied.</param>
     /// <param name="count">The number of characters to be copied.</param>
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.copyto#system-text-stringbuilder-copyto(system-int32-system-span((system-char))-system-int32)")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.copyto#system-text-stringbuilder-copyto(system-int32-system-span((system-char))-system-int32)")]
     public static void CopyTo(
         this StringBuilder target,
         int sourceIndex,
@@ -53,7 +53,7 @@ static partial class PolyfillExtensions
     /// </summary>
     /// <param name="value">The read-only character span to append.</param>
     /// <returns>A reference to this instance after the append operation is completed.</returns>
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-readonlyspan((system-char)))")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-readonlyspan((system-char)))")]
     public static StringBuilder Append(this StringBuilder target, ReadOnlySpan<char> value)
     {
         if (value.Length <= 0)
@@ -85,7 +85,7 @@ static partial class PolyfillExtensions
     /// and span are equal.
     /// </remarks>
     /// <returns>true if the characters in this instance and span are the same; otherwise, false.</returns>
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.equals#system-text-stringbuilder-equals(system-readonlyspan((system-char)))")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.equals#system-text-stringbuilder-equals(system-readonlyspan((system-char)))")]
     public static bool Equals(this StringBuilder target, ReadOnlySpan<char> span)
     {
         if (target.Length != span.Length)

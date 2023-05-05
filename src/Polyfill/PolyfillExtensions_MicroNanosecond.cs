@@ -6,7 +6,7 @@
 // ReSharper disable UnusedMember.Global
 
 using System;
-using Description = System.ComponentModel.DescriptionAttribute;
+using Link = System.ComponentModel.DescriptionAttribute;
 // ReSharper disable RedundantAttributeSuffix
 
 static partial class PolyfillExtensions
@@ -16,7 +16,7 @@ static partial class PolyfillExtensions
     /// <summary>
     /// Gets the nanosecond component of the time represented by the current <see cref="TimeSpan"/> object.
     /// </summary>
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds")]
     public static int Nanoseconds(this TimeSpan target) =>
 #if NET7_0_OR_GREATER
         target.Nanoseconds;
@@ -27,7 +27,7 @@ static partial class PolyfillExtensions
     /// <summary>
     /// Gets the nanosecond component of the time represented by the current <see cref="DateTime"/> object.
     /// </summary>
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.datetime.nanosecond")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.datetime.nanosecond")]
     public static int Nanosecond(this DateTime target) =>
 #if NET7_0_OR_GREATER
         target.Nanosecond;
@@ -38,7 +38,7 @@ static partial class PolyfillExtensions
     /// <summary>
     /// Gets the nanosecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
     /// </summary>
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.nanosecond")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.nanosecond")]
     public static int Nanosecond(this DateTimeOffset target) =>
 #if NET7_0_OR_GREATER
         target.Nanosecond;
@@ -49,7 +49,7 @@ static partial class PolyfillExtensions
     /// <summary>
     /// Gets the microsecond component of the time represented by the current <see cref="TimeSpan"/> object.
     /// </summary>
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds")]
     public static int Microseconds(this TimeSpan target) =>
 #if NET7_0_OR_GREATER
         target.Microseconds;
@@ -60,7 +60,7 @@ static partial class PolyfillExtensions
     /// <summary>
     /// Gets the microsecond component of the time represented by the current <see cref="DateTime"/> object.
     /// </summary>
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.datetime.microsecond")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.datetime.microsecond")]
     public static int Microsecond(this DateTime target) =>
 #if NET7_0_OR_GREATER
         target.Microsecond;
@@ -71,7 +71,7 @@ static partial class PolyfillExtensions
     /// <summary>
     /// Gets the microsecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
     /// </summary>
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.microsecond")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.microsecond")]
     public static int Microsecond(this DateTimeOffset target) =>
 #if NET7_0_OR_GREATER
         target.Microsecond;
@@ -82,7 +82,7 @@ static partial class PolyfillExtensions
     /// <summary>
     /// Returns a new <see cref="DateTime"/> object that adds a specified number of microseconds to the value of this instance..
     /// </summary>
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.datetime.addmicroseconds")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.datetime.addmicroseconds")]
     public static DateTime AddMicroseconds(this DateTime target, double microseconds) =>
 #if NET7_0_OR_GREATER
        target.AddMicroseconds(microseconds);
@@ -93,7 +93,7 @@ static partial class PolyfillExtensions
     /// <summary>
     /// Returns a new <see cref="DateTimeOffset"/> object that adds a specified number of microseconds to the value of this instance..
     /// </summary>
-    [Description("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.addmicroseconds")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.addmicroseconds")]
     public static DateTimeOffset AddMicroseconds(this DateTimeOffset target, double microseconds) =>
 #if NET7_0_OR_GREATER
        target.AddMicroseconds(microseconds);
