@@ -3,9 +3,17 @@ partial class PolyfillExtensionsTests
     [Test]
     public void MaxBy()
     {
-        var enumerable = (IEnumerable<string>)new List<string> {"a", "b"};
+        var enumerable = (IEnumerable<int>)new List<int> {1, 2};
 
-        Assert.AreEqual("a", enumerable.MaxBy(_=>_));
+        Assert.AreEqual(2, enumerable.MaxBy(_ => _));
+    }
+
+    [Test]
+    public void MinBy()
+    {
+        var enumerable = (IEnumerable<int>)new List<int> {1, 2};
+
+        Assert.AreEqual(1, enumerable.MinBy(_ => _));
     }
 
     [Test]
