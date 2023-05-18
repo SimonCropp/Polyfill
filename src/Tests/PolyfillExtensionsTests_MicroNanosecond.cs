@@ -2,9 +2,21 @@ partial class PolyfillExtensionsTests
 {
     static DateTimeOffset dateTimeOffset = DateTimeOffset.Now;
     static DateTime dateTime = DateTime.Now;
-    static TimeSpan timeSpan = DateTime.Now.TimeOfDay;
+
+    [Test]
+    public void AddMicroseconds()
+    {
+        var fromTicksDateTimeOffset = dateTimeOffset.AddSeconds(1);
+        var fromMicrosecondsDateTimeOffset = dateTimeOffset.AddMicroseconds(1000000);
+        Assert.AreEqual(fromTicksDateTimeOffset, fromMicrosecondsDateTimeOffset);
+
+        var fromTicksDateTime = dateTime.AddSeconds(1);
+        var fromMicrosecondsDateTime = dateTime.AddMicroseconds(1000000);
+        Assert.AreEqual(fromTicksDateTime, fromMicrosecondsDateTime);
+    }
 
 #if NET7_0_OR_GREATER
+    static TimeSpan timeSpan = DateTime.Now.TimeOfDay;
     [Test]
     public void Nanoseconds()
     {
@@ -21,16 +33,4 @@ partial class PolyfillExtensionsTests
         Assert.AreEqual(dateTime.Microsecond, dateTime.Microsecond());
     }
 #endif
-
-    [Test]
-    public void AddMicroseconds()
-    {
-        var fromTicksDateTimeOffset = dateTimeOffset.AddSeconds(1);
-        var fromMicrosecondsDateTimeOffset = dateTimeOffset.AddMicroseconds(1000000);
-        Assert.AreEqual(fromTicksDateTimeOffset, fromMicrosecondsDateTimeOffset);
-
-        var fromTicksDateTime = dateTime.AddSeconds(1);
-        var fromMicrosecondsDateTime = dateTime.AddMicroseconds(1000000);
-        Assert.AreEqual(fromTicksDateTime, fromMicrosecondsDateTime);
-    }
 }

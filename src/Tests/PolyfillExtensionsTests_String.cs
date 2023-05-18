@@ -13,6 +13,7 @@ partial class PolyfillExtensionsTests
     public void EndsWith()
     {
         Assert.True("value".EndsWith('e'));
+        Assert.True("e".EndsWith('e'));
         Assert.False("".EndsWith('e'));
     }
 
@@ -40,6 +41,7 @@ partial class PolyfillExtensionsTests
     public void StartsWith()
     {
         Assert.True("value".StartsWith('v'));
+        Assert.True("v".StartsWith('v'));
         Assert.False("".StartsWith('v'));
     }
 
