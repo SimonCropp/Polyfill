@@ -11,7 +11,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
+using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class PolyfillExtensions
 {
@@ -25,7 +25,7 @@ static partial class PolyfillExtensions
     /// <param name="requestUri">The Uri the request is sent to.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstreamasync#system-net-http-httpclient-getstreamasync(system-string-system-threading-cancellationtoken)")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstreamasync#system-net-http-httpclient-getstreamasync(system-string-system-threading-cancellationtoken)")]
     public static async Task<Stream> GetStreamAsync(
         this HttpClient httpClient,
         string requestUri,
@@ -63,7 +63,7 @@ static partial class PolyfillExtensions
     /// <param name="requestUri">The Uri the request is sent to.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstreamasync#system-net-http-httpclient-getstreamasync(system-uri-system-threading-cancellationtoken)")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstreamasync#system-net-http-httpclient-getstreamasync(system-uri-system-threading-cancellationtoken)")]
     public static Task<Stream> GetStreamAsync(
         this HttpClient httpClient,
         Uri requestUri,
@@ -80,7 +80,7 @@ static partial class PolyfillExtensions
     /// <param name="requestUri">The Uri the request is sent to.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-string-system-threading-cancellationtoken)")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-string-system-threading-cancellationtoken)")]
     public static async Task<byte[]> GetByteArrayAsync(
         this HttpClient httpClient,
         string requestUri,
@@ -117,7 +117,7 @@ static partial class PolyfillExtensions
     /// <param name="requestUri">The Uri the request is sent to.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-uri-system-threading-cancellationtoken)")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getbytearrayasync#system-net-http-httpclient-getbytearrayasync(system-uri-system-threading-cancellationtoken)")]
     public static Task<byte[]> GetByteArrayAsync(
         this HttpClient httpClient,
         Uri requestUri,
@@ -134,7 +134,7 @@ static partial class PolyfillExtensions
     /// <param name="requestUri">The Uri the request is sent to.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-string-system-threading-cancellationtoken)")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-string-system-threading-cancellationtoken)")]
     public static async Task<string> GetStringAsync(
         this HttpClient httpClient,
         string requestUri,
@@ -171,7 +171,7 @@ static partial class PolyfillExtensions
     /// <param name="requestUri">The Uri the request is sent to.</param>
     /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
     /// <returns>The task object representing the asynchronous operation.</returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-uri-system-threading-cancellationtoken)")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstringasync#system-net-http-httpclient-getstringasync(system-uri-system-threading-cancellationtoken)")]
     public static Task<string> GetStringAsync(
         this HttpClient httpClient,
         Uri requestUri,

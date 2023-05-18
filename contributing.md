@@ -200,7 +200,7 @@ using System;
 using System.Buffers;
 using System.IO;
 using System.Runtime.InteropServices;
-using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
+using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
 // ReSharper disable RedundantAttributeSuffix
@@ -216,7 +216,7 @@ static partial class PolyfillExtensions
     /// The default value is <see cref="Cancellation.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
     public static ValueTask WriteAsync(
         this TextWriter target,
         ReadOnlyMemory<char> buffer,
@@ -242,7 +242,7 @@ static partial class PolyfillExtensions
     /// The default value is <see cref="Cancellation.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
     public static ValueTask WriteLineAsync(
         this TextWriter target,
         ReadOnlyMemory<char> buffer,
@@ -263,7 +263,7 @@ static partial class PolyfillExtensions
     /// Writes a character span to the text stream.
     /// </summary>
     /// <param name="buffer">The character span to write.</param>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))")]
     public static void Write(
         this TextWriter target,
         ReadOnlySpan<char> buffer)
@@ -286,7 +286,7 @@ static partial class PolyfillExtensions
     /// Writes the text representation of a character span to the text stream, followed by a line terminator.
     /// </summary>
     /// <param name="buffer">The char span value to write to the text stream.</param>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline#system-io-textwriter-writeline(system-readonlyspan((system-char)))")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline#system-io-textwriter-writeline(system-readonlyspan((system-char)))")]
     public static void WriteLine(
         this TextWriter target,
         ReadOnlySpan<char> buffer)

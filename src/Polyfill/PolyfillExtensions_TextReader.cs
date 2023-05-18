@@ -6,7 +6,7 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
+using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
 // ReSharper disable RedundantAttributeSuffix
@@ -30,7 +30,7 @@ static partial class PolyfillExtensions
     /// The number will be less than or equal to the <paramref name="buffer"/> length, depending on whether the data is
     /// available within the stream.
     /// </returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readasync#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readasync#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)")]
     public static ValueTask<int> ReadAsync(
         this TextReader target,
         Memory<char> buffer,
@@ -57,7 +57,7 @@ static partial class PolyfillExtensions
     /// <exception cref="ArgumentOutOfRangeException">The number of characters is larger than <see cref="int.MaxValue"/>.</exception>
     /// <exception cref="ObjectDisposedException">The stream reader has been disposed.</exception>
     /// <exception cref="InvalidOperationException">The reader is currently in use by a previous read operation.</exception>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readtoendasync#system-io-textreader-readtoendasync(system-threading-cancellationtoken)")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readtoendasync#system-io-textreader-readtoendasync(system-threading-cancellationtoken)")]
     public static Task<string> ReadToEndAsync(
         this TextReader target,
         CancellationToken cancellationToken)

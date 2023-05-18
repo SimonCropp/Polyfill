@@ -8,7 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using DescriptionAttribute = System.ComponentModel.DescriptionAttribute;
+using Link = System.ComponentModel.DescriptionAttribute;
 // ReSharper disable RedundantAttributeSuffix
 
 static partial class PolyfillExtensions
@@ -24,7 +24,7 @@ static partial class PolyfillExtensions
     /// A TValue instance. When the method is successful, the returned object is the value associated with
     /// the specified key. When the method fails, it returns the default value for TValue.
     /// </returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault")]
     public static TValue? GetValueOrDefault<TKey, TValue>(
         this IReadOnlyDictionary<TKey, TValue> target,
         TKey key)
@@ -49,7 +49,7 @@ static partial class PolyfillExtensions
     /// A TValue instance. When the method is successful, the returned object is the value associated with
     /// the specified key. When the method fails, it returns the default value for TValue.
     /// </returns>
-    [DescriptionAttribute("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0-1)")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0-1)")]
     public static TValue GetValueOrDefault<TKey, TValue>(
         this IReadOnlyDictionary<TKey, TValue> target,
         TKey key,

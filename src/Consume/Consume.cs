@@ -79,6 +79,8 @@ class Consume
             "b"
         };
         var append = enumerable.Append("c");
+        var maxBy = enumerable.MaxBy(_=>_);
+        var minBy = enumerable.MinBy(_=>_);
         var skipLast = enumerable.SkipLast(1);
 
         var dictionary = new Dictionary<string, string?>
@@ -127,6 +129,12 @@ class Consume
         new("value", false);
 
 #endif
+
+    async Task CancellationTokenSource()
+    {
+        var source = new CancellationTokenSource();
+        await source.CancelAsync();
+    }
 
     async Task StreamReaderReadToEndAsync()
     {
