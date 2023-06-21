@@ -43,6 +43,7 @@ public class NullabilitySamples
     #endregion
 
     // ReSharper disable UnusedMember.Local
+    // ReSharper disable NotAccessedField.Local
     class PropertyTarget
     {
         string? write;
@@ -54,6 +55,7 @@ public class NullabilitySamples
             set => write = value;
         }
     }
+    // ReSharper restore NotAccessedField.Local
     // ReSharper restore UnusedMember.Local
 
     [Test]
