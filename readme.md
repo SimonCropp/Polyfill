@@ -36,7 +36,7 @@ This project uses features from the current stable SDK and C# language. As such 
 ```json
 {
   "sdk": {
-    "version": "7.0.304",
+    "version": "7.0.306",
     "rollForward": "latestFeature"
   }
 }
