@@ -189,8 +189,6 @@ Example:
 ```cs
 #if TASKSEXTENSIONSREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
 
-#pragma warning disable
-
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable UnusedMember.Global
 
@@ -305,7 +303,7 @@ static partial class PolyfillExtensions
 }
 #endif
 ```
-<sup><a href='/src/Polyfill/PolyfillExtensions_TextWriter.cs#L1-L117' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensions_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/PolyfillExtensions_TextWriter.cs#L1-L115' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensions_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

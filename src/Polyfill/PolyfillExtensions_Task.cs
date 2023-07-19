@@ -1,7 +1,5 @@
 #if NETFRAMEWORK || NETSTANDARD || NETCOREAPP || NET5_0
 
-#pragma warning disable
-
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable PartialTypeWithSinglePart
 // ReSharper disable UnusedMember.Global

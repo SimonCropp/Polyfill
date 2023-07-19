@@ -1,7 +1,5 @@
 ﻿#if ((NETFRAMEWORK && HTTPREFERENCED) || NETSTANDARD || NETCOREAPP2X || NETCOREAPP3X)
 
-#pragma warning disable
-
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable UnusedMember.Global
 // ReSharper disable RedundantAttributeSuffix

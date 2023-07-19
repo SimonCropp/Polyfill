@@ -1,7 +1,5 @@
 #if MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)
 
-#pragma warning disable
-
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable UnusedMember.Global
 // ReSharper disable RedundantAttributeSuffix
