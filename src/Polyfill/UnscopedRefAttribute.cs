@@ -2,8 +2,6 @@
 
 #if !NET7_0_OR_GREATER
 
-#pragma warning disable
-
 using System.Diagnostics;
 
 namespace System.Diagnostics.CodeAnalysis;

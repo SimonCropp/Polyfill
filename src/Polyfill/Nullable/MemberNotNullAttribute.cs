@@ -2,9 +2,6 @@
 
 #if NETSTANDARD || NETFRAMEWORK || NETCOREAPPX
 
-#pragma warning disable
-
-
 namespace System.Diagnostics.CodeAnalysis;
 
 using Targets = AttributeTargets;

@@ -2,8 +2,6 @@
 
 #if ((NETFRAMEWORK && HTTPREFERENCED) || NETSTANDARD || NETCOREAPP2X || NETCOREAPP3X)
 
-#pragma warning disable
-
 using System;
 using System.IO;
 using System.Net.Http;

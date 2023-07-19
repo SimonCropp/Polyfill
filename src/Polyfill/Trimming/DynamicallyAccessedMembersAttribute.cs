@@ -2,9 +2,6 @@
 
 #if !NET5_0_OR_GREATER
 
-#pragma warning disable
-
-
 namespace System.Diagnostics.CodeAnalysis;
 
 using Targets = AttributeTargets;

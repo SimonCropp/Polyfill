@@ -2,8 +2,6 @@
 
 #if NETFRAMEWORK
 
-#pragma warning disable
-
 using System.ComponentModel;
 
 namespace System.Net.Http

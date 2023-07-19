@@ -2,8 +2,6 @@
 
 #if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X
 
-#pragma warning disable
-
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 

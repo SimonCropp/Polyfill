@@ -2,8 +2,6 @@
 
 #if TASKSEXTENSIONSREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
 
-#pragma warning disable
-
 using System;
 using System.Buffers;
 using System.IO;

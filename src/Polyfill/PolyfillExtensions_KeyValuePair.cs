@@ -2,8 +2,6 @@
 
 #if NETFRAMEWORK || NETSTANDARD2_0
 
-#pragma warning disable
-
 using System;
 using System.Collections.Generic;
 using Link = System.ComponentModel.DescriptionAttribute;

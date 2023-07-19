@@ -2,8 +2,6 @@
 
 #if NETFRAMEWORK || NETSTANDARD || NETCOREAPP || NET5_0
 
-#pragma warning disable
-
 using System;
 using System.Reflection;
 using System.Threading;
