@@ -51,6 +51,7 @@ static partial class PolyfillExtensions
             StringComparison.InvariantCultureIgnoreCase => StringComparer.InvariantCultureIgnoreCase,
             StringComparison.Ordinal => StringComparer.Ordinal,
             StringComparison.OrdinalIgnoreCase => StringComparer.OrdinalIgnoreCase,
+            _ => throw new ArgumentOutOfRangeException(nameof(comparison), comparison, null)
         };
 
     /// <summary>
