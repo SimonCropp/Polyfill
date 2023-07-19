@@ -1,7 +1,5 @@
 #if NETSTANDARD2_0 || NETFRAMEWORK || NETCOREAPP2X
 
-#pragma warning disable
-
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable UnusedMember.Global
 

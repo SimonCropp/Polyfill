@@ -131,8 +131,6 @@ Example:
 ```cs
 #if !NET5_0_OR_GREATER
 
-#pragma warning disable
-
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable UnusedMember.Global
 
@@ -176,7 +174,7 @@ sealed class ModuleInitializerAttribute :
 
 #endif
 ```
-<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L46' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L44' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
