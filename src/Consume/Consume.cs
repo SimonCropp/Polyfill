@@ -142,6 +142,12 @@ class Consume
         var read = await reader.ReadToEndAsync(CancellationToken.None);
     }
 
+    async Task StreamReaderReadLineAsync()
+    {
+        TextReader reader = new StreamReader(new MemoryStream());
+        var read = await reader.ReadLineAsync(CancellationToken.None);
+    }
+
     void WaitAsync()
     {
         var action = () => {};
