@@ -4,7 +4,6 @@
 
 #nullable enable
 
-
 namespace System.Diagnostics.CodeAnalysis;
 
 using Targets = AttributeTargets;

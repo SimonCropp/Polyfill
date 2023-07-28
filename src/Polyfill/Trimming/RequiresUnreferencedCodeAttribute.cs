@@ -2,9 +2,7 @@
 
 #if !NET5_0_OR_GREATER
 
-#pragma warning disable
 #nullable enable
-
 
 namespace System.Diagnostics.CodeAnalysis;
 
