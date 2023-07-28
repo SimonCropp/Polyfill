@@ -17,7 +17,7 @@ static partial class PolyfillExtensions
     /// Send a GET request to the specified Uri and return the response body as a stream in an asynchronous operation.
     /// </summary>
     /// <remarks>
-    /// This operation will not block. The returned <see cref="Task{string}"/> object will complete after the response headers are read.
+    /// This operation will not block. The returned <see cref="Task{Stream}"/> object will complete after the response headers are read.
     /// This method does not read nor buffer the response body.
     /// </remarks>
     /// <param name="requestUri">The Uri the request is sent to.</param>
@@ -55,7 +55,7 @@ static partial class PolyfillExtensions
     /// Send a GET request to the specified Uri and return the response body as a stream in an asynchronous operation.
     /// </summary>
     /// <remarks>
-    /// This operation will not block. The returned <see cref="Task{string}"/> object will complete after the response headers are read.
+    /// This operation will not block. The returned <see cref="Task{Stream}"/> object will complete after the response headers are read.
     /// This method does not read nor buffer the response body.
     /// </remarks>
     /// <param name="requestUri">The Uri the request is sent to.</param>
@@ -72,7 +72,7 @@ static partial class PolyfillExtensions
     /// Send a GET request to the specified Uri and return the response body as a byte array in an asynchronous operation.
     /// </summary>
     /// <remarks>
-    /// This operation will not block. The returned <see cref="Task{byte[]}"/> object will complete after the response headers are read.
+    /// This operation will not block. The returned Task{Byte[]} object will complete after the response headers are read.
     /// This method does not read nor buffer the response body.
     /// </remarks>
     /// <param name="requestUri">The Uri the request is sent to.</param>
@@ -109,7 +109,7 @@ static partial class PolyfillExtensions
     /// Send a GET request to the specified Uri and return the response body as a byte array in an asynchronous operation.
     /// </summary>
     /// <remarks>
-    /// This operation will not block. The returned <see cref="Task{byte[]}"/> object will complete after the response headers are read.
+    /// This operation will not block. The returned Task{byte[]} object will complete after the response headers are read.
     /// This method does not read nor buffer the response body.
     /// </remarks>
     /// <param name="requestUri">The Uri the request is sent to.</param>
@@ -126,7 +126,7 @@ static partial class PolyfillExtensions
     /// Send a GET request to the specified Uri and return the response body as a string in an asynchronous operation.
     /// </summary>
     /// <remarks>
-    /// This operation will not block. The returned <see cref="Task{string}"/> object will complete after the response headers are read.
+    /// This operation will not block. The returned <see cref="Task{String}"/> object will complete after the response headers are read.
     /// This method does not read nor buffer the response body.
     /// </remarks>
     /// <param name="requestUri">The Uri the request is sent to.</param>
@@ -163,7 +163,7 @@ static partial class PolyfillExtensions
     /// Send a GET request to the specified Uri and return the response body as a string in an asynchronous operation.
     /// </summary>
     /// <remarks>
-    /// This operation will not block. The returned <see cref="Task{string}"/> object will complete after the response headers are read.
+    /// This operation will not block. The returned <see cref="Task{String}"/> object will complete after the response headers are read.
     /// This method does not read nor buffer the response body.
     /// </remarks>
     /// <param name="requestUri">The Uri the request is sent to.</param>
