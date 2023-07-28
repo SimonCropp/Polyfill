@@ -18,7 +18,9 @@ static partial class PolyfillExtensions
     /// <param name="value">The value to search for.</param>
     /// <returns>true if found, false otherwise.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)")]
-    public static bool Contains<T>(this ReadOnlySpan<T> target, T value)
+    public static bool Contains<T>(
+        this ReadOnlySpan<T> target,
+        T value)
         where T : IEquatable<T>
     {
         for (var index = 0; index < target.Length; index++)
@@ -38,7 +40,9 @@ static partial class PolyfillExtensions
     /// <param name="value">The value to search for.</param>
     /// <returns>true if found, false otherwise.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-span((-0))-0)")]
-    public static bool Contains<T>(this Span<T> target, T value)
+    public static bool Contains<T>(
+        this Span<T> target,
+        T value)
         where T : IEquatable<T>
     {
         for (var index = 0; index < target.Length; index++)
@@ -53,27 +57,41 @@ static partial class PolyfillExtensions
     }
 
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")]
-    public static bool SequenceEqual(this ReadOnlySpan<char> target, string other) =>
+    public static bool SequenceEqual(
+        this ReadOnlySpan<char> target,
+        string other) =>
         target.SequenceEqual(other.AsSpan());
 
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))")]
-    public static bool SequenceEqual(this Span<char> target, string other) =>
+    public static bool SequenceEqual(
+        this Span<char> target,
+        string other) =>
         target.SequenceEqual(other.AsSpan());
 
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")]
-    public static bool StartsWith(this ReadOnlySpan<char> target, string other, StringComparison comparison = StringComparison.CurrentCulture) =>
+    public static bool StartsWith(
+        this ReadOnlySpan<char> target,
+        string other,
+        StringComparison comparison = StringComparison.CurrentCulture) =>
         target.StartsWith(other.AsSpan(), comparison);
 
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith#system-memoryextensions-startswith-1(system-span((-0))-system-readonlyspan((-0)))")]
-    public static bool StartsWith(this Span<char> target, string other) =>
+    public static bool StartsWith(
+        this Span<char> target,
+        string other) =>
         target.StartsWith(other.AsSpan());
 
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith#system-memoryextensions-endswith-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")]
-    public static bool EndsWith(this ReadOnlySpan<char> target, string other, StringComparison comparison = StringComparison.CurrentCulture) =>
+    public static bool EndsWith(
+        this ReadOnlySpan<char> target,
+        string other,
+        StringComparison comparison = StringComparison.CurrentCulture) =>
         target.EndsWith(other.AsSpan(), comparison);
 
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith#system-memoryextensions-endswith-1(system-span((-0))-system-readonlyspan((-0)))")]
-    public static bool EndsWith(this Span<char> target, string other) =>
+    public static bool EndsWith(
+        this Span<char> target,
+        string other) =>
         target.EndsWith(other.AsSpan());
 }
 #endif

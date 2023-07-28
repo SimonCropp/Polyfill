@@ -29,8 +29,10 @@ static partial class PolyfillExtensions
     /// <para>If <typeparamref name="TKey" /> is a reference type and the source sequence is empty or contains only values that are <see langword="null" />, this method returns <see langword="null" />.</para>
     /// </remarks>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))")]
-    public static TSource? MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector) =>
-        MaxBy(source, keySelector, null);
+    public static TSource? MaxBy<TSource, TKey>(
+        this IEnumerable<TSource> target,
+        Func<TSource, TKey> keySelector) =>
+        MaxBy(target, keySelector, null);
 
     /// <summary>Returns the maximum value in a generic sequence according to a specified key selector function.</summary>
     /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
@@ -45,8 +47,11 @@ static partial class PolyfillExtensions
     /// <para>If <typeparamref name="TKey" /> is a reference type and the source sequence is empty or contains only values that are <see langword="null" />, this method returns <see langword="null" />.</para>
     /// </remarks>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby?view=net-8.0#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))")]
-    public static TSource? MaxBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey>? comparer) =>
-        source
+    public static TSource? MaxBy<TSource, TKey>(
+        this IEnumerable<TSource> target,
+        Func<TSource, TKey> keySelector,
+        IComparer<TKey>? comparer) =>
+        target
             .OrderByDescending(keySelector, comparer)
             .FirstOrDefault();
 
@@ -64,8 +69,10 @@ static partial class PolyfillExtensions
     /// <para>If <typeparamref name="TKey" /> is a reference type and the source sequence is empty or contains only values that are <see langword="null" />, this method returns <see langword="null" />.</para>
     /// </remarks>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.minby#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))")]
-    public static TSource? MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector) =>
-        MinBy(source, keySelector, null);
+    public static TSource? MinBy<TSource, TKey>(
+        this IEnumerable<TSource> target,
+        Func<TSource, TKey> keySelector) =>
+        MinBy(target, keySelector, null);
 
     /// <summary>Returns the minimum value in a generic sequence according to a specified key selector function.</summary>
     /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
@@ -80,8 +87,11 @@ static partial class PolyfillExtensions
     /// <para>If <typeparamref name="TKey" /> is a reference type and the source sequence is empty or contains only values that are <see langword="null" />, this method returns <see langword="null" />.</para>
     /// </remarks>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.minby?view=net-8.0#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))")]
-    public static TSource? MinBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IComparer<TKey>? comparer) =>
-        source
+    public static TSource? MinBy<TSource, TKey>(
+        this IEnumerable<TSource> target,
+        Func<TSource, TKey> keySelector,
+        IComparer<TKey>? comparer) =>
+        target
             .OrderBy(keySelector, comparer)
             .FirstOrDefault();
 
@@ -98,10 +108,10 @@ static partial class PolyfillExtensions
     /// <returns>A new sequence that ends with element.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.append")]
     public static IEnumerable<TSource> Append<TSource>(
-        this IEnumerable<TSource> source,
+        this IEnumerable<TSource> target,
         TSource element)
     {
-        foreach (var item in source)
+        foreach (var item in target)
         {
             yield return item;
         }
@@ -121,7 +131,9 @@ static partial class PolyfillExtensions
     /// <returns>A new enumerable collection that contains the elements from source minus count elements from the end
     /// of the collection.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.skiplast")]
-    public static IEnumerable<TSource> SkipLast<TSource>(this IEnumerable<TSource> source, int count) =>
-        source.Reverse().Skip(count).Reverse();
+    public static IEnumerable<TSource> SkipLast<TSource>(
+        this IEnumerable<TSource> target,
+        int count) =>
+        target.Reverse().Skip(count).Reverse();
 #endif
 }

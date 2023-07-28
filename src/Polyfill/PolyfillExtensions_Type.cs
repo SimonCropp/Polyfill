@@ -44,7 +44,9 @@ static partial class PolyfillExtensions
     /// <param name="member">The MemberInfo to find on the current Type.</param>
     /// <returns>An object representing the member on the current Type that matches the specified member.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.type.getmemberwithsamemetadatadefinitionas")]
-    internal static MemberInfo GetMemberWithSameMetadataDefinitionAs(this Type type, MemberInfo member)
+    internal static MemberInfo GetMemberWithSameMetadataDefinitionAs(
+        this Type type,
+        MemberInfo member)
     {
         const BindingFlags all = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
         foreach (var info in type.GetMembers(all))

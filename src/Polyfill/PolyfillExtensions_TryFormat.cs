@@ -19,7 +19,8 @@ static partial class PolyfillExtensions
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryformat")]
-    public static bool TryFormat(this sbyte target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
+    public static bool TryFormat(
+        this sbyte target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
 
