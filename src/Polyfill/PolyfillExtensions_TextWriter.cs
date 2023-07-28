@@ -20,7 +20,7 @@ static partial class PolyfillExtensions
     /// <param name="buffer">The character memory region to write to the stream.</param>
     /// <param name="cancellationToken">
     /// The token to monitor for cancellation requests.
-    /// The default value is <see cref="Cancellation.None"/>.
+    /// The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
@@ -46,7 +46,7 @@ static partial class PolyfillExtensions
     /// <param name="buffer">The character memory region to write to the stream.</param>
     /// <param name="cancellationToken">
     /// The token to monitor for cancellation requests.
-    /// The default value is <see cref="Cancellation.None"/>.
+    /// The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
