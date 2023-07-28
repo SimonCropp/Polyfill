@@ -277,7 +277,7 @@ static class GuardUsage
     }
 }
 ```
-<sup><a href='/src/Tests/Guard.cs#L2-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-callerargumentexpression' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Guard.cs#L3-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-callerargumentexpression' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
