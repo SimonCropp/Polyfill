@@ -9,10 +9,10 @@ using Link = System.ComponentModel.DescriptionAttribute;
 static partial class PolyfillExtensions
 {
     /// <summary>
-    /// Deconstructs the current <see cref="KeyValuePair<TKey,TValue>"/>
+    /// Deconstructs the current <see cref="KeyValuePair{TKey,TValue}"/>
     /// </summary>
-    /// <param name="key">The key of the current <see cref="KeyValuePair<TKey,TValue>"/>.</param>
-    /// <param name="value">The value of the current <see cref="KeyValuePair<TKey,TValue>"/>.</param>
+    /// <param name="key">The key of the current <see cref="KeyValuePair{TKey,TValue}"/>.</param>
+    /// <param name="value">The value of the current <see cref="KeyValuePair{TKey,TValue}"/>.</param>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct")]
     public static void Deconstruct<TKey, TValue>(
         this KeyValuePair<TKey, TValue> target,

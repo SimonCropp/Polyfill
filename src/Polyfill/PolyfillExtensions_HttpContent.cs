@@ -23,11 +23,11 @@ static partial class PolyfillExtensions
     /// <returns>The task object representing the asynchronous operation.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasstreamasync#system-net-http-httpcontent-readasstreamasync(system-threading-cancellationtoken)")]
     public static Task<Stream> ReadAsStreamAsync(
-        this HttpContent httpContent,
+        this HttpContent target,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return httpContent.ReadAsStreamAsync();
+        return target.ReadAsStreamAsync();
     }
 
     /// <summary>
@@ -43,11 +43,11 @@ static partial class PolyfillExtensions
     /// <returns>The task object representing the asynchronous operation.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasbytearrayasync#system-net-http-httpcontent-readasbytearrayasync(system-threading-cancellationtoken)")]
     public static Task<byte[]> ReadAsByteArrayAsync(
-        this HttpContent httpContent,
+        this HttpContent target,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return httpContent.ReadAsByteArrayAsync();
+        return target.ReadAsByteArrayAsync();
     }
 
     /// <summary>
@@ -63,11 +63,11 @@ static partial class PolyfillExtensions
     /// <returns>The task object representing the asynchronous operation.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasstringasync#system-net-http-httpcontent-readasstringasync(system-threading-cancellationtoken)")]
     public static Task<string> ReadAsStringAsync(
-        this HttpContent httpContent,
+        this HttpContent target,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return httpContent.ReadAsStringAsync();
+        return target.ReadAsStringAsync();
     }
 }
 #endif
