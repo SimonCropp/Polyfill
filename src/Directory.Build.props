@@ -6,7 +6,7 @@
     <PackageTags>Polyfill</PackageTags>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
     <SignAssembly>false</SignAssembly>
-    <NoWarn>CS1573;CS1591;NETSDK1138;NU1901;NU1902</NoWarn>
+    <NoWarn>CS1573;CS1573;CS1591;NETSDK1138;NU1901;NU1902</NoWarn>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
     <LangVersion>11</LangVersion>
     <ImplicitUsings>false</ImplicitUsings>
