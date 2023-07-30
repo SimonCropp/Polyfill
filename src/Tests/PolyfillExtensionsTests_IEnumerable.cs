@@ -9,6 +9,13 @@ partial class PolyfillExtensionsTests
     }
 
     [Test]
+    public void Except()
+    {
+        var enumerable = new List<int> {1, 2};
+        Assert.AreEqual(1, enumerable.Except(2).Single());
+    }
+
+    [Test]
     public void MinBy()
     {
         var enumerable = (IEnumerable<int>)new List<int> {1, 2};
