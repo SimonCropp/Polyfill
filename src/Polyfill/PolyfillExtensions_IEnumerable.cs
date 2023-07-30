@@ -14,7 +14,7 @@ static partial class PolyfillExtensions
     /// <summary>
     /// Returns the maximum value in a generic sequence according to a specified key selector function.
     /// </summary>
-    /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <typeparam name="TKey">The type of key to compare elements by.</typeparam>
     /// <param name="source">A sequence of values to determine the maximum value of.</param>
     /// <param name="keySelector">A function to extract the key for each element.</param>
@@ -31,7 +31,7 @@ static partial class PolyfillExtensions
         MaxBy(target, keySelector, null);
 
     /// <summary>Returns the maximum value in a generic sequence according to a specified key selector function.</summary>
-    /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <typeparam name="TKey">The type of key to compare elements by.</typeparam>
     /// <param name="source">A sequence of values to determine the maximum value of.</param>
     /// <param name="keySelector">A function to extract the key for each element.</param>
@@ -54,7 +54,7 @@ static partial class PolyfillExtensions
     /// <summary>
     /// Returns the minimum value in a generic sequence according to a specified key selector function.
     /// </summary>
-    /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <typeparam name="TKey">The type of key to compare elements by.</typeparam>
     /// <param name="source">A sequence of values to determine the minby value of.</param>
     /// <param name="keySelector">A function to extract the key for each element.</param>
@@ -71,14 +71,14 @@ static partial class PolyfillExtensions
         MinBy(target, keySelector, null);
 
     /// <summary>Returns the minimum value in a generic sequence according to a specified key selector function.</summary>
-    /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <typeparam name="TKey">The type of key to compare elements by.</typeparam>
     /// <param name="source">A sequence of values to determine the minimum value of.</param>
     /// <param name="keySelector">A function to extract the key for each element.</param>
     /// <param name="comparer">The <see cref="IComparer{TKey}" /> to compare keys.</param>
     /// <returns>The value with the minimum key in the sequence.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="source" /> is <see langword="null" />.</exception>
-    /// <exception cref="ArgumentException">No key extracted from <paramref name="source" /> implements the <see cref="IComparable" /> or <see cref="IComparable{TKey}" /> interface.</exception>
+    /// <exception cref="ArgumentException">No key extracted from <paramref name="target" /> implements the <see cref="IComparable" /> or <see cref="IComparable{TKey}" /> interface.</exception>
     /// <remarks>
     /// <para>If <typeparamref name="TKey" /> is a reference type and the source sequence is empty or contains only values that are <see langword="null" />, this method returns <see langword="null" />.</para>
     /// </remarks>
@@ -99,7 +99,7 @@ static partial class PolyfillExtensions
     /// Appends a value to the end of the sequence.
     /// </summary>
     /// <param name="source">A sequence of values.</param>
-    /// <param name="element">The value to append to source.</param>
+    /// <param name="element">The value to append to <paramref name="target" />.</param>
     /// <typeparam name="TSource">The type of the elements of source.</typeparam>
     /// <returns>A new sequence that ends with element.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.append")]
