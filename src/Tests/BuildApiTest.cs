@@ -24,7 +24,7 @@ class BuildApiTest
         var extensions = module.GetTypes().Single(_ => _.Name == nameof(PolyfillExtensions));
         using var writer = File.CreateText(md);
 
-        foreach (var type in extensions.Methods.Where(_ => !_.IsConstructor).GroupBy(_ => _.Parameters[0].ParameterType).OrderBy(_ => _.Key.Name))
+        foreach (var type in extensions.Methods.Where(_ => !_.IsConstructor).GroupBy(_ => _.Parameters[0].ParameterType.FullName).OrderBy(_ => _.Key))
         {
             if (!type.Any(_ => _.IsPublic))
             {
@@ -32,7 +32,7 @@ class BuildApiTest
             }
 
             var targetType = type.Key;
-            var targetFullName = targetType.FullName.Replace("`1", "").Replace("`2", "");
+            var targetFullName = targetType.Replace("`1", "").Replace("`2", "");
             writer.WriteLine($"### {SimpleTypeName(targetFullName)}");
             writer.WriteLine();
             foreach (var method in type.OrderBy(_ => _.Name))
