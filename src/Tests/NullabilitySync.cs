@@ -83,7 +83,7 @@ public class NullabilitySync
     {
         var path = Path.Combine(dir, file);
         File.Delete(path);
-        File.WriteAllText(path, content);
+        File.WriteAllText(path, content.Trim());
     }
 }
 #endif
