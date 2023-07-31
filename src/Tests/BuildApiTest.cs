@@ -10,7 +10,7 @@ class BuildApiTest
         "System.Net.Http.",
         "System.Text.",
         "System.IO.",
-        "System.",
+        "System."
     };
 
     [Test]
