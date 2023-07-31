@@ -10,14 +10,16 @@ using System.Linq;
 static partial class PolyfillExtensions
 {
     /// <summary>
-    /// Produces the set difference of two sequences by using the default equality comparer to compare values.
+    /// Produces a set items excluding <paramref name="item"/> by using the default equality comparer to compare values.
     /// </summary>
     /// <param name="target">An <see cref="IEnumerable<TSource>"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
     /// <param name="item">An <see cref="TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
     /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))")]
-    public static IEnumerable<TSource> Except<TSource>(this IEnumerable<TSource> target, TSource item)
+    public static IEnumerable<TSource> Except<TSource>(
+        this IEnumerable<TSource> target,
+        TSource item)
     {
         return Except<TSource>(target, item, null);
     }
@@ -27,11 +29,29 @@ static partial class PolyfillExtensions
     /// </summary>
     /// <param name="target">An <see cref="IEnumerable<TSource>"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
     /// <param name="item">An <see cref="TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
+    /// <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))")]
+    public static IEnumerable<TSource> Except<TSource>(
+        this IEnumerable<TSource> target,
+        params TSource[] items)
+    {
+        return target.Except((IEnumerable<TSource>)items);
+    }
+
+    /// <summary>
+    /// Produces a set items excluding <paramref name="item"/> by using <paramref name="comparer"/> to compare values.
+    /// </summary>
+    /// <param name="target">An <see cref="IEnumerable<TSource>"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
+    /// <param name="item">An <see cref="TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
     /// <param name="comparer">An <see cref="IEqualityComparer<TSource>"/> to compare values.</param>
     /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))")]
-    public static IEnumerable<TSource> Except<TSource>(this IEnumerable<TSource> target, TSource item, IEqualityComparer<TSource>? comparer)
+    public static IEnumerable<TSource> Except<TSource>(
+        this IEnumerable<TSource> target,
+        TSource item,
+        IEqualityComparer<TSource>? comparer)
     {
         var set = new HashSet<TSource>(comparer);
         set.Add(item);
@@ -43,6 +63,23 @@ static partial class PolyfillExtensions
             }
         }
     }
+
+    /// <summary>
+    /// Produces the set difference of two sequences by <paramref name="comparer"/> to compare values.
+    /// </summary>
+    /// <param name="target">An <see cref="IEnumerable<TSource>"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
+    /// <param name="item">An <see cref="TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
+    /// <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))")]
+    public static IEnumerable<TSource> Except<TSource>(
+        this IEnumerable<TSource> target,
+        IEqualityComparer<TSource> comparer,
+        params TSource[] items)
+    {
+        return target.Except((IEnumerable<TSource>)items, comparer);
+    }
+
 
 #if NETSTANDARD || NETCOREAPP || NETFRAMEWORK || NET5_0
 
