@@ -12,14 +12,17 @@
               Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.ValueTuple')->Count()) != 0">true</ValueTupleReferenced>
       <DefineConstants
               Condition="$(ValueTupleReferenced)">$(DefineConstants);VALUETUPLEREFERENCED</DefineConstants>
+
       <MemoryReferenced
               Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.Memory')->Count()) != 0">true</MemoryReferenced>
       <DefineConstants
               Condition="$(MemoryReferenced)">$(DefineConstants);MEMORYREFERENCED</DefineConstants>
+
       <TasksExtensionsReferenced
               Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.Threading.Tasks.Extensions')->Count()) != 0">true</TasksExtensionsReferenced>
       <DefineConstants
               Condition="$(TasksExtensionsReferenced)">$(DefineConstants);TASKSEXTENSIONSREFERENCED</DefineConstants>
+
       <HttpReferenced
               Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.Net.Http')->Count()) != 0 OR @(Reference->WithMetadataValue('Identity', 'System.Net.Http')->Count()) != 0">true</HttpReferenced>
       <DefineConstants
