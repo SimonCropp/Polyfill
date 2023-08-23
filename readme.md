@@ -347,7 +347,7 @@ Reference: [Improvements in native code interop in .NET 5.0](https://devblogs.mi
 
 The class `PolyfillExtensions` includes the following extension methods:
 
-### Boolean <!-- include: api_list.include.md -->
+### Boolean<!-- include: api_list.include.md -->
 
  * `Boolean TryFormat(Span<Char>, Int32&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.boolean.tryformat)
 
@@ -595,7 +595,7 @@ The class `PolyfillExtensions` includes the following extension methods:
 
  * `Boolean TryFormat(Span<Char>, Int32&, ReadOnlySpan<Char>, IFormatProvider)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryformat)
 
- <!-- endInclude -->
+<!-- endInclude -->
 
 
 ## References
