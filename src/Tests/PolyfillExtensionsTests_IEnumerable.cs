@@ -62,4 +62,20 @@ partial class PolyfillExtensionsTests
         Assert.AreEqual(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, chunks[0]);
         Assert.AreEqual(new int[] { 9, 10, 11 }, chunks[1]);
     }
+
+    [Test]
+    public void Chunk_SizeOfZero_ExpectedException()
+    {
+        var enumerable = Enumerable.Range(1, 11).ToList();
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => enumerable.Chunk(0).ToList());
+    }
+
+    [Test]
+    public void Chunk_Null_ExpectedException()
+    {
+        IEnumerable<int> values = null!;
+
+        Assert.Throws<ArgumentNullException>(() => values.Chunk(1).ToList());
+    }
 }

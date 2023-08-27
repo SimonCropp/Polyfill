@@ -98,6 +98,7 @@ static partial class PolyfillExtensions
     /// </returns>
     /// <exception cref="ArgumentNullException"><paramref name="source"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="size"/> is below 1.</exception>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.chunk")]
     public static IEnumerable<TSource[]> Chunk<TSource>(this IEnumerable<TSource> source, int size)
     {
         if (source is null)
