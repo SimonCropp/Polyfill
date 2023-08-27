@@ -34,8 +34,32 @@ partial class PolyfillExtensionsTests
     [Test]
     public void IEnumerableSkipLast()
     {
-        var enumerable = (IEnumerable<string>)new List<string> {"a", "b"};
+        var enumerable = (IEnumerable<string>)new List<string> { "a", "b" };
 
-        Assert.IsTrue(enumerable.SkipLast(1).SequenceEqual(new List<string> {"a"}));
+        Assert.IsTrue(enumerable.SkipLast(1).SequenceEqual(new List<string> { "a" }));
+    }
+
+    [Test]
+    public void Chunk_SizeOf3()
+    {
+        var enumerable = Enumerable.Range(1, 11).ToList();
+
+        var chunks = enumerable.Chunk(3).ToList();
+
+        Assert.AreEqual(new int[] { 1, 2, 3 }, chunks[0]);
+        Assert.AreEqual(new int[] { 4, 5, 6 }, chunks[1]);
+        Assert.AreEqual(new int[] { 7, 8, 9 }, chunks[2]);
+        Assert.AreEqual(new int[] { 10, 11 }, chunks[3]);
+    }
+
+    [Test]
+    public void Chunk_SizeOf8()
+    {
+        var enumerable = Enumerable.Range(1, 11).ToList();
+
+        var chunks = enumerable.Chunk(8).ToList();
+
+        Assert.AreEqual(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, chunks[0]);
+        Assert.AreEqual(new int[] { 9, 10, 11 }, chunks[1]);
     }
 }
