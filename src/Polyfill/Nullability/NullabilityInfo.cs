@@ -9,16 +9,18 @@ using System.Linq;
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Reflection
 {
     /// <summary>
     /// A class that represents nullability info
     /// </summary>
-    #if PolyPublic
+    [ExcludeFromCodeCoverage]
+#if PolyPublic
 public
 #endif
-sealed class NullabilityInfo
+    sealed class NullabilityInfo
     {
         internal NullabilityInfo(Type type, NullabilityState readState, NullabilityState writeState,
             NullabilityInfo? elementType, NullabilityInfo[] typeArguments)
