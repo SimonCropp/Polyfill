@@ -64,6 +64,7 @@ class Consume
         type = typeof(SuppressGCTransitionAttribute);
         type = typeof(DisableRuntimeMarshallingAttribute);
         type = typeof(RequiresUnreferencedCodeAttribute);
+        type = typeof(UnreachableException);
 
 #if (NET46X && VALUETUPLEREFERENCED) || NET47X || NET48X || NETSTANDARD2_0 || NETCOREAPP2X
         var range = "value"[1..];
