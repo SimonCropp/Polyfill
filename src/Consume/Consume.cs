@@ -80,6 +80,7 @@ class Consume
         };
         var append = enumerable.Append("c");
         var maxBy = enumerable.MaxBy(_=>_);
+        var chunk = enumerable.Chunk(3);
         var minBy = enumerable.MinBy(_=>_);
         var skipLast = enumerable.SkipLast(1);
 
