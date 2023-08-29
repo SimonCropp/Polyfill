@@ -11,6 +11,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 namespace System.Reflection
 {
@@ -18,10 +19,11 @@ namespace System.Reflection
     /// Provides APIs for populating nullability information/context from reflection members:
     /// <see cref="ParameterInfo"/>, <see cref="FieldInfo"/>, <see cref="PropertyInfo"/> and <see cref="EventInfo"/>.
     /// </summary>
-    #if PolyPublic
+    [ExcludeFromCodeCoverage]
+#if PolyPublic
 public
 #endif
-sealed class NullabilityInfoContext
+    sealed class NullabilityInfoContext
     {
         private const string CompilerServicesNameSpace = "System.Runtime.CompilerServices";
         private readonly Dictionary<Module, NotAnnotatedStatus> _publicOnlyModules = new();
@@ -632,6 +634,7 @@ sealed class NullabilityInfoContext
         private static bool IsValueTypeOrValueTypeByRef(Type type) =>
             type.IsValueType || ((type.IsByRef || type.IsPointer) && type.GetElementType()!.IsValueType);
 
+        [ExcludeFromCodeCoverage]
         private readonly struct NullableAttributeStateParser
         {
             private static readonly object UnknownByte = (byte)0;
