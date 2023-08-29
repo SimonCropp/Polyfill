@@ -46,10 +46,10 @@ partial class PolyfillExtensionsTests
 
         var chunks = enumerable.Chunk(3).ToList();
 
-        Assert.AreEqual(new int[] { 1, 2, 3 }, chunks[0]);
-        Assert.AreEqual(new int[] { 4, 5, 6 }, chunks[1]);
-        Assert.AreEqual(new int[] { 7, 8, 9 }, chunks[2]);
-        Assert.AreEqual(new int[] { 10, 11 }, chunks[3]);
+        Assert.AreEqual(new[] { 1, 2, 3 }, chunks[0]);
+        Assert.AreEqual(new[] { 4, 5, 6 }, chunks[1]);
+        Assert.AreEqual(new[] { 7, 8, 9 }, chunks[2]);
+        Assert.AreEqual(new[] { 10, 11 }, chunks[3]);
     }
 
     [Test]
@@ -59,8 +59,8 @@ partial class PolyfillExtensionsTests
 
         var chunks = enumerable.Chunk(8).ToList();
 
-        Assert.AreEqual(new int[] { 1, 2, 3, 4, 5, 6, 7, 8 }, chunks[0]);
-        Assert.AreEqual(new int[] { 9, 10, 11 }, chunks[1]);
+        Assert.AreEqual(new[] { 1, 2, 3, 4, 5, 6, 7, 8 }, chunks[0]);
+        Assert.AreEqual(new[] { 9, 10, 11 }, chunks[1]);
     }
 
     [Test]
