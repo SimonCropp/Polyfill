@@ -42,6 +42,7 @@ public class NullabilitySync
                      #nullable enable
 
                      using System.Linq;
+                     using System.Diagnostics.CodeAnalysis;
 
                      """;
 
@@ -73,6 +74,7 @@ public class NullabilitySync
             .Replace(
                 "public sealed class",
                 """
+                    [ExcludeFromCodeCoverage]
                     #if PolyPublic
                     public
                     #endif

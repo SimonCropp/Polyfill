@@ -5,11 +5,11 @@
 #nullable enable
 
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 
 namespace System.Reflection
 {
@@ -20,7 +20,7 @@ namespace System.Reflection
 #if PolyPublic
 public
 #endif
-    sealed class NullabilityInfo
+sealed class NullabilityInfo
     {
         internal NullabilityInfo(Type type, NullabilityState readState, NullabilityState writeState,
             NullabilityInfo? elementType, NullabilityInfo[] typeArguments)
