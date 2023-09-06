@@ -2,7 +2,7 @@
 
 #pragma warning disable
 
-#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP || NET5_0
+#if NETFRAMEWORK || NETSTANDARD || NETCOREAPPX || NET5_0
 
 using System;
 using System.Reflection;
