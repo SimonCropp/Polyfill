@@ -19,10 +19,8 @@ static partial class PolyfillExtensions
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except?view=net-8.0#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0)))")]
     public static IEnumerable<TSource> Except<TSource>(
         this IEnumerable<TSource> target,
-        TSource item)
-    {
-        return Except<TSource>(target, item, null);
-    }
+        TSource item) =>
+        Except<TSource>(target, item, null);
 
     /// <summary>
     /// Produces the set difference of two sequences by using the default equality comparer to compare values.
@@ -34,10 +32,8 @@ static partial class PolyfillExtensions
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except?view=net-8.0#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0)))")]
     public static IEnumerable<TSource> Except<TSource>(
         this IEnumerable<TSource> target,
-        params TSource[] items)
-    {
-        return target.Except((IEnumerable<TSource>)items);
-    }
+        params TSource[] items) =>
+        target.Except((IEnumerable<TSource>)items);
 
     /// <summary>
     /// Produces a set items excluding <paramref name="item"/> by using <paramref name="comparer"/> to compare values.
@@ -75,10 +71,8 @@ static partial class PolyfillExtensions
     public static IEnumerable<TSource> Except<TSource>(
         this IEnumerable<TSource> target,
         IEqualityComparer<TSource> comparer,
-        params TSource[] items)
-    {
-        return target.Except((IEnumerable<TSource>)items, comparer);
-    }
+        params TSource[] items) =>
+        target.Except((IEnumerable<TSource>)items, comparer);
 
 
 #if NETSTANDARD || NETCOREAPPX || NETFRAMEWORK || NET5_0
