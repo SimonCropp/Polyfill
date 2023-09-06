@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿#if !NET7_0_OR_GREATER
+
+using System.Diagnostics.CodeAnalysis;
 
 struct UnscopedRefUsage
 {
@@ -6,3 +8,5 @@ struct UnscopedRefUsage
 
     [UnscopedRef] ref int Prop1 => ref field;
 }
+
+#endif

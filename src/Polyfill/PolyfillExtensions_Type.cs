@@ -8,16 +8,14 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class PolyfillExtensions
 {
+#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas")]
     public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other)
     {
-#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
         return target.MetadataToken == other.MetadataToken &&
                target.Module.Equals(other.Module);
-#else
-        return target.HasSameMetadataDefinitionAs(other);
-#endif
     }
+#endif
 
     /// <summary>
     /// Gets a value that indicates whether the current Type represents a type parameter in the definition of a generic method.

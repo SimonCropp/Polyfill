@@ -51,20 +51,6 @@ static partial class PolyfillExtensions
     public static int Microsecond(this DateTimeOffset target) =>
         target.Microsecond;
 
-    /// <summary>
-    /// Returns a new <see cref="DateTime"/> object that adds a specified number of microseconds to the value of this instance..
-    /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.datetime.addmicroseconds")]
-    public static DateTime AddMicroseconds(this DateTime target, double microseconds) =>
-        target.AddMicroseconds(microseconds);
-
-    /// <summary>
-    /// Returns a new <see cref="DateTimeOffset"/> object that adds a specified number of microseconds to the value of this instance..
-    /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.addmicroseconds")]
-    public static DateTimeOffset AddMicroseconds(this DateTimeOffset target, double microseconds) =>
-        target.AddMicroseconds(microseconds);
-
 #else
 
     const long TicksPerMicrosecond = TimeSpan.TicksPerMillisecond * 1000;
@@ -110,20 +96,6 @@ static partial class PolyfillExtensions
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.microsecond")]
     public static int Microsecond(this DateTimeOffset target) =>
         (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
-
-    /// <summary>
-    /// Returns a new <see cref="DateTime"/> object that adds a specified number of microseconds to the value of this instance..
-    /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.datetime.addmicroseconds")]
-    public static DateTime AddMicroseconds(this DateTime target, double microseconds) =>
-       target.AddMilliseconds(microseconds / 1000);
-
-    /// <summary>
-    /// Returns a new <see cref="DateTimeOffset"/> object that adds a specified number of microseconds to the value of this instance..
-    /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.addmicroseconds")]
-    public static DateTimeOffset AddMicroseconds(this DateTimeOffset target, double microseconds) =>
-       target.AddMilliseconds(microseconds / 1000);
 
     static long TicksComponent(this TimeSpan target)
     {

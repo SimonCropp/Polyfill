@@ -81,7 +81,7 @@ static partial class PolyfillExtensions
     }
 
 
-#if NETSTANDARD || NETCOREAPP || NETFRAMEWORK || NET5_0
+#if NETSTANDARD || NETCOREAPPX || NETFRAMEWORK || NET5_0
 
     /// <summary>
     /// Split the elements of a sequence into chunks of size at most <paramref name="size"/>.

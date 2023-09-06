@@ -286,7 +286,7 @@ static partial class PolyfillExtensions
     }
 
 #endif
-#if NET6_0_OR_GREATER
+#if NET6_0
 
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
@@ -329,7 +329,7 @@ static partial class PolyfillExtensions
     }
 #endif
 
-#if NET6_0_OR_GREATER || (MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X))
+#if NET6_0 || (MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X))
     static bool CopyToSpan(Span<char> destination, out int charsWritten, string result)
     {
         if (result.Length == 0)
