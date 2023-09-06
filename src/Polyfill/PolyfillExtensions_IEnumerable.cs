@@ -16,7 +16,7 @@ static partial class PolyfillExtensions
     /// <param name="item">An <see cref="TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
     /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except?view=net-8.0#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0)))")]
     public static IEnumerable<TSource> Except<TSource>(
         this IEnumerable<TSource> target,
         TSource item)
@@ -31,7 +31,7 @@ static partial class PolyfillExtensions
     /// <param name="item">An <see cref="TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
     /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except?view=net-8.0#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0)))")]
     public static IEnumerable<TSource> Except<TSource>(
         this IEnumerable<TSource> target,
         params TSource[] items)
@@ -47,7 +47,7 @@ static partial class PolyfillExtensions
     /// <param name="comparer">An <see cref="IEqualityComparer<TSource>"/> to compare values.</param>
     /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0))-system-collections-generic-iequalitycomparer((-0)))")]
     public static IEnumerable<TSource> Except<TSource>(
         this IEnumerable<TSource> target,
         TSource item,
@@ -71,7 +71,7 @@ static partial class PolyfillExtensions
     /// <param name="item">An <see cref="TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
     /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0))-system-collections-generic-iequalitycomparer((-0)))")]
     public static IEnumerable<TSource> Except<TSource>(
         this IEnumerable<TSource> target,
         IEqualityComparer<TSource> comparer,
