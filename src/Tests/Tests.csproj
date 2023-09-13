@@ -23,7 +23,7 @@
       <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
     <PackageReference Include="Mono.Cecil" Version="0.11.5" />
-    <PackageReference Include="Verify.NUnit" Version="21.1.1" />
+    <PackageReference Include="Verify.NUnit" Version="21.1.2" />
     <PackageReference Include="Verify.DiffPlex" Version="2.2.1" />
     <PackageReference Include="NUnit" Version="3.13.3" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
