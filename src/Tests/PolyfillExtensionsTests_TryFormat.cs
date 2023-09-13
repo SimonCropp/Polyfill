@@ -49,7 +49,7 @@ partial class PolyfillExtensionsTests
     [Test]
     public void TryFormatInt32()
     {
-        int value = 9;
+        var value = 9;
         Span<char> buffer = stackalloc char[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
