@@ -1,5 +1,3 @@
-namespace Tests;
-
 [TestFixture]
 public class UnreachableExceptionTests
 {
