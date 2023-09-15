@@ -1,11 +1,10 @@
 ﻿#if NET8_0 && DEBUG
 using System.Net.Http;
-using VerifyTests;
 
 [TestFixture]
 public class NullabilitySync
 {
-    static string solutionDir = AttributeReader.GetSolutionDirectory();
+    static string solutionDir = SolutionDirectoryFinder.Find();
     static string dir = Path.Combine(solutionDir, "PolyFill", "Nullability");
 
     [Test]

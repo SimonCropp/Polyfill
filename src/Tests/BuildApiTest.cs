@@ -16,7 +16,7 @@ class BuildApiTest
     [Test]
     public void Run()
     {
-        var solutionDirectory = VerifyTests.AttributeReader.GetSolutionDirectory();
+        var solutionDirectory = SolutionDirectoryFinder.Find();
         var path = Path.Combine(solutionDirectory, @"Consume\bin\Debug\netstandard2.0\Consume.dll");
         var md = Path.Combine(solutionDirectory, @"..\api_list.include.md");
         File.Delete(md);
