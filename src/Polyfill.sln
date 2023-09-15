@@ -18,9 +18,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Polyfill", "Polyfill\Polyfill.csproj", "{698FB675-3480-4107-8CAE-51452C6138CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{CA1869D1-4531-40C7-AE55-5885F4DD8448}"
-	ProjectSection(ProjectDependencies) = postProject
-		{32C38E3C-4040-455F-A27D-4EA5DB0F8EFA} = {32C38E3C-4040-455F-A27D-4EA5DB0F8EFA}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consume", "Consume\Consume.csproj", "{32C38E3C-4040-455F-A27D-4EA5DB0F8EFA}"
 EndProject
