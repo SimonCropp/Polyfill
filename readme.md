@@ -407,6 +407,11 @@ The class `PolyfillExtensions` includes the following extension methods:
  * `Boolean TryFormat(Span<Char>, Int32&, ReadOnlySpan<Char>, IFormatProvider)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryformat)
 
 
+### Dictionary<TKey, TValue>
+
+ * `Boolean Remove(TKey, out TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.remove)
+
+
 ### Double
 
  * `Boolean TryFormat(Span<Char>, Int32&, ReadOnlySpan<Char>, IFormatProvider)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.double.tryformat)
