@@ -4,8 +4,13 @@ using System.Net.Http;
 [TestFixture]
 public class NullabilitySync
 {
-    static string solutionDir = SolutionDirectoryFinder.Find();
-    static string dir = Path.Combine(solutionDir, "PolyFill", "Nullability");
+    static string dir;
+
+    static NullabilitySync()
+    {
+        var solutionDir = SolutionDirectoryFinder.Find();
+        dir = Path.Combine(solutionDir, "PolyFill", "Nullability");
+    }
 
     [Test]
     public async Task Run()

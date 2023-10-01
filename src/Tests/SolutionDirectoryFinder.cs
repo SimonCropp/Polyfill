@@ -14,7 +14,7 @@ static class SolutionDirectoryFinder
 
     public static bool TryFind(string sourceFile, [NotNullWhen(true)] out string? path)
     {
-        var currentDirectory = sourceFile;
+        var currentDirectory = Directory.GetParent(sourceFile)!.FullName;
         do
         {
             if (Directory.GetFiles(currentDirectory, "*.sln").Any())
