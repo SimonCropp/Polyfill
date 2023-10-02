@@ -27,11 +27,13 @@ public class NullabilitySync
             .Replace(".IsGenericMethodParameter", ".IsGenericMethodParameter()")
             .Replace("SR.NullabilityInfoContext_NotSupported", "\"NullabilityInfoContext is not supported\"")
             .Replace(
-                "CheckNullabilityAttributes(nullability, setter.GetParameters()[^1].GetCustomAttributesData());",
+                "CheckNullabilityAttributes(nullability, setter.GetParametersAsSpan()[^1].GetCustomAttributesData());",
                 """
                 var parameters = setter.GetParameters();
                                 CheckNullabilityAttributes(nullability, parameters[parameters.Length-1].GetCustomAttributesData());
-                """);
+                """)
+            .Replace("ReadOnlySpan<ParameterInfo> parameters = metaMethod.GetParametersAsSpan();", "var parameters = metaMethod.GetParameters();")
+            .Replace(".GetParametersAsSpan()", ".GetParameters()");
 
         var lines = infoContext.Split('\r', '\n');
         infoContext = string.Join(Environment.NewLine, lines.Where(_ => !_.Contains("ArgumentNullException.ThrowIfNull")));
