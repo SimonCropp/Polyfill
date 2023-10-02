@@ -27,13 +27,7 @@ public class NullabilitySync
             .Replace(".IsGenericMethodParameter", ".IsGenericMethodParameter()")
             .Replace("SR.NullabilityInfoContext_NotSupported", "\"NullabilityInfoContext is not supported\"")
             .Replace(
-                "CheckNullabilityAttributes(nullability, setter.GetParameters()[^1].GetCustomAttributesData());",
-                """
-                var parameters = setter.GetParameters();
-                CheckNullabilityAttributes(nullability, parameters[parameters.Length-1].GetCustomAttributesData());
-                """)
-            .Replace(
-                "CheckNullabilityAttributes(nullability, setter.GetParameters()[^1].GetCustomAttributesData());",
+                "CheckNullabilityAttributes(nullability, setter.GetParametersAsSpan()[^1].GetCustomAttributesData());",
                 """
                 var parameters = setter.GetParameters();
                                 CheckNullabilityAttributes(nullability, parameters[parameters.Length-1].GetCustomAttributesData());
