@@ -30,6 +30,12 @@ public class NullabilitySync
                 "CheckNullabilityAttributes(nullability, setter.GetParameters()[^1].GetCustomAttributesData());",
                 """
                 var parameters = setter.GetParameters();
+                CheckNullabilityAttributes(nullability, parameters[parameters.Length-1].GetCustomAttributesData());
+                """)
+            .Replace(
+                "CheckNullabilityAttributes(nullability, setter.GetParameters()[^1].GetCustomAttributesData());",
+                """
+                var parameters = setter.GetParameters();
                                 CheckNullabilityAttributes(nullability, parameters[parameters.Length-1].GetCustomAttributesData());
                 """)
             .Replace("ReadOnlySpan<ParameterInfo> parameters = metaMethod.GetParametersAsSpan();", "var parameters = metaMethod.GetParameters();")
