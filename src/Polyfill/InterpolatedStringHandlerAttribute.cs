@@ -4,12 +4,16 @@
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using Link = System.ComponentModel.DescriptionAttribute;
 
 namespace System.Runtime.CompilerServices;
 
 using Targets = AttributeTargets;
 
-/// <summary>Indicates the attributed type is to be used as an interpolated string handler.</summary>
+/// <summary>
+/// Indicates the attributed type is to be used as an interpolated string handler.
+/// </summary>
+[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.interpolatedstringhandlerargumentattribute")]
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(

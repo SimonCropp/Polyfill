@@ -135,6 +135,7 @@ Example:
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using Link = System.ComponentModel.DescriptionAttribute;
 
 namespace System.Runtime.CompilerServices;
 
@@ -158,6 +159,7 @@ namespace System.Runtime.CompilerServices;
 /// The specification for module initializers in the .NET runtime can be found here:
 /// https://github.com/dotnet/runtime/blob/master/docs/design/specs/Ecma-335-Augments.md#module-initializer
 /// </remarks>
+[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.moduleinitializerattribute?view=net-7.0")]
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
@@ -173,7 +175,7 @@ sealed class ModuleInitializerAttribute :
 
 #endif
 ```
-<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L43' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -145,7 +145,8 @@ static partial class PolyfillExtensions
                     {
                         // For all but the first chunk, the array will already be correctly sized.
                         // We can just store into it until either it's full or MoveNext returns false.
-                        TSource[] local = array; // avoid bounds checks by using cached local (`array` is lifted to iterator object as a field)
+                        // avoid bounds checks by using cached local (`array` is lifted to iterator object as a field)
+                        TSource[] local = array;
                         for (; (uint)i < (uint)local.Length && e.MoveNext(); i++)
                         {
                             local[i] = e.Current;

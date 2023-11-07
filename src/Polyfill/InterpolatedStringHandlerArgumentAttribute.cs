@@ -4,6 +4,7 @@
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using Link = System.ComponentModel.DescriptionAttribute;
 
 namespace System.Runtime.CompilerServices;
 
@@ -13,6 +14,7 @@ namespace System.Runtime.CompilerServices;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
+[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.interpolatedstringhandlerargumentattribute")]
 #if PolyPublic
 public
 #endif

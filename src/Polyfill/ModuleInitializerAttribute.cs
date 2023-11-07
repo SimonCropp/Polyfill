@@ -4,6 +4,7 @@
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using Link = System.ComponentModel.DescriptionAttribute;
 
 namespace System.Runtime.CompilerServices;
 
@@ -27,6 +28,7 @@ namespace System.Runtime.CompilerServices;
 /// The specification for module initializers in the .NET runtime can be found here:
 /// https://github.com/dotnet/runtime/blob/master/docs/design/specs/Ecma-335-Augments.md#module-initializer
 /// </remarks>
+[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.moduleinitializerattribute?view=net-7.0")]
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(

@@ -4,6 +4,7 @@
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using Link = System.ComponentModel.DescriptionAttribute;
 
 namespace System.Runtime.CompilerServices;
 
@@ -16,6 +17,7 @@ namespace System.Runtime.CompilerServices;
     validOn: AttributeTargets.All,
     AllowMultiple = true,
     Inherited = false)]
+[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute")]
 #if PolyPublic
 public
 #endif
@@ -25,6 +27,7 @@ sealed class CompilerFeatureRequiredAttribute :
     /// <summary>
     /// Initialize a new instance of <see cref="CompilerFeatureRequiredAttribute"/>
     /// </summary>
+    /// <param name="featureName">The name of the required compiler feature.</param>
     public CompilerFeatureRequiredAttribute(string featureName) =>
         FeatureName = featureName;
 

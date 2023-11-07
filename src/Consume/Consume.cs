@@ -142,7 +142,7 @@ class Consume
     {
         var source = new CancellationTokenSource();
         var token = source.Token;
-        token.UnsafeRegister((state) => {}, null);
+        token.UnsafeRegister(state => {}, null);
         token.UnsafeRegister((state, token) => {}, null);
     }
 

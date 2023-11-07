@@ -21,15 +21,15 @@ static partial class PolyfillExtensions
         this Task target,
         TimeSpan timeout)
     {
-        var cancellationSource = new CancellationTokenSource();
+        var cancelSource = new CancellationTokenSource();
         try
         {
-            await target.WaitAsync(timeout, cancellationSource.Token);
+            await target.WaitAsync(timeout, cancelSource.Token);
         }
         finally
         {
-            cancellationSource.Cancel();
-            cancellationSource.Dispose();
+            cancelSource.Cancel();
+            cancelSource.Dispose();
         }
     }
 
@@ -60,15 +60,15 @@ static partial class PolyfillExtensions
         this Task<TResult> target,
         TimeSpan timeout)
     {
-        var cancellationSource = new CancellationTokenSource();
+        var cancelSource = new CancellationTokenSource();
         try
         {
-            return await target.WaitAsync(timeout, cancellationSource.Token);
+            return await target.WaitAsync(timeout, cancelSource.Token);
         }
         finally
         {
-            cancellationSource.Cancel();
-            cancellationSource.Dispose();
+            cancelSource.Cancel();
+            cancelSource.Dispose();
         }
     }
 
