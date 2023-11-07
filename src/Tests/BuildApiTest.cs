@@ -25,7 +25,10 @@ class BuildApiTest
         var extensions = module.GetTypes().Single(_ => _.Name == nameof(PolyfillExtensions));
         using var writer = File.CreateText(md);
 
-        foreach (var type in extensions.Methods.Where(_ => !_.IsConstructor).GroupBy(_ => _.Parameters[0].ParameterType.FullName).OrderBy(_ => _.Key))
+        foreach (var type in extensions.Methods
+                     .Where(_ => !_.IsConstructor)
+                     .GroupBy(_ => _.Parameters[0].ParameterType.FullName)
+                     .OrderBy(_ => _.Key))
         {
             if (!type.Any(_ => _.IsPublic))
             {
