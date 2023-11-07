@@ -138,6 +138,20 @@ class Consume
         await source.CancelAsync();
     }
 
+    void CancellationTokenUnsafeRegister()
+    {
+        var source = new CancellationTokenSource();
+        var token = source.Token;
+        token.UnsafeRegister((state) => {}, null);
+        token.UnsafeRegister((state, token) => {}, null);
+    }
+
+    async Task ProcessWaitForExitAsync()
+    {
+        var process = new Process();
+        await process.WaitForExitAsync();
+    }
+
     async Task StreamReaderReadToEndAsync()
     {
         var reader = new StreamReader(new MemoryStream());

@@ -4,6 +4,7 @@ class BuildApiTest
 {
     static string[] namespacesToClean =
     {
+        "System.Diagnostics.",
         "System.Collections.Generic.",
         "System.Threading.Tasks.",
         "System.Threading.",
@@ -17,8 +18,8 @@ class BuildApiTest
     public void Run()
     {
         var solutionDirectory = SolutionDirectoryFinder.Find();
-        var path = Path.Combine(solutionDirectory, @"Consume\bin\Debug\netstandard2.0\Consume.dll");
-        var md = Path.Combine(solutionDirectory, @"..\api_list.include.md");
+        var path = Path.Combine(solutionDirectory, "Consume", "bin", "Debug", "netstandard2.0", "Consume.dll");
+        var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
         using var module = Mono.Cecil.ModuleDefinition.ReadModule(path);
         var extensions = module.GetTypes().Single(_ => _.Name == nameof(PolyfillExtensions));
