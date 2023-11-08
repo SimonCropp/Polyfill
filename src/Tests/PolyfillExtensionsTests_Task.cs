@@ -1,9 +1,11 @@
+// ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
+// ReSharper disable MethodSupportsCancellation
 partial class PolyfillExtensionsTests
 {
     private static T? AssertThrowsAsync<T>(string expectedParamName, AsyncTestDelegate action)
         where T : ArgumentException
     {
-        T? exception = Assert.ThrowsAsync<T>(action);
+        var exception = Assert.ThrowsAsync<T>(action);
 
         Assert.AreEqual(expectedParamName, exception?.ParamName);
 
@@ -13,7 +15,7 @@ partial class PolyfillExtensionsTests
     [Test]
     public void Task_WaitAsync_InvalidTimeout_Throws()
     {
-        foreach (TimeSpan timeout in new[] { TimeSpan.FromMilliseconds(-2), TimeSpan.MaxValue, TimeSpan.MinValue })
+        foreach (var timeout in new[] { TimeSpan.FromMilliseconds(-2), TimeSpan.MaxValue, TimeSpan.MinValue })
         {
 #if NET5_0_OR_GREATER
             AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", async () => await new TaskCompletionSource().Task.WaitAsync(timeout));
@@ -93,8 +95,8 @@ partial class PolyfillExtensionsTests
         Assert.ThrowsAsync<TimeoutException>(async () => await tcs.Task.WaitAsync(TimeSpan.FromMilliseconds(1)));
         Assert.ThrowsAsync<TimeoutException>(async () => await tcs.Task.WaitAsync(TimeSpan.FromMilliseconds(1), cts.Token));
 
-        Task assert1 = ((Task)tcs.Task).WaitAsync(cts.Token);
-        Task assert2 = ((Task)tcs.Task).WaitAsync(Timeout.InfiniteTimeSpan, cts.Token);
+        var assert1 = ((Task)tcs.Task).WaitAsync(cts.Token);
+        var assert2 = ((Task)tcs.Task).WaitAsync(Timeout.InfiniteTimeSpan, cts.Token);
         Task assert3 = tcs.Task.WaitAsync(cts.Token);
         Task assert4 = tcs.Task.WaitAsync(Timeout.InfiniteTimeSpan, cts.Token);
         Assert.False(assert1.IsCompleted);
@@ -112,18 +114,18 @@ partial class PolyfillExtensionsTests
     [Test]
     public async Task Task_WaitAsync_NoCancellationOrTimeoutOccurs_Success()
     {
-        CancellationTokenSource cts = new CancellationTokenSource();
+        var cts = new CancellationTokenSource();
 
 #if NET5_0_OR_GREATER
         var tcs = new TaskCompletionSource();
-        Task t = tcs.Task.WaitAsync(TimeSpan.FromDays(1), cts.Token);
+        var t = tcs.Task.WaitAsync(TimeSpan.FromDays(1), cts.Token);
         Assert.False(t.IsCompleted);
         tcs.SetResult();
         await t;
 #endif
 
         var tcsg = new TaskCompletionSource<int>();
-        Task<int> tg = tcsg.Task.WaitAsync(TimeSpan.FromDays(1), cts.Token);
+        var tg = tcsg.Task.WaitAsync(TimeSpan.FromDays(1), cts.Token);
         Assert.False(tg.IsCompleted);
         tcsg.SetResult(42);
         Assert.AreEqual(42, await tg);
