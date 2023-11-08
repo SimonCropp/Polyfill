@@ -132,6 +132,15 @@ class Consume
 
 #endif
 
+    #pragma warning disable ExperimentalMethod
+    static void ExperimentalMethodUsage() =>
+        ExperimentalMethod();
+
+    [Experimental("ExperimentalMethod")]
+    static void ExperimentalMethod()
+    {
+    }
+
     async Task CancellationTokenSource()
     {
         var source = new CancellationTokenSource();
