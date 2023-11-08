@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- This project is specifically designed to guard against a miscompile where System.Threading.Tasks.Extensions is referenced, but System.Memory is not. -->
+    <!-- <PackageReference Include="System.Memory" Version="4.5.5" Condition="$(TargetFramework) != '.NETStandard' or $(TargetFrameworkIdentifier) == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" /> -->
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" Condition="$(TargetFramework) == 'netstandard2.0' or $(TargetFramework) == 'netcoreapp2.0' or $(TargetFrameworkIdentifier) == '.NETFramework'" />
+    <Compile Include="..\Polyfill\*.cs">
+      <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="..\Polyfill\Nullable\*.cs">
+      <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="..\Polyfill\Nullability\*.cs">
+      <Link>Pollyfill\Nullability\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="..\Polyfill\IndexRange\*.cs">
+      <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="..\Polyfill\Trimming\*.cs">
+      <Link>Pollyfill\Trimming\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="..\Polyfill\PlatformCompatibility\*.cs">
+      <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />
+</Project>
