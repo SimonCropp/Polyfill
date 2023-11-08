@@ -46,7 +46,7 @@ static partial class PolyfillExtensions
             throw new ArgumentNullException(nameof(target));
         }
 
-        long totalMilliseconds = (long)timeout.TotalMilliseconds;
+        long totalMilliseconds = (long) timeout.TotalMilliseconds;
         if (totalMilliseconds < -1 || totalMilliseconds > MaxSupportedTimeout)
         {
             throw new ArgumentOutOfRangeException(nameof(timeout));
@@ -120,7 +120,7 @@ static partial class PolyfillExtensions
         TimeSpan timeout,
         CancellationToken cancellationToken)
     {
-        await ((Task)target).WaitAsync(timeout, cancellationToken);
+        await ((Task) target).WaitAsync(timeout, cancellationToken);
         return target.Result;
     }
 }
