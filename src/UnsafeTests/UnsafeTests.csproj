@@ -26,7 +26,7 @@
     <Compile Include="..\Tests\*.cs" Exclude="..\Tests\BuildApiTest.cs;..\Tests\NullabilitySync.cs" />
     <PackageReference Include="NUnit" Version="3.14.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="ProjectDefaults" Version="1.0.101" PrivateAssets="all" />
     <PackageReference Include="System.Memory" Version="4.5.5" Condition="$(TargetFrameworkIdentifier) == '.NETStandard' or $(TargetFrameworkIdentifier) == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" Condition="$(TargetFramework.StartsWith('net46'))" />
