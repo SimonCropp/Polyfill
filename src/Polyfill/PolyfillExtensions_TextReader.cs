@@ -81,7 +81,7 @@ static partial class PolyfillExtensions
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        return target.ReadToEndAsync();
+        return target.ReadLineAsync();
     }
 #endif
 }
