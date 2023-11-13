@@ -6,6 +6,16 @@
     <DefineConstants>$(DefineConstants);PolyPublic</DefineConstants>
   </PropertyGroup>
 
+	<PropertyGroup>
+		<ResolvePackageAssetsTargets Condition="Exists($(ResolvePackageAssets))">true</ResolvePackageAssetsTargets>
+	</PropertyGroup>
+
+	<Target Name="ResolvePackageAssets"
+			Condition="'$(ResolvePackageAssetsTargets)' != 'true'"
+			AfterTargets="ResolveReferences">
+		<Message Importance="normal" Text="ResolvePackageAssets target doesn't exist. Adding a placeholder." />
+	</Target>
+
   <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets">
     <PropertyGroup>
       <ValueTupleReferenced

@@ -2,6 +2,24 @@
   <PropertyGroup Condition="$(AllowUnsafeBlocks) == 'true' ">
     <DefineConstants>$(DefineConstants);AllowUnsafeBlocks</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == '' and '$(TargetFrameworkVersion)' == 'v4.6.1'">
+    <TargetFramework>net461</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == '' and '$(TargetFrameworkVersion)' == 'v4.6.2'">
+    <TargetFramework>net462</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == '' and '$(TargetFrameworkVersion)' == 'v4.7'">
+    <TargetFramework>net47</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == '' and '$(TargetFrameworkVersion)' == 'v4.7.1'">
+    <TargetFramework>net471</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == '' and '$(TargetFrameworkVersion)' == 'v4.7.2'">
+    <TargetFramework>net472</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == '' and '$(TargetFrameworkVersion)' == 'v4.8'">
+    <TargetFramework>net48</TargetFramework>
+  </PropertyGroup>
   <PropertyGroup>
     <ValueTupleReferenced>false</ValueTupleReferenced>
     <MemoryReferenced>false</MemoryReferenced>

@@ -52,7 +52,7 @@ The default type visibility for all polyfills is `internal`. This means it can b
 
 ### Consuming in an app
 
-If Polyfill is being consumed in a solution that produce an app, then it is recommended to use the Polyfill nuget only in the root "app project" and enable `PolyPublic`.
+If Polyfill is being consumed in a solution that produces an app, then it is recommended to use the Polyfill nuget only in the root "app project" and enable `PolyPublic`.
 
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
@@ -65,9 +65,25 @@ Then all consuming projects, like tests, will not need to use the Polyfill nuget
 
 ### Consuming in a library
 
-If Polyfill is being consumed in a solution that produce a library (and usually a nuget), then the Polyfill nuget can be added to all projects.
+If Polyfill is being consumed in a solution that produces a library (and usually a nuget), then the Polyfill nuget can be added to all projects.
 
 If, however, `InternalsVisibileTo` is being used to expose APIs (for example to test projects), then the Polyfill nuget should be added only to the root library project.
+
+
+### Consuming in a legacy-style projects
+
+If Polyfill is being consumed in a legacy-style project that cannot be migrated to SDK-style projects (for example legacy ASP.NET apps), then an additional constant must be set in the legacy project.
+
+```xml
+<DefineConstants>NETFRAMEWORK</DefineConstants>
+```
+
+If constants are already being set (for example for build configurations), then append `;NETFRAMEWORK` to the constants for each build configuration's existing constants.
+
+```xml
+<DefineConstants>TRACE;NETFRAMEWORK</DefineConstants>
+```
+
 
 
 ## Included polyfills
