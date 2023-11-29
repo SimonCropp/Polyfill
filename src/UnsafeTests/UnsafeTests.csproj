@@ -24,7 +24,7 @@
       <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
     <Compile Include="..\Tests\*.cs" Exclude="..\Tests\BuildApiTest.cs;..\Tests\NullabilitySync.cs" />
-    <PackageReference Include="NUnit" Version="4.0.0" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="ProjectDefaults" Version="1.0.102" PrivateAssets="all" />
