@@ -23,9 +23,9 @@ static partial class PolyfillExtensions
     /// <returns><code>true</code> if the element is successfully found and removed; otherwise, <code>false</code>.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="key"/> is <code>null</code>.</exception>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.remove")]
-	public static bool Remove<TKey, TValue>(
-	    this Dictionary<TKey,TValue> target,
-	    TKey key,
+    public static bool Remove<TKey, TValue>(
+        this Dictionary<TKey,TValue> target,
+        TKey key,
         [MaybeNullWhen(false)] out TValue value)
     {
         target.TryGetValue(key, out value);
