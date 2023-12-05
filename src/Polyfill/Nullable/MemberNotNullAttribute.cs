@@ -35,7 +35,7 @@ sealed class MemberNotNullAttribute :
     ///   The field or property member that is promised to be not-null.
     /// </param>
     public MemberNotNullAttribute(string member) =>
-        Members = new[] { member };
+        Members = [member];
 
     /// <summary>
     ///   Initializes the attribute with the list of field and property members.

@@ -108,7 +108,7 @@ static partial class PolyfillExtensions
     /// <returns>An array that contains at most count substrings from this instance that are delimited by separator.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.string.split#system-string-split(system-char-system-stringsplitoptions)")]
     public static string[] Split(this string target, char separator, StringSplitOptions options = StringSplitOptions.None) =>
-        target.Split(new[] {separator}, options);
+        target.Split([separator], options);
 
     /// <summary>
     /// Splits a string into a maximum number of substrings based on a specified delimiting character and, optionally,
@@ -122,7 +122,7 @@ static partial class PolyfillExtensions
     /// <returns>An array that contains at most count substrings from this instance that are delimited by separator.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.string.split#system-string-split(system-char-system-int32-system-stringsplitoptions)")]
     public static string[] Split(this string target, char separator, int count, StringSplitOptions options = StringSplitOptions.None) =>
-        target.Split(new[] {separator}, count, options);
+        target.Split([separator], count, options);
 #endif
 
 #if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0

@@ -46,7 +46,7 @@ sealed class MemberNotNullWhenAttribute :
     public MemberNotNullWhenAttribute(bool returnValue, string member)
     {
         ReturnValue = returnValue;
-        Members = new[] { member };
+        Members = [member];
     }
 
     /// <summary>

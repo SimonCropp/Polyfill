@@ -18,9 +18,12 @@ partial class PolyfillExtensionsTests
         Assert.True(cancelSource.IsCancellationRequested);
 
         cancelSource = new();
-        cancelSource.Token.Register(() =>
-        {
-        }).Dispose();
+        cancelSource.Token
+            .Register(
+                () =>
+                {
+                })
+            .Dispose();
         Assert.True(IsCompletedSuccessfully(cancelSource.CancelAsync()));
         Assert.True(cancelSource.IsCancellationRequested);
     }

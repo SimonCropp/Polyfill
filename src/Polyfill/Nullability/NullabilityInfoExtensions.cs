@@ -14,10 +14,10 @@ public
 #endif
 static partial class PolyfillExtensions
 {
-    static ConcurrentDictionary<ParameterInfo, NullabilityInfo> parameterCache = new();
-    static ConcurrentDictionary<PropertyInfo, NullabilityInfo> propertyCache = new();
-    static ConcurrentDictionary<EventInfo, NullabilityInfo> eventCache = new();
-    static ConcurrentDictionary<FieldInfo, NullabilityInfo> fieldCache = new();
+    static ConcurrentDictionary<ParameterInfo, NullabilityInfo> parameterCache = [];
+    static ConcurrentDictionary<PropertyInfo, NullabilityInfo> propertyCache = [];
+    static ConcurrentDictionary<EventInfo, NullabilityInfo> eventCache = [];
+    static ConcurrentDictionary<FieldInfo, NullabilityInfo> fieldCache = [];
 
     public static NullabilityInfo GetNullabilityInfo(this MemberInfo info)
     {
