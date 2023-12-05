@@ -11,9 +11,9 @@ partial class PolyfillExtensionsTests
 
     [Test]
     [Ignore("This test is taken directly from the .NET repo but we can't match the real CancelAsync logic exactly, so differ slightly and can't pass this test")]
-    public static void CancellationTokenSource_CancelAsync_NoRegistrations_CallbackCompletesImmediately()
+    public static void CancelSource_CancelAsync_NoRegistrations_CallbackCompletesImmediately()
     {
-        var cancelSource = new CancellationTokenSource();
+        var cancelSource = new CancelSource();
         Assert.True(IsCompletedSuccessfully(cancelSource.CancelAsync()));
         Assert.True(cancelSource.IsCancellationRequested);
 
@@ -26,9 +26,9 @@ partial class PolyfillExtensionsTests
     }
 
     [Test]
-    public static async Task CancellationTokenSource_CancelAsync_CallbacksInvokedAsynchronously()
+    public static async Task CancelSource_CancelAsync_CallbacksInvokedAsynchronously()
     {
-        var cancelSource = new CancellationTokenSource();
+        var cancelSource = new CancelSource();
 
         var resetEventSlim = new ManualResetEventSlim();
         cancelSource.Token.Register(resetEventSlim.Wait);
@@ -45,13 +45,13 @@ partial class PolyfillExtensionsTests
     }
 
     [Test]
-    public static void CancellationTokenSource_CancelAsync_AllCallbacksInvoked()
+    public static void CancelSource_CancelAsync_AllCallbacksInvoked()
     {
         const int iterations = 1000;
 
         var sum = 0;
 
-        var cancelSource = new CancellationTokenSource();
+        var cancelSource = new CancelSource();
         for (var i = 1; i <= iterations; i++)
         {
             cancelSource.Token.Register(

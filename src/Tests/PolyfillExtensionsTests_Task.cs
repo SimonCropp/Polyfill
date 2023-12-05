@@ -85,26 +85,26 @@ partial class PolyfillExtensionsTests
     public void Task_WaitAsync_TimeoutOrCanceled_Throws()
     {
         var tcs = new TaskCompletionSource<int>();
-        var cts = new CancellationTokenSource();
+        var cancelSource = new CancelSource();
 
         Assert.ThrowsAsync<TimeoutException>(() => ((Task)tcs.Task).WaitAsync(TimeSpan.Zero));
         Assert.ThrowsAsync<TimeoutException>(() => ((Task)tcs.Task).WaitAsync(TimeSpan.FromMilliseconds(1)));
-        Assert.ThrowsAsync<TimeoutException>(() => ((Task)tcs.Task).WaitAsync(TimeSpan.FromMilliseconds(1), cts.Token));
+        Assert.ThrowsAsync<TimeoutException>(() => ((Task)tcs.Task).WaitAsync(TimeSpan.FromMilliseconds(1), cancelSource.Token));
 
         Assert.ThrowsAsync<TimeoutException>(() => tcs.Task.WaitAsync(TimeSpan.Zero));
         Assert.ThrowsAsync<TimeoutException>(() => tcs.Task.WaitAsync(TimeSpan.FromMilliseconds(1)));
-        Assert.ThrowsAsync<TimeoutException>(() => tcs.Task.WaitAsync(TimeSpan.FromMilliseconds(1), cts.Token));
+        Assert.ThrowsAsync<TimeoutException>(() => tcs.Task.WaitAsync(TimeSpan.FromMilliseconds(1), cancelSource.Token));
 
-        var assert1 = ((Task)tcs.Task).WaitAsync(cts.Token);
-        var assert2 = ((Task)tcs.Task).WaitAsync(Timeout.InfiniteTimeSpan, cts.Token);
-        Task assert3 = tcs.Task.WaitAsync(cts.Token);
-        Task assert4 = tcs.Task.WaitAsync(Timeout.InfiniteTimeSpan, cts.Token);
+        var assert1 = ((Task)tcs.Task).WaitAsync(cancelSource.Token);
+        var assert2 = ((Task)tcs.Task).WaitAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
+        Task assert3 = tcs.Task.WaitAsync(cancelSource.Token);
+        Task assert4 = tcs.Task.WaitAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
         Assert.False(assert1.IsCompleted);
         Assert.False(assert2.IsCompleted);
         Assert.False(assert3.IsCompleted);
         Assert.False(assert4.IsCompleted);
 
-        cts.Cancel();
+        cancelSource.Cancel();
         Assert.ThrowsAsync<TaskCanceledException>(() => assert1);
         Assert.ThrowsAsync<TaskCanceledException>(() => assert2);
         Assert.ThrowsAsync<TaskCanceledException>(() => assert3);
@@ -114,18 +114,18 @@ partial class PolyfillExtensionsTests
     [Test]
     public async Task Task_WaitAsync_NoCancellationOrTimeoutOccurs_Success()
     {
-        var cts = new CancellationTokenSource();
+        var cancelSource = new CancelSource();
 
 #if NET5_0_OR_GREATER
         var tcs = new TaskCompletionSource();
-        var t = tcs.Task.WaitAsync(TimeSpan.FromDays(1), cts.Token);
+        var t = tcs.Task.WaitAsync(TimeSpan.FromDays(1), cancelSource.Token);
         Assert.False(t.IsCompleted);
         tcs.SetResult();
         await t;
 #endif
 
         var tcsg = new TaskCompletionSource<int>();
-        var tg = tcsg.Task.WaitAsync(TimeSpan.FromDays(1), cts.Token);
+        var tg = tcsg.Task.WaitAsync(TimeSpan.FromDays(1), cancelSource.Token);
         Assert.False(tg.IsCompleted);
         tcsg.SetResult(42);
         Assert.AreEqual(42, await tg);

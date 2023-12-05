@@ -9,7 +9,7 @@ partial class PolyfillExtensionsTests
     {
         protected override Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request,
-            CancellationToken cancellation)
+            Cancel cancellation)
         {
             cancellation.ThrowIfCancellationRequested();
 
@@ -27,13 +27,13 @@ partial class PolyfillExtensionsTests
     public async Task HttpClientGetStreamAsync_Positive()
     {
         // Arrange
-        var cancellation = new CancellationToken();
+        var cancel = new Cancel();
         using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
 
         // Act
-        using var stream = await httpClient.GetStreamAsync("https://example.com", cancellation);
+        using var stream = await httpClient.GetStreamAsync("https://example.com", cancel);
         using var reader = new StreamReader(stream);
-        var content = await reader.ReadToEndAsync(cancellation);
+        var content = await reader.ReadToEndAsync(cancel);
 
         // Assert
         Assert.AreEqual("Fake Content", content);
@@ -43,13 +43,13 @@ partial class PolyfillExtensionsTests
     public async Task HttpClientGetStreamAsync_Negative()
     {
         // Arrange
-        var cancellation = new CancellationToken(true);
+        var cancel = new Cancel(true);
         using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
 
         // Act
         try
         {
-            await httpClient.GetStreamAsync("https://example.com", cancellation);
+            await httpClient.GetStreamAsync("https://example.com", cancel);
             Assert.Fail();
         }
         catch (OperationCanceledException exception)
@@ -63,11 +63,11 @@ partial class PolyfillExtensionsTests
     public async Task HttpClientGetByteArrayAsync_Positive()
     {
         // Arrange
-        var cancellation = new CancellationToken();
+        var cancel = new Cancel();
         using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
 
         // Act
-        var bytes = await httpClient.GetByteArrayAsync("https://example.com", cancellation);
+        var bytes = await httpClient.GetByteArrayAsync("https://example.com", cancel);
         var content = Encoding.UTF8.GetString(bytes);
 
         // Assert
@@ -78,13 +78,13 @@ partial class PolyfillExtensionsTests
     public async Task HttpClientGetByteArrayAsync_Negative()
     {
         // Arrange
-        var cancellation = new CancellationToken(true);
+        var cancel = new Cancel(true);
         using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
 
         // Act
         try
         {
-            await httpClient.GetByteArrayAsync("https://example.com", cancellation);
+            await httpClient.GetByteArrayAsync("https://example.com", cancel);
             Assert.Fail();
         }
         catch (OperationCanceledException exception)
@@ -98,11 +98,11 @@ partial class PolyfillExtensionsTests
     public async Task HttpClientGetStringAsync_Positive()
     {
         // Arrange
-        var cancellationToken = new CancellationToken();
+        var cancel = new Cancel();
         using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
 
         // Act
-        var content = await httpClient.GetStringAsync("https://example.com", cancellationToken);
+        var content = await httpClient.GetStringAsync("https://example.com", cancel);
 
         // Assert
         Assert.AreEqual("Fake Content", content);
@@ -112,13 +112,13 @@ partial class PolyfillExtensionsTests
     public async Task HttpClientGetStringAsync_Negative()
     {
         // Arrange
-        var cancellation = new CancellationToken(true);
+        var cancel = new Cancel(true);
         using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
 
         // Act
         try
         {
-            await httpClient.GetStringAsync("https://example.com", cancellation);
+            await httpClient.GetStringAsync("https://example.com", cancel);
             Assert.Fail();
         }
         catch (OperationCanceledException exception)

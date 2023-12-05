@@ -3,14 +3,14 @@ partial class PolyfillExtensionsTests
     [Test]
     public void CancellationToken_Register_Exceptions()
     {
-        CancellationToken token = default;
+        Cancel token = default;
 
 #nullable disable
-        Assert.Throws<ArgumentNullException>(() => token.Register((Action<object, CancellationToken>) null, null));
+        Assert.Throws<ArgumentNullException>(() => token.Register((Action<object, Cancel>) null, null));
 
         // ReSharper disable once RedundantCast
         Assert.Throws<ArgumentNullException>(() => token.UnsafeRegister((Action<object>) null, null));
-        Assert.Throws<ArgumentNullException>(() => token.UnsafeRegister((Action<object, CancellationToken>) null, null));
+        Assert.Throws<ArgumentNullException>(() => token.UnsafeRegister((Action<object, Cancel>) null, null));
 #nullable enable
     }
 
@@ -19,7 +19,7 @@ partial class PolyfillExtensionsTests
     [TestCase(true)]
     public static void CancellationToken_Register_ExecutionContextFlowsIfExpected(bool callbackWithToken)
     {
-        var cancelSource = new CancellationTokenSource();
+        var cancelSource = new CancelSource();
 
         const int iterations = 5;
         var invoked = 0;

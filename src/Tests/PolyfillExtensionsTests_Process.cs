@@ -5,14 +5,14 @@ partial class PolyfillExtensionsTests
     [TestCase(10)] // real timeout
     public void Process_CurrentProcess_WaitAsyncNeverCompletes(int milliseconds)
     {
-        using var cancelSource = new CancellationTokenSource(milliseconds);
-        var token = cancelSource.Token;
+        using var cancelSource = new CancelSource(milliseconds);
+        var cancel = cancelSource.Token;
         var process = Process.GetCurrentProcess();
 
-        var ex = Assert.CatchAsync(() => process.WaitForExitAsync(token)) as OperationCanceledException;
+        var ex = Assert.CatchAsync(() => process.WaitForExitAsync(cancel)) as OperationCanceledException;
 
         Assert.IsNotNull(ex);
-        Assert.AreEqual(token, ex!.CancellationToken);
+        Assert.AreEqual(cancel, ex!.CancellationToken);
         Assert.False(process.HasExited);
     }
 
