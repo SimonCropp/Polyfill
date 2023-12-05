@@ -336,7 +336,7 @@ partial class PolyfillExtensionsTests
     {
         using var stream = new MemoryStream("value"u8.ToArray());
         using var reader = new StreamReader(stream);
-        var read = await reader.ReadToEndAsync(CancellationToken.None);
+        var read = await reader.ReadToEndAsync(Cancel.None);
         Assert.AreEqual("value", read);
     }
 }
