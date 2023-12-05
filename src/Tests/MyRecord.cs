@@ -2,13 +2,7 @@
 
 class InitExample
 {
-    private int member;
-
-    public int Member
-    {
-        get => member;
-        init => member = value;
-    }
+    public int Member { get; init; }
 }
 
 #endregion

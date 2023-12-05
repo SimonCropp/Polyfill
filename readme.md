@@ -105,16 +105,10 @@ Reference: [init (C# Reference)](https://learn.microsoft.com/en-us/dotnet/csharp
 ```cs
 class InitExample
 {
-    private int member;
-
-    public int Member
-    {
-        get => member;
-        init => member = value;
-    }
+    public int Member { get; init; }
 }
 ```
-<sup><a href='/src/Tests/MyRecord.cs#L1-L14' title='Snippet source file'>snippet source</a> | <a href='#snippet-isexternalinit' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/MyRecord.cs#L1-L8' title='Snippet source file'>snippet source</a> | <a href='#snippet-isexternalinit' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
