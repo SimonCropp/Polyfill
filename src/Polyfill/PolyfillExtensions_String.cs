@@ -8,7 +8,7 @@ using System.Text;
 
 static partial class PolyfillExtensions
 {
-#if (MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP)) || NET5_0
+#if HAS_SPAN && !NET6_0_OR_GREATER
 
     /// <summary>
     /// Copies the contents of this string into the destination span.
