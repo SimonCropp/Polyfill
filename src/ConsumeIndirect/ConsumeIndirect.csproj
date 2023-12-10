@@ -30,6 +30,5 @@
     </Compile>
     <ProjectReference Include="..\Consume\Consume.csproj" />
   </ItemGroup>
-  <Import Project="$(ProjectDir)..\Polyfill\Polyfill.props" />
   <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />
 </Project>
