@@ -34,6 +34,5 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="ProjectDefaults" Version="1.0.106" PrivateAssets="all" />
   </ItemGroup>
-  <Import Project="$(ProjectDir)..\Polyfill\Polyfill.props" />
   <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />
 </Project>
