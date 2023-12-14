@@ -23,6 +23,8 @@
           target="contentFiles/cs/netstandard2.0/Polyfill/Nullability"/>
     <file src="IndexRange\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/IndexRange"/>
+    <file src="StringInterpolation\*.cs"
+          target="contentFiles/cs/netstandard2.0/Polyfill/StringInterpolation"/>
     <file src="Trimming\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/Trimming"/>
     <file src="PlatformCompatibility\*.cs"
