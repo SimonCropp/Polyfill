@@ -35,7 +35,9 @@ public class SanityChecks
                 name == "NullableAttribute" ||
                 name == "NullableContextAttribute" ||
                 name == "IsReadOnlyAttribute" ||
-                name == "RefSafetyRulesAttribute")
+                name == "RefSafetyRulesAttribute" ||
+                name == "ScopedRefAttribute" ||
+                name == "IsByRefLikeAttribute")
             {
                 continue;
             }
