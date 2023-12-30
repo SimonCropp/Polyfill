@@ -732,14 +732,21 @@ public void Test()
 
 ## Alternatives
 
-### Theraot.Core
 
-Backports package aimed to full modern .NET API coverage for legacy TFMs.
-https://github.com/theraot/Theraot
+### PolyShim
+
+https://github.com/Tyrrrz/PolyShim
+
 
 ### PolySharp
 
 https://github.com/Sergio0694/PolySharp
+
+
+### Theraot.Core
+
+https://github.com/theraot/Theraot
+
 
 ### Combination of
 
