@@ -3,7 +3,7 @@
 class BuildApiTest
 {
     static string[] namespacesToClean =
-    {
+    [
         "System.Diagnostics.",
         "System.Collections.Generic.",
         "System.Threading.Tasks.",
@@ -12,7 +12,7 @@ class BuildApiTest
         "System.Text.",
         "System.IO.",
         "System."
-    };
+    ];
 
     [Test]
     public void Run()
