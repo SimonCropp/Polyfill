@@ -315,9 +315,9 @@ Add a for the new API to the Tests project.
 Extension method tests to `PolyfillTests_TYPE.cs` where `TYPE` is the type the method extending. So, for example, APIs that target `StreamWriter` go in `PolyfillExtensionsTests_StreamWriter.cs`. For example:
 
 <!-- snippet: PolyfillTests_StreamReader.cs -->
-<a id='snippet-PolyfillExtensionsTests_StreamReader.cs'></a>
+<a id='snippet-PolyfillTests_StreamReader.cs'></a>
 ```cs
-partial class PolyfillExtensionsTests
+partial class PolyfillTests
 {
     [Test]
     public async Task StreamReaderReadAsync()
@@ -341,7 +341,7 @@ partial class PolyfillExtensionsTests
     }
 }
 ```
-<sup><a href='/src/Tests/PolyfillExtensionsTests_StreamReader.cs#L1-L23' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillExtensionsTests_StreamReader.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/PolyfillTests_StreamReader.cs#L1-L23' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillTests_StreamReader.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
