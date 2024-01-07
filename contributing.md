@@ -312,9 +312,9 @@ static partial class PolyfillExtensions
 
 Add a for the new API to the Tests project.
 
-Extension method tests to `PolyfillExtensionsTests_TYPE.cs` where `TYPE` is the type the method extending. So, for example, APIs that target `StreamWriter` go in `PolyfillExtensionsTests_StreamWriter.cs`. For example:
+Extension method tests to `PolyfillTests_TYPE.cs` where `TYPE` is the type the method extending. So, for example, APIs that target `StreamWriter` go in `PolyfillExtensionsTests_StreamWriter.cs`. For example:
 
-<!-- snippet: PolyfillExtensionsTests_StreamReader.cs -->
+<!-- snippet: PolyfillTests_StreamReader.cs -->
 <a id='snippet-PolyfillExtensionsTests_StreamReader.cs'></a>
 ```cs
 partial class PolyfillExtensionsTests
