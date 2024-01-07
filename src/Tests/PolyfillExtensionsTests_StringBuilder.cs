@@ -23,4 +23,24 @@ partial class PolyfillExtensionsTests
         builder.CopyTo(0, span, 5);
         Assert.True(span.SequenceEqual("value"));
     }
+
+    [Test]
+    public void Append()
+    {
+        var builder = new StringBuilder();
+
+        var x = 10;
+        PolyfillExtensions.Append(builder, $"value{x}");
+        Assert.AreEqual("value10", builder.ToString());
+    }
+
+    [Test]
+    public void AppendWithFormat()
+    {
+        var builder = new StringBuilder();
+
+        var x = 10;
+        PolyfillExtensions.Append(builder, null, $"value{x}");
+        Assert.AreEqual("value10", builder.ToString());
+    }
 }
