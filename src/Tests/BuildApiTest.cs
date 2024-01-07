@@ -22,7 +22,7 @@ class BuildApiTest
         var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
         using var module = Mono.Cecil.ModuleDefinition.ReadModule(path);
-        var extensions = module.GetTypes().Single(_ => _.Name == nameof(PolyfillExtensions));
+        var extensions = module.GetTypes().Single(_ => _.Name == nameof(Polyfill));
         using var writer = File.CreateText(md);
 
         foreach (var type in extensions.Methods

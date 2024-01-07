@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using Link = System.ComponentModel.DescriptionAttribute;
 using System.Linq;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
     /// <summary>
     /// Produces a set items excluding <paramref name="item"/> by using the default equality comparer to compare values.

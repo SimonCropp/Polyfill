@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using Link = System.ComponentModel.DescriptionAttribute;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
     /// <summary>
     /// Deconstructs the current <see cref="KeyValuePair{TKey,TValue}"/>

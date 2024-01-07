@@ -8,7 +8,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Link = System.ComponentModel.DescriptionAttribute;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
     #if MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)
 

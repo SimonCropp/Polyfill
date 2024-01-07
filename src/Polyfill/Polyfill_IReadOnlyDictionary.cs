@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using Link = System.ComponentModel.DescriptionAttribute;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
     /// <summary>
     /// Tries to get the value associated with the specified key in the dictionary.

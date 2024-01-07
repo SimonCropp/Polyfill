@@ -10,7 +10,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using Link = System.ComponentModel.DescriptionAttribute;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
     /// <summary>
     /// Indicates whether a specified value is found in a read-only span. Values are compared using IEquatable{T}.Equals(T).

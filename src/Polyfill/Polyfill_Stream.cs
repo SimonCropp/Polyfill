@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Link = System.ComponentModel.DescriptionAttribute;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
     /// <summary>
     /// Asynchronously reads a sequence of bytes from the current stream, advances the position within the stream by
