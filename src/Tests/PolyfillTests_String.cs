@@ -1,6 +1,6 @@
 // ReSharper disable PartialTypeWithSinglePart
 
-partial class PolyfillExtensionsTests
+partial class PolyfillTests
 {
     [Test]
     public void GetHashCodeStringComparison()

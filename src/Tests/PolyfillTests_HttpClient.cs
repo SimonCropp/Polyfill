@@ -3,7 +3,7 @@
 using System.Net;
 using System.Net.Http;
 
-partial class PolyfillExtensionsTests
+partial class PolyfillTests
 {
     class FakeHttpMessageHandler : HttpMessageHandler
     {

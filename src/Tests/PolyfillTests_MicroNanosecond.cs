@@ -1,4 +1,4 @@
-partial class PolyfillExtensionsTests
+partial class PolyfillTests
 {
     static DateTimeOffset dateTimeOffset = DateTimeOffset.Now;
     static DateTime dateTime = DateTime.Now;

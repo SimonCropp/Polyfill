@@ -2,4 +2,4 @@
 
 [TestFixture]
 [DebuggerNonUserCode]
-partial class PolyfillExtensionsTests;
+partial class PolyfillTests;

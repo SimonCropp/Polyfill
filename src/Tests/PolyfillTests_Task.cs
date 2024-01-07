@@ -1,6 +1,6 @@
 // ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
 // ReSharper disable MethodSupportsCancellation
-partial class PolyfillExtensionsTests
+partial class PolyfillTests
 {
     static T? AssertThrowsAsync<T>(string expectedParamName, AsyncTestDelegate action)
         where T : ArgumentException

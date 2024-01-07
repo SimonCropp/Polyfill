@@ -1,4 +1,4 @@
-partial class PolyfillExtensionsTests
+partial class PolyfillTests
 {
     [Test, RequiresThread]
     [TestCase(0)]  // poll

@@ -1,6 +1,6 @@
 using System.Globalization;
 
-partial class PolyfillExtensionsTests
+partial class PolyfillTests
 {
     [Test]
     public void TryFormatSByte()
