@@ -350,6 +350,10 @@ Reference: [Improvements in native code interop in .NET 5.0](https://devblogs.mi
 
 The class `PolyfillExtensions` includes the following extension methods:
 
+> [!IMPORTANT]
+> The methods using `AppendInterpolatedStringHandler` parameter are not extensions because the compiler prefers to use the overload with `string` parameter instead.
+
+
 ### Boolean<!-- include: api_list.include.md -->
 
  * `Boolean TryFormat(Span<Char>, Int32&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.boolean.tryformat)
@@ -568,8 +572,6 @@ The class `PolyfillExtensions` includes the following extension methods:
  * `Void CopyTo(Int32, Span<Char>, Int32)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.copyto#system-text-stringbuilder-copyto(system-int32-system-span((system-char))-system-int32))
  * `Boolean Equals(ReadOnlySpan<Char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.equals#system-text-stringbuilder-equals(system-readonlyspan((system-char))))
 
-> [!IMPORTANT]
-> The methods using `AppendInterpolatedStringHandler` parameter are not extensions because the compiler prefers to use the overload with `string` parameter instead.
 
 ### CancellationToken
 
