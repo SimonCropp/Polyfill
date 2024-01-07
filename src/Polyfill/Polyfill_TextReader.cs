@@ -9,7 +9,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
 #if TASKSEXTENSIONSREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
     /// <summary>

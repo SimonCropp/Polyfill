@@ -12,7 +12,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
     /// <summary>
     /// Asynchronously writes a character memory region to the stream.

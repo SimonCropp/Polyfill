@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Link = System.ComponentModel.DescriptionAttribute;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
 #if HAS_SPAN && (!NETSTANDARD2_1_OR_GREATER && !NETCOREAPP2_1_OR_GREATER)
 

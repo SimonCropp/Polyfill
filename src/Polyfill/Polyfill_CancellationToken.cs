@@ -8,7 +8,7 @@ using System;
 using System.Threading;
 using Link = System.ComponentModel.DescriptionAttribute;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
 
 #if !NETCOREAPP3_0_OR_GREATER

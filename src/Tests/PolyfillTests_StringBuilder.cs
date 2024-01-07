@@ -30,7 +30,7 @@ partial class PolyfillTests
         var builder = new StringBuilder();
 
         var x = 10;
-        PolyfillExtensions.Append(builder, $"value{x}");
+        Polyfill.Append(builder, $"value{x}");
         Assert.AreEqual("value10", builder.ToString());
     }
 
@@ -40,7 +40,7 @@ partial class PolyfillTests
         var builder = new StringBuilder();
 
         var x = 10;
-        PolyfillExtensions.Append(builder, null, $"value{x}");
+        Polyfill.Append(builder, null, $"value{x}");
         Assert.AreEqual("value10", builder.ToString());
     }
 }

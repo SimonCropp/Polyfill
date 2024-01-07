@@ -19,7 +19,7 @@ public class StringInterpolationTests
         var sb = new StringBuilder();
         Span<char> buffer = stackalloc char[] { 'H', 'e', 'l', 'l', 'o' };
         var number = 15;
-        PolyfillExtensions.Append(sb, $"{buffer}, you're {number} years old {sb.ToString()}");
+        Polyfill.Append(sb, $"{buffer}, you're {number} years old {sb.ToString()}");
         var result = sb.ToString();
 
         Assert.AreEqual("Hello, you're 15 years old Hello, you're 15 years old ", result);

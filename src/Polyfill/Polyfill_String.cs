@@ -6,7 +6,7 @@ using System;
 using Link = System.ComponentModel.DescriptionAttribute;
 using System.Text;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
 #if HAS_SPAN && !NET6_0_OR_GREATER
 

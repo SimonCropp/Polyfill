@@ -5,7 +5,7 @@
 using System;
 using Link = System.ComponentModel.DescriptionAttribute;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
 
 #if !NET7_0_OR_GREATER

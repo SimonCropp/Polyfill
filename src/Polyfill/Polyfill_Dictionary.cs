@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Link = System.ComponentModel.DescriptionAttribute;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
     /// <summary>
     /// Removes the value with the specified key from the <see cref="Dictionary{TKey,TValue}"/>, and copies the element

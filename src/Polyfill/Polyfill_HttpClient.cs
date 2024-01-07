@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Link = System.ComponentModel.DescriptionAttribute;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
     /// <summary>
     /// Send a GET request to the specified Uri and return the response body as a stream in an asynchronous operation.

@@ -10,6 +10,6 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
 }

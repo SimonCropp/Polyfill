@@ -12,7 +12,7 @@ using System.Reflection;
 #if PolyPublic
 public
 #endif
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
     static ConcurrentDictionary<ParameterInfo, NullabilityInfo> parameterCache = [];
     static ConcurrentDictionary<PropertyInfo, NullabilityInfo> propertyCache = [];

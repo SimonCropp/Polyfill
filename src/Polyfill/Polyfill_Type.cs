@@ -6,7 +6,7 @@ using System;
 using System.Reflection;
 using Link = System.ComponentModel.DescriptionAttribute;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
 #if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas")]

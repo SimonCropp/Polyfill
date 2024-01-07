@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Link = System.ComponentModel.DescriptionAttribute;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
     // Copied from .NET library const Timer.MaxSupportedTimeout
     private const uint MaxSupportedTimeout = 0xfffffffe;

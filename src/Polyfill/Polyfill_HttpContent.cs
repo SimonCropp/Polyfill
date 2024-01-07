@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Link = System.ComponentModel.DescriptionAttribute;
 
-static partial class PolyfillExtensions
+static partial class Polyfill
 {
     /// <summary>
     /// Serializes the HTTP content and returns a stream that represents the content.
