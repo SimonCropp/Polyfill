@@ -348,7 +348,7 @@ Reference: [Improvements in native code interop in .NET 5.0](https://devblogs.mi
 
 ## Extensions
 
-The class `PolyfillExtensions` includes the following extension methods:
+The class `Polyfill` includes the following extension methods:
 
 > [!IMPORTANT]
 > The methods using `AppendInterpolatedStringHandler` parameter are not extensions because the compiler prefers to use the overload with `string` parameter instead.
