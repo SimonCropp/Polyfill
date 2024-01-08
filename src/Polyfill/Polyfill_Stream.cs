@@ -13,6 +13,8 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
+#if MEMORYREFERENCED
+
     /// <summary>
     /// Asynchronously reads a sequence of bytes from the current stream, advances the position within the stream by
     /// the number of bytes read, and monitors cancellation requests.
@@ -63,6 +65,8 @@ static partial class Polyfill
 
         return new(target.WriteAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken));
     }
+
+#endif
 
     /// <summary>
     /// Asynchronously reads the bytes from the current stream and writes them to another stream, using a specified

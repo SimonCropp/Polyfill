@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
-#if TASKSEXTENSIONSREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
+#if TASKSEXTENSIONSREFERENCED && MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
     /// <summary>
     /// Asynchronously reads the characters from the current stream into a memory block.
     /// </summary>
