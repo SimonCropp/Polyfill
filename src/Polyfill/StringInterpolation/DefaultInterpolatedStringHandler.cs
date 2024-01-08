@@ -14,6 +14,10 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 namespace System.Runtime.CompilerServices;
 
+// Some codebases define their own Debug class, which can cause clashes and compile errors if we aren't explicit here.
+// See comments in Debug.cs in Consume project for more details.
+using Debug = System.Diagnostics.Debug;
+
 /// <summary>Provides a handler used by the language compiler to process interpolated strings into <see cref="string"/> instances.</summary>
 [InterpolatedStringHandler]
 [ExcludeFromCodeCoverage]

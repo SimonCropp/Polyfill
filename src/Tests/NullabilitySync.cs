@@ -50,6 +50,7 @@ public class NullabilitySync
                      using System.Linq;
                      using System.Diagnostics.CodeAnalysis;
 
+
                      """;
 
         var suffix = """
@@ -60,6 +61,7 @@ public class NullabilitySync
 
         infoContext = prefix + infoContext + suffix;
         infoContext = MakeInternal(infoContext);
+        infoContext = AddDebugClassFix(infoContext);
         OverWrite(infoContext, "NullabilityInfoContext.cs");
 
         info = prefix + info + suffix;
@@ -85,6 +87,19 @@ public class NullabilitySync
                     public
                     #endif
                     sealed class
+                    """);
+
+    static string AddDebugClassFix(string source) =>
+        source
+            .Replace(
+                "namespace System.Reflection\r\n{",
+                """
+                    namespace System.Reflection
+                    {
+                        // Some codebases define their own Debug class, which can cause clashes and compile errors if we aren't explicit here.
+                        // See comments in Debug.cs in Consume project for more details.
+                        using Debug = System.Diagnostics.Debug;
+                    
                     """);
 
     static void OverWrite(string content, string file)
