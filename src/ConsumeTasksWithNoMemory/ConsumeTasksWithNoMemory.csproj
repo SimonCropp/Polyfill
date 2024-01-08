@@ -5,7 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- This project is specifically designed to guard against a mis-compile where System.Threading.Tasks.Extensions is referenced, but System.Memory is not. -->
-    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" Condition="$(TargetFramework) == 'netstandard2.0' or $(TargetFramework) == 'netcoreapp2.0' or $(TargetFrameworkIdentifier) == '.NETFramework'" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
     <Compile Include="..\Polyfill\*.cs">
       <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
