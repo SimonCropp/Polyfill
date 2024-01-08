@@ -4,13 +4,12 @@
 
 #nullable enable
 
-
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-
 #pragma warning disable CS0649
 
 namespace System.Runtime.InteropServices;
+
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Any method marked with <see cref="System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute" /> can be directly called from

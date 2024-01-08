@@ -133,11 +133,11 @@ Example:
 
 #if !NET5_0_OR_GREATER
 
+namespace System.Runtime.CompilerServices;
+
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Link = System.ComponentModel.DescriptionAttribute;
-
-namespace System.Runtime.CompilerServices;
 
 /// <summary>
 /// Used to indicate to the compiler that a method should be called

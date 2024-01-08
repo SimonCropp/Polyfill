@@ -2,10 +2,10 @@
 
 #if !NET5_0_OR_GREATER
 
+namespace System.Runtime.Versioning;
+
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-
-namespace System.Runtime.Versioning;
 
 /// <summary>
 /// Records the platform that the project targeted.

@@ -2,11 +2,11 @@
 
 #if (NET46X && VALUETUPLEREFERENCED) || NET47X || NET48X || NETSTANDARD2_0 || NETCOREAPP2X
 
+namespace System;
+
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-
-namespace System;
 
 /// <summary>Represent a type can be used to index a collection either from the start or the end.</summary>
 /// <remarks>

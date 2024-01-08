@@ -14,6 +14,12 @@ using System.Collections.ObjectModel;
 
 namespace System.Reflection
 {
+    using System.Linq;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
+
     /// <summary>
     /// A class that represents nullability info
     /// </summary>

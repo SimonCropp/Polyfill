@@ -2,11 +2,11 @@
 
 #if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X
 
+namespace System.Runtime.CompilerServices;
+
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Link = System.ComponentModel.DescriptionAttribute;
-
-namespace System.Runtime.CompilerServices;
 
 /// <summary>
 /// Indicates that a parameter captures the expression passed for another parameter as a string.

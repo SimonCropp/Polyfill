@@ -16,9 +16,11 @@ using System.Diagnostics;
 
 namespace System.Reflection
 {
-    // Some codebases define their own Debug class, which can cause clashes and compile errors if we aren't explicit here.
-    // See comments in Debug.cs in Consume project for more details.
-    using Debug = System.Diagnostics.Debug;
+    using System.Linq;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Diagnostics;
 
     /// <summary>
     /// Provides APIs for populating nullability information/context from reflection members:

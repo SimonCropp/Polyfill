@@ -2,9 +2,9 @@
 
 #if !NET7_0_OR_GREATER
 
-using System.Diagnostics;
-
 namespace System.Diagnostics.CodeAnalysis;
+
+using System.Diagnostics;
 
 using Targets = AttributeTargets;
 

@@ -4,11 +4,11 @@
 
 #if !NET8_0_OR_GREATER
 
+namespace System.Diagnostics.CodeAnalysis;
+
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Link = System.ComponentModel.DescriptionAttribute;
-
-namespace System.Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Indicates that a parameter captures the expression passed for another parameter as a string.

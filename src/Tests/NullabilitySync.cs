@@ -66,6 +66,7 @@ public class NullabilitySync
 
         info = prefix + info + suffix;
         info = MakeInternal(info);
+        info = AddDebugClassFix(info);
         OverWrite(info, "NullabilityInfo.cs");
     }
 
@@ -89,18 +90,23 @@ public class NullabilitySync
                     sealed class
                     """);
 
-    static string AddDebugClassFix(string source) =>
-        source
-            .Replace(
-                "namespace System.Reflection\r\n{",
-                """
-                    namespace System.Reflection
-                    {
-                        // Some codebases define their own Debug class, which can cause clashes and compile errors if we aren't explicit here.
-                        // See comments in Debug.cs in Consume project for more details.
-                        using Debug = System.Diagnostics.Debug;
-                    
-                    """);
+    static string AddDebugClassFix(string source)
+    {
+        var newValue = """
+                       namespace System.Reflection
+                       {
+                           using System.Linq;
+                           using System.Diagnostics.CodeAnalysis;
+                           using System.Collections.Generic;
+                           using System.Collections.ObjectModel;
+                           using System.Diagnostics;
+
+                       """;
+        return source
+            .Replace("namespace System.Reflection\r\n{", newValue)
+            .Replace("namespace System.Reflection\n{", newValue)
+            .Replace("namespace System.Reflection\r{", newValue);
+    }
 
     static void OverWrite(string content, string file)
     {
