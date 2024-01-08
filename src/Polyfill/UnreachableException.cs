@@ -4,12 +4,12 @@
 
 #nullable enable
 
+namespace System.Diagnostics;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
-
-namespace System.Diagnostics;
 
 /// <summary>
 /// Exception thrown when the program executes an instruction that was thought to be unreachable.

@@ -4,10 +4,10 @@
 
 #pragma warning disable
 
+namespace System.Runtime.Versioning;
+
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-
-namespace System.Runtime.Versioning;
 
 /// <summary>
 /// Base type for all platform-specific API attributes.

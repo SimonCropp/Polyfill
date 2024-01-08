@@ -2,10 +2,10 @@
 
 #if !NET5_0_OR_GREATER
 
+namespace System.Runtime.InteropServices;
+
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-
-namespace System.Runtime.InteropServices;
 
 /// <summary>
 /// An attribute used to indicate a GC transition should be skipped when making an unmanaged function call.

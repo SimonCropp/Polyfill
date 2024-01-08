@@ -2,11 +2,11 @@
 
 #if !NET6_0_OR_GREATER
 
+namespace System.Runtime.CompilerServices;
+
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Link = System.ComponentModel.DescriptionAttribute;
-
-namespace System.Runtime.CompilerServices;
 
 using Targets = AttributeTargets;
 

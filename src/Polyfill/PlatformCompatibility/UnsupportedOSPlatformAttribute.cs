@@ -4,10 +4,10 @@
 
 #nullable enable
 
+namespace System.Runtime.Versioning;
+
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-
-namespace System.Runtime.Versioning;
 
 using Targets = AttributeTargets;
 

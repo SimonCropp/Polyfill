@@ -2,17 +2,13 @@
 
 #if HAS_SPAN && !NET6_0_OR_GREATER
 
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-
 #nullable enable
 
 namespace System.Text;
 
-// Some codebases define their own Debug class, which can cause clashes and compile errors if we aren't explicit here.
-// See comments in Debug.cs in Consume project for more details.
-using Debug = System.Diagnostics.Debug;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 /// <summary>Provides a handler used by the language compiler to append interpolated strings into <see cref="StringBuilder"/> instances.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]

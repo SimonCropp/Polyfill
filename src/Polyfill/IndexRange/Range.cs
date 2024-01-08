@@ -2,11 +2,11 @@
 
 #if (NET46X && VALUETUPLEREFERENCED) || NET47X || NET48X || NETSTANDARD2_0 || NETCOREAPP2X
 
+namespace System;
+
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-
-namespace System;
 
 /// <summary>Represent a range has start and end indexes.</summary>
 /// <remarks>
