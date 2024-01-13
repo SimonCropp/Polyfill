@@ -43,4 +43,29 @@ partial class PolyfillTests
         Polyfill.Append(builder, null, $"value{x}");
         Assert.AreEqual("value10", builder.ToString());
     }
+
+    [Test]
+    public void AppendJoin()
+    {
+        var builder = new StringBuilder();
+
+        builder.AppendJoin(",", ["value1", "value2"]);
+        Assert();
+        builder.AppendJoin(",", new object[]{"value1", "value2"});
+        Assert();
+        builder.AppendJoin(',', ["value1", "value2"]);
+        Assert();
+        builder.AppendJoin(',', new object[]{"value1", "value2"});
+        Assert();
+        builder.AppendJoin<string>(',', ["value1", "value2"]);
+        Assert();
+        builder.AppendJoin<string>(",", new[]{"value1", "value2"});
+        Assert();
+
+        void Assert()
+        {
+            NUnit.Framework.Assert.AreEqual("value1,value2", builder.ToString());
+            builder.Clear();
+        }
+    }
 }
