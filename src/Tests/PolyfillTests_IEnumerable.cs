@@ -40,6 +40,16 @@ partial class PolyfillTests
     }
 
     [Test]
+    public void ToHashSet ()
+    {
+        var enumerable = (IEnumerable<string>)new List<string> { "a", "b" };
+
+        var hashSet = enumerable.ToHashSet();
+        Assert.IsTrue(hashSet.Contains("a"));
+        Assert.IsTrue(hashSet.Contains("b"));
+    }
+
+    [Test]
     public void Chunk_SizeOf3()
     {
         var enumerable = Enumerable.Range(1, 11).ToList();
