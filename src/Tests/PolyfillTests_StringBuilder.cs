@@ -43,7 +43,6 @@ partial class PolyfillTests
         Polyfill.Append(builder, null, $"value{x}");
         Assert.AreEqual("value10", builder.ToString());
     }
-#if NET8_0
 
     [Test]
     public void AppendJoin()
@@ -69,5 +68,4 @@ partial class PolyfillTests
             builder.Clear();
         }
     }
-#endif
 }
