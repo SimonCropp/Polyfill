@@ -81,11 +81,13 @@ static partial class Polyfill
     }
 
     public static NullabilityInfo GetNullabilityInfo(this PropertyInfo info) =>
-        propertyCache.GetOrAdd(info, inner =>
-        {
-            var context = new NullabilityInfoContext();
-            return context.Create(inner);
-        });
+        propertyCache.GetOrAdd(
+            info,
+            inner =>
+            {
+                var context = new NullabilityInfoContext();
+                return context.Create(inner);
+            });
 
     public static NullabilityState GetNullability(this PropertyInfo info) =>
         GetReadOrWriteState(info.GetNullabilityInfo());
