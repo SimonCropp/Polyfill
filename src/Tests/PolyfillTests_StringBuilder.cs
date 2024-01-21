@@ -9,19 +9,19 @@ partial class PolyfillTests
 
         var span = new Span<char>(new char[1]);
         builder.CopyTo(0, span, 1);
-        Assert.True(span.SequenceEqual("v"));
+        Assert.True(span is "v");
 
         span = new(new char[1]);
         builder.CopyTo(1, span, 1);
-        Assert.True(span.SequenceEqual("a"));
+        Assert.True(span is "a");
 
         span = new(new char[2]);
         builder.CopyTo(1, span, 2);
-        Assert.True(span.SequenceEqual("al"));
+        Assert.True(span is "al");
 
         span = new(new char[5]);
         builder.CopyTo(0, span, 5);
-        Assert.True(span.SequenceEqual("value"));
+        Assert.True(span is "value");
     }
 
     [Test]
