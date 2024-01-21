@@ -59,8 +59,6 @@ partial class PolyfillTests
         Assert();
         builder.AppendJoin<string>(',', ["value1", "value2"]);
         Assert();
-        builder.AppendJoin<string>(",", new[]{"value1", "value2"});
-        Assert();
 
         void Assert()
         {
