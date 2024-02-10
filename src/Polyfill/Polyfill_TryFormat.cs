@@ -13,6 +13,26 @@ static partial class Polyfill
     #if MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)
 
     /// <summary>
+    /// Tries to format the value of the current instance as UTF-8 into the provided span of bytes.
+    /// </summary>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat#system-timespan-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider)")]
+    public static bool TryFormat(this TimeSpan target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? formatProvider = null)
+    {
+        string result;
+
+        if (format.Length == 0)
+        {
+            result = target.ToString(null, formatProvider);
+        }
+        else
+        {
+            result = target.ToString(format.ToString(), formatProvider);
+        }
+
+        return CopyToSpan(destination, out charsWritten, result);
+    }
+
+    /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryformat")]
