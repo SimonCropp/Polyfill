@@ -192,7 +192,7 @@ Example:
 
 #pragma warning disable
 
-#if TASKSEXTENSIONSREFERENCED && MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
+#if MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
 
 using System;
 using System.Buffers;
@@ -204,6 +204,9 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
+
+#if TASKSEXTENSIONSREFERENCED
+
     /// <summary>
     /// Asynchronously writes a character memory region to the stream.
     /// </summary>
@@ -256,6 +259,8 @@ static partial class Polyfill
         return new(target.WriteLineAsync(segment.Array!, segment.Offset, segment.Count));
     }
 
+#endif
+
     /// <summary>
     /// Writes a character span to the text stream.
     /// </summary>
@@ -304,7 +309,7 @@ static partial class Polyfill
 }
 #endif
 ```
-<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L115' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L120' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -2,7 +2,7 @@
 
 #pragma warning disable
 
-#if TASKSEXTENSIONSREFERENCED && MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
+#if MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
 
 using System;
 using System.Buffers;
@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
+
+#if TASKSEXTENSIONSREFERENCED
+
     /// <summary>
     /// Asynchronously writes a character memory region to the stream.
     /// </summary>
@@ -65,6 +68,8 @@ static partial class Polyfill
 
         return new(target.WriteLineAsync(segment.Array!, segment.Offset, segment.Count));
     }
+
+#endif
 
     /// <summary>
     /// Writes a character span to the text stream.
