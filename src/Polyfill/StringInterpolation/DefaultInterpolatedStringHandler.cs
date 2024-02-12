@@ -779,6 +779,7 @@ ref struct DefaultInterpolatedStringHandler
     }
 }
 
+[ExcludeFromCodeCoverage]
 static file class InternalMath
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -806,6 +807,7 @@ static file class InternalMath
         throw new ArgumentException(string.Format(SR.Argument_MinMaxValue, min, max));
 }
 
+[ExcludeFromCodeCoverage]
 static file class SR
 {
     public const string Argument_MinMaxValue = "'{0}' cannot be greater than {1}.";

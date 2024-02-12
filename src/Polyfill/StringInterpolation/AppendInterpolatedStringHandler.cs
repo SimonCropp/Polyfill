@@ -8,11 +8,13 @@ namespace System.Text;
 
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
 /// <summary>Provides a handler used by the language compiler to append interpolated strings into <see cref="StringBuilder"/> instances.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 [InterpolatedStringHandler]
+[ExcludeFromCodeCoverage]
 #if PolyPublic
 public
 #endif

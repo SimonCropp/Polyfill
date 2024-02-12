@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Link = System.ComponentModel.DescriptionAttribute;
 
+[ExcludeFromCodeCoverage]
 #if PolyPublic
 public
 #endif
