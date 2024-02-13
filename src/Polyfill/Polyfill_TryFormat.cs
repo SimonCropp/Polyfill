@@ -31,6 +31,25 @@ static partial class Polyfill
 
         return CopyToSpan(destination, out charsWritten, result);
     }
+    /// <summary>
+    /// Tries to format the value of the current instance as UTF-8 into the provided span of bytes.
+    /// </summary>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryformat#system-guid-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char)))")]
+    public static bool TryFormat(this Guid target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default)
+    {
+        string result;
+
+        if (format.Length == 0)
+        {
+            result = target.ToString(null);
+        }
+        else
+        {
+            result = target.ToString(format.ToString());
+        }
+
+        return CopyToSpan(destination, out charsWritten, result);
+    }
 
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.

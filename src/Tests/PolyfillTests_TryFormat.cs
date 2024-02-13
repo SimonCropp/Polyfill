@@ -102,6 +102,17 @@ partial class PolyfillTests
     }
 
     [Test]
+    public void TryFormatGuid()
+    {
+        var value = new Guid("97008c2d-2114-4396-ae19-392c8e6f8f1b");
+        Span<char> buffer = stackalloc char[36];
+        var result = value.TryFormat(buffer, out var written);
+        Assert.True(result);
+        Assert.AreEqual("97008c2d-2114-4396-ae19-392c8e6f8f1b", buffer.ToString());
+        Assert.AreEqual(buffer.Length, written);
+    }
+
+    [Test]
     public void TryFormatDouble()
     {
         double value = 9;
