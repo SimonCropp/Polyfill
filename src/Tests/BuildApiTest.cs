@@ -30,43 +30,14 @@ class BuildApiTest
 
         writer.WriteLine($"### Extension methods");
         writer.WriteLine();
-        foreach (var type in extensions.Methods
+        foreach (var type in PublicMethods(extensions.Methods)
                      .Where(_ => !_.IsConstructor)
                      .GroupBy(_ => _.Parameters[0].ParameterType.FullName)
                      .OrderBy(_ => _.Key))
         {
-            if (!type.Any(_ => _.IsPublic))
-            {
-                continue;
-            }
-
-            var targetType = type.Key;
-            var targetFullName = targetType.Replace("`1", "").Replace("`2", "");
-            writer.WriteLine($"#### {GetTypeName(targetFullName)}");
+            writer.WriteLine($"#### {GetTypeName(type.Key)}");
             writer.WriteLine();
-            foreach (var method in PublicMethods(type))
-            {
-                WriteSignature(method, writer);
-            }
-
-            writer.WriteLine();
-            writer.WriteLine();
-        }
-        writer.WriteLine($"### Static helpers");
-        foreach (var type in extensions.Methods
-                     .Where(_ => !_.IsConstructor)
-                     .GroupBy(_ => _.Parameters[0].ParameterType.FullName)
-                     .OrderBy(_ => _.Key))
-        {
-            if (!type.Any(_ => _.IsPublic))
-            {
-                continue;
-            }
-
-            var targetType = type.Key;
-            writer.WriteLine($"#### {GetTypeName(targetType)}");
-            writer.WriteLine();
-            foreach (var method in PublicMethods(type))
+            foreach (var method in type)
             {
                 WriteSignature(method, writer);
             }
@@ -78,8 +49,7 @@ class BuildApiTest
 
     static string GetTypeName(string targetType)
     {
-        var targetFullName = targetType.Replace("`1", "").Replace("`2", "");
-        var name = targetFullName.Replace("`1", "").Replace("`2", "");
+        var name = targetType.Replace("`1", "").Replace("`2", "");
         foreach (var toClean in namespacesToClean)
         {
             name = name.Replace(toClean, "");
