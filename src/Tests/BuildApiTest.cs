@@ -31,7 +31,6 @@ class BuildApiTest
         writer.WriteLine($"### Extension methods");
         writer.WriteLine();
         foreach (var type in PublicMethods(extensions.Methods)
-                     .Where(_ => !_.IsConstructor)
                      .GroupBy(_ => _.Parameters[0].ParameterType.FullName)
                      .OrderBy(_ => _.Key))
         {
@@ -59,7 +58,7 @@ class BuildApiTest
     }
 
     static IEnumerable<MethodDefinition> PublicMethods(IEnumerable<MethodDefinition> type) =>
-        type.Where(_=>_.IsPublic)
+        type.Where(_=>_ is {IsPublic: true, IsConstructor: false})
             .OrderBy(_ => _.Name);
 
     static void WriteSignature(MethodDefinition method, StreamWriter writer)
