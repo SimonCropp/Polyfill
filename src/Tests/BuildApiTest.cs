@@ -25,7 +25,8 @@ class BuildApiTest
         var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
         using var module = ModuleDefinition.ReadModule(path);
-        var extensions = module.GetTypes().Single(_ => _.Name == nameof(Polyfill));
+        var types = module.GetTypes().ToList();
+        var extensions = types.Single(_ => _.Name == nameof(Polyfill));
         using var writer = File.CreateText(md);
 
         writer.WriteLine($"### Extension methods");
@@ -44,6 +45,25 @@ class BuildApiTest
             writer.WriteLine();
             writer.WriteLine();
         }
+        writer.WriteLine($"### Static helpers");
+        writer.WriteLine();
+
+        WriteHelper(types, nameof(EnumPolyfill), writer);
+        WriteHelper(types, "RegexPolyfill", writer);
+    }
+
+    static void WriteHelper(List<TypeDefinition> types, string name, StreamWriter writer)
+    {
+        var helper = types.Single(_ => _.Name == name);
+
+        writer.WriteLine($"#### {helper.Name}");
+        writer.WriteLine();
+        foreach (var method in PublicMethods(helper.Methods))
+        {
+            WriteSignature(method, writer);
+        }
+        writer.WriteLine();
+        writer.WriteLine();
     }
 
     static string GetTypeName(string targetType)

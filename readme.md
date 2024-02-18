@@ -645,6 +645,21 @@ The class `Polyfill` includes the following extension methods:
 
  * `Boolean TryFormat(Span<Char>, Int32&, ReadOnlySpan<Char>, IFormatProvider)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryformat)
 
+
+### Static helpers
+
+#### EnumPolyfill
+
+ * `String[] GetNames<TEnum>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.getnames)
+ * `TEnum[] GetValues<TEnum>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.getvalues)
+
+
+#### RegexPolyfill
+
+ * `Boolean IsMatch(String, RegularExpressions.RegexOptions, TimeSpan)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan))
+ * `Boolean IsMatch(String, RegularExpressions.RegexOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions))
+ * `Boolean IsMatch(String)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string))
+
 <!-- endInclude -->
 
 
