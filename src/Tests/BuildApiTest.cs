@@ -7,6 +7,7 @@ class BuildApiTest
 {
     static string[] namespacesToClean =
     [
+        "System.Text.RegularExpressions.",
         "System.Diagnostics.",
         "System.Collections.Generic.",
         "System.Threading.Tasks.",
