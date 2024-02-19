@@ -1,7 +1,7 @@
 <Project>
   <ItemGroup>
     <Compile Include="$(SolutionDir)Polyfill\*.cs">
-      <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
+      <Link>Pollyfill\%(Filename).cs</Link>
     </Compile>
     <Compile Include="$(SolutionDir)Polyfill\Nullable\*.cs">
       <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
