@@ -30,7 +30,7 @@ class BuildApiTest
         var extensions = types.Single(_ => _.Name == nameof(Polyfill));
         using var writer = File.CreateText(md);
 
-        writer.WriteLine($"### Extension methods");
+        writer.WriteLine("### Extension methods");
         writer.WriteLine();
         foreach (var type in PublicMethods(extensions.Methods)
                      .GroupBy(_ => _.Parameters[0].ParameterType.FullName)
@@ -46,7 +46,7 @@ class BuildApiTest
             writer.WriteLine();
             writer.WriteLine();
         }
-        writer.WriteLine($"### Static helpers");
+        writer.WriteLine("### Static helpers");
         writer.WriteLine();
 
         WriteHelper(types, nameof(EnumPolyfill), writer);
@@ -106,7 +106,6 @@ class BuildApiTest
         }
         else
         {
-
             parameters = method.Parameters;
         }
 
