@@ -12,9 +12,6 @@
     <description>$description$</description>
     <copyright>$copyright$</copyright>
     <tags>$tags$</tags>
-    <contentFiles>
-      <files include="**/*.cs"/>
-    </contentFiles>
   </metadata>
   <files>
     <file src="../icon.png" target="icon.png" />
@@ -22,14 +19,18 @@
           target="contentFiles/cs/netstandard2.0/Polyfill/"/>
     <file src="Nullable\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/Nullable"/>
+    <file src="Nullability\*.cs"
+          target="contentFiles/cs/netstandard2.0/Polyfill/Nullability"/>
     <file src="IndexRange\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/IndexRange"/>
+    <file src="StringInterpolation\*.cs"
+          target="contentFiles/cs/netstandard2.0/Polyfill/StringInterpolation"/>
     <file src="Trimming\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/Trimming"/>
+    <file src="Regex\*.cs"
+          target="contentFiles/cs/netstandard2.0/Polyfill/Regex"/>
     <file src="PlatformCompatibility\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/PlatformCompatibility"/>
-    <file src="Polyfill.props"
-          target="build"/>
     <file src="Polyfill.targets"
           target="build"/>
   </files>

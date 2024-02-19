@@ -1,39 +1,22 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT'">net462;net472;net48;net6.0-windows</TargetFrameworks>
     <TargetFrameworks>$(TargetFrameworks);netcoreapp3.1;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <Using Remove="System.Net.Http" />
-    <Compile Include="..\Polyfill\*.cs">
-      <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\Nullable\*.cs">
-      <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\IndexRange\*.cs" >
-      <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\Trimming\*.cs">
-      <Link>Pollyfill\Trimming\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\PlatformCompatibility\*.cs">
-      <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
     <Compile Include="..\Tests\*.cs" />
+    <Compile Remove="..\Tests\BuildApiTest.cs" />
+    <Compile Remove="..\Tests\NullabilitySync.cs" />
     <Compile Remove="..\Tests\IndexRangeSample.cs" />
     <Compile Remove="..\Tests\NamedTupleSample.cs" />
     <Compile Remove="..\Tests\RangeIndexUsage.cs" />
-    <Compile Remove="..\Tests\PolyfillExtensionsSample_*.cs" />
-    <PackageReference Include="NUnit" Version="3.13.3" />
-    <PackageReference Include="NUnit3TestAdapter"
-                      Version="4.4.2" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk"
-                      Version="17.5.0" />
-    <PackageReference Include="ProjectDefaults"
-                      Version="1.0.90"
-                      PrivateAssets="all" />
+    <Compile Remove="..\Tests\PolyfillTests.cs" />
+    <Compile Remove="..\Tests\PolyfillTests_*.cs" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    <PackageReference Include="ProjectDefaults" Version="1.0.109" PrivateAssets="all" />
   </ItemGroup>
-  <Import Project="$(ProjectDir)..\Polyfill\Polyfill.props" />
-  <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
+  <Import Project="$(SolutionDir)\TestIncludes.targets" />
 </Project>
