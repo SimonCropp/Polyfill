@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 #pragma warning disable CS4014
@@ -198,6 +199,13 @@ class Consume
         var reader = new StreamReader(new MemoryStream());
         var read = await reader.ReadAsync(memory);
     }
+
+    void RegexIsMatch()
+    {
+        var regex = new Regex("result");
+        regex.IsMatch("value".AsSpan());
+    }
+
     async Task StreamReadAsync()
     {
         var input = new byte[]

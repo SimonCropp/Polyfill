@@ -27,6 +27,8 @@
           target="contentFiles/cs/netstandard2.0/Polyfill/StringInterpolation"/>
     <file src="Trimming\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/Trimming"/>
+    <file src="Regex\*.cs"
+          target="contentFiles/cs/netstandard2.0/Polyfill/Regex"/>
     <file src="PlatformCompatibility\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/PlatformCompatibility"/>
     <file src="Polyfill.targets"
