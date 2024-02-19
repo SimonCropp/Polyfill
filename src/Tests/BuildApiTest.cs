@@ -71,7 +71,7 @@ class BuildApiTest
 
     static string GetTypeName(string targetType)
     {
-        var name = targetType.Replace("`1", "").Replace("`2", "");
+        var name = targetType.Replace("`1", "").Replace("`2", "").Replace("`3", "");
         foreach (var toClean in namespacesToClean)
         {
             name = name.Replace(toClean, "");
