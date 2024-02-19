@@ -6,24 +6,7 @@
   <ItemGroup>
     <!-- This project is specifically designed to guard against a mis-compile where System.Threading.Tasks.Extensions is referenced, but System.Memory is not. -->
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
-    <Compile Include="..\Polyfill\*.cs">
-      <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\Nullable\*.cs">
-      <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\Nullability\*.cs">
-      <Link>Pollyfill\Nullability\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\IndexRange\*.cs">
-      <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\Trimming\*.cs">
-      <Link>Pollyfill\Trimming\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\PlatformCompatibility\*.cs">
-      <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
   </ItemGroup>
-  <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
+  <Import Project="$(SolutionDir)\TestIncludes.targets" />
 </Project>

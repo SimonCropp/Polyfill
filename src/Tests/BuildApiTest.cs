@@ -1,3 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
+using Mono.Cecil;
+
 #if NET8_0 && DEBUG
 [TestFixture]
 class BuildApiTest
@@ -21,65 +24,104 @@ class BuildApiTest
         var path = Path.Combine(solutionDirectory, "Consume", "bin", "Debug", "netstandard2.0", "Consume.dll");
         var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
-        using var module = Mono.Cecil.ModuleDefinition.ReadModule(path);
-        var extensions = module.GetTypes().Single(_ => _.Name == nameof(Polyfill));
+        using var module = ModuleDefinition.ReadModule(path);
+        var types = module.GetTypes().ToList();
+        var extensions = types.Single(_ => _.Name == nameof(Polyfill));
         using var writer = File.CreateText(md);
 
-        foreach (var type in extensions.Methods
-                     .Where(_ => !_.IsConstructor)
+        writer.WriteLine($"### Extension methods");
+        writer.WriteLine();
+        foreach (var type in PublicMethods(extensions.Methods)
                      .GroupBy(_ => _.Parameters[0].ParameterType.FullName)
                      .OrderBy(_ => _.Key))
         {
-            if (!type.Any(_ => _.IsPublic))
-            {
-                continue;
-            }
-
-            var targetType = type.Key;
-            var targetFullName = targetType.Replace("`1", "").Replace("`2", "");
-            writer.WriteLine($"### {SimpleTypeName(targetFullName)}");
+            writer.WriteLine($"#### {GetTypeName(type.Key)}");
             writer.WriteLine();
-            foreach (var method in type.OrderBy(_ => _.Name))
+            foreach (var method in type)
             {
-                if (!method.IsPublic)
-                {
-                    continue;
-                }
-
-                var parameters = string.Join(", ", method.Parameters.Skip(1).Select(_ => SimpleTypeName(_.ParameterType.FullName)));
-                var typeArgs = "";
-                if (method.HasGenericParameters)
-                {
-                    typeArgs = $"<{string.Join(", ", method.GenericParameters.Select(_ => _.Name))}>";
-                }
-
-                var signature = $"{SimpleTypeName(method.ReturnType.FullName)} {method.Name}{typeArgs}({parameters})";
-                var descriptionAttribute = method.CustomAttributes
-                    .SingleOrDefault(_ => _.AttributeType.Name == "DescriptionAttribute");
-                if (descriptionAttribute == null)
-                {
-                    writer.WriteLine($" * `{signature}`");
-                }
-                else
-                {
-                    writer.WriteLine($" * `{signature}` [reference]({descriptionAttribute.ConstructorArguments.Single().Value})");
-                }
+                WriteSignature(method, writer);
             }
 
             writer.WriteLine();
             writer.WriteLine();
         }
+        writer.WriteLine($"### Static helpers");
+        writer.WriteLine();
+
+        WriteHelper(types, nameof(EnumPolyfill), writer);
+        WriteHelper(types, "RegexPolyfill", writer);
     }
 
-    static string SimpleTypeName(string fullName)
+    static void WriteHelper(List<TypeDefinition> types, string name, StreamWriter writer)
     {
-        var name = fullName.Replace("`1", "").Replace("`2", "");
+        var helper = types.Single(_ => _.Name == name);
+
+        writer.WriteLine($"#### {helper.Name}");
+        writer.WriteLine();
+        foreach (var method in PublicMethods(helper.Methods))
+        {
+            WriteSignature(method, writer);
+        }
+        writer.WriteLine();
+        writer.WriteLine();
+    }
+
+    static string GetTypeName(string targetType)
+    {
+        var name = targetType.Replace("`1", "").Replace("`2", "");
         foreach (var toClean in namespacesToClean)
         {
             name = name.Replace(toClean, "");
         }
 
         return name;
+    }
+
+    static IEnumerable<MethodDefinition> PublicMethods(IEnumerable<MethodDefinition> type) =>
+        type.Where(_=>_ is {IsPublic: true, IsConstructor: false})
+            .OrderBy(_ => _.Name);
+
+    static void WriteSignature(MethodDefinition method, StreamWriter writer)
+    {
+        var parameters = BuildParameters(method);
+        var typeArgs = BuildTypeArgs(method);
+        var signature = $"{GetTypeName(method.ReturnType.FullName)} {method.Name}{typeArgs}({parameters})";
+        if (TryGetReference(method, out var reference))
+        {
+            writer.WriteLine($" * `{signature}` [reference]({reference})");
+        }
+        else
+        {
+            writer.WriteLine($" * `{signature}`");
+        }
+    }
+
+    static string BuildParameters(MethodDefinition method) =>
+        string.Join(", ", method.Parameters.Skip(1).Select(_ => GetTypeName(_.ParameterType.FullName)));
+
+    static string BuildTypeArgs(MethodDefinition method)
+    {
+        var typeArgs = "";
+        if (method.HasGenericParameters)
+        {
+            typeArgs = $"<{string.Join(", ", method.GenericParameters.Select(_ => _.Name))}>";
+        }
+
+        return typeArgs;
+    }
+
+    static bool TryGetReference(MethodDefinition method,[NotNullWhen(true)] out string? reference)
+    {
+        var descriptionAttribute = method.CustomAttributes
+            .SingleOrDefault(_ => _.AttributeType.Name == "DescriptionAttribute");
+        if (descriptionAttribute == null)
+        {
+            reference = null;
+            return false;
+        }
+
+        reference = (string) descriptionAttribute.ConstructorArguments.Single().Value!;
+        return true;
     }
 }
 #endif

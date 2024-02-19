@@ -1,0 +1,28 @@
+<Project>
+  <ItemGroup>
+    <Compile Include="$(SolutionDir)Polyfill\*.cs">
+      <Link>Pollyfill\%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="$(SolutionDir)Polyfill\Nullable\*.cs">
+      <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="$(SolutionDir)Polyfill\Nullability\*.cs">
+      <Link>Pollyfill\Nullability\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="$(SolutionDir)Polyfill\IndexRange\*.cs">
+      <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="$(SolutionDir)Polyfill\StringInterpolation\*.cs">
+      <Link>Pollyfill\StringInterpolation\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="$(SolutionDir)Polyfill\Trimming\*.cs">
+      <Link>Pollyfill\Trimming\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="$(SolutionDir)Polyfill\PlatformCompatibility\*.cs">
+      <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+    <Compile Include="$(SolutionDir)Polyfill\Regex\*.cs">
+      <Link>Pollyfill\Regex\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
+  </ItemGroup>
+</Project>
