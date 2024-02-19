@@ -5,11 +5,7 @@
 #if !NET7_0_OR_GREATER && HAS_SPAN
 
 using System;
-using System.IO;
-using System.Net.Http;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill

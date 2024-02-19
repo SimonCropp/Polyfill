@@ -5,12 +5,6 @@
 #if !NET7_0_OR_GREATER && HAS_SPAN
 
 using System;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using Link = System.ComponentModel.DescriptionAttribute;
-
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace System.Text.RegularExpressions;

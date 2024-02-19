@@ -5,10 +5,6 @@
 #if !NET7_0_OR_GREATER && (MEMORYREFERENCED || NET6_0 || NET5_0)
 
 using System;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 namespace System.Text.RegularExpressions;
