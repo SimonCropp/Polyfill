@@ -46,6 +46,7 @@ class BuildApiTest
             writer.WriteLine();
             writer.WriteLine();
         }
+
         writer.WriteLine("### Static helpers");
         writer.WriteLine();
 
@@ -63,6 +64,7 @@ class BuildApiTest
         {
             WriteSignature(method, writer);
         }
+
         writer.WriteLine();
         writer.WriteLine();
     }
@@ -79,7 +81,7 @@ class BuildApiTest
     }
 
     static IEnumerable<MethodDefinition> PublicMethods(IEnumerable<MethodDefinition> type) =>
-        type.Where(_=>_ is {IsPublic: true, IsConstructor: false})
+        type.Where(_ => _ is {IsPublic: true, IsConstructor: false})
             .OrderBy(_ => _.Name);
 
     static void WriteSignature(MethodDefinition method, StreamWriter writer)
@@ -125,7 +127,7 @@ class BuildApiTest
         return "";
     }
 
-    static bool TryGetReference(MethodDefinition method,[NotNullWhen(true)] out string? reference)
+    static bool TryGetReference(MethodDefinition method, [NotNullWhen(true)] out string? reference)
     {
         var descriptionAttribute = method.CustomAttributes
             .SingleOrDefault(_ => _.AttributeType.Name == "DescriptionAttribute");
