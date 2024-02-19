@@ -1,12 +1,13 @@
+#if NET8_0 && DEBUG
 using System.Diagnostics.CodeAnalysis;
 using Mono.Cecil;
 
-#if NET8_0 && DEBUG
 [TestFixture]
 class BuildApiTest
 {
     static string[] namespacesToClean =
     [
+        "System.Text.RegularExpressions.",
         "System.Diagnostics.",
         "System.Collections.Generic.",
         "System.Threading.Tasks.",
