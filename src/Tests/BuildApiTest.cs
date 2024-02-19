@@ -97,18 +97,33 @@ class BuildApiTest
         }
     }
 
-    static string BuildParameters(MethodDefinition method) =>
-        string.Join(", ", method.Parameters.Skip(1).Select(_ => GetTypeName(_.ParameterType.FullName)));
+    static string BuildParameters(MethodDefinition method)
+    {
+        IEnumerable<ParameterDefinition> parameters;
+        if (IsExtensionMethod(method))
+        {
+            parameters = method.Parameters.Skip(1);
+        }
+        else
+        {
+
+            parameters = method.Parameters;
+        }
+
+        return string.Join(", ", parameters.Select(_ => GetTypeName(_.ParameterType.FullName)));
+    }
+
+    static bool IsExtensionMethod(MethodDefinition method) =>
+        method.CustomAttributes.Any(_ => _.AttributeType.Name == "ExtensionAttribute");
 
     static string BuildTypeArgs(MethodDefinition method)
     {
-        var typeArgs = "";
         if (method.HasGenericParameters)
         {
-            typeArgs = $"<{string.Join(", ", method.GenericParameters.Select(_ => _.Name))}>";
+            return $"<{string.Join(", ", method.GenericParameters.Select(_ => _.Name))}>";
         }
 
-        return typeArgs;
+        return "";
     }
 
     static bool TryGetReference(MethodDefinition method,[NotNullWhen(true)] out string? reference)
