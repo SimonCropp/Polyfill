@@ -2,7 +2,7 @@
 
 #pragma warning disable
 
-#if !NET7_0_OR_GREATER && (MEMORYREFERENCED || NET6_0 || NET5_0)
+#if !NET7_0_OR_GREATER && HAS_SPAN
 
 using System;
 using System.Reflection;

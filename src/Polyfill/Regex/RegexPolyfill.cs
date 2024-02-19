@@ -13,7 +13,7 @@ public
 #endif
 static partial class RegexPolyfill
 {
-#if MEMORYREFERENCED
+#if HAS_SPAN
     /// <summary>
     /// Indicates whether the specified regular expression finds a match in the specified input span, using the specified matching options and time-out interval.
     /// </summary>

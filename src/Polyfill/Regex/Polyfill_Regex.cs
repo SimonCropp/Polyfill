@@ -2,7 +2,7 @@
 
 #pragma warning disable
 
-#if (MEMORYREFERENCED && !NET7_0_OR_GREATER)
+#if !NET7_0_OR_GREATER && HAS_SPAN
 
 using System;
 using System.IO;
@@ -33,5 +33,13 @@ static partial class Polyfill
     {
         return target.IsMatch(input.ToString());
     }
+
+    /// <summary>
+    /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
+    /// </summary>
+    /// <returns>A Regex.ValueMatchEnumerator to iterate over the matches.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char)))")]
+    public static ValueMatchEnumerator EnumerateMatches (this Regex target, ReadOnlySpan<char> input) =>
+        new(target, input, target.RightToLeft ? input.Length : 0);
 }
 #endif
