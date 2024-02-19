@@ -4,27 +4,6 @@
     <TargetFrameworks>$(TargetFrameworks);netcoreapp3.1;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Polyfill\*.cs">
-      <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\Nullable\*.cs">
-      <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\Nullability\*.cs">
-      <Link>Pollyfill\Nullability\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\IndexRange\*.cs">
-      <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\StringInterpolation\*.cs">
-      <Link>Pollyfill\StringInterpolation\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\Trimming\*.cs">
-      <Link>Pollyfill\Trimming\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="..\Polyfill\PlatformCompatibility\*.cs">
-      <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
     <PackageReference Include="Mono.Cecil" Version="0.11.5" />
     <PackageReference Include="NUnit" Version="3.14.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
@@ -36,5 +15,6 @@
     <PackageReference Include="System.Net.Http" Version="4.3.4" Condition="$(TargetFramework.StartsWith('net4'))" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" Condition="$(TargetFramework) == 'netstandard2.0' or $(TargetFramework) == 'netcoreapp2.0' or $(TargetFrameworkIdentifier) == '.NETFramework'" />
   </ItemGroup>
-  <Import Project="$(ProjectDir)..\Polyfill\Polyfill.targets" />
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
+  <Import Project="$(SolutionDir)\TestIncludes.targets" />
 </Project>
