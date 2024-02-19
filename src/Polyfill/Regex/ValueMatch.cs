@@ -22,7 +22,11 @@ namespace System.Text.RegularExpressions;
 /// The <see cref="ValueMatch"/> type is immutable and has no public constructor. An instance of the <see cref="ValueMatch"/> struct is returned by the
 /// <see cref="Regex.ValueMatchEnumerator.Current"/> method when iterating over the results from calling <see cref="Regex.EnumerateMatches(ReadOnlySpan{char})"/>.
 /// </remarks>
-public readonly ref struct ValueMatch
+[ExcludeFromCodeCoverage]
+#if PolyPublic
+public
+#endif
+readonly ref struct ValueMatch
 {
     private readonly int _index;
     private readonly int _length;

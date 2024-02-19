@@ -1,7 +1,7 @@
+#if NET8_0 && DEBUG
 using System.Diagnostics.CodeAnalysis;
 using Mono.Cecil;
 
-#if NET8_0 && DEBUG
 [TestFixture]
 class BuildApiTest
 {

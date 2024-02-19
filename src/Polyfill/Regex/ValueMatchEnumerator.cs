@@ -24,13 +24,16 @@ namespace System.Text.RegularExpressions;
 ///
 /// This type is a ref struct since it stores the input span as a field in order to be able to lazily iterate over it.
 /// </remarks>
-public ref struct ValueMatchEnumerator
+[ExcludeFromCodeCoverage]
+#if PolyPublic
+public
+#endif
+ref struct ValueMatchEnumerator
 {
-    private readonly Regex _regex;
-    private readonly ReadOnlySpan<char> _input;
-    private ValueMatch _current;
+    ReadOnlySpan<char> _input;
+    ValueMatch _current;
     MatchCollection matchCollection;
-    int index = -1;
+    int index = 0;
 
     /// <summary>
     /// Creates an instance of the <see cref="ValueMatchEnumerator"/> for the passed in <paramref name="regex"/> which iterates over <paramref name="input"/>.
@@ -40,8 +43,7 @@ public ref struct ValueMatchEnumerator
     /// <param name="startAt">The position where the engine should start looking for matches from.</param>
     internal ValueMatchEnumerator(Regex regex, ReadOnlySpan<char> input, int startAt)
     {
-        matchCollection = _regex.Matches(input.ToString(), startAt);
-        _regex = regex;
+        matchCollection = regex.Matches(input.ToString(), startAt);
         _input = input;
         _current = default;
     }
@@ -60,15 +62,15 @@ public ref struct ValueMatchEnumerator
     /// </returns>
     public bool MoveNext()
     {
-        index++;
-        var match = matchCollection[index];
-        if (match.Success)
+        if (index == matchCollection.Count)
         {
-            _current = new ValueMatch(match.Index, match.Length);
-            return true;
+            return false;
         }
 
-        return false;
+        var match = matchCollection[index];
+        _current = new ValueMatch(match.Index, match.Length);
+        index++;
+        return true;
     }
 
     /// <summary>

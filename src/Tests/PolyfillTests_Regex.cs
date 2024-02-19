@@ -19,9 +19,10 @@ partial class PolyfillTests
         foreach (var match in regex.EnumerateMatches(span))
         {
             found = true;
-            Assert.AreEqual(2,match.Index);
-            Assert.AreEqual(2,match.Length);
+            Assert.AreEqual(1, match.Index);
+            Assert.AreEqual(2, match.Length);
         }
+
         Assert.IsTrue(found);
     }
 }
