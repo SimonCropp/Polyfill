@@ -10,7 +10,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
-    #if MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)
+    #if FeatureMemory && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)
 
     /// <summary>
     /// Tries to format the value of the current instance as UTF-8 into the provided span of bytes.
@@ -283,7 +283,7 @@ static partial class Polyfill
     }
 #endif
 
-#if (MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)) || NET6_0
+#if (FeatureMemory && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)) || NET6_0
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
@@ -368,7 +368,7 @@ static partial class Polyfill
     }
 #endif
 
-#if NET6_0 || (MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X))
+#if NET6_0 || (FeatureMemory && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X))
     static bool CopyToSpan(Span<char> destination, out int charsWritten, string result)
     {
         if (result.Length == 0)

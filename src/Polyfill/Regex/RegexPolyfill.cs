@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using Link = System.ComponentModel.DescriptionAttribute;
 
-#if HAS_SPAN
+#if FeatureMemory
 #if NET7_0_OR_GREATER
 using ValueMatchEnumerator = System.Text.RegularExpressions.Regex.ValueMatchEnumerator;
 #else
@@ -20,7 +20,7 @@ public
 #endif
     static partial class RegexPolyfill
 {
-#if HAS_SPAN
+#if FeatureMemory
     /// <summary>
     /// Indicates whether the specified regular expression finds a match in the specified input span, using the specified matching options and time-out interval.
     /// </summary>
@@ -57,7 +57,7 @@ public
     public static bool IsMatch(ReadOnlySpan<char> input, string pattern)
     {
 #if NET7_0_OR_GREATER
-       return Regex.IsMatch(input, pattern);
+        return Regex.IsMatch(input, pattern);
 #else
         return Regex.IsMatch(input.ToString(), pattern);
 #endif

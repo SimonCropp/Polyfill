@@ -2,7 +2,7 @@
 
 #pragma warning disable
 
-#if !NET7_0_OR_GREATER && HAS_SPAN
+#if !NET7_0_OR_GREATER && FeatureMemory
 
 using System;
 using System.Text.RegularExpressions;

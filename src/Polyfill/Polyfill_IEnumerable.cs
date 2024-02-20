@@ -74,7 +74,7 @@ static partial class Polyfill
         params TSource[] items) =>
         target.Except((IEnumerable<TSource>)items, comparer);
 
-#if !NET9_0_OR_GREATER && HasValueTuple
+#if !NET9_0_OR_GREATER && FeatureValueTuple
 
     /// <summary>
     /// https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/overview#linq

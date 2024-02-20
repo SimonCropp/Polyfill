@@ -2,7 +2,7 @@
 
 #pragma warning disable
 
-#if MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)
+#if FeatureMemory && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)
 
 using System;
 using System.Collections.Generic;

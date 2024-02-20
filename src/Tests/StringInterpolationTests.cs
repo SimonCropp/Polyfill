@@ -1,4 +1,4 @@
-﻿#if HAS_SPAN
+﻿#if FeatureMemory
 
 [TestFixture]
 public class StringInterpolationTests

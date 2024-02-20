@@ -8,7 +8,7 @@ using System.Text;
 
 static partial class Polyfill
 {
-#if HAS_SPAN && !NET6_0_OR_GREATER
+#if FeatureMemory && !NET6_0_OR_GREATER
 
     /// <summary>
     /// Copies the contents of this string into the destination span.

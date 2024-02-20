@@ -192,7 +192,7 @@ Example:
 
 #pragma warning disable
 
-#if MEMORYREFERENCED && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
+#if FeatureMemory && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
 
 using System;
 using System.Buffers;

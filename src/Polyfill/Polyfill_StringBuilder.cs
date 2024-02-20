@@ -11,7 +11,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
-#if HAS_SPAN && (!NETSTANDARD2_1_OR_GREATER && !NETCOREAPP2_1_OR_GREATER)
+#if FeatureMemory && (!NETSTANDARD2_1_OR_GREATER && !NETCOREAPP2_1_OR_GREATER)
 
     /// <summary>
     /// Copies the characters from a specified segment of this instance to a destination Char span.
@@ -105,7 +105,7 @@ static partial class Polyfill
 
 #endif
 
-#if HAS_SPAN && !NET6_0_OR_GREATER
+#if FeatureMemory && !NET6_0_OR_GREATER
     /// <summary>Appends the specified interpolated string to this instance.</summary>
     /// <param name="handler">The interpolated string to append.</param>
     /// <returns>A reference to this instance after the append operation has completed.</returns>

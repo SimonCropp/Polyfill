@@ -67,7 +67,7 @@ class Consume
         type = typeof(RequiresUnreferencedCodeAttribute);
         type = typeof(UnreachableException);
 
-#if (NET46X && VALUETUPLEREFERENCED) || NET47X || NET48X || NETSTANDARD2_0 || NETCOREAPP2X
+#if FeatureValueTuple
         var range = "value"[1..];
         var index = "value"[^2];
 #endif
@@ -130,7 +130,7 @@ class Consume
         }
     }
 
-#if (NET46X && VALUETUPLEREFERENCED) || NET47X || NET48X || NETSTANDARD2_0 || NETCOREAPP2X
+#if FeatureValueTuple
 
     static (string value1, bool value2) NamedTupleMethod() =>
         new("value", false);
@@ -190,7 +190,7 @@ class Consume
         new Task<int>(func).WaitAsync(TimeSpan.Zero, CancellationToken.None);
     }
 
-#if MEMORYREFERENCED
+#if FeatureMemory
 
     async Task StreamReaderReadAsync()
     {
