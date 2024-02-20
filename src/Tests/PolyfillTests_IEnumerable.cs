@@ -22,6 +22,25 @@ partial class PolyfillTests
 
         Assert.AreEqual(1, enumerable.MinBy(_ => _));
     }
+    [Test]
+    public void Index()
+    {
+        var count = 0;
+        var enumerable = (IEnumerable<int>)new List<int> {3, 4};
+        foreach (var (index, item) in enumerable.Index())
+        {
+            count++;
+            if (index == 0)
+            {
+                Assert.AreEqual(3, item);
+            }
+            if (index == 1)
+            {
+                Assert.AreEqual(4, item);
+            }
+        }
+        Assert.AreEqual(2, count);
+    }
 
     [Test]
     public void IEnumerableAppend()
