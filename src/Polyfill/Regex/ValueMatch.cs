@@ -23,9 +23,6 @@ public
 #endif
 readonly ref struct ValueMatch
 {
-    private readonly int _index;
-    private readonly int _length;
-
     /// <summary>
     /// Crates an instance of the <see cref="ValueMatch"/> type based on the passed in <paramref name="index"/> and <paramref name="length"/>.
     /// </summary>
@@ -33,19 +30,19 @@ readonly ref struct ValueMatch
     /// <param name="length">The length of the captured sliced span.</param>
     internal ValueMatch(int index, int length)
     {
-        _index = index;
-        _length = length;
+        Index = index;
+        Length = length;
     }
 
     /// <summary>
     /// Gets the position in the original span where the first character of the captured sliced span is found.
     /// </summary>
-    public int Index => _index;
+    public int Index { get; }
 
     /// <summary>
     /// Gets the length of the captured sliced span.
     /// </summary>
-    public int Length => _length;
+    public int Length { get; }
 }
 
 #endif
