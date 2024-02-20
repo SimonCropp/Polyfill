@@ -31,7 +31,7 @@
           target="contentFiles/cs/netstandard2.0/Polyfill/Regex"/>
     <file src="PlatformCompatibility\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/PlatformCompatibility"/>
-    <file src="Polyfill.targets"
-          target="build"/>
+    <file src="exclude.editorconfig"
+          target="contentFiles/cs/netstandard2.0/Polyfill/.editorconfig"/>
   </files>
 </package>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
   <PropertyGroup>
-    <Version>2.6.2</Version>
+    <Version>2.6.3</Version>
     <AssemblyVersion>1.0.0</AssemblyVersion>
     <PackageTags>Polyfill</PackageTags>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
