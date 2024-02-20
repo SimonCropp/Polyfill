@@ -13,7 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-static partial class PolyString
+static partial class StringPolyfill
 {
     public static string Join(char separator, string[] values)
     {
