@@ -1,8 +1,6 @@
 <Project>
   <PropertyGroup>
     <PrepareForBuildDependsOn>$(PrepareForBuildDependsOn);PreparePolyfill</PrepareForBuildDependsOn>
-    <ValueTupleReferenced>false</ValueTupleReferenced>
-    <MemoryReferenced>false</MemoryReferenced>
     <TasksExtensionsReferenced>false</TasksExtensionsReferenced>
     <HttpReferenced>false</HttpReferenced>
     <LowerFramework>$(TargetFramework.ToLower())</LowerFramework>
@@ -34,11 +32,10 @@
   </PropertyGroup>
   <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets">
     <PropertyGroup>
-      <ValueTupleReferenced
-              Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.ValueTuple')->Count()) != 0">true</ValueTupleReferenced>
-
-      <MemoryReferenced
-              Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.Memory')->Count()) != 0">true</MemoryReferenced>
+      <DefineConstants
+        Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.ValueTuple')->Count()) != 0">$(DefineConstants);FeatureValueTuple</DefineConstants>
+      <DefineConstants
+        Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.Memory')->Count()) != 0">$(DefineConstants);FeatureMemory</DefineConstants>
 
       <TasksExtensionsReferenced
               Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.Threading.Tasks.Extensions')->Count()) != 0">true</TasksExtensionsReferenced>
@@ -50,8 +47,6 @@
       <DefineConstants
               Condition="$(HttpReferenced)">$(DefineConstants);HTTPREFERENCED</DefineConstants>
       
-      <DefineConstants Condition="$(MemoryReferenced)">$(DefineConstants);FeatureMemory</DefineConstants>
-      <DefineConstants Condition="$(ValueTupleReferenced)">$(DefineConstants);FeatureValueTuple</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net9'))">$(DefineConstants);FeatureMemory;FeatureValueTuple</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net8'))">$(DefineConstants);FeatureMemory;FeatureValueTuple</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net7'))">$(DefineConstants);FeatureMemory;FeatureValueTuple</DefineConstants>
