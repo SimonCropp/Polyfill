@@ -6,11 +6,19 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using Link = System.ComponentModel.DescriptionAttribute;
 
+#if HAS_SPAN
+#if NET7_0_OR_GREATER
+using ValueMatchEnumerator = System.Text.RegularExpressions.Regex.ValueMatchEnumerator;
+#else
+using ValueMatchEnumerator = System.Text.RegularExpressions.ValueMatchEnumerator;
+#endif
+#endif
+
 [ExcludeFromCodeCoverage]
 #if PolyPublic
 public
 #endif
-static partial class RegexPolyfill
+    static partial class RegexPolyfill
 {
 #if HAS_SPAN
     /// <summary>
@@ -18,12 +26,12 @@ static partial class RegexPolyfill
     /// </summary>
     /// <returns>true if the regular expression finds a match; otherwise, false.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan)")]
-    public static bool IsMatch(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan matchTimeout)
+    public static bool IsMatch(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan timeout)
     {
 #if NET7_0_OR_GREATER
-       return Regex.IsMatch(input, pattern, options, matchTimeout);
+       return Regex.IsMatch(input, pattern, options, timeout);
 #else
-       return Regex.IsMatch(input.ToString(), pattern, options, matchTimeout);
+        return Regex.IsMatch(input.ToString(), pattern, options, timeout);
 #endif
     }
 
@@ -32,12 +40,12 @@ static partial class RegexPolyfill
     /// </summary>
     /// <returns>true if the regular expression finds a match; otherwise, false.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions)")]
-    public static bool IsMatch(ReadOnlySpan<char> input, string pattern, System.Text.RegularExpressions.RegexOptions options)
+    public static bool IsMatch(ReadOnlySpan<char> input, string pattern, RegexOptions options)
     {
 #if NET7_0_OR_GREATER
        return Regex.IsMatch(input, pattern, options);
 #else
-       return Regex.IsMatch(input.ToString(), pattern, options);
+        return Regex.IsMatch(input.ToString(), pattern, options);
 #endif
     }
 
@@ -51,7 +59,49 @@ static partial class RegexPolyfill
 #if NET7_0_OR_GREATER
        return Regex.IsMatch(input, pattern);
 #else
-       return Regex.IsMatch(input.ToString(), pattern);
+        return Regex.IsMatch(input.ToString(), pattern);
+#endif
+    }
+
+    /// <summary>
+    /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
+    /// </summary>
+    /// <returns>A Regex.ValueMatchEnumerator to iterate over the matches.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-8.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string)")]
+    public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern)
+    {
+#if NET7_0_OR_GREATER
+        return Regex.EnumerateMatches(input, pattern);
+#else
+        return new Regex(pattern).EnumerateMatches(input);
+#endif
+    }
+
+    /// <summary>
+    /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
+    /// </summary>
+    /// <returns>A Regex.ValueMatchEnumerator to iterate over the matches.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan)")]
+    public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan timeout)
+    {
+#if NET7_0_OR_GREATER
+        return Regex.EnumerateMatches(input, pattern, options, timeout);
+#else
+        return new Regex(pattern, options, timeout).EnumerateMatches(input);
+#endif
+    }
+
+    /// <summary>
+    /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
+    /// </summary>
+    /// <returns>A Regex.ValueMatchEnumerator to iterate over the matches.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions)")]
+    public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern, RegexOptions options)
+    {
+#if NET7_0_OR_GREATER
+        return Regex.EnumerateMatches(input, pattern);
+#else
+        return new Regex(pattern, options).EnumerateMatches(input);
 #endif
     }
 #endif

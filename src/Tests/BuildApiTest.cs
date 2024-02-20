@@ -30,7 +30,7 @@ class BuildApiTest
         var extensions = types.Single(_ => _.Name == nameof(Polyfill));
         using var writer = File.CreateText(md);
 
-        writer.WriteLine($"### Extension methods");
+        writer.WriteLine("### Extension methods");
         writer.WriteLine();
         foreach (var type in PublicMethods(extensions.Methods)
                      .GroupBy(_ => _.Parameters[0].ParameterType.FullName)
@@ -46,7 +46,8 @@ class BuildApiTest
             writer.WriteLine();
             writer.WriteLine();
         }
-        writer.WriteLine($"### Static helpers");
+
+        writer.WriteLine("### Static helpers");
         writer.WriteLine();
 
         WriteHelper(types, nameof(EnumPolyfill), writer);
@@ -63,13 +64,14 @@ class BuildApiTest
         {
             WriteSignature(method, writer);
         }
+
         writer.WriteLine();
         writer.WriteLine();
     }
 
     static string GetTypeName(string targetType)
     {
-        var name = targetType.Replace("`1", "").Replace("`2", "");
+        var name = targetType.Replace("`1", "").Replace("`2", "").Replace("`3", "");
         foreach (var toClean in namespacesToClean)
         {
             name = name.Replace(toClean, "");
@@ -79,7 +81,7 @@ class BuildApiTest
     }
 
     static IEnumerable<MethodDefinition> PublicMethods(IEnumerable<MethodDefinition> type) =>
-        type.Where(_=>_ is {IsPublic: true, IsConstructor: false})
+        type.Where(_ => _ is {IsPublic: true, IsConstructor: false})
             .OrderBy(_ => _.Name);
 
     static void WriteSignature(MethodDefinition method, StreamWriter writer)
@@ -106,7 +108,6 @@ class BuildApiTest
         }
         else
         {
-
             parameters = method.Parameters;
         }
 
@@ -126,7 +127,7 @@ class BuildApiTest
         return "";
     }
 
-    static bool TryGetReference(MethodDefinition method,[NotNullWhen(true)] out string? reference)
+    static bool TryGetReference(MethodDefinition method, [NotNullWhen(true)] out string? reference)
     {
         var descriptionAttribute = method.CustomAttributes
             .SingleOrDefault(_ => _.AttributeType.Name == "DescriptionAttribute");
