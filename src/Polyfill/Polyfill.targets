@@ -56,17 +56,20 @@
     </PropertyGroup>
     <PropertyGroup>
       <DefineConstants Condition="$(MemoryReferenced)">$(DefineConstants);HAS_SPAN</DefineConstants>
-      <DefineConstants Condition="$(LowerFramework.StartsWith('net9'))">$(DefineConstants);HAS_SPAN</DefineConstants>
-      <DefineConstants Condition="$(LowerFramework.StartsWith('net8'))">$(DefineConstants);HAS_SPAN</DefineConstants>
-      <DefineConstants Condition="$(LowerFramework.StartsWith('net7'))">$(DefineConstants);HAS_SPAN</DefineConstants>
-      <DefineConstants Condition="$(LowerFramework.StartsWith('net6'))">$(DefineConstants);HAS_SPAN</DefineConstants>
-      <DefineConstants Condition="$(LowerFramework.StartsWith('net5'))">$(DefineConstants);HAS_SPAN</DefineConstants>
-      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp3.1'">$(DefineConstants);HAS_SPAN</DefineConstants>
-      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp3.0'">$(DefineConstants);HAS_SPAN</DefineConstants>
-      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.2'">$(DefineConstants);HAS_SPAN</DefineConstants>
-      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.1'">$(DefineConstants);HAS_SPAN</DefineConstants>
-      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.0'">$(DefineConstants)</DefineConstants>
-      <DefineConstants Condition="$(LowerFramework.StartsWith('net4'))">$(DefineConstants)</DefineConstants>
+      <DefineConstants Condition="$(ValueTupleReferenced)">$(DefineConstants);HasValueTuple</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net9'))">$(DefineConstants);HAS_SPAN;HasValueTuple</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net8'))">$(DefineConstants);HAS_SPAN;HasValueTuple</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net7'))">$(DefineConstants);HAS_SPAN;HasValueTuple</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net6'))">$(DefineConstants);HAS_SPAN;HasValueTuple</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net5'))">$(DefineConstants);HAS_SPAN;HasValueTuple</DefineConstants>
+      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp3.1'">$(DefineConstants);HAS_SPAN;HasValueTuple</DefineConstants>
+      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp3.0'">$(DefineConstants);HAS_SPAN;HasValueTuple</DefineConstants>
+      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.2'">$(DefineConstants);HAS_SPAN;HasValueTuple</DefineConstants>
+      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.1'">$(DefineConstants);HAS_SPAN;HasValueTuple</DefineConstants>
+      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.0'">$(DefineConstants);HasValueTuple</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net47'))">$(DefineConstants);HasValueTuple</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net48'))">$(DefineConstants);HasValueTuple</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2'))">$(DefineConstants);HasValueTuple</DefineConstants>
     </PropertyGroup>
   </Target>
   <ItemGroup>

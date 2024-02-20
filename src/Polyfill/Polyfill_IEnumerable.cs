@@ -74,10 +74,10 @@ static partial class Polyfill
         params TSource[] items) =>
         target.Except((IEnumerable<TSource>)items, comparer);
 
-#if !NET9_0_OR_GREATER
+#if !NET9_0_OR_GREATER && HasValueTuple
 
     /// <summary>
-    /// TODO
+    /// https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/overview#linq
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.index#system-linq-enumerable-index-1(system-collections-generic-ienumerable((-0)))")]
     public static IEnumerable<(int Index, TSource Item)> Index<TSource> (this IEnumerable<TSource> source)
