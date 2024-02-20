@@ -205,7 +205,7 @@ using System.Threading.Tasks;
 static partial class Polyfill
 {
 
-#if TASKSEXTENSIONSREFERENCED
+#if FeatureValueTask
 
     /// <summary>
     /// Asynchronously writes a character memory region to the stream.
