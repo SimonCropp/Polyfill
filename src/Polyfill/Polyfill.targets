@@ -56,6 +56,7 @@
     </PropertyGroup>
     <PropertyGroup>
       <DefineConstants Condition="$(MemoryReferenced)">$(DefineConstants);HAS_SPAN</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net9'))">$(DefineConstants);HAS_SPAN</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net8'))">$(DefineConstants);HAS_SPAN</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net7'))">$(DefineConstants);HAS_SPAN</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net6'))">$(DefineConstants);HAS_SPAN</DefineConstants>
