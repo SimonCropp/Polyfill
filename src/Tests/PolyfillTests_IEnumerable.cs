@@ -22,6 +22,94 @@ partial class PolyfillTests
 
         Assert.AreEqual(1, enumerable.MinBy(_ => _));
     }
+    [Test]
+    public void Index()
+    {
+        var count = 0;
+        var enumerable = (IEnumerable<int>)new List<int> {3, 4};
+        foreach (var (index, item) in enumerable.Index())
+        {
+            count++;
+            if (index == 0)
+            {
+                Assert.AreEqual(3, item);
+            }
+            if (index == 1)
+            {
+                Assert.AreEqual(4, item);
+            }
+        }
+        Assert.AreEqual(2, count);
+    }
+
+    [Test]
+    public void CountBy()
+    {
+        var enumerable = (IEnumerable<int>)new List<int> {3, 4, 3};
+        var list = enumerable.CountBy(_ => _).ToList();
+        Assert.AreEqual(3, list[0].Key);
+        Assert.AreEqual(2, list[0].Value);
+        Assert.AreEqual(4, list[1].Key);
+        Assert.AreEqual(1, list[1].Value);
+        Assert.AreEqual(2, list.Count);
+    }
+
+    [Test]
+    public void AggregateBySeed()
+    {
+        (string id, int score)[] data =
+        [
+            ("0", 42),
+            ("1", 5),
+            ("2", 4),
+            ("1", 10),
+            ("0", 25),
+        ];
+
+        var aggregated =
+            data.AggregateBy(
+                keySelector: entry => entry.id,
+                seed: 0,
+                (totalScore, curr) => totalScore + curr.score
+            ).ToList();
+
+        Assert.AreEqual("0", aggregated[0].Key);
+        Assert.AreEqual(67, aggregated[0].Value);
+        Assert.AreEqual("1", aggregated[1].Key);
+        Assert.AreEqual(15, aggregated[1].Value);
+        Assert.AreEqual("2", aggregated[2].Key);
+        Assert.AreEqual(4, aggregated[2].Value);
+        Assert.AreEqual(3, aggregated.Count);
+    }
+
+    [Test]
+    public void AggregateBySeedSelector()
+    {
+        (string id, int score)[] data =
+        [
+            ("0", 42),
+            ("1", 5),
+            ("2", 4),
+            ("1", 10),
+            ("0", 25),
+        ];
+
+        var seed = 0;
+        var aggregated =
+            data.AggregateBy(
+                keySelector: entry => entry.id,
+                seedSelector: _ => seed++,
+                (totalScore, curr) => totalScore + curr.score
+            ).ToList();
+
+        Assert.AreEqual("0", aggregated[0].Key);
+        Assert.AreEqual(67, aggregated[0].Value);
+        Assert.AreEqual("1", aggregated[1].Key);
+        Assert.AreEqual(16, aggregated[1].Value);
+        Assert.AreEqual("2", aggregated[2].Key);
+        Assert.AreEqual(6, aggregated[2].Value);
+        Assert.AreEqual(3, aggregated.Count);
+    }
 
     [Test]
     public void IEnumerableAppend()
