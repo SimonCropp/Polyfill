@@ -45,29 +45,5 @@ static partial class Polyfill
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-int32)")]
     public static ValueMatchEnumerator EnumerateMatches (this Regex target, ReadOnlySpan<char> input, int startat) =>
         new(target, input, startat);
-    //
-    // /// <summary>
-    // /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
-    // /// </summary>
-    // /// <returns>A Regex.ValueMatchEnumerator to iterate over the matches.</returns>
-    // [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string)")]
-    // public static ValueMatchEnumerator EnumerateMatches (this Regex target, ReadOnlySpan<char> input, string pattern) =>
-    //     new(target, input, target.RightToLeft ? input.Length : 0);
-    //
-    // /// <summary>
-    // /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
-    // /// </summary>
-    // /// <returns>A Regex.ValueMatchEnumerator to iterate over the matches.</returns>
-    // [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions)")]
-    // public static ValueMatchEnumerator EnumerateMatches (this Regex target, ReadOnlySpan<char> input, string pattern, System.Text.RegularExpressions.RegexOptions options) =>
-    //     new(target, input, target.RightToLeft ? input.Length : 0);
-    //
-    // /// <summary>
-    // /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
-    // /// </summary>
-    // /// <returns>A Regex.ValueMatchEnumerator to iterate over the matches.</returns>
-    // [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan)")]
-    // public static ValueMatchEnumerator EnumerateMatches (this Regex target, ReadOnlySpan<char> input, string pattern, System.Text.RegularExpressions.RegexOptions options, TimeSpan matchTimeout) =>
-    //     new(target, input, target.RightToLeft ? input.Length : 0);
 }
 #endif
