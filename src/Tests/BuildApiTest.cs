@@ -52,6 +52,7 @@ class BuildApiTest
 
         WriteHelper(types, nameof(EnumPolyfill), writer);
         WriteHelper(types, "RegexPolyfill", writer);
+        WriteHelper(types, "StringPolyfill", writer);
     }
 
     static void WriteHelper(List<TypeDefinition> types, string name, StreamWriter writer)

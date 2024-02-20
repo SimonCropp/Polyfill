@@ -310,3 +310,11 @@
  * `Boolean IsMatch(ReadOnlySpan<Char>, String)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string))
 
 
+#### StringPolyfill
+
+ * `String Join(Char, String[])`
+ * `String Join(Char, Object[])`
+ * `String Join(Char, String[], Int32, Int32)`
+ * `String Join<T>(Char, IEnumerable<T>)`
+
+
