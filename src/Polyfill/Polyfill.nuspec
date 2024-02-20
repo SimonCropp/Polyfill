@@ -32,6 +32,6 @@
     <file src="PlatformCompatibility\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/PlatformCompatibility"/>
     <file src="exclude.editorconfig"
-          target="contentFiles/cs/netstandard2.0/Polyfill/.editorconfig"/>
+          target=".editorconfig"/>
   </files>
 </package>
