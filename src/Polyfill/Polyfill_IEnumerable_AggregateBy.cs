@@ -54,16 +54,16 @@ static partial class Polyfill
     static IEnumerable<KeyValuePair<TKey, TAccumulate>> AggregateByIterator<TSource, TKey, TAccumulate>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, TAccumulate seed, Func<TAccumulate, TSource, TAccumulate> func, IEqualityComparer<TKey>? keyComparer)
         where TKey : notnull
     {
-        using IEnumerator<TSource> enumerator = source.GetEnumerator();
+        using var enumerator = source.GetEnumerator();
 
         if (!enumerator.MoveNext())
         {
             yield break;
         }
 
-        foreach (KeyValuePair<TKey, TAccumulate> countBy in PopulateDictionary(enumerator, keySelector, seed, func, keyComparer))
+        foreach (var item in PopulateDictionary(enumerator, keySelector, seed, func, keyComparer))
         {
-            yield return countBy;
+            yield return item;
         }
 
         static Dictionary<TKey, TAccumulate> PopulateDictionary(IEnumerator<TSource> enumerator, Func<TSource, TKey> keySelector, TAccumulate seed, Func<TAccumulate, TSource, TAccumulate> func, IEqualityComparer<TKey>? keyComparer)
@@ -72,8 +72,8 @@ static partial class Polyfill
 
             do
             {
-                TSource value = enumerator.Current;
-                TKey key = keySelector(value);
+                var value = enumerator.Current;
+                var key = keySelector(value);
 
                 if (!dict.TryGetValue(key, out var accumulate))
                 {
@@ -90,16 +90,16 @@ static partial class Polyfill
     static IEnumerable<KeyValuePair<TKey, TAccumulate>> AggregateByIterator<TSource, TKey, TAccumulate>(IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TKey, TAccumulate> seedSelector, Func<TAccumulate, TSource, TAccumulate> func, IEqualityComparer<TKey>? keyComparer)
         where TKey : notnull
     {
-        using IEnumerator<TSource> enumerator = source.GetEnumerator();
+        using var enumerator = source.GetEnumerator();
 
         if (!enumerator.MoveNext())
         {
             yield break;
         }
 
-        foreach (KeyValuePair<TKey, TAccumulate> countBy in PopulateDictionary(enumerator, keySelector, seedSelector, func, keyComparer))
+        foreach (var item in PopulateDictionary(enumerator, keySelector, seedSelector, func, keyComparer))
         {
-            yield return countBy;
+            yield return item;
         }
 
         static Dictionary<TKey, TAccumulate> PopulateDictionary(IEnumerator<TSource> enumerator, Func<TSource, TKey> keySelector, Func<TKey, TAccumulate> seedSelector, Func<TAccumulate, TSource, TAccumulate> func, IEqualityComparer<TKey>? keyComparer)
@@ -108,8 +108,8 @@ static partial class Polyfill
 
             do
             {
-                TSource value = enumerator.Current;
-                TKey key = keySelector(value);
+                var value = enumerator.Current;
+                var key = keySelector(value);
 
                 if (!dict.TryGetValue(key, out var accumulate))
                 {

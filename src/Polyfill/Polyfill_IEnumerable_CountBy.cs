@@ -29,16 +29,16 @@ static partial class Polyfill
     static IEnumerable<KeyValuePair<TKey, int>> CountByIterator<TSource, TKey>(IEnumerable<TSource> source, Func<TSource, TKey> selector, IEqualityComparer<TKey>? comparer)
         where TKey : notnull
     {
-        using IEnumerator<TSource> enumerator = source.GetEnumerator();
+        using var enumerator = source.GetEnumerator();
 
         if (!enumerator.MoveNext())
         {
             yield break;
         }
 
-        foreach (KeyValuePair<TKey, int> countBy in BuildCountDictionary(enumerator, selector, comparer))
+        foreach (var item in BuildCountDictionary(enumerator, selector, comparer))
         {
-            yield return countBy;
+            yield return item;
         }
     }
 
@@ -49,8 +49,8 @@ static partial class Polyfill
 
         do
         {
-            TSource value = enumerator.Current;
-            TKey key = selector(value);
+            var value = enumerator.Current;
+            var key = selector(value);
 
             if (!countsBy.TryGetValue(key, out var count))
             {
