@@ -55,6 +55,63 @@ partial class PolyfillTests
     }
 
     [Test]
+    public void AggregateBySeed()
+    {
+        (string id, int score)[] data =
+        [
+            ("0", 42),
+            ("1", 5),
+            ("2", 4),
+            ("1", 10),
+            ("0", 25),
+        ];
+
+        var aggregated =
+            data.AggregateBy(
+                keySelector: entry => entry.id,
+                seed: 0,
+                (totalScore, curr) => totalScore + curr.score
+            ).ToList();
+
+        Assert.AreEqual("0", aggregated[0].Key);
+        Assert.AreEqual(67, aggregated[0].Value);
+        Assert.AreEqual("1", aggregated[1].Key);
+        Assert.AreEqual(15, aggregated[1].Value);
+        Assert.AreEqual("2", aggregated[2].Key);
+        Assert.AreEqual(4, aggregated[2].Value);
+        Assert.AreEqual(3, aggregated.Count);
+    }
+
+    [Test]
+    public void AggregateBySeedSelector()
+    {
+        (string id, int score)[] data =
+        [
+            ("0", 42),
+            ("1", 5),
+            ("2", 4),
+            ("1", 10),
+            ("0", 25),
+        ];
+
+        var seed = 0;
+        var aggregated =
+            data.AggregateBy(
+                keySelector: entry => entry.id,
+                seedSelector: _ => seed++,
+                (totalScore, curr) => totalScore + curr.score
+            ).ToList();
+
+        Assert.AreEqual("0", aggregated[0].Key);
+        Assert.AreEqual(67, aggregated[0].Value);
+        Assert.AreEqual("1", aggregated[1].Key);
+        Assert.AreEqual(16, aggregated[1].Value);
+        Assert.AreEqual("2", aggregated[2].Key);
+        Assert.AreEqual(6, aggregated[2].Value);
+        Assert.AreEqual(3, aggregated.Count);
+    }
+
+    [Test]
     public void IEnumerableAppend()
     {
         var enumerable = (IEnumerable<string>)new List<string> {"a", "b"};
