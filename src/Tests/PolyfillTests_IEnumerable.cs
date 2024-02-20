@@ -43,6 +43,18 @@ partial class PolyfillTests
     }
 
     [Test]
+    public void CountBy()
+    {
+        var enumerable = (IEnumerable<int>)new List<int> {3, 4, 3};
+        var list = enumerable.CountBy(_ => _).ToList();
+        Assert.AreEqual(3, list[0].Key);
+        Assert.AreEqual(2, list[0].Value);
+        Assert.AreEqual(4, list[1].Key);
+        Assert.AreEqual(1, list[1].Value);
+        Assert.AreEqual(2, list.Count);
+    }
+
+    [Test]
     public void IEnumerableAppend()
     {
         var enumerable = (IEnumerable<string>)new List<string> {"a", "b"};
