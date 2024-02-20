@@ -42,7 +42,7 @@ static partial class StringPolyfill
 #endif
     }
 
-    public static string Join<T> (char separator, IEnumerable<T> values)
+    public static string Join<T>(char separator, IEnumerable<T> values)
     {
 #if NETSTANDARD2_0 || NETFRAMEWORK
         return string.Join(new([separator]), values);
