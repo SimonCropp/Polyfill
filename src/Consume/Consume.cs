@@ -105,7 +105,7 @@ class Consume
         Debug.Log("Test log to make sure this is working");
     }
 
-#if HTTPREFERENCED
+#if FetureHttp
 
     static void Http()
     {

@@ -2,7 +2,6 @@
   <PropertyGroup>
     <PrepareForBuildDependsOn>$(PrepareForBuildDependsOn);PreparePolyfill</PrepareForBuildDependsOn>
     <TasksExtensionsReferenced>false</TasksExtensionsReferenced>
-    <HttpReferenced>false</HttpReferenced>
     <LowerFramework>$(TargetFramework.ToLower())</LowerFramework>
   </PropertyGroup>
   <PropertyGroup Condition="$(AllowUnsafeBlocks) == 'true' ">
@@ -42,10 +41,8 @@
       <DefineConstants
               Condition="$(TasksExtensionsReferenced)">$(DefineConstants);TASKSEXTENSIONSREFERENCED</DefineConstants>
 
-      <HttpReferenced
-              Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.Net.Http')->Count()) != 0 OR @(Reference->WithMetadataValue('Identity', 'System.Net.Http')->Count()) != 0">true</HttpReferenced>
       <DefineConstants
-              Condition="$(HttpReferenced)">$(DefineConstants);HTTPREFERENCED</DefineConstants>
+              Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.Net.Http')->Count()) != 0 OR @(Reference->WithMetadataValue('Identity', 'System.Net.Http')->Count()) != 0">$(DefineConstants);FetureHttp</DefineConstants>
       
       <DefineConstants Condition="$(LowerFramework.StartsWith('net9'))">$(DefineConstants);FeatureMemory;FeatureValueTuple</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net8'))">$(DefineConstants);FeatureMemory;FeatureValueTuple</DefineConstants>

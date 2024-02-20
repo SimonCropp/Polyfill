@@ -2,7 +2,7 @@
 
 #pragma warning disable
 
-#if ((NETFRAMEWORK && HTTPREFERENCED) || NETSTANDARD || NETCOREAPP2X || NETCOREAPP3X)
+#if ((NETFRAMEWORK && FetureHttp) || NETSTANDARD || NETCOREAPP2X || NETCOREAPP3X)
 
 using System.IO;
 using System.Net.Http;

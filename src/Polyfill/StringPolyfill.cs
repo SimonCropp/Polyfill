@@ -18,7 +18,7 @@ static partial class StringPolyfill
     public static string Join(char separator, string[] values)
     {
 #if NETSTANDARD2_0 || NETFRAMEWORK
-        return string.Join(new(new[]{separator}), values);
+        return string.Join(new([separator]), values);
 #else
         return string.Join(separator, values);
 #endif
@@ -27,16 +27,16 @@ static partial class StringPolyfill
     public static string Join(char separator, object[] values)
     {
 #if NETSTANDARD2_0 || NETFRAMEWORK
-        return string.Join(new(new[]{separator}), values);
+        return string.Join(new([separator]), values);
 #else
         return string.Join(separator, values);
 #endif
     }
 
-    public static string Join (char separator, string?[] value, int startIndex, int count)
+    public static string Join(char separator, string?[] value, int startIndex, int count)
     {
 #if NETSTANDARD2_0 || NETFRAMEWORK
-        return string.Join(new(new[]{separator}), value, startIndex, count);
+        return string.Join(new([separator]), value, startIndex, count);
 #else
         return string.Join(separator, value, startIndex, count);
 #endif
@@ -45,7 +45,7 @@ static partial class StringPolyfill
     public static string Join<T> (char separator, IEnumerable<T> values)
     {
 #if NETSTANDARD2_0 || NETFRAMEWORK
-        return string.Join(new(new[]{separator}), values);
+        return string.Join(new([separator]), values);
 #else
         return string.Join(separator, values);
 #endif
