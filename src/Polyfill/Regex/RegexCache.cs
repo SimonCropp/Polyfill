@@ -104,15 +104,12 @@ internal sealed class RegexCache
         // a statically-reachable path to the 'new Regex(..., RegexOptions, ...)', which
         // will force the Regex compiler to be reachable and thus rooted for trimming.
 
-        Regex.ValidatePattern(pattern);
-
-        CultureInfo culture = CultureInfo.CurrentCulture;
-        Key key = new Key(pattern, culture.ToString(), RegexOptions.None, Regex.s_defaultMatchTimeout);
+        Key key = new Key(pattern, RegexOptions.None, Regex.InfiniteMatchTimeout);
 
         Regex? regex = Get(key);
         if (regex is null)
         {
-            regex = new Regex(pattern, culture);
+            regex = new Regex(pattern);
             Add(key, regex);
         }
 
@@ -121,17 +118,12 @@ internal sealed class RegexCache
 
     public static Regex GetOrAdd(string pattern, RegexOptions options, TimeSpan matchTimeout)
     {
-        Regex.ValidatePattern(pattern);
-        Regex.ValidateOptions(options);
-        Regex.ValidateMatchTimeout(matchTimeout);
-
-        CultureInfo culture = RegexParser.GetTargetCulture(options);
-        Key key = new Key(pattern, culture.ToString(), options, matchTimeout);
+        Key key = new Key(pattern, options, matchTimeout);
 
         Regex? regex = Get(key);
         if (regex is null)
         {
-            regex = new Regex(pattern, options, matchTimeout, culture);
+            regex = new Regex(pattern, options, matchTimeout);
             Add(key, regex);
         }
 
@@ -258,17 +250,14 @@ internal sealed class RegexCache
     internal readonly struct Key : IEquatable<Key>
     {
         private readonly string _pattern;
-        private readonly string _culture;
         private readonly RegexOptions _options;
         private readonly TimeSpan _matchTimeout;
 
-        public Key(string pattern, string culture, RegexOptions options, TimeSpan matchTimeout)
+        public Key(string pattern, RegexOptions options, TimeSpan matchTimeout)
         {
             Debug.Assert(pattern != null, "Pattern must be provided");
-            Debug.Assert(culture != null, "Culture must be provided");
 
             _pattern = pattern;
-            _culture = culture;
             _options = options;
             _matchTimeout = matchTimeout;
         }
@@ -278,7 +267,6 @@ internal sealed class RegexCache
 
         public bool Equals(Key other) =>
             _pattern.Equals(other._pattern) &&
-            _culture.Equals(other._culture) &&
             _options == other._options &&
             _matchTimeout == other._matchTimeout;
 

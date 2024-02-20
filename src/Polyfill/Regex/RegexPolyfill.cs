@@ -73,7 +73,7 @@ public
 #if NET7_0_OR_GREATER
         return Regex.EnumerateMatches(input, pattern);
 #else
-        return new Regex(pattern).EnumerateMatches(input);
+        return RegexCache.GetOrAdd(pattern).EnumerateMatches(input);
 #endif
     }
 
@@ -87,7 +87,7 @@ public
 #if NET7_0_OR_GREATER
         return Regex.EnumerateMatches(input, pattern, options, timeout);
 #else
-        return new Regex(pattern, options, timeout).EnumerateMatches(input);
+        return RegexCache.GetOrAdd(pattern, options, timeout).EnumerateMatches(input);
 #endif
     }
 
