@@ -2,6 +2,7 @@
 
 #pragma warning disable
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using Link = System.ComponentModel.DescriptionAttribute;
@@ -15,10 +16,11 @@ using ValueMatchEnumerator = System.Text.RegularExpressions.ValueMatchEnumerator
 #endif
 
 [ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 #if PolyPublic
 public
 #endif
-    static partial class RegexPolyfill
+    static class RegexPolyfill
 {
 #if FeatureMemory
     /// <summary>

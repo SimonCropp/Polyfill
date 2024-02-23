@@ -5,10 +5,12 @@
 
 #if !NET7_0_OR_GREATER && FeatureMemory
 
+namespace System.Text.RegularExpressions;
+
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-namespace System.Text.RegularExpressions;
 //https://github.com/dotnet/runtime/blob/main/src/libraries/System.Text.RegularExpressions/src/System/Text/RegularExpressions/Regex.EnumerateMatches.cs
 /// <summary>
 /// Represents an enumerator containing the set of successful matches found by iteratively applying a regular expression pattern to the input span.
@@ -22,6 +24,7 @@ namespace System.Text.RegularExpressions;
 /// This type is a ref struct since it stores the input span as a field in order to be able to lazily iterate over it.
 /// </remarks>
 [ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 #if PolyPublic
 public
 #endif

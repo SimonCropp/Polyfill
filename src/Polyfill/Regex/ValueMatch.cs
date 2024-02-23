@@ -5,10 +5,11 @@
 
 #if !NET7_0_OR_GREATER && FeatureMemory
 
-using System;
-using System.Diagnostics.CodeAnalysis;
-
 namespace System.Text.RegularExpressions;
+
+using System;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Represents the results from a single regular expression match.
@@ -18,6 +19,7 @@ namespace System.Text.RegularExpressions;
 /// <see cref="Regex.ValueMatchEnumerator.Current"/> method when iterating over the results from calling <see cref="Regex.EnumerateMatches(ReadOnlySpan{char})"/>.
 /// </remarks>
 [ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 #if PolyPublic
 public
 #endif
