@@ -317,8 +317,8 @@
 #### StringPolyfill
 
  * `String Join(Char, String[])`
- * `String Join(Char, Object[])`
- * `String Join(Char, String[], Int32, Int32)`
- * `String Join<T>(Char, IEnumerable<T>)`
+ * `String Join(Char, Object[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-object()))
+ * `String Join(Char, String[], Int32, Int32)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-string()-system-int32-system-int32))
+ * `String Join<T>(Char, IEnumerable<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join-1(system-char-system-collections-generic-ienumerable((-0))))
 
 
