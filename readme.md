@@ -9,10 +9,11 @@ The package targets `netstandard2.0` and is designed to support the following ru
 
  * `net461`, `net462`, `net47`, `net471`, `net472`, `net48`, `net481`
  * `netcoreapp2.0`, `netcoreapp2.1`, `netcoreapp3.0`, `netcoreapp3.1`
- * `net5.0`, `net6.0`, `net7.0`, `net8.0`
+ * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
+
 
 ## Nuget
 
@@ -819,6 +820,12 @@ The combination of the other 3 packages is not ideal because:
 
  * Required multiple packages to be referenced.
  * Does not cover all the scenarios included in this package.
+
+
+## Notes
+
+ * [.NET 9.0 Preview 1 API Changes](https://github.com/dotnet/core/tree/main/release-notes/9.0/preview/preview1/api-diff)
+
 
 
 ## Icon
