@@ -3,7 +3,7 @@ partial class PolyfillTests
     [Test]
     public void ReadOnlySpan_ZeroLengthContains()
     {
-        var span = new ReadOnlySpan<int>(Array.Empty<int>());
+        var span = new ReadOnlySpan<int>([]);
 
         var found = span.Contains(0);
         Assert.False(found);
@@ -53,7 +53,7 @@ partial class PolyfillTests
     [Test]
     public void ReadOnlySpan_ZeroLengthContains_String()
     {
-        var span = new ReadOnlySpan<string>(Array.Empty<string>());
+        var span = new ReadOnlySpan<string>([]);
         var found = span.Contains("a");
         Assert.False(found);
     }
@@ -123,7 +123,7 @@ partial class PolyfillTests
     [Test]
     public void Span_ZeroLengthContains()
     {
-        var span = new Span<int>(Array.Empty<int>());
+        var span = new Span<int>([]);
 
         var found = span.Contains(0);
         Assert.False(found);
@@ -173,7 +173,7 @@ partial class PolyfillTests
     [Test]
     public void Span_ZeroLengthContains_String()
     {
-        var span = new Span<string>(Array.Empty<string>());
+        var span = new Span<string>([]);
         var found = span.Contains("a");
         Assert.False(found);
     }
