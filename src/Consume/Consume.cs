@@ -237,7 +237,6 @@ class Consume
         startsWith = "value".AsSpan().StartsWith("value", StringComparison.Ordinal);
     }
 
-
     void SpanEndsWith()
     {
         var result = "value".AsSpan().EndsWith("value");
@@ -261,6 +260,15 @@ class Consume
     void IsGenericMethodParameter()
     {
         var result = typeof(string).IsGenericMethodParameter();
+    }
+
+    void HashSetTryGetValue()
+    {
+        var set = new HashSet<string>
+        {
+            "value"
+        };
+        var found = set.TryGetValue("value", out var result);
     }
 
     void HasSameMetadataDefinitionAs(MemberInfo info)
