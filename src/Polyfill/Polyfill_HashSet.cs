@@ -20,20 +20,18 @@ static partial class Polyfill
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetvalue")]
     public static bool TryGetValue<T>(
         this HashSet<T> target,
-        T equalValue, [MaybeNullWhen(false)] out T actualValue)
+        T equalValue,
+        [MaybeNullWhen(false)] out T actualValue)
     {
-         var comparer = target.Comparer;
-         var hashCode = comparer.GetHashCode(equalValue);
-         if (typeof(T).IsValueType &&
-             comparer == null)
+        var comparer = target.Comparer;
+        var hashCode = comparer.GetHashCode(equalValue);
+        foreach (var item in target)
         {
-            foreach (var item in target)
+            if (comparer.GetHashCode(item) == hashCode &&
+                comparer.Equals(item, equalValue))
             {
-                if (comparer.GetHashCode(item) == hashCode && comparer.Equals(item, equalValue))
-                {
-                    actualValue = item;
-                    return true;
-                }
+                actualValue = item;
+                return true;
             }
         }
 
