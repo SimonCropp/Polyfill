@@ -772,6 +772,16 @@ public void Test()
 
 ### NullabilityInfoExtensions
 
+Enable by adding and MSBuild property `PolyNullability`
+
+```
+<PropertyGroup>
+  ...
+  <PolyNullability>true</PolyNullability>
+</PropertyGroup>
+```
+
+
 `NullabilityInfoExtensions` provides static and thread safe wrapper around `NullabilityInfoContext`. It adds three extension methods to each of ParameterInfo, PropertyInfo, EventInfo, and FieldInfo.
 
  * `GetNullabilityInfo`: returns the `NullabilityInfo` for the target info.

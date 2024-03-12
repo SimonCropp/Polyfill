@@ -9,6 +9,9 @@
   <PropertyGroup Condition="$(PolyPublic) == 'true' ">
     <DefineConstants>$(DefineConstants);PolyPublic</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="$(PolyNullability) == 'true' ">
+    <DefineConstants>$(DefineConstants);PolyNullability</DefineConstants>
+  </PropertyGroup>  
   <PropertyGroup Condition="$(LowerFramework.StartsWith('netcoreapp2'))">
     <DefineConstants>$(DefineConstants);NETCOREAPP2X</DefineConstants>
   </PropertyGroup>

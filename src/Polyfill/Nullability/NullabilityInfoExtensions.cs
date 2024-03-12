@@ -6,6 +6,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Reflection;
 
+#if PolyNullability
 /// <summary>
 /// Static and thread safe wrapper around NullabilityInfoContext.
 /// </summary>
@@ -144,3 +145,5 @@ static partial class Polyfill
     static bool IsNullable(string name, NullabilityInfo nullability) =>
         GetKnownState(name, nullability) == NullabilityState.Nullable;
 }
+
+#endif
