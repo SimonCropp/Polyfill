@@ -11,5 +11,8 @@ partial class PolyfillTests
         var found = set.TryGetValue("value", out var result);
         Assert.True(found);
         Assert.AreSame(value, result!);
+        found = set.TryGetValue("value2", out result);
+        Assert.Null(result);
+        Assert.False(found);
     }
 }
