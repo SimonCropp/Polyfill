@@ -14,5 +14,7 @@
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
     <ResolveAssemblyReferencesSilent>true</ResolveAssemblyReferencesSilent>
     <PolyNullability>true</PolyNullability>
+    <NuGetAuditMode>all</NuGetAuditMode>
+    <NuGetAuditLevel>low</NuGetAuditLevel>
   </PropertyGroup>
 </Project>
