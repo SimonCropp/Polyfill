@@ -249,13 +249,6 @@ class Consume
         builder.Append("value".AsSpan());
     }
 
-    void ReplaceLineEndings()
-    {
-        var value = "value";
-        value.ReplaceLineEndings();
-        value.ReplaceLineEndings("a");
-    }
-
     void StringEqualsSpan()
     {
         var builder = new StringBuilder("value");
