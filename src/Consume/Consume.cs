@@ -270,6 +270,15 @@ class Consume
         };
         var found = set.TryGetValue("value", out var result);
     }
+#if NET6_0_OR_GREATER
+    void StringBuilderReplaceReadOnlySpan()
+    {
+        var builder = new StringBuilder();
+
+        var result = builder.Replace("a".AsSpan(), "a".AsSpan());
+        result = builder.Replace("a".AsSpan(), "a".AsSpan(), 1, 1);
+    }
+#endif
 
     void HasSameMetadataDefinitionAs(MemberInfo info)
     {

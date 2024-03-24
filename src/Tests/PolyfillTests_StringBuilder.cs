@@ -25,6 +25,15 @@ partial class PolyfillTests
     }
 
     [Test]
+    public void Replace()
+    {
+        var builder = new StringBuilder("a");
+
+        builder.Replace("a".AsSpan(), "b".AsSpan());
+        Assert.AreEqual("b", builder.ToString());
+    }
+
+    [Test]
     public void Append()
     {
         var builder = new StringBuilder();
