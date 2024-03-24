@@ -15,7 +15,7 @@ static partial class Polyfill
     /// <param name="list">The list to which the elements should be added.</param>
     /// <param name="source">The span whose elements should be added to the end of the <see cref="List{T}"/>.</param>
     /// <exception cref="ArgumentNullException">The <paramref name="list"/> is null.</exception>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.addrange")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.addrange")]
     public static void AddRange<T>(this List<T> list, ReadOnlySpan<T> source)
     {
         foreach (var item in source)
