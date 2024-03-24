@@ -49,6 +49,7 @@
 #### List<T>
 
  * `Void AddRange<T>(ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.addrange)
+ * `Void CopyTo<T>(Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.copyto?view=net-8.0)
 
 
 #### DateTime
