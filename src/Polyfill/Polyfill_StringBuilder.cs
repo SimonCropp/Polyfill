@@ -257,7 +257,7 @@ static partial class Polyfill
 
 #endif
 
-#if !NET9_0_OR_GREATER
+#if !NET9_0_OR_GREATER && FeatureMemory
     /// <summary>
     /// Replaces all instances of one string with another in part of this builder.
     /// </summary>
