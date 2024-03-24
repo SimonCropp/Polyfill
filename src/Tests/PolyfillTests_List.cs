@@ -10,6 +10,18 @@ partial class PolyfillTests
     }
 
     [Test]
+    public void ListInsertRangeReadOnlySpan()
+    {
+        var list = new List<char>
+        {
+            'a'
+        };
+        list.InsertRange(1, "bc".AsSpan());
+        Assert.AreEqual('b', list[1]);
+        Assert.AreEqual('c', list[2]);
+    }
+
+    [Test]
     public void ListCopyToSpan()
     {
         var list = new List<char>

@@ -24,6 +24,23 @@ static partial class Polyfill
         }
     }
 
+    /// <summary>Inserts the elements of a span into the <see cref="List{T}"/> at the specified index.</summary>
+    /// <typeparam name="T">The type of elements in the list.</typeparam>
+    /// <param name="list">The list into which the elements should be inserted.</param>
+    /// <param name="index">The zero-based index at which the new elements should be inserted.</param>
+    /// <param name="source">The span whose elements should be added to the <see cref="List{T}"/>.</param>
+    /// <exception cref="ArgumentNullException">The <paramref name="list"/> is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than 0 or greater than <paramref name="list"/>'s <see cref="List{T}.Count"/>.</exception>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange")]
+    public static void InsertRange<T>(this List<T> list, int index, ReadOnlySpan<T> source)
+    {
+        for (var i = 0; i < source.Length; i++)
+        {
+            var item = source[i];
+            list.Insert(i + index, item);
+        }
+    }
+
     /// <summary>Copies the entire <see cref="List{T}"/> to a span.</summary>
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="list">The list from which the elements are copied.</param>
