@@ -75,6 +75,12 @@ class Consume
         var startsWith = "value".StartsWith('a');
         var endsWith = "value".EndsWith('a');
 
+        IList<string> ilist = new List<string>();
+        ilist.AsReadOnly();
+
+        IDictionary<int, int> idictionary = new Dictionary<int, int>();
+        idictionary.AsReadOnly();
+
         var enumerable = (IEnumerable<string>) new List<string>
         {
             "a",
