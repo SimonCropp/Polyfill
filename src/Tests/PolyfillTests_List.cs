@@ -1,6 +1,17 @@
 partial class PolyfillTests
 {
     [Test]
+    public void IListAsReadOnly()
+    {
+        IList<char> list = new List<char>
+        {
+            'a'
+        };
+        var readOnly = list.AsReadOnly();
+        Assert.AreEqual('a', readOnly[0]);
+    }
+
+    [Test]
     public void ListAddRangeReadOnlySpan()
     {
         var list = new List<char>();

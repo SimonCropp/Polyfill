@@ -1,6 +1,18 @@
 partial class PolyfillTests
 {
     [Test]
+    public void IReadOnlyDictionaryAsReadOnly()
+    {
+        IDictionary<string, string> dictionary = new Dictionary<string,string>
+        {
+            {"key", "value"}
+        };
+
+        var readOnly = dictionary.AsReadOnly();
+        Assert.AreEqual("value", readOnly["key"]);
+    }
+
+    [Test]
     public void Dictionary_Remove()
     {
         var dictionary = new Dictionary<string, string?> { {"key", "value"} };

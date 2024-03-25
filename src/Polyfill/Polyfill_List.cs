@@ -2,25 +2,35 @@
 
 #pragma warning disable
 
-#if !NET8_0_OR_GREATER && FeatureMemory
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
+#if !NET7_0_OR_GREATER
+
+    /// <summary>Returns a read-only <see cref="ReadOnlyCollection{T}" /> wrapper for the current collection.</summary>
+    /// <returns>An object that acts as a read-only wrapper around the current <see cref="IList{T}" />.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly#system-collections-generic-collectionextensions-asreadonly-1(system-collections-generic-ilist((-0)))")]
+    public static ReadOnlyCollection<T> AsReadOnly<T>(this IList<T> target) =>
+        new(target);
+#endif
+
+#if !NET8_0_OR_GREATER && FeatureMemory
     /// <summary>Adds the elements of the specified span to the end of the <see cref="List{T}"/>.</summary>
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="list">The list to which the elements should be added.</param>
     /// <param name="source">The span whose elements should be added to the end of the <see cref="List{T}"/>.</param>
     /// <exception cref="ArgumentNullException">The <paramref name="list"/> is null.</exception>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.addrange")]
-    public static void AddRange<T>(this List<T> list, ReadOnlySpan<T> source)
+    public static void AddRange<T>(this List<T> target, ReadOnlySpan<T> source)
     {
         foreach (var item in source)
         {
-            list.Add(item);
+            target.Add(item);
         }
     }
 
@@ -32,12 +42,12 @@ static partial class Polyfill
     /// <exception cref="ArgumentNullException">The <paramref name="list"/> is null.</exception>
     /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than 0 or greater than <paramref name="list"/>'s <see cref="List{T}.Count"/>.</exception>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange")]
-    public static void InsertRange<T>(this List<T> list, int index, ReadOnlySpan<T> source)
+    public static void InsertRange<T>(this List<T> target, int index, ReadOnlySpan<T> source)
     {
         for (var i = 0; i < source.Length; i++)
         {
             var item = source[i];
-            list.Insert(i + index, item);
+            target.Insert(i + index, item);
         }
     }
 
@@ -48,12 +58,12 @@ static partial class Polyfill
     /// <exception cref="ArgumentNullException">The <paramref name="list"/> is null.</exception>
     /// <exception cref="ArgumentException">The number of elements in the source <see cref="List{T}"/> is greater than the number of elements that the destination span can contain.</exception>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.copyto?view=net-8.0")]
-    public static void CopyTo<T>(this List<T> list, Span<T> destination)
+    public static void CopyTo<T>(this List<T> target, Span<T> destination)
     {
-        for (var index = 0; index < list.Count; index++)
+        for (var index = 0; index < target.Count; index++)
         {
-            destination[index] = list[index];
+            destination[index] = target[index];
         }
     }
-}
 #endif
+}
