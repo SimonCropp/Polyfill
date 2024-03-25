@@ -320,4 +320,11 @@ class Consume
     {
         var result = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
     }
+
+    public void SortedList()
+    {
+        var list = new SortedList<int, char>();
+        var key = list.GetKeyAtIndex(0);
+        var value = list.GetValueAtIndex(0);
+    }
 }
