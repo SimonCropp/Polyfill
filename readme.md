@@ -420,6 +420,12 @@ The class `Polyfill` includes the following extension methods:
  * `Void InsertRange<T>(Int32, ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange)
 
 
+#### SortedList<TKey,TValue>
+
+ * `TKey GetKeyAtIndex<TKey, TValue>(Int32)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedlist-2.getkeyatindex?view=net-8.0)
+ * `TValue GetValueAtIndex<TKey, TValue>(Int32)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedlist-2.getvalueatindex?view=net-8.0)
+
+
 #### DateTime
 
  * `DateTime AddMicroseconds(Double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.addmicroseconds)
