@@ -192,6 +192,31 @@ class Consume
 
 #if FeatureMemory
 
+    public void ListAddRangeReadOnlySpan()
+    {
+        var list = new List<char>();
+        list.AddRange("ab".AsSpan());
+    }
+
+    public void ListInsertRangeReadOnlySpan()
+    {
+        var list = new List<char>
+        {
+            'a'
+        };
+        list.InsertRange(1, "bc".AsSpan());
+    }
+
+    public void ListCopyToSpan()
+    {
+        var list = new List<char>
+        {
+            'a'
+        };
+        var array = new char[1];
+        list.CopyTo(array.AsSpan());
+    }
+
     async Task StreamReaderReadAsync()
     {
         var result = new char[5];
