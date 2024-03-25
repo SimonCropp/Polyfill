@@ -1,6 +1,5 @@
 https://github.com/dotnet/core/blob/main/release-notes/6.0/api-diff/.Net/6.0.0_System.Linq.md
 https://github.com/dotnet/core/blob/main/release-notes/9.0/preview/preview2/api-diff/Microsoft.NETCore.App/9.0-preview2_System.IO.md
 https://github.com/dotnet/core/blob/main/release-notes/8.0/8.0.0/api-diff/Microsoft.NETCore.App/8.0.0_System.Collections.Generic.md
-https://github.com/dotnet/core/blob/main/release-notes/8.0/8.0.0/api-diff/Microsoft.NETCore.App/8.0.0_System.Collections.md
 https://github.com/dotnet/core/blob/main/release-notes/8.0/8.0.0/api-diff/Microsoft.NETCore.App/8.0.0_System.md
 https://github.com/dotnet/core/blob/main/release-notes/7.0/7.0.0/api-diff/Microsoft.NETCore.App/7.0.0_System.Collections.Immutable.md
