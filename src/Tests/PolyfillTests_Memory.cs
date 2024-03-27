@@ -9,6 +9,21 @@ partial class PolyfillTests
         Assert.False(found);
     }
 
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3X || NET5_0_OR_GREATER
+    [Test]
+    public void CharSpan_Split()
+    {
+        var span = "Hello,World,This,Is,A,Test".AsSpan();
+
+        Span<Range> ranges = stackalloc Range[10];
+
+        int partsCount = span.Split(ranges, ',', StringSplitOptions.None);
+
+        Assert.Equals(6, partsCount);
+        Assert.Equals("Hello", ranges[0]);
+    }
+#endif
+
     [Test]
     public void ReadOnlySpan_TestContains()
     {
