@@ -81,7 +81,7 @@ If, however, `InternalsVisibleTo` is being used to expose APIs (for example to t
 Reference: [Module Initializers](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/module-initializers)
 
 <!-- snippet: ModuleInitializerAttribute -->
-<a id='snippet-ModuleInitializerAttribute'></a>
+<a id='snippet-moduleinitializerattribute'></a>
 ```cs
 static bool InitCalled;
 
@@ -93,7 +93,7 @@ public void ModuleInitTest() =>
 public static void ModuleInit() =>
     InitCalled = true;
 ```
-<sup><a href='/src/Tests/ModuleInitSample.cs#L4-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/ModuleInitSample.cs#L4-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-moduleinitializerattribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -102,14 +102,14 @@ public static void ModuleInit() =>
 Reference: [init (C# Reference)](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/init)
 
 <!-- snippet: IsExternalInit -->
-<a id='snippet-IsExternalInit'></a>
+<a id='snippet-isexternalinit'></a>
 ```cs
 class InitExample
 {
     public int Member { get; init; }
 }
 ```
-<sup><a href='/src/Tests/MyRecord.cs#L1-L8' title='Snippet source file'>snippet source</a> | <a href='#snippet-IsExternalInit' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/MyRecord.cs#L1-L8' title='Snippet source file'>snippet source</a> | <a href='#snippet-isexternalinit' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -138,7 +138,7 @@ Reference: [Nullable reference types](https://learn.microsoft.com/en-us/dotnet/c
 Reference: [C# required modifier](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/required)
 
 <!-- snippet: Required -->
-<a id='snippet-Required'></a>
+<a id='snippet-required'></a>
 ```cs
 public class Person
 {
@@ -151,7 +151,7 @@ public class Person
     public required string Name { get; init; }
 }
 ```
-<sup><a href='/src/Tests/Required.cs#L2-L13' title='Snippet source file'>snippet source</a> | <a href='#snippet-Required' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Required.cs#L2-L13' title='Snippet source file'>snippet source</a> | <a href='#snippet-required' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -171,7 +171,7 @@ Reference: [SkipLocalsInitAttribute](https://learn.microsoft.com/en-us/dotnet/cs
 > the SkipLocalsInit attribute prevents the compiler from setting the .locals init flag when emitting to metadata. The SkipLocalsInit attribute is a single-use attribute and can be applied to a method, a property, a class, a struct, an interface, or a module, but not to an assembly. SkipLocalsInit is an alias for SkipLocalsInitAttribute.
 
 <!-- snippet: SkipLocalsInit -->
-<a id='snippet-SkipLocalsInit'></a>
+<a id='snippet-skiplocalsinit'></a>
 ```cs
 class SkipLocalsInitSample
 {
@@ -186,7 +186,7 @@ class SkipLocalsInitSample
     }
 }
 ```
-<sup><a href='/src/UnsafeTests/SkipLocalsInitExample.cs#L1-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-SkipLocalsInit' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/UnsafeTests/SkipLocalsInitExample.cs#L1-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-skiplocalsinit' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -197,7 +197,7 @@ Reference: [Indices and ranges](https://learn.microsoft.com/en-us/dotnet/csharp/
 If consuming in a project that targets net461 or net462, a reference to System.ValueTuple is required. See [References: System.ValueTuple](#systemvaluetuple).
 
 <!-- snippet: IndexRange -->
-<a id='snippet-IndexRange'></a>
+<a id='snippet-indexrange'></a>
 ```cs
 [TestFixture]
 class IndexRangeSample
@@ -217,7 +217,7 @@ class IndexRangeSample
     }
 }
 ```
-<sup><a href='/src/Tests/IndexRangeSample.cs#L1-L21' title='Snippet source file'>snippet source</a> | <a href='#snippet-IndexRange' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/IndexRangeSample.cs#L1-L21' title='Snippet source file'>snippet source</a> | <a href='#snippet-indexrange' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -254,7 +254,7 @@ struct UnscopedRefUsage
 Reference: [CallerArgumentExpression](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-10.0/caller-argument-expression)
 
 <!-- snippet: CallerArgumentExpression -->
-<a id='snippet-CallerArgumentExpression'></a>
+<a id='snippet-callerargumentexpression'></a>
 ```cs
 using System.IO;
 
@@ -278,7 +278,7 @@ static class GuardUsage
     }
 }
 ```
-<sup><a href='/src/Tests/Guard.cs#L3-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-CallerArgumentExpression' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Guard.cs#L3-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-callerargumentexpression' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -757,7 +757,7 @@ If using ValueTask APIs and consuming in a project that target `netframework`, `
 Given the following class
 
 <!-- snippet: NullabilityTarget -->
-<a id='snippet-NullabilityTarget'></a>
+<a id='snippet-nullabilitytarget'></a>
 ```cs
 class NullabilityTarget
 {
@@ -766,14 +766,14 @@ class NullabilityTarget
     public Dictionary<string, object?> GenericField;
 }
 ```
-<sup><a href='/src/Tests/NullabilityTarget.cs#L3-L10' title='Snippet source file'>snippet source</a> | <a href='#snippet-NullabilityTarget' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/NullabilityTarget.cs#L3-L10' title='Snippet source file'>snippet source</a> | <a href='#snippet-nullabilitytarget' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
 ### NullabilityInfoContext
 
 <!-- snippet: NullabilityUsage -->
-<a id='snippet-NullabilityUsage'></a>
+<a id='snippet-nullabilityusage'></a>
 ```cs
 [Test]
 public void Test()
@@ -796,7 +796,7 @@ public void Test()
     Assert.AreEqual(NullabilityState.Nullable, genericInfo.GenericTypeArguments[1].ReadState);
 }
 ```
-<sup><a href='/src/Tests/NullabilitySamples.cs#L6-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-NullabilityUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/NullabilitySamples.cs#L6-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-nullabilityusage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
