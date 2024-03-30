@@ -92,7 +92,7 @@ static partial class Polyfill
 
 #endif
 
-#if NETSTANDARD || NETCOREAPPX || NETFRAMEWORK || NET5_0
+#if !NET6_0_OR_GREATER
 
     /// <summary>
     /// Split the elements of a sequence into chunks of size at most <paramref name="size"/>.
