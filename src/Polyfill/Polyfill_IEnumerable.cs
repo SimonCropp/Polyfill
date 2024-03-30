@@ -80,7 +80,7 @@ static partial class Polyfill
     /// https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/overview#linq
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.index#system-linq-enumerable-index-1(system-collections-generic-ienumerable((-0)))")]
-    public static IEnumerable<(int Index, TSource Item)> Index<TSource> (this IEnumerable<TSource> source)
+    public static IEnumerable<(int Index, TSource Item)> Index<TSource>(this IEnumerable<TSource> source)
     {
         int index = 0;
         foreach (var item in source)
@@ -151,7 +151,7 @@ static partial class Polyfill
                         {
                             if (i >= array.Length)
                             {
-                                arraySize = (int)Math.Min((uint)size, 2 * (uint)array.Length);
+                                arraySize = (int) Math.Min((uint) size, 2 * (uint) array.Length);
                                 Array.Resize(ref array, arraySize);
                             }
 
@@ -164,7 +164,7 @@ static partial class Polyfill
                         // We can just store into it until either it's full or MoveNext returns false.
                         // avoid bounds checks by using cached local (`array` is lifted to iterator object as a field)
                         TSource[] local = array;
-                        for (; (uint)i < (uint)local.Length && e.MoveNext(); i++)
+                        for (; (uint) i < (uint) local.Length && e.MoveNext(); i++)
                         {
                             local[i] = e.Current;
                         }
@@ -176,8 +176,7 @@ static partial class Polyfill
                     }
 
                     yield return array;
-                }
-                while (i >= size && e.MoveNext());
+                } while (i >= size && e.MoveNext());
             }
         }
     }
