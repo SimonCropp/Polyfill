@@ -22,6 +22,7 @@ partial class PolyfillTests
 
         Assert.AreEqual(1, enumerable.MinBy(_ => _));
     }
+
     [Test]
     public void Index()
     {
