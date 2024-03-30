@@ -261,6 +261,69 @@ static partial class Polyfill
             .OrderBy(keySelector, comparer)
             .FirstOrDefault();
 
+    public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector) =>
+        throw new NotImplementedException();
+
+    public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer) =>
+        throw new NotImplementedException();
+
+    public static TSource ElementAt<TSource>(this IEnumerable<TSource> source, Index index) =>
+        throw new NotImplementedException();
+
+    public static TSource ElementAtOrDefault<TSource>(this IEnumerable<TSource> source, Index index) =>
+        throw new NotImplementedException();
+
+    public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector) =>
+        throw new NotImplementedException();
+
+    public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer) =>
+        throw new NotImplementedException();
+
+    public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate, TSource defaultValue) =>
+        throw new NotImplementedException();
+
+    public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, TSource defaultValue) =>
+        throw new NotImplementedException();
+
+    public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector) =>
+        throw new NotImplementedException();
+
+    public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer) =>
+        throw new NotImplementedException();
+
+    public static TSource LastOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate, TSource defaultValue) =>
+        throw new NotImplementedException();
+
+    public static TSource LastOrDefault<TSource>(this IEnumerable<TSource> source, TSource defaultValue) =>
+        throw new NotImplementedException();
+
+    public static TSource Max<TSource>(this IEnumerable<TSource> source, IComparer<TSource> comparer) =>
+        throw new NotImplementedException();
+
+    public static TSource Min<TSource>(this IEnumerable<TSource> source, IComparer<TSource> comparer) =>
+        throw new NotImplementedException();
+
+    public static TSource SingleOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate, TSource defaultValue) =>
+        throw new NotImplementedException();
+
+    public static TSource SingleOrDefault<TSource>(this IEnumerable<TSource> source, TSource defaultValue) =>
+        throw new NotImplementedException();
+
+    public static IEnumerable<TSource> Take<TSource>(this IEnumerable<TSource> source, Range range) =>
+        throw new NotImplementedException();
+
+    public static bool TryGetNonEnumeratedCount<TSource>(this IEnumerable<TSource> source, out int count) =>
+        throw new NotImplementedException();
+
+    public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> keySelector) =>
+        throw new NotImplementedException();
+
+    public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer) =>
+        throw new NotImplementedException();
+
+    public static IEnumerable<ValueTuple<TFirst, TSecond, TThird>> Zip<TFirst, TSecond, TThird>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third) =>
+        throw new NotImplementedException();
+
 #endif
 
 #if NET46X || NET47
