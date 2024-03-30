@@ -12,7 +12,7 @@ static partial class Polyfill
     /// <summary>
     /// Produces a set items excluding <paramref name="item"/> by using the default equality comparer to compare values.
     /// </summary>
-    /// <param name="target">An <see cref="IEnumerable&lt;TSource&gt;"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
+    /// <param name="target">An <see cref="IEnumerable{T}"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
     /// <param name="item">An <see cref="TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
     /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
@@ -25,7 +25,7 @@ static partial class Polyfill
     /// <summary>
     /// Produces the set difference of two sequences by using the default equality comparer to compare values.
     /// </summary>
-    /// <param name="target">An <see cref="IEnumerable&lt;TSource&gt;"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
+    /// <param name="target">An <see cref="IEnumerable{T}"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
     /// <param name="item">An <see cref="TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
     /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
@@ -38,9 +38,9 @@ static partial class Polyfill
     /// <summary>
     /// Produces a set items excluding <paramref name="item"/> by using <paramref name="comparer"/> to compare values.
     /// </summary>
-    /// <param name="target">An <see cref="IEnumerable&lt;TSource&gt;"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
+    /// <param name="target">An <see cref="IEnumerable{T}"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
     /// <param name="item">An <see cref="TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
-    /// <param name="comparer">An <see cref="IEqualityComparer&lt;TSource&gt;"/> to compare values.</param>
+    /// <param name="comparer">An <see cref="IEqualityComparer{T}"/> to compare values.</param>
     /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0))-system-collections-generic-iequalitycomparer((-0)))")]
@@ -63,7 +63,7 @@ static partial class Polyfill
     /// <summary>
     /// Produces the set difference of two sequences by <paramref name="comparer"/> to compare values.
     /// </summary>
-    /// <param name="target">An <see cref="IEnumerable&lt;TSource&gt;"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
+    /// <param name="target">An <see cref="IEnumerable{T}"/> whose elements that are not equal to <paramref name="item"/> will be returned.</param>
     /// <param name="item">An <see cref="TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
     /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
