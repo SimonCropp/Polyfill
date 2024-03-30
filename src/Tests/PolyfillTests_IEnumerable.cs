@@ -8,12 +8,12 @@ partial class PolyfillTests
         Assert.AreEqual(2, enumerable.MaxBy(_ => _));
     }
 
-    // [Test]
-    // public void Except()
-    // {
-    //     var enumerable = new List<int> {1, 2};
-    //     Assert.AreEqual(1, enumerable.Except(2).Single());
-    // }
+    [Test]
+    public void Except()
+    {
+        var enumerable = new List<int> {1, 2};
+        Assert.AreEqual(1, enumerable.Except(2).Single());
+    }
 
     [Test]
     public void MinBy()
