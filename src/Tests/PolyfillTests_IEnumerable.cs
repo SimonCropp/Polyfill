@@ -44,6 +44,16 @@ partial class PolyfillTests
     }
 
     [Test]
+    public void DistinctBy()
+    {
+        var enumerable = (IEnumerable<int>)new List<int> {3, 4};
+        var distinctBy = enumerable.DistinctBy(_=>_).ToList();
+        Assert.AreEqual(2, distinctBy.Count);
+        Assert.AreEqual(3, distinctBy[0]);
+        Assert.AreEqual(4, distinctBy[1]);
+    }
+
+    [Test]
     public void CountBy()
     {
         var enumerable = (IEnumerable<int>)new List<int> {3, 4, 3};
