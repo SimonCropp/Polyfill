@@ -23,21 +23,20 @@ public
 ref struct SpanLineEnumerator
 {
     ReadOnlySpan<char> remaining;
-    private ReadOnlySpan<char> _current;
-    private bool _isEnumeratorActive;
+    bool isEnumeratorActive;
     ReadOnlySpan<char> newlines = "\r\f\u0085\u2028\u2029\n".AsSpan();
 
     internal SpanLineEnumerator(ReadOnlySpan<char> buffer)
     {
         remaining = buffer;
-        _current = default;
-        _isEnumeratorActive = true;
+        Current = default;
+        isEnumeratorActive = true;
     }
 
     /// <summary>
     /// Gets the line at the current position of the enumerator.
     /// </summary>
-    public ReadOnlySpan<char> Current => _current;
+    public ReadOnlySpan<char> Current { get; private set; }
 
     /// <summary>
     /// Returns this instance as an enumerator.
@@ -53,7 +52,7 @@ ref struct SpanLineEnumerator
     /// </returns>
     public bool MoveNext()
     {
-        if (!_isEnumeratorActive)
+        if (!isEnumeratorActive)
         {
             // EOF previously reached or enumerator was never initialized
             return false;
@@ -66,21 +65,22 @@ ref struct SpanLineEnumerator
         {
             var stride = 1;
 
-            if (remaining[idx] == '\r' && (uint)(idx + 1) < (uint)remaining.Length && remaining[idx + 1] == '\n')
+            if (remaining[idx] == '\r' &&
+                (uint)(idx + 1) < (uint)remaining.Length && remaining[idx + 1] == '\n')
             {
                 stride = 2;
             }
 
-            _current = remaining[..idx];
+            Current = remaining[..idx];
             remaining = remaining[(idx + stride)..];
             return true;
         }
 
         // We've reached EOF, but we still need to return 'true' for this final
         // iteration so that the caller can query the Current property once more.
-        _current = remaining;
+        Current = remaining;
         remaining = default;
-        _isEnumeratorActive = false;
+        isEnumeratorActive = false;
         return true;
     }
 }
