@@ -61,12 +61,14 @@ ref struct SpanLineEnumerator
         //TODO: revisit when SearchValues is implemented
         var index = remaining.IndexOfAny(newlines);
 
-        if ((uint)index < (uint)remaining.Length)
+        var remainingLength = (uint)remaining.Length;
+        if ((uint)index < remainingLength)
         {
             var stride = 1;
 
             if (remaining[index] == '\r' &&
-                (uint)(index + 1) < (uint)remaining.Length && remaining[index + 1] == '\n')
+                (uint)(index + 1) < remainingLength &&
+                remaining[index + 1] == '\n')
             {
                 stride = 2;
             }
