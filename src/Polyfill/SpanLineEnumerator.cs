@@ -23,14 +23,14 @@ public
 ref struct SpanLineEnumerator
 {
     ReadOnlySpan<char> remaining;
-    bool isEnumeratorActive;
+    bool isActive;
     ReadOnlySpan<char> newlines = "\r\f\u0085\u2028\u2029\n".AsSpan();
 
     internal SpanLineEnumerator(ReadOnlySpan<char> buffer)
     {
         remaining = buffer;
         Current = default;
-        isEnumeratorActive = true;
+        isActive = true;
     }
 
     /// <summary>
@@ -52,7 +52,7 @@ ref struct SpanLineEnumerator
     /// </returns>
     public bool MoveNext()
     {
-        if (!isEnumeratorActive)
+        if (!isActive)
         {
             // EOF previously reached or enumerator was never initialized
             return false;
@@ -80,7 +80,7 @@ ref struct SpanLineEnumerator
         // iteration so that the caller can query the Current property once more.
         Current = remaining;
         remaining = default;
-        isEnumeratorActive = false;
+        isActive = false;
         return true;
     }
 }
