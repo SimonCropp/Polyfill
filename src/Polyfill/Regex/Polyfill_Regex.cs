@@ -15,20 +15,16 @@ static partial class Polyfill
     /// </summary>
     /// <returns>true if the regular expression finds a match; otherwise, false.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-int32)")]
-    public static bool IsMatch(this Regex target, ReadOnlySpan<char> input, int startat)
-    {
-        return target.IsMatch(input.ToString(), startat);
-    }
+    public static bool IsMatch(this Regex target, ReadOnlySpan<char> input, int startat) =>
+        target.IsMatch(input.ToString(), startat);
 
     /// <summary>
     /// Indicates whether the regular expression specified in the Regex constructor finds a match in a specified input span.
     /// </summary>
     /// <returns>true if the regular expression finds a match; otherwise, false.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char)))")]
-    public static bool IsMatch(this Regex target, ReadOnlySpan<char> input)
-    {
-        return target.IsMatch(input.ToString());
-    }
+    public static bool IsMatch(this Regex target, ReadOnlySpan<char> input) =>
+        target.IsMatch(input.ToString());
 
     /// <summary>
     /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.

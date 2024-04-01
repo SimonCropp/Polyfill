@@ -6,10 +6,6 @@
 
 #if FeatureMemory && !NET6_0_OR_GREATER
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
 using Link = System.ComponentModel.DescriptionAttribute;
 
 namespace System.Text;

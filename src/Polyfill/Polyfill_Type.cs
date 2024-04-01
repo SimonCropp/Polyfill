@@ -10,11 +10,9 @@ static partial class Polyfill
 {
 #if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas")]
-    public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other)
-    {
-        return target.MetadataToken == other.MetadataToken &&
-               target.Module.Equals(other.Module);
-    }
+    public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other) =>
+        target.MetadataToken == other.MetadataToken &&
+        target.Module.Equals(other.Module);
 #endif
 
     /// <summary>

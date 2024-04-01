@@ -338,13 +338,11 @@ struct AppendInterpolatedStringHandler
         }
     }
 
-    private static bool HasTryFormatExtension(Type type)
-    {
-        return type == typeof(int) || type == typeof(bool) || type == typeof(byte) || type == typeof(float) ||
-               type == typeof(double) || type == typeof(DateTime) || type == typeof(DateTimeOffset) ||
-               type == typeof(decimal) || type == typeof(long) || type == typeof(short) || type == typeof(ushort) ||
-               type == typeof(uint) || type == typeof(ulong) || type == typeof(sbyte);
-    }
+    private static bool HasTryFormatExtension(Type type) =>
+        type == typeof(int) || type == typeof(bool) || type == typeof(byte) || type == typeof(float) ||
+        type == typeof(double) || type == typeof(DateTime) || type == typeof(DateTimeOffset) ||
+        type == typeof(decimal) || type == typeof(long) || type == typeof(short) || type == typeof(ushort) ||
+        type == typeof(uint) || type == typeof(ulong) || type == typeof(sbyte);
 }
 
 #endif
