@@ -71,8 +71,8 @@ partial class PolyfillTests
             list.Add(line.ToString());
         }
 
-        Assert.Equals("a", list[0]);
-        Assert.Equals("b", list[1]);
+        Assert.AreEqual("a", list[0]);
+        Assert.AreEqual("b", list[1]);
     }
 
     [Test]
