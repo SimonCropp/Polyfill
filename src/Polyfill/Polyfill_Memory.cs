@@ -2,7 +2,7 @@
 
 #pragma warning disable
 
-#if FeatureMemory && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)
+#if FeatureMemory
 
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,41 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
+
+#if !NET6_0_OR_GREATER
+
+    /// <summary>
+    /// Returns an enumeration of lines over the provided span.
+    /// </summary>
+    /// <remarks>
+    /// It is recommended that protocol parsers not utilize this API. See the documentation
+    /// for <see cref="string.ReplaceLineEndings"/> for more information on how newline
+    /// sequences are detected.
+    /// </remarks>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines#system-memoryextensions-enumeratelines(system-readonlyspan((system-char)))")]
+    public static SpanLineEnumerator EnumerateLines(this ReadOnlySpan<char> span)
+    {
+        return new SpanLineEnumerator(span);
+    }
+
+    /// <summary>
+    /// Returns an enumeration of lines over the provided span.
+    /// </summary>
+    /// <remarks>
+    /// It is recommended that protocol parsers not utilize this API. See the documentation
+    /// for <see cref="string.ReplaceLineEndings"/> for more information on how newline
+    /// sequences are detected.
+    /// </remarks>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines#system-memoryextensions-enumeratelines(system-span((system-char)))")]
+    public static SpanLineEnumerator EnumerateLines(this Span<char> span)
+    {
+        return new SpanLineEnumerator(span);
+    }
+
+#endif
+
+#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X
+
     /// <summary>
     /// Indicates whether a specified value is found in a read-only span. Values are compared using IEquatable{T}.Equals(T).
     /// </summary>
@@ -131,6 +166,9 @@ static partial class Polyfill
         this Span<char> target,
         string other) =>
         target.EndsWith(other.AsSpan());
+
+#endif
+
 }
 
 #endif
