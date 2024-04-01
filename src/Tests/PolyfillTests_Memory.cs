@@ -59,6 +59,23 @@ partial class PolyfillTests
     }
 
     [Test]
+    public void ReadOnlySpan_EnumerateLines()
+    {
+        var list = new List<string>();
+        var input = """
+                    a
+                    b
+                    """;
+        foreach (var line in input.AsSpan().EnumerateLines())
+        {
+            list.Add(line.ToString());
+        }
+
+        Assert.Equals("a", list[0]);
+        Assert.Equals("b", list[1]);
+    }
+
+    [Test]
     public void ReadOnlySpan_TestMatchContains_String()
     {
         for (var length = 0; length < 32; length++)

@@ -205,6 +205,13 @@ class Consume
         list.AddRange("ab".AsSpan());
     }
 
+    public void EnumerateLinesReadOnlySpan()
+    {
+        foreach (var line in "ab".AsSpan().EnumerateLines())
+        {
+        }
+    }
+
     public void ListInsertRangeReadOnlySpan()
     {
         var list = new List<char>
