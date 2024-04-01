@@ -22,14 +22,14 @@ public
 #endif
 ref struct SpanLineEnumerator
 {
-    private ReadOnlySpan<char> _remaining;
+    ReadOnlySpan<char> remaining;
     private ReadOnlySpan<char> _current;
     private bool _isEnumeratorActive;
     ReadOnlySpan<char> newlines = "\r\f\u0085\u2028\u2029\n".AsSpan();
 
     internal SpanLineEnumerator(ReadOnlySpan<char> buffer)
     {
-        _remaining = buffer;
+        remaining = buffer;
         _current = default;
         _isEnumeratorActive = true;
     }
@@ -59,7 +59,6 @@ ref struct SpanLineEnumerator
             return false;
         }
 
-        var remaining = _remaining;
         //TODO: revisit when SearchValues is implemented
         var idx = remaining.IndexOfAny(newlines);
 
@@ -73,18 +72,15 @@ ref struct SpanLineEnumerator
             }
 
             _current = remaining[..idx];
-            _remaining = remaining[(idx + stride)..];
-        }
-        else
-        {
-            // We've reached EOF, but we still need to return 'true' for this final
-            // iteration so that the caller can query the Current property once more.
-
-            _current = remaining;
-            _remaining = default;
-            _isEnumeratorActive = false;
+            remaining = remaining[(idx + stride)..];
+            return true;
         }
 
+        // We've reached EOF, but we still need to return 'true' for this final
+        // iteration so that the caller can query the Current property once more.
+        _current = remaining;
+        remaining = default;
+        _isEnumeratorActive = false;
         return true;
     }
 }
