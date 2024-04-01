@@ -24,9 +24,9 @@ static partial class Polyfill
     /// sequences are detected.
     /// </remarks>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines#system-memoryextensions-enumeratelines(system-readonlyspan((system-char)))")]
-    public static SpanLineEnumerator EnumerateLines(this ReadOnlySpan<char> span)
+    public static SpanLineEnumerator EnumerateLines(this ReadOnlySpan<char> target)
     {
-        return new SpanLineEnumerator(span);
+        return new SpanLineEnumerator(target);
     }
 
     /// <summary>
@@ -38,9 +38,9 @@ static partial class Polyfill
     /// sequences are detected.
     /// </remarks>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines#system-memoryextensions-enumeratelines(system-span((system-char)))")]
-    public static SpanLineEnumerator EnumerateLines(this Span<char> span)
+    public static SpanLineEnumerator EnumerateLines(this Span<char> target)
     {
-        return new SpanLineEnumerator(span);
+        return new SpanLineEnumerator(target);
     }
 
 #endif
