@@ -21,7 +21,10 @@ namespace System.Text;
 /// To get an instance of this type, use <see cref="MemoryExtensions.EnumerateLines(ReadOnlySpan{char})"/>.
 /// </remarks>
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.spanlineenumerator")]
-public ref struct SpanLineEnumerator
+#if PolyPublic
+public
+#endif
+ref struct SpanLineEnumerator
 {
     private ReadOnlySpan<char> _remaining;
     private ReadOnlySpan<char> _current;
