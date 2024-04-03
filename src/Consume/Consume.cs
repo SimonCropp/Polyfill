@@ -265,6 +265,13 @@ class Consume
         builder.CopyTo(0, span, 1);
     }
 
+    void SpanTrimEnd()
+    {
+        var span = new Span<char>(new char[1]);
+        span.TrimEnd();
+        span.TrimStart();
+    }
+
     void SpanSequenceEqual()
     {
         var result = "value".AsSpan().SequenceEqual("value");

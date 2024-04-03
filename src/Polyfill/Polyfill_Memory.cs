@@ -44,6 +44,61 @@ static partial class Polyfill
 #if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X
 
     /// <summary>
+    /// Removes all leading white-space characters from the span.
+    /// </summary>
+    /// <param name="span">The source span from which the characters are removed.</param>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimstart#system-memoryextensions-trimstart(system-span((system-char)))")]
+    public static Span<char> TrimStart(this Span<char> target)
+        => target.Slice(ClampStart(target));
+
+    /// <summary>
+    /// Removes all trailing white-space characters from the span.
+    /// </summary>
+    /// <param name="span">The source span from which the characters are removed.</param>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimend#system-memoryextensions-trimend(system-span((system-char)))")]
+    public static Span<char> TrimEnd(this Span<char> target)
+        => target.Slice(0, ClampEnd(target, 0));
+
+    /// <summary>
+    /// Delimits all leading occurrences of whitespace charecters from the span.
+    /// </summary>
+    /// <param name="span">The source span from which the characters are removed.</param>
+    private static int ClampStart(ReadOnlySpan<char> target)
+    {
+        int start = 0;
+
+        for (; start < target.Length; start++)
+        {
+            if (!char.IsWhiteSpace(target[start]))
+            {
+                break;
+            }
+        }
+
+        return start;
+    }
+
+    /// <summary>
+    /// Delimits all trailing occurrences of whitespace charecters from the span.
+    /// </summary>
+    /// <param name="span">The source span from which the characters are removed.</param>
+    /// <param name="start">The start index from which to being searching.</param>
+    private static int ClampEnd(ReadOnlySpan<char> target, int start)
+    {
+        int end = target.Length - 1;
+
+        for (; end >= start; end--)
+        {
+            if (!char.IsWhiteSpace(target[end]))
+            {
+                break;
+            }
+        }
+
+        return end - start + 1;
+    }
+
+    /// <summary>
     /// Indicates whether a specified value is found in a read-only span. Values are compared using IEquatable{T}.Equals(T).
     /// </summary>
     /// <param name="value">The value to search for.</param>
