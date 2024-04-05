@@ -29,7 +29,7 @@ class BuildApiTest
         var types = module.GetTypes().ToList();
         var extensions = types.Single(_ => _.Name == nameof(Polyfill));
         using var writer = File.CreateText(md);
-
+        var count = 0;
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
         foreach (var type in PublicMethods(extensions.Methods)
@@ -40,6 +40,7 @@ class BuildApiTest
             writer.WriteLine();
             foreach (var method in type)
             {
+                count++;
                 WriteSignature(method, writer);
             }
 
@@ -50,12 +51,17 @@ class BuildApiTest
         writer.WriteLine("### Static helpers");
         writer.WriteLine();
 
-        WriteHelper(types, nameof(EnumPolyfill), writer);
-        WriteHelper(types, "RegexPolyfill", writer);
-        WriteHelper(types, "StringPolyfill", writer);
+        WriteHelper(types, nameof(EnumPolyfill), writer, ref count);
+        WriteHelper(types, "RegexPolyfill", writer, ref count);
+        WriteHelper(types, "StringPolyfill", writer, ref count);
+
+        count += types.Count(_ => _.Name.EndsWith("Attribute"));
+        var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
+        File.Delete(countMd);
+        File.WriteAllText(countMd, count.ToString());
     }
 
-    static void WriteHelper(List<TypeDefinition> types, string name, StreamWriter writer)
+    static void WriteHelper(List<TypeDefinition> types, string name, StreamWriter writer, ref int count)
     {
         var helper = types.Single(_ => _.Name == name);
 
@@ -63,6 +69,7 @@ class BuildApiTest
         writer.WriteLine();
         foreach (var method in PublicMethods(helper.Methods))
         {
+            count++;
             WriteSignature(method, writer);
         }
 
