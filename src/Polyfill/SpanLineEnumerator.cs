@@ -6,9 +6,12 @@
 
 #if FeatureMemory && !NET6_0_OR_GREATER
 
-using Link = System.ComponentModel.DescriptionAttribute;
 
 namespace System.Text;
+
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using Link = System.ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Enumerates the lines of a <see cref="ReadOnlySpan{Char}"/>.
@@ -16,6 +19,8 @@ namespace System.Text;
 /// <remarks>
 /// To get an instance of this type, use <see cref="MemoryExtensions.EnumerateLines(ReadOnlySpan{char})"/>.
 /// </remarks>
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.spanlineenumerator")]
 #if PolyPublic
 public
