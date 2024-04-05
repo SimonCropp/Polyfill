@@ -12,6 +12,11 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`
 
 
+API count:
+
+198<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+
+
 **See [Milestones](../../milestones?state=closed) for release notes.**
 
 
