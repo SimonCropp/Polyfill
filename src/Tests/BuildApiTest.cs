@@ -58,7 +58,7 @@ class BuildApiTest
         count += types.Count(_ => _.Name.EndsWith("Attribute"));
         var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
         File.Delete(countMd);
-        File.WriteAllText(countMd, count.ToString());
+        File.WriteAllText(countMd, $"**API count:{count}**");
     }
 
     static void WriteHelper(List<TypeDefinition> types, string name, StreamWriter writer, ref int count)
