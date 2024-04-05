@@ -17,7 +17,7 @@ static class SolutionDirectoryFinder
         var currentDirectory = Directory.GetParent(sourceFile)!.FullName;
         do
         {
-            if (Directory.GetFiles(currentDirectory, "*.sln").Any())
+            if (Directory.GetFiles(currentDirectory, "*.sln").Length > 0)
             {
                 path = currentDirectory;
                 return true;
