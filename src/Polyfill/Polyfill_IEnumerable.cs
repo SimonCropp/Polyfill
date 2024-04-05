@@ -117,15 +117,15 @@ static partial class Polyfill
     ///   characteristics of the underlying collection implementation.
     /// </remarks>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.trygetnonenumeratedcount")]
-    public static bool TryGetNonEnumeratedCount<TSource>(this IEnumerable<TSource> source, out int count)
+    public static bool TryGetNonEnumeratedCount<TSource>(this IEnumerable<TSource> target, out int count)
     {
-        if (source is ICollection<TSource> collectionoft)
+        if (target is ICollection<TSource> collectionoft)
         {
             count = collectionoft.Count;
             return true;
         }
 
-        if (source is ICollection collection)
+        if (target is ICollection collection)
         {
             count = collection.Count;
             return true;
