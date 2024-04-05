@@ -22,6 +22,14 @@ partial class PolyfillTests
 
         Assert.AreEqual(1, enumerable.MinBy(_ => _));
     }
+    [Test]
+    public void TryGetNonEnumeratedCount()
+    {
+        var enumerable = (IEnumerable<int>)new List<int> {1, 2};
+
+        Assert.True(enumerable.TryGetNonEnumeratedCount(out var count));
+        Assert.AreEqual(2, count);
+    }
 
     [Test]
     public void Index()
