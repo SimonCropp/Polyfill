@@ -2,6 +2,7 @@
 #nullable enable
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -103,6 +104,10 @@ class Consume
 
         dictionary.GetValueOrDefault("key");
         dictionary.GetValueOrDefault("key", "default");
+
+        var concurrentDictionary = new ConcurrentDictionary<string, int>();
+
+        var value = concurrentDictionary.GetOrAdd("Hello", (_, arg) => arg.Length, "World");
 
         var split = "a b".Split(' ', StringSplitOptions.RemoveEmptyEntries);
         split = "a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);

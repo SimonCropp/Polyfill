@@ -10,6 +10,11 @@
  * `Boolean TryFormat(Span<Char>, Int32&, ReadOnlySpan<Char>, IFormatProvider)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryformat)
 
 
+#### Collections.Concurrent.ConcurrentDictionary<TKey,TValue>
+
+ * `TValue GetOrAdd<TKey, TValue, TArg>(TKey, Func<TKey,TArg,TValue>, TArg)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentdictionary-2.getoradd#system-collections-concurrent-concurrentdictionary-2-getoradd-1(-0-system-func((-0-0-1))-0))
+
+
 #### Dictionary<TKey,TValue>
 
  * `Boolean Remove<TKey, TValue>(TKey, TValue&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.remove)
