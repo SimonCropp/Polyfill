@@ -9,10 +9,10 @@ partial class PolyfillTests
 
         var value = dictionary.GetOrAdd("Hello", valueFactory, "World");
 
-        Assert.Equals(5, value);
+        Assert.AreEqual(5, value);
 
         value = dictionary.GetOrAdd("Hello", valueFactory, "Universe");
 
-        Assert.Equals(5, value);
+        Assert.AreEqual(5, value);
     }
 }
