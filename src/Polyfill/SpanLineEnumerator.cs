@@ -78,8 +78,11 @@ ref struct SpanLineEnumerator
                 stride = 2;
             }
 
+            // ReSharper disable ReplaceSliceWithRangeIndexer
+            //Dont use range indexer here since https://github.com/SimonCropp/Polyfill/pull/159
             Current = remaining.Slice(0, index);
             remaining = remaining.Slice(index + stride);
+            // ReSharper restore ReplaceSliceWithRangeIndexer
             return true;
         }
 
