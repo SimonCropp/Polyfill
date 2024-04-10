@@ -78,8 +78,8 @@ ref struct SpanLineEnumerator
                 stride = 2;
             }
 
-            Current = remaining[..index];
-            remaining = remaining[(index + stride)..];
+            Current = remaining.Slice(0, index);
+            remaining = remaining.Slice(index + stride);
             return true;
         }
 
