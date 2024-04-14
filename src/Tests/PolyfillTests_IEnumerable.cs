@@ -167,6 +167,32 @@ partial class PolyfillTests
     }
 
     [Test]
+    public void Zip3()
+    {
+        var numbers = new List<int> { 1 };
+        var words = new List<string> { "one" };
+        var letters = new List<string> { "a" };
+
+        var result = numbers.Zip(words, letters).Single();
+
+        Assert.AreEqual(1, result.First);
+        Assert.AreEqual("one", result.Second);
+        Assert.AreEqual("a", result.Third);
+    }
+
+    [Test]
+    public void Zip2()
+    {
+        var numbers = new List<int> { 1 };
+        var words = new List<string> { "one" };
+
+        var result = numbers.Zip(words).Single();
+
+        Assert.AreEqual(1, result.First);
+        Assert.AreEqual("one", result.Second);
+    }
+
+    [Test]
     public void Chunk_SizeOf3()
     {
         var enumerable = Enumerable.Range(1, 11).ToList();
