@@ -12,7 +12,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`
 
 
-**API count: 201**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 203**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -388,6 +388,12 @@ The class `Polyfill` includes the following extension methods:
 #### IDictionary<TKey,TValue>
 
  * `Collections.ObjectModel.ReadOnlyDictionary<TKey,TValue> AsReadOnly<TKey, TValue>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly#system-collections-generic-collectionextensions-asreadonly-2(system-collections-generic-idictionary((-0-1))))
+
+
+#### IEnumerable<TFirst>
+
+ * `IEnumerable<ValueTuple<TFirst,TSecond,TThird>> Zip<TFirst, TSecond, TThird>(IEnumerable<TSecond>, IEnumerable<TThird>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-collections-generic-ienumerable((-2))))
+ * `IEnumerable<ValueTuple<TFirst,TSecond>> Zip<TFirst, TSecond>(IEnumerable<TSecond>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))))
 
 
 #### IEnumerable<TSource>
