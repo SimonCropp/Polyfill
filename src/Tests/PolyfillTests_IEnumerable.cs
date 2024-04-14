@@ -74,6 +74,16 @@ partial class PolyfillTests
     }
 
     [Test]
+    public void IEnumerableExceptBy()
+    {
+        var firstList = new List<string> { "banana", "apple", "cherry" };
+        var secondList = new List<int> { 6 };
+
+        var result = firstList.ExceptBy(secondList, _ => _.Length).ToList();
+        Assert.IsTrue(result.SequenceEqual(["apple"]));
+    }
+
+    [Test]
     public void AggregateBySeed()
     {
         (string id, int score)[] data =
