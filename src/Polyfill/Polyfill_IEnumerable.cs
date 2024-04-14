@@ -79,72 +79,72 @@ static partial class Polyfill
 
 #if !NET6_0_OR_GREATER
 
-        /// <summary>
-        /// Produces the set difference of two sequences according to a specified key selector function.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of the input sequence.</typeparam>
-        /// <typeparam name="TKey">The type of key to identify elements by.</typeparam>
-        /// <param name="first">An <see cref="IEnumerable{TSource}" /> whose keys that are not also in <paramref name="second"/> will be returned.</param>
-        /// <param name="second">An <see cref="IEnumerable{TKey}" /> whose keys that also occur in the first sequence will cause those elements to be removed from the returned sequence.</param>
-        /// <param name="keySelector">A function to extract the key for each element.</param>
-        /// <returns>A sequence that contains the set difference of the elements of two sequences.</returns>
-        [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.exceptby#system-linq-enumerable-exceptby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1)))")]
-        public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector) =>
-            ExceptBy(first, second, keySelector, null);
+    /// <summary>
+    /// Produces the set difference of two sequences according to a specified key selector function.
+    /// </summary>
+    /// <typeparam name="TSource">The type of the elements of the input sequence.</typeparam>
+    /// <typeparam name="TKey">The type of key to identify elements by.</typeparam>
+    /// <param name="first">An <see cref="IEnumerable{TSource}" /> whose keys that are not also in <paramref name="second"/> will be returned.</param>
+    /// <param name="second">An <see cref="IEnumerable{TKey}" /> whose keys that also occur in the first sequence will cause those elements to be removed from the returned sequence.</param>
+    /// <param name="keySelector">A function to extract the key for each element.</param>
+    /// <returns>A sequence that contains the set difference of the elements of two sequences.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.exceptby#system-linq-enumerable-exceptby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1)))")]
+    public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector) =>
+        ExceptBy(first, second, keySelector, null);
 
-        /// <summary>
-        /// Produces the set difference of two sequences according to a specified key selector function.
-        /// </summary>
-        /// <typeparam name="TSource">The type of the elements of the input sequence.</typeparam>
-        /// <typeparam name="TKey">The type of key to identify elements by.</typeparam>
-        /// <param name="first">An <see cref="IEnumerable{TSource}" /> whose keys that are not also in <paramref name="second"/> will be returned.</param>
-        /// <param name="second">An <see cref="IEnumerable{TKey}" /> whose keys that also occur in the first sequence will cause those elements to be removed from the returned sequence.</param>
-        /// <param name="keySelector">A function to extract the key for each element.</param>
-        /// <param name="comparer">The <see cref="IEqualityComparer{TKey}" /> to compare values.</param>
-        /// <returns>A sequence that contains the set difference of the elements of two sequences.</returns>
-        [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.exceptby#system-linq-enumerable-exceptby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))")]
-        public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer) =>
-            ExceptByIterator(first, second, keySelector, comparer);
+    /// <summary>
+    /// Produces the set difference of two sequences according to a specified key selector function.
+    /// </summary>
+    /// <typeparam name="TSource">The type of the elements of the input sequence.</typeparam>
+    /// <typeparam name="TKey">The type of key to identify elements by.</typeparam>
+    /// <param name="first">An <see cref="IEnumerable{TSource}" /> whose keys that are not also in <paramref name="second"/> will be returned.</param>
+    /// <param name="second">An <see cref="IEnumerable{TKey}" /> whose keys that also occur in the first sequence will cause those elements to be removed from the returned sequence.</param>
+    /// <param name="keySelector">A function to extract the key for each element.</param>
+    /// <param name="comparer">The <see cref="IEqualityComparer{TKey}" /> to compare values.</param>
+    /// <returns>A sequence that contains the set difference of the elements of two sequences.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.exceptby#system-linq-enumerable-exceptby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))")]
+    public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer) =>
+        ExceptByIterator(first, second, keySelector, comparer);
 
-        static IEnumerable<TSource> ExceptByIterator<TSource, TKey>(IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer)
+    static IEnumerable<TSource> ExceptByIterator<TSource, TKey>(IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer)
+    {
+        var set = new HashSet<TKey>(second, comparer);
+
+        foreach (var element in first)
         {
-            var set = new HashSet<TKey>(second, comparer);
-
-            foreach (var element in first)
+            if (set.Add(keySelector(element)))
             {
-                if (set.Add(keySelector(element)))
-                {
-                    yield return element;
-                }
+                yield return element;
             }
         }
-
-        /// <summary>
-        /// Produces a sequence of tuples with elements from the three specified sequences.
-        /// </summary>
-        /// <typeparam name="TFirst">The type of the elements of the first input sequence.</typeparam>
-        /// <typeparam name="TSecond">The type of the elements of the second input sequence.</typeparam>
-        /// <typeparam name="TThird">The type of the elements of the third input sequence.</typeparam>
-        /// <param name="first">The first sequence to merge.</param>
-        /// <param name="second">The second sequence to merge.</param>
-        /// <param name="third">The third sequence to merge.</param>
-        /// <returns>A sequence of tuples with elements taken from the first, second, and third sequences, in that order.</returns>
-        [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-collections-generic-ienumerable((-2)))")]
-        public static IEnumerable<(TFirst First, TSecond Second, TThird Third)> Zip<TFirst, TSecond, TThird>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
-        {
-            using (IEnumerator<TFirst> e1 = first.GetEnumerator())
-            using (IEnumerator<TSecond> e2 = second.GetEnumerator())
-            using (IEnumerator<TThird> e3 = third.GetEnumerator())
-            {
-                while (e1.MoveNext() && e2.MoveNext() && e3.MoveNext())
-                {
-                    yield return (e1.Current, e2.Current, e3.Current);
-                }
-            }
-        }
+    }
 #endif
 
-#if NETCOREAPP2X || NETSTANDARD || NETFRAMEWORK
+#if (NETCOREAPP2X || NETSTANDARD || NETFRAMEWORK) && FeatureValueTuple
+
+    /// <summary>
+    /// Produces a sequence of tuples with elements from the three specified sequences.
+    /// </summary>
+    /// <typeparam name="TFirst">The type of the elements of the first input sequence.</typeparam>
+    /// <typeparam name="TSecond">The type of the elements of the second input sequence.</typeparam>
+    /// <typeparam name="TThird">The type of the elements of the third input sequence.</typeparam>
+    /// <param name="first">The first sequence to merge.</param>
+    /// <param name="second">The second sequence to merge.</param>
+    /// <param name="third">The third sequence to merge.</param>
+    /// <returns>A sequence of tuples with elements taken from the first, second, and third sequences, in that order.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-collections-generic-ienumerable((-2)))")]
+    public static IEnumerable<(TFirst First, TSecond Second, TThird Third)> Zip<TFirst, TSecond, TThird>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
+    {
+        using (IEnumerator<TFirst> e1 = first.GetEnumerator())
+        using (IEnumerator<TSecond> e2 = second.GetEnumerator())
+        using (IEnumerator<TThird> e3 = third.GetEnumerator())
+        {
+            while (e1.MoveNext() && e2.MoveNext() && e3.MoveNext())
+            {
+                yield return (e1.Current, e2.Current, e3.Current);
+            }
+        }
+    }
 
     /// <summary>
     /// Produces a sequence of tuples with elements from the two specified sequences.
