@@ -31,7 +31,7 @@ sealed class StringSyntaxAttribute :
     public StringSyntaxAttribute(string syntax)
     {
         Syntax = syntax;
-        Arguments = Array.Empty<object?>();
+        Arguments = [];
     }
 
     /// <summary>
