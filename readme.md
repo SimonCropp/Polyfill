@@ -765,7 +765,7 @@ If using Span APIs and consuming in a project that targets `netstandard`, `netfr
 
 ### System.Threading.Tasks.Extensions
 
-If using ValueTask APIs and consuming in a project that target `netframework`, `netstandard2`, or 'netcoreapp2', a reference to [System.Threading.Tasks.Extensions](https://www.nuget.org/packages/System.Threading.Tasks.Extensions/) nuget is required.
+If using ValueTask APIs and consuming in a project that target `netframework`, `netstandard2`, or `netcoreapp2`, a reference to [System.Threading.Tasks.Extensions](https://www.nuget.org/packages/System.Threading.Tasks.Extensions/) nuget is required.
 
 ```xml
 <PackageReference Include="System.Threading.Tasks.Extensions"
