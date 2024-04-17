@@ -34,15 +34,15 @@
   <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets">
     <PropertyGroup>
       <DefineConstants
-        Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.ValueTuple')->Count()) != 0">$(DefineConstants);FeatureValueTuple</DefineConstants>
+        Condition="@(ResolvedCompileFileDefinitions->WithMetadataValue('NuGetPackageId', 'System.ValueTuple')->Count()) != 0">$(DefineConstants);FeatureValueTuple</DefineConstants>
       <DefineConstants
-        Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.Memory')->Count()) != 0">$(DefineConstants);FeatureMemory</DefineConstants>
+        Condition="@(ResolvedCompileFileDefinitions->WithMetadataValue('NuGetPackageId', 'System.Memory')->Count()) != 0">$(DefineConstants);FeatureMemory</DefineConstants>
 
       <DefineConstants
-              Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.Threading.Tasks.Extensions')->Count()) != 0">$(DefineConstants);FeatureValueTask</DefineConstants>
+              Condition="@(ResolvedCompileFileDefinitions->WithMetadataValue('NuGetPackageId', 'System.Threading.Tasks.Extensions')->Count()) != 0">$(DefineConstants);FeatureValueTask</DefineConstants>
 
       <DefineConstants
-              Condition="@(PackageDependencies->WithMetadataValue('Identity', 'System.Net.Http')->Count()) != 0 OR @(Reference->WithMetadataValue('Identity', 'System.Net.Http')->Count()) != 0">$(DefineConstants);FetureHttp</DefineConstants>
+              Condition="@(ResolvedCompileFileDefinitions->WithMetadataValue('NuGetPackageId', 'System.Net.Http')->Count()) != 0 OR @(Reference->WithMetadataValue('Identity', 'System.Net.Http')->Count()) != 0">$(DefineConstants);FetureHttp</DefineConstants>
       
       <DefineConstants Condition="$(LowerFramework.StartsWith('net9'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net8'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask</DefineConstants>
