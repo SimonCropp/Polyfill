@@ -192,6 +192,15 @@ partial class PolyfillTests
 #endif
 
     [Test]
+    public void LastOrDefault()
+    {
+        IEnumerable<int> list = new List<int> { 1, 2 };
+
+        Assert.AreEqual(2, list.LastOrDefault(_ => _ == 2, 3));
+        Assert.AreEqual(3, Enumerable.Empty<int>().LastOrDefault(3));
+    }
+
+    [Test]
     public void Zip2()
     {
         var numbers = new List<int> { 1 };
