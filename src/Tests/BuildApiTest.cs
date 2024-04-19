@@ -26,13 +26,16 @@ class BuildApiTest
         var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
         using var module = ModuleDefinition.ReadModule(path);
-        var types = module.GetTypes().ToList();
-        var extensions = types.Single(_ => _.Name == nameof(Polyfill));
+        var types = module
+            .GetTypes()
+            .Where(_=>!_.IsNested)
+            .ToDictionary(_ => _.Name, _ => _.Methods.ToList());
+        var extensions = types[nameof(Polyfill)];
         using var writer = File.CreateText(md);
         var count = 0;
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
-        foreach (var type in PublicMethods(extensions.Methods)
+        foreach (var type in PublicMethods(extensions)
                      .GroupBy(_ => _.Parameters[0].ParameterType.FullName)
                      .OrderBy(_ => _.Key))
         {
@@ -55,19 +58,19 @@ class BuildApiTest
         WriteHelper(types, "RegexPolyfill", writer, ref count);
         WriteHelper(types, "StringPolyfill", writer, ref count);
 
-        count += types.Count(_ => _.Name.EndsWith("Attribute"));
+        count += types.Count(_ => _.Key.EndsWith("Attribute"));
         var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
         File.Delete(countMd);
         File.WriteAllText(countMd, $"**API count: {count}**");
     }
 
-    static void WriteHelper(List<TypeDefinition> types, string name, StreamWriter writer, ref int count)
+    static void WriteHelper(Dictionary<string, List<MethodDefinition>> types, string name, StreamWriter writer, ref int count)
     {
-        var helper = types.Single(_ => _.Name == name);
+        var methods = types[name];
 
-        writer.WriteLine($"#### {helper.Name}");
+        writer.WriteLine($"#### {name}");
         writer.WriteLine();
-        foreach (var method in PublicMethods(helper.Methods))
+        foreach (var method in PublicMethods(methods))
         {
             count++;
             WriteSignature(method, writer);
