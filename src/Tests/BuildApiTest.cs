@@ -18,19 +18,16 @@ class BuildApiTest
         "System."
     ];
 
+    static string solutionDirectory = SolutionDirectoryFinder.Find();
+
     [Test]
     public void Run()
     {
-        var solutionDirectory = SolutionDirectoryFinder.Find();
-        var path = Path.Combine(solutionDirectory, "Consume", "bin", "Debug", "netstandard2.0", "Consume.dll");
+        var types = GetTypes();
+        var extensions = types[nameof(Polyfill)];
+
         var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
-        using var module = ModuleDefinition.ReadModule(path);
-        var types = module
-            .GetTypes()
-            .Where(_=>!_.IsNested)
-            .ToDictionary(_ => _.Name, _ => _.Methods.ToList());
-        var extensions = types[nameof(Polyfill)];
         using var writer = File.CreateText(md);
         var count = 0;
         writer.WriteLine("### Extension methods");
@@ -62,6 +59,18 @@ class BuildApiTest
         var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
         File.Delete(countMd);
         File.WriteAllText(countMd, $"**API count: {count}**");
+    }
+
+    static Dictionary<string, List<MethodDefinition>> GetTypes()
+    {
+        var path = Path.Combine(solutionDirectory, "Consume", "bin", "Debug", "netstandard2.0", "Consume.dll");
+
+        var module = ModuleDefinition.ReadModule(path);
+        var types = module
+            .GetTypes()
+            .Where(_=>!_.IsNested)
+            .ToDictionary(_ => _.Name, _ => _.Methods.ToList());
+        return types;
     }
 
     static void WriteHelper(Dictionary<string, List<MethodDefinition>> types, string name, StreamWriter writer, ref int count)
