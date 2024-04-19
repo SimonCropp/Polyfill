@@ -28,12 +28,12 @@ static partial class Polyfill
     {
         if (!index.IsFromEnd)
         {
-            return source.ElementAt(index.Value);
+            return Enumerable.ElementAt(source, index.Value);
         }
 
         if (source.TryGetNonEnumeratedCount(out int count))
         {
-            return source.ElementAt(count - index.Value);
+            return Enumerable.ElementAt(source, count - index.Value);
         }
 
         if (!TryGetElementFromEnd(source, index.Value, out TSource? element))
@@ -90,12 +90,12 @@ static partial class Polyfill
     {
         if (!index.IsFromEnd)
         {
-            return source.ElementAtOrDefault(index.Value);
+            return Enumerable.ElementAtOrDefault(source, index.Value);
         }
 
         if (source.TryGetNonEnumeratedCount(out int count))
         {
-            return source.ElementAtOrDefault(count - index.Value);
+            return Enumerable.ElementAtOrDefault(source, count - index.Value);
         }
 
         TryGetElementFromEnd(source, index.Value, out TSource? element);

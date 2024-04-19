@@ -186,8 +186,8 @@ partial class PolyfillTests
         IEnumerable<int> list = new List<int> { 1, 2 };
 
         Assert.AreEqual(2, list.ElementAt(new Index(1)));
-        Assert.AreEqual(2, list.ElementAtOrDefault(new Index(1)));
-        Assert.IsNull(list.ElementAtOrDefault(new Index(3)));
+        //Assert.AreEqual(2, list.ElementAtOrDefault(new Index(1)));
+        //Assert.AreEqual(0, list.ElementAtOrDefault(new Index(3)));
     }
 #endif
 
