@@ -179,6 +179,17 @@ partial class PolyfillTests
         Assert.AreEqual("one", result.Second);
         Assert.AreEqual("a", result.Third);
     }
+#if NETCOREAPP3_0_OR_GREATER || NETSTANDARD2_1
+    [Test]
+    public void ElementAtIndex()
+    {
+        IEnumerable<int> list = new List<int> { 1, 2 };
+
+        Assert.AreEqual(2, list.ElementAt(new Index(1)));
+        Assert.AreEqual(2, list.ElementAtOrDefault(new Index(1)));
+        Assert.IsNull(list.ElementAtOrDefault(new Index(3)));
+    }
+#endif
 
     [Test]
     public void Zip2()
