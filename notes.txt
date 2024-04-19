@@ -5,8 +5,6 @@ https://github.com/dotnet/core/blob/main/release-notes/8.0/8.0.0/api-diff/Micros
 https://github.com/dotnet/core/blob/main/release-notes/7.0/7.0.0/api-diff/Microsoft.NETCore.App/7.0.0_System.Collections.Immutable.md
 
 
-public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate, TSource defaultValue);
-public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, TSource defaultValue);
 public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector);
 public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer);
 public static TSource LastOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate, TSource defaultValue);

@@ -198,6 +198,14 @@ partial class PolyfillTests
 
         Assert.AreEqual(2, list.LastOrDefault(_ => _ == 2, 3));
         Assert.AreEqual(3, Enumerable.Empty<int>().LastOrDefault(3));
+
+    [Test]
+    public void FirstOrDefault()
+    {
+        IEnumerable<int> list = new List<int> { 1, 2 };
+
+        Assert.AreEqual(2, list.FirstOrDefault(_ => _ == 2, 3));
+        Assert.AreEqual(3, Enumerable.Empty<int>().FirstOrDefault(3));
     }
 
     [Test]
