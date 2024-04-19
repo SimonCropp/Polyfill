@@ -63,14 +63,40 @@ class BuildApiTest
 
     static Dictionary<string, List<MethodDefinition>> GetTypes()
     {
-        var path = Path.Combine(solutionDirectory, "Consume", "bin", "Debug", "netstandard2.0", "Consume.dll");
+        var types = new Dictionary<string, List<MethodDefinition>>();
 
-        var module = ModuleDefinition.ReadModule(path);
-        var types = module
-            .GetTypes()
-            .Where(_=>!_.IsNested)
-            .ToDictionary(_ => _.Name, _ => _.Methods.ToList());
+        var output = Path.Combine(solutionDirectory, "Consume", "bin", "Debug");
+
+        foreach (var assembly in Directory.EnumerateFiles(output, "Consume.dll", SearchOption.AllDirectories))
+        {
+            ProcessAssembly(assembly, types);
+        }
+
         return types;
+    }
+
+    static void ProcessAssembly(string path, Dictionary<string, List<MethodDefinition>> types)
+    {
+        var module = ModuleDefinition.ReadModule(path);
+
+        foreach (var type in module
+                     .GetTypes()
+                     .Where(_=>!_.IsNested))
+        {
+            if(!types.TryGetValue(type.Name, out var methods))
+            {
+                types[type.Name] = methods = new();
+            }
+
+            foreach (var method in type.Methods)
+            {
+                if (methods.Any(_ => _.FullName == method.FullName))
+                {
+                    continue;
+                }
+                methods.Add(method);
+            }
+        }
     }
 
     static void WriteHelper(Dictionary<string, List<MethodDefinition>> types, string name, StreamWriter writer, ref int count)
