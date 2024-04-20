@@ -10,6 +10,5 @@ public static IEnumerable<TSource> IntersectBy<TSource, TKey>(this IEnumerable<T
 public static TSource Max<TSource>(this IEnumerable<TSource> source, IComparer<TSource> comparer);
 public static TSource Min<TSource>(this IEnumerable<TSource> source, IComparer<TSource> comparer);
 public static IEnumerable<TSource> Take<TSource>(this IEnumerable<TSource> source, Range range);
-public static bool TryGetNonEnumeratedCount<TSource>(this IEnumerable<TSource> source, out int count);
 public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> keySelector);
 public static IEnumerable<TSource> UnionBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer);
