@@ -54,6 +54,15 @@ class BuildApiTest
         WriteHelper(types, nameof(EnumPolyfill), writer, ref count);
         WriteHelper(types, "RegexPolyfill", writer, ref count);
         WriteHelper(types, "StringPolyfill", writer, ref count);
+        WriteHelper(types, "BytePolyfill", writer, ref count);
+        WriteHelper(types, "DoublePolyfill", writer, ref count);
+        WriteHelper(types, "IntPolyfill", writer, ref count);
+        WriteHelper(types, "LongPolyfill", writer, ref count);
+        WriteHelper(types, "SBytePolyfill", writer, ref count);
+        WriteHelper(types, "ShortPolyfill", writer, ref count);
+        WriteHelper(types, "UIntPolyfill", writer, ref count);
+        WriteHelper(types, "ULongPolyfill", writer, ref count);
+        WriteHelper(types, "UShortPolyfill", writer, ref count);
 
         count += types.Count(_ => _.Key.EndsWith("Attribute"));
         var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");

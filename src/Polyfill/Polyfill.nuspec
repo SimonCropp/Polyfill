@@ -31,6 +31,8 @@
           target="contentFiles/cs/netstandard2.0/Polyfill/Regex"/>
     <file src="PlatformCompatibility\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/PlatformCompatibility"/>
+    <file src="Numbers\*.cs"
+          target="contentFiles/cs/netstandard2.0/Polyfill/Numbers"/>
     <file src="Polyfill.targets"
           target="build"/>
     <file src="exclude.editorconfig"

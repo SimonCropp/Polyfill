@@ -21,6 +21,9 @@
     <Compile Include="$(SolutionDir)Polyfill\PlatformCompatibility\*.cs">
       <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
+    <Compile Include="$(SolutionDir)Polyfill\Numbers\*.cs">
+      <Link>Pollyfill\Numbers\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
     <Compile Include="$(SolutionDir)Polyfill\Regex\*.cs">
       <Link>Pollyfill\Regex\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
