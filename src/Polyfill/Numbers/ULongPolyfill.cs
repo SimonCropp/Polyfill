@@ -19,6 +19,18 @@ public
 static partial class ULongPolyfill
 {
     /// <summary>
+    /// Tries to parse a string into a value.
+    /// </summary>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-string-system-iformatprovider-system-uint64@)")]
+    public static bool TryParse(string? target, IFormatProvider? provider, out ulong result) =>
+#if !NET7_0_OR_GREATER
+        ulong.TryParse(target, NumberStyles.Integer, provider, out result);
+#else
+        ulong.TryParse(target, provider, out result);
+#endif
+
+#if FeatureMemory
+    /// <summary>
     /// Tries to parse a span of UTF-8 characters into a value.
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint64@)")]
@@ -47,17 +59,6 @@ static partial class ULongPolyfill
     public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out ulong result) =>
 #if !NET7_0_OR_GREATER
         ulong.TryParse(target.ToString(), NumberStyles.Integer, provider, out result);
-#else
-        ulong.TryParse(target, provider, out result);
-#endif
-
-    /// <summary>
-    /// Tries to parse a string into a value.
-    /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-string-system-iformatprovider-system-uint64@)")]
-    public static bool TryParse(string? target, IFormatProvider? provider, out ulong result) =>
-#if !NET7_0_OR_GREATER
-        ulong.TryParse(target, NumberStyles.Integer, provider, out result);
 #else
         ulong.TryParse(target, provider, out result);
 #endif
@@ -93,5 +94,6 @@ static partial class ULongPolyfill
         ulong.TryParse(target.ToString(), style, provider, out result);
 #else
         ulong.TryParse(target, style, provider, out result);
+#endif
 #endif
 }

@@ -19,6 +19,18 @@ public
 static partial class UShortPolyfill
 {
     /// <summary>
+    /// Tries to parse a string into a value.
+    /// </summary>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-string-system-iformatprovider-system-uint16@)")]
+    public static bool TryParse(string? target, IFormatProvider? provider, out ushort result) =>
+#if !NET7_0_OR_GREATER
+        ushort.TryParse(target, NumberStyles.Integer, provider, out result);
+#else
+        ushort.TryParse(target, provider, out result);
+#endif
+
+#if FeatureMemory
+    /// <summary>
     /// Tries to parse a span of UTF-8 characters into a value.
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint16@)")]
@@ -47,17 +59,6 @@ static partial class UShortPolyfill
     public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out ushort result) =>
 #if !NET7_0_OR_GREATER
         ushort.TryParse(target.ToString(), NumberStyles.Integer, provider, out result);
-#else
-        ushort.TryParse(target, provider, out result);
-#endif
-
-    /// <summary>
-    /// Tries to parse a string into a value.
-    /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-string-system-iformatprovider-system-uint16@)")]
-    public static bool TryParse(string? target, IFormatProvider? provider, out ushort result) =>
-#if !NET7_0_OR_GREATER
-        ushort.TryParse(target, NumberStyles.Integer, provider, out result);
 #else
         ushort.TryParse(target, provider, out result);
 #endif
@@ -93,5 +94,6 @@ static partial class UShortPolyfill
         ushort.TryParse(target.ToString(), style, provider, out result);
 #else
         ushort.TryParse(target, style, provider, out result);
+#endif
 #endif
 }

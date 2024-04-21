@@ -19,6 +19,18 @@ public
 static partial class BytePolyfill
 {
     /// <summary>
+    /// Tries to parse a string into a value.
+    /// </summary>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)")]
+    public static bool TryParse(string? target, IFormatProvider? provider, out byte result) =>
+#if !NET7_0_OR_GREATER
+        byte.TryParse(target, NumberStyles.Integer, provider, out result);
+#else
+        byte.TryParse(target, provider, out result);
+#endif
+
+#if FeatureMemory
+    /// <summary>
     /// Tries to parse a span of UTF-8 characters into a value.
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-byte@)")]
@@ -47,17 +59,6 @@ static partial class BytePolyfill
     public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out byte result) =>
 #if !NET7_0_OR_GREATER
         byte.TryParse(target.ToString(), NumberStyles.Integer, provider, out result);
-#else
-        byte.TryParse(target, provider, out result);
-#endif
-
-    /// <summary>
-    /// Tries to parse a string into a value.
-    /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)")]
-    public static bool TryParse(string? target, IFormatProvider? provider, out byte result) =>
-#if !NET7_0_OR_GREATER
-        byte.TryParse(target, NumberStyles.Integer, provider, out result);
 #else
         byte.TryParse(target, provider, out result);
 #endif
@@ -93,5 +94,6 @@ static partial class BytePolyfill
         byte.TryParse(target.ToString(), style, provider, out result);
 #else
         byte.TryParse(target, style, provider, out result);
+#endif
 #endif
 }
