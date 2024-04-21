@@ -123,7 +123,7 @@ class Consume
         BytePolyfill.TryParse("1"u8, null, out _);
         BytePolyfill.TryParse(['1'], out _);
         BytePolyfill.TryParse(['1'], null, out _);
-        BytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        BytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
         BytePolyfill.TryParse("1"u8, out _);
         BytePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
@@ -132,7 +132,7 @@ class Consume
         DoublePolyfill.TryParse("1"u8, null, out _);
         DoublePolyfill.TryParse(['1'], out _);
         DoublePolyfill.TryParse(['1'], null, out _);
-        DoublePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        DoublePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
         DoublePolyfill.TryParse("1"u8, out _);
         DoublePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
@@ -141,7 +141,7 @@ class Consume
         IntPolyfill.TryParse("1"u8, null, out _);
         IntPolyfill.TryParse(['1'], out _);
         IntPolyfill.TryParse(['1'], null, out _);
-        IntPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        IntPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
         IntPolyfill.TryParse("1"u8, out _);
         IntPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
@@ -150,7 +150,7 @@ class Consume
         LongPolyfill.TryParse("1"u8, null, out _);
         LongPolyfill.TryParse(['1'], out _);
         LongPolyfill.TryParse(['1'], null, out _);
-        LongPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        LongPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
         LongPolyfill.TryParse("1"u8, out _);
         LongPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
@@ -159,7 +159,7 @@ class Consume
         SBytePolyfill.TryParse("1"u8, null, out _);
         SBytePolyfill.TryParse(['1'], out _);
         SBytePolyfill.TryParse(['1'], null, out _);
-        SBytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        SBytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
         SBytePolyfill.TryParse("1"u8, out _);
         SBytePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
@@ -168,7 +168,7 @@ class Consume
         ShortPolyfill.TryParse("1"u8, null, out _);
         ShortPolyfill.TryParse(['1'], out _);
         ShortPolyfill.TryParse(['1'], null, out _);
-        ShortPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        ShortPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
         ShortPolyfill.TryParse("1"u8, out _);
         ShortPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
@@ -177,7 +177,7 @@ class Consume
         UIntPolyfill.TryParse("1"u8, null, out _);
         UIntPolyfill.TryParse(['1'], out _);
         UIntPolyfill.TryParse(['1'], null, out _);
-        UIntPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        UIntPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
         UIntPolyfill.TryParse("1"u8, out _);
         UIntPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
@@ -186,7 +186,7 @@ class Consume
         ULongPolyfill.TryParse("1"u8, null, out _);
         ULongPolyfill.TryParse(['1'], out _);
         ULongPolyfill.TryParse(['1'], null, out _);
-        ULongPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        ULongPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
         ULongPolyfill.TryParse("1"u8, out _);
         ULongPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
@@ -195,7 +195,7 @@ class Consume
         UShortPolyfill.TryParse("1"u8, null, out _);
         UShortPolyfill.TryParse(['1'], out _);
         UShortPolyfill.TryParse(['1'], null, out _);
-        UShortPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        UShortPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
         UShortPolyfill.TryParse("1"u8, out _);
         UShortPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
