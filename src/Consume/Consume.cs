@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -116,6 +117,88 @@ class Consume
         // Test to make sure there are no clashes in the Polyfill code with classes that
         // might be defined in user code. See comments in Debug.cs for more details.
         Debug.Log("Test log to make sure this is working");
+
+        BytePolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        BytePolyfill.TryParse("1"u8, null, out _);
+        BytePolyfill.TryParse(['1'], out _);
+        BytePolyfill.TryParse(['1'], null, out _);
+        BytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        BytePolyfill.TryParse("1"u8, out _);
+        BytePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+        DoublePolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        DoublePolyfill.TryParse("1"u8, null, out _);
+        DoublePolyfill.TryParse(['1'], out _);
+        DoublePolyfill.TryParse(['1'], null, out _);
+        DoublePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        DoublePolyfill.TryParse("1"u8, out _);
+        DoublePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+        IntPolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        IntPolyfill.TryParse("1"u8, null, out _);
+        IntPolyfill.TryParse(['1'], out _);
+        IntPolyfill.TryParse(['1'], null, out _);
+        IntPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        IntPolyfill.TryParse("1"u8, out _);
+        IntPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+        LongPolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        LongPolyfill.TryParse("1"u8, null, out _);
+        LongPolyfill.TryParse(['1'], out _);
+        LongPolyfill.TryParse(['1'], null, out _);
+        LongPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        LongPolyfill.TryParse("1"u8, out _);
+        LongPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+        SBytePolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        SBytePolyfill.TryParse("1"u8, null, out _);
+        SBytePolyfill.TryParse(['1'], out _);
+        SBytePolyfill.TryParse(['1'], null, out _);
+        SBytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        SBytePolyfill.TryParse("1"u8, out _);
+        SBytePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+        ShortPolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        ShortPolyfill.TryParse("1"u8, null, out _);
+        ShortPolyfill.TryParse(['1'], out _);
+        ShortPolyfill.TryParse(['1'], null, out _);
+        ShortPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        ShortPolyfill.TryParse("1"u8, out _);
+        ShortPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+        UIntPolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        UIntPolyfill.TryParse("1"u8, null, out _);
+        UIntPolyfill.TryParse(['1'], out _);
+        UIntPolyfill.TryParse(['1'], null, out _);
+        UIntPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        UIntPolyfill.TryParse("1"u8, out _);
+        UIntPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+        ULongPolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        ULongPolyfill.TryParse("1"u8, null, out _);
+        ULongPolyfill.TryParse(['1'], out _);
+        ULongPolyfill.TryParse(['1'], null, out _);
+        ULongPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        ULongPolyfill.TryParse("1"u8, out _);
+        ULongPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+        UShortPolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        UShortPolyfill.TryParse("1"u8, null, out _);
+        UShortPolyfill.TryParse(['1'], out _);
+        UShortPolyfill.TryParse(['1'], null, out _);
+        UShortPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _;
+        UShortPolyfill.TryParse("1"u8, out _);
+        UShortPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
     }
 
 #if FetureHttp
