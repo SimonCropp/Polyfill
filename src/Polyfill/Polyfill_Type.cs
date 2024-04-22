@@ -30,6 +30,18 @@ static partial class Polyfill
 #endif
     }
 
+    /// <summary>
+    /// Generic version of Type.IsAssignableTo https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto.
+    /// </summary>
+    public static bool IsAssignableTo<T>(this Type target) =>
+        typeof(T).IsAssignableFrom(target);
+
+    /// <summary>
+    /// Generic version of Type.IsAssignableFrom https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignablefrom.
+    /// </summary>
+    public static bool IsAssignableFrom<T>(this Type target) =>
+        target.IsAssignableFrom(typeof(T));
+
 #if NETFRAMEWORK || NETSTANDARD || NETCOREAPPX
     /// <summary>
     /// Determines whether the current type can be assigned to a variable of the specified targetType.

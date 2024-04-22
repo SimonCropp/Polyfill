@@ -351,6 +351,8 @@
 
 #### Type
 
+ * `Boolean IsAssignableFrom<T>()`
+ * `Boolean IsAssignableTo<T>()`
  * `Boolean IsAssignableTo(Type)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto)
  * `Boolean IsGenericMethodParameter()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter)
 
