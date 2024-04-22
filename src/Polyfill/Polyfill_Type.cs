@@ -3,6 +3,7 @@
 #pragma warning disable
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Link = System.ComponentModel.DescriptionAttribute;
 
@@ -28,6 +29,15 @@ static partial class Polyfill
         return target.IsGenericMethodParameter;
 #endif
     }
+
+#if NETFRAMEWORK || NETSTANDARD || NETCOREAPPX
+    /// <summary>
+    /// Determines whether the current type can be assigned to a variable of the specified targetType.
+    /// </summary>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto")]
+    public static bool IsAssignableTo(this Type target, [NotNullWhen(true)] Type? targetType) =>
+        targetType?.IsAssignableFrom(target) ?? false;
+#endif
 
 #if !NET6_0_OR_GREATER
 
