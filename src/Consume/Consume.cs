@@ -83,6 +83,9 @@ class Consume
         IDictionary<int, int> idictionary = new Dictionary<int, int>();
         idictionary.AsReadOnly();
 
+        typeof(List<string>).IsAssignableTo(typeof(string));
+        typeof(List<string>).IsAssignableTo(null);
+
         var enumerable = (IEnumerable<string>) new List<string>
         {
             "a",
