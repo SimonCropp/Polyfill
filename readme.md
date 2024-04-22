@@ -711,7 +711,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### Type
 
- * `Boolean IsAssignableTo(Type)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto?view=net-8.0)
+ * `Boolean IsAssignableTo(Type)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto)
  * `Boolean IsGenericMethodParameter()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter)
 
 
