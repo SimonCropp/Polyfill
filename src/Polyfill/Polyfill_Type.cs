@@ -34,7 +34,7 @@ static partial class Polyfill
     /// Generic version of Type.IsAssignableTo https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto.
     /// </summary>
     public static bool IsAssignableTo<T>(this Type target) =>
-        target.IsAssignableTo(typeof(T));
+        typeof(T).IsAssignableFrom(target);
 
     /// <summary>
     /// Generic version of Type.IsAssignableFrom https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignablefrom.
