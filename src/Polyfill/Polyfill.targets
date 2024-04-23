@@ -2,6 +2,22 @@
   <PropertyGroup>
     <PrepareForBuildDependsOn>$(PrepareForBuildDependsOn);PreparePolyfill</PrepareForBuildDependsOn>
     <LowerFramework>$(TargetFramework.ToLower())</LowerFramework>
+    <LowerFrameworks>$(TargetFrameworks.ToLower())</LowerFrameworks>
+    <TargetsValidFrameworks Condition="
+         (
+           $(LowerFrameworks.Contains('net8')) OR
+           $(LowerFrameworks.Contains('net9'))
+         )
+         OR
+         (
+           '$(LowerFrameworks)' == '' AND
+           (
+             $(LowerFramework.Contains('net48')) OR
+             $(LowerFramework.Contains('net8')) OR
+             $(LowerFramework.Contains('net9'))
+           )
+         )
+        ">true</TargetsValidFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition="$(AllowUnsafeBlocks) == 'true' ">
     <DefineConstants>$(DefineConstants);AllowUnsafeBlocks</DefineConstants>
@@ -31,6 +47,22 @@
                             $(LowerFramework.StartsWith('netcoreapp3'))">
     <DefineConstants>$(DefineConstants);NETCOREAPPX</DefineConstants>
   </PropertyGroup>
+
+
+  <Target
+      Name="PolyFillValidateNugetTargets"
+      AfterTargets="AfterBuild">
+
+    <Warning 
+        Code="PolyFillTargetsForNuget"
+        Text="Recommendation for projects that produce a nuget and consume PolyFill: For best performance all frameworks from the lowest tfm up to (and including) net8 should be targeted. For example, if a nuget minimum targets are net48 and net7, then the resulting TargetFrameworks should be &lt;TargetFrameworks&gt;net48;net481;net7.0;net8.0&lt;/TargetFrameworks&gt;"
+        Condition="
+          $(NoWarn.Contains('PolyFillTargetsForNuget')) != 'true' AND
+          $(TargetsValidFrameworks) != 'true'
+        " />
+
+  </Target>
+
   <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets">
     <PropertyGroup>
       <DefineConstants
