@@ -65,7 +65,6 @@ For best performance all frameworks from the lowest TargetFramework up to and in
 For example, if a nuget minimum target net6, then the resulting TargetFrameworks should include net7.0 and net8.0"
         HelpLink="https://github.com/SimonCropp/Polyfill#targetframeworks"
         Condition="$(MaxNetRequired)" />
-
     <Warning
         Code="PolyFillTargetsForNuget"
         Text="Projects that produce a nuget and consume PolyFill:
