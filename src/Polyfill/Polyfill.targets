@@ -60,13 +60,6 @@
       Condition="$(NoWarn.Contains('PolyFillTargetsForNuget')) != true">
     <Warning
         Code="PolyFillTargetsForNuget"
-        Text="
-        MaxNetRequired $(MaxNetRequired)
-        MaxNetClassicRequired  $(MaxNetClassicRequired)
-        "
-         />
-    <Warning
-        Code="PolyFillTargetsForNuget"
         Text="Projects that produce a nuget and consume PolyFill:
 For best performance all frameworks from the lowest TargetFramework up to and including net8 should be targeted.
 For example, if a nuget minimum target net6, then the resulting TargetFrameworks should include net7.0 and net8.0"
