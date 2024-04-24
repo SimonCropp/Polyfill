@@ -18,6 +18,27 @@ The package targets `netstandard2.0` and is designed to support the following ru
 **See [Milestones](../../milestones?state=closed) for release notes.**
 
 
+## TargetFrameworks
+
+Some polyfills are implemented in a way that will not have the equivalent performance to the actual implementations.
+
+For example the polyfill for `StringBuilder.Append(ReadOnlySpan<char>)` on netcore2 is:
+
+```
+public StringBuilder Append(ReadOnlySpan<char> value)
+    => target.Append(value.ToString());
+```
+
+Which will result in a string allocation.
+
+As Polyfill is implemented as a source only nuget, the implementation for each polyfill is compiled into the IL of the resulting assembly. As a side-effect that implementation will continue to be used even if that assembly is executed in a runtime that has a more efficient implementation available.
+
+As a result, in the context of a project producing nuget package, that project should target all frameworks from the lowest TargetFramework up to and including the current framework. This way the most performant implementation will be used for each runtime. Take the following examples:
+
+ * If a nuget's minimum target is net6, then the resulting TargetFrameworks should also include net7.0 and net8.0
+ * If a nuget's minimum target is net471, then the resulting TargetFrameworks should also include net472 and net48"
+
+
 ## Nuget
 
 https://nuget.org/packages/Polyfill/

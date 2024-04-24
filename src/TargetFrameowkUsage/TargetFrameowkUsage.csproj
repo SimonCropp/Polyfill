@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <GeneratePackageOnBuild Condition="'$(Configuration)' == 'Debug'">true</GeneratePackageOnBuild>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT'">net461</TargetFrameworks>
+    <TargetFrameworks>$(TargetFrameworks);net5.0</TargetFrameworks>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
+</Project>

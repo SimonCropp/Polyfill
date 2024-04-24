@@ -2,6 +2,7 @@
   <PropertyGroup>
     <PrepareForBuildDependsOn>$(PrepareForBuildDependsOn);PreparePolyfill</PrepareForBuildDependsOn>
     <LowerFramework>$(TargetFramework.ToLower())</LowerFramework>
+    <LowerFrameworks>$(TargetFrameworks.ToLower())</LowerFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition="$(AllowUnsafeBlocks) == 'true' ">
     <DefineConstants>$(DefineConstants);AllowUnsafeBlocks</DefineConstants>
@@ -31,6 +32,43 @@
                             $(LowerFramework.StartsWith('netcoreapp3'))">
     <DefineConstants>$(DefineConstants);NETCOREAPPX</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup>
+    <MaxNetRequired>false</MaxNetRequired>
+    <MaxNetRequired
+      Condition="$(LowerFrameworks.Contains('net5')) OR
+                 $(LowerFrameworks.Contains('net6')) OR
+                 $(LowerFrameworks.Contains('net7')) OR
+                 $(LowerFrameworks.Contains('netstandard')) OR
+                 $(LowerFrameworks.Contains('netcore'))"
+      >true</MaxNetRequired>
+
+    <MaxNetClassicRequired>false</MaxNetClassicRequired>
+    <MaxNetClassicRequired
+      Condition="(
+                   $(LowerFrameworks.Contains('net4')) OR
+                   $(LowerFrameworks.Contains('netstandard'))
+                 )
+                 AND
+                 !$(LowerFramework.Contains('net48'))
+                 AND
+                 !$(LowerFrameworks.Contains('net48'))"
+      >true</MaxNetClassicRequired>
+  </PropertyGroup>
+  <Target
+      Name="PolyFillValidateNugetTargets"
+      AfterTargets="AfterBuild"
+      Condition="$(NoWarn.Contains('PolyFillTargetsForNuget')) != true">
+    <Warning
+        Code="PolyFillTargetsForNuget"
+        Text="Projects that produce a nuget and consume PolyFill:
+For best performance all frameworks from the lowest TargetFramework up to and including net48 should be targeted.
+For example:
+ * If a nuget's minimum target is net47, then the resulting TargetFrameworks should include net471, net472, and net48.
+ * If a nuget's minimum target net6, then the resulting TargetFrameworks should include net7.0 and net8.0."
+        HelpLink="https://github.com/SimonCropp/Polyfill#targetframeworks"
+        Condition="$(MaxNetClassicRequired) OR $(MaxNetRequired)" />
+  </Target>
+
   <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets">
     <PropertyGroup>
       <DefineConstants
