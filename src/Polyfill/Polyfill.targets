@@ -1,6 +1,8 @@
 <Project>
   <PropertyGroup>
     <PrepareForBuildDependsOn>$(PrepareForBuildDependsOn);PreparePolyfill</PrepareForBuildDependsOn>
+    <LowerFramework>$(TargetFramework.ToLower())</LowerFramework>
+    <LowerFrameworks>$(TargetFrameworks.ToLower())</LowerFrameworks>
   </PropertyGroup>
   <PropertyGroup Condition="$(AllowUnsafeBlocks) == 'true' ">
     <DefineConstants>$(DefineConstants);AllowUnsafeBlocks</DefineConstants>
@@ -31,9 +33,6 @@
     <DefineConstants>$(DefineConstants);NETCOREAPPX</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
-    <LowerFramework>$(TargetFramework.ToLower())</LowerFramework>
-    <LowerFrameworks>$(TargetFrameworks.ToLower())</LowerFrameworks>
-
     <MaxNetRequired>false</MaxNetRequired>
     <MaxNetRequired
       Condition="$(LowerFrameworks.Contains('net5')) OR
