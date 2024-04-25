@@ -17,7 +17,7 @@
     <NuGetAuditMode>all</NuGetAuditMode>
     <NuGetAuditLevel>low</NuGetAuditLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-<!--    <IsAotCompatible>true</IsAotCompatible>-->
-    <IsTrimmable>true</IsTrimmable>
+    <IsAotCompatible
+      Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
   </PropertyGroup>
 </Project>
