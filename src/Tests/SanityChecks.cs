@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-[TestFixture]
+﻿[TestFixture]
 public class SanityChecks
 {
     [Test]
