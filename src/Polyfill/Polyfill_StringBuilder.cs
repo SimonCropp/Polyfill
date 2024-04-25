@@ -359,13 +359,13 @@ static partial class Polyfill
     public struct ChunkEnumerator
     {
         // The first Stringbuilder chunk (which is the end of the logical string)
-        readonly StringBuilder _firstChunk;
+        StringBuilder _firstChunk;
 
         // The chunk that this enumerator is currently returning (Current).
         StringBuilder? _currentChunk;
 
         // Only used for long string builders with many chunks (see constructor)
-        readonly ManyChunkInfo? _manyChunks;
+        ManyChunkInfo? _manyChunks;
 
         // Only here to make foreach work
         /// <summary>
@@ -392,7 +392,7 @@ static partial class Polyfill
                 return _manyChunks.MoveNext(ref _currentChunk);
             }
 
-            StringBuilder next = _firstChunk;
+            var next = _firstChunk;
             while (true)
             {
                 var chunkPrevious = GetChunkPrevious(next);
@@ -437,7 +437,7 @@ static partial class Polyfill
             // simply scan from the start each time, and tolerate the N*N behavior.
             // However above this size, we allocate an array to hold reference to all
             // the chunks and we can be efficient for large N.
-            int chunkCount = ChunkCount(builder);
+            var chunkCount = ChunkCount(builder);
             if (8 < chunkCount)
             {
                 _manyChunks = new ManyChunkInfo(builder, chunkCount);
@@ -446,7 +446,7 @@ static partial class Polyfill
 
         static int ChunkCount(StringBuilder? builder)
         {
-            int ret = 0;
+            var ret = 0;
             while (builder != null)
             {
                 ret++;
@@ -462,7 +462,7 @@ static partial class Polyfill
         class ManyChunkInfo
         {
             // These are in normal order (first chunk first)
-            readonly StringBuilder[] _chunks;
+            StringBuilder[] _chunks;
             int _chunkPos;
 
             public bool MoveNext(ref StringBuilder? current)
