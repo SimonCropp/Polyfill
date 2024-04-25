@@ -17,5 +17,7 @@
     <NuGetAuditMode>all</NuGetAuditMode>
     <NuGetAuditLevel>low</NuGetAuditLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+<!--    <IsAotCompatible>true</IsAotCompatible>-->
+    <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>
 </Project>
