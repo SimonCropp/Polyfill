@@ -1,4 +1,6 @@
-﻿[TestFixture]
+﻿#pragma warning disable IL2026
+
+[TestFixture]
 public class SanityChecks
 {
     [Test]
