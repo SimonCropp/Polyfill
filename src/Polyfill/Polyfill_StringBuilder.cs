@@ -3,7 +3,9 @@
 #pragma warning disable
 
 using System;
+using System.ComponentModel;
 using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -112,7 +114,8 @@ static partial class Polyfill
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-text-stringbuilder-appendinterpolatedstringhandler@)")]
     public static StringBuilder Append(
         StringBuilder target,
-        [InterpolatedStringHandlerArgument(nameof(target))] ref AppendInterpolatedStringHandler handler) => target;
+        [InterpolatedStringHandlerArgument(nameof(target))]
+        ref AppendInterpolatedStringHandler handler) => target;
 
     /// <summary>Appends the specified interpolated string to this instance.</summary>
     /// <param name="provider">An object that supplies culture-specific formatting information.</param>
@@ -122,7 +125,8 @@ static partial class Polyfill
     public static StringBuilder Append(
         StringBuilder target,
         IFormatProvider? provider,
-        [InterpolatedStringHandlerArgument(nameof(target), nameof(provider))] ref AppendInterpolatedStringHandler handler) => target;
+        [InterpolatedStringHandlerArgument(nameof(target), nameof(provider))]
+        ref AppendInterpolatedStringHandler handler) => target;
 
     /// <summary>Appends the specified interpolated string followed by the default line terminator to the end of the current StringBuilder object.</summary>
     /// <param name="handler">The interpolated string to append.</param>
@@ -130,7 +134,8 @@ static partial class Polyfill
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendline#system-text-stringbuilder-appendline(system-text-stringbuilder-appendinterpolatedstringhandler@)")]
     public static StringBuilder AppendLine(
         StringBuilder target,
-        [InterpolatedStringHandlerArgument(nameof(target))] ref AppendInterpolatedStringHandler handler) =>
+        [InterpolatedStringHandlerArgument(nameof(target))]
+        ref AppendInterpolatedStringHandler handler) =>
         target.AppendLine();
 
     /// <summary>Appends the specified interpolated string followed by the default line terminator to the end of the current StringBuilder object.</summary>
@@ -141,10 +146,11 @@ static partial class Polyfill
     public static StringBuilder AppendLine(
         StringBuilder target,
         IFormatProvider? provider,
-        [InterpolatedStringHandlerArgument(nameof(target), nameof(provider))] ref AppendInterpolatedStringHandler handler) =>
+        [InterpolatedStringHandlerArgument(nameof(target), nameof(provider))]
+        ref AppendInterpolatedStringHandler handler) =>
         target.AppendLine();
 
-#elif  NET6_0_OR_GREATER
+#elif NET6_0_OR_GREATER
 
     /// <summary>Appends the specified interpolated string to this instance.</summary>
     /// <param name="handler">The interpolated string to append.</param>
@@ -187,7 +193,7 @@ static partial class Polyfill
         target.AppendLine(provider, ref handler);
 #endif
 
-    #if NETSTANDARD2_0|| NETFRAMEWORK
+#if NETSTANDARD2_0|| NETFRAMEWORK
 
     /// <summary>Concatenates the strings of the provided array, using the specified separator between each string, then appends the result to the current instance of the string builder.</summary>
     /// <param name="separator">The string to use as a separator. separator is included in the joined strings only if values has more than one element.</param>
@@ -285,5 +291,178 @@ static partial class Polyfill
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.replace#system-text-stringbuilder-replace(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-int32-system-int32")]
     public static StringBuilder Replace(this StringBuilder target, ReadOnlySpan<char> oldValue, ReadOnlySpan<char> newValue, int startIndex, int count) =>
         target.Replace(oldValue.ToString(), newValue.ToString(), startIndex, count);
+#endif
+
+#if !NET6_0_OR_GREATER && FeatureMemory
+
+    static FieldInfo chunkCharsField = GetStringBuilderField("m_ChunkChars");
+    static FieldInfo chunkPreviousField = GetStringBuilderField("m_ChunkPrevious");
+    static FieldInfo chunkLengthField = GetStringBuilderField("m_ChunkLength");
+
+    static FieldInfo GetStringBuilderField(string name)
+    {
+        var field = typeof(StringBuilder).GetField(name, BindingFlags.Instance | BindingFlags.NonPublic);
+        if (field != null)
+        {
+            return field;
+        }
+
+        throw new($"Expected to find field '{name}' on StringBuilder");
+    }
+
+    static int GetChunkLength(StringBuilder stringBuilder) =>
+        (int) chunkLengthField.GetValue(stringBuilder)!;
+
+    static char[] GetChunkChars(StringBuilder stringBuilder) =>
+        (char[]) chunkCharsField.GetValue(stringBuilder)!;
+
+    static StringBuilder? GetChunkPrevious(StringBuilder stringBuilder) =>
+        (StringBuilder?) chunkPreviousField.GetValue(stringBuilder);
+
+    public static ChunkEnumerator GetChunks(this StringBuilder stringBuilder)
+    {
+        return new ChunkEnumerator(stringBuilder);
+    }
+
+    /// <summary>
+    /// ChunkEnumerator supports both the IEnumerable and IEnumerator pattern so foreach
+    /// works (see GetChunks).  It needs to be public (so the compiler can use it
+    /// when building a foreach statement) but users typically don't use it explicitly.
+    /// (which is why it is a nested type).
+    /// </summary>
+    public struct ChunkEnumerator
+    {
+        // The first Stringbuilder chunk (which is the end of the logical string)
+        readonly StringBuilder _firstChunk;
+
+        // The chunk that this enumerator is currently returning (Current).
+        StringBuilder? _currentChunk;
+
+        // Only used for long string builders with many chunks (see constructor)
+        readonly ManyChunkInfo? _manyChunks;
+
+        // Only here to make foreach work
+        /// <summary>
+        /// Implement IEnumerable.GetEnumerator() to return  'this' as the IEnumerator
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public ChunkEnumerator GetEnumerator()
+        {
+            return this;
+        }
+
+        /// <summary>
+        /// Implements the IEnumerator pattern.
+        /// </summary>
+        public bool MoveNext()
+        {
+            if (_currentChunk == _firstChunk)
+            {
+                return false;
+            }
+
+            if (_manyChunks != null)
+            {
+                return _manyChunks.MoveNext(ref _currentChunk);
+            }
+
+            StringBuilder next = _firstChunk;
+            while (true)
+            {
+                var chunkPrevious = GetChunkPrevious(next);
+                if (chunkPrevious == _currentChunk)
+                {
+                    break;
+                }
+
+                next = chunkPrevious;
+            }
+
+            _currentChunk = next;
+            return true;
+        }
+
+        /// <summary>
+        /// Implements the IEnumerator pattern.
+        /// </summary>
+        public ReadOnlyMemory<char> Current
+        {
+            get
+            {
+                if (_currentChunk == null)
+                {
+                    throw new InvalidOperationException("Enumeration operation cant happen");
+                }
+
+                return new ReadOnlyMemory<char>(GetChunkChars(_currentChunk), 0, GetChunkLength(_currentChunk));
+            }
+        }
+
+        internal ChunkEnumerator(StringBuilder stringBuilder)
+        {
+            _firstChunk = stringBuilder;
+            // MoveNext will find the last chunk if we do this.
+            _currentChunk = null;
+            _manyChunks = null;
+
+            // There is a performance-vs-allocation tradeoff.   Because the chunks
+            // are a linked list with each chunk pointing to its PREDECESSOR, walking
+            // the list FORWARD is not efficient.   If there are few chunks (< 8) we
+            // simply scan from the start each time, and tolerate the N*N behavior.
+            // However above this size, we allocate an array to hold reference to all
+            // the chunks and we can be efficient for large N.
+            int chunkCount = ChunkCount(stringBuilder);
+            if (8 < chunkCount)
+            {
+                _manyChunks = new ManyChunkInfo(stringBuilder, chunkCount);
+            }
+        }
+
+        static int ChunkCount(StringBuilder? stringBuilder)
+        {
+            int ret = 0;
+            while (stringBuilder != null)
+            {
+                ret++;
+                stringBuilder = GetChunkPrevious(stringBuilder);
+            }
+
+            return ret;
+        }
+
+        /// <summary>
+        /// Used to hold all the chunks indexes when you have many chunks.
+        /// </summary>
+        class ManyChunkInfo
+        {
+            // These are in normal order (first chunk first)
+            readonly StringBuilder[] _chunks;
+            int _chunkPos;
+
+            public bool MoveNext(ref StringBuilder? current)
+            {
+                int pos = ++_chunkPos;
+                if (_chunks.Length <= pos)
+                {
+                    return false;
+                }
+
+                current = _chunks[pos];
+                return true;
+            }
+
+            public ManyChunkInfo(StringBuilder? stringBuilder, int chunkCount)
+            {
+                _chunks = new StringBuilder[chunkCount];
+                while (0 <= --chunkCount)
+                {
+                    _chunks[chunkCount] = stringBuilder;
+                    stringBuilder = GetChunkPrevious(stringBuilder);
+                }
+
+                _chunkPos = -1;
+            }
+        }
+    }
 #endif
 }
