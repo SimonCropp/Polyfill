@@ -33,6 +33,25 @@ partial class PolyfillTests
         Assert.AreEqual("b", builder.ToString());
     }
 
+#if FeatureMemory
+
+    [Test]
+    public void GetChunks()
+    {
+        var builder = new StringBuilder("a",1);
+        builder.Append("bb");
+        var list = new List<string>();
+        foreach (var chunk in builder.GetChunks())
+        {
+            list.Add(chunk.ToString());
+        }
+
+        Assert.AreEqual("a", list[0]);
+        Assert.AreEqual("bb", list[1]);
+    }
+
+#endif
+
     [Test]
     public void Append()
     {
