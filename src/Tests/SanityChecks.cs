@@ -8,8 +8,7 @@ public class SanityChecks
     {
         var visibleTypes = typeof(SanityChecks).Assembly
             .GetExportedTypes()
-            .Where(type => type.Namespace?.StartsWith("System") == true)
-            .ToList();
+            .Where(type => type.Namespace?.StartsWith("System") == true);
 #if PolyPublic
 #if !NET7_0_OR_GREATER
         Assert.That(visibleTypes, Is.Not.Empty);
@@ -46,6 +45,7 @@ public class SanityChecks
             {
                 throw new($"{name} must have ExcludeFromCodeCoverageAttribute");
             }
+
             if (type.GetCustomAttribute(typeof(DebuggerNonUserCodeAttribute)) == null)
             {
                 throw new($"{name} must have DebuggerNonUserCode");
