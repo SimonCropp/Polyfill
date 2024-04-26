@@ -48,6 +48,12 @@ partial class PolyfillTests
 
         Assert.AreEqual("a", list[0]);
         Assert.AreEqual("bb", list[1]);
+
+        var empty = new StringBuilder();
+        foreach (var _ in empty.GetChunks())
+        {
+            throw new();
+        }
     }
 
 #endif
