@@ -372,10 +372,8 @@ static partial class Polyfill
         /// Implement IEnumerable.GetEnumerator() to return  'this' as the IEnumerator
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public ChunkEnumerator GetEnumerator()
-        {
-            return this;
-        }
+        public ChunkEnumerator GetEnumerator() =>
+            this;
 
         /// <summary>
         /// Implements the IEnumerator pattern.
