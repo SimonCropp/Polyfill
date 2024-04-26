@@ -366,7 +366,6 @@ static partial class Polyfill
 
         // Only used for long string builders with many chunks (see constructor)
         ManyChunkInfo? _manyChunks;
-        bool isEmpty;
 
         // Only here to make foreach work
         /// <summary>
@@ -381,11 +380,6 @@ static partial class Polyfill
         /// </summary>
         public bool MoveNext()
         {
-            if (isEmpty)
-            {
-                return false;
-            }
-
             if (_currentChunk == _firstChunk)
             {
                 return false;
@@ -419,7 +413,7 @@ static partial class Polyfill
         {
             get
             {
-                if (isEmpty || _currentChunk == null)
+                if (_currentChunk == null)
                 {
                     throw new InvalidOperationException("Enumeration operation cant happen");
                 }
@@ -430,12 +424,6 @@ static partial class Polyfill
 
         internal ChunkEnumerator(StringBuilder builder)
         {
-            if (builder.Length == 0)
-            {
-                this.isEmpty = true;
-                return;
-            }
-
             _firstChunk = builder;
             // MoveNext will find the last chunk if we do this.
             _currentChunk = null;
