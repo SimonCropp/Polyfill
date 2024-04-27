@@ -7,6 +7,9 @@ using System.Diagnostics;
 
 namespace System.Runtime.CompilerServices;
 
+// Calls to methods or references to fields marked with this attribute may be replaced at
+// some call sites with jit intrinsic expansions.
+// Types marked with this attribute may be specially treated by the runtime/compiler.
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Method | AttributeTargets.Constructor | AttributeTargets.Field, Inherited = false)]
