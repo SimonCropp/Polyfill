@@ -4,23 +4,25 @@
 
 namespace System.Runtime.CompilerServices;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using Link = System.ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Provides a set of static methods and properties that provide support for compilers.
 /// This class cannot be inherited.
 /// </summary>
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
 #if PolyPublic
 public
 #endif
-static class RuntimeHelpers
+static partial class RuntimeHelpers
 {
     /// <summary>
     /// Slices the specified array using the specified range.
     /// </summary>
+    /// <typeparam name="T">The type of the elements in the array.</typeparam>
+    /// <param name="array">The array to slice.</param>
+    /// <param name="range">An object that determines the portion of array to include in the slice.</param>
+    /// <returns>The subarray defined by range.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.runtimehelpers.getsubarray")]
     public static T[] GetSubArray<T>(T[] array, Range range)
     {
         if (array == null)
