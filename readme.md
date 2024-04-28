@@ -175,7 +175,7 @@ public class Person
     public required string Name { get; init; }
 }
 ```
-<sup><a href='/src/Tests/Required.cs#L2-L13' title='Snippet source file'>snippet source</a> | <a href='#snippet-Required' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Required.cs#L1-L12' title='Snippet source file'>snippet source</a> | <a href='#snippet-Required' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
