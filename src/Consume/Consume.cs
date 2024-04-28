@@ -72,11 +72,12 @@ class Consume
 #if FeatureValueTuple
         var range = "value"[1..];
         var index = "value"[^2];
-        var subArray = new[]
-        {
-            "value1",
-            "value2"
-        }[..1];
+        //Array not supported due to no RuntimeHelpers.GetSubArray
+        // var subArray = new[]
+        // {
+        //     "value1",
+        //     "value2"
+        // }[..1];
 #endif
 
         var startsWith = "value".StartsWith('a');
