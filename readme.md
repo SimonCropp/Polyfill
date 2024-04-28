@@ -241,21 +241,6 @@ class IndexRangeSample
     }
 
     [Test]
-    public void ArrayRange()
-    {
-        var array = new[]
-        {
-            "value1",
-            "value2"
-        };
-
-        var subArray = array[..1];
-
-        Assert.AreEqual(1, subArray.Length);
-        Assert.AreEqual("value1", subArray[0]);
-    }
-
-    [Test]
     public void ArrayIndex()
     {
         var array = new[]
@@ -270,7 +255,7 @@ class IndexRangeSample
     }
 }
 ```
-<sup><a href='/src/Tests/IndexRangeSample.cs#L1-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-IndexRange' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/IndexRangeSample.cs#L1-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-IndexRange' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

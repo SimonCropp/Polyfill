@@ -17,22 +17,6 @@ class IndexRangeSample
         Assert.AreEqual('u', ch);
     }
 
-    //Array not supported due to no RuntimeHelpers.GetSubArray
-    // [Test]
-    // public void ArrayRange()
-    // {
-    //     var array = new[]
-    //     {
-    //         "value1",
-    //         "value2"
-    //     };
-    //
-    //     var subArray = array[..1];
-    //
-    //     Assert.AreEqual(1, subArray.Length);
-    //     Assert.AreEqual("value1", subArray[0]);
-    // }
-
     [Test]
     public void ArrayIndex()
     {
@@ -49,3 +33,19 @@ class IndexRangeSample
 }
 
 #endregion
+
+//Array not supported due to no RuntimeHelpers.GetSubArray
+// [Test]
+// public void ArrayRange()
+// {
+//     var array = new[]
+//     {
+//         "value1",
+//         "value2"
+//     };
+//
+//     var subArray = array[..1];
+//
+//     Assert.AreEqual(1, subArray.Length);
+//     Assert.AreEqual("value1", subArray[0]);
+// }
