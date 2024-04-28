@@ -12,7 +12,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`
 
 
-**API count: 288**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 289**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -239,9 +239,38 @@ class IndexRangeSample
         var ch = "value"[^2];
         Assert.AreEqual('u', ch);
     }
+
+    [Test]
+    public void ArrayRange()
+    {
+        var array = new[]
+        {
+            "value1",
+            "value2"
+        };
+
+        var subArray = array[..1];
+
+        Assert.AreEqual(1, subArray.Length);
+        Assert.AreEqual("value1", subArray[0]);
+    }
+
+    [Test]
+    public void ArrayIndex()
+    {
+        var array = new[]
+        {
+            "value1",
+            "value2"
+        };
+
+        var value = array[^2];
+
+        Assert.AreEqual("value1", value);
+    }
 }
 ```
-<sup><a href='/src/Tests/IndexRangeSample.cs#L1-L21' title='Snippet source file'>snippet source</a> | <a href='#snippet-IndexRange' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/IndexRangeSample.cs#L1-L50' title='Snippet source file'>snippet source</a> | <a href='#snippet-IndexRange' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
