@@ -43,8 +43,5 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class UnscopedRefAttribute :
-    Attribute
-{
-}
-
+    Attribute;
 #endif

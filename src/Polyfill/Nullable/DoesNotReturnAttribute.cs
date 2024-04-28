@@ -16,8 +16,5 @@ namespace System.Diagnostics.CodeAnalysis;
 public
 #endif
 sealed class DoesNotReturnAttribute :
-    Attribute
-{
-}
-
+    Attribute;
 #endif

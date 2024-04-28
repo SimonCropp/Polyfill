@@ -38,8 +38,5 @@ using Link = System.ComponentModel.DescriptionAttribute;
 public
 #endif
 sealed class ModuleInitializerAttribute :
-    Attribute
-{
-}
-
+    Attribute;
 #endif

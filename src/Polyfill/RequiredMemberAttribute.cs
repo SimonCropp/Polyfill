@@ -24,7 +24,5 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class RequiredMemberAttribute :
-    Attribute
-{ }
-
+    Attribute;
 #endif

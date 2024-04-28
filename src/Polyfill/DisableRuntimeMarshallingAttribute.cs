@@ -33,8 +33,5 @@ using Link = System.ComponentModel.DescriptionAttribute;
 public
 #endif
 sealed class DisableRuntimeMarshallingAttribute :
-    Attribute
-{
-}
-
+    Attribute;
 #endif

@@ -20,8 +20,5 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class DisallowNullAttribute :
-    Attribute
-{
-}
-
+    Attribute;
 #endif

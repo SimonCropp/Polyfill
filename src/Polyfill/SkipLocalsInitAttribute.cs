@@ -39,8 +39,5 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class SkipLocalsInitAttribute :
-    Attribute
-{
-}
-
+    Attribute;
 #endif

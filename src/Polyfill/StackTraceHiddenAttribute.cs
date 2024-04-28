@@ -24,8 +24,5 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class StackTraceHiddenAttribute :
-    Attribute
-{
-}
-
+    Attribute;
 #endif

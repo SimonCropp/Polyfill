@@ -21,8 +21,5 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class NotNullAttribute :
-    Attribute
-{
-}
-
+    Attribute;
 #endif

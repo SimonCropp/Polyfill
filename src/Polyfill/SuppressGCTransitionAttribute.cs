@@ -70,8 +70,5 @@ using System.Diagnostics.CodeAnalysis;
 public
 #endif
 sealed class SuppressGCTransitionAttribute :
-    Attribute
-{
-}
-
+    Attribute;
 #endif

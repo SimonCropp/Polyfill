@@ -169,13 +169,10 @@ using Link = System.ComponentModel.DescriptionAttribute;
 public
 #endif
 sealed class ModuleInitializerAttribute :
-    Attribute
-{
-}
-
+    Attribute;
 #endif
 ```
-<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L45' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
