@@ -4,6 +4,7 @@
 
 namespace System.Runtime.CompilerServices;
 
+using System.Reflection;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Link = System.ComponentModel.DescriptionAttribute;
@@ -19,13 +20,30 @@ public
 #endif
 static partial class RuntimeHelpers
 {
+    static readonly Action<Array,RuntimeFieldHandle> initializeArrayAction;
+
+    static RuntimeHelpers()
+    {
+        //CompilationRelaxations is co located with RuntimeHelpers
+        var runtimeHelpersType = typeof(CompilationRelaxations)
+            .Assembly
+            .GetType("System.Runtime.CompilerServices.RuntimeHelpers");
+        var initializeArrayMethod = runtimeHelpersType.GetMethod(
+            "InitializeArray",
+            BindingFlags.Static | BindingFlags.Public,
+            null,
+            [typeof(Array), typeof(RuntimeFieldHandle)],
+            null)!;
+        initializeArrayAction = (Action<Array,RuntimeFieldHandle>)initializeArrayMethod.CreateDelegate(typeof(Action<Array,RuntimeFieldHandle>));
+    }
+
     /// <summary>
     /// Provides a fast way to initialize an array from data that is stored in a module.
     /// </summary>
     /// <param name="array">The array to be initialized.</param>
     /// <param name="fldHandle">A field handle that specifies the location of the data used to initialize the array</param>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.runtimehelpers.initializearray")]
-    [Intrinsic]
-    public static extern void InitializeArray(Array array, RuntimeFieldHandle fldHandle);
+    public static void InitializeArray(Array array, RuntimeFieldHandle fldHandle) =>
+        initializeArrayAction(array, fldHandle);
 }
 #endif
