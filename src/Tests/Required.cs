@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-#region Required
+﻿#region Required
 public class Person
 {
     public Person() { }

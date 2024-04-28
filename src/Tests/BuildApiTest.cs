@@ -1,5 +1,4 @@
 #if NET8_0 && DEBUG
-using System.Diagnostics.CodeAnalysis;
 using Mono.Cecil;
 
 [TestFixture]

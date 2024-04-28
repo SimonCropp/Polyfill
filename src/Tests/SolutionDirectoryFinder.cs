@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-static class SolutionDirectoryFinder
+﻿static class SolutionDirectoryFinder
 {
     public static string Find([CallerFilePath] string sourceFile = "")
     {
