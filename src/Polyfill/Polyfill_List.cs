@@ -57,7 +57,7 @@ static partial class Polyfill
     /// <param name="destination">The span that is the destination of the elements copied from <paramref name="list"/>.</param>
     /// <exception cref="ArgumentNullException">The <paramref name="list"/> is null.</exception>
     /// <exception cref="ArgumentException">The number of elements in the source <see cref="List{T}"/> is greater than the number of elements that the destination span can contain.</exception>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.copyto?view=net-8.0")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.copyto")]
     public static void CopyTo<T>(this List<T> target, Span<T> destination)
     {
         for (var index = 0; index < target.Count; index++)

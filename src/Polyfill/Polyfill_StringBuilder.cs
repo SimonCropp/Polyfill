@@ -199,7 +199,7 @@ static partial class Polyfill
     /// <param name="separator">The string to use as a separator. separator is included in the joined strings only if values has more than one element.</param>
     /// <param name="values">An array that contains the strings to concatenate and append to the current instance of the string builder.</param>
     /// <returns>A reference to this instance after the append operation has completed.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=netcore-2.0#system-text-stringbuilder-appendjoin(system-string-system-string())")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin#system-text-stringbuilder-appendjoin(system-string-system-string())")]
     public static StringBuilder AppendJoin(
         this StringBuilder target,
         string separator,
@@ -210,7 +210,7 @@ static partial class Polyfill
     /// <param name="separator">The string to use as a separator. separator is included in the joined strings only if values has more than one element.</param>
     /// <param name="values">An array that contains the strings to concatenate and append to the current instance of the string builder.</param>
     /// <returns>A reference to this instance after the append operation has completed.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=netcore-2.0#system-text-stringbuilder-appendjoin(system-string-system-object())")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin#system-text-stringbuilder-appendjoin(system-string-system-object())")]
     public static StringBuilder AppendJoin(
         this StringBuilder target,
         string separator,
@@ -221,7 +221,7 @@ static partial class Polyfill
     /// <param name="separator">The character to use as a separator. separator is included in the joined strings only if values has more than one element.</param>
     /// <param name="values">An array that contains the strings to concatenate and append to the current instance of the string builder.</param>
     /// <returns>A reference to this instance after the append operation has completed.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=netcore-2.0#system-text-stringbuilder-appendjoin(system-char-system-string())")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin#system-text-stringbuilder-appendjoin(system-char-system-string())")]
     public static StringBuilder AppendJoin(
         this StringBuilder target,
         char separator,
@@ -232,7 +232,7 @@ static partial class Polyfill
     /// <param name="separator">The character to use as a separator. separator is included in the joined strings only if values has more than one element.</param>
     /// <param name="values">An array that contains the strings to concatenate and append to the current instance of the string builder.</param>
     /// <returns>A reference to this instance after the append operation has completed.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=netcore-2.0#system-text-stringbuilder-appendjoin(system-char-system-object())")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin#system-text-stringbuilder-appendjoin(system-char-system-object())")]
     public static StringBuilder AppendJoin(
         this StringBuilder target,
         char separator,
@@ -243,7 +243,7 @@ static partial class Polyfill
     /// <param name="separator">The character to use as a separator. separator is included in the joined strings only if values has more than one element.</param>
     /// <param name="values">A collection that contains the objects to concatenate and append to the current instance of the string builder.</param>
     /// <returns>A reference to this instance after the append operation has completed.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=netcore-2.0#system-text-stringbuilder-appendjoin-1(system-char-system-collections-generic-ienumerable((-0)))")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin#system-text-stringbuilder-appendjoin-1(system-char-system-collections-generic-ienumerable((-0)))")]
     public static StringBuilder AppendJoin<T>(
         this StringBuilder target,
         char separator,
@@ -254,7 +254,7 @@ static partial class Polyfill
     /// <param name="separator">The string to use as a separator. separator is included in the concatenated and appended strings only if values has more than one element.</param>
     /// <param name="values">A collection that contains the objects to concatenate and append to the current instance of the string builder.</param>
     /// <returns>A reference to this instance after the append operation has completed.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=netcore-2.0#system-text-stringbuilder-appendjoin-1(system-string-system-collections-generic-ienumerable((-0)))")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin#system-text-stringbuilder-appendjoin-1(system-string-system-collections-generic-ienumerable((-0)))")]
     public static StringBuilder AppendJoin<T>(
         this StringBuilder target,
         string separator,

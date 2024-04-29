@@ -19,7 +19,7 @@ static partial class Polyfill
     /// <param name="item">An <see cref="TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
     /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except?view=net-8.0#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0)))")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0)))")]
     public static IEnumerable<TSource> Except<TSource>(
         this IEnumerable<TSource> target,
         TSource item) =>
@@ -32,7 +32,7 @@ static partial class Polyfill
     /// <param name="item">An <see cref="TSource"/> that is elements equal it will cause those elements to be removed from the returned sequence.</param>
     /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
     /// <returns>A sequence that contains the items of <paramref name="target"/> but excluding <paramref name="item"/>.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except?view=net-8.0#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0)))")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0)))")]
     public static IEnumerable<TSource> Except<TSource>(
         this IEnumerable<TSource> target,
         params TSource[] items) =>

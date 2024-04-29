@@ -69,7 +69,7 @@ public
     /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
     /// </summary>
     /// <returns>A Regex.ValueMatchEnumerator to iterate over the matches.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-8.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string)")]
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string)")]
     public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern)
     {
 #if NET7_0_OR_GREATER
