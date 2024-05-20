@@ -1,0 +1,11 @@
+﻿{
+  "solution": {
+    "path": "Polyfill.sln",
+    "projects": [
+      "Consume\\Consume.csproj",
+      "Polyfill\\Polyfill.csproj",
+      "TargetFrameowkUsage\\TargetFrameowkUsage.csproj",
+      "Tests\\Tests.csproj"
+    ]
+  }
+}
