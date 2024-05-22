@@ -77,11 +77,12 @@ partial class PolyfillTests
     {
         var builder = new StringBuilder();
 
-        builder.AppendJoin(",", ["value1", "value2"]);
+        ReadOnlySpan<string?> span = ["value1", "value2"];
+        builder.AppendJoin(",", span);
         Assert();
         builder.AppendJoin(",", new object[]{"value1", "value2"});
         Assert();
-        builder.AppendJoin(',', ["value1", "value2"]);
+        builder.AppendJoin(',', span);
         Assert();
         builder.AppendJoin(',', new object[]{"value1", "value2"});
         Assert();
