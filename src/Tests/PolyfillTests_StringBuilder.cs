@@ -77,7 +77,7 @@ partial class PolyfillTests
     {
         var builder = new StringBuilder();
 
-        ReadOnlySpan<string?> span = ["value1", "value2"];
+        string?[] span = ["value1", "value2"];
         builder.AppendJoin(",", span);
         Assert();
         builder.AppendJoin(",", new object[]{"value1", "value2"});
