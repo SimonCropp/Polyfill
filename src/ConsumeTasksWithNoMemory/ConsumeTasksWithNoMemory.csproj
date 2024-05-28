@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <NoWarn>$(NoWarn);PolyFillTargetsForNuget</NoWarn>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -6,7 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- This project is specifically designed to guard against a mis-compile where System.Threading.Tasks.Extensions is referenced, but System.Memory is not. -->
-    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
   <Import Project="$(SolutionDir)\TestIncludes.targets" />
