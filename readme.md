@@ -12,7 +12,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`
 
 
-**API count: 288**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 292**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -774,6 +774,10 @@ The class `Polyfill` includes the following extension methods:
 
  * `String[] GetNames<TEnum>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.getnames)
  * `TEnum[] GetValues<TEnum>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.getvalues)
+ * `TEnum Parse<TEnum>(String)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean))
+ * `TEnum Parse<TEnum>(String, Boolean)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean))
+ * `TEnum Parse<TEnum>(ReadOnlySpan<Char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-readonlyspan((system-char))))
+ * `TEnum Parse<TEnum>(ReadOnlySpan<Char>, Boolean)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-readonlyspan((system-char))-system-boolean))
 
 
 #### RegexPolyfill
