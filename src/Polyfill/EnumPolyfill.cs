@@ -47,7 +47,6 @@ static partial class EnumPolyfill
     /// <summary>
     /// Converts the string representation of the name or numeric value of one or more enumerated constants specified by TEnum to an equivalent enumerated object.
     /// </summary>
-    /// <returns>An object of type TEnum whose value is represented by value.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean)")]
     public static TEnum Parse<TEnum>(string value)
         where TEnum : struct, Enum =>
@@ -60,7 +59,6 @@ static partial class EnumPolyfill
     /// <summary>
     /// Converts the string representation of the name or numeric value of one or more enumerated constants specified by TEnum to an equivalent enumerated object.
     /// </summary>
-    /// <returns>An object of type TEnum whose value is represented by value.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean)")]
     public static TEnum Parse<TEnum>(string value, bool ignoreCase)
         where TEnum : struct, Enum =>
@@ -71,10 +69,10 @@ static partial class EnumPolyfill
 #endif
 
 #if FeatureMemory
+
     /// <summary>
     /// Converts the span of characters representation of the name or numeric value of one or more enumerated constants specified by TEnum to an equivalent enumerated object.
     /// </summary>
-    /// <returns>An object of type TEnum whose value is represented by value.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-readonlyspan((system-char)))")]
     public static TEnum Parse<TEnum>(ReadOnlySpan<char> value)
         where TEnum : struct, Enum =>
@@ -87,7 +85,6 @@ static partial class EnumPolyfill
     /// <summary>
     /// Converts the span of characters representation of the name or numeric value of one or more enumerated constants specified by TEnum to an equivalent enumerated object.
     /// </summary>
-    /// <returns>An object of type TEnum whose value is represented by value.</returns>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-readonlyspan((system-char))-system-boolean)")]
     public static TEnum Parse<TEnum>(ReadOnlySpan<char> value, bool ignoreCase)
         where TEnum : struct, Enum =>
@@ -97,5 +94,28 @@ static partial class EnumPolyfill
         (TEnum)Enum.Parse(typeof(TEnum), value.ToString(), ignoreCase);
 #endif
 
+    /// <summary>
+    /// Converts the string representation of the name or numeric value of one or more enumerated constants to an equivalent enumerated object.
+    /// </summary>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-readonlyspan((system-char))-0@)")]
+    public static bool TryParse<TEnum>(ReadOnlySpan<char> value, out TEnum result)
+        where TEnum : struct, Enum =>
+#if NET6_0_OR_GREATER
+        Enum.TryParse<TEnum>(value, out result);
+#else
+        Enum.TryParse<TEnum>(value.ToString(), out result);
+#endif
+
+    /// <summary>
+    /// Converts the string representation of the name or numeric value of one or more enumerated constants to an equivalent enumerated object. A parameter specifies whether the operation is case-sensitive. The return value indicates whether the conversion succeeded.
+    /// </summary>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-readonlyspan((system-char))-system-boolean-0@)")]
+    public static bool TryParse<TEnum>(ReadOnlySpan<char> value, bool ignoreCase, out TEnum result)
+        where TEnum : struct, Enum =>
+#if NET6_0_OR_GREATER
+        Enum.TryParse<TEnum>(value, ignoreCase, out result);
+#else
+        Enum.TryParse<TEnum>(value.ToString(), ignoreCase, out result);
+#endif
 #endif
 }

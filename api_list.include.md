@@ -383,6 +383,8 @@
  * `TEnum Parse<TEnum>(String, Boolean)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean))
  * `TEnum Parse<TEnum>(ReadOnlySpan<Char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-readonlyspan((system-char))))
  * `TEnum Parse<TEnum>(ReadOnlySpan<Char>, Boolean)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-readonlyspan((system-char))-system-boolean))
+ * `Boolean TryParse<TEnum>(ReadOnlySpan<Char>, TEnum&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-readonlyspan((system-char))-0@))
+ * `Boolean TryParse<TEnum>(ReadOnlySpan<Char>, Boolean, TEnum&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-readonlyspan((system-char))-system-boolean-0@))
 
 
 #### RegexPolyfill
