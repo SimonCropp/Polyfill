@@ -22,14 +22,15 @@ static partial class EnumPolyfill
         where TEnum : struct, Enum
     {
 #if NETCOREAPPX || NETFRAMEWORK || NETSTANDARD
-       var values = Enum.GetValues(typeof(TEnum));
-       var result = new TEnum[values.Length];
-       Array.Copy(values, result, values.Length);
-       return result;
+        var values = Enum.GetValues(typeof(TEnum));
+        var result = new TEnum[values.Length];
+        Array.Copy(values, result, values.Length);
+        return result;
 #else
-       return Enum.GetValues<TEnum>();
+        return Enum.GetValues<TEnum>();
 #endif
     }
+
     /// <summary>
     /// Retrieves an array of the names of the constants in a specified enumeration type.
     /// </summary>
@@ -39,9 +40,72 @@ static partial class EnumPolyfill
         where TEnum : struct, Enum
     {
 #if NETCOREAPPX || NETFRAMEWORK || NETSTANDARD
-       return Enum.GetNames(typeof(TEnum));
+        return Enum.GetNames(typeof(TEnum));
 #else
-       return Enum.GetNames<TEnum>();
+        return Enum.GetNames<TEnum>();
 #endif
     }
+
+    /// <summary>
+    /// Converts the string representation of the name or numeric value of one or more enumerated constants specified by TEnum to an equivalent enumerated object.
+    /// </summary>
+    /// <returns>An object of type TEnum whose value is represented by value.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean)")]
+    public static TEnum Parse<TEnum>(string value)
+        where TEnum : struct, Enum
+    {
+#if NETFRAMEWORK || NETSTANDARD
+        return (TEnum)Enum.Parse(typeof(TEnum), value);
+#else
+        return Enum.Parse<TEnum>(value);
+#endif
+    }
+
+    /// <summary>
+    /// Converts the string representation of the name or numeric value of one or more enumerated constants specified by TEnum to an equivalent enumerated object.
+    /// </summary>
+    /// <returns>An object of type TEnum whose value is represented by value.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean)")]
+    public static TEnum Parse<TEnum>(string value, bool ignoreCase)
+        where TEnum : struct, Enum
+    {
+#if NETFRAMEWORK || NETSTANDARD
+        return (TEnum)Enum.Parse(typeof(TEnum), value, ignoreCase);
+#else
+        return Enum.Parse<TEnum>(value, ignoreCase);
+#endif
+    }
+
+#if FeatureMemory
+    /// <summary>
+    /// Converts the span of characters representation of the name or numeric value of one or more enumerated constants specified by TEnum to an equivalent enumerated object.
+    /// </summary>
+    /// <returns>An object of type TEnum whose value is represented by value.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-readonlyspan((system-char)))")]
+    public static TEnum Parse<TEnum>(ReadOnlySpan<char> value)
+        where TEnum : struct, Enum
+    {
+#if NET6_0_OR_GREATER
+        return Enum.Parse<TEnum>(value);
+#else
+        return (TEnum)Enum.Parse(typeof(TEnum), value.ToString());
+#endif
+    }
+
+    /// <summary>
+    /// Converts the span of characters representation of the name or numeric value of one or more enumerated constants specified by TEnum to an equivalent enumerated object.
+    /// </summary>
+    /// <returns>An object of type TEnum whose value is represented by value.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-readonlyspan((system-char))-system-boolean)")]
+    public static TEnum Parse<TEnum>(ReadOnlySpan<char> value, bool ignoreCase)
+        where TEnum : struct, Enum
+    {
+#if NET6_0_OR_GREATER
+        return Enum.Parse<TEnum>(value, ignoreCase);
+#else
+        return (TEnum)Enum.Parse(typeof(TEnum), value.ToString(), ignoreCase);
+#endif
+    }
+
+#endif
 }
