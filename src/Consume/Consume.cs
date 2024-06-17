@@ -54,7 +54,9 @@ class Consume
         type = typeof(RequiresUnreferencedCodeAttribute);
         type = typeof(UnconditionalSuppressMessageAttribute);
         type = typeof(CompilerFeatureRequiredAttribute);
+#if FeatureMemory
         type = typeof(CollectionBuilderAttribute);
+#endif
         //TODO:
         //type = typeof(AsyncMethodBuilderAttribute);
         type = typeof(ObsoletedOSPlatformAttribute);
