@@ -400,6 +400,20 @@ class Consume
         var equals = builder.Equals("value".AsSpan());
     }
 
+    public void CollectionBuilderAttribute()
+    {
+        MyCollection myCollection = [1, 2, 3, 4, 5];
+    }
+
+    [CollectionBuilder(typeof(MyCollection), nameof(Create))]
+    public class MyCollection(ReadOnlySpan<int> initValues)
+    {
+        private readonly int[] values = initValues.ToArray();
+        public IEnumerator``<int> GetEnumerator() => ((IEnumerable<int>)values).GetEnumerator();
+
+        public static MyCollection Create(ReadOnlySpan<int> values) => new(values);
+    }
+
 #endif
 
     void IsGenericMethodParameter()
@@ -440,19 +454,5 @@ class Consume
         var list = new SortedList<int, char>();
         var key = list.GetKeyAtIndex(0);
         var value = list.GetValueAtIndex(0);
-    }
-
-    public void CollectionBuilderAttribute()
-    {
-        MyCollection myCollection = [1, 2, 3, 4, 5];
-    }
-
-    [CollectionBuilder(typeof(MyCollection), nameof(Create))]
-    public class MyCollection(ReadOnlySpan<int> initValues)
-    {
-        private readonly int[] values = initValues.ToArray();
-        public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>)values).GetEnumerator();
-
-        public static MyCollection Create(ReadOnlySpan<int> values) => new(values);
     }
 }
