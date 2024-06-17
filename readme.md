@@ -186,6 +186,13 @@ public class Person
 > Indicates that compiler support for a particular feature is required for the location where this attribute is applied.
 
 
+### CollectionBuilderAttribute
+
+ * [CollectionBuilderAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.collectionbuilderattribute)
+
+> Can be used to make types compatible with collection expressions
+
+
 ### SkipLocalsInit
 
  * [SkipLocalsInitAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.skiplocalsinitattribute)
