@@ -8,6 +8,7 @@ class BuildApiTest
     [
         "System.Text.RegularExpressions.",
         "System.Diagnostics.",
+        "System.Diagnostics.CodeAnalysis.",
         "System.Collections.Generic.",
         "System.Threading.Tasks.",
         "System.Threading.",

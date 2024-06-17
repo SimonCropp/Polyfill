@@ -12,7 +12,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`
 
 
-**API count: 295**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 296**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -191,6 +191,13 @@ public class Person
  * [CollectionBuilderAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.collectionbuilderattribute)
 
 > Can be used to make types compatible with collection expressions
+
+
+### ConstantExpectedAttribute
+
+ * [ConstantExpectedAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.constantexpectedattribute)
+
+> Indicates that the specified method parameter expects a constant.
 
 
 ### SkipLocalsInit
