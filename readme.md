@@ -303,8 +303,6 @@ Reference: [CallerArgumentExpression](https://learn.microsoft.com/en-us/dotnet/c
 <!-- snippet: CallerArgumentExpression -->
 <a id='snippet-CallerArgumentExpression'></a>
 ```cs
-using System.IO;
-
 static class Guard
 {
     public static void FileExists(string path, [CallerArgumentExpression("path")] string argumentName = "")
@@ -325,7 +323,7 @@ static class GuardUsage
     }
 }
 ```
-<sup><a href='/src/Tests/Guard.cs#L3-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-CallerArgumentExpression' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/Guard.cs#L1-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-CallerArgumentExpression' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
