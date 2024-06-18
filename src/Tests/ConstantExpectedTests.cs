@@ -1,35 +1,29 @@
 [TestFixture]
 public class ConstantExpectedTests
 {
-    public static void MyBool1([ConstantExpected] bool b) { }
-    public static void MyLong1([ConstantExpected] long b) { }
-    public static void MyLong2([ConstantExpected(Min = -5, Max = 10)] long b) { }
-    public static void MyFloat1([ConstantExpected] float b) { }
-    public static void MyFloat2([ConstantExpected(Min = -5.3f, Max = 10.1f)] float b) { }
+    public static void Method([ConstantExpected] int b) { }
+    public static void MethodWithMinMax([ConstantExpected(Min = -5, Max = 10)] int b) { }
 
-    // Might want to warn for the negative values and out of range values
-    // public static void MyInvalidUshort([ConstantExpected(Min = -5, Max = -1)] ushort b) { }
-    // public static void MyInvalidRange([ConstantExpected(Min = 5, Max = -5)] int b) { }
-    // flag any ref type usage as not applicable
-    public static void MyString([ConstantExpected] ref string b) { }
+    // Invalid declaration
+    // public static void InvalidRange([ConstantExpected(Min = 5, Max = -5)] int b) { }
 
-    // Diagnostics examples
-    public static void Test(long b, ushort u)
+    public static void Test(int variableNum)
     {
-        // OK
-        const long a = 10;
-        MyLong1(a);
-        MyLong2(a);
-        MyLong1(1L);
-        MyLong2(2L);
-        //MyInvalidUshort(1);
-        //const ushort us = 0;
-        //MyInvalidUshort(us); // Flag
+        // Valid calls
+        const int constNum = 10;
+        Method(constNum);
+        MethodWithMinMax(constNum);
+        Method(1);
+        MethodWithMinMax(2);
 
-        //MyLong1(b); // Flag
-        //MyLong2(b); // Flag
-        //MyLong2(20); // Flag, out of range
-        //MyInvalidUshort(u); // Flag
-        //MyInvalidUshort(10); // Flag, out of the range
+        // Invalid calls
+
+        // CA1857: The argument should be a constant for optimal performance
+        // https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1857
+        // Method(variableNum);
+
+        // CA1857: The constant does not fit within the value bounds of '-5' to '10'
+        // https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1857
+        // MethodWithMinMax(15);
     }
 }
