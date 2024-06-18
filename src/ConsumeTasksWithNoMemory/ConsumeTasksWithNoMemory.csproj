@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <NoWarn>$(NoWarn);PolyFillTargetsForNuget</NoWarn>
+    <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
   </PropertyGroup>
