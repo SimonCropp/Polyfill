@@ -85,14 +85,22 @@ public class SanityChecks
 
             if (type is {IsInterface: false, IsEnum: false})
             {
-                if (type.GetCustomAttribute(typeof(ExcludeFromCodeCoverageAttribute)) == null)
+                try
                 {
-                    errors.Add($"{name} must have ExcludeFromCodeCoverageAttribute");
-                }
 
-                if (type.GetCustomAttribute(typeof(DebuggerNonUserCodeAttribute)) == null)
+                    if (type.GetCustomAttribute(typeof(ExcludeFromCodeCoverageAttribute)) == null)
+                    {
+                        errors.Add($"{name} must have ExcludeFromCodeCoverageAttribute");
+                    }
+
+                    if (type.GetCustomAttribute(typeof(DebuggerNonUserCodeAttribute)) == null)
+                    {
+                        errors.Add($"{name} must have DebuggerNonUserCode");
+                    }
+                }
+                catch (Exception e)
                 {
-                    errors.Add($"{name} must have DebuggerNonUserCode");
+                    throw new($"Failed to get attributes from {name}", e);
                 }
             }
         }
