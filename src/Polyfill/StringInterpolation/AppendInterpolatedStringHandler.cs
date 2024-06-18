@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 [EditorBrowsable(EditorBrowsableState.Never)]
 [InterpolatedStringHandler]
 [ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 #if PolyPublic
 public
 #endif

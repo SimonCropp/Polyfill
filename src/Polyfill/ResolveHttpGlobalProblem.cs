@@ -3,13 +3,16 @@
 #if NETFRAMEWORK
 
 using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
-namespace System.Net.Http
+namespace System.Net.Http;
+
+[EditorBrowsable(EditorBrowsableState.Never)]
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
+static class ResolveHttpGlobalProblem
 {
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    static class ResolveHttpGlobalProblem
-    {
-    }
 }
 
 #endif

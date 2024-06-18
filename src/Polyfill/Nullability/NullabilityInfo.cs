@@ -23,6 +23,7 @@ using System.Diagnostics;
 /// <summary>
 /// A class that represents nullability info
 /// </summary>
+[DebuggerNonUserCode]
 [ExcludeFromCodeCoverage]
 #if PolyPublic
 public

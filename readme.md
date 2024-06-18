@@ -128,12 +128,12 @@ Reference: [init (C# Reference)](https://learn.microsoft.com/en-us/dotnet/csharp
 <!-- snippet: IsExternalInit -->
 <a id='snippet-IsExternalInit'></a>
 ```cs
-class InitExample
+class InitSample
 {
     public int Member { get; init; }
 }
 ```
-<sup><a href='/src/Tests/MyRecord.cs#L1-L8' title='Snippet source file'>snippet source</a> | <a href='#snippet-IsExternalInit' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/InitSample.cs#L1-L8' title='Snippet source file'>snippet source</a> | <a href='#snippet-IsExternalInit' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -166,7 +166,9 @@ Reference: [C# required modifier](https://learn.microsoft.com/en-us/dotnet/cshar
 ```cs
 public class Person
 {
-    public Person() { }
+    public Person()
+    {
+    }
 
     [SetsRequiredMembers]
     public Person(string name) =>
@@ -175,7 +177,7 @@ public class Person
     public required string Name { get; init; }
 }
 ```
-<sup><a href='/src/Tests/Required.cs#L1-L12' title='Snippet source file'>snippet source</a> | <a href='#snippet-Required' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/SetsRequiredMembersUsage.cs#L3-L18' title='Snippet source file'>snippet source</a> | <a href='#snippet-Required' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -970,7 +972,7 @@ class NullabilityTarget
     public Dictionary<string, object?> GenericField;
 }
 ```
-<sup><a href='/src/Tests/NullabilityTarget.cs#L3-L10' title='Snippet source file'>snippet source</a> | <a href='#snippet-NullabilityTarget' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/NullabilitySamples.cs#L74-L83' title='Snippet source file'>snippet source</a> | <a href='#snippet-NullabilityTarget' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -26,6 +26,7 @@ using System.Diagnostics;
 /// Provides APIs for populating nullability information/context from reflection members:
 /// <see cref="ParameterInfo"/>, <see cref="FieldInfo"/>, <see cref="PropertyInfo"/> and <see cref="EventInfo"/>.
 /// </summary>
+[DebuggerNonUserCode]
 [ExcludeFromCodeCoverage]
 #if PolyPublic
 public
