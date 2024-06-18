@@ -23,8 +23,14 @@ public class SanityChecks
     {
         var dir = Path.Combine(SolutionDirectoryFinder.Find(), "Polyfill");
         var errors = new List<string>();
-        foreach (var file in Directory.EnumerateFiles(dir, "*.cs"))
+        foreach (var file in Directory.EnumerateFiles(dir, "*.cs", SearchOption.AllDirectories))
         {
+            var directoryName = Path.GetDirectoryName(file)!;
+            if (directoryName.Contains("bin") || directoryName.Contains("obj"))
+            {
+                continue;
+            }
+
             var content = File.ReadAllText(file);
             var requiredText = new[]
             {
