@@ -62,7 +62,7 @@ public class SanityChecks
             {
                 continue;
             }
-            if (type.GetCustomAttribute(typeof(TestFixtureAttribute)) != null)
+            if (HasAttribute<TestFixtureAttribute>(type))
             {
                 continue;
             }
@@ -85,22 +85,13 @@ public class SanityChecks
 
             if (type is {IsInterface: false, IsEnum: false})
             {
-                try
+                if (!HasAttribute<ExcludeFromCodeCoverageAttribute>(type))
                 {
-
-                    if (type.GetCustomAttribute(typeof(ExcludeFromCodeCoverageAttribute)) == null)
-                    {
-                        errors.Add($"{name} must have ExcludeFromCodeCoverageAttribute");
-                    }
-
-                    if (type.GetCustomAttribute(typeof(DebuggerNonUserCodeAttribute)) == null)
-                    {
-                        errors.Add($"{name} must have DebuggerNonUserCode");
-                    }
+                    errors.Add($"{name} must have ExcludeFromCodeCoverageAttribute");
                 }
-                catch (Exception e)
+                if (!HasAttribute<DebuggerNonUserCodeAttribute>(type))
                 {
-                    throw new($"Failed to get attributes from {name}", e);
+                    errors.Add($"{name} must have DebuggerNonUserCodeAttribute");
                 }
             }
         }
@@ -108,6 +99,18 @@ public class SanityChecks
         if (errors.Count > 0)
         {
             throw new(string.Join("\n", errors));
+        }
+    }
+
+    static bool HasAttribute<T>(Type type)
+    {
+        try
+        {
+            return type.GetCustomAttribute(typeof(T)) != null;
+        }
+        catch (Exception e)
+        {
+            throw new($"Failed to get attributes from {type.Name}", e);
         }
     }
 }
