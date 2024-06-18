@@ -1,13 +1,13 @@
 [TestFixture]
 public class ConstantExpectedTests
 {
-    public static void Method([ConstantExpected] int b) { }
-    public static void MethodWithMinMax([ConstantExpected(Min = -5, Max = 10)] int b) { }
+    public void Method([ConstantExpected] int b) { }
+    public void MethodWithMinMax([ConstantExpected(Min = -5, Max = 10)] int b) { }
 
     // Invalid declaration
-    // public static void InvalidRange([ConstantExpected(Min = 5, Max = -5)] int b) { }
+    // public void InvalidRange([ConstantExpected(Min = 5, Max = -5)] int b) { }
 
-    public static void Test(int variableNum)
+    public void Test(int variableNum)
     {
         // Valid calls
         const int constNum = 10;
