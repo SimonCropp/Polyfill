@@ -1,6 +1,5 @@
-// ReSharper disable PartialTypeWithSinglePart
-
-partial class StringPolyfillTest
+[TestFixture]
+public class ConstantExpectedTests
 {
     public static void MyBool1([ConstantExpected] bool b) { }
     public static void MyLong1([ConstantExpected] long b) { }
