@@ -57,11 +57,11 @@ public class SanityChecks
                 continue;
             }
 
-
             if (type.IsNested)
             {
                 continue;
             }
+
             if (HasAttribute<TestFixtureAttribute>(type))
             {
                 continue;
@@ -89,6 +89,7 @@ public class SanityChecks
                 {
                     errors.Add($"{name} must have ExcludeFromCodeCoverageAttribute");
                 }
+
                 if (!HasAttribute<DebuggerNonUserCodeAttribute>(type))
                 {
                     errors.Add($"{name} must have DebuggerNonUserCodeAttribute");
