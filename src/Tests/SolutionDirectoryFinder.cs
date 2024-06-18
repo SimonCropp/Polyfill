@@ -2,12 +2,12 @@
 {
     public static string Find([CallerFilePath] string sourceFile = "")
     {
-        if (!TryFind(sourceFile, out var solutionDirectory))
+        if (TryFind(sourceFile, out var solutionDirectory))
         {
-            throw new("Could not find solution directory");
+            return solutionDirectory;
         }
 
-        return solutionDirectory;
+        throw new("Could not find solution directory");
     }
 
     public static bool TryFind(string sourceFile, [NotNullWhen(true)] out string? path)
