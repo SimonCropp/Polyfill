@@ -110,7 +110,7 @@ public class SanityChecks
         }
         catch (Exception e)
         {
-            throw new($"Failed to get attributes from {type.Name}", e);
+            throw new($"Failed to get {typeof(T).Name} from {type.Name}", e);
         }
     }
 }
