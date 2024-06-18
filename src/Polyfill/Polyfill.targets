@@ -59,12 +59,12 @@
       >true</MaxNetClassicRequired>
   </PropertyGroup>
   <Target
-      Name="PolyFillValidateNugetTargets"
+      Name="PolyfillValidateNugetTargets"
       AfterTargets="AfterBuild"
-      Condition="$(NoWarn.Contains('PolyFillTargetsForNuget')) != true">
+      Condition="$(NoWarn.Contains('PolyfillTargetsForNuget', StringComparison.OrdinalIgnoreCase)) != true">
     <Warning
-        Code="PolyFillTargetsForNuget"
-        Text="Projects that produce a nuget and consume PolyFill:
+        Code="PolyfillTargetsForNuget"
+        Text="Projects that produce a nuget and consume Polyfill:
 For best performance all frameworks from the lowest TargetFramework up to and including net48 should be targeted.
 For example:
  * If a nuget's minimum target is net47, then the resulting TargetFrameworks should include net471, net472, and net48.
