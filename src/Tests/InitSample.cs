@@ -1,6 +1,6 @@
 #region IsExternalInit
 
-class InitExample
+class InitSample
 {
     public int Member { get; init; }
 }
