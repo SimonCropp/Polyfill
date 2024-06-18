@@ -17,7 +17,7 @@ public class SanityChecks
         Assert.That(visibleTypes, Is.Empty);
 #endif
     }
-
+#if DEBUG
     [Test]
     public void CodeChecks()
     {
@@ -45,7 +45,7 @@ public class SanityChecks
             throw new(string.Join("\n", errors));
         }
     }
-
+#endif
     [Test]
     public void ReflectionChecks()
     {
