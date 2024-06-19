@@ -12,7 +12,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 static partial class Polyfill
 {
     // Copied from .NET library const Timer.MaxSupportedTimeout
-    private const uint MaxSupportedTimeout = 0xfffffffe;
+    const uint MaxSupportedTimeout = 0xfffffffe;
 
     /// <summary>Gets a <see cref="Task"/> that will complete when this <see cref="Task"/> completes or when the specified <see cref="CancellationToken"/> has cancellation requested.</summary>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to monitor for a cancellation request.</param>

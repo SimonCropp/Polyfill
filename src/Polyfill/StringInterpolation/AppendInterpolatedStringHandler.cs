@@ -27,13 +27,13 @@ struct AppendInterpolatedStringHandler
     // in a variety of places, e.g. allowing a null input when one isn't expected to produce a NullReferenceException rather
     // than an ArgumentNullException.
 
-    private const int StackallocCharBufferSizeLimit = 256;
+    const int StackallocCharBufferSizeLimit = 256;
 
     /// <summary>The associated StringBuilder to which to append.</summary>
-    private readonly StringBuilder _stringBuilder;
+    readonly StringBuilder _stringBuilder;
 
     /// <summary>Optional provider to pass to IFormattable.ToString or ISpanFormattable.TryFormat calls.</summary>
-    private readonly IFormatProvider? _provider;
+    readonly IFormatProvider? _provider;
 
     /// <summary>Whether <see cref="_provider"/> provides an ICustomFormatter.</summary>
     /// <remarks>
@@ -43,7 +43,7 @@ struct AppendInterpolatedStringHandler
     /// provides a formatter, rather than actually storing the formatter.  This in turn means, if there is a
     /// formatter, we pay for the extra interface call on each AppendFormatted that needs it.
     /// </remarks>
-    private readonly bool _hasCustomFormatter;
+    readonly bool _hasCustomFormatter;
 
     /// <summary>Creates a handler used to append an interpolated string into a <see cref="StringBuilder"/>.</summary>
     /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
@@ -204,7 +204,7 @@ struct AppendInterpolatedStringHandler
     }
 
     /// <summary>Formats into temporary space and then appends the result into the StringBuilder.</summary>
-    private void AppendFormattedWithTempSpace<T>(T value, int alignment, string? format)
+    void AppendFormattedWithTempSpace<T>(T value, int alignment, string? format)
     {
         // It's expected that either there's not enough space in the current chunk to store this formatted value,
         // or we have a non-0 alignment that could require padding inserted. So format into temporary space and
@@ -322,7 +322,7 @@ struct AppendInterpolatedStringHandler
     /// <param name="format">The format string.</param>
     /// <typeparam name="T">The type of the value to write.</typeparam>
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private void AppendCustomFormatter<T>(T value, string? format)
+    void AppendCustomFormatter<T>(T value, string? format)
     {
         // This case is very rare, but we need to handle it prior to the other checks in case
         // a provider was used that supplied an ICustomFormatter which wanted to intercept the particular value.
@@ -340,7 +340,7 @@ struct AppendInterpolatedStringHandler
         }
     }
 
-    private static bool HasTryFormatExtension(Type type) =>
+    static bool HasTryFormatExtension(Type type) =>
         type == typeof(int) || type == typeof(bool) || type == typeof(byte) || type == typeof(float) ||
         type == typeof(double) || type == typeof(DateTime) || type == typeof(DateTimeOffset) ||
         type == typeof(decimal) || type == typeof(long) || type == typeof(short) || type == typeof(ushort) ||

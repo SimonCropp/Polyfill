@@ -38,23 +38,23 @@ ref struct DefaultInterpolatedStringHandler
     /// numbers of items, we bump the 8 up to 11 to account for the three extra characters in "{d}",
     /// since the compiler-provided base length won't include the equivalent character count.
     /// </remarks>
-    private const int GuessedLengthPerHole = 11;
+    const int GuessedLengthPerHole = 11;
     /// <summary>Minimum size array to rent from the pool.</summary>
     /// <remarks>Same as stack-allocation size used today by string.Format.</remarks>
-    private const int MinimumArrayPoolLength = 256;
+    const int MinimumArrayPoolLength = 256;
 
     /// <summary>Maximum length allowed for a string.</summary>
     /// <remarks>Keep in sync with AllocateString in gchelpers.cpp.</remarks>
-    private const int StringMaxLength = 0x3FFFFFDF;
+    const int StringMaxLength = 0x3FFFFFDF;
 
     /// <summary>Optional provider to pass to IFormattable.ToString or ISpanFormattable.TryFormat calls.</summary>
-    private readonly IFormatProvider? _provider;
+    readonly IFormatProvider? _provider;
     /// <summary>Array rented from the array pool and used to back <see cref="_chars"/>.</summary>
-    private char[]? _arrayToReturnToPool;
+    char[]? _arrayToReturnToPool;
     /// <summary>The span to write into.</summary>
-    private Span<char> _chars;
+    Span<char> _chars;
     /// <summary>Position at which to write the next character.</summary>
-    private int _pos;
+    int _pos;
     /// <summary>Whether <see cref="_provider"/> provides an ICustomFormatter.</summary>
     /// <remarks>
     /// Custom formatters are very rare.  We want to support them, but it's ok if we make them more expensive
@@ -63,7 +63,7 @@ ref struct DefaultInterpolatedStringHandler
     /// provides a formatter, rather than actually storing the formatter.  This in turn means, if there is a
     /// formatter, we pay for the extra interface call on each AppendFormatted that needs it.
     /// </remarks>
-    private readonly bool _hasCustomFormatter;
+    readonly bool _hasCustomFormatter;
 
     /// <summary>Creates a handler used to translate an interpolated string into a <see cref="string"/>.</summary>
     /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
@@ -474,7 +474,7 @@ ref struct DefaultInterpolatedStringHandler
     /// or a string that doesn't fit in the current buffer.
     /// </remarks>
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private void AppendFormattedSlow(string? value)
+    void AppendFormattedSlow(string? value)
     {
         if (_hasCustomFormatter)
         {
@@ -537,7 +537,7 @@ ref struct DefaultInterpolatedStringHandler
     /// <param name="format">The format string.</param>
     /// <typeparam name="T">The type of the value to write.</typeparam>
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private void AppendCustomFormatter<T>(T value, string? format)
+    void AppendCustomFormatter<T>(T value, string? format)
     {
         // This case is very rare, but we need to handle it prior to the other checks in case
         // a provider was used that supplied an ICustomFormatter which wanted to intercept the particular value.
@@ -563,7 +563,7 @@ ref struct DefaultInterpolatedStringHandler
     /// Non-zero minimum number of characters that should be written for this value.  If the value is negative, it
     /// indicates left-aligned and the required minimum is the absolute value.
     /// </param>
-    private void AppendOrInsertAlignmentIfNeeded(int startingPos, int alignment)
+    void AppendOrInsertAlignmentIfNeeded(int startingPos, int alignment)
     {
         Debug.Assert(startingPos >= 0 && startingPos <= _pos);
         Debug.Assert(alignment != 0);
@@ -600,7 +600,7 @@ ref struct DefaultInterpolatedStringHandler
     /// Ensures <see cref="_chars"/> has the capacity to store <paramref name="additionalChars"/> beyond <see cref="_pos"/>.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void EnsureCapacityForAdditionalChars(int additionalChars)
+    void EnsureCapacityForAdditionalChars(int additionalChars)
     {
         if (_chars.Length - _pos < additionalChars)
         {
@@ -613,7 +613,7 @@ ref struct DefaultInterpolatedStringHandler
     /// </summary>
     /// <param name="value">The string to write.</param>
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private void GrowThenCopyString(string value)
+    void GrowThenCopyString(string value)
     {
         Grow(value.Length);
         value.CopyTo(_chars.Slice(_pos));
@@ -625,7 +625,7 @@ ref struct DefaultInterpolatedStringHandler
     /// </summary>
     /// <param name="value">The span to write.</param>
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private void GrowThenCopySpan(scoped ReadOnlySpan<char> value)
+    void GrowThenCopySpan(scoped ReadOnlySpan<char> value)
     {
         Grow(value.Length);
         value.CopyTo(_chars.Slice(_pos));
@@ -637,7 +637,7 @@ ref struct DefaultInterpolatedStringHandler
     /// beyond <see cref="_pos"/>.
     /// </summary>
     [MethodImpl(MethodImplOptions.NoInlining)] // keep consumers as streamlined as possible
-    private void Grow(int additionalChars)
+    void Grow(int additionalChars)
     {
         // This method is called when the remaining space (_chars.Length - _pos) is
         // insufficient to store a specific number of additional characters.  Thus, we
@@ -649,7 +649,7 @@ ref struct DefaultInterpolatedStringHandler
 
     /// <summary>Grows the size of <see cref="_chars"/>.</summary>
     [MethodImpl(MethodImplOptions.NoInlining)] // keep consumers as streamlined as possible
-    private void Grow() =>
+    void Grow() =>
         // This method is called when the remaining space in _chars isn't sufficient to continue
         // the operation.  Thus, we need at least one character beyond _chars.Length.  GrowCore
         // will handle growing by more than that if possible.
@@ -659,7 +659,7 @@ ref struct DefaultInterpolatedStringHandler
     /// Grow the size of <see cref="_chars"/> to at least the specified <paramref name="requiredMinCapacity"/>.
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)] // but reuse this grow logic directly in both of the above grow routines
-    private void GrowCore(uint requiredMinCapacity)
+    void GrowCore(uint requiredMinCapacity)
     {
         // We want the max of how much space we actually required and doubling our capacity (without going beyond
         // the max allowed length). We also want to avoid asking for small arrays, to reduce the number of times we
@@ -682,7 +682,7 @@ ref struct DefaultInterpolatedStringHandler
         }
     }
 
-    private bool TryFormatWithExtensions<T>(T value, ReadOnlySpan<char> format)
+    bool TryFormatWithExtensions<T>(T value, ReadOnlySpan<char> format)
     {
         int charsWritten;
         switch (value)
@@ -804,7 +804,7 @@ static file class InternalMath
     }
 
     [DoesNotReturn]
-    private static void ThrowMinMaxException<T>(T min, T max) =>
+    static void ThrowMinMaxException<T>(T min, T max) =>
         throw new ArgumentException(string.Format(SR.Argument_MinMaxValue, min, max));
 }
 

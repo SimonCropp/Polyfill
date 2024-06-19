@@ -1,6 +1,6 @@
 partial class PolyfillTests
 {
-    private static bool IsCompletedSuccessfully(Task task)
+    static bool IsCompletedSuccessfully(Task task)
     {
 #if NETFRAMEWORK || NETSTANDARD
         return task.Status == TaskStatus.RanToCompletion;

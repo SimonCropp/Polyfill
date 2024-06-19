@@ -29,28 +29,28 @@ internal sealed class RegexCache
     // about such costs, it should either increase Regex.CacheSize or do its own Regex instance caching.
 
     /// <summary>The default maximum number of items to store in the cache.</summary>
-    private const int DefaultMaxCacheSize = 15;
+    const int DefaultMaxCacheSize = 15;
     /// <summary>The maximum number of cached items to examine when we need to replace an existing one in the cache with a new one.</summary>
     /// <remarks>This is a somewhat arbitrary value, chosen to be small but at least as large as DefaultMaxCacheSize.</remarks>
-    private const int MaxExamineOnDrop = 30;
+    const int MaxExamineOnDrop = 30;
 
     /// <summary>A read-through cache of one element, representing the most recently used regular expression.</summary>
-    private static volatile Node? s_lastAccessed;
+    static volatile Node? s_lastAccessed;
     /// <summary>The thread-safe dictionary storing all the items in the cache.</summary>
     /// <remarks>
     /// The concurrency level is initialized to 1 as we're using our own global lock for all mutations, so we don't need ConcurrentDictionary's
     /// striped locking.  Capacity is initialized to 31, which is the same as (the private) ConcurrentDictionary.DefaultCapacity.
     /// </remarks>
-    private static readonly ConcurrentDictionary<Key, Node> s_cacheDictionary = new ConcurrentDictionary<Key, Node>(concurrencyLevel: 1, capacity: 31);
+    static readonly ConcurrentDictionary<Key, Node> s_cacheDictionary = new ConcurrentDictionary<Key, Node>(concurrencyLevel: 1, capacity: 31);
     /// <summary>A list of all the items in the cache.  Protected by <see cref="SyncObj"/>.</summary>
-    private static readonly List<Node> s_cacheList = new List<Node>(DefaultMaxCacheSize);
+    static readonly List<Node> s_cacheList = new List<Node>(DefaultMaxCacheSize);
     /// <summary>Random number generator used to examine a subset of items when we need to drop one from a large list.  Protected by <see cref="SyncObj"/>.</summary>
-    private static readonly Random s_random = new Random();
+    static readonly Random s_random = new Random();
     /// <summary>The current maximum number of items allowed in the cache.  This rarely changes.  Mostly protected by <see cref="SyncObj"/>.</summary>
-    private static int s_maxCacheSize = DefaultMaxCacheSize;
+    static int s_maxCacheSize = DefaultMaxCacheSize;
 
     /// <summary>Lock used to protect shared state on mutations.</summary>
-    private static object SyncObj => s_cacheDictionary;
+    static object SyncObj => s_cacheDictionary;
 
     /// <summary>Gets or sets the maximum size of the cache.</summary>
     public static int MaxCacheSize
@@ -131,7 +131,7 @@ internal sealed class RegexCache
         return regex;
     }
 
-    private static Regex? Get(Key key)
+    static Regex? Get(Key key)
     {
         long lastAccessedStamp = 0;
 
@@ -175,7 +175,7 @@ internal sealed class RegexCache
         return null;
     }
 
-    private static void Add(Key key, Regex regex)
+    static void Add(Key key, Regex regex)
     {
         lock (SyncObj)
         {
@@ -250,9 +250,9 @@ internal sealed class RegexCache
     /// <summary>Used as a key for <see cref="Node"/>.</summary>
     internal readonly struct Key : IEquatable<Key>
     {
-        private readonly string _pattern;
-        private readonly RegexOptions _options;
-        private readonly TimeSpan _matchTimeout;
+        readonly string _pattern;
+        readonly RegexOptions _options;
+        readonly TimeSpan _matchTimeout;
 
         public Key(string pattern, RegexOptions options, TimeSpan matchTimeout)
         {
@@ -278,7 +278,7 @@ internal sealed class RegexCache
     }
 
     /// <summary>Node for a cached Regex instance.</summary>
-    private sealed class Node(Key key, Regex regex)
+    sealed class Node(Key key, Regex regex)
     {
         /// <summary>The key associated with this cached instance.</summary>
         public readonly Key Key = key;

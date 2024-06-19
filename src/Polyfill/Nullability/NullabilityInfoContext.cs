@@ -44,9 +44,14 @@ sealed class NullabilityInfoContext
     [Flags]
     enum NotAnnotatedStatus
     {
-        None = 0x0,    // no restriction, all members annotated
-        Private = 0x1, // private members not annotated
-        Internal = 0x2 // internal members not annotated
+        // no restriction, all members annotated
+        None = 0x0,
+
+        // private members not annotated
+        Private = 0x1,
+
+        // internal members not annotated
+        Internal = 0x2
     }
 
     NullabilityState? GetNullableContext(MemberInfo? memberInfo)
@@ -210,7 +215,6 @@ sealed class NullabilityInfoContext
     /// <returns><see cref="NullabilityInfo" /></returns>
     public NullabilityInfo Create(PropertyInfo propertyInfo)
     {
-
         EnsureIsSupported();
 
         MethodInfo? getter = propertyInfo.GetGetMethod(true);
@@ -441,10 +445,12 @@ sealed class NullabilityInfoContext
         }
     }
 
-    private static MemberInfo GetMemberMetadataDefinition(MemberInfo member)
+    static MemberInfo GetMemberMetadataDefinition(MemberInfo member)
     {
         Type? type = member.DeclaringType;
-        if ((type != null) && type.IsGenericType && !type.IsGenericTypeDefinition)
+        if ((type != null) &&
+            type.IsGenericType &&
+            !type.IsGenericTypeDefinition)
         {
             return type.GetGenericTypeDefinition().GetMemberWithSameMetadataDefinitionAs(member);
         }
@@ -639,9 +645,9 @@ sealed class NullabilityInfoContext
 
     readonly struct NullableAttributeStateParser
     {
-        private static readonly object UnknownByte = (byte)0;
+        static readonly object UnknownByte = (byte)0;
 
-        private readonly object? _nullableAttributeArgument;
+        readonly object? _nullableAttributeArgument;
 
         public NullableAttributeStateParser(object? nullableAttributeArgument)
         {

@@ -10,7 +10,7 @@ public class CollectionBuilderAttributeTests
     [CollectionBuilder(typeof(MyCollection), nameof(Create))]
     public class MyCollection(ReadOnlySpan<int> initValues)
     {
-        private readonly int[] values = initValues.ToArray();
+        readonly int[] values = initValues.ToArray();
         public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>)values).GetEnumerator();
 
         public static MyCollection Create(ReadOnlySpan<int> values) => new(values);

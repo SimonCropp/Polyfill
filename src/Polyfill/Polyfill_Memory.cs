@@ -62,7 +62,7 @@ static partial class Polyfill
     /// Delimits all leading occurrences of whitespace charecters from the span.
     /// </summary>
     /// <param name="span">The source span from which the characters are removed.</param>
-    private static int ClampStart(ReadOnlySpan<char> target)
+    static int ClampStart(ReadOnlySpan<char> target)
     {
         int start = 0;
 
@@ -82,7 +82,7 @@ static partial class Polyfill
     /// </summary>
     /// <param name="span">The source span from which the characters are removed.</param>
     /// <param name="start">The start index from which to being searching.</param>
-    private static int ClampEnd(ReadOnlySpan<char> target, int start)
+    static int ClampEnd(ReadOnlySpan<char> target, int start)
     {
         int end = target.Length - 1;
 
