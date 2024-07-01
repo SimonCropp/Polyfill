@@ -4,17 +4,29 @@ partial class PolyfillTests
     [Test]
     public void RandomNextBytesSpan()
     {
-        // Create a new instance of Random
         var random = new Random();
-
-        // Create a span of bytes
         Span<byte> buffer = new byte[10];
-
-        // Fill the span with random bytes
         random.NextBytes(buffer);
+        Assert.IsTrue(buffer.ToArray().Any(b => b != 0));
+    }
 
-        // Assert that the span is filled with random bytes
+    [Test]
+    public void RandomShuffleSpan()
+    {
+        var random = new Random();
+        Span<byte> buffer = new byte[10];
+        random.NextBytes(buffer);
+        random.Shuffle(buffer);
         Assert.IsTrue(buffer.ToArray().Any(b => b != 0));
     }
 #endif
+    [Test]
+    public void RandomShuffleArray()
+    {
+        var random = new Random();
+        var buffer = new byte[10];
+        random.NextBytes(buffer);
+        random.Shuffle(buffer);
+        Assert.IsTrue(buffer.ToArray().Any(b => b != 0));
+    }
 }
