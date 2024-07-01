@@ -34,7 +34,7 @@ class BuildApiTest
         writer.WriteLine();
         foreach (var type in PublicMethods(extensions)
                      .GroupBy(_ => _.Parameters[0].ParameterType.FullName)
-                     .OrderBy(_ => _.Key))
+                     .OrderBy(_ => GetTypeName(_.Key)))
         {
             writer.WriteLine($"#### {GetTypeName(type.Key)}");
             writer.WriteLine();
