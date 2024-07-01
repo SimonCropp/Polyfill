@@ -95,7 +95,7 @@ class Consume
         typeof(List<string>).IsAssignableTo(typeof(string));
         typeof(List<string>).IsAssignableTo(null);
 
-        var enumerable = (IEnumerable<string>) new List<string>
+        var enumerable = (IEnumerable<string>)new List<string>
         {
             "a",
             "b"
@@ -245,7 +245,7 @@ class Consume
 
 #endif
 
-    #pragma warning disable ExperimentalMethod
+#pragma warning disable ExperimentalMethod
     static void ExperimentalMethodUsage() =>
         ExperimentalMethod();
 
@@ -264,8 +264,12 @@ class Consume
     {
         var source = new CancellationTokenSource();
         var token = source.Token;
-        token.UnsafeRegister(state => {}, null);
-        token.UnsafeRegister((state, token) => {}, null);
+        token.UnsafeRegister(state =>
+        {
+        }, null);
+        token.UnsafeRegister((state, token) =>
+        {
+        }, null);
     }
 
     async Task ProcessWaitForExitAsync()
@@ -288,7 +292,9 @@ class Consume
 
     void WaitAsync()
     {
-        var action = () => {};
+        var action = () =>
+        {
+        };
         var func = () => 0;
         new Task(action).WaitAsync(CancellationToken.None);
         new Task(action).WaitAsync(TimeSpan.Zero);
@@ -451,6 +457,19 @@ class Consume
         var result = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
     }
 
+#if FeatureMemory
+    void RandomNextBytesSpan()
+    {
+        // Create a new instance of Random
+        var random = new Random();
+
+        // Create a span of bytes
+        Span<byte> buffer = new byte[10];
+
+        // Fill the span with random bytes
+        random.NextBytes(buffer);
+    }
+#endif
     public void SortedList()
     {
         var list = new SortedList<int, char>();
