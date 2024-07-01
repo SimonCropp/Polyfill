@@ -464,14 +464,20 @@ class Consume
         Span<byte> buffer = new byte[10];
         random.NextBytes(buffer);
     }
+
+    void RandomShuffleSpan()
+    {
+        var random = new Random();
+        Span<byte> span = new byte[10];
+        random.Shuffle(span);
+    }
 #endif
+
     void RandomShuffle()
     {
         var random = new Random();
         var buffer = new byte[10];
-        Span<byte> span = new byte[10];
         random.Shuffle(buffer);
-        random.Shuffle(span);
     }
 
     public void SortedList()

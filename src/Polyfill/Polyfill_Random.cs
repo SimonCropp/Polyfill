@@ -27,7 +27,6 @@ static partial class Polyfill
 
 #if !NET8_0_OR_GREATER
 
-#if FeatureMemory
     /// <summary>
     /// Performs an in-place shuffle of an array.
     /// </summary>
@@ -40,22 +39,7 @@ static partial class Polyfill
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))")]
     public static void Shuffle<T>(
         this Random target,
-        T[] values) =>
-        target.Shuffle(values.AsSpan());
-
-    /// <summary>
-    /// Performs an in-place shuffle of a span.
-    /// </summary>
-    /// <param name="index">The span to shuffle.</param>
-    /// <typeparam name="T">The type of span.</typeparam>
-    /// <remarks>
-    ///   This method uses <see cref="Next(int, int)" /> to choose values for shuffling.
-    ///   This method is an O(n) operation.
-    /// </remarks>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))")]
-    public static void Shuffle<T>(
-        this Random target,
-        Span<T> values)
+        T[] values)
     {
         int n = values.Length;
 
@@ -71,12 +55,13 @@ static partial class Polyfill
             }
         }
     }
-#else
+#if FeatureMemory
+
     /// <summary>
-    /// Performs an in-place shuffle of an array.
+    /// Performs an in-place shuffle of a span.
     /// </summary>
-    /// <param name="index">The array to shuffle.</param>
-    /// <typeparam name="T">The type of array.</typeparam>
+    /// <param name="index">The span to shuffle.</param>
+    /// <typeparam name="T">The type of span.</typeparam>
     /// <remarks>
     ///   This method uses <see cref="Next(int, int)" /> to choose values for shuffling.
     ///   This method is an O(n) operation.
@@ -84,7 +69,7 @@ static partial class Polyfill
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))")]
     public static void Shuffle<T>(
         this Random target,
-        T[] values)
+        Span<T> values)
     {
         int n = values.Length;
 
