@@ -460,16 +460,26 @@ class Consume
 #if FeatureMemory
     void RandomNextBytesSpan()
     {
-        // Create a new instance of Random
         var random = new Random();
-
-        // Create a span of bytes
         Span<byte> buffer = new byte[10];
-
-        // Fill the span with random bytes
         random.NextBytes(buffer);
     }
+
+    void RandomShuffleSpan()
+    {
+        var random = new Random();
+        Span<byte> span = new byte[10];
+        random.Shuffle(span);
+    }
 #endif
+
+    void RandomShuffle()
+    {
+        var random = new Random();
+        var buffer = new byte[10];
+        random.Shuffle(buffer);
+    }
+
     public void SortedList()
     {
         var list = new SortedList<int, char>();
