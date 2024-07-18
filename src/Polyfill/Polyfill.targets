@@ -77,8 +77,11 @@ For example:
     <PropertyGroup>
       <DefineConstants
         Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.ValueTuple'))">$(DefineConstants);FeatureValueTuple</DefineConstants>
+
+      <MemoryVersion>@(ResolvedCompileFileDefinitions->WithMetadataValue('NuGetPackageId', 'System.Memory')->Metadata('NuGetPackageVersion'))</MemoryVersion>
+
       <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Memory'))">$(DefineConstants);FeatureMemory</DefineConstants>
+        Condition="'$(MemoryVersion)' != '' AND $([MSBuild]::VersionGreaterThanOrEquals($(MemoryVersion), '4.5.5'))">$(DefineConstants);FeatureMemory</DefineConstants>
 
       <DefineConstants
               Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Threading.Tasks.Extensions'))">$(DefineConstants);FeatureValueTask</DefineConstants>
