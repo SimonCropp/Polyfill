@@ -76,16 +76,16 @@ For example:
   <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets">
     <PropertyGroup>
       <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->WithMetadataValue('NuGetPackageId', 'System.ValueTuple')->Count()) != 0">$(DefineConstants);FeatureValueTuple</DefineConstants>
+        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('Identity', 'System.ValueTuple'))">$(DefineConstants);FeatureValueTuple</DefineConstants>
       <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->WithMetadataValue('NuGetPackageId', 'System.Memory')->Count()) != 0">$(DefineConstants);FeatureMemory</DefineConstants>
+        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('Identity', 'System.Memory'))">$(DefineConstants);FeatureMemory</DefineConstants>
 
       <DefineConstants
-              Condition="@(ResolvedCompileFileDefinitions->WithMetadataValue('NuGetPackageId', 'System.Threading.Tasks.Extensions')->Count()) != 0">$(DefineConstants);FeatureValueTask</DefineConstants>
+              Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('Identity', 'System.Threading.Tasks.Extensions'))">$(DefineConstants);FeatureValueTask</DefineConstants>
 
       <DefineConstants
-              Condition="@(ResolvedCompileFileDefinitions->WithMetadataValue('NuGetPackageId', 'System.Net.Http')->Count()) != 0 OR @(Reference->WithMetadataValue('Identity', 'System.Net.Http')->Count()) != 0">$(DefineConstants);FetureHttp</DefineConstants>
-      
+              Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('Identity', 'System.Net.Http')) OR @(Reference->HaveMetadataValue('Identity', 'System.Net.Http')) != 0">$(DefineConstants);FetureHttp</DefineConstants>
+
       <DefineConstants Condition="$(LowerFramework.StartsWith('net9'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net8'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net7'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask</DefineConstants>
