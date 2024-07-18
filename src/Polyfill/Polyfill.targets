@@ -84,7 +84,7 @@ For example:
               Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Threading.Tasks.Extensions'))">$(DefineConstants);FeatureValueTask</DefineConstants>
 
       <DefineConstants
-              Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Net.Http')) OR @(Reference->WithMetadataValue('Identity', 'System.Net.Http')->Count()) != 0">$(DefineConstants);FetureHttp</DefineConstants>
+              Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Net.Http')) OR @(Reference->AnyHaveMetadataValue('Identity', 'System.Net.Http'))">$(DefineConstants);FetureHttp</DefineConstants>
 
       <DefineConstants Condition="$(LowerFramework.StartsWith('net9'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net8'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask</DefineConstants>
