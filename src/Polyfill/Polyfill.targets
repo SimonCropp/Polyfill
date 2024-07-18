@@ -76,15 +76,15 @@ For example:
   <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets">
     <PropertyGroup>
       <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('Identity', 'System.ValueTuple'))">$(DefineConstants);FeatureValueTuple</DefineConstants>
+        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.ValueTuple'))">$(DefineConstants);FeatureValueTuple</DefineConstants>
       <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('Identity', 'System.Memory'))">$(DefineConstants);FeatureMemory</DefineConstants>
+        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Memory'))">$(DefineConstants);FeatureMemory</DefineConstants>
 
       <DefineConstants
-              Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('Identity', 'System.Threading.Tasks.Extensions'))">$(DefineConstants);FeatureValueTask</DefineConstants>
+              Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Threading.Tasks.Extensions'))">$(DefineConstants);FeatureValueTask</DefineConstants>
 
       <DefineConstants
-              Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('Identity', 'System.Net.Http')) OR @(Reference->HaveMetadataValue('Identity', 'System.Net.Http')) != 0">$(DefineConstants);FetureHttp</DefineConstants>
+              Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Net.Http')) OR @(Reference->HaveMetadataValue('NuGetPackageId', 'System.Net.Http')) != 0">$(DefineConstants);FetureHttp</DefineConstants>
 
       <DefineConstants Condition="$(LowerFramework.StartsWith('net9'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net8'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask</DefineConstants>
