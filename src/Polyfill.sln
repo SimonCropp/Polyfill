@@ -39,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumeNoRefs", "ConsumeNoR
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumeTasksWithNoMemory", "ConsumeTasksWithNoMemory\ConsumeTasksWithNoMemory.csproj", "{96EF1E04-5862-4D9E-B800-A6402F1ADF7A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TargetFrameowkUsage", "TargetFrameowkUsage\TargetFrameowkUsage.csproj", "{41CB5A0C-E0F5-4C5C-B2FC-9A289E8CFDF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TargetFrameworkUsage", "TargetFrameworkUsage\TargetFrameworkUsage.csproj", "{41CB5A0C-E0F5-4C5C-B2FC-9A289E8CFDF8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

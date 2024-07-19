@@ -4,7 +4,7 @@
     "projects": [
       "Consume\\Consume.csproj",
       "Polyfill\\Polyfill.csproj",
-      "TargetFrameowkUsage\\TargetFrameowkUsage.csproj",
+      "TargetFrameworkUsage\\TargetFrameworkUsage.csproj",
       "Tests\\Tests.csproj"
     ]
   }
