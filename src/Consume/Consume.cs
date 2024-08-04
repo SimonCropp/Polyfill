@@ -18,6 +18,10 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
+using MemoryStream = System.IO.MemoryStream;
+
 #pragma warning disable CS4014
 
 class Consume
@@ -455,6 +459,14 @@ class Consume
     void GetMemberWithSameMetadataDefinitionAs(MemberInfo info)
     {
         var result = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
+    }
+
+    void XDocumentSaveAsync()
+    {
+        var document = new XDocument();
+        document.SaveAsync(new XmlTextWriter(null!), CancellationToken.None);
+        document.SaveAsync(new StringWriter(), SaveOptions.None, CancellationToken.None);
+        document.SaveAsync(new MemoryStream(), SaveOptions.None, CancellationToken.None);
     }
 
 #if FeatureMemory
