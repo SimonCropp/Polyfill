@@ -95,7 +95,6 @@ class Consume
         typeof(List<string>).IsAssignableTo(typeof(string));
         typeof(List<string>).IsAssignableTo(null);
 
-        var enumerable = (IEnumerable<string>)new List<string>
         {
             "a",
             "b"
@@ -417,7 +416,7 @@ class Consume
     public class MyCollection(ReadOnlySpan<int> initValues)
     {
         readonly int[] values = initValues.ToArray();
-        public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>)values).GetEnumerator();
+        public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>) values).GetEnumerator();
 
         public static MyCollection Create(ReadOnlySpan<int> values) => new(values);
     }
