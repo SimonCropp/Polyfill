@@ -95,6 +95,7 @@ class Consume
         typeof(List<string>).IsAssignableTo(typeof(string));
         typeof(List<string>).IsAssignableTo(null);
 
+        var enumerable = (IEnumerable<string>) new List<string>
         {
             "a",
             "b"
