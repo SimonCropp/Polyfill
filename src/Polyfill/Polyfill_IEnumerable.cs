@@ -55,9 +55,9 @@ static partial class Polyfill
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.trygetnonenumeratedcount")]
     public static bool TryGetNonEnumeratedCount<TSource>(this IEnumerable<TSource> target, out int count)
     {
-        if (target is ICollection<TSource> collectionoft)
+        if (target is ICollection<TSource> genericCollection)
         {
-            count = collectionoft.Count;
+            count = genericCollection.Count;
             return true;
         }
 
