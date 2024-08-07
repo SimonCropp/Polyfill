@@ -1047,6 +1047,22 @@ Enable by adding and MSBuild property `PolyNullability`
    * Throws an exception if state is `NullabilityState.Unknown`.
 
 
+## Guard
+
+Enable by adding and MSBuild property `PolyGuard`
+
+```
+<PropertyGroup>
+  ...
+  <PolyGuard>true</PolyGuard>
+</PropertyGroup>
+```
+
+
+`Guard` provides
+
+
+
 ## Alternatives
 
 
