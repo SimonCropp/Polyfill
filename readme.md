@@ -310,7 +310,7 @@ Reference: [CallerArgumentExpression](https://learn.microsoft.com/en-us/dotnet/c
 <!-- snippet: CallerArgumentExpression -->
 <a id='snippet-CallerArgumentExpression'></a>
 ```cs
-static class Guard
+static class FileUtil
 {
     public static void FileExists(string path, [CallerArgumentExpression("path")] string argumentName = "")
     {
@@ -321,16 +321,16 @@ static class Guard
     }
 }
 
-static class GuardUsage
+static class FileUtilUsage
 {
     public static string[] Method(string path)
     {
-        Guard.FileExists(path);
+        FileUtil.FileExists(path);
         return File.ReadAllLines(path);
     }
 }
 ```
-<sup><a href='/src/Tests/Guard.cs#L1-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-CallerArgumentExpression' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/CallerArgumentExpressionUsage.cs#L1-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-CallerArgumentExpression' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -1059,7 +1059,7 @@ Enable by adding and MSBuild property `PolyGuard`
 ```
 
 
-`Guard` provides
+`Polyfills.Guard` provides the following 
 
 
 

@@ -8,7 +8,12 @@ using System.Runtime.CompilerServices;
 
 #if PolyGuard
 
+using System.Linq;
+using System.Runtime.CompilerServices;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.IO;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -25,9 +30,60 @@ static partial class Guard
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(value))
+        if (value.Length == 0)
         {
-            throw new ArgumentNullException(argumentName);
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
+        }
+    }
+
+    public static void AgainstEmpty<T>(
+        [NotNull] T? value,
+        [CallerArgumentExpression("value")] string argumentName = "")
+        where T : IEnumerable
+    {
+        if (value is null)
+        {
+            return;
+        }
+
+        if (value is ICollection<T> genericCollection)
+        {
+            if (genericCollection.Count == 0)
+            {
+                throw new ArgumentException("Argument cannot be empty.", argumentName);
+            }
+        }
+
+        if (value is ICollection collection)
+        {
+            if (collection.Count == 0)
+            {
+                throw new ArgumentException("Argument cannot be empty.", argumentName);
+            }
+        }
+
+        if (value is IReadOnlyCollection<T> readOnlyCollection)
+        {
+            if (readOnlyCollection.Count == 0)
+            {
+                throw new ArgumentException("Argument cannot be empty.", argumentName);
+            }
+        }
+
+        var enumerator = value.GetEnumerator();
+        try
+        {
+            if (enumerator.MoveNext())
+            {
+                throw new ArgumentException("Argument cannot be empty.", argumentName);
+            }
+        }
+        finally
+        {
+            if (enumerator is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
         }
     }
 }
