@@ -65,6 +65,7 @@ class BuildApiTest
         WriteHelper(types, "ULongPolyfill", writer, ref count);
         WriteHelper(types, "UShortPolyfill", writer, ref count);
         WriteHelper(types, "Guard", writer, ref count);
+        WriteType(nameof(TaskCompletionSource), writer, ref count);
 
         count += types.Count(_ => _.Key.EndsWith("Attribute"));
         var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
@@ -134,6 +135,12 @@ class BuildApiTest
 
         writer.WriteLine();
         writer.WriteLine();
+    }
+
+    static void WriteType(string name, StreamWriter writer, ref int count)
+    {
+        writer.WriteLine($"#### {name}");
+        count++;
     }
 
     static string GetTypeName(string targetType)
