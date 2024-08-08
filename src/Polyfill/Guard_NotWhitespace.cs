@@ -33,12 +33,12 @@ static partial class Guard
 
         if (value.Length == 0)
         {
-            return;
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
         }
 
-        for (int index = 0; index < value.Length; ++index)
+        foreach (var ch in value)
         {
-            if (!char.IsWhiteSpace(value[index]))
+            if (!char.IsWhiteSpace(ch))
             {
                 return;
             }

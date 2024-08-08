@@ -149,8 +149,9 @@ public class GuardTests
     {
         Assert.Throws<ArgumentException>(
             () => Guard.NotWhitespace(" \t"));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotWhitespace(string.Empty));
         Guard.NotWhitespace(null);
-        Guard.NotWhitespace(string.Empty);
         Guard.NotWhitespace("value");
     }
 
