@@ -20,10 +20,11 @@ class BuildApiTest
 
     static string solutionDirectory = SolutionDirectoryFinder.Find();
 
+    static Dictionary<string, List<MethodDefinition>> types = GetTypes();
+
     [Test]
     public void Run()
     {
-        var types = GetTypes();
         var extensions = types[nameof(Polyfill)];
 
         var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
