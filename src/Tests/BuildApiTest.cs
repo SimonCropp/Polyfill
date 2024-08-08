@@ -64,11 +64,22 @@ class BuildApiTest
         WriteHelper(types, "UIntPolyfill", writer, ref count);
         WriteHelper(types, "ULongPolyfill", writer, ref count);
         WriteHelper(types, "UShortPolyfill", writer, ref count);
+        WriteHelper(types, "Guard", writer, ref count);
 
         count += types.Count(_ => _.Key.EndsWith("Attribute"));
         var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
         File.Delete(countMd);
         File.WriteAllText(countMd, $"**API count: {count}**");
+    }
+
+    [Test]
+    public void RunGuard()
+    {
+        var md = Path.Combine(solutionDirectory, "..", "api_guard.include.md");
+        File.Delete(md);
+        using var writer = File.CreateText(md);
+        var count = 0;
+        WriteHelper(types, "Guard", writer, ref count);
     }
 
     static Dictionary<string, List<MethodDefinition>> GetTypes()
@@ -149,7 +160,22 @@ class BuildApiTest
     {
         var parameters = BuildParameters(method);
         var typeArgs = BuildTypeArgs(method);
-        var signature = $"{GetTypeName(method.ReturnType.FullName)} {method.Name}{typeArgs}({parameters})";
+        var signature = new StringBuilder($"{GetTypeName(method.ReturnType.FullName)} {method.Name}{typeArgs}({parameters})");
+        if (method.HasGenericParameters)
+        {
+            var withConstraints = method.GenericParameters.Where(_ => _.HasConstraints).ToList();
+            if (withConstraints.Count > 0)
+            {
+                foreach (var genericParameter in withConstraints)
+                {
+                    signature.Append(" where ");
+                    signature.Append(genericParameter.Name);
+                    signature.Append(" : ");
+                    signature.Append(string.Join(", ", genericParameter.Constraints.Select(_ => GetTypeName(_.ConstraintType.FullName))));
+                }
+            }
+        }
+
         if (TryGetReference(method, out var reference))
         {
             writer.WriteLine($" * `{signature}` [reference]({reference})");
@@ -162,14 +188,29 @@ class BuildApiTest
 
     static string BuildParameters(MethodDefinition method)
     {
-        IEnumerable<ParameterDefinition> parameters;
+        if (method.Parameters.Count == 0)
+        {
+            return "";
+        }
+
+        List<ParameterDefinition> parameters;
         if (IsExtensionMethod(method))
         {
-            parameters = method.Parameters.Skip(1);
+            parameters = method.Parameters.Skip(1).ToList();
+            if (parameters.Count == 0)
+            {
+                return "";
+            }
         }
         else
         {
-            parameters = method.Parameters;
+            parameters = method.Parameters.ToList();
+        }
+
+        var last = parameters.Last();
+        if (last.CustomAttributes.Any(_ => _.AttributeType.Name.StartsWith("Caller")))
+        {
+            parameters.Remove(last);
         }
 
         return string.Join(", ", parameters.Select(_ => GetTypeName(_.ParameterType.FullName)));

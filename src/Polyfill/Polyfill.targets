@@ -13,6 +13,9 @@
   <PropertyGroup Condition="$(PolyNullability) == 'true' ">
     <DefineConstants>$(DefineConstants);PolyNullability</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="$(PolyGuard) == 'true' ">
+    <DefineConstants>$(DefineConstants);PolyGuard</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition="$(LowerFramework.StartsWith('netcoreapp2'))">
     <DefineConstants>$(DefineConstants);NETCOREAPP2X</DefineConstants>
   </PropertyGroup>

@@ -12,7 +12,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`
 
 
-**API count: 302**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 327**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -310,7 +310,7 @@ Reference: [CallerArgumentExpression](https://learn.microsoft.com/en-us/dotnet/c
 <!-- snippet: CallerArgumentExpression -->
 <a id='snippet-CallerArgumentExpression'></a>
 ```cs
-static class Guard
+static class FileUtil
 {
     public static void FileExists(string path, [CallerArgumentExpression("path")] string argumentName = "")
     {
@@ -321,16 +321,16 @@ static class Guard
     }
 }
 
-static class GuardUsage
+static class FileUtilUsage
 {
     public static string[] Method(string path)
     {
-        Guard.FileExists(path);
+        FileUtil.FileExists(path);
         return File.ReadAllLines(path);
     }
 }
 ```
-<sup><a href='/src/Tests/Guard.cs#L1-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-CallerArgumentExpression' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/CallerArgumentExpressionUsage.cs#L1-L22' title='Snippet source file'>snippet source</a> | <a href='#snippet-CallerArgumentExpression' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -603,7 +603,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### ReadOnlySpan<T>
 
- * `Boolean Contains<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0))
+ * `Boolean Contains<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0))
 
 
 #### Reflection.EventInfo
@@ -678,7 +678,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### Span<T>
 
- * `Boolean Contains<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-span((-0))-0))
+ * `Boolean Contains<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-span((-0))-0))
 
 
 #### Stream
@@ -737,6 +737,11 @@ The class `Polyfill` includes the following extension methods:
  * `Task<TResult> WaitAsync<TResult>(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken))
  * `Task<TResult> WaitAsync<TResult>(TimeSpan)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan))
  * `Task<TResult> WaitAsync<TResult>(TimeSpan, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken))
+
+
+#### TaskCompletionSource<T>
+
+ * `void SetCanceled<T>(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken))
 
 
 #### TextReader
@@ -800,14 +805,14 @@ The class `Polyfill` includes the following extension methods:
 
 #### EnumPolyfill
 
- * `String[] GetNames<TEnum>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.getnames)
- * `TEnum[] GetValues<TEnum>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.getvalues)
- * `TEnum Parse<TEnum>(String)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean))
- * `TEnum Parse<TEnum>(String, Boolean)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean))
- * `TEnum Parse<TEnum>(ReadOnlySpan<Char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-readonlyspan((system-char))))
- * `TEnum Parse<TEnum>(ReadOnlySpan<Char>, Boolean)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-readonlyspan((system-char))-system-boolean))
- * `Boolean TryParse<TEnum>(ReadOnlySpan<Char>, TEnum&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-readonlyspan((system-char))-0@))
- * `Boolean TryParse<TEnum>(ReadOnlySpan<Char>, Boolean, TEnum&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-readonlyspan((system-char))-system-boolean-0@))
+ * `String[] GetNames<TEnum>() where TEnum : Enum, ValueType` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.getnames)
+ * `TEnum[] GetValues<TEnum>() where TEnum : Enum, ValueType` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.getvalues)
+ * `TEnum Parse<TEnum>(String) where TEnum : Enum, ValueType` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean))
+ * `TEnum Parse<TEnum>(String, Boolean) where TEnum : Enum, ValueType` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean))
+ * `TEnum Parse<TEnum>(ReadOnlySpan<Char>) where TEnum : Enum, ValueType` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-readonlyspan((system-char))))
+ * `TEnum Parse<TEnum>(ReadOnlySpan<Char>, Boolean) where TEnum : Enum, ValueType` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-readonlyspan((system-char))-system-boolean))
+ * `Boolean TryParse<TEnum>(ReadOnlySpan<Char>, TEnum&) where TEnum : Enum, ValueType` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-readonlyspan((system-char))-0@))
+ * `Boolean TryParse<TEnum>(ReadOnlySpan<Char>, Boolean, TEnum&) where TEnum : Enum, ValueType` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryparse#system-enum-tryparse-1(system-readonlyspan((system-char))-system-boolean-0@))
 
 
 #### RegexPolyfill
@@ -929,6 +934,34 @@ The class `Polyfill` includes the following extension methods:
  * `Boolean TryParse(ReadOnlySpan<Byte>, UInt16&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint16@))
  * `Boolean TryParse(ReadOnlySpan<Char>, Globalization.NumberStyles, IFormatProvider, UInt16&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint16@))
 
+
+#### Guard
+
+ * `void DirectoryExists(String)`
+ * `void FileExists(String)`
+ * `void NotEmpty(String)`
+ * `void NotEmpty<T>(ReadOnlySpan<T>)`
+ * `void NotEmpty<T>(Span<T>)`
+ * `void NotEmpty<T>(Nullable<Memory<T>>)`
+ * `void NotEmpty<T>(Memory<T>)`
+ * `void NotEmpty<T>(Nullable<ReadOnlyMemory<T>>)`
+ * `void NotEmpty<T>(ReadOnlyMemory<T>)`
+ * `void NotEmpty<T>(T) where T : Collections.IEnumerable`
+ * `T NotNull<T>(T)`
+ * `String NotNull(String)`
+ * `String NotNullOrEmpty(String)`
+ * `T NotNullOrEmpty<T>(T) where T : Collections.IEnumerable`
+ * `Memory<Char> NotNullOrEmpty(Nullable<Memory<Char>>)`
+ * `ReadOnlyMemory<Char> NotNullOrEmpty(Nullable<ReadOnlyMemory<Char>>)`
+ * `String NotNullOrWhitespace(String)`
+ * `Memory<Char> NotNullOrWhitespace(Nullable<Memory<Char>>)`
+ * `ReadOnlyMemory<Char> NotNullOrWhitespace(Nullable<ReadOnlyMemory<Char>>)`
+ * `void NotWhitespace(String)`
+ * `void NotWhitespace(ReadOnlySpan<Char>)`
+ * `void NotWhitespace(Nullable<Memory<Char>>)`
+ * `void NotWhitespace(Nullable<ReadOnlyMemory<Char>>)`
+ * `void NotWhitespace(Span<Char>)`
+
 <!-- endInclude -->
 
 
@@ -1045,6 +1078,51 @@ Enable by adding and MSBuild property `PolyNullability`
    * Returns true if state is `NullabilityState.Nullable`.
    * Returns false if state is `NullabilityState.NotNull`.
    * Throws an exception if state is `NullabilityState.Unknown`.
+
+
+## Guard
+
+Enable by adding and MSBuild property `PolyGuard`
+
+```
+<PropertyGroup>
+  ...
+  <PolyGuard>true</PolyGuard>
+</PropertyGroup>
+```
+
+
+`Polyfills.Guard` provides the following APIs:
+
+
+#### Guard<!-- include: api_guard. path: /api_guard.include.md -->
+
+ * `void DirectoryExists(String)`
+ * `void FileExists(String)`
+ * `void NotEmpty(String)`
+ * `void NotEmpty<T>(ReadOnlySpan<T>)`
+ * `void NotEmpty<T>(Span<T>)`
+ * `void NotEmpty<T>(Nullable<Memory<T>>)`
+ * `void NotEmpty<T>(Memory<T>)`
+ * `void NotEmpty<T>(Nullable<ReadOnlyMemory<T>>)`
+ * `void NotEmpty<T>(ReadOnlyMemory<T>)`
+ * `void NotEmpty<T>(T) where T : Collections.IEnumerable`
+ * `T NotNull<T>(T)`
+ * `String NotNull(String)`
+ * `String NotNullOrEmpty(String)`
+ * `T NotNullOrEmpty<T>(T) where T : Collections.IEnumerable`
+ * `Memory<Char> NotNullOrEmpty(Nullable<Memory<Char>>)`
+ * `ReadOnlyMemory<Char> NotNullOrEmpty(Nullable<ReadOnlyMemory<Char>>)`
+ * `String NotNullOrWhitespace(String)`
+ * `Memory<Char> NotNullOrWhitespace(Nullable<Memory<Char>>)`
+ * `ReadOnlyMemory<Char> NotNullOrWhitespace(Nullable<ReadOnlyMemory<Char>>)`
+ * `void NotWhitespace(String)`
+ * `void NotWhitespace(ReadOnlySpan<Char>)`
+ * `void NotWhitespace(Nullable<Memory<Char>>)`
+ * `void NotWhitespace(Nullable<ReadOnlyMemory<Char>>)`
+ * `void NotWhitespace(Span<Char>)`
+
+<!-- endInclude -->
 
 
 ## Alternatives

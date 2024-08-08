@@ -85,7 +85,7 @@ public class SanityChecks
                 name == "NullableContextAttribute" ||
                 name == "ScopedRefAttribute" ||
                 name == "RefSafetyRulesAttribute" ||
-                name == "Guard")
+                name == "FileUtil")
             {
                 continue;
             }

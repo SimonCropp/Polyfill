@@ -276,6 +276,13 @@ class Consume
         }, null);
     }
 
+    void TaskCompletionSource_SetCanceled_WithCancellationToken()
+    {
+        var completionSource = new TaskCompletionSource<int>();
+        var tokenSource = new CancellationTokenSource();
+        completionSource.SetCanceled(tokenSource.Token);
+    }
+
     async Task ProcessWaitForExitAsync()
     {
         var process = new Process();
