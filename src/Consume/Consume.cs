@@ -476,6 +476,11 @@ class Consume
         document.SaveAsync(new MemoryStream(), SaveOptions.None, CancellationToken.None);
     }
 
+    void NonGenericTaskCompletionSource()
+    {
+        var tcs = new TaskCompletionSource();
+    }
+
 #if FeatureMemory
     void RandomNextBytesSpan()
     {
