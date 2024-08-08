@@ -60,6 +60,16 @@ public class GuardTests
     [Test]
     public void NotNullOrEmpty()
     {
+#if FeatureMemory
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrEmpty(Memory<char>.Empty));
+        Assert.Throws<ArgumentNullException>(
+            () => Guard.NotNullOrEmpty((Memory<char>?)null));
+        Assert.Throws<ArgumentNullException>(
+            () => Guard.NotNullOrEmpty((ReadOnlyMemory<char>?)null));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrEmpty(ReadOnlyMemory<char>.Empty));
+#endif
         Assert.Throws<ArgumentException>(
             () => Guard.NotNullOrEmpty(emptyString));
         Assert.Throws<ArgumentException>(
@@ -123,6 +133,26 @@ public class GuardTests
             () => Guard.NotEmpty(emptyIReadOnlyCollection));
         Assert.Throws<ArgumentException>(
             () => Guard.NotEmpty(emptyArray));
+#if FeatureMemory
+        Span<char> buffer = [];
+        var spanCaught = false;
+        try
+        {
+            Guard.NotEmpty(buffer);
+        }
+        catch (ArgumentException)
+        {
+            spanCaught = true;
+        }
+
+        Assert.True(spanCaught);
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotEmpty(Memory<char>.Empty));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotEmpty(Span<char>.Empty));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotEmpty(ReadOnlyMemory<char>.Empty));
+#endif
         Assert.Throws<ArgumentException>(
             () => Guard.NotEmpty(emptyEnumerable));
         Assert.Throws<ArgumentException>(
@@ -151,17 +181,48 @@ public class GuardTests
             () => Guard.NotWhitespace(" \t"));
         Assert.Throws<ArgumentException>(
             () => Guard.NotWhitespace(string.Empty));
-        Guard.NotWhitespace(null);
+#if FeatureMemory
+        Span<char> buffer = [];
+        var spanCaught = false;
+        try
+        {
+            Guard.NotWhitespace(buffer);
+        }
+        catch (ArgumentException)
+        {
+            spanCaught = true;
+        }
+        Assert.True(spanCaught);
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotWhitespace(Memory<char>.Empty));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotWhitespace(Span<char>.Empty));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotWhitespace(ReadOnlyMemory<char>.Empty));
+        Guard.NotWhitespace((Memory<char>?) null!);
+        Guard.NotWhitespace((ReadOnlyMemory<char>?) null!);
+#endif
+        Guard.NotWhitespace((string)null!);
         Guard.NotWhitespace("value");
     }
 
     [Test]
     public void NotNullOrWhitespace()
     {
+#if FeatureMemory
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrWhitespace(Memory<char>.Empty));
+        Assert.Throws<ArgumentNullException>(
+            () => Guard.NotNullOrWhitespace((Memory<char>?)null));
+        Assert.Throws<ArgumentNullException>(
+            () => Guard.NotNullOrWhitespace((ReadOnlyMemory<char>?)null));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrWhitespace(ReadOnlyMemory<char>.Empty));
+#endif
         Assert.Throws<ArgumentException>(
             () => Guard.NotNullOrWhitespace(" \t"));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrWhitespace(null));
+            () => Guard.NotNullOrWhitespace((string)null!));
         Assert.Throws<ArgumentException>(
             () => Guard.NotNullOrWhitespace(string.Empty));
         Guard.NotNullOrWhitespace("value");

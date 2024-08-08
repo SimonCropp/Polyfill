@@ -12,7 +12,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.IO;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
@@ -53,5 +52,58 @@ static partial class Guard
 
         return value;
     }
+
+
+#if FeatureMemory
+    public static Memory<char> NotNullOrEmpty(
+        [NotNull] Memory<char>? value,
+        [CallerArgumentExpression("value")] string argumentName = "")
+    {
+        if (value == null)
+        {
+            throw new ArgumentNullException(argumentName);
+        }
+
+        if (value.Value.Length == 0)
+        {
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
+        }
+
+        foreach (var ch in value.Value.Span)
+        {
+            if (!char.IsWhiteSpace(ch))
+            {
+                return value.Value;
+            }
+        }
+
+        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+    }
+
+    public static ReadOnlyMemory<char> NotNullOrEmpty(
+        [NotNull] ReadOnlyMemory<char>? value,
+        [CallerArgumentExpression("value")] string argumentName = "")
+    {
+        if (value == null)
+        {
+            throw new ArgumentNullException(argumentName);
+        }
+
+        if (value.Value.Length == 0)
+        {
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
+        }
+
+        foreach (var ch in value.Value.Span)
+        {
+            if (!char.IsWhiteSpace(ch))
+            {
+                return value.Value;
+            }
+        }
+
+        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+    }
+#endif
 }
 #endif

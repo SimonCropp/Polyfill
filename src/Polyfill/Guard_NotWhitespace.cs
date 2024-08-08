@@ -12,7 +12,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using System.IO;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
@@ -46,5 +45,97 @@ static partial class Guard
 
         throw new ArgumentException("Argument cannot be whitespace.", argumentName);
     }
+#if FeatureMemory
+
+    public static void NotWhitespace(
+        ReadOnlySpan<char> value,
+        [CallerArgumentExpression("value")] string argumentName = "")
+    {
+        if (value.Length == 0)
+        {
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
+        }
+
+        foreach (var ch in value)
+        {
+            if (!char.IsWhiteSpace(ch))
+            {
+                return;
+            }
+        }
+
+        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+    }
+
+    public static void NotWhitespace(
+        Memory<char>? value,
+        [CallerArgumentExpression("value")] string argumentName = "")
+    {
+        if (value == null)
+        {
+            return;
+        }
+
+        if (value.Value.Length == 0)
+        {
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
+        }
+
+        foreach (var ch in value.Value.Span)
+        {
+            if (!char.IsWhiteSpace(ch))
+            {
+                return;
+            }
+        }
+
+        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+    }
+
+    public static void NotWhitespace(
+        ReadOnlyMemory<char>? value,
+        [CallerArgumentExpression("value")] string argumentName = "")
+    {
+        if (value == null)
+        {
+            return;
+        }
+
+        if (value.Value.Length == 0)
+        {
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
+        }
+
+        foreach (var ch in value.Value.Span)
+        {
+            if (!char.IsWhiteSpace(ch))
+            {
+                return;
+            }
+        }
+
+        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+    }
+
+    public static void NotWhitespace(
+        Span<char> value,
+        [CallerArgumentExpression("value")] string argumentName = "")
+    {
+        if (value.Length == 0)
+        {
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
+        }
+
+        foreach (var ch in value)
+        {
+            if (!char.IsWhiteSpace(ch))
+            {
+                return;
+            }
+        }
+
+        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+    }
+#endif
 }
 #endif
