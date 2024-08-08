@@ -22,31 +22,24 @@ public
 
 static partial class Guard
 {
-    public static string AgainstNullOrEmpty(
+    public static string NotNullOrWhitespace(
         [NotNull] string? value,
         [CallerArgumentExpression("value")] string argumentName = "")
     {
-        if (string.IsNullOrWhiteSpace(value))
+        if (value == null)
         {
             throw new ArgumentNullException(argumentName);
         }
 
-        return value;
-    }
-
-    public static T AgainstNullOrEmpty<T>(
-        [NotNull] T? value,
-        [CallerArgumentExpression("value")] string argumentName = "")
-        where T : IEnumerable
-    {
-        if (value is null)
+        for (int index = 0; index < value.Length; ++index)
         {
-            throw new ArgumentNullException(argumentName);
+            if (!char.IsWhiteSpace(value[index]))
+            {
+                return value;
+            }
         }
 
-        AgainstEmpty(value);
-
-        return value;
+        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
     }
 }
 #endif

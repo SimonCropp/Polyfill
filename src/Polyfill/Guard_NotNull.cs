@@ -18,7 +18,7 @@ public
 #endif
 static partial class Guard
 {
-    public static T AgainstNull<T>(
+    public static T NotNull<T>(
         [NotNull] T? argument,
         [CallerArgumentExpression("argument")] string? name = null)
         where T : class
@@ -31,7 +31,7 @@ static partial class Guard
         return argument;
     }
 
-    public static string AgainstNull(
+    public static string NotNull(
         [NotNull] string? argument,
         [CallerArgumentExpression("argument")] string? name = null)
     {

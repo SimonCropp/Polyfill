@@ -22,7 +22,7 @@ static partial class Guard
 {
     public static void FileExists(string path, [CallerArgumentExpression("path")] string argumentName = "")
     {
-        AgainstNullOrEmpty(path, argumentName);
+        NotNullOrEmpty(path, argumentName);
         if (!File.Exists(path))
         {
             throw new ArgumentException($"File not found. Path: {path}", argumentName);
@@ -31,7 +31,7 @@ static partial class Guard
 
     public static void DirectoryExists(string path, [CallerArgumentExpression("path")] string argumentName = "")
     {
-        AgainstNullOrEmpty(path, argumentName);
+        NotNullOrEmpty(path, argumentName);
         if (!Directory.Exists(path))
         {
             throw new ArgumentException($"Directory not found. Path: {path}", argumentName);

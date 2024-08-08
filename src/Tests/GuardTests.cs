@@ -29,117 +29,140 @@ public class GuardTests
     string[] emptyArray = [];
 
     [Test]
-    public void AgainstNull()
+    public void NotNull()
     {
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNull(nullArray));
+            () => Guard.NotNull(nullArray));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNull(nullString));
+            () => Guard.NotNull(nullString));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNull(nullObject));
+            () => Guard.NotNull(nullObject));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNull(nullList));
+            () => Guard.NotNull(nullList));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNull(nullICollection));
+            () => Guard.NotNull(nullICollection));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNull(nullIList));
+            () => Guard.NotNull(nullIList));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNull(nullIReadOnlyList));
+            () => Guard.NotNull(nullIReadOnlyList));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNull(nullIReadOnlyCollection));
+            () => Guard.NotNull(nullIReadOnlyCollection));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNull(nullEnumerable));
+            () => Guard.NotNull(nullEnumerable));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNull(nullDictionary));
+            () => Guard.NotNull(nullDictionary));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNull(nullIDictionary));
+            () => Guard.NotNull(nullIDictionary));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNull(nullIReadOnlyDictionary));
+            () => Guard.NotNull(nullIReadOnlyDictionary));
     }
 
     [Test]
-    public void AgainstNullOrEmpty()
+    public void NotNullOrEmpty()
     {
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrEmpty(emptyString));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrEmpty(emptyList));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrEmpty(emptyIList));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrEmpty(emptyICollection));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrEmpty(emptyIReadOnlyList));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrEmpty(emptyIReadOnlyCollection));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrEmpty(emptyArray));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrEmpty(emptyEnumerable));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrEmpty(emptyDictionary));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrEmpty(emptyIDictionary));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrEmpty(emptyIReadOnlyDictionary));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(emptyString));
+            () => Guard.NotNullOrEmpty(nullString));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(emptyList));
+            () => Guard.NotNullOrEmpty(nullList));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(emptyIList));
+            () => Guard.NotNullOrEmpty(nullIList));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(emptyICollection));
+            () => Guard.NotNullOrEmpty(nullICollection));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(emptyIReadOnlyList));
+            () => Guard.NotNullOrEmpty(nullIReadOnlyList));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(emptyIReadOnlyCollection));
+            () => Guard.NotNullOrEmpty(nullIReadOnlyCollection));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(emptyArray));
+            () => Guard.NotNullOrEmpty(nullArray));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(emptyEnumerable));
+            () => Guard.NotNullOrEmpty(nullEnumerable));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(emptyDictionary));
+            () => Guard.NotNullOrEmpty(nullDictionary));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(emptyIDictionary));
+            () => Guard.NotNullOrEmpty(nullIDictionary));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(emptyIReadOnlyDictionary));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(nullString));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(nullList));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(nullIList));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(nullICollection));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(nullIReadOnlyList));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(nullIReadOnlyCollection));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(nullArray));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(nullEnumerable));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(nullDictionary));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(nullIDictionary));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.AgainstNullOrEmpty(nullIReadOnlyDictionary));
+            () => Guard.NotNullOrEmpty(nullIReadOnlyDictionary));
     }
+
     [Test]
-    public void AgainstEmpty()
+    public void NotEmpty()
     {
         Assert.Throws<ArgumentException>(
-            () => Guard.AgainstEmpty(emptyString));
+            () => Guard.NotEmpty(emptyString));
         Assert.Throws<ArgumentException>(
-            () => Guard.AgainstEmpty(emptyList));
+            () => Guard.NotEmpty(emptyList));
         Assert.Throws<ArgumentException>(
-            () => Guard.AgainstEmpty(emptyIList));
+            () => Guard.NotEmpty(emptyIList));
         Assert.Throws<ArgumentException>(
-            () => Guard.AgainstEmpty(emptyICollection));
+            () => Guard.NotEmpty(emptyICollection));
         Assert.Throws<ArgumentException>(
-            () => Guard.AgainstEmpty(emptyIReadOnlyList));
+            () => Guard.NotEmpty(emptyIReadOnlyList));
         Assert.Throws<ArgumentException>(
-            () => Guard.AgainstEmpty(emptyIReadOnlyCollection));
+            () => Guard.NotEmpty(emptyIReadOnlyCollection));
         Assert.Throws<ArgumentException>(
-            () => Guard.AgainstEmpty(emptyArray));
+            () => Guard.NotEmpty(emptyArray));
         Assert.Throws<ArgumentException>(
-            () => Guard.AgainstEmpty(emptyEnumerable));
+            () => Guard.NotEmpty(emptyEnumerable));
         Assert.Throws<ArgumentException>(
-            () => Guard.AgainstEmpty(emptyDictionary));
+            () => Guard.NotEmpty(emptyDictionary));
         Assert.Throws<ArgumentException>(
-            () => Guard.AgainstEmpty(emptyIDictionary));
+            () => Guard.NotEmpty(emptyIDictionary));
         Assert.Throws<ArgumentException>(
-            () => Guard.AgainstEmpty(emptyIReadOnlyDictionary));
-        Guard.AgainstEmpty(nullString);
-        Guard.AgainstEmpty(nullList);
-        Guard.AgainstEmpty(nullIList);
-        Guard.AgainstEmpty(nullICollection);
-        Guard.AgainstEmpty(nullIReadOnlyList);
-        Guard.AgainstEmpty(nullIReadOnlyCollection);
-        Guard.AgainstEmpty(nullArray);
-        Guard.AgainstEmpty(nullEnumerable);
-        Guard.AgainstEmpty(nullDictionary);
-        Guard.AgainstEmpty(nullIDictionary);
-        Guard.AgainstEmpty(nullIReadOnlyDictionary);
+            () => Guard.NotEmpty(emptyIReadOnlyDictionary));
+        Guard.NotEmpty(nullString);
+        Guard.NotEmpty(nullList);
+        Guard.NotEmpty(nullIList);
+        Guard.NotEmpty(nullICollection);
+        Guard.NotEmpty(nullIReadOnlyList);
+        Guard.NotEmpty(nullIReadOnlyCollection);
+        Guard.NotEmpty(nullArray);
+        Guard.NotEmpty(nullEnumerable);
+        Guard.NotEmpty(nullDictionary);
+        Guard.NotEmpty(nullIDictionary);
+        Guard.NotEmpty(nullIReadOnlyDictionary);
+    }
+
+    [Test]
+    public void NotWhitespace()
+    {
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotWhitespace(" \t"));
+        Guard.NotWhitespace(null);
+        Guard.NotWhitespace(string.Empty);
+        Guard.NotWhitespace("value");
+    }
+
+    [Test]
+    public void NotNullOrWhitespace()
+    {
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrWhitespace(" \t"));
+        Assert.Throws<ArgumentNullException>(
+            () => Guard.NotNullOrWhitespace(null));
+        Assert.Throws<ArgumentException>(
+            () => Guard.NotNullOrWhitespace(string.Empty));
+        Guard.NotNullOrWhitespace("value");
     }
 }

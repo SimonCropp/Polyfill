@@ -23,7 +23,7 @@ public
 #endif
 static partial class Guard
 {
-    public static void AgainstEmpty(string? value, [CallerArgumentExpression("value")] string argumentName = "")
+    public static void NotEmpty(string? value, [CallerArgumentExpression("value")] string argumentName = "")
     {
         if (value is null)
         {
@@ -36,7 +36,7 @@ static partial class Guard
         }
     }
 
-    public static void AgainstEmpty<T>(
+    public static void NotEmpty<T>(
         [NotNull] T? value,
         [CallerArgumentExpression("value")] string argumentName = "")
         where T : IEnumerable
