@@ -1,6 +1,6 @@
 ﻿#region CallerArgumentExpression
 
-static class Guard
+static class FileUtil
 {
     public static void FileExists(string path, [CallerArgumentExpression("path")] string argumentName = "")
     {
@@ -11,11 +11,11 @@ static class Guard
     }
 }
 
-static class GuardUsage
+static class FileUtilUsage
 {
     public static string[] Method(string path)
     {
-        Guard.FileExists(path);
+        FileUtil.FileExists(path);
         return File.ReadAllLines(path);
     }
 }
