@@ -70,6 +70,16 @@ class BuildApiTest
         File.WriteAllText(countMd, $"**API count: {count}**");
     }
 
+    [Test]
+    public void RunGuard()
+    {
+        var md = Path.Combine(solutionDirectory, "..", "api_guard.include.md");
+        File.Delete(md);
+        using var writer = File.CreateText(md);
+        var count = 0;
+        WriteHelper(types, "Guard", writer, ref count);
+    }
+
     static Dictionary<string, List<MethodDefinition>> GetTypes()
     {
         var types = new Dictionary<string, List<MethodDefinition>>();
