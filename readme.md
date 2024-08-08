@@ -1094,7 +1094,7 @@ Enable by adding and MSBuild property `PolyGuard`
 `Guard` is designed to be a an alternative to the `ArgumentException.ThrowIf*` APIs added in net7.
 
  * [ArgumentException.ThrowIfNullOrEmpty](https://learn.microsoft.com/en-us/dotnet/api/system.argumentexception.throwifnullorempty)
- * [ArgumentException.ThrowIfNullOrWhiteSpace(https://learn.microsoft.com/en-us/dotnet/api/system.argumentexception.throwifnullorwhitespace)
+ * [ArgumentException.ThrowIfNullOrWhiteSpace](https://learn.microsoft.com/en-us/dotnet/api/system.argumentexception.throwifnullorwhitespace)
  * [ArgumentNullException.ThrowIfNull](https://learn.microsoft.com/en-us/dotnet/api/system.argumentnullexception.throwifnull?view=net-8.0)
 
 With the equivalent Guard APIs:
