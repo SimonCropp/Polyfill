@@ -63,6 +63,7 @@ class BuildApiTest
         WriteHelper(types, "UIntPolyfill", writer, ref count);
         WriteHelper(types, "ULongPolyfill", writer, ref count);
         WriteHelper(types, "UShortPolyfill", writer, ref count);
+        WriteHelper(types, "Guard", writer, ref count);
 
         count += types.Count(_ => _.Key.EndsWith("Attribute"));
         var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
