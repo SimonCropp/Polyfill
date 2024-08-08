@@ -132,6 +132,11 @@ class BuildApiTest
             name = name.Replace(toClean, "");
         }
 
+        if (name == "Void")
+        {
+            return "void";
+        }
+
         return name;
     }
 
