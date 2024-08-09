@@ -720,7 +720,7 @@ The class `Polyfill` includes the following extension methods:
  * `StringBuilder AppendLine(StringBuilder, IFormatProvider, StringBuilder/AppendInterpolatedStringHandler&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendline#system-text-stringbuilder-appendline(system-iformatprovider-system-text-stringbuilder-appendinterpolatedstringhandler@))
  * `void CopyTo(Int32, Span<Char>, Int32)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.copyto#system-text-stringbuilder-copyto(system-int32-system-span((system-char))-system-int32))
  * `Boolean Equals(ReadOnlySpan<Char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.equals#system-text-stringbuilder-equals(system-readonlyspan((system-char))))
- * `Polyfill/ChunkEnumerator GetChunks()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.getchunks)
+ * `Polyfills.Polyfill/ChunkEnumerator GetChunks()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.getchunks)
  * `StringBuilder Replace(ReadOnlySpan<Char>, ReadOnlySpan<Char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.replace#system-text-stringbuilder-replace(system-readonlyspan((system-char))-system-readonlyspan((system-char))))
  * `StringBuilder Replace(ReadOnlySpan<Char>, ReadOnlySpan<Char>, Int32, Int32)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.replace#system-text-stringbuilder-replace(system-char-system-char-system-int32-system-int32))
 
@@ -953,14 +953,14 @@ The class `Polyfill` includes the following extension methods:
  * `T NotNullOrEmpty<T>(T) where T : Collections.IEnumerable`
  * `Memory<Char> NotNullOrEmpty(Nullable<Memory<Char>>)`
  * `ReadOnlyMemory<Char> NotNullOrEmpty(Nullable<ReadOnlyMemory<Char>>)`
- * `String NotNullOrWhitespace(String)`
- * `Memory<Char> NotNullOrWhitespace(Nullable<Memory<Char>>)`
- * `ReadOnlyMemory<Char> NotNullOrWhitespace(Nullable<ReadOnlyMemory<Char>>)`
- * `void NotWhitespace(String)`
- * `void NotWhitespace(ReadOnlySpan<Char>)`
- * `void NotWhitespace(Nullable<Memory<Char>>)`
- * `void NotWhitespace(Nullable<ReadOnlyMemory<Char>>)`
- * `void NotWhitespace(Span<Char>)`
+ * `String NotNullOrWhiteSpace(String)`
+ * `Memory<Char> NotNullOrWhiteSpace(Nullable<Memory<Char>>)`
+ * `ReadOnlyMemory<Char> NotNullOrWhiteSpace(Nullable<ReadOnlyMemory<Char>>)`
+ * `void NotWhiteSpace(String)`
+ * `void NotWhiteSpace(ReadOnlySpan<Char>)`
+ * `void NotWhiteSpace(Nullable<Memory<Char>>)`
+ * `void NotWhiteSpace(Nullable<ReadOnlyMemory<Char>>)`
+ * `void NotWhiteSpace(Span<Char>)`
 
 
 #### TaskCompletionSource<!-- endInclude -->
@@ -1125,14 +1125,14 @@ With the equivalent Guard APIs:
  * `T NotNullOrEmpty<T>(T) where T : Collections.IEnumerable`
  * `Memory<Char> NotNullOrEmpty(Nullable<Memory<Char>>)`
  * `ReadOnlyMemory<Char> NotNullOrEmpty(Nullable<ReadOnlyMemory<Char>>)`
- * `String NotNullOrWhitespace(String)`
- * `Memory<Char> NotNullOrWhitespace(Nullable<Memory<Char>>)`
- * `ReadOnlyMemory<Char> NotNullOrWhitespace(Nullable<ReadOnlyMemory<Char>>)`
- * `void NotWhitespace(String)`
- * `void NotWhitespace(ReadOnlySpan<Char>)`
- * `void NotWhitespace(Nullable<Memory<Char>>)`
- * `void NotWhitespace(Nullable<ReadOnlyMemory<Char>>)`
- * `void NotWhitespace(Span<Char>)`
+ * `String NotNullOrWhiteSpace(String)`
+ * `Memory<Char> NotNullOrWhiteSpace(Nullable<Memory<Char>>)`
+ * `ReadOnlyMemory<Char> NotNullOrWhiteSpace(Nullable<ReadOnlyMemory<Char>>)`
+ * `void NotWhiteSpace(String)`
+ * `void NotWhiteSpace(ReadOnlySpan<Char>)`
+ * `void NotWhiteSpace(Nullable<Memory<Char>>)`
+ * `void NotWhiteSpace(Nullable<ReadOnlyMemory<Char>>)`
+ * `void NotWhiteSpace(Span<Char>)`
 
 <!-- endInclude -->
 
