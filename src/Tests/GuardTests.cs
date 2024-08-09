@@ -1,6 +1,4 @@
-﻿using Polyfills;
-
-[TestFixture]
+﻿[TestFixture]
 public class GuardTests
 {
     string nullString = null!;

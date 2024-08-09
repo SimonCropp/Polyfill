@@ -8,6 +8,7 @@
 namespace System.Diagnostics;
 
 using System;
+using Polyfills;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;

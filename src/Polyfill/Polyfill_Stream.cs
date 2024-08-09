@@ -3,6 +3,7 @@
 
 #if FeatureValueTask && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
 
+namespace Polyfills;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;

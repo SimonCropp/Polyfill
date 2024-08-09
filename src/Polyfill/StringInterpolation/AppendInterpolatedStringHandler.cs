@@ -8,6 +8,7 @@
 namespace System.Text;
 
 using System.ComponentModel;
+using Polyfills;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;

@@ -3,6 +3,7 @@
 
 #if FeatureMemory && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
 
+namespace Polyfills;
 using System;
 using System.Buffers;
 using System.IO;

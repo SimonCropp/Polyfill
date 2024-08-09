@@ -113,5 +113,6 @@ For example:
       <Visible Condition="%(NuGetItemType) == 'Compile' and
                           %(NuGetPackageId) == 'Polyfill'">false</Visible>
     </Compile>
+    <Using Include="Polyfills" />
   </ItemGroup>
 </Project>

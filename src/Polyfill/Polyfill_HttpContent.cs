@@ -3,6 +3,7 @@
 
 #if ((NETFRAMEWORK && FetureHttp) || NETSTANDARD || NETCOREAPP2X || NETCOREAPP3X)
 
+namespace Polyfills;
 using System.IO;
 using System.Net.Http;
 using System.Threading;

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
+using Polyfills;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
