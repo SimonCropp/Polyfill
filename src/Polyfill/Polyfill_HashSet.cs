@@ -3,6 +3,7 @@
 
 #if NET46X || NET47  || NET471 || NETSTANDARD2_0
 
+namespace Polyfills;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

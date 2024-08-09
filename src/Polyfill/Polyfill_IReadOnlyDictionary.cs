@@ -3,6 +3,7 @@
 
 #if NETFRAMEWORK || NETSTANDARD2_0
 
+namespace Polyfills;
 using System;
 using System.Collections.Generic;
 using Link = System.ComponentModel.DescriptionAttribute;

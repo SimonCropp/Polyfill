@@ -191,6 +191,7 @@ Example:
 
 #if FeatureMemory && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
 
+namespace Polyfills;
 using System;
 using System.Buffers;
 using System.IO;
@@ -306,7 +307,7 @@ static partial class Polyfill
 }
 #endif
 ```
-<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L119' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L120' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
