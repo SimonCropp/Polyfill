@@ -21,13 +21,13 @@ public
 
 static partial class Guard
 {
-    public static string NotNullOrWhitespace(
-        [NotNull] string? value,
+    public static void NotWhiteSpace(
+        string? value,
         [CallerArgumentExpression("value")] string argumentName = "")
     {
         if (value == null)
         {
-            throw new ArgumentNullException(argumentName);
+            return;
         }
 
         if (value.Length == 0)
@@ -39,46 +39,41 @@ static partial class Guard
         {
             if (!char.IsWhiteSpace(ch))
             {
-                return value;
+                return;
             }
         }
 
         throw new ArgumentException("Argument cannot be whitespace.", argumentName);
     }
-
 #if FeatureMemory
-    public static Memory<char> NotNullOrWhitespace(
-        [NotNull] Memory<char>? value,
+
+    public static void NotWhiteSpace(
+        ReadOnlySpan<char> value,
         [CallerArgumentExpression("value")] string argumentName = "")
     {
-        if (value == null)
-        {
-            throw new ArgumentNullException(argumentName);
-        }
-
-        if (value.Value.Length == 0)
+        if (value.Length == 0)
         {
             throw new ArgumentException("Argument cannot be empty.", argumentName);
         }
 
-        foreach (var ch in value.Value.Span)
+        foreach (var ch in value)
         {
             if (!char.IsWhiteSpace(ch))
             {
-                return value.Value;
+                return;
             }
         }
 
         throw new ArgumentException("Argument cannot be whitespace.", argumentName);
     }
 
-    public static ReadOnlyMemory<char> NotNullOrWhitespace(
-        [NotNull] ReadOnlyMemory<char>? value,
+    public static void NotWhiteSpace(
+        Memory<char>? value,
         [CallerArgumentExpression("value")] string argumentName = "")
     {
         if (value == null)
         {
-            throw new ArgumentNullException(argumentName);
+            return;
         }
 
         if (value.Value.Length == 0)
@@ -90,7 +85,52 @@ static partial class Guard
         {
             if (!char.IsWhiteSpace(ch))
             {
-                return value.Value;
+                return;
+            }
+        }
+
+        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+    }
+
+    public static void NotWhiteSpace(
+        ReadOnlyMemory<char>? value,
+        [CallerArgumentExpression("value")] string argumentName = "")
+    {
+        if (value == null)
+        {
+            return;
+        }
+
+        if (value.Value.Length == 0)
+        {
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
+        }
+
+        foreach (var ch in value.Value.Span)
+        {
+            if (!char.IsWhiteSpace(ch))
+            {
+                return;
+            }
+        }
+
+        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+    }
+
+    public static void NotWhiteSpace(
+        Span<char> value,
+        [CallerArgumentExpression("value")] string argumentName = "")
+    {
+        if (value.Length == 0)
+        {
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
+        }
+
+        foreach (var ch in value)
+        {
+            if (!char.IsWhiteSpace(ch))
+            {
+                return;
             }
         }
 

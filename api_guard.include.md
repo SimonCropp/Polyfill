@@ -16,13 +16,13 @@
  * `T NotNullOrEmpty<T>(T) where T : Collections.IEnumerable`
  * `Memory<Char> NotNullOrEmpty(Nullable<Memory<Char>>)`
  * `ReadOnlyMemory<Char> NotNullOrEmpty(Nullable<ReadOnlyMemory<Char>>)`
- * `String NotNullOrWhitespace(String)`
- * `Memory<Char> NotNullOrWhitespace(Nullable<Memory<Char>>)`
- * `ReadOnlyMemory<Char> NotNullOrWhitespace(Nullable<ReadOnlyMemory<Char>>)`
- * `void NotWhitespace(String)`
- * `void NotWhitespace(ReadOnlySpan<Char>)`
- * `void NotWhitespace(Nullable<Memory<Char>>)`
- * `void NotWhitespace(Nullable<ReadOnlyMemory<Char>>)`
- * `void NotWhitespace(Span<Char>)`
+ * `String NotNullOrWhiteSpace(String)`
+ * `Memory<Char> NotNullOrWhiteSpace(Nullable<Memory<Char>>)`
+ * `ReadOnlyMemory<Char> NotNullOrWhiteSpace(Nullable<ReadOnlyMemory<Char>>)`
+ * `void NotWhiteSpace(String)`
+ * `void NotWhiteSpace(ReadOnlySpan<Char>)`
+ * `void NotWhiteSpace(Nullable<Memory<Char>>)`
+ * `void NotWhiteSpace(Nullable<ReadOnlyMemory<Char>>)`
+ * `void NotWhiteSpace(Span<Char>)`
 
 
