@@ -9,6 +9,7 @@
     <PackageReference Include="System.Memory" Condition="$(TargetFrameworkIdentifier) == '.NETStandard' or $(TargetFrameworkIdentifier) == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" />
     <PackageReference Include="System.ValueTuple" Condition="$(TargetFramework.StartsWith('net46'))" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Condition="$(TargetFramework) == 'netstandard2.0' or $(TargetFramework) == 'netcoreapp2.0' or $(TargetFrameworkIdentifier) == '.NETFramework'" />
+    <PackageReference Include="System.Runtime" />
     <Reference Include="System.Net.Http" Condition="$(TargetFrameworkIdentifier) == '.NETFramework'" />
     <Compile Include="..\Consume\*.cs" />
   </ItemGroup>

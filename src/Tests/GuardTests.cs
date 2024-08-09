@@ -202,6 +202,7 @@ public class GuardTests
         Guard.NotWhitespace((Memory<char>?) null!);
         Guard.NotWhitespace((ReadOnlyMemory<char>?) null!);
 #endif
+        // ReSharper disable once RedundantCast
         Guard.NotWhitespace((string)null!);
         Guard.NotWhitespace("value");
     }
@@ -222,6 +223,7 @@ public class GuardTests
         Assert.Throws<ArgumentException>(
             () => Guard.NotNullOrWhitespace(" \t"));
         Assert.Throws<ArgumentNullException>(
+            // ReSharper disable once RedundantCast
             () => Guard.NotNullOrWhitespace((string)null!));
         Assert.Throws<ArgumentException>(
             () => Guard.NotNullOrWhitespace(string.Empty));
