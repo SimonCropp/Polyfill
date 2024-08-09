@@ -173,18 +173,18 @@ public class GuardTests
     }
 
     [Test]
-    public void NotWhitespace()
+    public void NotWhiteSpace()
     {
         Assert.Throws<ArgumentException>(
-            () => Guard.NotWhitespace(" \t"));
+            () => Guard.NotWhiteSpace(" \t"));
         Assert.Throws<ArgumentException>(
-            () => Guard.NotWhitespace(string.Empty));
+            () => Guard.NotWhiteSpace(string.Empty));
 #if FeatureMemory
         Span<char> buffer = [];
         var spanCaught = false;
         try
         {
-            Guard.NotWhitespace(buffer);
+            Guard.NotWhiteSpace(buffer);
         }
         catch (ArgumentException)
         {
@@ -192,39 +192,39 @@ public class GuardTests
         }
         Assert.True(spanCaught);
         Assert.Throws<ArgumentException>(
-            () => Guard.NotWhitespace(Memory<char>.Empty));
+            () => Guard.NotWhiteSpace(Memory<char>.Empty));
         Assert.Throws<ArgumentException>(
-            () => Guard.NotWhitespace(Span<char>.Empty));
+            () => Guard.NotWhiteSpace(Span<char>.Empty));
         Assert.Throws<ArgumentException>(
-            () => Guard.NotWhitespace(ReadOnlyMemory<char>.Empty));
-        Guard.NotWhitespace((Memory<char>?) null!);
-        Guard.NotWhitespace((ReadOnlyMemory<char>?) null!);
+            () => Guard.NotWhiteSpace(ReadOnlyMemory<char>.Empty));
+        Guard.NotWhiteSpace((Memory<char>?) null!);
+        Guard.NotWhiteSpace((ReadOnlyMemory<char>?) null!);
 #endif
         // ReSharper disable once RedundantCast
-        Guard.NotWhitespace((string)null!);
-        Guard.NotWhitespace("value");
+        Guard.NotWhiteSpace((string)null!);
+        Guard.NotWhiteSpace("value");
     }
 
     [Test]
-    public void NotNullOrWhitespace()
+    public void NotNullOrWhiteSpace()
     {
 #if FeatureMemory
         Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrWhitespace(Memory<char>.Empty));
+            () => Guard.NotNullOrWhiteSpace(Memory<char>.Empty));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrWhitespace((Memory<char>?)null));
+            () => Guard.NotNullOrWhiteSpace((Memory<char>?)null));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrWhitespace((ReadOnlyMemory<char>?)null));
+            () => Guard.NotNullOrWhiteSpace((ReadOnlyMemory<char>?)null));
         Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrWhitespace(ReadOnlyMemory<char>.Empty));
+            () => Guard.NotNullOrWhiteSpace(ReadOnlyMemory<char>.Empty));
 #endif
         Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrWhitespace(" \t"));
+            () => Guard.NotNullOrWhiteSpace(" \t"));
         Assert.Throws<ArgumentNullException>(
             // ReSharper disable once RedundantCast
-            () => Guard.NotNullOrWhitespace((string)null!));
+            () => Guard.NotNullOrWhiteSpace((string)null!));
         Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrWhitespace(string.Empty));
-        Guard.NotNullOrWhitespace("value");
+            () => Guard.NotNullOrWhiteSpace(string.Empty));
+        Guard.NotNullOrWhiteSpace("value");
     }
 }
