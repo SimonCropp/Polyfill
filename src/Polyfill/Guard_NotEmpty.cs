@@ -131,10 +131,18 @@ static partial class Guard
             }
         }
 
+        if (value is T[] array)
+        {
+            if (array.Length == 0)
+            {
+                throw new ArgumentException("Argument cannot be empty.", argumentName);
+            }
+        }
+
         var enumerator = value.GetEnumerator();
         try
         {
-            if (enumerator.MoveNext())
+            if (!enumerator.MoveNext())
             {
                 throw new ArgumentException("Argument cannot be empty.", argumentName);
             }
