@@ -1,30 +1,33 @@
 ﻿[TestFixture]
 public class GuardTests
 {
-    string nullString = null!;
-    List<string> nullList = null!;
-    IList<string> nullIList = null!;
-    IReadOnlyList<string> nullIReadOnlyList = null!;
-    ICollection<string> nullICollection = null!;
-    IReadOnlyCollection<string> nullIReadOnlyCollection = null!;
-    IEnumerable<string> nullEnumerable = null!;
-    string[] nullArray = null!;
-    Dictionary<int, string> nullDictionary = null!;
-    IDictionary<int, string> nullIDictionary = null!;
-    IReadOnlyDictionary<int, string> nullIReadOnlyDictionary = null!;
-    object nullObject = null!;
+    static  string nullString = null!;
+ static   List<string> nullList = null!;
+ static   IList<string> nullIList = null!;
+ static   IReadOnlyList<string> nullIReadOnlyList = null!;
+ static   ICollection<string> nullICollection = null!;
+ static   IReadOnlyCollection<string> nullIReadOnlyCollection = null!;
+ static   IEnumerable<string> nullEnumerable = null!;
+ static   string[] nullArray = null!;
+ static   Dictionary<int, string> nullDictionary = null!;
+ static   IDictionary<int, string> nullIDictionary = null!;
+ static   IReadOnlyDictionary<int, string> nullIReadOnlyDictionary = null!;
+ static   object nullObject = null!;
 
-    string emptyString = string.Empty;
-    List<string> emptyList = [];
-    IList<string> emptyIList = [];
-    IReadOnlyList<string> emptyIReadOnlyList = [];
-    ICollection<string> emptyICollection = [];
-    IReadOnlyCollection<string> emptyIReadOnlyCollection = [];
-    IEnumerable<string> emptyEnumerable = [];
-    Dictionary<int, string> emptyDictionary = new();
-    IDictionary<int, string> emptyIDictionary = new Dictionary<int, string>();
-    IReadOnlyDictionary<int, string> emptyIReadOnlyDictionary = new Dictionary<int, string>();
-    string[] emptyArray = [];
+ static   string emptyString = string.Empty;
+    static   List<string> emptyList = [];
+ static IList<string> emptyIList = [];
+ static IReadOnlyList<string> emptyIReadOnlyList = [];
+ static ICollection<string> emptyICollection = [];
+ static IReadOnlyCollection<string> emptyIReadOnlyCollection = [];
+ static IEnumerable<string> emptyEnumerable = [];
+ static Dictionary<int, string> emptyDictionary = new();
+ static IDictionary<int, string> emptyIDictionary = new Dictionary<int, string>();
+ static IReadOnlyDictionary<int, string> emptyIReadOnlyDictionary = new Dictionary<int, string>();
+ static string[] emptyArray = [];
+ static string[] nonEmptyArray = ["value"];
+ static List<string> nonEmptyList = ["value"];
+ static IEnumerable<string> nonEmptyEnumerable = nonEmptyList.Select(x => x);
 
     [Test]
     public void NotNull()
@@ -53,6 +56,10 @@ public class GuardTests
             () => Guard.NotNull(nullIDictionary));
         Assert.Throws<ArgumentNullException>(
             () => Guard.NotNull(nullIReadOnlyDictionary));
+        Guard.NotNull(nonEmptyArray);
+        Guard.NotNull(nonEmptyEnumerable);
+        Guard.NotNull("value");
+        Guard.NotNull(nonEmptyEnumerable);
     }
 
     [Test]
@@ -112,6 +119,10 @@ public class GuardTests
             () => Guard.NotNullOrEmpty(nullIDictionary));
         Assert.Throws<ArgumentNullException>(
             () => Guard.NotNullOrEmpty(nullIReadOnlyDictionary));
+        Guard.NotNullOrEmpty(nonEmptyArray);
+        Guard.NotNullOrEmpty(nonEmptyEnumerable);
+        Guard.NotNullOrEmpty("value");
+        Guard.NotNullOrEmpty(nonEmptyEnumerable);
     }
 
     [Test]
@@ -166,6 +177,9 @@ public class GuardTests
         Guard.NotEmpty(nullIReadOnlyList);
         Guard.NotEmpty(nullIReadOnlyCollection);
         Guard.NotEmpty(nullArray);
+        Guard.NotEmpty(nonEmptyArray);
+        Guard.NotEmpty("value");
+        Guard.NotEmpty(nonEmptyList);
         Guard.NotEmpty(nullEnumerable);
         Guard.NotEmpty(nullDictionary);
         Guard.NotEmpty(nullIDictionary);
