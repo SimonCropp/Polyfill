@@ -16,7 +16,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using Polyfills;
 using System.Linq;
 using System.Diagnostics.CodeAnalysis;
 using System.Collections.Generic;

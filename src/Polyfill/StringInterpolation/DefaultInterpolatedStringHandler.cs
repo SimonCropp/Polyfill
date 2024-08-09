@@ -8,7 +8,6 @@
 namespace System.Runtime.CompilerServices;
 
 using System;
-using Polyfills;
 using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
