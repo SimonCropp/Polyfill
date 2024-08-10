@@ -7,7 +7,7 @@ environment:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
 build_script:
-# https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-install-script
+- ipconfig /flushdns
 - pwsh: |
     if ($isWindows) {
       Invoke-WebRequest "https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.ps1" -OutFile "./dotnet-install.ps1" -TimeoutSec 120
