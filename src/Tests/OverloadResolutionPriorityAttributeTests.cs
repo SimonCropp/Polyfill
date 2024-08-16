@@ -11,7 +11,7 @@ public class OverloadResolutionPriorityAttributeTests
     public void Run()
     {
         int[] arr = [1, 2, 3];
-        //Prints "span" because resolution priority is higher
+        //Prints "Span" because resolution priority is higher
         Method(arr);
     }
 

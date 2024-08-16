@@ -22,12 +22,14 @@ using Link = System.ComponentModel.DescriptionAttribute;
 #if PolyPublic
 public
 #endif
-sealed class OverloadResolutionPriorityAttribute : Attribute
+sealed class OverloadResolutionPriorityAttribute :
+    Attribute
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="OverloadResolutionPriorityAttribute"/> class.
     /// </summary>
-    /// <param name="priority">The priority of the attributed member. Higher numbers are prioritized, lower numbers are deprioritized. 0 is the default if no attribute is present.</param>
+    /// <param name="priority">The priority of the attributed member. Higher numbers are prioritized,
+    /// lower numbers are deprioritized. 0 is the default if no attribute is present.</param>
     public OverloadResolutionPriorityAttribute(int priority) =>
         Priority = priority;
 
