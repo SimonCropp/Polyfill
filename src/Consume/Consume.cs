@@ -525,4 +525,9 @@ class Consume
     public void Method(object x)
     {
     }
+
+    [RequiresPreviewFeatures("This method uses a preview feature.")]
+    public void UsePreviewFeature()
+    {
+    }
 }
