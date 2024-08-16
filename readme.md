@@ -342,6 +342,13 @@ struct UnscopedRefUsage
 <!-- endSnippet -->
 
 
+### RequiresPreviewFeaturesAttribute
+
+ * [RequiresPreviewFeatures](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.versioning.requirespreviewfeaturesattribute)
+ * [Design](https://github.com/dotnet/designs/blob/main/accepted/2021/preview-features/preview-features.md)
+ * [API Proposal](https://github.com/dapr/dotnet-sdk/issues/1219)
+
+
 ### CallerArgumentExpressionAttribute
 
  * [CallerArgumentExpressionAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.callerargumentexpressionattribute)
