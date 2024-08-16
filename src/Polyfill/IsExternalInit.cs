@@ -16,8 +16,6 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-static class IsExternalInit
-{
-}
+static class IsExternalInit;
 
 #endif

@@ -202,7 +202,6 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
-
 #if FeatureValueTask
 
     /// <summary>
@@ -307,7 +306,7 @@ static partial class Polyfill
 }
 #endif
 ```
-<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L120' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L119' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

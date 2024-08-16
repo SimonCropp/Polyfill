@@ -12,8 +12,6 @@ namespace System.Net.Http;
 [EditorBrowsable(EditorBrowsableState.Never)]
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-static class ResolveHttpGlobalProblem
-{
-}
+static class ResolveHttpGlobalProblem;
 
 #endif

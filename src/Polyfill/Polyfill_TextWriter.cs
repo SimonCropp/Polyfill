@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
-
 #if FeatureValueTask
 
     /// <summary>
