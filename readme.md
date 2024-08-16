@@ -280,6 +280,9 @@ class IndexRangeSample
  * [API on learn](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute.-ctor)
  * [API Proposal](https://github.com/dotnet/runtime/issues/102173)
 
+
+#### Usage
+
 <!-- snippet: OverloadResolutionPriority -->
 <a id='snippet-OverloadResolutionPriority'></a>
 ```cs
