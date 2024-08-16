@@ -277,6 +277,11 @@ class IndexRangeSample
 
 ### OverloadResolutionPriority
 
+ * [Release Notes](https://github.com/dotnet/core/blob/main/release-notes/9.0/preview/preview7/csharp.md#prioritize-better-overloads-with-overloadresolutionpriority-attribute)
+
+> C# introduces a new attribute, System.Runtime.CompilerServices.OverloadResolutionPriority, that can be used by API authors to adjust the relative priority of overloads within a single type as a means of steering API consumers to use specific APIs, even if those APIs would normally be considered ambiguous or otherwise not be chosen by C#'s overload resolution rules. This helps framework and library authors guide API usage as they APIs as they develop new and better patterns.
+> The OverloadResolutionPriorityAttribute can be used in conjunction with the ObsoleteAttribute. A library author may mark properties, methods, types and other programming elements as obsolete, while leaving them in place for backwards compatibility. Using programming elements marked with the ObsoleteAttribute will result in compiler warnings or errors. However, the type or member is still visible to overload resolution and may be selected over a better overload or cause an ambiguity failure. The OverloadResolutionPriorityAttribute lets library authors fix these problems by lowering the priority of obsolete members when there are better alternatives.
+
  * [API on learn](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute.-ctor)
  * [API Proposal](https://github.com/dotnet/runtime/issues/102173)
 
