@@ -299,20 +299,20 @@ public class OverloadResolutionPriorityAttributeTests
     public void Run()
     {
         int[] arr = [1, 2, 3];
-        //Prints "span" because resolution priority is higher
+        //Prints "Span" because resolution priority is higher
         Method(arr);
     }
 
     [OverloadResolutionPriority(2)]
-    public static void Method(ReadOnlySpan<int> list) =>
+    static void Method(ReadOnlySpan<int> list) =>
         Console.WriteLine("Span");
 
     [OverloadResolutionPriority(1)]
-    public static void Method(int[] list) =>
+    static void Method(int[] list) =>
         Console.WriteLine("Array");
 }
 ```
-<sup><a href='/src/Tests/OverloadResolutionPriorityAttributeTests.cs#L5-L27' title='Snippet source file'>snippet source</a> | <a href='#snippet-OverloadResolutionPriority' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/OverloadResolutionPriorityAttributeTests.cs#L4-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-OverloadResolutionPriority' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

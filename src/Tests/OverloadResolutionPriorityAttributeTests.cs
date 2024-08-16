@@ -1,5 +1,4 @@
 ﻿// ReSharper disable UnusedParameter.Global
-// ReSharper disable once MemberCanBePrivate.Global
 #if FeatureMemory
 
 #region OverloadResolutionPriority
@@ -16,11 +15,11 @@ public class OverloadResolutionPriorityAttributeTests
     }
 
     [OverloadResolutionPriority(2)]
-    public static void Method(ReadOnlySpan<int> list) =>
+    static void Method(ReadOnlySpan<int> list) =>
         Console.WriteLine("Span");
 
     [OverloadResolutionPriority(1)]
-    public static void Method(int[] list) =>
+    static void Method(int[] list) =>
         Console.WriteLine("Array");
 }
 
