@@ -510,4 +510,19 @@ class Consume
         var key = list.GetKeyAtIndex(0);
         var value = list.GetValueAtIndex(0);
     }
+
+    [OverloadResolutionPriority(1)]
+    public void Method(int x)
+    {
+    }
+
+    [OverloadResolutionPriority(2)]
+    public void Method(string x)
+    {
+    }
+
+    [OverloadResolutionPriority(3)]
+    public void Method(object x)
+    {
+    }
 }

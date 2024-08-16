@@ -275,6 +275,38 @@ class IndexRangeSample
 <!-- endSnippet -->
 
 
+### OverloadResolutionPriority
+
+ * [API on learn](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute.-ctor)
+ * [API Proposal](https://github.com/dotnet/runtime/issues/102173)
+
+<!-- snippet: OverloadResolutionPriority -->
+<a id='snippet-OverloadResolutionPriority'></a>
+```cs
+[TestFixture]
+public class OverloadResolutionPriorityAttributeTests
+{
+    [Test]
+    public void Run()
+    {
+        int[] arr = [1, 2, 3];
+        //Prints "span" because resolution priority is higher
+        Method(arr);
+    }
+
+    [OverloadResolutionPriority(2)]
+    public static void Method(ReadOnlySpan<int> list) =>
+        Console.WriteLine("Span");
+
+    [OverloadResolutionPriority(1)]
+    public static void Method(int[] list) =>
+        Console.WriteLine("Array");
+}
+```
+<sup><a href='/src/Tests/OverloadResolutionPriorityAttributeTests.cs#L5-L27' title='Snippet source file'>snippet source</a> | <a href='#snippet-OverloadResolutionPriority' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
 ### UnscopedRefAttribute
 
  * [UnscopedRefAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.unscopedrefattribute)
