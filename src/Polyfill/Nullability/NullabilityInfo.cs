@@ -20,12 +20,14 @@ using System.Diagnostics.CodeAnalysis;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Link = System.ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// A class that represents nullability info
 /// </summary>
 [DebuggerNonUserCode]
 [ExcludeFromCodeCoverage]
+[Link("https://learn.microsoft.com/en-us/dotnet/api/system.reflection.nullabilityinfo?view=net-8.0")]
 #if PolyPublic
 public
 #endif
