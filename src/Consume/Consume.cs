@@ -482,6 +482,17 @@ class Consume
     }
 
 #if FeatureMemory
+    async Task TextWriter()
+    {
+        TextWriter target = new StringWriter();
+        target.Write(new StringBuilder());
+        target.WriteAsync(new StringBuilder());
+        target.WriteLine("a".AsSpan());
+        await target.WriteLineAsync("a".AsMemory());
+        target.Write("a".AsSpan());
+        await target.WriteAsync("a".AsMemory());
+    }
+
     void RandomNextBytesSpan()
     {
         var random = new Random();
