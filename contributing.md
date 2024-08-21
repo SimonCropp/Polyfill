@@ -222,6 +222,7 @@ static partial class Polyfill
         }
     }
 
+#if FeatureValueTask
     /// <summary>
     /// Equivalent to WriteAsync(stringBuilder.ToString()) however it uses the
     /// StringBuilder.GetChunks() method to avoid creating the intermediate string
@@ -251,6 +252,7 @@ static partial class Polyfill
             }
         }
     }
+#endif
 #endif
 
 #if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
@@ -359,7 +361,7 @@ static partial class Polyfill
 }
 #endif
 ```
-<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L172' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L174' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
