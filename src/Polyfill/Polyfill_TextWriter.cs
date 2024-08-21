@@ -34,6 +34,7 @@ static partial class Polyfill
         }
     }
 
+#if FeatureValueTask
     /// <summary>
     /// Equivalent to WriteAsync(stringBuilder.ToString()) however it uses the
     /// StringBuilder.GetChunks() method to avoid creating the intermediate string
@@ -63,6 +64,7 @@ static partial class Polyfill
             }
         }
     }
+#endif
 #endif
 
 #if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
