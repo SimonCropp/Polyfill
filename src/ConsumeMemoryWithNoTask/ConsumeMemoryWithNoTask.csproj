@@ -5,8 +5,7 @@
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <!-- This project is specifically designed to guard against a mis-compile where System.Threading.Tasks.Extensions is referenced, but System.Memory is not. -->
-    <PackageReference Include="System.Threading.Tasks.Extensions" />
+    <PackageReference Include="System.Memory" Condition="$(TargetFramework) != '.NETStandard' or $(TargetFrameworkIdentifier) == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
   <Import Project="$(SolutionDir)\TestIncludes.targets" />
