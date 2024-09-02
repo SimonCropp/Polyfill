@@ -5,7 +5,9 @@ partial class PolyfillTests
     {
         IDictionary<string, string> dictionary = new Dictionary<string, string>
         {
-            {"key", "value"}
+            {
+                "key", "value"
+            }
         };
 
         var readOnly = dictionary.AsReadOnly();
@@ -34,7 +36,12 @@ partial class PolyfillTests
     [Test]
     public void Dictionary_TryAdd_ReturnsFalseIfElementAlreadyPresent()
     {
-        var dictionary = new Dictionary<string, string>() { { "existingKey", "original value" } };
+        var dictionary = new Dictionary<string, string>
+        {
+            {
+                "existingKey", "original value"
+            }
+        };
 
         var entryAdded = dictionary.TryAdd("existingKey", "new value");
 
@@ -45,7 +52,12 @@ partial class PolyfillTests
     [Test]
     public void Dictionary_Remove()
     {
-        var dictionary = new Dictionary<string, string?> { { "key", "value" } };
+        var dictionary = new Dictionary<string, string?>
+        {
+            {
+                "key", "value"
+            }
+        };
 
         Assert.True(dictionary.Remove("key", out var value));
         Assert.AreEqual("value", value);
