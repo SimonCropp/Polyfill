@@ -20,7 +20,8 @@ static partial class Polyfill
     /// <returns>An object that acts as a read-only wrapper around the current <see cref="IDictionary{TKey, TValue}"/>.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="dictionary"/> is null.</exception>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly#system-collections-generic-collectionextensions-asreadonly-2(system-collections-generic-idictionary((-0-1)))")]
-    public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> target) =>
+    public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> target)
+        where TKey : notnull =>
         new(target);
 #endif
 
@@ -35,6 +36,7 @@ static partial class Polyfill
     /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.tryadd")]
     public static bool TryAdd<TKey, TValue>(this Dictionary<TKey, TValue> target, TKey key, TValue value)
+        where TKey : notnull
     {
         if (key is null)
         {
@@ -70,6 +72,7 @@ static partial class Polyfill
         this Dictionary<TKey, TValue> target,
         TKey key,
         [MaybeNullWhen(false)] out TValue value)
+        where TKey : notnull
     {
         target.TryGetValue(key, out value);
         return target.Remove(key);
