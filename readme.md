@@ -512,7 +512,6 @@ The class `Polyfill` includes the following extension methods:
 
 #### Dictionary<TKey,TValue>
 
- * `Boolean TryAdd<TKey, TValue>(TKey, TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.tryadd)
  * `Boolean Remove<TKey, TValue>(TKey, TValue&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.remove)
 
 
