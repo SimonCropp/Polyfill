@@ -122,6 +122,8 @@ class Consume
         dictionary.GetValueOrDefault("key");
         dictionary.GetValueOrDefault("key", "default");
 
+        dictionary.TryAdd("key", "value");
+
         var concurrentDictionary = new ConcurrentDictionary<string, int>();
 
         var value = concurrentDictionary.GetOrAdd("Hello", (_, arg) => arg.Length, "World");

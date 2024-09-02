@@ -23,7 +23,37 @@ static partial class Polyfill
     public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> target) =>
         new(target);
 #endif
+
+#if NETFRAMEWORK || NETSTANDARD2_0
+
+    /// <summary>
+    /// Attempts to add the specified key and value to the dictionary.
+    /// </summary>
+    /// <param name="key">The key of the element to add.</param>
+    /// <param name="value">The value of the element to add. It can be <see langword="null"/>.</param>
+    /// <returns><c>true</c> if the key/value pair was added to the dictionary successfully; otherwise, <c>false</c>.</returns>
+    /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.tryadd")]
+    public static bool TryAdd<TKey, TValue>(this Dictionary<TKey, TValue> target, TKey key, TValue value)
+    {
+        if (key is null)
+        {
+            throw new ArgumentNullException(nameof(key));
+        }
+
+        if (!target.ContainsKey(key))
+        {
+            target.Add(key, value);
+            return true;
+        }
+
+        return false;
+    }
+
+#endif
+
 #if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2X
+
     /// <summary>
     /// Removes the value with the specified key from the <see cref="Dictionary{TKey,TValue}"/>, and copies the element
     /// to the value parameter.
@@ -44,5 +74,6 @@ static partial class Polyfill
         target.TryGetValue(key, out value);
         return target.Remove(key);
     }
+
 #endif
 }
