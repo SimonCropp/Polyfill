@@ -1,33 +1,33 @@
 ﻿[TestFixture]
 public class GuardTests
 {
-    static  string nullString = null!;
- static   List<string> nullList = null!;
- static   IList<string> nullIList = null!;
- static   IReadOnlyList<string> nullIReadOnlyList = null!;
- static   ICollection<string> nullICollection = null!;
- static   IReadOnlyCollection<string> nullIReadOnlyCollection = null!;
- static   IEnumerable<string> nullEnumerable = null!;
- static   string[] nullArray = null!;
- static   Dictionary<int, string> nullDictionary = null!;
- static   IDictionary<int, string> nullIDictionary = null!;
- static   IReadOnlyDictionary<int, string> nullIReadOnlyDictionary = null!;
- static   object nullObject = null!;
+    static string nullString = null!;
+    static List<string> nullList = null!;
+    static IList<string> nullIList = null!;
+    static IReadOnlyList<string> nullIReadOnlyList = null!;
+    static ICollection<string> nullICollection = null!;
+    static IReadOnlyCollection<string> nullIReadOnlyCollection = null!;
+    static IEnumerable<string> nullEnumerable = null!;
+    static string[] nullArray = null!;
+    static Dictionary<int, string> nullDictionary = null!;
+    static IDictionary<int, string> nullIDictionary = null!;
+    static IReadOnlyDictionary<int, string> nullIReadOnlyDictionary = null!;
+    static object nullObject = null!;
 
- static   string emptyString = string.Empty;
-    static   List<string> emptyList = [];
- static IList<string> emptyIList = [];
- static IReadOnlyList<string> emptyIReadOnlyList = [];
- static ICollection<string> emptyICollection = [];
- static IReadOnlyCollection<string> emptyIReadOnlyCollection = [];
- static IEnumerable<string> emptyEnumerable = [];
- static Dictionary<int, string> emptyDictionary = new();
- static IDictionary<int, string> emptyIDictionary = new Dictionary<int, string>();
- static IReadOnlyDictionary<int, string> emptyIReadOnlyDictionary = new Dictionary<int, string>();
- static string[] emptyArray = [];
- static string[] nonEmptyArray = ["value"];
- static List<string> nonEmptyList = ["value"];
- static IEnumerable<string> nonEmptyEnumerable = nonEmptyList.Select(x => x);
+    static string emptyString = string.Empty;
+    static List<string> emptyList = [];
+    static IList<string> emptyIList = [];
+    static IReadOnlyList<string> emptyIReadOnlyList = [];
+    static ICollection<string> emptyICollection = [];
+    static IReadOnlyCollection<string> emptyIReadOnlyCollection = [];
+    static IEnumerable<string> emptyEnumerable = [];
+    static Dictionary<int, string> emptyDictionary = new();
+    static IDictionary<int, string> emptyIDictionary = new Dictionary<int, string>();
+    static IReadOnlyDictionary<int, string> emptyIReadOnlyDictionary = new Dictionary<int, string>();
+    static string[] emptyArray = [];
+    static string[] nonEmptyArray = ["value"];
+    static List<string> nonEmptyList = ["value"];
+    static IEnumerable<string> nonEmptyEnumerable = nonEmptyList.Select(x => x);
 
     [Test]
     public void NotNull()
@@ -69,9 +69,9 @@ public class GuardTests
         Assert.Throws<ArgumentException>(
             () => Guard.NotNullOrEmpty(Memory<char>.Empty));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty((Memory<char>?)null));
+            () => Guard.NotNullOrEmpty((Memory<char>?) null));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty((ReadOnlyMemory<char>?)null));
+            () => Guard.NotNullOrEmpty((ReadOnlyMemory<char>?) null));
         Assert.Throws<ArgumentException>(
             () => Guard.NotNullOrEmpty(ReadOnlyMemory<char>.Empty));
 #endif
@@ -204,6 +204,7 @@ public class GuardTests
         {
             spanCaught = true;
         }
+
         Assert.True(spanCaught);
         Assert.Throws<ArgumentException>(
             () => Guard.NotWhiteSpace(Memory<char>.Empty));
@@ -215,7 +216,7 @@ public class GuardTests
         Guard.NotWhiteSpace((ReadOnlyMemory<char>?) null!);
 #endif
         // ReSharper disable once RedundantCast
-        Guard.NotWhiteSpace((string)null!);
+        Guard.NotWhiteSpace((string) null!);
         Guard.NotWhiteSpace("value");
     }
 
@@ -226,9 +227,9 @@ public class GuardTests
         Assert.Throws<ArgumentException>(
             () => Guard.NotNullOrWhiteSpace(Memory<char>.Empty));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrWhiteSpace((Memory<char>?)null));
+            () => Guard.NotNullOrWhiteSpace((Memory<char>?) null));
         Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrWhiteSpace((ReadOnlyMemory<char>?)null));
+            () => Guard.NotNullOrWhiteSpace((ReadOnlyMemory<char>?) null));
         Assert.Throws<ArgumentException>(
             () => Guard.NotNullOrWhiteSpace(ReadOnlyMemory<char>.Empty));
 #endif
@@ -236,7 +237,7 @@ public class GuardTests
             () => Guard.NotNullOrWhiteSpace(" \t"));
         Assert.Throws<ArgumentNullException>(
             // ReSharper disable once RedundantCast
-            () => Guard.NotNullOrWhiteSpace((string)null!));
+            () => Guard.NotNullOrWhiteSpace((string) null!));
         Assert.Throws<ArgumentException>(
             () => Guard.NotNullOrWhiteSpace(string.Empty));
         Guard.NotNullOrWhiteSpace("value");
