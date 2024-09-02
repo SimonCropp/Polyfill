@@ -9,24 +9,24 @@ partial class PolyfillTests
 #endif
     }
 
-    [Test]
-    [Ignore("This test is taken directly from the .NET repo but we can't match the real CancelAsync logic exactly, so differ slightly and can't pass this test")]
-    public static void CancelSource_CancelAsync_NoRegistrations_CallbackCompletesImmediately()
-    {
-        var cancelSource = new CancelSource();
-        Assert.True(IsCompletedSuccessfully(cancelSource.CancelAsync()));
-        Assert.True(cancelSource.IsCancellationRequested);
-
-        cancelSource = new();
-        cancelSource.Token
-            .Register(
-                () =>
-                {
-                })
-            .Dispose();
-        Assert.True(IsCompletedSuccessfully(cancelSource.CancelAsync()));
-        Assert.True(cancelSource.IsCancellationRequested);
-    }
+    // [Test]
+    // [Ignore("This test is taken directly from the .NET repo but we can't match the real CancelAsync logic exactly, so differ slightly and can't pass this test")]
+    // public static void CancelSource_CancelAsync_NoRegistrations_CallbackCompletesImmediately()
+    // {
+    //     var cancelSource = new CancelSource();
+    //     Assert.True(IsCompletedSuccessfully(cancelSource.CancelAsync()));
+    //     Assert.True(cancelSource.IsCancellationRequested);
+    //
+    //     cancelSource = new();
+    //     cancelSource.Token
+    //         .Register(
+    //             () =>
+    //             {
+    //             })
+    //         .Dispose();
+    //     Assert.True(IsCompletedSuccessfully(cancelSource.CancelAsync()));
+    //     Assert.True(cancelSource.IsCancellationRequested);
+    // }
 
     [Test]
     public static async Task CancelSource_CancelAsync_CallbacksInvokedAsynchronously()
