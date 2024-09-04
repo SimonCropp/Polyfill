@@ -99,7 +99,7 @@ class Consume
         typeof(List<string>).IsAssignableTo(typeof(string));
         typeof(List<string>).IsAssignableTo(null);
 
-        var enumerable = (IEnumerable<string>) new List<string>
+        var enumerable = (IEnumerable<string>)new List<string>
         {
             "a",
             "b"
@@ -219,25 +219,8 @@ class Consume
 #endif
     }
 
-#if FetureHttp
-
-    static void Http()
-    {
-        new HttpClient().GetStreamAsync("", CancellationToken.None);
-        new HttpClient().GetStreamAsync(new Uri(""), CancellationToken.None);
-        new HttpClient().GetByteArrayAsync("", CancellationToken.None);
-        new HttpClient().GetByteArrayAsync(new Uri(""), CancellationToken.None);
-        new HttpClient().GetStringAsync("", CancellationToken.None);
-        new HttpClient().GetStringAsync(new Uri(""), CancellationToken.None);
-
-        new ByteArrayContent([]).ReadAsStreamAsync(CancellationToken.None);
-        new ByteArrayContent([]).ReadAsByteArrayAsync(CancellationToken.None);
-        new ByteArrayContent([]).ReadAsStringAsync(CancellationToken.None);
-    }
-
-#endif
-
-    void KeyValuePairDeconstruct(IEnumerable<KeyValuePair<string, string>> variables)
+    #region Compiler Features
+    void DeconstructTupleInForeach(IEnumerable<KeyValuePair<string, string>> variables)
     {
         foreach (var (name, value) in variables)
         {
@@ -259,14 +242,47 @@ class Consume
     static void ExperimentalMethod()
     {
     }
+#pragma warning restore ExperimentalMethod
 
-    async Task CancellationTokenSource()
+    [RequiresPreviewFeatures("This method uses a preview feature.")]
+    void UsePreviewFeature()
     {
-        var source = new CancellationTokenSource();
-        await source.CancelAsync();
     }
 
-    void CancellationTokenUnsafeRegister()
+    [OverloadResolutionPriority(1)]
+    void Method(int x)
+    {
+    }
+
+    [OverloadResolutionPriority(2)]
+    void Method(string x)
+    {
+    }
+
+    [OverloadResolutionPriority(3)]
+    void Method(object x)
+    {
+    }
+
+#if FeatureMemory
+    void CollectionBuilderAttribute()
+    {
+        MyCollection myCollection = [1, 2, 3, 4, 5];
+    }
+
+    [CollectionBuilder(typeof(MyCollection), nameof(Create))]
+    class MyCollection(ReadOnlySpan<int> initValues)
+    {
+        readonly int[] values = initValues.ToArray();
+        public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>)values).GetEnumerator();
+
+        public static MyCollection Create(ReadOnlySpan<int> values) => new(values);
+    }
+#endif
+
+    #endregion
+
+    void CancellationToken_UnsafeRegister()
     {
         var source = new CancellationTokenSource();
         var token = source.Token;
@@ -278,32 +294,224 @@ class Consume
         }, null);
     }
 
-    void TaskCompletionSource_SetCanceled_WithCancellationToken()
+    async Task CancellationTokenSource_CancelAsync()
     {
-        var completionSource = new TaskCompletionSource<int>();
-        var tokenSource = new CancellationTokenSource();
-        completionSource.SetCanceled(tokenSource.Token);
+        var source = new CancellationTokenSource();
+        await source.CancelAsync();
     }
 
-    async Task ProcessWaitForExitAsync()
+    void HashSet_TryGetValue()
+    {
+        var set = new HashSet<string>
+        {
+            "value"
+        };
+        var found = set.TryGetValue("value", out var result);
+    }
+
+#if FetureHttp
+    static void HttpClient()
+    {
+        new HttpClient().GetStreamAsync("", CancellationToken.None);
+        new HttpClient().GetStreamAsync(new Uri(""), CancellationToken.None);
+        new HttpClient().GetByteArrayAsync("", CancellationToken.None);
+        new HttpClient().GetByteArrayAsync(new Uri(""), CancellationToken.None);
+        new HttpClient().GetStringAsync("", CancellationToken.None);
+        new HttpClient().GetStringAsync(new Uri(""), CancellationToken.None);
+    }
+
+    static void HttpContent()
+    {
+        new ByteArrayContent([]).ReadAsStreamAsync(CancellationToken.None);
+        new ByteArrayContent([]).ReadAsByteArrayAsync(CancellationToken.None);
+        new ByteArrayContent([]).ReadAsStringAsync(CancellationToken.None);
+    }
+#endif
+
+#if FeatureMemory
+    void List_AddRange_ReadOnlySpan()
+    {
+        var list = new List<char>();
+        list.AddRange("ab".AsSpan());
+    }
+#endif
+
+#if FeatureMemory
+    void List_CopyToSpan()
+    {
+        var list = new List<char>
+        {
+            'a'
+        };
+        var array = new char[1];
+        list.CopyTo(array.AsSpan());
+    }
+#endif
+
+#if FeatureMemory
+    void List_InsertRange_ReadOnlySpan()
+    {
+        var list = new List<char>
+        {
+            'a'
+        };
+        list.InsertRange(1, "bc".AsSpan());
+    }
+#endif
+
+    void MemberInfo_HasSameMetadataDefinitionAs(MemberInfo info)
+    {
+        var result = info.HasSameMetadataDefinitionAs(info);
+    }
+
+    async Task Process_WaitForExitAsync()
     {
         var process = new Process();
         await process.WaitForExitAsync();
     }
 
-    async Task StreamReaderReadToEndAsync()
+#if FeatureMemory
+    void Random_NextBytes_Span()
     {
-        var reader = new StreamReader(new MemoryStream());
-        var read = await reader.ReadToEndAsync(CancellationToken.None);
+        var random = new Random();
+        Span<byte> buffer = new byte[10];
+        random.NextBytes(buffer);
+    }
+#endif
+
+    void Random_Shuffle_Array()
+    {
+        var random = new Random();
+        var buffer = new byte[10];
+        random.Shuffle(buffer);
     }
 
-    async Task StreamReaderReadLineAsync()
+#if FeatureMemory
+    void Random_Shuffle_Span()
+    {
+        var random = new Random();
+        Span<byte> span = new byte[10];
+        random.Shuffle(span);
+    }
+#endif
+
+#if FeatureMemory
+    void ReadOnlySpan_EnumerateLines()
+    {
+        foreach (var line in "ab".AsSpan().EnumerateLines())
+        {
+        }
+    }
+#endif
+
+#if FeatureMemory
+    void Regex_IsMatch()
+    {
+        var regex = new Regex("result");
+        regex.IsMatch("value".AsSpan());
+    }
+#endif
+
+    void SortedList()
+    {
+        var list = new SortedList<int, char>();
+        var key = list.GetKeyAtIndex(0);
+        var value = list.GetValueAtIndex(0);
+    }
+
+#if FeatureMemory
+    void Span_EndsWith()
+    {
+        var result = "value".AsSpan().EndsWith("value");
+        result = "value".AsSpan().EndsWith("value", StringComparison.Ordinal);
+    }
+
+    void Span_SequenceEqual()
+    {
+        var result = "value".AsSpan().SequenceEqual("value");
+    }
+    void Span_StartsWith()
+    {
+        var startsWith = "value".AsSpan().StartsWith("value");
+        startsWith = "value".AsSpan().StartsWith("value", StringComparison.Ordinal);
+    }
+
+    void Span_TrimEnd()
+    {
+        var span = new Span<char>(new char[1]);
+        span.TrimEnd();
+    }
+
+    void Span_TrimStart()
+    {
+        var span = new Span<char>(new char[1]);
+        span.TrimStart();
+    }
+
+    async Task Stream_ReadAsync()
+    {
+        var input = new byte[]
+        {
+            1,
+            2
+        };
+        using var stream = new MemoryStream(input);
+        var result = new byte[2];
+        var memory = new Memory<byte>(result);
+        var read = await stream.ReadAsync(memory);
+    }
+
+    async Task StreamReader_ReadAsync()
+    {
+        var result = new char[5];
+        var memory = new Memory<char>(result);
+        var reader = new StreamReader(new MemoryStream());
+        var read = await reader.ReadAsync(memory);
+    }
+
+    async Task StreamReader_ReadLineAsync()
     {
         TextReader reader = new StreamReader(new MemoryStream());
         var read = await reader.ReadLineAsync(CancellationToken.None);
     }
 
-    void WaitAsync()
+    async Task StreamReader_ReadToEndAsync()
+    {
+        var reader = new StreamReader(new MemoryStream());
+        var read = await reader.ReadToEndAsync(CancellationToken.None);
+    }
+
+    void StringBuilder_Append_Span()
+    {
+        var builder = new StringBuilder();
+        builder.Append("value".AsSpan());
+    }
+
+    void StringBuilder_CopyTo()
+    {
+        var builder = new StringBuilder("value");
+        var span = new Span<char>(new char[1]);
+        builder.CopyTo(0, span, 1);
+    }
+
+    void StringBuilder_Equals_Span()
+    {
+        var builder = new StringBuilder("value");
+        var equals = builder.Equals("value".AsSpan());
+    }
+#endif
+
+#if NET6_0_OR_GREATER
+    void StringBuilder_Replace_ReadOnlySpan()
+    {
+        var builder = new StringBuilder();
+
+        var result = builder.Replace("a".AsSpan(), "a".AsSpan());
+        result = builder.Replace("a".AsSpan(), "a".AsSpan(), 1, 1);
+    }
+#endif
+
+    void Task_WaitAsync()
     {
         var action = () =>
         {
@@ -317,170 +525,16 @@ class Consume
         new Task<int>(func).WaitAsync(TimeSpan.Zero, CancellationToken.None);
     }
 
-#if FeatureMemory
-
-    public void ListAddRangeReadOnlySpan()
-    {
-        var list = new List<char>();
-        list.AddRange("ab".AsSpan());
-    }
-
-    public void EnumerateLinesReadOnlySpan()
-    {
-        foreach (var line in "ab".AsSpan().EnumerateLines())
-        {
-        }
-    }
-
-    public void ListInsertRangeReadOnlySpan()
-    {
-        var list = new List<char>
-        {
-            'a'
-        };
-        list.InsertRange(1, "bc".AsSpan());
-    }
-
-    public void ListCopyToSpan()
-    {
-        var list = new List<char>
-        {
-            'a'
-        };
-        var array = new char[1];
-        list.CopyTo(array.AsSpan());
-    }
-
-    async Task StreamReaderReadAsync()
-    {
-        var result = new char[5];
-        var memory = new Memory<char>(result);
-        var reader = new StreamReader(new MemoryStream());
-        var read = await reader.ReadAsync(memory);
-    }
-
-    void RegexIsMatch()
-    {
-        var regex = new Regex("result");
-        regex.IsMatch("value".AsSpan());
-    }
-
-    async Task StreamReadAsync()
-    {
-        var input = new byte[]
-        {
-            1,
-            2
-        };
-        using var stream = new MemoryStream(input);
-        var result = new byte[2];
-        var memory = new Memory<byte>(result);
-        var read = await stream.ReadAsync(memory);
-    }
-
-    void StringBuilderCopyTo()
-    {
-        var builder = new StringBuilder("value");
-        var span = new Span<char>(new char[1]);
-        builder.CopyTo(0, span, 1);
-    }
-
-    void SpanTrimEnd()
-    {
-        var span = new Span<char>(new char[1]);
-        span.TrimEnd();
-        span.TrimStart();
-    }
-
-    void SpanSequenceEqual()
-    {
-        var result = "value".AsSpan().SequenceEqual("value");
-    }
-
-    void SpanStartsWith()
-    {
-        var startsWith = "value".AsSpan().StartsWith("value");
-        startsWith = "value".AsSpan().StartsWith("value", StringComparison.Ordinal);
-    }
-
-    void SpanEndsWith()
-    {
-        var result = "value".AsSpan().EndsWith("value");
-        result = "value".AsSpan().EndsWith("value", StringComparison.Ordinal);
-    }
-
-    void SpanStringBuilderAppend()
-    {
-        var builder = new StringBuilder();
-        builder.Append("value".AsSpan());
-    }
-
-    void StringEqualsSpan()
-    {
-        var builder = new StringBuilder("value");
-        var equals = builder.Equals("value".AsSpan());
-    }
-
-    public void CollectionBuilderAttribute()
-    {
-        MyCollection myCollection = [1, 2, 3, 4, 5];
-    }
-
-    [CollectionBuilder(typeof(MyCollection), nameof(Create))]
-    public class MyCollection(ReadOnlySpan<int> initValues)
-    {
-        readonly int[] values = initValues.ToArray();
-        public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>) values).GetEnumerator();
-
-        public static MyCollection Create(ReadOnlySpan<int> values) => new(values);
-    }
-
-#endif
-
-    void IsGenericMethodParameter()
-    {
-        var result = typeof(string).IsGenericMethodParameter();
-    }
-
-    void HashSetTryGetValue()
-    {
-        var set = new HashSet<string>
-        {
-            "value"
-        };
-        var found = set.TryGetValue("value", out var result);
-    }
-#if NET6_0_OR_GREATER
-    void StringBuilderReplaceReadOnlySpan()
-    {
-        var builder = new StringBuilder();
-
-        var result = builder.Replace("a".AsSpan(), "a".AsSpan());
-        result = builder.Replace("a".AsSpan(), "a".AsSpan(), 1, 1);
-    }
-#endif
-
-    void HasSameMetadataDefinitionAs(MemberInfo info)
-    {
-        var result = info.HasSameMetadataDefinitionAs(info);
-    }
-
-    void GetMemberWithSameMetadataDefinitionAs(MemberInfo info)
-    {
-        var result = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
-    }
-
-    void XDocumentSaveAsync()
-    {
-        var document = new XDocument();
-        document.SaveAsync(new XmlTextWriter(null!), CancellationToken.None);
-        document.SaveAsync(new StringWriter(), SaveOptions.None, CancellationToken.None);
-        document.SaveAsync(new MemoryStream(), SaveOptions.None, CancellationToken.None);
-    }
-
-    void NonGenericTaskCompletionSource()
+    void TaskCompletionSource_NonGeneric()
     {
         var tcs = new TaskCompletionSource();
+    }
+
+    void TaskCompletionSource_SetCanceled_WithCancellationToken()
+    {
+        var completionSource = new TaskCompletionSource<int>();
+        var tokenSource = new CancellationTokenSource();
+        completionSource.SetCanceled(tokenSource.Token);
     }
 
 #if FeatureMemory
@@ -494,53 +548,22 @@ class Consume
         target.Write("a".AsSpan());
         await target.WriteAsync("a".AsMemory());
     }
-
-    void RandomNextBytesSpan()
-    {
-        var random = new Random();
-        Span<byte> buffer = new byte[10];
-        random.NextBytes(buffer);
-    }
-
-    void RandomShuffleSpan()
-    {
-        var random = new Random();
-        Span<byte> span = new byte[10];
-        random.Shuffle(span);
-    }
 #endif
-
-    void RandomShuffle()
+    void Type_GetMemberWithSameMetadataDefinitionAs(MemberInfo info)
     {
-        var random = new Random();
-        var buffer = new byte[10];
-        random.Shuffle(buffer);
+        var result = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
     }
 
-    public void SortedList()
+    void Type_IsGenericMethodParameter()
     {
-        var list = new SortedList<int, char>();
-        var key = list.GetKeyAtIndex(0);
-        var value = list.GetValueAtIndex(0);
+        var result = typeof(string).IsGenericMethodParameter();
     }
 
-    [OverloadResolutionPriority(1)]
-    public void Method(int x)
+    void XDocument_SaveAsync()
     {
-    }
-
-    [OverloadResolutionPriority(2)]
-    public void Method(string x)
-    {
-    }
-
-    [OverloadResolutionPriority(3)]
-    public void Method(object x)
-    {
-    }
-
-    [RequiresPreviewFeatures("This method uses a preview feature.")]
-    public void UsePreviewFeature()
-    {
+        var document = new XDocument();
+        document.SaveAsync(new XmlTextWriter(null!), CancellationToken.None);
+        document.SaveAsync(new StringWriter(), SaveOptions.None, CancellationToken.None);
+        document.SaveAsync(new MemoryStream(), SaveOptions.None, CancellationToken.None);
     }
 }
