@@ -282,35 +282,28 @@ class Consume
 
     #endregion
 
-    void CancellationToken_UnsafeRegister()
+    void CancellationToken_Methods()
     {
         var source = new CancellationTokenSource();
         var token = source.Token;
-        token.UnsafeRegister(state =>
-        {
-        }, null);
-        token.UnsafeRegister((state, token) =>
-        {
-        }, null);
+        token.UnsafeRegister(state => { }, null);
+        token.UnsafeRegister((state, token) => { }, null);
     }
 
-    async Task CancellationTokenSource_CancelAsync()
+    async Task CancellationTokenSource()
     {
         var source = new CancellationTokenSource();
         await source.CancelAsync();
     }
 
-    void HashSet_TryGetValue()
+    void HashSet_Methods()
     {
-        var set = new HashSet<string>
-        {
-            "value"
-        };
+        var set = new HashSet<string> { "value" };
         var found = set.TryGetValue("value", out var result);
     }
 
 #if FetureHttp
-    static void HttpClient()
+    void HttpClient_Methods()
     {
         new HttpClient().GetStreamAsync("", CancellationToken.None);
         new HttpClient().GetStreamAsync(new Uri(""), CancellationToken.None);
@@ -320,7 +313,7 @@ class Consume
         new HttpClient().GetStringAsync(new Uri(""), CancellationToken.None);
     }
 
-    static void HttpContent()
+    void HttpContent_Methods()
     {
         new ByteArrayContent([]).ReadAsStreamAsync(CancellationToken.None);
         new ByteArrayContent([]).ReadAsByteArrayAsync(CancellationToken.None);
@@ -329,90 +322,66 @@ class Consume
 #endif
 
 #if FeatureMemory
-    void List_AddRange_ReadOnlySpan()
+    void List_Methods()
     {
         var list = new List<char>();
-        list.AddRange("ab".AsSpan());
-    }
-#endif
-
-#if FeatureMemory
-    void List_CopyToSpan()
-    {
-        var list = new List<char>
-        {
-            'a'
-        };
         var array = new char[1];
+        list.AddRange("ab".AsSpan());
         list.CopyTo(array.AsSpan());
-    }
-#endif
-
-#if FeatureMemory
-    void List_InsertRange_ReadOnlySpan()
-    {
-        var list = new List<char>
-        {
-            'a'
-        };
         list.InsertRange(1, "bc".AsSpan());
     }
 #endif
 
-    void MemberInfo_HasSameMetadataDefinitionAs(MemberInfo info)
+    void MemberInfoMethods(MemberInfo info)
     {
         var result = info.HasSameMetadataDefinitionAs(info);
     }
 
-    async Task Process_WaitForExitAsync()
+    async Task Process_Methods()
     {
         var process = new Process();
         await process.WaitForExitAsync();
     }
 
-#if FeatureMemory
-    void Random_NextBytes_Span()
+    void Random_Methods()
     {
         var random = new Random();
-        Span<byte> buffer = new byte[10];
-        random.NextBytes(buffer);
-    }
+#if FeatureMemory
+        Span<byte> bufferSpan = new byte[10];
+        random.NextBytes(bufferSpan);
+        random.Shuffle(bufferSpan);
 #endif
-
-    void Random_Shuffle_Array()
-    {
-        var random = new Random();
-        var buffer = new byte[10];
-        random.Shuffle(buffer);
+        var bufferArray = new byte[10];
+        random.Shuffle(bufferArray);
     }
 
 #if FeatureMemory
-    void Random_Shuffle_Span()
+    void ReadOnlySpan_Methods()
     {
-        var random = new Random();
-        Span<byte> span = new byte[10];
-        random.Shuffle(span);
-    }
-#endif
-
-#if FeatureMemory
-    void ReadOnlySpan_EnumerateLines()
-    {
-        foreach (var line in "ab".AsSpan().EnumerateLines())
+        var readOnlySpan = "value".AsSpan();
+        foreach (var line in readOnlySpan.EnumerateLines())
         {
         }
+
+        bool result;
+        result = readOnlySpan.EndsWith("value");
+        result = readOnlySpan.EndsWith("value", StringComparison.Ordinal);
+        result = readOnlySpan.SequenceEqual("value");
+        result = readOnlySpan.StartsWith("value");
+        result = readOnlySpan.StartsWith("value", StringComparison.Ordinal);
     }
+
 #endif
 
 #if FeatureMemory
-    void Regex_IsMatch()
+    void Regex_Methods()
     {
         var regex = new Regex("result");
         regex.IsMatch("value".AsSpan());
     }
 #endif
 
-    void SortedList()
+    void SortedList_Methods()
     {
         var list = new SortedList<int, char>();
         var key = list.GetKeyAtIndex(0);
@@ -420,98 +389,48 @@ class Consume
     }
 
 #if FeatureMemory
-    void Span_EndsWith()
-    {
-        var result = "value".AsSpan().EndsWith("value");
-        result = "value".AsSpan().EndsWith("value", StringComparison.Ordinal);
-    }
-
-    void Span_SequenceEqual()
-    {
-        var result = "value".AsSpan().SequenceEqual("value");
-    }
-    void Span_StartsWith()
-    {
-        var startsWith = "value".AsSpan().StartsWith("value");
-        startsWith = "value".AsSpan().StartsWith("value", StringComparison.Ordinal);
-    }
-
-    void Span_TrimEnd()
+    void Span_Methods()
     {
         var span = new Span<char>(new char[1]);
-        span.TrimEnd();
+        _ = span.TrimEnd();
+        _ = span.TrimStart();
     }
 
-    void Span_TrimStart()
+    async Task Stream_Methods()
     {
-        var span = new Span<char>(new char[1]);
-        span.TrimStart();
-    }
-
-    async Task Stream_ReadAsync()
-    {
-        var input = new byte[]
-        {
-            1,
-            2
-        };
+        var input = new byte[] { 1, 2 };
         using var stream = new MemoryStream(input);
         var result = new byte[2];
         var memory = new Memory<byte>(result);
         var read = await stream.ReadAsync(memory);
     }
 
-    async Task StreamReader_ReadAsync()
+    async Task StreamReader_Methods()
     {
         var result = new char[5];
         var memory = new Memory<char>(result);
         var reader = new StreamReader(new MemoryStream());
-        var read = await reader.ReadAsync(memory);
+        var count = await reader.ReadAsync(memory);
+        var line = await reader.ReadLineAsync(CancellationToken.None);
+        var text = await reader.ReadToEndAsync(CancellationToken.None);
     }
 
-    async Task StreamReader_ReadLineAsync()
-    {
-        TextReader reader = new StreamReader(new MemoryStream());
-        var read = await reader.ReadLineAsync(CancellationToken.None);
-    }
-
-    async Task StreamReader_ReadToEndAsync()
-    {
-        var reader = new StreamReader(new MemoryStream());
-        var read = await reader.ReadToEndAsync(CancellationToken.None);
-    }
-
-    void StringBuilder_Append_Span()
-    {
-        var builder = new StringBuilder();
-        builder.Append("value".AsSpan());
-    }
-
-    void StringBuilder_CopyTo()
+    void StringBuilder_Methods()
     {
         var builder = new StringBuilder("value");
-        var span = new Span<char>(new char[1]);
-        builder.CopyTo(0, span, 1);
-    }
-
-    void StringBuilder_Equals_Span()
-    {
-        var builder = new StringBuilder("value");
+        builder.Append("suffix".AsSpan());
+        var targetSpan = new Span<char>(new char[1]);
+        builder.CopyTo(0, targetSpan, 1);
         var equals = builder.Equals("value".AsSpan());
-    }
-#endif
 
 #if NET6_0_OR_GREATER
-    void StringBuilder_Replace_ReadOnlySpan()
-    {
-        var builder = new StringBuilder();
-
         var result = builder.Replace("a".AsSpan(), "a".AsSpan());
         result = builder.Replace("a".AsSpan(), "a".AsSpan(), 1, 1);
+#endif
     }
 #endif
 
-    void Task_WaitAsync()
+    void Task_Methods()
     {
         var action = () =>
         {
@@ -525,12 +444,12 @@ class Consume
         new Task<int>(func).WaitAsync(TimeSpan.Zero, CancellationToken.None);
     }
 
-    void TaskCompletionSource_NonGeneric()
+    void TaskCompletionSource_NonGeneric_Methods()
     {
         var tcs = new TaskCompletionSource();
     }
 
-    void TaskCompletionSource_SetCanceled_WithCancellationToken()
+    void TaskCompletionSource_Generic_Methods()
     {
         var completionSource = new TaskCompletionSource<int>();
         var tokenSource = new CancellationTokenSource();
@@ -538,7 +457,7 @@ class Consume
     }
 
 #if FeatureMemory
-    async Task TextWriter()
+    async Task TextWriter_Methods()
     {
         TextWriter target = new StringWriter();
         target.Write(new StringBuilder());
@@ -549,17 +468,13 @@ class Consume
         await target.WriteAsync("a".AsMemory());
     }
 #endif
-    void Type_GetMemberWithSameMetadataDefinitionAs(MemberInfo info)
+    void Type_Methods(MemberInfo info)
     {
-        var result = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
-    }
-
-    void Type_IsGenericMethodParameter()
-    {
+        var member = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
         var result = typeof(string).IsGenericMethodParameter();
     }
 
-    void XDocument_SaveAsync()
+    void XDocument_Methods()
     {
         var document = new XDocument();
         document.SaveAsync(new XmlTextWriter(null!), CancellationToken.None);
