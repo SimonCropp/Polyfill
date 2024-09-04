@@ -179,13 +179,13 @@ class Consume
         token.UnsafeRegister((state, token) => { }, null);
     }
 
-    async Task CancellationTokenSource()
+    async Task CancellationTokenSource_Methods()
     {
         var source = new CancellationTokenSource();
         await source.CancelAsync();
     }
 
-    void ConcurrentDictionary()
+    void ConcurrentDictionary_Methods()
     {
         var dict = new ConcurrentDictionary<string, int>();
         var value = dict.GetOrAdd("Hello", (_, arg) => arg.Length, "World");
@@ -302,7 +302,7 @@ class Consume
 #endif
     }
 
-    void MemberInfoMethods(MemberInfo info)
+    void MemberInfo_Methods(MemberInfo info)
     {
         var result = info.HasSameMetadataDefinitionAs(info);
     }
