@@ -76,147 +76,9 @@ class Consume
         type = typeof(RequiresUnreferencedCodeAttribute);
         type = typeof(UnreachableException);
 
-#if FeatureValueTuple
-        var range = "value"[1..];
-        var index = "value"[^2];
-        //Array not supported due to no RuntimeHelpers.GetSubArray
-        // var subArray = new[]
-        // {
-        //     "value1",
-        //     "value2"
-        // }[..1];
-#endif
-
-        var startsWith = "value".StartsWith('a');
-        var endsWith = "value".EndsWith('a');
-
-        IList<string> ilist = new List<string>();
-        ilist.AsReadOnly();
-
-        IDictionary<int, int> idictionary = new Dictionary<int, int>();
-        idictionary.AsReadOnly();
-
-        typeof(List<string>).IsAssignableTo(typeof(string));
-        typeof(List<string>).IsAssignableTo(null);
-
-        var enumerable = (IEnumerable<string>)new List<string>
-        {
-            "a",
-            "b"
-        };
-        enumerable.TryGetNonEnumeratedCount(out var count);
-        var append = enumerable.Append("c");
-        var maxBy = enumerable.MaxBy(_ => _);
-        var chunk = enumerable.Chunk(3);
-        var minBy = enumerable.MinBy(_ => _);
-        var distinctBy = enumerable.DistinctBy(_ => _);
-        var skipLast = enumerable.SkipLast(1);
-
-        var dictionary = new Dictionary<string, string?>
-        {
-            {
-                "key", "value"
-            }
-        };
-
-        dictionary.GetValueOrDefault("key");
-        dictionary.GetValueOrDefault("key", "default");
-
-        dictionary.TryAdd("key", "value");
-
-        var concurrentDictionary = new ConcurrentDictionary<string, int>();
-
-        var value = concurrentDictionary.GetOrAdd("Hello", (_, arg) => arg.Length, "World");
-
-        var split = "a b".Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        split = "a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
-        var contains = "a b".Contains(' ');
-
         // Test to make sure there are no clashes in the Polyfill code with classes that
         // might be defined in user code. See comments in Debug.cs for more details.
         Debug.Log("Test log to make sure this is working");
-
-        BytePolyfill.TryParse("1", null, out _);
-#if FeatureMemory
-        BytePolyfill.TryParse("1"u8, null, out _);
-        BytePolyfill.TryParse(['1'], out _);
-        BytePolyfill.TryParse(['1'], null, out _);
-        BytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        BytePolyfill.TryParse("1"u8, out _);
-        BytePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
-#endif
-        DoublePolyfill.TryParse("1", null, out _);
-#if FeatureMemory
-        DoublePolyfill.TryParse("1"u8, null, out _);
-        DoublePolyfill.TryParse(['1'], out _);
-        DoublePolyfill.TryParse(['1'], null, out _);
-        DoublePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        DoublePolyfill.TryParse("1"u8, out _);
-        DoublePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
-#endif
-        IntPolyfill.TryParse("1", null, out _);
-#if FeatureMemory
-        IntPolyfill.TryParse("1"u8, null, out _);
-        IntPolyfill.TryParse(['1'], out _);
-        IntPolyfill.TryParse(['1'], null, out _);
-        IntPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        IntPolyfill.TryParse("1"u8, out _);
-        IntPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
-#endif
-        LongPolyfill.TryParse("1", null, out _);
-#if FeatureMemory
-        LongPolyfill.TryParse("1"u8, null, out _);
-        LongPolyfill.TryParse(['1'], out _);
-        LongPolyfill.TryParse(['1'], null, out _);
-        LongPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        LongPolyfill.TryParse("1"u8, out _);
-        LongPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
-#endif
-        SBytePolyfill.TryParse("1", null, out _);
-#if FeatureMemory
-        SBytePolyfill.TryParse("1"u8, null, out _);
-        SBytePolyfill.TryParse(['1'], out _);
-        SBytePolyfill.TryParse(['1'], null, out _);
-        SBytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        SBytePolyfill.TryParse("1"u8, out _);
-        SBytePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
-#endif
-        ShortPolyfill.TryParse("1", null, out _);
-#if FeatureMemory
-        ShortPolyfill.TryParse("1"u8, null, out _);
-        ShortPolyfill.TryParse(['1'], out _);
-        ShortPolyfill.TryParse(['1'], null, out _);
-        ShortPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        ShortPolyfill.TryParse("1"u8, out _);
-        ShortPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
-#endif
-        UIntPolyfill.TryParse("1", null, out _);
-#if FeatureMemory
-        UIntPolyfill.TryParse("1"u8, null, out _);
-        UIntPolyfill.TryParse(['1'], out _);
-        UIntPolyfill.TryParse(['1'], null, out _);
-        UIntPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        UIntPolyfill.TryParse("1"u8, out _);
-        UIntPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
-#endif
-        ULongPolyfill.TryParse("1", null, out _);
-#if FeatureMemory
-        ULongPolyfill.TryParse("1"u8, null, out _);
-        ULongPolyfill.TryParse(['1'], out _);
-        ULongPolyfill.TryParse(['1'], null, out _);
-        ULongPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        ULongPolyfill.TryParse("1"u8, out _);
-        ULongPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
-#endif
-        UShortPolyfill.TryParse("1", null, out _);
-#if FeatureMemory
-        UShortPolyfill.TryParse("1"u8, null, out _);
-        UShortPolyfill.TryParse(['1'], out _);
-        UShortPolyfill.TryParse(['1'], null, out _);
-        UShortPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        UShortPolyfill.TryParse("1"u8, out _);
-        UShortPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
-#endif
     }
 
     #region Compiler Features
@@ -280,7 +142,34 @@ class Consume
     }
 #endif
 
+#if FeatureValueTuple
+    void Ranges()
+    {
+        var range = "value"[1..];
+        var index = "value"[^2];
+        //Array not supported due to no RuntimeHelpers.GetSubArray
+        // var subArray = new[]
+        // {
+        //     "value1",
+        //     "value2"
+        // }[..1];
+    }
+#endif
+
     #endregion
+
+    void Byte_Methods()
+    {
+        BytePolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        BytePolyfill.TryParse("1"u8, null, out _);
+        BytePolyfill.TryParse(['1'], out _);
+        BytePolyfill.TryParse(['1'], null, out _);
+        BytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        BytePolyfill.TryParse("1"u8, out _);
+        BytePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+    }
 
     void CancellationToken_Methods()
     {
@@ -294,6 +183,33 @@ class Consume
     {
         var source = new CancellationTokenSource();
         await source.CancelAsync();
+    }
+
+    void ConcurrentDictionary()
+    {
+        var dict = new ConcurrentDictionary<string, int>();
+        var value = dict.GetOrAdd("Hello", (_, arg) => arg.Length, "World");
+    }
+
+    void Dictionary_Methods()
+    {
+        var dictionary = new Dictionary<string, string?> { { "key", "value" } };
+        dictionary.GetValueOrDefault("key");
+        dictionary.GetValueOrDefault("key", "default");
+        dictionary.TryAdd("key", "value");
+    }
+
+    void Double_Methods()
+    {
+        DoublePolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        DoublePolyfill.TryParse("1"u8, null, out _);
+        DoublePolyfill.TryParse(['1'], out _);
+        DoublePolyfill.TryParse(['1'], null, out _);
+        DoublePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        DoublePolyfill.TryParse("1"u8, out _);
+        DoublePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
     }
 
     void HashSet_Methods()
@@ -321,6 +237,47 @@ class Consume
     }
 #endif
 
+    void IDictionary_Methods()
+    {
+        IDictionary<int, int> idictionary = new Dictionary<int, int>();
+        idictionary.AsReadOnly();
+    }
+
+    void IEnumerable_Methods()
+    {
+        var enumerable = (IEnumerable<string>)new List<string>
+        {
+            "a",
+            "b"
+        };
+        enumerable.TryGetNonEnumeratedCount(out var count);
+        var append = enumerable.Append("c");
+        var maxBy = enumerable.MaxBy(_ => _);
+        var chunk = enumerable.Chunk(3);
+        var minBy = enumerable.MinBy(_ => _);
+        var distinctBy = enumerable.DistinctBy(_ => _);
+        var skipLast = enumerable.SkipLast(1);
+    }
+
+    void IList_Methods()
+    {
+        IList<string> ilist = new List<string>();
+        ilist.AsReadOnly();
+    }
+
+    void Int_Methods()
+    {
+        IntPolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        IntPolyfill.TryParse("1"u8, null, out _);
+        IntPolyfill.TryParse(['1'], out _);
+        IntPolyfill.TryParse(['1'], null, out _);
+        IntPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        IntPolyfill.TryParse("1"u8, out _);
+        IntPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+    }
+
 #if FeatureMemory
     void List_Methods()
     {
@@ -331,6 +288,19 @@ class Consume
         list.InsertRange(1, "bc".AsSpan());
     }
 #endif
+
+    void Long_Methods()
+    {
+        LongPolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        LongPolyfill.TryParse("1"u8, null, out _);
+        LongPolyfill.TryParse(['1'], out _);
+        LongPolyfill.TryParse(['1'], null, out _);
+        LongPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        LongPolyfill.TryParse("1"u8, out _);
+        LongPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+    }
 
     void MemberInfoMethods(MemberInfo info)
     {
@@ -381,6 +351,32 @@ class Consume
     }
 #endif
 
+    void SByte_Methods()
+    {
+        SBytePolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        SBytePolyfill.TryParse("1"u8, null, out _);
+        SBytePolyfill.TryParse(['1'], out _);
+        SBytePolyfill.TryParse(['1'], null, out _);
+        SBytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        SBytePolyfill.TryParse("1"u8, out _);
+        SBytePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+    }
+
+    void Short_Methods()
+    {
+        ShortPolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        ShortPolyfill.TryParse("1"u8, null, out _);
+        ShortPolyfill.TryParse(['1'], out _);
+        ShortPolyfill.TryParse(['1'], null, out _);
+        ShortPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        ShortPolyfill.TryParse("1"u8, out _);
+        ShortPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+    }
+
     void SortedList_Methods()
     {
         var list = new SortedList<int, char>();
@@ -413,6 +409,15 @@ class Consume
         var count = await reader.ReadAsync(memory);
         var line = await reader.ReadLineAsync(CancellationToken.None);
         var text = await reader.ReadToEndAsync(CancellationToken.None);
+    }
+
+    void String_Methods()
+    {
+        var contains = "a b".Contains(' ');
+        var endsWith = "value".EndsWith('a');
+        var split = "a b".Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        split = "a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+        var startsWith = "value".StartsWith('a');
     }
 
     void StringBuilder_Methods()
@@ -470,8 +475,50 @@ class Consume
 #endif
     void Type_Methods(MemberInfo info)
     {
+        bool result;
+        result = typeof(List<string>).IsAssignableTo(typeof(string));
+        result = typeof(List<string>).IsAssignableTo(null);
+        result = typeof(string).IsGenericMethodParameter();
         var member = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
-        var result = typeof(string).IsGenericMethodParameter();
+    }
+
+    void UInt_Methods()
+    {
+        UIntPolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        UIntPolyfill.TryParse("1"u8, null, out _);
+        UIntPolyfill.TryParse(['1'], out _);
+        UIntPolyfill.TryParse(['1'], null, out _);
+        UIntPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        UIntPolyfill.TryParse("1"u8, out _);
+        UIntPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+    }
+
+    void ULong_Methods()
+    {
+        ULongPolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        ULongPolyfill.TryParse("1"u8, null, out _);
+        ULongPolyfill.TryParse(['1'], out _);
+        ULongPolyfill.TryParse(['1'], null, out _);
+        ULongPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        ULongPolyfill.TryParse("1"u8, out _);
+        ULongPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
+    }
+
+    void UShort_Methods()
+    {
+        UShortPolyfill.TryParse("1", null, out _);
+#if FeatureMemory
+        UShortPolyfill.TryParse("1"u8, null, out _);
+        UShortPolyfill.TryParse(['1'], out _);
+        UShortPolyfill.TryParse(['1'], null, out _);
+        UShortPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        UShortPolyfill.TryParse("1"u8, out _);
+        UShortPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+#endif
     }
 
     void XDocument_Methods()
