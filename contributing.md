@@ -409,4 +409,8 @@ Add documentation for the API to the `readme.md`.
 
 ### Add to the Consume project
 
-Add a simple usage of the API to the Consume project.
+Add a simple usage of the API to the Consume project. The usage is there to check it compiles on old runtimes, not correctness.
+
+Put a usage of polyfilled class method into a method in `Consume.cs` with suffix `_Methods` (e.g. `Stream_Methods` for `Stream` type methods). Keep method names in alphabetical order, do not use modifiers.
+
+If new API is a compiler API (e.g. that polyfilled deconstruct method can be used in foreach loop), put usage into *Compiler Features* region.
