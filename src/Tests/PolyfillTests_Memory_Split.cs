@@ -4,6 +4,9 @@
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
 #if FeatureMemory && !NET9_0_OR_GREATER
+
+using System.Buffers;
+
 partial class PolyfillTests
 {
     [Test]
@@ -184,12 +187,20 @@ partial class PolyfillTests
         {
             AssertEnsureCorrectEnumeration(new ReadOnlySpan<T>(value).SplitAny(separator), result);
 
-            if (value is char[] source &&
-                separator is char[] {Length: > 0} separators) // the SearchValues overload does not special-case empty
+            if (value is not char[] source ||
+                // the SearchValues overload does not special-case empty
+                separator is not char[] {Length: > 0} separators)
             {
-                var charEnumerator = new ReadOnlySpan<char>(source).SplitAny(SearchValues.Create(separators));
-                AssertEnsureCorrectEnumeration(charEnumerator, result);
+                return;
             }
+
+            var readOnlySpan = new ReadOnlySpan<char>(source);
+#if NET8_0
+            var searchValuesBasedEnumerator = readOnlySpan.SplitAny(SearchValues.Create(separators));
+            AssertEnsureCorrectEnumeration(searchValuesBasedEnumerator, result);
+#endif
+            var spanBasedEnumerator = readOnlySpan.SplitAny(separators);
+            AssertEnsureCorrectEnumeration(spanBasedEnumerator, result);
         }
     }
 
@@ -198,7 +209,7 @@ partial class PolyfillTests
     {
         Assert.AreEqual(new Range(0, 0), enumerator.Current);
 
-        for (int i = 0; i < result.Length; i++)
+        for (var i = 0; i < result.Length; i++)
         {
             Assert.True(enumerator.MoveNext());
             Assert.AreEqual(result[i], enumerator.Current);
@@ -207,7 +218,8 @@ partial class PolyfillTests
         Assert.False(enumerator.MoveNext());
     }
 
-    public record struct CustomStruct(int value) : IEquatable<CustomStruct>;
+    public record struct CustomStruct(int value) :
+        IEquatable<CustomStruct>;
 
     public record class CustomClass(int value) : IEquatable<CustomClass>;
 }
