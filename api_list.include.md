@@ -56,6 +56,7 @@
 #### Dictionary<TKey,TValue>
 
  * `Boolean Remove<TKey, TValue>(TKey, TValue&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.remove)
+ * `Boolean TryAdd<TKey, TValue>(TKey, TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.tryadd)
 
 
 #### Double
