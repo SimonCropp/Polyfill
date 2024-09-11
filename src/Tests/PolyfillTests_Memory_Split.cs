@@ -29,12 +29,12 @@ partial class PolyfillTests
     public static void Split_SingleElementSeparator()
     {
         // Split on default
-        Test((char[]) ['a', ' ', 'b'], default(char), (Range[]) [0..3]);
-        Test((int[]) [1, 2, 3], default(int), (Range[]) [0..3]);
-        Test((long[]) [1, 2, 3], default(long), (Range[]) [0..3]);
-        Test((byte[]) [1, 2, 3], default(byte), (Range[]) [0..3]);
-        Test((CustomStruct[]) [new(1), new(2), new(3)], default(CustomStruct), (Range[]) [0..3]);
-        Test((CustomClass[]) [new(1), new(2), new(3)], default(CustomClass), (Range[]) [0..3]);
+        Test((char[]) ['a', ' ', 'b'], default, (Range[]) [0..3]);
+        Test((int[]) [1, 2, 3], default, (Range[]) [0..3]);
+        Test((long[]) [1, 2, 3], default, (Range[]) [0..3]);
+        Test((byte[]) [1, 2, 3], default, (Range[]) [0..3]);
+        Test((CustomStruct[]) [new(1), new(2), new(3)], default, (Range[]) [0..3]);
+        Test((CustomClass[]) [new(1), new(2), new(3)], default, (Range[]) [0..3]);
 
         // Split no matching element
         Test((char[]) ['a', ' ', 'b'], ',', (Range[]) [0..3]);
@@ -53,12 +53,12 @@ partial class PolyfillTests
         Test((CustomClass[]) [new(1)], new CustomClass(1), (Range[]) [0..0, 1..1]);
 
         // Split on empty sequence with default separator
-        Test((char[]) [], default(char), (Range[]) [0..0]);
-        Test((int[]) [], default(int), (Range[]) [0..0]);
-        Test((long[]) [], default(long), (Range[]) [0..0]);
-        Test((byte[]) [], default(byte), (Range[]) [0..0]);
-        Test((CustomStruct[]) [], default(CustomStruct), (Range[]) [0..0]);
-        Test((CustomClass[]) [], default(CustomClass), (Range[]) [0..0]);
+        Test((char[]) [], default, (Range[]) [0..0]);
+        Test((int[]) [], default, (Range[]) [0..0]);
+        Test((long[]) [], default, (Range[]) [0..0]);
+        Test((byte[]) [], default, (Range[]) [0..0]);
+        Test((CustomStruct[]) [], default, (Range[]) [0..0]);
+        Test((CustomClass[]) [], default, (Range[]) [0..0]);
 
         Test((char[]) ['a', ',', 'b'], ',', (Range[]) [0..1, 2..3]);
         Test((int[]) [1, 2, 3], (int) 2, (Range[]) [0..1, 2..3]);
@@ -107,10 +107,10 @@ partial class PolyfillTests
         Test((CustomClass[]) [new(4), new(3)], (CustomClass[]) [new(4), new(3)], (Range[]) [0..0, 2..2]);
 
         // Split on empty sequence with default separator
-        Test((char[]) [], (char[]) [default(char)], (Range[]) [0..0]);
-        Test((int[]) [], (int[]) [default(int)], (Range[]) [0..0]);
-        Test((long[]) [], (long[]) [default(long)], (Range[]) [0..0]);
-        Test((byte[]) [], (byte[]) [default(byte)], (Range[]) [0..0]);
+        Test((char[]) [], (char[]) [default], (Range[]) [0..0]);
+        Test((int[]) [], (int[]) [default], (Range[]) [0..0]);
+        Test((long[]) [], (long[]) [default], (Range[]) [0..0]);
+        Test((byte[]) [], (byte[]) [default], (Range[]) [0..0]);
         Test((CustomStruct[]) [], (CustomStruct[]) [default], (Range[]) [0..0]);
         Test((CustomClass[]) [], (CustomClass[]) [default], (Range[]) [0..0]);
 
@@ -161,10 +161,10 @@ partial class PolyfillTests
         Test((CustomClass[]) [new(1)], (CustomClass[]) [new(1)], (Range[]) [0..0, 1..1]);
 
         // Split on empty sequence with default separator
-        Test((char[]) [], (char[]) [default(char)], (Range[]) [0..0]);
-        Test((int[]) [], (int[]) [default(int)], (Range[]) [0..0]);
-        Test((long[]) [], (long[]) [default(long)], (Range[]) [0..0]);
-        Test((byte[]) [], (byte[]) [default(byte)], (Range[]) [0..0]);
+        Test((char[]) [], (char[]) [default], (Range[]) [0..0]);
+        Test((int[]) [], (int[]) [default], (Range[]) [0..0]);
+        Test((long[]) [], (long[]) [default], (Range[]) [0..0]);
+        Test((byte[]) [], (byte[]) [default], (Range[]) [0..0]);
         Test((CustomStruct[]) [], (CustomStruct[]) [new(default)], (Range[]) [0..0]);
         Test((CustomClass[]) [], (CustomClass[]) [new(default)], (Range[]) [0..0]);
 
