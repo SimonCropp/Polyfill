@@ -126,8 +126,25 @@ static partial class Polyfill
                     return false;
 
                 case SpanSplitEnumeratorMode.SingleElement:
-                    separatorIndex = _span.Slice(_startNext).IndexOf(_separator);
+
                     separatorLength = 1;
+                    #if NETFRAMEWORK
+                    if (_separator is null)
+                    {
+                        separatorIndex = -1;
+                        for (int i = _startNext; i < _span.Length; i++)
+                        {
+                            if (_span[i] == null)
+                            {
+                                separatorIndex = i;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    #endif
+                    var readOnlySpan = _span.Slice(_startNext);
+                    separatorIndex = readOnlySpan.IndexOf(_separator);
                     break;
 
                 case SpanSplitEnumeratorMode.Any:
