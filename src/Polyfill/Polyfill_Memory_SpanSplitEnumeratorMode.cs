@@ -4,11 +4,6 @@
 #if FeatureMemory && !NET9_0_OR_GREATER
 
 namespace Polyfills;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
