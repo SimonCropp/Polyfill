@@ -15,7 +15,6 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
-
     /// <summary>
     /// Enables enumerating each split within a <see cref="ReadOnlySpan{T}"/> that has been divided using one or more separators.
     /// </summary>
@@ -150,7 +149,17 @@ static partial class Polyfill
                     break;
 
                 case SpanSplitEnumeratorMode.Any:
-                    separatorIndex = _span.Slice(_startNext).IndexOfAny(_separatorBuffer);
+#if !NETCOREAPP
+                    //https://github.com/dotnet/coreclr/pull/25075
+                    if (_separatorBuffer.Length == 0)
+                    {
+                        separatorIndex = -1;
+                        separatorLength = 1;
+                        break;
+                    }
+#endif
+                    var span = _span.Slice(_startNext);
+                    separatorIndex = span.IndexOfAny(_separatorBuffer);
                     separatorLength = 1;
                     break;
 
