@@ -333,8 +333,7 @@ class Consume
         {
         }
 
-        bool result;
-        result = readOnlySpan.EndsWith("value");
+        var result = readOnlySpan.EndsWith("value");
         result = readOnlySpan.EndsWith("value", StringComparison.Ordinal);
         result = readOnlySpan.SequenceEqual("value");
         result = readOnlySpan.StartsWith("value");
