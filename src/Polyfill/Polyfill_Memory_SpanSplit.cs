@@ -43,6 +43,8 @@ static partial class Polyfill
         where T : IEquatable<T> =>
         new SpanSplitEnumerator<T>(source, separator, treatAsSingleSeparator: true);
 
+#if LangVersion13
+
     /// <summary>
     /// Returns a type that allows for enumeration of each element within a split span
     /// using any of the provided elements.
@@ -62,6 +64,8 @@ static partial class Polyfill
     public static SpanSplitEnumerator<T> SplitAny<T>(this ReadOnlySpan<T> source, [UnscopedRef] params ReadOnlySpan<T> separators)
         where T : IEquatable<T> =>
         new SpanSplitEnumerator<T>(source, separators);
+
+#endif
 
 #if NET8_0
 

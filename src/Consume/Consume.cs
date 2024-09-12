@@ -111,6 +111,8 @@ class Consume
     {
     }
 
+#if LangVersion13
+
     [OverloadResolutionPriority(1)]
     void Method(int x)
     {
@@ -126,7 +128,10 @@ class Consume
     {
     }
 
+#endif
+
 #if FeatureMemory
+
     void CollectionBuilderAttribute()
     {
         MyCollection myCollection = [1, 2, 3, 4, 5];
@@ -140,9 +145,11 @@ class Consume
 
         public static MyCollection Create(ReadOnlySpan<int> values) => new(values);
     }
+
 #endif
 
 #if FeatureValueTuple
+
     void Ranges()
     {
         var range = "value"[1..];
@@ -154,6 +161,7 @@ class Consume
         //     "value2"
         // }[..1];
     }
+
 #endif
 
     #endregion
@@ -326,6 +334,7 @@ class Consume
     }
 
 #if FeatureMemory
+
     void ReadOnlySpan_Methods()
     {
         var readOnlySpan = "value".AsSpan();
@@ -340,18 +349,22 @@ class Consume
         result = readOnlySpan.StartsWith("value", StringComparison.Ordinal);
         var split = readOnlySpan.Split('a');
         split = readOnlySpan.Split("a".AsSpan());
+#if LangVersion13
         split = readOnlySpan.SplitAny('a');
         split = readOnlySpan.SplitAny("a".AsSpan());
+#endif
     }
 
 #endif
 
 #if FeatureMemory
+
     void Regex_Methods()
     {
         var regex = new Regex("result");
         regex.IsMatch("value".AsSpan());
     }
+
 #endif
 
     void SByte_Methods()
