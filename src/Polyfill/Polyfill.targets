@@ -4,6 +4,13 @@
     <LowerFramework>$(TargetFramework.ToLower())</LowerFramework>
     <LowerFrameworks>$(TargetFrameworks.ToLower())</LowerFrameworks>
   </PropertyGroup>
+  <PropertyGroup Condition="$([MSBuild]::VersionGreaterThanOrEquals($(SdkAnalysisLevel), '9'))">
+    <DefineConstants Condition="$(LangVersion) == '13'">$(DefineConstants);LangVersion13</DefineConstants>
+    <DefineConstants Condition="$(LangVersion) == 'latest'">$(DefineConstants);LangVersion13</DefineConstants>
+    <DefineConstants Condition="$(LangVersion) == 'preview'">$(DefineConstants);LangVersion13</DefineConstants>
+    <DefineConstants Condition="$(LangVersion) == 'default'">$(DefineConstants);LangVersion13</DefineConstants>
+    <DefineConstants Condition="$(LangVersion) == 'latestMajor'">$(DefineConstants);LangVersion13</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition="$(AllowUnsafeBlocks) == 'true' ">
     <DefineConstants>$(DefineConstants);AllowUnsafeBlocks</DefineConstants>
   </PropertyGroup>
