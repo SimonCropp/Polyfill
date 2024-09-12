@@ -12,9 +12,8 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
-
     /// <summary>Indicates in which mode <see cref="SpanSplitEnumerator{T}"/> is operating, with regards to how it should interpret its state.</summary>
-    private enum SpanSplitEnumeratorMode
+    enum SpanSplitEnumeratorMode
     {
         /// <summary>Either a default <see cref="SpanSplitEnumerator{T}"/> was used, or the enumerator has finished enumerating and there's no more work to do.</summary>
         None = 0,

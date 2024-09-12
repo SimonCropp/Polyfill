@@ -24,33 +24,33 @@ static partial class Polyfill
         where T : IEquatable<T>
     {
         /// <summary>The input span being split.</summary>
-        private readonly ReadOnlySpan<T> _span;
+        readonly ReadOnlySpan<T> _span;
 
         /// <summary>A single separator to use when <see cref="_splitMode"/> is <see cref="SpanSplitEnumeratorMode.SingleElement"/>.</summary>
-        private readonly T _separator = default!;
+        readonly T _separator = default!;
 
         /// <summary>
         /// A separator span to use when <see cref="_splitMode"/> is <see cref="SpanSplitEnumeratorMode.Sequence"/> (in which case
         /// it's treated as a single separator) or <see cref="SpanSplitEnumeratorMode.Any"/> (in which case it's treated as a set of separators).
         /// </summary>
-        private readonly ReadOnlySpan<T> _separatorBuffer;
+        readonly ReadOnlySpan<T> _separatorBuffer;
 
 #if NET8_0
         /// <summary>A set of separators to use when <see cref="_splitMode"/> is <see cref="SpanSplitEnumeratorMode.SearchValues"/>.</summary>
-        private readonly SearchValues<T> _searchValues = default!;
+        readonly SearchValues<T> _searchValues = default!;
 #endif
 
         /// <summary>Mode that dictates how the instance was configured and how its fields should be used in <see cref="MoveNext"/>.</summary>
-        private SpanSplitEnumeratorMode _splitMode;
+        SpanSplitEnumeratorMode _splitMode;
 
         /// <summary>The inclusive starting index in <see cref="_span"/> of the current range.</summary>
-        private int _startCurrent = 0;
+        int _startCurrent = 0;
 
         /// <summary>The exclusive ending index in <see cref="_span"/> of the current range.</summary>
-        private int _endCurrent = 0;
+        int _endCurrent = 0;
 
         /// <summary>The index in <see cref="_span"/> from which the next separator search should start.</summary>
-        private int _startNext = 0;
+        int _startNext = 0;
 
         /// <summary>Gets an enumerator that allows for iteration over the split span.</summary>
         /// <returns>Returns a <see cref="SpanSplitEnumerator{T}"/> that can be used to iterate over the split span.</returns>
@@ -127,7 +127,6 @@ static partial class Polyfill
                     return false;
 
                 case SpanSplitEnumeratorMode.SingleElement:
-
                     separatorLength = 1;
                     #if NETFRAMEWORK
                     if (_separator is null)
@@ -144,27 +143,27 @@ static partial class Polyfill
                         break;
                     }
                     #endif
-                    var readOnlySpan = _span.Slice(_startNext);
-                    separatorIndex = readOnlySpan.IndexOf(_separator);
+                    separatorIndex = _span.Slice(_startNext)
+                        .IndexOf(_separator);
                     break;
 
                 case SpanSplitEnumeratorMode.Any:
+                    separatorLength = 1;
 #if !NETCOREAPP
                     //https://github.com/dotnet/coreclr/pull/25075
                     if (_separatorBuffer.Length == 0)
                     {
                         separatorIndex = -1;
-                        separatorLength = 1;
                         break;
                     }
 #endif
-                    var span = _span.Slice(_startNext);
-                    separatorIndex = span.IndexOfAny(_separatorBuffer);
-                    separatorLength = 1;
+                    separatorIndex = _span.Slice(_startNext)
+                        .IndexOfAny(_separatorBuffer);
                     break;
 
                 case SpanSplitEnumeratorMode.Sequence:
-                    separatorIndex = _span.Slice(_startNext).IndexOf(_separatorBuffer);
+                    separatorIndex = _span.Slice(_startNext)
+                        .IndexOf(_separatorBuffer);
                     separatorLength = _separatorBuffer.Length;
                     break;
 
