@@ -12,7 +12,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`
 
 
-**API count: 333**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 338**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -653,6 +653,10 @@ The class `Polyfill` includes the following extension methods:
 #### ReadOnlySpan<T>
 
  * `Boolean Contains<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0))
+ * `Polyfills.Polyfill/SpanSplitEnumerator<T> Split<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split#system-memoryextensions-split-1(system-readonlyspan((-0))-0))
+ * `Polyfills.Polyfill/SpanSplitEnumerator<T> Split<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split#system-memoryextensions-split-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
+ * `Polyfills.Polyfill/SpanSplitEnumerator<T> SplitAny<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany#system-memoryextensions-splitany-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
+ * `Polyfills.Polyfill/SpanSplitEnumerator<T> SplitAny<T>(Buffers.SearchValues<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany#system-memoryextensions-splitany-1(system-readonlyspan((-0))-system-buffers-searchvalues((-0))))
 
 
 #### Reflection.EventInfo
