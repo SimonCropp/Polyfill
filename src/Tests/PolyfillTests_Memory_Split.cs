@@ -189,7 +189,8 @@ partial class PolyfillTests
         static void Test<T>(T[] value, T[] separator, Range[] result)
             where T : IEquatable<T>
         {
-            AssertEnsureCorrectEnumeration(new ReadOnlySpan<T>(value).SplitAny(separator), result);
+            var span = new ReadOnlySpan<T>(value);
+            AssertEnsureCorrectEnumeration(span.SplitAny(separator), result);
 
             if (value is not char[] source ||
                 // the SearchValues overload does not special-case empty
