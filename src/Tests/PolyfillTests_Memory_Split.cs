@@ -3,23 +3,27 @@
 #pragma warning disable CS8631 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match constraint type.
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
-#if FeatureMemory && !NET9_0_OR_GREATER
-
+#if FeatureMemory
+#if NET9_0_OR_GREATER
+using Extensions = System.MemoryExtensions;
+#else
 using System.Buffers;
+using Extensions = Polyfills.Polyfill;
+#endif
 
 partial class PolyfillTests
 {
     [Test]
     public static void DefaultSpanSplitEnumeratorBehaviour()
     {
-        var charSpanEnumerator = new Polyfill.SpanSplitEnumerator<char>();
+        var charSpanEnumerator = new Extensions.SpanSplitEnumerator<char>();
+        var stringSpanEnumerator = new Extensions.SpanSplitEnumerator<string>();
         Assert.AreEqual(new Range(0, 0), charSpanEnumerator.Current);
         Assert.False(charSpanEnumerator.MoveNext());
 
         // Implicit DoesNotThrow assertion
         charSpanEnumerator.GetEnumerator();
 
-        var stringSpanEnumerator = new Polyfill.SpanSplitEnumerator<string>();
         Assert.AreEqual(new Range(0, 0), stringSpanEnumerator.Current);
         Assert.False(stringSpanEnumerator.MoveNext());
         stringSpanEnumerator.GetEnumerator();
@@ -204,7 +208,7 @@ partial class PolyfillTests
         }
     }
 
-    private static void AssertEnsureCorrectEnumeration<T>(Polyfill.SpanSplitEnumerator<T> enumerator, Range[] result)
+    static void AssertEnsureCorrectEnumeration<T>(Extensions.SpanSplitEnumerator<T> enumerator, Range[] result)
         where T : IEquatable<T>
     {
         Assert.AreEqual(new Range(0, 0), enumerator.Current);
