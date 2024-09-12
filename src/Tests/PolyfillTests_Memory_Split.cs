@@ -4,11 +4,15 @@
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
 
 #if FeatureMemory
+
 #if NET9_0_OR_GREATER
 using Extensions = System.MemoryExtensions;
 #else
-using System.Buffers;
 using Extensions = Polyfills.Polyfill;
+#endif
+
+#if NET8_0
+using System.Buffers;
 #endif
 
 partial class PolyfillTests

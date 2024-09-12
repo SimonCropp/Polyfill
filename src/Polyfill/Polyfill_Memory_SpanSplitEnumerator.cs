@@ -83,7 +83,7 @@ static partial class Polyfill
                 _searchValues = Unsafe.As<SearchValues<T>>(WhiteSpaceChars);
                 _splitMode = SpanSplitEnumeratorMode.SearchValues;
 #else
-                _separatorBuffer = WhiteSpaceChars.Cast<T>().ToArray().AsSpan<T>();
+                _separatorBuffer = WhiteSpaceChars.AsSpan<T>();
                 _splitMode = SpanSplitEnumeratorMode.Any;
 #endif
                 return;
@@ -195,15 +195,30 @@ static partial class Polyfill
 
             return true;
         }
-    }
+
+        const string whitespaces = "\t\n\v\f\r\u0020\u0085\u00a0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u2028\u2029\u202f\u205f\u3000";
 
 #if NET8_0_OR_GREATER
-    public static readonly SearchValues<char> WhiteSpaceChars =
-        SearchValues.Create("\t\n\v\f\r\u0020\u0085\u00a0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u2028\u2029\u202f\u205f\u3000".AsSpan());
+        public static readonly SearchValues<char> WhiteSpaceChars =
+            SearchValues.Create(whitespaces.AsSpan());
 #else
-    public static readonly char[] WhiteSpaceChars = "\t\n\v\f\r\u0020\u0085\u00a0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u2028\u2029\u202f\u205f\u3000".ToArray();
+        public static readonly T[] WhiteSpaceChars;
 #endif
 
+#if !NET8_0
+
+        static SpanSplitEnumerator()
+        {
+            if (typeof(T) == typeof(char))
+            {
+                WhiteSpaceChars = whitespaces
+                    .Cast<T>()
+                    .ToArray();
+            }
+        }
+
+#endif
+    }
 }
 
 #endif
