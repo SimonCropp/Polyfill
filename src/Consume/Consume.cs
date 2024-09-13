@@ -477,18 +477,21 @@ class Consume
         completionSource.SetCanceled(tokenSource.Token);
     }
 
-#if FeatureMemory
     async Task TextWriter_Methods()
     {
         TextWriter target = new StringWriter();
         target.Write(new StringBuilder());
+        await target.FlushAsync(CancellationToken.None);
+#if FeatureMemory
+        //TODO: expose without FeatureMemory
         target.WriteAsync(new StringBuilder());
         target.WriteLine("a".AsSpan());
         await target.WriteLineAsync("a".AsMemory());
         target.Write("a".AsSpan());
         await target.WriteAsync("a".AsMemory());
-    }
 #endif
+    }
+
     void Type_Methods(MemberInfo info)
     {
         bool result;
