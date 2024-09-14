@@ -12,6 +12,17 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task TextWriterFlushAsync()
+    {
+        using var stream = new MemoryStream();
+        using var writer = new StreamWriter(stream);
+        await writer.WriteAsync("value");
+        await writer.FlushAsync(Cancel.None);
+        var s = Encoding.UTF8.GetString(stream.ToArray());
+        Assert.AreEqual("value", s);
+    }
+
+    [Test]
     public async Task TextWriterWriteStringBuilder()
     {
         using var stream = new MemoryStream();
