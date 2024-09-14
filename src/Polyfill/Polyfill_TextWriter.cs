@@ -42,7 +42,6 @@ static partial class Polyfill
 
 #endif
 
-#if FeatureMemory
 #if !NETCOREAPP3_0_OR_GREATER
     /// <summary>
     /// Equivalent to Write(stringBuilder.ToString()) however it uses the
@@ -52,16 +51,21 @@ static partial class Polyfill
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-text-stringbuilder)")]
     public static void Write(this TextWriter target, StringBuilder? value)
     {
-        if (value != null)
+        if (value == null)
         {
-            foreach (ReadOnlyMemory<char> chunk in value.GetChunks())
-            {
-                target.Write(chunk.Span);
-            }
+            return;
         }
+
+#if FeatureMemory
+        foreach (ReadOnlyMemory<char> chunk in value.GetChunks())
+        {
+            target.Write(chunk.Span);
+        }
+#else
+        target.Write(value.ToString());
+#endif
     }
 
-#if FeatureValueTask
     /// <summary>
     /// Equivalent to WriteAsync(stringBuilder.ToString()) however it uses the
     /// StringBuilder.GetChunks() method to avoid creating the intermediate string
@@ -85,16 +89,19 @@ static partial class Polyfill
 
         async Task WriteAsyncCore(StringBuilder builder, CancellationToken cancel)
         {
+#if FeatureValueTask && FeatureMemory
             foreach (ReadOnlyMemory<char> chunk in builder.GetChunks())
             {
                 await target.WriteAsync(chunk, cancel).ConfigureAwait(false);
             }
+#else
+            await target.WriteAsync(builder.ToString());
+#endif
         }
     }
 #endif
-#endif
 
-#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
+#if (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0) && FeatureMemory
 #if FeatureValueTask
 
     /// <summary>
@@ -196,6 +203,5 @@ static partial class Polyfill
             pool.Return(array);
         }
     }
-#endif
 #endif
 }
