@@ -421,6 +421,9 @@ class Consume
         var read = await stream.ReadAsync(memory);
 #endif
         await stream.CopyToAsync(stream);
+        #if FeatureValueTask
+        await stream.DisposeAsync();
+        #endif
     }
 
     async Task StreamReader_Methods()
