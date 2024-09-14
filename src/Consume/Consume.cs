@@ -485,10 +485,12 @@ class Consume
 #if FeatureMemory
         //TODO: expose without FeatureMemory
         target.WriteAsync(new StringBuilder());
-        target.WriteLine("a".AsSpan());
-        await target.WriteLineAsync("a".AsMemory());
-        target.Write("a".AsSpan());
-        await target.WriteAsync("a".AsMemory());
+        var span = "a".AsSpan();
+        target.WriteLine(span);
+        target.Write(span);
+        var memory = "a".AsMemory();
+        await target.WriteLineAsync(memory);
+        await target.WriteAsync(memory);
 #endif
     }
 
