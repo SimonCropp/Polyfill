@@ -482,12 +482,10 @@ class Consume
         TextWriter target = new StringWriter();
         target.Write(new StringBuilder());
         await target.FlushAsync(CancellationToken.None);
+        await target.WriteAsync(new StringBuilder());
 #if FeatureMemory
-        //TODO: expose without FeatureMemory
-        target.WriteAsync(new StringBuilder());
-        var span = "a".AsSpan();
-        target.WriteLine(span);
-        target.Write(span);
+        target.WriteLine("a".AsSpan());
+        target.Write("a".AsSpan());
         var memory = "a".AsMemory();
         await target.WriteLineAsync(memory);
         await target.WriteAsync(memory);
