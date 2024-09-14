@@ -401,6 +401,7 @@ class Consume
     }
 
 #if FeatureMemory
+
     void Span_Methods()
     {
         var span = new Span<char>(new char[1]);
@@ -408,21 +409,28 @@ class Consume
         _ = span.TrimStart();
     }
 
+#endif
+
     async Task Stream_Methods()
     {
         var input = new byte[] { 1, 2 };
         using var stream = new MemoryStream(input);
         var result = new byte[2];
+#if FeatureMemory
         var memory = new Memory<byte>(result);
         var read = await stream.ReadAsync(memory);
+#endif
+        await stream.CopyToAsync(stream);
     }
 
     async Task StreamReader_Methods()
     {
         var result = new char[5];
-        var memory = new Memory<char>(result);
         var reader = new StreamReader(new MemoryStream());
+#if FeatureMemory
+        var memory = new Memory<char>(result);
         var count = await reader.ReadAsync(memory);
+#endif
         var line = await reader.ReadLineAsync(CancellationToken.None);
         var text = await reader.ReadToEndAsync(CancellationToken.None);
     }
@@ -439,6 +447,7 @@ class Consume
     void StringBuilder_Methods()
     {
         var builder = new StringBuilder("value");
+#if FeatureMemory
         builder.Append("suffix".AsSpan());
         var targetSpan = new Span<char>(new char[1]);
         builder.CopyTo(0, targetSpan, 1);
@@ -448,8 +457,8 @@ class Consume
         var result = builder.Replace("a".AsSpan(), "a".AsSpan());
         result = builder.Replace("a".AsSpan(), "a".AsSpan(), 1, 1);
 #endif
-    }
 #endif
+    }
 
     void Task_Methods()
     {
