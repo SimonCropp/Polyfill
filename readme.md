@@ -12,7 +12,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`
 
 
-**API count: 340**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 341**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -864,6 +864,7 @@ The class `Polyfill` includes the following extension methods:
 
  * `String[] GetNames<TEnum>() where TEnum : Enum, ValueType` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.getnames)
  * `TEnum[] GetValues<TEnum>() where TEnum : Enum, ValueType` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.getvalues)
+ * `Boolean IsDefined<TEnum>(TEnum) where TEnum : Enum, ValueType` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.isdefined#system-enum-isdefined-1(-0))
  * `TEnum Parse<TEnum>(String) where TEnum : Enum, ValueType` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean))
  * `TEnum Parse<TEnum>(String, Boolean) where TEnum : Enum, ValueType` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-string-system-boolean))
  * `TEnum Parse<TEnum>(ReadOnlySpan<Char>) where TEnum : Enum, ValueType` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse#system-enum-parse-1(system-readonlyspan((system-char))))
