@@ -1,4 +1,12 @@
 // ReSharper disable RedundantUsingDirective
+// ReSharper disable RedundantAssignment
+// ReSharper disable UnusedVariable
+// ReSharper disable UnusedMember.Local
+// ReSharper disable UnusedParameter.Local
+// ReSharper disable PossibleMultipleEnumeration
+// ReSharper disable AllUnderscoreLocalParameterName
+// ReSharper disable NotAccessedVariable
+
 #nullable enable
 
 using System;
@@ -21,7 +29,6 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using MemoryStream = System.IO.MemoryStream;
-
 #pragma warning disable CS4014
 
 class Consume
@@ -183,8 +190,8 @@ class Consume
     {
         var source = new CancellationTokenSource();
         var token = source.Token;
-        token.UnsafeRegister(state => { }, null);
-        token.UnsafeRegister((state, token) => { }, null);
+        token.UnsafeRegister(_ => { }, null);
+        token.UnsafeRegister((_, _) => { }, null);
     }
 
     async Task CancellationTokenSource_Methods()
