@@ -15,6 +15,7 @@ using System.Diagnostics.CodeAnalysis;
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+[StackTraceHidden]
 #if PolyPublic
 public
 #endif
