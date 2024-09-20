@@ -93,6 +93,11 @@ For example:
       <DefineConstants
         Condition="'$(MemoryVersion)' != '' AND $([MSBuild]::VersionGreaterThanOrEquals($(MemoryVersion), '4.5.5'))">$(DefineConstants);FeatureMemory</DefineConstants>
 
+      <UnsafeVersion>@(ResolvedCompileFileDefinitions->WithMetadataValue('NuGetPackageId', 'System.Runtime.CompilerServices.Unsafe')->Metadata('NuGetPackageVersion'))</UnsafeVersion>
+
+      <DefineConstants
+        Condition="'$(UnsafeVersion)' != '' AND $([MSBuild]::VersionGreaterThanOrEquals($(UnsafeVersion), '4.5.5'))">$(DefineConstants);FeatureUnsafe</DefineConstants>
+
       <DefineConstants
               Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Threading.Tasks.Extensions'))">$(DefineConstants);FeatureValueTask</DefineConstants>
 
@@ -113,6 +118,7 @@ For example:
       <DefineConstants Condition="$(LowerFramework.StartsWith('net48'))">$(DefineConstants);FeatureValueTuple</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.1'))">$(DefineConstants);FeatureValueTuple;FeatureValueTask</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.0'))">$(DefineConstants);FeatureValueTuple</DefineConstants>
+      <DefineConstants Condition="!$(LowerFramework.StartsWith('netcoreapp2'))">$(DefineConstants);FeatureUnsafe</DefineConstants>
     </PropertyGroup>
   </Target>
   <ItemGroup>

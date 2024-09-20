@@ -3,22 +3,16 @@
 
 #nullable enable
 
-#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X
+#if FeatureUnsafe && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)
 
 namespace System.Numerics;
 
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Link = System.ComponentModel.DescriptionAttribute;
 using System.Buffers.Binary;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Intrinsics;
-using System.Runtime.Intrinsics.Arm;
-using System.Runtime.Intrinsics.Wasm;
-using System.Runtime.Intrinsics.X86;
-
 
 /// <summary>
 /// Utility methods for intrinsic bit-twiddling operations.
@@ -57,7 +51,8 @@ static class BitOperations
     /// </summary>
     /// <param name="value">The value.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsPow2(int value) => (value & (value - 1)) == 0 && value > 0;
+    public static bool IsPow2(int value) =>
+        (value & (value - 1)) == 0 && value > 0;
 
     /// <summary>
     /// Evaluate whether a given integral value is a power of 2.
@@ -65,29 +60,16 @@ static class BitOperations
     /// <param name="value">The value.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
-    public static bool IsPow2(uint value) => (value & (value - 1)) == 0 && value != 0;
+    public static bool IsPow2(uint value) =>
+        (value & (value - 1)) == 0 && value != 0;
 
     /// <summary>
     /// Evaluate whether a given integral value is a power of 2.
     /// </summary>
     /// <param name="value">The value.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsPow2(long value) => (value & (value - 1)) == 0 && value > 0;
-
-    /// <summary>
-    /// Evaluate whether a given integral value is a power of 2.
-    /// </summary>
-    /// <param name="value">The value.</param>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    [CLSCompliant(false)]
-    public static bool IsPow2(ulong value) => (value & (value - 1)) == 0 && value != 0;
-
-    /// <summary>
-    /// Evaluate whether a given integral value is a power of 2.
-    /// </summary>
-    /// <param name="value">The value.</param>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsPow2(nint value) => (value & (value - 1)) == 0 && value > 0;
+    public static bool IsPow2(long value) =>
+        (value & (value - 1)) == 0 && value > 0;
 
     /// <summary>
     /// Evaluate whether a given integral value is a power of 2.
@@ -95,7 +77,25 @@ static class BitOperations
     /// <param name="value">The value.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
-    public static bool IsPow2(nuint value) => (value & (value - 1)) == 0 && value != 0;
+    public static bool IsPow2(ulong value) =>
+        (value & (value - 1)) == 0 && value != 0;
+
+    /// <summary>
+    /// Evaluate whether a given integral value is a power of 2.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsPow2(nint value) =>
+        (value & (value - 1)) == 0 && value > 0;
+
+    /// <summary>
+    /// Evaluate whether a given integral value is a power of 2.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [CLSCompliant(false)]
+    public static bool IsPow2(nuint value) =>
+        (value & (value - 1)) == 0 && value != 0;
 
     /// <summary>Round the given integral value up to a power of 2.</summary>
     /// <param name="value">The value.</param>
@@ -107,16 +107,6 @@ static class BitOperations
     [CLSCompliant(false)]
     public static uint RoundUpToPowerOf2(uint value)
     {
-        if (X86Base.IsSupported || ArmBase.IsSupported || WasmBase.IsSupported)
-        {
-#if TARGET_64BIT
-                return (uint)(0x1_0000_0000ul >> LeadingZeroCount(value - 1));
-#else
-            int shift = 32 - LeadingZeroCount(value - 1);
-            return (1u ^ (uint) (shift >> 5)) << shift;
-#endif
-        }
-
         // Based on https://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
         --value;
         value |= value >> 1;
@@ -139,12 +129,6 @@ static class BitOperations
     [CLSCompliant(false)]
     public static ulong RoundUpToPowerOf2(ulong value)
     {
-        if (X86Base.X64.IsSupported || ArmBase.Arm64.IsSupported || WasmBase.IsSupported)
-        {
-            int shift = 64 - LeadingZeroCount(value - 1);
-            return (1ul ^ (ulong) (shift >> 6)) << shift;
-        }
-
         // Based on https://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
         --value;
         value |= value >> 1;
@@ -166,90 +150,28 @@ static class BitOperations
     /// </returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
-    public static nuint RoundUpToPowerOf2(nuint value)
-    {
-#if TARGET_64BIT
-        return (nuint)RoundUpToPowerOf2((ulong)value);
-#else
-        return (nuint) RoundUpToPowerOf2((uint) value);
-#endif
-    }
+    public static nuint RoundUpToPowerOf2(nuint value) =>
+        (nuint)RoundUpToPowerOf2((ulong)value);
 
     /// <summary>
     /// Count the number of leading zero bits in a mask.
     /// Similar in behavior to the x86 instruction LZCNT.
     /// </summary>
     /// <param name="value">The value.</param>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
-    public static int LeadingZeroCount(uint value)
-    {
-        if (Lzcnt.IsSupported)
-        {
-            // LZCNT contract is 0->32
-            return (int) Lzcnt.LeadingZeroCount(value);
-        }
-
-        if (ArmBase.IsSupported)
-        {
-            return ArmBase.LeadingZeroCount(value);
-        }
-
-        if (WasmBase.IsSupported)
-        {
-            return WasmBase.LeadingZeroCount(value);
-        }
-
-        // Unguarded fallback contract is 0->31, BSR contract is 0->undefined
-        if (value == 0)
-        {
-            return 32;
-        }
-
-        if (X86Base.IsSupported)
-        {
-            // LZCNT returns index starting from MSB, whereas BSR gives the index from LSB.
-            // 31 ^ BSR here is equivalent to 31 - BSR since the BSR result is always between 0 and 31.
-            // This saves an instruction, as subtraction from constant requires either MOV/SUB or NEG/ADD.
-            return 31 ^ (int) X86Base.BitScanReverse(value);
-        }
-
-        return 31 ^ Log2SoftwareFallback(value);
-    }
+    public static int LeadingZeroCount(uint value) =>
+        31 ^ Log2SoftwareFallback(value);
 
     /// <summary>
     /// Count the number of leading zero bits in a mask.
     /// Similar in behavior to the x86 instruction LZCNT.
     /// </summary>
     /// <param name="value">The value.</param>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
     public static int LeadingZeroCount(ulong value)
     {
-        if (Lzcnt.X64.IsSupported)
-        {
-            // LZCNT contract is 0->64
-            return (int) Lzcnt.X64.LeadingZeroCount(value);
-        }
-
-        if (ArmBase.Arm64.IsSupported)
-        {
-            return ArmBase.Arm64.LeadingZeroCount(value);
-        }
-
-        if (WasmBase.IsSupported)
-        {
-            return WasmBase.LeadingZeroCount(value);
-        }
-
-        if (X86Base.X64.IsSupported)
-        {
-            // BSR contract is 0->undefined
-            return value == 0 ? 64 : 63 ^ (int) X86Base.X64.BitScanReverse(value);
-        }
-
         uint hi = (uint) (value >> 32);
 
         if (hi == 0)
@@ -265,24 +187,16 @@ static class BitOperations
     /// Similar in behavior to the x86 instruction LZCNT.
     /// </summary>
     /// <param name="value">The value.</param>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
-    public static int LeadingZeroCount(nuint value)
-    {
-#if TARGET_64BIT
-            return LeadingZeroCount((ulong)value);
-#else
-        return LeadingZeroCount((uint) value);
-#endif
-    }
+    public static int LeadingZeroCount(nuint value) =>
+        LeadingZeroCount((ulong)value);
 
     /// <summary>
     /// Returns the integer (floor) log of the specified value, base 2.
     /// Note that by convention, input value 0 returns 0 since log(0) is undefined.
     /// </summary>
     /// <param name="value">The value.</param>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
     public static int Log2(uint value)
@@ -290,34 +204,6 @@ static class BitOperations
         // The 0->0 contract is fulfilled by setting the LSB to 1.
         // Log(1) is 0, and setting the LSB for values > 1 does not change the log2 result.
         value |= 1;
-
-        // value    lzcnt   actual  expected
-        // ..0001   31      31-31    0
-        // ..0010   30      31-30    1
-        // 0010..    2      31-2    29
-        // 0100..    1      31-1    30
-        // 1000..    0      31-0    31
-        if (Lzcnt.IsSupported)
-        {
-            return 31 ^ (int) Lzcnt.LeadingZeroCount(value);
-        }
-
-        if (ArmBase.IsSupported)
-        {
-            return 31 ^ ArmBase.LeadingZeroCount(value);
-        }
-
-        if (WasmBase.IsSupported)
-        {
-            return 31 ^ WasmBase.LeadingZeroCount(value);
-        }
-
-        // BSR returns the log2 result directly. However BSR is slower than LZCNT
-        // on AMD processors, so we leave it as a fallback only.
-        if (X86Base.IsSupported)
-        {
-            return (int) X86Base.BitScanReverse(value);
-        }
 
         // Fallback contract is 0->0
         return Log2SoftwareFallback(value);
@@ -328,32 +214,11 @@ static class BitOperations
     /// Note that by convention, input value 0 returns 0 since log(0) is undefined.
     /// </summary>
     /// <param name="value">The value.</param>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
     public static int Log2(ulong value)
     {
         value |= 1;
-
-        if (Lzcnt.X64.IsSupported)
-        {
-            return 63 ^ (int) Lzcnt.X64.LeadingZeroCount(value);
-        }
-
-        if (ArmBase.Arm64.IsSupported)
-        {
-            return 63 ^ ArmBase.Arm64.LeadingZeroCount(value);
-        }
-
-        if (X86Base.X64.IsSupported)
-        {
-            return (int) X86Base.X64.BitScanReverse(value);
-        }
-
-        if (WasmBase.IsSupported)
-        {
-            return 63 ^ WasmBase.LeadingZeroCount(value);
-        }
 
         uint hi = (uint) (value >> 32);
 
@@ -370,17 +235,10 @@ static class BitOperations
     /// Note that by convention, input value 0 returns 0 since log(0) is undefined.
     /// </summary>
     /// <param name="value">The value.</param>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
-    public static int Log2(nuint value)
-    {
-#if TARGET_64BIT
-            return Log2((ulong)value);
-#else
-        return Log2((uint) value);
-#endif
-    }
+    public static int Log2(nuint value) =>
+        Log2((ulong)value);
 
     /// <summary>
     /// Returns the integer (floor) log of the specified value, base 2.
@@ -441,40 +299,20 @@ static class BitOperations
     /// Similar in behavior to the x86 instruction POPCNT.
     /// </summary>
     /// <param name="value">The value.</param>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
     public static int PopCount(uint value)
     {
-        if (Popcnt.IsSupported)
-        {
-            return (int) Popcnt.PopCount(value);
-        }
+        const uint c1 = 0x_55555555u;
+        const uint c2 = 0x_33333333u;
+        const uint c3 = 0x_0F0F0F0Fu;
+        const uint c4 = 0x_01010101u;
 
-        if (AdvSimd.Arm64.IsSupported)
-        {
-            // PopCount works on vector so convert input value to vector first.
+        value -= (value >> 1) & c1;
+        value = (value & c2) + ((value >> 2) & c2);
+        value = (((value + (value >> 4)) & c3) * c4) >> 24;
 
-            Vector64<uint> input = Vector64.CreateScalar(value);
-            Vector64<byte> aggregated = AdvSimd.Arm64.AddAcross(AdvSimd.PopCount(input.AsByte()));
-            return aggregated.ToScalar();
-        }
-
-        return SoftwareFallback(value);
-
-        static int SoftwareFallback(uint value)
-        {
-            const uint c1 = 0x_55555555u;
-            const uint c2 = 0x_33333333u;
-            const uint c3 = 0x_0F0F0F0Fu;
-            const uint c4 = 0x_01010101u;
-
-            value -= (value >> 1) & c1;
-            value = (value & c2) + ((value >> 2) & c2);
-            value = (((value + (value >> 4)) & c3) * c4) >> 24;
-
-            return (int) value;
-        }
+        return (int) value;
     }
 
     /// <summary>
@@ -482,44 +320,20 @@ static class BitOperations
     /// Similar in behavior to the x86 instruction POPCNT.
     /// </summary>
     /// <param name="value">The value.</param>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
     public static int PopCount(ulong value)
     {
-        if (Popcnt.X64.IsSupported)
-        {
-            return (int) Popcnt.X64.PopCount(value);
-        }
+        const ulong c1 = 0x_55555555_55555555ul;
+        const ulong c2 = 0x_33333333_33333333ul;
+        const ulong c3 = 0x_0F0F0F0F_0F0F0F0Ful;
+        const ulong c4 = 0x_01010101_01010101ul;
 
-        if (AdvSimd.Arm64.IsSupported)
-        {
-            // PopCount works on vector so convert input value to vector first.
-            Vector64<ulong> input = Vector64.Create(value);
-            Vector64<byte> aggregated = AdvSimd.Arm64.AddAcross(AdvSimd.PopCount(input.AsByte()));
-            return aggregated.ToScalar();
-        }
+        value -= (value >> 1) & c1;
+        value = (value & c2) + ((value >> 2) & c2);
+        value = (((value + (value >> 4)) & c3) * c4) >> 56;
 
-#if TARGET_32BIT
-            return PopCount((uint)value) // lo
-                + PopCount((uint)(value >> 32)); // hi
-#else
-        return SoftwareFallback(value);
-
-        static int SoftwareFallback(ulong value)
-        {
-            const ulong c1 = 0x_55555555_55555555ul;
-            const ulong c2 = 0x_33333333_33333333ul;
-            const ulong c3 = 0x_0F0F0F0F_0F0F0F0Ful;
-            const ulong c4 = 0x_01010101_01010101ul;
-
-            value -= (value >> 1) & c1;
-            value = (value & c2) + ((value >> 2) & c2);
-            value = (((value + (value >> 4)) & c3) * c4) >> 56;
-
-            return (int) value;
-        }
-#endif
+        return (int) value;
     }
 
     /// <summary>
@@ -527,17 +341,10 @@ static class BitOperations
     /// Similar in behavior to the x86 instruction POPCNT.
     /// </summary>
     /// <param name="value">The value.</param>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
-    public static int PopCount(nuint value)
-    {
-#if TARGET_64BIT
-            return PopCount((ulong)value);
-#else
-        return PopCount((uint) value);
-#endif
-    }
+    public static int PopCount(nuint value) =>
+        PopCount((ulong)value);
 
     /// <summary>
     /// Count the number of trailing zero bits in an integer value.
@@ -545,44 +352,22 @@ static class BitOperations
     /// </summary>
     /// <param name="value">The value.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int TrailingZeroCount(int value)
-        => TrailingZeroCount((uint) value);
+    public static int TrailingZeroCount(int value) =>
+        TrailingZeroCount((uint) value);
 
     /// <summary>
     /// Count the number of trailing zero bits in an integer value.
     /// Similar in behavior to the x86 instruction TZCNT.
     /// </summary>
     /// <param name="value">The value.</param>
-    [Intrinsic]
     [CLSCompliant(false)]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int TrailingZeroCount(uint value)
     {
-        if (Bmi1.IsSupported)
-        {
-            // TZCNT contract is 0->32
-            return (int) Bmi1.TrailingZeroCount(value);
-        }
-
-        if (ArmBase.IsSupported)
-        {
-            return ArmBase.LeadingZeroCount(ArmBase.ReverseElementBits(value));
-        }
-
-        if (WasmBase.IsSupported)
-        {
-            return WasmBase.TrailingZeroCount(value);
-        }
-
         // Unguarded fallback contract is 0->0, BSF contract is 0->undefined
         if (value == 0)
         {
             return 32;
-        }
-
-        if (X86Base.IsSupported)
-        {
-            return (int) X86Base.BitScanForward(value);
         }
 
         // uint.MaxValue >> 27 is always in range [0 - 31] so we use Unsafe.AddByteOffset to avoid bounds check
@@ -598,43 +383,19 @@ static class BitOperations
     /// Similar in behavior to the x86 instruction TZCNT.
     /// </summary>
     /// <param name="value">The value.</param>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int TrailingZeroCount(long value)
-        => TrailingZeroCount((ulong) value);
+    public static int TrailingZeroCount(long value) =>
+        TrailingZeroCount((ulong) value);
 
     /// <summary>
     /// Count the number of trailing zero bits in a mask.
     /// Similar in behavior to the x86 instruction TZCNT.
     /// </summary>
     /// <param name="value">The value.</param>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
     public static int TrailingZeroCount(ulong value)
     {
-        if (Bmi1.X64.IsSupported)
-        {
-            // TZCNT contract is 0->64
-            return (int) Bmi1.X64.TrailingZeroCount(value);
-        }
-
-        if (ArmBase.Arm64.IsSupported)
-        {
-            return ArmBase.Arm64.LeadingZeroCount(ArmBase.Arm64.ReverseElementBits(value));
-        }
-
-        if (WasmBase.IsSupported)
-        {
-            return WasmBase.TrailingZeroCount(value);
-        }
-
-        if (X86Base.X64.IsSupported)
-        {
-            // BSF contract is 0->undefined
-            return value == 0 ? 64 : (int) X86Base.X64.BitScanForward(value);
-        }
-
         uint lo = (uint) value;
 
         if (lo == 0)
@@ -650,33 +411,19 @@ static class BitOperations
     /// Similar in behavior to the x86 instruction TZCNT.
     /// </summary>
     /// <param name="value">The value.</param>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int TrailingZeroCount(nint value)
-    {
-#if TARGET_64BIT
-            return TrailingZeroCount((ulong)(nuint)value);
-#else
-        return TrailingZeroCount((uint) (nuint) value);
-#endif
-    }
+    public static int TrailingZeroCount(nint value) =>
+        TrailingZeroCount((ulong)(nuint)value);
 
     /// <summary>
     /// Count the number of trailing zero bits in a mask.
     /// Similar in behavior to the x86 instruction TZCNT.
     /// </summary>
     /// <param name="value">The value.</param>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
-    public static int TrailingZeroCount(nuint value)
-    {
-#if TARGET_64BIT
-            return TrailingZeroCount((ulong)value);
-#else
-        return TrailingZeroCount((uint) value);
-#endif
-    }
+    public static int TrailingZeroCount(nuint value) =>
+        TrailingZeroCount((ulong)value);
 
     /// <summary>
     /// Rotates the specified value left by the specified number of bits.
@@ -686,11 +433,10 @@ static class BitOperations
     /// <param name="offset">The number of bits to rotate by.
     /// Any value outside the range [0..31] is treated as congruent mod 32.</param>
     /// <returns>The rotated value.</returns>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
-    public static uint RotateLeft(uint value, int offset)
-        => (value << offset) | (value >> (32 - offset));
+    public static uint RotateLeft(uint value, int offset) =>
+        (value << offset) | (value >> (32 - offset));
 
     /// <summary>
     /// Rotates the specified value left by the specified number of bits.
@@ -700,11 +446,10 @@ static class BitOperations
     /// <param name="offset">The number of bits to rotate by.
     /// Any value outside the range [0..63] is treated as congruent mod 64.</param>
     /// <returns>The rotated value.</returns>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
-    public static ulong RotateLeft(ulong value, int offset)
-        => (value << offset) | (value >> (64 - offset));
+    public static ulong RotateLeft(ulong value, int offset) =>
+        (value << offset) | (value >> (64 - offset));
 
     /// <summary>
     /// Rotates the specified value left by the specified number of bits.
@@ -715,17 +460,10 @@ static class BitOperations
     /// Any value outside the range [0..31] is treated as congruent mod 32 on a 32-bit process,
     /// and any value outside the range [0..63] is treated as congruent mod 64 on a 64-bit process.</param>
     /// <returns>The rotated value.</returns>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
-    public static nuint RotateLeft(nuint value, int offset)
-    {
-#if TARGET_64BIT
-            return (nuint)RotateLeft((ulong)value, offset);
-#else
-        return (nuint) RotateLeft((uint) value, offset);
-#endif
-    }
+    public static nuint RotateLeft(nuint value, int offset) =>
+        (nuint)RotateLeft((ulong)value, offset);
 
     /// <summary>
     /// Rotates the specified value right by the specified number of bits.
@@ -735,11 +473,10 @@ static class BitOperations
     /// <param name="offset">The number of bits to rotate by.
     /// Any value outside the range [0..31] is treated as congruent mod 32.</param>
     /// <returns>The rotated value.</returns>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
-    public static uint RotateRight(uint value, int offset)
-        => (value >> offset) | (value << (32 - offset));
+    public static uint RotateRight(uint value, int offset) =>
+        (value >> offset) | (value << (32 - offset));
 
     /// <summary>
     /// Rotates the specified value right by the specified number of bits.
@@ -749,11 +486,10 @@ static class BitOperations
     /// <param name="offset">The number of bits to rotate by.
     /// Any value outside the range [0..63] is treated as congruent mod 64.</param>
     /// <returns>The rotated value.</returns>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
-    public static ulong RotateRight(ulong value, int offset)
-        => (value >> offset) | (value << (64 - offset));
+    public static ulong RotateRight(ulong value, int offset) =>
+        (value >> offset) | (value << (64 - offset));
 
     /// <summary>
     /// Rotates the specified value right by the specified number of bits.
@@ -764,17 +500,10 @@ static class BitOperations
     /// Any value outside the range [0..31] is treated as congruent mod 32 on a 32-bit process,
     /// and any value outside the range [0..63] is treated as congruent mod 64 on a 64-bit process.</param>
     /// <returns>The rotated value.</returns>
-    [Intrinsic]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [CLSCompliant(false)]
-    public static nuint RotateRight(nuint value, int offset)
-    {
-#if TARGET_64BIT
-            return (nuint)RotateRight((ulong)value, offset);
-#else
-        return (nuint) RotateRight((uint) value, offset);
-#endif
-    }
+    public static nuint RotateRight(nuint value, int offset) =>
+        (nuint)RotateRight((ulong)value, offset);
 
     /// <summary>
     /// Accumulates the CRC (Cyclic redundancy check) checksum.
@@ -782,23 +511,10 @@ static class BitOperations
     /// <param name="crc">The base value to calculate checksum on</param>
     /// <param name="data">The data for which to compute the checksum</param>
     /// <returns>The CRC-checksum</returns>
-    [Intrinsic]
     [CLSCompliant(false)]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint Crc32C(uint crc, byte data)
-    {
-        if (Sse42.IsSupported)
-        {
-            return Sse42.Crc32(crc, data);
-        }
-
-        if (Crc32.IsSupported)
-        {
-            return Crc32.ComputeCrc32C(crc, data);
-        }
-
-        return Crc32Fallback.Crc32C(crc, data);
-    }
+    public static uint Crc32C(uint crc, byte data) =>
+        Crc32Fallback.Crc32C(crc, data);
 
     /// <summary>
     /// Accumulates the CRC (Cyclic redundancy check) checksum.
@@ -806,23 +522,10 @@ static class BitOperations
     /// <param name="crc">The base value to calculate checksum on</param>
     /// <param name="data">The data for which to compute the checksum</param>
     /// <returns>The CRC-checksum</returns>
-    [Intrinsic]
     [CLSCompliant(false)]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint Crc32C(uint crc, ushort data)
-    {
-        if (Sse42.IsSupported)
-        {
-            return Sse42.Crc32(crc, data);
-        }
-
-        if (Crc32.IsSupported)
-        {
-            return Crc32.ComputeCrc32C(crc, data);
-        }
-
-        return Crc32Fallback.Crc32C(crc, data);
-    }
+    public static uint Crc32C(uint crc, ushort data) =>
+        Crc32Fallback.Crc32C(crc, data);
 
     /// <summary>
     /// Accumulates the CRC (Cyclic redundancy check) checksum.
@@ -830,23 +533,10 @@ static class BitOperations
     /// <param name="crc">The base value to calculate checksum on</param>
     /// <param name="data">The data for which to compute the checksum</param>
     /// <returns>The CRC-checksum</returns>
-    [Intrinsic]
     [CLSCompliant(false)]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint Crc32C(uint crc, uint data)
-    {
-        if (Sse42.IsSupported)
-        {
-            return Sse42.Crc32(crc, data);
-        }
-
-        if (Crc32.IsSupported)
-        {
-            return Crc32.ComputeCrc32C(crc, data);
-        }
-
-        return Crc32Fallback.Crc32C(crc, data);
-    }
+    public static uint Crc32C(uint crc, uint data) =>
+        Crc32Fallback.Crc32C(crc, data);
 
     /// <summary>
     /// Accumulates the CRC (Cyclic redundancy check) checksum.
@@ -854,24 +544,10 @@ static class BitOperations
     /// <param name="crc">The base value to calculate checksum on</param>
     /// <param name="data">The data for which to compute the checksum</param>
     /// <returns>The CRC-checksum</returns>
-    [Intrinsic]
     [CLSCompliant(false)]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint Crc32C(uint crc, ulong data)
-    {
-        if (Sse42.X64.IsSupported)
-        {
-            // This intrinsic returns a 64-bit register with the upper 32-bits set to 0.
-            return (uint) Sse42.X64.Crc32(crc, data);
-        }
-
-        if (Crc32.Arm64.IsSupported)
-        {
-            return Crc32.Arm64.ComputeCrc32C(crc, data);
-        }
-
-        return Crc32C(Crc32C(crc, (uint) (data)), (uint) (data >> 32));
-    }
+    public static uint Crc32C(uint crc, ulong data) =>
+        Crc32C(Crc32C(crc, (uint) (data)), (uint) (data >> 32));
 
     private static class Crc32Fallback
     {
@@ -881,19 +557,17 @@ static class BitOperations
         // this version uses reflected bit ordering, so 0x1EDC6F41 becomes 0x82F63B78u.
         // This is computed lazily so as to avoid increasing the assembly size for data that's
         // only needed on a fallback path.
-        private static readonly uint[] s_crcTable = Crc32ReflectedTable.Generate(0x82F63B78u);
+        private static readonly uint[] s_crcTable = GenerateCrc32ReflectedTable(0x82F63B78u);
 
         internal static uint Crc32C(uint crc, byte data)
         {
-            ref uint lookupTable = ref MemoryMarshal.GetArrayDataReference(s_crcTable);
-            crc = Unsafe.Add(ref lookupTable, (nint) (byte) (crc ^ data)) ^ (crc >> 8);
-
-            return crc;
+            ref uint lookupTable = ref GetArrayDataReference(s_crcTable);
+            return Unsafe.Add(ref lookupTable, (nint) (byte) (crc ^ data)) ^ (crc >> 8);
         }
 
         internal static uint Crc32C(uint crc, ushort data)
         {
-            ref uint lookupTable = ref MemoryMarshal.GetArrayDataReference(s_crcTable);
+            ref uint lookupTable = ref GetArrayDataReference(s_crcTable);
 
             crc = Unsafe.Add(ref lookupTable, (nint) (byte) (crc ^ (byte) data)) ^ (crc >> 8);
             data >>= 8;
@@ -904,7 +578,7 @@ static class BitOperations
 
         internal static uint Crc32C(uint crc, uint data)
         {
-            ref uint lookupTable = ref MemoryMarshal.GetArrayDataReference(s_crcTable);
+            ref uint lookupTable = ref GetArrayDataReference(s_crcTable);
             return Crc32CCore(ref lookupTable, crc, data);
         }
 
@@ -938,11 +612,9 @@ static class BitOperations
     /// Reset the lowest significant bit in the given value
     /// </summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static ulong ResetLowestSetBit(ulong value)
-    {
+    internal static ulong ResetLowestSetBit(ulong value) =>
         // It's lowered to BLSR on x86
-        return value & (value - 1);
-    }
+        value & (value - 1);
 
     /// <summary>
     /// Flip the bit at a specific position in a given value.
@@ -953,10 +625,8 @@ static class BitOperations
     /// Any value outside the range [0..31] is treated as congruent mod 32.</param>
     /// <returns>The new value.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static uint FlipBit(uint value, int index)
-    {
-        return value ^ (1u << index);
-    }
+    internal static uint FlipBit(uint value, int index) =>
+        value ^ (1u << index);
 
     /// <summary>
     /// Flip the bit at a specific position in a given value.
@@ -967,9 +637,44 @@ static class BitOperations
     /// Any value outside the range [0..63] is treated as congruent mod 64.</param>
     /// <returns>The new value.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static ulong FlipBit(ulong value, int index)
+    internal static ulong FlipBit(ulong value, int index) =>
+        value ^ (1ul << index);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static ref T GetArrayDataReference<T>(T[] array) =>
+        ref Unsafe.As<byte, T>(ref Unsafe.As<RawArrayData>(array).Data);
+
+    internal class RawArrayData
     {
-        return value ^ (1ul << index);
+        public uint Length;
+        public uint Padding;
+        public byte Data;
+    }
+
+    internal static uint[] GenerateCrc32ReflectedTable(uint reflectedPolynomial)
+    {
+        uint[] table = new uint[256];
+
+        for (int i = 0; i < 256; i++)
+        {
+            uint val = (uint) i;
+
+            for (int j = 0; j < 8; j++)
+            {
+                if ((val & 0b0000_0001) == 0)
+                {
+                    val >>= 1;
+                }
+                else
+                {
+                    val = (val >> 1) ^ reflectedPolynomial;
+                }
+            }
+
+            table[i] = val;
+        }
+
+        return table;
     }
 }
 #endif
