@@ -37,7 +37,8 @@ static partial class Polyfill
             return Task.FromCanceled(cancellationToken);
         }
 
-        return target.FlushAsync();
+        return target.FlushAsync()
+            .WaitAsync(cancellationToken);
     }
 
 #endif
@@ -95,7 +96,8 @@ static partial class Polyfill
                 await target.WriteAsync(chunk, cancel).ConfigureAwait(false);
             }
 #else
-            await target.WriteAsync(builder.ToString());
+            await target.WriteAsync(builder.ToString())
+                .WaitAsync(cancellationToken);
 #endif
         }
     }
@@ -127,7 +129,9 @@ static partial class Polyfill
             segment = new(buffer.ToArray());
         }
 
-        return new(target.WriteAsync(segment.Array!, segment.Offset, segment.Count));
+        var task = target.WriteAsync(segment.Array!, segment.Offset, segment.Count)
+            .WaitAsync(cancellationToken);
+        return new(task);
     }
 
     /// <summary>
@@ -153,7 +157,9 @@ static partial class Polyfill
             segment = new(buffer.ToArray());
         }
 
-        return new(target.WriteLineAsync(segment.Array!, segment.Offset, segment.Count));
+        var task = target.WriteLineAsync(segment.Array!, segment.Offset, segment.Count)
+            .WaitAsync(cancellationToken);
+        return new(task);
     }
 
 #endif

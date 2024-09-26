@@ -225,7 +225,8 @@ static partial class Polyfill
             return Task.FromCanceled(cancellationToken);
         }
 
-        return target.FlushAsync();
+        return target.FlushAsync()
+            .WaitAsync(cancellationToken);
     }
 
 #endif
@@ -283,7 +284,8 @@ static partial class Polyfill
                 await target.WriteAsync(chunk, cancel).ConfigureAwait(false);
             }
 #else
-            await target.WriteAsync(builder.ToString());
+            await target.WriteAsync(builder.ToString())
+                .WaitAsync(cancellationToken);
 #endif
         }
     }
@@ -315,7 +317,9 @@ static partial class Polyfill
             segment = new(buffer.ToArray());
         }
 
-        return new(target.WriteAsync(segment.Array!, segment.Offset, segment.Count));
+        var task = target.WriteAsync(segment.Array!, segment.Offset, segment.Count)
+            .WaitAsync(cancellationToken);
+        return new(task);
     }
 
     /// <summary>
@@ -341,7 +345,9 @@ static partial class Polyfill
             segment = new(buffer.ToArray());
         }
 
-        return new(target.WriteLineAsync(segment.Array!, segment.Offset, segment.Count));
+        var task = target.WriteLineAsync(segment.Array!, segment.Offset, segment.Count)
+            .WaitAsync(cancellationToken);
+        return new(task);
     }
 
 #endif
@@ -394,7 +400,7 @@ static partial class Polyfill
 #endif
 }
 ```
-<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L207' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L213' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -429,9 +435,18 @@ partial class PolyfillTests
         var read = await reader.ReadToEndAsync(Cancel.None);
         Assert.AreEqual("value", read);
     }
+
+    [Test]
+    public async Task StreamReaderReadLineAsync()
+    {
+        using var stream = new MemoryStream("line1\nline2"u8.ToArray());
+        using var reader = new StreamReader(stream);
+        var read = await reader.ReadLineAsync(CancellationToken.None);
+        Assert.AreEqual("line1", read);
+    }
 }
 ```
-<sup><a href='/src/Tests/PolyfillTests_StreamReader.cs#L1-L23' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillTests_StreamReader.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/PolyfillTests_StreamReader.cs#L1-L32' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillTests_StreamReader.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

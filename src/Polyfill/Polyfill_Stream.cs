@@ -40,7 +40,8 @@ static partial class Polyfill
             segment = new(buffer.ToArray());
         }
 
-        return new(target.ReadAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken));
+        var task = target.ReadAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken);
+        return new(task);
     }
 
     /// <summary>
@@ -63,7 +64,8 @@ static partial class Polyfill
             segment = new(buffer.ToArray());
         }
 
-        return new(target.WriteAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken));
+        var task = target.WriteAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken);
+        return new(task);
     }
 
 #endif

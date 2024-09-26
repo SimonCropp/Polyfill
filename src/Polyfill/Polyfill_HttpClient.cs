@@ -89,12 +89,14 @@ static partial class Polyfill
             using var response = await target.GetAsync(
                 requestUri,
                 HttpCompletionOption.ResponseHeadersRead,
-                cancellationToken
-            ).ConfigureAwait(false);
+                cancellationToken)
+                .ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadAsByteArrayAsync(cancellationToken).ConfigureAwait(false);
+            return await response.Content
+                .ReadAsByteArrayAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
         // Older versions of HttpClient methods don't propagate the cancellation token inside the exception
         catch (OperationCanceledException exception) when (
@@ -143,12 +145,14 @@ static partial class Polyfill
             using var response = await target.GetAsync(
                 requestUri,
                 HttpCompletionOption.ResponseHeadersRead,
-                cancellationToken
-            ).ConfigureAwait(false);
+                cancellationToken)
+                .ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+            return await response.Content
+                .ReadAsStringAsync(cancellationToken)
+                .ConfigureAwait(false);
         }
         // Older versions of HttpClient methods don't propagate the cancellation token inside the exception
         catch (OperationCanceledException exception) when (

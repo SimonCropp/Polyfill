@@ -29,7 +29,8 @@ static partial class Polyfill
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return target.ReadAsStreamAsync();
+        return target.ReadAsStreamAsync()
+            .WaitAsync(cancellationToken);
     }
 
     /// <summary>
@@ -49,7 +50,8 @@ static partial class Polyfill
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return target.ReadAsByteArrayAsync();
+        return target.ReadAsByteArrayAsync()
+            .WaitAsync(cancellationToken);
     }
 
     /// <summary>
@@ -69,7 +71,8 @@ static partial class Polyfill
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        return target.ReadAsStringAsync();
+        return target.ReadAsStringAsync()
+            .WaitAsync(cancellationToken);
     }
 }
 #endif
