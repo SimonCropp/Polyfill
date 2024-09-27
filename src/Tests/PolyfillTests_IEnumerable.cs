@@ -3,29 +3,68 @@ partial class PolyfillTests
     [Test]
     public void MaxBy()
     {
-        var enumerable = (IEnumerable<int>)new List<int> {1, 2};
+        IEnumerable<int> enumerable = [1, 2];
 
         Assert.AreEqual(2, enumerable.MaxBy(_ => _));
     }
 
     [Test]
+    public void MaxComparer()
+    {
+        IEnumerable<int> enumerable = [1, 2];
+
+        Assert.AreEqual(1, enumerable.Max(new ReverseComparer()));
+    }
+
+    [Test]
+    public void MaxByComparer()
+    {
+        IEnumerable<int> enumerable = [1, 2];
+
+        Assert.AreEqual(1, enumerable.MaxBy(_ => _, new ReverseComparer()));
+    }
+
+    [Test]
+    public void MinComparer()
+    {
+        IEnumerable<int> enumerable = [1, 2];
+
+        Assert.AreEqual(2, enumerable.Min(new ReverseComparer()));
+    }
+
+    [Test]
+    public void MinByComparer()
+    {
+        IEnumerable<int> enumerable = [1, 2];
+
+        Assert.AreEqual(2, enumerable.MinBy(_ => _, new ReverseComparer()));
+    }
+
+    class ReverseComparer : IComparer<int>
+    {
+        public int Compare(int x, int y) =>
+            y.CompareTo(x);
+    }
+
+    [Test]
     public void Except()
     {
-        var enumerable = new List<int> {1, 2};
+        IEnumerable<int> enumerable = new List<int> {1, 2};
         Assert.AreEqual(1, enumerable.Except(2).Single());
     }
 
     [Test]
     public void MinBy()
     {
-        var enumerable = (IEnumerable<int>)new List<int> {1, 2};
+        IEnumerable<int> enumerable = new List<int> {1, 2};
 
         Assert.AreEqual(1, enumerable.MinBy(_ => _));
     }
+
     [Test]
     public void TryGetNonEnumeratedCount()
     {
-        var enumerable = (IEnumerable<int>)new List<int> {1, 2};
+        IEnumerable<int> enumerable = new List<int> {1, 2};
 
         Assert.True(enumerable.TryGetNonEnumeratedCount(out var count));
         Assert.AreEqual(2, count);
@@ -35,7 +74,7 @@ partial class PolyfillTests
     public void Index()
     {
         var count = 0;
-        var enumerable = (IEnumerable<int>)new List<int> {3, 4};
+        IEnumerable<int> enumerable = new List<int> {3, 4};
         foreach (var (index, item) in enumerable.Index())
         {
             count++;
@@ -54,7 +93,7 @@ partial class PolyfillTests
     [Test]
     public void DistinctBy()
     {
-        var enumerable = (IEnumerable<int>)new List<int> {3, 4};
+        IEnumerable<int> enumerable = new List<int> {3, 4};
         var distinctBy = enumerable.DistinctBy(_=>_).ToList();
         Assert.AreEqual(2, distinctBy.Count);
         Assert.AreEqual(3, distinctBy[0]);
@@ -64,7 +103,7 @@ partial class PolyfillTests
     [Test]
     public void CountBy()
     {
-        var enumerable = (IEnumerable<int>)new List<int> {3, 4, 3};
+        IEnumerable<int> enumerable = new List<int> {3, 4, 3};
         var list = enumerable.CountBy(_ => _).ToList();
         Assert.AreEqual(3, list[0].Key);
         Assert.AreEqual(2, list[0].Value);
@@ -143,7 +182,7 @@ partial class PolyfillTests
     [Test]
     public void IEnumerableAppend()
     {
-        var enumerable = (IEnumerable<string>)new List<string> {"a", "b"};
+        IEnumerable<string> enumerable = new List<string> {"a", "b"};
 
         Assert.IsTrue(enumerable.Append("c").SequenceEqual(new List<string> {"a", "b", "c"}));
     }
@@ -151,15 +190,15 @@ partial class PolyfillTests
     [Test]
     public void IEnumerableSkipLast()
     {
-        var enumerable = (IEnumerable<string>)new List<string> { "a", "b" };
+        IEnumerable<string> enumerable = new List<string> { "a", "b" };
 
         Assert.IsTrue(enumerable.SkipLast(1).SequenceEqual(new List<string> { "a" }));
     }
 
     [Test]
-    public void ToHashSet ()
+    public void ToHashSet()
     {
-        var enumerable = (IEnumerable<string>)new List<string> { "a", "b" };
+        IEnumerable<string> enumerable = new List<string> { "a", "b" };
 
         var hashSet = enumerable.ToHashSet();
         Assert.IsTrue(hashSet.Contains("a"));
@@ -179,6 +218,7 @@ partial class PolyfillTests
         Assert.AreEqual("one", result.Second);
         Assert.AreEqual("a", result.Third);
     }
+
 #if NETCOREAPP3_0_OR_GREATER || NETSTANDARD2_1
     [Test]
     public void ElementAtIndex()
