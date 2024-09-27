@@ -260,7 +260,7 @@ class Consume
 
     void IEnumerable_Methods()
     {
-        var enumerable = (IEnumerable<string>)new List<string>
+        IEnumerable<string> enumerable = new List<string>
         {
             "a",
             "b"
@@ -272,6 +272,10 @@ class Consume
         var minBy = enumerable.MinBy(_ => _);
         var distinctBy = enumerable.DistinctBy(_ => _);
         var skipLast = enumerable.SkipLast(1);
+#if FeatureValueTuple
+        var take = enumerable.Take(1..3);
+#endif
+        var takeLast = enumerable.TakeLast(3);
     }
 
     void IList_Methods()

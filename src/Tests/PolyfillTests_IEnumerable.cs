@@ -47,6 +47,38 @@ partial class PolyfillTests
     }
 
     [Test]
+    public void TakeRange()
+    {
+        var letters = new List<char>
+        {
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+        };
+
+        var taken = letters.Take(1..3).ToList();
+        Assert.IsTrue(taken.SequenceEqual(['b', 'c']));
+    }
+
+    [Test]
+    public void TakeLast()
+    {
+        var letters = new List<char>
+        {
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
+        };
+
+        var taken = letters.TakeLast(2).ToList();
+        Assert.IsTrue(taken.SequenceEqual(['d', 'e']));
+    }
+
+    [Test]
     public void Except()
     {
         IEnumerable<int> enumerable = [1, 2];
