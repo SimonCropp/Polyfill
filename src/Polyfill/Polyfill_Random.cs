@@ -3,8 +3,6 @@
 
 namespace Polyfills;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
