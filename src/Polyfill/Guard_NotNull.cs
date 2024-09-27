@@ -2,14 +2,12 @@
 
 namespace Polyfills;
 
-
 #pragma warning disable
 
 #if PolyGuard
 
 using System;
 using System.Runtime.CompilerServices;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 #if PolyPublic

@@ -6,14 +6,8 @@
 
 namespace Polyfills;
 
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
 #if PolyPublic
 public
