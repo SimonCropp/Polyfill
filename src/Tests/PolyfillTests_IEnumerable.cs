@@ -46,6 +46,27 @@ partial class PolyfillTests
             y.CompareTo(x);
     }
 
+#if FeatureValueTuple
+
+    [Test]
+    public void TakeRange()
+    {
+        var numbers = new List<int>
+        {
+            1,
+            2,
+            3,
+            4,
+            5
+        };
+
+        // Using Range to take elements from the list
+        var takenNumbers = numbers.Take(1..3).ToList();
+        Assert.IsTrue(result.SequenceEqual(["apple"]));
+    }
+
+#endif
+
     [Test]
     public void Except()
     {
