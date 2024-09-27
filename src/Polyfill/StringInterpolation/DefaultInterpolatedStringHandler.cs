@@ -12,7 +12,6 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using Link = System.ComponentModel.DescriptionAttribute;
 
 /// <summary>Provides a handler used by the language compiler to process interpolated strings into <see cref="string"/> instances.</summary>

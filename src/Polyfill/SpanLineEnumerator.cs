@@ -5,7 +5,6 @@
 
 #if FeatureMemory && !NET6_0_OR_GREATER
 
-
 namespace System.Text;
 
 using Diagnostics;

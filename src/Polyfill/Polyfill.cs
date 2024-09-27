@@ -3,7 +3,6 @@
 global using global::Polyfills;
 
 namespace Polyfills;
-
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;

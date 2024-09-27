@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 
 namespace Polyfills;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics;
 using Link = System.ComponentModel.DescriptionAttribute;
