@@ -49,7 +49,7 @@ partial class PolyfillTests
     [Test]
     public void Except()
     {
-        IEnumerable<int> enumerable = new List<int> {1, 2};
+        IEnumerable<int> enumerable = [1, 2];
         Assert.AreEqual(1, enumerable.Except(2).Single());
     }
 
@@ -64,7 +64,7 @@ partial class PolyfillTests
     [Test]
     public void TryGetNonEnumeratedCount()
     {
-        IEnumerable<int> enumerable = new List<int> {1, 2};
+        IEnumerable<int> enumerable = [1, 2];
 
         Assert.True(enumerable.TryGetNonEnumeratedCount(out var count));
         Assert.AreEqual(2, count);
@@ -74,7 +74,7 @@ partial class PolyfillTests
     public void Index()
     {
         var count = 0;
-        IEnumerable<int> enumerable = new List<int> {3, 4};
+        IEnumerable<int> enumerable = [3, 4];
         foreach (var (index, item) in enumerable.Index())
         {
             count++;
@@ -82,19 +82,21 @@ partial class PolyfillTests
             {
                 Assert.AreEqual(3, item);
             }
+
             if (index == 1)
             {
                 Assert.AreEqual(4, item);
             }
         }
+
         Assert.AreEqual(2, count);
     }
 
     [Test]
     public void DistinctBy()
     {
-        IEnumerable<int> enumerable = new List<int> {3, 4};
-        var distinctBy = enumerable.DistinctBy(_=>_).ToList();
+        IEnumerable<int> enumerable = [3, 4];
+        var distinctBy = enumerable.DistinctBy(_ => _).ToList();
         Assert.AreEqual(2, distinctBy.Count);
         Assert.AreEqual(3, distinctBy[0]);
         Assert.AreEqual(4, distinctBy[1]);
@@ -103,7 +105,7 @@ partial class PolyfillTests
     [Test]
     public void CountBy()
     {
-        IEnumerable<int> enumerable = new List<int> {3, 4, 3};
+        IEnumerable<int> enumerable = [3, 4, 3];
         var list = enumerable.CountBy(_ => _).ToList();
         Assert.AreEqual(3, list[0].Key);
         Assert.AreEqual(2, list[0].Value);
@@ -115,8 +117,8 @@ partial class PolyfillTests
     [Test]
     public void IEnumerableExceptBy()
     {
-        var firstList = new List<string> { "banana", "apple", "cherry" };
-        var secondList = new List<int> { 6 };
+        IEnumerable<string> firstList = ["banana", "apple", "cherry"];
+        IEnumerable<int> secondList = [6];
 
         var result = firstList.ExceptBy(secondList, _ => _.Length).ToList();
         Assert.IsTrue(result.SequenceEqual(["apple"]));
