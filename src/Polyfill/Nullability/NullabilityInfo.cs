@@ -5,20 +5,12 @@
 
 #nullable enable
 
-using System.Linq;
-using System.Diagnostics.CodeAnalysis;
-
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System.Collections.ObjectModel;
-
 namespace System.Reflection;
 
-using System.Linq;
 using System.Diagnostics.CodeAnalysis;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Link = System.ComponentModel.DescriptionAttribute;
 
