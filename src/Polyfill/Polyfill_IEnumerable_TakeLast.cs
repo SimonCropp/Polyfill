@@ -13,7 +13,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 static partial class Polyfill
 {
 
-#if !NET6_0_OR_GREATER
+#if NETSTANDARD2_0 || NETFRAMEWORK
 
     /// <summary>
     /// Returns a new enumerable collection that contains the last count elements from source.
