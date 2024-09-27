@@ -46,8 +46,6 @@ partial class PolyfillTests
             y.CompareTo(x);
     }
 
-#if FeatureValueTuple
-
     [Test]
     public void TakeRange()
     {
@@ -63,8 +61,6 @@ partial class PolyfillTests
         var taken = letters.Take(1..3).ToList();
         Assert.IsTrue(taken.SequenceEqual(['b', 'c']));
     }
-
-#endif
 
     [Test]
     public void Except()
