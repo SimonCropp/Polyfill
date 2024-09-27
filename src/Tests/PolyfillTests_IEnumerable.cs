@@ -51,18 +51,17 @@ partial class PolyfillTests
     [Test]
     public void TakeRange()
     {
-        var numbers = new List<int>
+        var letters = new List<char>
         {
-            1,
-            2,
-            3,
-            4,
-            5
+            'a',
+            'b',
+            'c',
+            'd',
+            'e',
         };
 
-        // Using Range to take elements from the list
-        var takenNumbers = numbers.Take(1..3).ToList();
-        Assert.IsTrue(result.SequenceEqual(["apple"]));
+        var taken = letters.Take(1..3).ToList();
+        Assert.IsTrue(taken.SequenceEqual(['b', 'c']));
     }
 
 #endif
