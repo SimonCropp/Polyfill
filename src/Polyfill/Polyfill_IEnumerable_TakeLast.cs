@@ -13,7 +13,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 static partial class Polyfill
 {
 
-#if !NET6_0_OR_GREATER && FeatureValueTuple
+#if !NET6_0_OR_GREATER
 
     /// <summary>
     /// Returns a new enumerable collection that contains the last count elements from source.

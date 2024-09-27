@@ -13,7 +13,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 static partial class Polyfill
 {
 
-#if !NET6_0_OR_GREATER && FeatureValueTuple
+#if !NET6_0_OR_GREATER
 
     //https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Take.cs
     /// <summary>Returns a specified range of contiguous elements from a sequence.</summary>
