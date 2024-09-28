@@ -568,4 +568,15 @@
  * `void NotWhiteSpace(Span<Char>)`
 
 
+#### Lock
+
+ * `void Enter()`
+ * `Lock/Scope EnterScope()`
+ * `void Exit()`
+ * `Boolean get_IsHeldByCurrentThread()`
+ * `Boolean TryEnter()`
+ * `Boolean TryEnter(TimeSpan)`
+ * `Boolean TryEnter(Int32)`
+
+
 #### TaskCompletionSource
