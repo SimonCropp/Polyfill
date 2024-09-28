@@ -103,7 +103,7 @@ static partial class Polyfill
 
         static Dictionary<TKey, TAccumulate> PopulateDictionary(IEnumerator<TSource> enumerator, Func<TSource, TKey> keySelector, Func<TKey, TAccumulate> seedSelector, Func<TAccumulate, TSource, TAccumulate> func, IEqualityComparer<TKey>? keyComparer)
         {
-            Dictionary<TKey, TAccumulate> dict = new(keyComparer);
+            var dict = new Dictionary<TKey, TAccumulate>(keyComparer);
 
             do
             {
