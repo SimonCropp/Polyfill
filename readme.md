@@ -12,7 +12,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`
 
 
-**API count: 345**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 352**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -1019,6 +1019,17 @@ The class `Polyfill` includes the following extension methods:
  * `void NotWhiteSpace(Nullable<Memory<Char>>)`
  * `void NotWhiteSpace(Nullable<ReadOnlyMemory<Char>>)`
  * `void NotWhiteSpace(Span<Char>)`
+
+
+#### Lock
+
+ * `void Enter()`
+ * `Lock/Scope EnterScope()`
+ * `void Exit()`
+ * `Boolean get_IsHeldByCurrentThread()`
+ * `Boolean TryEnter()`
+ * `Boolean TryEnter(TimeSpan)`
+ * `Boolean TryEnter(Int32)`
 
 
 #### TaskCompletionSource<!-- endInclude -->
