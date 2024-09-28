@@ -65,6 +65,7 @@ class BuildApiTest
         WriteHelper(types, "ULongPolyfill", writer, ref count);
         WriteHelper(types, "UShortPolyfill", writer, ref count);
         WriteHelper(types, "Guard", writer, ref count);
+        WriteHelper(types, "Lock", writer, ref count);
         WriteType(nameof(TaskCompletionSource), writer, ref count);
 
         count += types.Count(_ => _.Key.EndsWith("Attribute"));

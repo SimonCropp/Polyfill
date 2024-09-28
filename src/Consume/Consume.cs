@@ -214,6 +214,13 @@ class Consume
         dictionary.TryAdd("key", "value");
     }
 
+    void Lock_Methods()
+    {
+        var locker = new Lock();
+        var held = locker.IsHeldByCurrentThread;
+        locker.Enter();
+    }
+
     void Double_Methods()
     {
         DoublePolyfill.TryParse("1", null, out _);
