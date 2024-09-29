@@ -7,7 +7,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
-    #if FeatureMemory && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)
+#if FeatureMemory && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)
 
     /// <summary>
     /// Tries to format the value of the current instance as UTF-8 into the provided span of bytes.
@@ -28,6 +28,7 @@ static partial class Polyfill
 
         return CopyToSpan(destination, out charsWritten, result);
     }
+
     /// <summary>
     /// Tries to format the value of the current instance as UTF-8 into the provided span of bytes.
     /// </summary>
