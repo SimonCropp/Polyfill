@@ -6,7 +6,6 @@
 namespace System.Diagnostics;
 
 using System.Diagnostics.CodeAnalysis;
-
 using Targets = AttributeTargets;
 
 /// <summary>

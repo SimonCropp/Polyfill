@@ -22,10 +22,10 @@ static partial class SBytePolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-string-system-iformatprovider-system-sbyte@)")]
     public static bool TryParse(string? target, IFormatProvider? provider, out sbyte result) =>
-#if !NET7_0_OR_GREATER
-        sbyte.TryParse(target, NumberStyles.Integer, provider, out result);
-#else
+#if NET7_0_OR_GREATER
         sbyte.TryParse(target, provider, out result);
+#else
+        sbyte.TryParse(target, NumberStyles.Integer, provider, out result);
 #endif
 
 #if FeatureMemory
@@ -34,10 +34,10 @@ static partial class SBytePolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-sbyte@)")]
     public static bool TryParse(ReadOnlySpan<byte> target, IFormatProvider? provider, out sbyte result) =>
-#if !NET8_0_OR_GREATER
-        sbyte.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, provider, out result);
-#else
+#if NET8_0_OR_GREATER
         sbyte.TryParse(target, provider, out result);
+#else
+        sbyte.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, provider, out result);
 #endif
 
     /// <summary>
@@ -56,10 +56,10 @@ static partial class SBytePolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-sbyte@)")]
     public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out sbyte result) =>
-#if !NET7_0_OR_GREATER
-        sbyte.TryParse(target.ToString(), NumberStyles.Integer, provider, out result);
-#else
+#if NET7_0_OR_GREATER
         sbyte.TryParse(target, provider, out result);
+#else
+        sbyte.TryParse(target.ToString(), NumberStyles.Integer, provider, out result);
 #endif
 
     /// <summary>
@@ -67,10 +67,10 @@ static partial class SBytePolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-sbyte@)")]
     public static bool TryParse(ReadOnlySpan<byte> target, NumberStyles style, IFormatProvider? provider, out sbyte result) =>
-#if !NET8_0_OR_GREATER
-        sbyte.TryParse(Encoding.UTF8.GetString(target.ToArray()), style, provider, out result);
-#else
+#if NET8_0_OR_GREATER
         sbyte.TryParse(target, style, provider, out result);
+#else
+        sbyte.TryParse(Encoding.UTF8.GetString(target.ToArray()), style, provider, out result);
 #endif
 
     /// <summary>
@@ -78,10 +78,10 @@ static partial class SBytePolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-sbyte@)")]
     public static bool TryParse(ReadOnlySpan<byte> target, out sbyte result) =>
-#if !NET8_0_OR_GREATER
-        sbyte.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, null, out result);
-#else
+#if NET8_0_OR_GREATER
         sbyte.TryParse(target, out result);
+#else
+        sbyte.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, null, out result);
 #endif
 
     /// <summary>

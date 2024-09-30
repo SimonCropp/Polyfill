@@ -22,10 +22,10 @@ static partial class DoublePolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse#system-double-tryparse(system-string-system-iformatprovider-system-double@)")]
     public static bool TryParse(string? target, IFormatProvider? provider, out double result) =>
-#if !NET7_0_OR_GREATER
-        double.TryParse(target, NumberStyles.Float, provider, out result);
-#else
+#if NET7_0_OR_GREATER
         double.TryParse(target, provider, out result);
+#else
+        double.TryParse(target, NumberStyles.Float, provider, out result);
 #endif
 
 #if FeatureMemory
@@ -34,10 +34,10 @@ static partial class DoublePolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse#system-double-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-double@)")]
     public static bool TryParse(ReadOnlySpan<byte> target, IFormatProvider? provider, out double result) =>
-#if !NET8_0_OR_GREATER
-        double.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Float, provider, out result);
-#else
+#if NET8_0_OR_GREATER
         double.TryParse(target, provider, out result);
+#else
+        double.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Float, provider, out result);
 #endif
 
     /// <summary>
@@ -56,10 +56,10 @@ static partial class DoublePolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse#system-double-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-double@)")]
     public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out double result) =>
-#if !NET7_0_OR_GREATER
-        double.TryParse(target.ToString(), NumberStyles.Float, provider, out result);
-#else
+#if NET7_0_OR_GREATER
         double.TryParse(target, provider, out result);
+#else
+        double.TryParse(target.ToString(), NumberStyles.Float, provider, out result);
 #endif
 
     /// <summary>
@@ -67,10 +67,10 @@ static partial class DoublePolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse#system-double-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-double@)")]
     public static bool TryParse(ReadOnlySpan<byte> target, NumberStyles style, IFormatProvider? provider, out double result) =>
-#if !NET8_0_OR_GREATER
-        double.TryParse(Encoding.UTF8.GetString(target.ToArray()), style, provider, out result);
-#else
+#if NET8_0_OR_GREATER
         double.TryParse(target, style, provider, out result);
+#else
+        double.TryParse(Encoding.UTF8.GetString(target.ToArray()), style, provider, out result);
 #endif
 
     /// <summary>
@@ -78,10 +78,10 @@ static partial class DoublePolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse#system-double-tryparse(system-readonlyspan((system-byte))-system-double@)")]
     public static bool TryParse(ReadOnlySpan<byte> target, out double result) =>
-#if !NET8_0_OR_GREATER
-        double.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Float, null, out result);
-#else
+#if NET8_0_OR_GREATER
         double.TryParse(target, out result);
+#else
+        double.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Float, null, out result);
 #endif
 
     /// <summary>

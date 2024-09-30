@@ -34,10 +34,10 @@ static partial class UShortPolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint16@)")]
     public static bool TryParse(ReadOnlySpan<byte> target, IFormatProvider? provider, out ushort result) =>
-#if !NET8_0_OR_GREATER
-        ushort.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, provider, out result);
-#else
+#if NET8_0_OR_GREATER
         ushort.TryParse(target, provider, out result);
+#else
+        ushort.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, provider, out result);
 #endif
 
     /// <summary>
@@ -56,10 +56,10 @@ static partial class UShortPolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint16@)")]
     public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out ushort result) =>
-#if !NET7_0_OR_GREATER
-        ushort.TryParse(target.ToString(), NumberStyles.Integer, provider, out result);
-#else
+#if NET7_0_OR_GREATER
         ushort.TryParse(target, provider, out result);
+#else
+        ushort.TryParse(target.ToString(), NumberStyles.Integer, provider, out result);
 #endif
 
     /// <summary>
@@ -67,10 +67,10 @@ static partial class UShortPolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uint16@)")]
     public static bool TryParse(ReadOnlySpan<byte> target, NumberStyles style, IFormatProvider? provider, out ushort result) =>
-#if !NET8_0_OR_GREATER
-        ushort.TryParse(Encoding.UTF8.GetString(target.ToArray()), style, provider, out result);
-#else
+#if NET8_0_OR_GREATER
         ushort.TryParse(target, style, provider, out result);
+#else
+        ushort.TryParse(Encoding.UTF8.GetString(target.ToArray()), style, provider, out result);
 #endif
 
     /// <summary>
@@ -78,10 +78,10 @@ static partial class UShortPolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryparse#system-uint16-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint16@)")]
     public static bool TryParse(ReadOnlySpan<byte> target, out ushort result) =>
-#if !NET8_0_OR_GREATER
-        ushort.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, null, out result);
-#else
+#if NET8_0_OR_GREATER
         ushort.TryParse(target, out result);
+#else
+        ushort.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, null, out result);
 #endif
 
     /// <summary>

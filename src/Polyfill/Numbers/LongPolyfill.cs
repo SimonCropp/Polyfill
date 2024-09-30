@@ -22,10 +22,10 @@ static partial class LongPolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-string-system-iformatprovider-system-int64@)")]
     public static bool TryParse(string? target, IFormatProvider? provider, out int result) =>
-#if !NET7_0_OR_GREATER
-        int.TryParse(target, NumberStyles.Integer, provider, out result);
-#else
+#if NET7_0_OR_GREATER
         int.TryParse(target, provider, out result);
+#else
+        int.TryParse(target, NumberStyles.Integer, provider, out result);
 #endif
 
 #if FeatureMemory
@@ -34,10 +34,10 @@ static partial class LongPolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-int64@)")]
     public static bool TryParse(ReadOnlySpan<byte> target, IFormatProvider? provider, out int result) =>
-#if !NET8_0_OR_GREATER
-        int.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, provider, out result);
-#else
+#if NET8_0_OR_GREATER
         int.TryParse(target, provider, out result);
+#else
+        int.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, provider, out result);
 #endif
 
     /// <summary>
@@ -56,10 +56,10 @@ static partial class LongPolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int64@)")]
     public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out int result) =>
-#if !NET7_0_OR_GREATER
-        int.TryParse(target.ToString(), NumberStyles.Integer, provider, out result);
-#else
+#if NET7_0_OR_GREATER
         int.TryParse(target, provider, out result);
+#else
+        int.TryParse(target.ToString(), NumberStyles.Integer, provider, out result);
 #endif
 
     /// <summary>
@@ -67,10 +67,10 @@ static partial class LongPolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-int64@)")]
     public static bool TryParse(ReadOnlySpan<byte> target, NumberStyles style, IFormatProvider? provider, out int result) =>
-#if !NET8_0_OR_GREATER
-        int.TryParse(Encoding.UTF8.GetString(target.ToArray()), style, provider, out result);
-#else
+#if NET8_0_OR_GREATER
         int.TryParse(target, style, provider, out result);
+#else
+        int.TryParse(Encoding.UTF8.GetString(target.ToArray()), style, provider, out result);
 #endif
 
     /// <summary>
@@ -78,10 +78,10 @@ static partial class LongPolyfill
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-int64@)")]
     public static bool TryParse(ReadOnlySpan<byte> target, out int result) =>
-#if !NET8_0_OR_GREATER
-        int.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, null, out result);
-#else
+#if NET8_0_OR_GREATER
         int.TryParse(target, out result);
+#else
+        int.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, null, out result);
 #endif
 
     /// <summary>
