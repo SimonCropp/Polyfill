@@ -87,7 +87,7 @@ static partial class Polyfill
             throw new ArgumentNullException(nameof(callback));
         }
 
-        return target.Register((data) => callback(data, target), state, useSynchronizationContext: false);
+        return target.Register(data => callback(data, target), state, useSynchronizationContext: false);
     }
 
     /// <summary>Registers a delegate that will be called when this <see cref="CancellationToken">CancellationToken</see> is canceled.</summary>
@@ -121,7 +121,7 @@ static partial class Polyfill
 
         try
         {
-            Action<object> internalCallback = (data) => callback(data, target);
+            Action<object> internalCallback = data => callback(data, target);
             return target.Register(internalCallback, state, false);
         }
         finally
