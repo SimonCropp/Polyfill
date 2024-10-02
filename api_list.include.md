@@ -452,6 +452,13 @@
  * `Boolean TryParse(ReadOnlySpan<Char>, Globalization.NumberStyles, IFormatProvider, Byte&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-byte@))
 
 
+#### GuidPolyfill
+
+ * `Boolean TryParse(String, IFormatProvider, Guid&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse#system-guid-tryparse(system-string-system-iformatprovider-system-guid@))
+ * `Boolean TryParse(ReadOnlySpan<Char>, IFormatProvider, Guid&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse#system-guid-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-guid@))
+ * `Boolean TryParse(ReadOnlySpan<Char>, Guid&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-8.0#system-guid-tryparse(system-readonlyspan((system-char))-system-guid@))
+
+
 #### DateTimePolyfill
 
  * `Boolean TryParse(String, IFormatProvider, DateTime&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparse#system-datetime-tryparse(system-string-system-iformatprovider-system-datetime@))
