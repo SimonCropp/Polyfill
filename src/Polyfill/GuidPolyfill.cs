@@ -29,15 +29,27 @@ static partial class GuidPolyfill
 #endif
 
 #if FeatureMemory
+
     /// <summary>
     /// Tries to parse a span of UTF-8 characters into a value.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-byte@)")]
-    public static bool TryParse(ReadOnlySpan<byte> target, IFormatProvider? provider, out byte result) =>
-#if NET8_0_OR_GREATER
-        byte.TryParse(target, provider, out result);
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse#system-guid-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-guid@)")]
+    public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out Guid result) =>
+#if NET7_0_OR_GREATER
+        Guid.TryParse(target, provider, out result);
 #else
-        byte.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, provider, out result);
+        Guid.TryParse(target.ToString(), out result);
+#endif
+
+    /// <summary>
+    /// Tries to parse a span of UTF-8 characters into a value.
+    /// </summary>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-8.0#system-guid-tryparse(system-readonlyspan((system-char))-system-guid@)")]
+    public static bool TryParse(ReadOnlySpan<char> target, out Guid result) =>
+#if NETSTANDARD2_1 || NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER
+        Guid.TryParse(target, out result);
+#else
+        Guid.TryParse(target.ToString(), out result);
 #endif
 
 #endif
