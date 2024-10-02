@@ -458,6 +458,7 @@
  * `Boolean TryParse(ReadOnlySpan<Char>, IFormatProvider, DateTime&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparse#system-datetime-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-datetime@))
  * `Boolean TryParse(ReadOnlySpan<Char>, DateTime&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparse#system-datetime-tryparse(system-readonlyspan((system-char))-system-datetime@))
  * `Boolean TryParse(ReadOnlySpan<Char>, IFormatProvider, Globalization.DateTimeStyles, DateTime&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparse#system-datetime-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetime@))
+ * `Boolean TryParseExact(ReadOnlySpan<Char>, String, IFormatProvider, Globalization.DateTimeStyles, DateTime&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparseexact#system-datetime-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetime@))
 
 
 #### DateTimeOffsetPolyfill
@@ -466,6 +467,7 @@
  * `Boolean TryParse(ReadOnlySpan<Char>, IFormatProvider, DateTimeOffset&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparse#system-datetimeoffset-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-datetimeoffset@))
  * `Boolean TryParse(ReadOnlySpan<Char>, DateTimeOffset&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparse#system-datetimeoffset-tryparse(system-readonlyspan((system-char))-system-datetimeoffset@))
  * `Boolean TryParse(ReadOnlySpan<Char>, IFormatProvider, Globalization.DateTimeStyles, DateTimeOffset&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparse#system-datetimeoffset-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetimeoffset@))
+ * `Boolean TryParseExact(ReadOnlySpan<Char>, String, IFormatProvider, Globalization.DateTimeStyles, DateTimeOffset&)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparseexact#system-datetimeoffset-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetimeoffset@))
 
 
 #### DoublePolyfill
