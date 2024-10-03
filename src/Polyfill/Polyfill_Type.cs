@@ -3,12 +3,33 @@
 
 namespace Polyfills;
 using System;
+using System.Linq;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
+    /// <summary>
+    /// Gets a value that indicates whether the type is a byref-like structure.
+    /// </summary>
+    /// <returns>true if the Type is a byref-like structure; otherwise, false.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.type.isbyreflike?view=net-8.0")]
+    public static bool IsByRefLike(this Type type)
+    {
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER
+        return type.IsByRefLike;
+#else
+        if (!type.IsValueType)
+        {
+            return false;
+        }
+
+        return type.GetCustomAttributesData()
+            .Any(_ => string.Equals(_.AttributeType.FullName, "System.Runtime.CompilerServices.IsByRefLikeAttribute", StringComparison.Ordinal));
+#endif
+    }
+
 #if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas")]
     public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other) =>

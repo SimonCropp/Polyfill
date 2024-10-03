@@ -380,6 +380,7 @@
  * `Boolean IsAssignableFrom<T>()`
  * `Boolean IsAssignableTo<T>()`
  * `Boolean IsAssignableTo(Type)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto)
+ * `Boolean IsByRefLike()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isbyreflike?view=net-8.0)
  * `Boolean IsGenericMethodParameter()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter)
 
 
