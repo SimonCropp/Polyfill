@@ -73,5 +73,15 @@ static partial class DateTimeOffsetPolyfill
         DateTimeOffset.TryParseExact(target.ToString(), format, provider, styles, out result);
 #endif
 
+    /// <summary>
+    /// Tries to parse a span of characters into a value.
+    /// </summary>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparseexact#system-datetimeoffset-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetimeoffset@)")]
+    public static bool TryParseExact(ReadOnlySpan<char> target, ReadOnlySpan<char> format, IFormatProvider? provider, DateTimeStyles styles, out DateTimeOffset result) =>
+#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
+        DateTimeOffset.TryParseExact(target.ToString(), format.ToString(), provider, styles, out result);
+#else
+        DateTimeOffset.TryParseExact(target, format, provider, styles, out result);
+#endif
 #endif
 }
