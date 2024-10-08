@@ -1,4 +1,3 @@
-
 #if NETFRAMEWORK || NETSTANDARD2_0
 
 namespace Polyfills;

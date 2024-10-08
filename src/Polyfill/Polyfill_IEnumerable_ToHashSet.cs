@@ -1,5 +1,3 @@
-
-
 #if NET471 || NET46X || NETSTANDARD2_0
 namespace Polyfills;
 using System.Collections;

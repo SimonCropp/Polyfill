@@ -1,5 +1,3 @@
-
-
 #if FeatureMemory
 
 namespace Polyfills;

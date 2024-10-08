@@ -1,4 +1,3 @@
-
 #if FeatureMemory && !NET9_0_OR_GREATER
 
 namespace Polyfills;

@@ -1,4 +1,3 @@
-
 namespace Polyfills;
 using System.Collections.Generic;
 using Link = System.ComponentModel.DescriptionAttribute;
