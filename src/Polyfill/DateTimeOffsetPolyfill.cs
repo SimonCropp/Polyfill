@@ -1,3 +1,4 @@
+#nullable enable
 namespace Polyfills;
 using System;
 using System.Diagnostics;
