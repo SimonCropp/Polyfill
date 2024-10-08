@@ -7,9 +7,8 @@
 
 namespace System.Diagnostics.CodeAnalysis;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
+using Diagnostics;
+using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Indicates that a parameter captures the expression passed for another parameter as a string.
@@ -46,10 +45,8 @@ sealed class ExperimentalAttribute : Attribute
     ///  when reporting a use of the API the attribute applies to.
     /// </summary>
     /// <param name="diagnosticId">The ID that the compiler will use when reporting a use of the API the attribute applies to.</param>
-    public ExperimentalAttribute(string diagnosticId)
-    {
+    public ExperimentalAttribute(string diagnosticId) =>
         DiagnosticId = diagnosticId;
-    }
 
     /// <summary>
     ///  Gets the ID that the compiler will use when reporting a use of the API the attribute applies to.

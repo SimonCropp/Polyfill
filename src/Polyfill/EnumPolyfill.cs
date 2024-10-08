@@ -15,7 +15,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 #if PolyPublic
 public
 #endif
-static partial class EnumPolyfill
+static class EnumPolyfill
 {
     /// <summary>
     /// Retrieves an array of the values of the constants in a specified enumeration type.

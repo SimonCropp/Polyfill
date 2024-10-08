@@ -6,7 +6,6 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.Text;
 using Link = System.ComponentModel.DescriptionAttribute;
 
 [ExcludeFromCodeCoverage]
@@ -14,7 +13,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 #if PolyPublic
 public
 #endif
-static partial class DateTimeOffsetPolyfill
+static class DateTimeOffsetPolyfill
 {
     /// <summary>
     /// Tries to parse a string into a value.
