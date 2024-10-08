@@ -7,10 +7,10 @@
 
 namespace System.Text;
 
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using ComponentModel;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
+using Runtime.CompilerServices;
 
 /// <summary>Provides a handler used by the language compiler to append interpolated strings into <see cref="StringBuilder"/> instances.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
