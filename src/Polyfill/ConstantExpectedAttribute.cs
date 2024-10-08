@@ -6,8 +6,8 @@
 #nullable enable
 namespace System.Diagnostics.CodeAnalysis;
 
-using System.Diagnostics;
-using Link = System.ComponentModel.DescriptionAttribute;
+using Diagnostics;
+using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Indicates that the specified method parameter expects a constant.
