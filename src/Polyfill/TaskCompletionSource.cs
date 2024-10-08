@@ -47,7 +47,7 @@ class TaskCompletionSource
 
     /// <summary>Creates a <see cref="TaskCompletionSource"/>.</summary>
     public TaskCompletionSource() =>
-        inner = new TaskCompletionSource<object>();
+        inner = new TaskCompletionSource<object?>();
 
     /// <summary>Creates a <see cref="TaskCompletionSource"/> with the specified options.</summary>
     /// <remarks>
