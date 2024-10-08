@@ -5,9 +5,9 @@
 
 namespace System;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
+using Runtime.CompilerServices;
 
 /// <summary>Represent a range has start and end indexes.</summary>
 /// <remarks>
