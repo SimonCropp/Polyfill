@@ -5,9 +5,9 @@
 
 namespace System;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
+using Runtime.CompilerServices;
 
 /// <summary>Represent a type can be used to index a collection either from the start or the end.</summary>
 /// <remarks>
