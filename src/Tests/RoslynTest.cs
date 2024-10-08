@@ -10,7 +10,10 @@ public class RoslynTest
     {
         var solutionDirectory = SolutionDirectoryFinder.Find();
         var polyfillPath = Path.Combine(solutionDirectory, "Polyfill");
-        var options = new CSharpParseOptions(LanguageVersion.CSharp12).WithPreprocessorSymbols();
+        var slicedPath = Path.Combine(polyfillPath, "Sliced", "src");
+        Directory.Delete(slicedPath, true);
+        Directory.CreateDirectory(slicedPath);
+        var options = new CSharpParseOptions(LanguageVersion.CSharp12).WithPreprocessorSymbols("NET7_0_OR_GREATER");
         foreach (var file in Directory.EnumerateFiles(polyfillPath, "*.cs", SearchOption.AllDirectories))
         {
             var tree = CSharpSyntaxTree.ParseText(File.ReadAllText(file), options);
