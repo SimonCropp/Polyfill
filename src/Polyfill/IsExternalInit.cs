@@ -5,8 +5,8 @@
 
 namespace System.Runtime.CompilerServices;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Reserved to be used by the compiler for tracking metadata. This class should not be used by developers in source code.
