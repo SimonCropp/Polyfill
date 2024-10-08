@@ -21,34 +21,76 @@ public class RoslynTest
             new()
             {
                 Moniker = "netcoreapp2.0",
-                Directives = ["NETCOREAPP2_0", "NETCOREAPP2X", "NETCOREAPP2_0_OR_GREATER"]
+                Directives =
+                [
+                    "NETCOREAPP2_0",
+                    "NETCOREAPP2X",
+                    "NETCOREAPP",
+                    "NETCOREAPP2_0_OR_GREATER"
+                ]
             },
             new()
             {
                 Moniker = "netcoreapp2.1",
-                Directives = ["NETCOREAPP2_1", "NETCOREAPP2X", "NETCOREAPP2_1_OR_GREATER", "NETCOREAPP2_0_OR_GREATER"]
+                Directives =
+                [
+                    "NETCOREAPP2_1",
+                    "NETCOREAPP2X",
+                    "NETCOREAPP",
+                    "NETCOREAPP2_1_OR_GREATER",
+                    "NETCOREAPP2_0_OR_GREATER"
+                ]
             },
             new()
             {
                 Moniker = "netcoreapp3.0",
-                Directives = ["NETCOREAPP3_0", "NETCOREAPP3X", "NETCOREAPP3_0_OR_GREATER", "NETCOREAPP2_1_OR_GREATER", "NETCOREAPP2_0_OR_GREATER"]
+                Directives =
+                [
+                    "NETCOREAPP3_0",
+                    "NETCOREAPP3X",
+                    "NETCOREAPP",
+                    "NETCOREAPP3_0_OR_GREATER",
+                    "NETCOREAPP2_1_OR_GREATER",
+                    "NETCOREAPP2_0_OR_GREATER"
+                ]
             },
             new()
             {
                 Moniker = "netcoreapp3.1",
-                Directives = ["NETCOREAPP3_1", "NETCOREAPP3X", "NETCOREAPP3_1_OR_GREATER", "NETCOREAPP3_0_OR_GREATER", "NETCOREAPP2_1_OR_GREATER", "NETCOREAPP2_0_OR_GREATER"]
+                Directives =
+                [
+                    "NETCOREAPP3_1",
+                    "NETCOREAPP3X",
+                    "NETCOREAPP",
+                    "NETCOREAPP3_1_OR_GREATER",
+                    "NETCOREAPP3_0_OR_GREATER",
+                    "NETCOREAPP2_1_OR_GREATER",
+                    "NETCOREAPP2_0_OR_GREATER"
+                ]
             },
             new()
             {
                 Moniker = "netstandard2.0",
-                Directives = ["NETSTANDARD2_0", "NETSTANDARD", "NETSTANDARD2_0_OR_GREATER"]
+                Directives =
+                [
+                    "NETSTANDARD2_0",
+                    "NETSTANDARD",
+                    "NETSTANDARD2_0_OR_GREATER"
+                ]
             },
             new()
             {
                 Moniker = "netstandard2.1",
-                Directives = ["NETSTANDARD2_1", "NETSTANDARD", "NETSTANDARD2_1_OR_GREATER", "NETSTANDARD2_0_OR_GREATER"]
+                Directives =
+                [
+                    "NETSTANDARD2_1",
+                    "NETSTANDARD",
+                    "NETSTANDARD2_1_OR_GREATER",
+                    "NETSTANDARD2_0_OR_GREATER"
+                ]
             }
         };
+
         foreach (var file in Directory.EnumerateFiles(polyfillPath, "*.cs", SearchOption.AllDirectories))
         {
             var directoryName = Path.GetDirectoryName(file)!;
@@ -87,18 +129,6 @@ public class RoslynTest
             File.Delete(file);
         }
     }
-
-    static IEnumerable<string> GetReferencedPreprocessorSymbols(SyntaxTree tree) =>
-        tree.GetRoot()
-            .DescendantTrivia()
-            .Where(_ => _.IsKind(SyntaxKind.IfDirectiveTrivia) ||
-                        _.IsKind(SyntaxKind.ElifDirectiveTrivia))
-            .Select(_ => _.GetStructure())
-            .Cast<ConditionalDirectiveTriviaSyntax>()
-            .SelectMany(_ => _.Condition.DescendantNodesAndSelf().OfType<IdentifierNameSyntax>())
-            .Select(_ => _.Identifier.ValueText)
-            .Distinct()
-            .OrderBy(_ => _);
 
     public class Identifier
     {

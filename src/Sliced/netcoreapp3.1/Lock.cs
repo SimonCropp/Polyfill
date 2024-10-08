@@ -24,6 +24,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.threading.lock")]
 class Lock
 {
+    public bool IsHeldByCurrentThread => Monitor.IsEntered(this);
 
     /// <summary>
     /// Enters the lock. Once the method returns, the calling thread would be the only thread that holds the lock.
