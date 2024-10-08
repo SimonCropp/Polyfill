@@ -5,9 +5,9 @@
 
 namespace System.Runtime.CompilerServices;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
+using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Indicates that compiler support for a particular feature is required for the location where this attribute is applied.
