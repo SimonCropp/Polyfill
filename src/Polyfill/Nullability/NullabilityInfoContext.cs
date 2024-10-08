@@ -10,10 +10,10 @@ namespace System.Reflection;
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using Collections.Generic;
+using Collections.ObjectModel;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Provides APIs for populating nullability information/context from reflection members:
