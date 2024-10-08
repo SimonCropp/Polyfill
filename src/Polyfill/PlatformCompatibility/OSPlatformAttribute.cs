@@ -7,8 +7,8 @@
 
 namespace System.Runtime.Versioning;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Base type for all platform-specific API attributes.
@@ -18,13 +18,10 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-abstract class OSPlatformAttribute :
+abstract class OSPlatformAttribute(string platformName) :
     Attribute
 {
-    protected OSPlatformAttribute(string platformName) =>
-        PlatformName = platformName;
-
-    public string PlatformName { get; }
+    public string PlatformName { get; } = platformName;
 }
 
 #endif
