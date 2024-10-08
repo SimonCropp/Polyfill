@@ -109,7 +109,7 @@ public class RoslynTest
                 var resultPath = Path.Combine(slicedPath, identifier.Moniker, fileName);
                 var options = CSharpParseOptions.Default.WithPreprocessorSymbols(identifier.Directives);
                 var newTree = CSharpSyntaxTree.ParseText(source, options);
-                var strippedTree = PreprocessorStripper.Strip(newTree);
+                var strippedTree = Stripper.Strip(newTree);
                 Directory.CreateDirectory(Path.GetDirectoryName(resultPath)!);
                 using var writer = new StreamWriter(resultPath);
                 strippedTree.GetText().Write(writer);

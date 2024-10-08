@@ -3,17 +3,15 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-// Syntax rewriter that nukes all preprocessor directives and text that is
-// active i.e under a preprocessor directive that evaluated to true.
-class PreprocessorStripper : CSharpSyntaxRewriter
+class Stripper : CSharpSyntaxRewriter
 {
-    PreprocessorStripper()
+    Stripper()
     {
     }
 
     public static SyntaxTree Strip(SyntaxTree syntaxTree)
     {
-        var stripper = new PreprocessorStripper();
+        var stripper = new Stripper();
         var newRoot = stripper.Visit(syntaxTree.GetRoot());
         return syntaxTree.WithRootAndOptions(newRoot, syntaxTree.Options);
     }
@@ -22,7 +20,8 @@ class PreprocessorStripper : CSharpSyntaxRewriter
 
     public override SyntaxTrivia VisitTrivia(SyntaxTrivia trivia)
     {
-        if (trivia.IsKind(SyntaxKind.DisabledTextTrivia))
+        if (trivia.IsKind(SyntaxKind.DisabledTextTrivia) ||
+            trivia.IsKind(SyntaxKind.SingleLineCommentTrivia) )
         {
             return SyntaxFactory.Whitespace("");
         }
