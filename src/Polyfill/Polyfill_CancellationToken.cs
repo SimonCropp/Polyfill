@@ -10,7 +10,6 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
-
 #if !NETCOREAPP3_0_OR_GREATER
 
     /// <summary>
