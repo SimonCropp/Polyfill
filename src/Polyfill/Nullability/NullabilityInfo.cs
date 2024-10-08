@@ -7,9 +7,9 @@
 
 namespace System.Reflection;
 
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics;
-using Link = System.ComponentModel.DescriptionAttribute;
+using Diagnostics.CodeAnalysis;
+using Diagnostics;
+using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// A class that represents nullability info

@@ -2,8 +2,8 @@
 
 namespace System.Runtime.Versioning;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
 
 using Targets = AttributeTargets;
 
@@ -28,13 +28,9 @@ using Targets = AttributeTargets;
 #if PolyPublic
 public
 #endif
-sealed class UnsupportedOSPlatformGuardAttribute :
-    OSPlatformAttribute
+sealed class UnsupportedOSPlatformGuardAttribute(string platformName) :
+    OSPlatformAttribute(platformName)
 {
-    public UnsupportedOSPlatformGuardAttribute(string platformName) :
-        base(platformName)
-    {
-    }
 }
 
 #endif

@@ -1,4 +1,5 @@
 
+#if NET46X || NETSTANDARD2_0 || NET47 || NET471
 namespace Polyfills;
 using System;
 using System.Collections.Concurrent;
@@ -6,8 +7,6 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
-
-#if NET46X || NETSTANDARD2_0 || NET47 || NET471
 
     /// <summary>
     /// Adds a key/value pair to the <see cref="ConcurrentDictionary{TKey,TValue}"/>
@@ -29,5 +28,5 @@ static partial class Polyfill
     public static TValue GetOrAdd<TKey,TValue, TArg>(this ConcurrentDictionary<TKey,TValue> target, TKey key, Func<TKey, TArg, TValue> valueFactory, TArg factoryArgument)
         where TKey : notnull =>
         target.GetOrAdd(key, _ => valueFactory(_, factoryArgument));
-#endif
 }
+#endif

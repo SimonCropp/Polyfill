@@ -1,4 +1,5 @@
 
+#if !NET8_0_OR_GREATER
 namespace Polyfills;
 using System;
 using System.Threading;
@@ -7,7 +8,6 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
-#if !NET8_0_OR_GREATER
 
     /// <summary>Communicates a request for cancellation asynchronously.</summary>
     /// <remarks>
@@ -52,6 +52,5 @@ static partial class Polyfill
             return task;
         }
     }
-
-#endif
 }
+#endif

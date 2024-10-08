@@ -2,8 +2,8 @@
 
 namespace System.Runtime.Versioning;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Records the platform that the project targeted.
@@ -14,13 +14,9 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-sealed class TargetPlatformAttribute :
-    OSPlatformAttribute
+sealed class TargetPlatformAttribute(string platformName) :
+    OSPlatformAttribute(platformName)
 {
-    public TargetPlatformAttribute(string platformName) :
-        base(platformName)
-    {
-    }
 }
 
 #endif
