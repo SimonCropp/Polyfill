@@ -51,7 +51,7 @@ static partial class Polyfill
     public static TValue GetValueOrDefault<TKey, TValue>(
         this IReadOnlyDictionary<TKey, TValue> target,
         TKey key,
-        TValue defaultValue = default)
+        TValue defaultValue = default!)
         where TKey : notnull
     {
         if (target.TryGetValue(key, out var result))
