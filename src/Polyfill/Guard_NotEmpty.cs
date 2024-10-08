@@ -103,36 +103,24 @@ static partial class Guard
             return;
         }
 
-        if (value is ICollection<T> genericCollection)
+        if (value is ICollection<T> {Count: 0})
         {
-            if (genericCollection.Count == 0)
-            {
-                throw new ArgumentException("Argument cannot be empty.", argumentName);
-            }
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
         }
 
-        if (value is ICollection collection)
+        if (value is ICollection {Count: 0})
         {
-            if (collection.Count == 0)
-            {
-                throw new ArgumentException("Argument cannot be empty.", argumentName);
-            }
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
         }
 
-        if (value is IReadOnlyCollection<T> readOnlyCollection)
+        if (value is IReadOnlyCollection<T> {Count: 0})
         {
-            if (readOnlyCollection.Count == 0)
-            {
-                throw new ArgumentException("Argument cannot be empty.", argumentName);
-            }
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
         }
 
-        if (value is T[] array)
+        if (value is T[] {Length: 0})
         {
-            if (array.Length == 0)
-            {
-                throw new ArgumentException("Argument cannot be empty.", argumentName);
-            }
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
         }
 
         var enumerator = value.GetEnumerator();
