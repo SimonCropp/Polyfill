@@ -3,19 +3,20 @@
 [TestFixture]
 public class RoslynTest
 {
+    static string polyfillPath = Path.Combine(SolutionDirectoryFinder.Find(), "Polyfill");
+    static string slicedPath = Path.Combine(SolutionDirectoryFinder.Find(), "Sliced");
+
     [Test]
     public void Run()
     {
-        var solutionDirectory = SolutionDirectoryFinder.Find();
-        var polyfillPath = Path.Combine(solutionDirectory, "Polyfill");
-        var slicedPath = Path.Combine(solutionDirectory, "Sliced");
-
         Directory.CreateDirectory(slicedPath);
         PurgeDirectory(slicedPath);
 
         var sharedIdentifiers = new List<string>
         {
-"FeatureMemory","PolyGuard","PolyPublic"
+"FeatureMemory",
+"PolyGuard",
+"PolyPublic","FetureHttp"
         };
 
         var identifiers = new List<Identifier>
@@ -92,8 +93,20 @@ public class RoslynTest
                 ]
             }
         };
+        var list = GetFiles().ToList();
 
-        foreach (var file in GetFiles(polyfillPath))
+        var allIdentifiers = new HashSet<string>();
+        foreach (var file in list)
+        {
+            var source = File.ReadAllText(file);
+            foreach (var identifier in GetReferencedPreprocessorSymbols(CSharpSyntaxTree.ParseText(source)))
+            {
+                allIdentifiers.Add(identifier);
+            }
+        }
+
+        var join = string.Join("\n",allIdentifiers);
+        foreach (var file in GetFiles())
         {
             var source = File.ReadAllText(file);
 
@@ -113,7 +126,7 @@ public class RoslynTest
         }
     }
 
-    static IEnumerable<string> GetFiles(string polyfillPath)
+    static IEnumerable<string> GetFiles()
     {
         foreach (var file in Directory.EnumerateFiles(polyfillPath, "*.cs", SearchOption.AllDirectories))
         {
