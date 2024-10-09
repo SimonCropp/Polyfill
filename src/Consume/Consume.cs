@@ -240,7 +240,7 @@ class Consume
         var found = set.TryGetValue("value", out var result);
     }
 
-#if FetureHttp
+#if FeatureHttp
     void HttpClient_Methods()
     {
         new HttpClient().GetStreamAsync("", CancellationToken.None);
