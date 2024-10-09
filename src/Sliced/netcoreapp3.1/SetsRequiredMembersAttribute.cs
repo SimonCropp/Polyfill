@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET7_0_OR_GREATER
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -11,5 +12,8 @@ namespace System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Constructor)]
+#if PolyPublic
+#endif
 sealed class SetsRequiredMembersAttribute :
     Attribute;
+#endif

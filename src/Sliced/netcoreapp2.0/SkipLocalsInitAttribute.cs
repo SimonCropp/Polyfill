@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER
 
 namespace System.Runtime.CompilerServices;
 
@@ -35,5 +36,8 @@ using Targets = AttributeTargets;
              Targets.Property |
              Targets.Event,
     Inherited = false)]
+#if PolyPublic
+#endif
 sealed class SkipLocalsInitAttribute :
     Attribute;
+#endif

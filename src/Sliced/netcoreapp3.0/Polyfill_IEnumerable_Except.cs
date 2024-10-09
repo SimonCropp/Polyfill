@@ -74,6 +74,7 @@ static partial class Polyfill
         params TSource[] items) =>
         target.Except((IEnumerable<TSource>)items, comparer);
 
+#if !NET6_0_OR_GREATER
 
     /// <summary>
     /// Produces the set difference of two sequences according to a specified key selector function.
@@ -114,5 +115,6 @@ static partial class Polyfill
             }
         }
     }
+#endif
 
 }

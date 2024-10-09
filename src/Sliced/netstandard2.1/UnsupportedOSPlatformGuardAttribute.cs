@@ -1,13 +1,14 @@
 
 #pragma warning disable
 
+#if !NET6_0_OR_GREATER
 
 #pragma warning disable
 
 namespace System.Runtime.Versioning;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
 
 using Targets = AttributeTargets;
 
@@ -29,12 +30,11 @@ using Targets = AttributeTargets;
              Targets.Property,
     AllowMultiple = true,
     Inherited = false)]
-sealed class UnsupportedOSPlatformGuardAttribute :
-    OSPlatformAttribute
+#if PolyPublic
+#endif
+sealed class UnsupportedOSPlatformGuardAttribute(string platformName) :
+    OSPlatformAttribute(platformName)
 {
-    public UnsupportedOSPlatformGuardAttribute(string platformName) :
-        base(platformName)
-    {
-    }
 }
 
+#endif

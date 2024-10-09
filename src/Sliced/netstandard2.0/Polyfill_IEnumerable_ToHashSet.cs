@@ -1,5 +1,6 @@
 
 
+#if NET471 || NET46X || NETSTANDARD2_0
 #pragma warning disable
 
 namespace Polyfills;
@@ -24,3 +25,4 @@ static partial class Polyfill
         new HashSet<TSource>(target, comparer);
 
 }
+#endif

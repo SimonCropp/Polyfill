@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if NETFRAMEWORK || NETSTANDARD || NETCOREAPPX || NET5_0
 
 namespace Polyfills;
 using System;
@@ -123,3 +124,4 @@ static partial class Polyfill
     }
 }
 
+#endif

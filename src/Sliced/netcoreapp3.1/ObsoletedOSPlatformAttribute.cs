@@ -1,13 +1,14 @@
 
 #pragma warning disable
 
+#if !NET7_0_OR_GREATER
 
 #nullable enable
 
 namespace System.Runtime.Versioning;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
 
 using Targets = AttributeTargets;
 
@@ -33,6 +34,8 @@ using Targets = AttributeTargets;
              Targets.Struct,
     AllowMultiple = true,
     Inherited = false)]
+#if PolyPublic
+#endif
 sealed class ObsoletedOSPlatformAttribute :
     OSPlatformAttribute
 {
@@ -49,3 +52,4 @@ sealed class ObsoletedOSPlatformAttribute :
     public string? Url { get; set; }
 }
 
+#endif

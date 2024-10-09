@@ -9,9 +9,13 @@ using System.Runtime.InteropServices;
 using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
+#if FeatureMemory
+using System.Buffers;
+#endif
 
 static partial class Polyfill
 {
+#if !NET8_0_OR_GREATER
 
     
 
@@ -35,6 +39,19 @@ static partial class Polyfill
             .WaitAsync(cancellationToken);
     }
 
+#endif
 
+#if !NETCOREAPP3_0_OR_GREATER
+#if FeatureMemory
+#else
+#endif
+#if FeatureValueTask && FeatureMemory
+#else
+#endif
+#endif
 
+#if (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0) && FeatureMemory
+#if FeatureValueTask
+#endif
+#endif
 }

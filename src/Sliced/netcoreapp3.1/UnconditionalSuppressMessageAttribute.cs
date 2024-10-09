@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER
 
 #nullable enable
 
@@ -21,6 +22,8 @@ namespace System.Diagnostics.CodeAnalysis;
     validOn: AttributeTargets.All,
     Inherited = false,
     AllowMultiple = true)]
+#if PolyPublic
+#endif
 sealed class UnconditionalSuppressMessageAttribute :
     Attribute
 {
@@ -91,3 +94,4 @@ sealed class UnconditionalSuppressMessageAttribute :
     /// </summary>
     public string? Justification { get; set; }
 }
+#endif

@@ -1,12 +1,13 @@
 
 #pragma warning disable
 
+#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X
 
 namespace System.Runtime.CompilerServices;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
+using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Indicates that a parameter captures the expression passed for another parameter as a string.
@@ -15,6 +16,8 @@ using Link = System.ComponentModel.DescriptionAttribute;
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.callerargumentexpressionattribute")]
+#if PolyPublic
+#endif
 sealed class CallerArgumentExpressionAttribute :
     Attribute
 {
@@ -33,3 +36,4 @@ sealed class CallerArgumentExpressionAttribute :
     public string ParameterName { get; }
 }
 
+#endif

@@ -1,10 +1,8 @@
 
 #pragma warning disable
 
+#if PolyNullability
 #nullable enable
-
-namespace Polyfills;
-using System;
-using System.Collections.Concurrent;
-using System.Reflection;
-
+#if PolyPublic
+#endif
+#endif

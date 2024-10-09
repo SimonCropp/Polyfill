@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if NET46X || NETSTANDARD2_0 || NET47 || NET471
 namespace Polyfills;
 using System;
 using System.Collections.Concurrent;
@@ -8,7 +9,6 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
-
 
     /// <summary>
     /// Adds a key/value pair to the <see cref="ConcurrentDictionary{TKey,TValue}"/>
@@ -31,3 +31,4 @@ static partial class Polyfill
         where TKey : notnull =>
         target.GetOrAdd(key, _ => valueFactory(_, factoryArgument));
 }
+#endif

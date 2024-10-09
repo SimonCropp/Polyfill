@@ -1,3 +1,7 @@
 
 #pragma warning disable
 
+#if (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
+#if FeatureMemory && FeatureValueTask
+#endif
+#endif

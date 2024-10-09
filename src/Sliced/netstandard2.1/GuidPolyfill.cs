@@ -3,22 +3,47 @@
 
 namespace Polyfills;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
-using System.Text;
 using Link = System.ComponentModel.DescriptionAttribute;
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-static partial class GuidPolyfill
+#if PolyPublic
+#endif
+static class GuidPolyfill
 {
     /// <summary>
     /// Tries to parse a string into a value.
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse#system-guid-tryparse(system-string-system-iformatprovider-system-guid@)")]
     public static bool TryParse(string? target, IFormatProvider? provider, out Guid result) =>
+#if NET7_0_OR_GREATER
+#else
         Guid.TryParse(target, out result);
+#endif
 
+#if FeatureMemory
+
+    /// <summary>
+    /// Tries to parse a span of UTF-8 characters into a value.
+    /// </summary>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse#system-guid-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-guid@)")]
+    public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out Guid result) =>
+#if NET7_0_OR_GREATER
+#else
+        Guid.TryParse(target.ToString(), out result);
+#endif
+
+    /// <summary>
+    /// Tries to parse a span of UTF-8 characters into a value.
+    /// </summary>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-8.0#system-guid-tryparse(system-readonlyspan((system-char))-system-guid@)")]
+    public static bool TryParse(ReadOnlySpan<char> target, out Guid result) =>
+#if NETSTANDARD2_1 || NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER
+        Guid.TryParse(target, out result);
+#else
+#endif
+
+#endif
 }

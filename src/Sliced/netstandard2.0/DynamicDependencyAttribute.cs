@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER
 
 #nullable enable
 
@@ -22,6 +23,8 @@ using Targets = AttributeTargets;
              Targets.Field |
              Targets.Method,
     AllowMultiple = true, Inherited = false)]
+#if PolyPublic
+#endif
 sealed class DynamicDependencyAttribute :
     Attribute
 {
@@ -135,3 +138,4 @@ sealed class DynamicDependencyAttribute :
     /// </summary>
     public string? Condition { get; set; }
 }
+#endif

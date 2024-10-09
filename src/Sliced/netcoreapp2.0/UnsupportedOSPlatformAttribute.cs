@@ -1,13 +1,14 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER
 
 #nullable enable
 
 namespace System.Runtime.Versioning;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
 
 using Targets = AttributeTargets;
 
@@ -34,6 +35,8 @@ using Targets = AttributeTargets;
              Targets.Struct,
     AllowMultiple = true,
     Inherited = false)]
+#if PolyPublic
+#endif
 sealed class UnsupportedOSPlatformAttribute :
     OSPlatformAttribute
 {
@@ -49,3 +52,4 @@ sealed class UnsupportedOSPlatformAttribute :
     public string? Message { get; }
 }
 
+#endif

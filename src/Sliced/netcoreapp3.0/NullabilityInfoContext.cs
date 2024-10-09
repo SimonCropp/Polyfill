@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET6_0_OR_GREATER
 
 #nullable enable
 
@@ -9,10 +10,10 @@ namespace System.Reflection;
 
 
 
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using Collections.Generic;
+using Collections.ObjectModel;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Provides APIs for populating nullability information/context from reflection members:
@@ -20,6 +21,8 @@ using System.Diagnostics.CodeAnalysis;
 /// </summary>
 [DebuggerNonUserCode]
 [ExcludeFromCodeCoverage]
+#if PolyPublic
+#endif
 sealed class NullabilityInfoContext
 {
     const string CompilerServicesNameSpace = "System.Runtime.CompilerServices";
@@ -662,3 +665,4 @@ sealed class NullabilityInfoContext
     }
 }
 
+#endif

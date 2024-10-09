@@ -1,11 +1,12 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER
 
 namespace System.Runtime.Versioning;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
 
 using Targets = AttributeTargets;
 
@@ -35,12 +36,11 @@ using Targets = AttributeTargets;
              Targets.Struct,
     AllowMultiple = true,
     Inherited = false)]
-sealed class SupportedOSPlatformAttribute :
-    OSPlatformAttribute
+#if PolyPublic
+#endif
+sealed class SupportedOSPlatformAttribute(string platformName) :
+    OSPlatformAttribute(platformName)
 {
-    public SupportedOSPlatformAttribute(string platformName) :
-        base(platformName)
-    {
-    }
 }
 
+#endif

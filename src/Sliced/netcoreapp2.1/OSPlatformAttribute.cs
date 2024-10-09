@@ -1,25 +1,26 @@
 
 #pragma warning disable
 
+#if !NET7_0_OR_GREATER
 
 #pragma warning disable
 
 namespace System.Runtime.Versioning;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Base type for all platform-specific API attributes.
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-abstract class OSPlatformAttribute :
+#if PolyPublic
+#endif
+abstract class OSPlatformAttribute(string platformName) :
     Attribute
 {
-    protected OSPlatformAttribute(string platformName) =>
-        PlatformName = platformName;
-
-    public string PlatformName { get; }
+    public string PlatformName { get; } = platformName;
 }
 
+#endif

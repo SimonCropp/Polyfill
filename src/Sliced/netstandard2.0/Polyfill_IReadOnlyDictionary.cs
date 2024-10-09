@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if NETFRAMEWORK || NETSTANDARD2_0
 
 namespace Polyfills;
 using System;
@@ -50,7 +51,7 @@ static partial class Polyfill
     public static TValue GetValueOrDefault<TKey, TValue>(
         this IReadOnlyDictionary<TKey, TValue> target,
         TKey key,
-        TValue defaultValue = default)
+        TValue defaultValue = default!)
         where TKey : notnull
     {
         if (target.TryGetValue(key, out var result))
@@ -61,3 +62,4 @@ static partial class Polyfill
         return defaultValue;
     }
 }
+#endif

@@ -1,4 +1,5 @@
 
+#if !NET6_0_OR_GREATER
 #pragma warning disable
 
 namespace Polyfills;
@@ -48,3 +49,4 @@ static partial class Polyfill
         return false;
     }
 }
+#endif

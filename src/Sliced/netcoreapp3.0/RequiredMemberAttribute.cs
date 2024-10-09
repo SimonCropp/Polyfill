@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET7_0_OR_GREATER
 
 namespace System.Runtime.CompilerServices;
 
@@ -20,5 +21,8 @@ using Targets = AttributeTargets;
              Targets.Field |
              Targets.Property,
     Inherited = false)]
+#if PolyPublic
+#endif
 sealed class RequiredMemberAttribute :
     Attribute;
+#endif

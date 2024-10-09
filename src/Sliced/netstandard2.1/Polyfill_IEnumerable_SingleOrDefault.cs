@@ -8,6 +8,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
+#if !NET6_0_OR_GREATER
 
     /// <summary>Returns the only element of a sequence that satisfies a specified condition or a default value if no such element exists; this method throws an exception if more than one element satisfies the condition.</summary>
     /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
@@ -101,4 +102,5 @@ static partial class Polyfill
         throw new InvalidOperationException("Sequence contains more than one matching element");
     }
 
+#endif
 }

@@ -1,12 +1,13 @@
 
 #pragma warning disable
 
+#if !NET7_0_OR_GREATER
 
 namespace System.Runtime.CompilerServices;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
+using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Indicates that compiler support for a particular feature is required for the location where this attribute is applied.
@@ -18,6 +19,8 @@ using Link = System.ComponentModel.DescriptionAttribute;
     AllowMultiple = true,
     Inherited = false)]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute")]
+#if PolyPublic
+#endif
 sealed class CompilerFeatureRequiredAttribute :
     Attribute
 {
@@ -49,3 +52,4 @@ sealed class CompilerFeatureRequiredAttribute :
     public const string RequiredMembers = nameof(RequiredMembers);
 }
 
+#endif

@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if ((NETFRAMEWORK && FetureHttp) || NETSTANDARD || NETCOREAPP2X || NETCOREAPP3X)
 
 namespace Polyfills;
 using System.IO;
@@ -74,3 +75,4 @@ static partial class Polyfill
             .WaitAsync(cancellationToken);
     }
 }
+#endif

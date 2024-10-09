@@ -16,10 +16,10 @@ public class RoslynTest
         Directory.CreateDirectory(slicedPath);
         PurgeDirectory(slicedPath);
 
-//         var sharedIdentifiers = new List<Identifier>
-//         {
-// "FeatureMemory"
-//         };
+        var sharedIdentifiers = new List<string>
+        {
+"FeatureMemory","PolyGuard","PolyPublic"
+        };
 
         var identifiers = new List<Identifier>
         {
@@ -112,7 +112,8 @@ public class RoslynTest
             foreach (var identifier in identifiers)
             {
                 var resultPath = Path.Combine(slicedPath, identifier.Moniker, fileName);
-                var options = CSharpParseOptions.Default.WithPreprocessorSymbols(identifier.Directives);
+                var directives = identifier.Directives.Concat(sharedIdentifiers);
+                var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
                 var newTree = CSharpSyntaxTree.ParseText(source, options);
                 var strippedTree = Stripper.Strip(newTree);
                 Directory.CreateDirectory(Path.GetDirectoryName(resultPath)!);
@@ -121,6 +122,18 @@ public class RoslynTest
             }
         }
     }
+
+    static IEnumerable<string> GetReferencedPreprocessorSymbols(SyntaxTree syntaxTree) =>
+        syntaxTree.GetRoot()
+            .DescendantTrivia()
+            .Where(t => t.IsKind(SyntaxKind.IfDirectiveTrivia) ||
+                        t.IsKind(SyntaxKind.ElifDirectiveTrivia))
+            .Select(t => t.GetStructure())
+            .Cast<ConditionalDirectiveTriviaSyntax>()
+            .SelectMany(c => c.Condition.DescendantNodesAndSelf().OfType<IdentifierNameSyntax>())
+            .Select(i => i.Identifier.ValueText)
+            .Distinct()
+            .OrderBy(i => i);
 
     static void PurgeDirectory(string directory)
     {

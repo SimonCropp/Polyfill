@@ -1,14 +1,349 @@
 
 #pragma warning disable
 
+#if FeatureMemory && !NET6_0_OR_GREATER
+
 #nullable enable
+
+namespace System.Text;
+
+using ComponentModel;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
+using Runtime.CompilerServices;
+
+/// <summary>Provides a handler used by the language compiler to append interpolated strings into <see cref="StringBuilder"/> instances.</summary>
+[EditorBrowsable(EditorBrowsableState.Never)]
+[InterpolatedStringHandler]
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
+#if PolyPublic
+#endif
+struct AppendInterpolatedStringHandler
+{
+    
+    
+    
+    
+
+    const int StackallocCharBufferSizeLimit = 256;
+
+    /// <summary>The associated StringBuilder to which to append.</summary>
+    readonly StringBuilder _stringBuilder;
+
+    /// <summary>Optional provider to pass to IFormattable.ToString or ISpanFormattable.TryFormat calls.</summary>
+    readonly IFormatProvider? _provider;
+
+    /// <summary>Whether <see cref="_provider"/> provides an ICustomFormatter.</summary>
+    /// <remarks>
+    /// Custom formatters are very rare.  We want to support them, but it's ok if we make them more expensive
+    /// in order to make them as pay-for-play as possible.  So, we avoid adding another reference type field
+    /// to reduce the size of the handler and to reduce required zero'ing, by only storing whether the provider
+    /// provides a formatter, rather than actually storing the formatter.  This in turn means, if there is a
+    /// formatter, we pay for the extra interface call on each AppendFormatted that needs it.
+    /// </remarks>
+    readonly bool _hasCustomFormatter;
+
+    /// <summary>Creates a handler used to append an interpolated string into a <see cref="StringBuilder"/>.</summary>
+    /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
+    /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
+    /// <param name="stringBuilder">The associated StringBuilder to which to append.</param>
+    /// <remarks>This is intended to be called only by compiler-generated code. Arguments are not validated as they'd otherwise be for members intended to be used directly.</remarks>
+    public AppendInterpolatedStringHandler(int literalLength, int formattedCount, StringBuilder stringBuilder)
+    {
+        _stringBuilder = stringBuilder;
+        _provider = null;
+        _hasCustomFormatter = false;
+    }
+
+    /// <summary>Creates a handler used to translate an interpolated string into a <see cref="string"/>.</summary>
+    /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
+    /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
+    /// <param name="stringBuilder">The associated StringBuilder to which to append.</param>
+    /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+    /// <remarks>This is intended to be called only by compiler-generated code. Arguments are not validated as they'd otherwise be for members intended to be used directly.</remarks>
+    public AppendInterpolatedStringHandler(int literalLength, int formattedCount, StringBuilder stringBuilder, IFormatProvider? provider)
+    {
+        _stringBuilder = stringBuilder;
+        _provider = provider;
+        _hasCustomFormatter = provider is not null && DefaultInterpolatedStringHandler.HasCustomFormatter(provider);
+    }
+
+    /// <summary>Writes the specified string to the handler.</summary>
+    /// <param name="value">The string to write.</param>
+    public void AppendLiteral(string value) => _stringBuilder.Append(value);
+
     #region AppendFormatted
+
+    
+    
+
     #region AppendFormatted T
+
+    /// <summary>Writes the specified value to the handler.</summary>
+    /// <param name="value">The value to write.</param>
+    /// <typeparam name="T">The type of the value to write.</typeparam>
+    public void AppendFormatted<T>(T value)
+    {
+        
+        
+        
+
+        if (_hasCustomFormatter)
+        {
+            
+            AppendCustomFormatter(value, format: null);
+        }
+        else if (value is IFormattable fValue)
+        {
+            
+            
+            
+            
+            
+            
+            
+
+            if (typeof(T).IsEnum || HasTryFormatExtension(typeof(T)) || fValue is ISpanFormattable)
+            {
+                
+                AppendFormattedWithTempSpace(value, 0, format: null);
+            }
+            else
+            {
+                
+                _stringBuilder.Append(fValue.ToString(format: null, _provider));
+            }
+        }
+        else if (value is not null)
+        {
+            _stringBuilder.Append(value.ToString());
+        }
+    }
+
+    /// <summary>Writes the specified value to the handler.</summary>
+    /// <param name="value">The value to write.</param>
+    /// <param name="format">The format string.</param>
+    /// <typeparam name="T">The type of the value to write.</typeparam>
+    public void AppendFormatted<T>(T value, string? format)
+    {
+        if (_hasCustomFormatter)
+        {
+            
+            AppendCustomFormatter(value, format);
+        }
+        else if (value is IFormattable fValue)
+        {
+            
+            
+            
+            
+            
+            
+            
+
+            if (typeof(T).IsEnum || HasTryFormatExtension(typeof(T)) || fValue is ISpanFormattable)
+            {
+                
+                AppendFormattedWithTempSpace(value, 0, format);
+            }
+            else
+            {
+                
+                _stringBuilder.Append(fValue.ToString(format, _provider));
+            }
+        }
+        else if (value is not null)
+        {
+            _stringBuilder.Append(value.ToString());
+        }
+    }
+
+    /// <summary>Writes the specified value to the handler.</summary>
+    /// <param name="value">The value to write.</param>
+    /// <param name="alignment">
+    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
+    /// left-aligned and the required minimum is the absolute value.
+    /// </param>
+    /// <typeparam name="T">The type of the value to write.</typeparam>
+    public void AppendFormatted<T>(T value, int alignment) =>
+        AppendFormatted(value, alignment, format: null);
+
+    /// <summary>Writes the specified value to the handler.</summary>
+    /// <param name="value">The value to write.</param>
+    /// <param name="format">The format string.</param>
+    /// <param name="alignment">
+    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
+    /// left-aligned and the required minimum is the absolute value.
+    /// </param>
+    /// <typeparam name="T">The type of the value to write.</typeparam>
+    public void AppendFormatted<T>(T value, int alignment, string? format)
+    {
+        if (alignment == 0)
+        {
+            
+            AppendFormatted(value, format);
+        }
+        else if (alignment < 0)
+        {
+            
+            var start = _stringBuilder.Length;
+            AppendFormatted(value, format);
+            var paddingRequired = -alignment - (_stringBuilder.Length - start);
+            if (paddingRequired > 0)
+            {
+                _stringBuilder.Append(' ', paddingRequired);
+            }
+        }
+        else
+        {
+            
+            AppendFormattedWithTempSpace(value, alignment, format);
+        }
+    }
+
+    /// <summary>Formats into temporary space and then appends the result into the StringBuilder.</summary>
+    void AppendFormattedWithTempSpace<T>(T value, int alignment, string? format)
+    {
+        
+        
+        
+        
+
+        var handler = new DefaultInterpolatedStringHandler(0, 0, _provider, stackalloc char[StackallocCharBufferSizeLimit]);
+        handler.AppendFormatted(value, format);
+        AppendFormatted(handler.Text, alignment);
+        handler.Clear();
+    }
+
     #endregion
+
     #region AppendFormatted ReadOnlySpan<char>
+
+    /// <summary>Writes the specified character span to the handler.</summary>
+    /// <param name="value">The span to write.</param>
+    public void AppendFormatted(ReadOnlySpan<char> value) => _stringBuilder.Append(value);
+
+    /// <summary>Writes the specified string of chars to the handler.</summary>
+    /// <param name="value">The span to write.</param>
+    /// <param name="alignment">
+    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
+    /// left-aligned and the required minimum is the absolute value.
+    /// </param>
+    /// <param name="format">The format string.</param>
+    public void AppendFormatted(ReadOnlySpan<char> value, int alignment = 0, string? format = null)
+    {
+        if (alignment == 0)
+        {
+            _stringBuilder.Append(value);
+        }
+        else
+        {
+            var leftAlign = false;
+            if (alignment < 0)
+            {
+                leftAlign = true;
+                alignment = -alignment;
+            }
+
+            var paddingRequired = alignment - value.Length;
+            if (paddingRequired <= 0)
+            {
+                _stringBuilder.Append(value);
+            }
+            else if (leftAlign)
+            {
+                _stringBuilder.Append(value);
+                _stringBuilder.Append(' ', paddingRequired);
+            }
+            else
+            {
+                _stringBuilder.Append(' ', paddingRequired);
+                _stringBuilder.Append(value);
+            }
+        }
+    }
+
     #endregion
+
     #region AppendFormatted string
+
+    /// <summary>Writes the specified value to the handler.</summary>
+    /// <param name="value">The value to write.</param>
+    public void AppendFormatted(string? value)
+    {
+        if (!_hasCustomFormatter)
+        {
+            _stringBuilder.Append(value);
+        }
+        else
+        {
+            AppendFormatted<string?>(value);
+        }
+    }
+
+    /// <summary>Writes the specified value to the handler.</summary>
+    /// <param name="value">The value to write.</param>
+    /// <param name="alignment">
+    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
+    /// left-aligned and the required minimum is the absolute value.
+    /// </param>
+    /// <param name="format">The format string.</param>
+    public void AppendFormatted(string? value, int alignment = 0, string? format = null) =>
+        
+        
+        
+        AppendFormatted<string?>(value, alignment, format);
+
     #endregion
+
     #region AppendFormatted object
+
+    /// <summary>Writes the specified value to the handler.</summary>
+    /// <param name="value">The value to write.</param>
+    /// <param name="alignment">
+    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
+    /// left-aligned and the required minimum is the absolute value.
+    /// </param>
+    /// <param name="format">The format string.</param>
+    public void AppendFormatted(object? value, int alignment = 0, string? format = null) =>
+        
+        
+        
+        AppendFormatted<object?>(value, alignment, format);
+
     #endregion
+
     #endregion
+
+    /// <summary>Formats the value using the custom formatter from the provider.</summary>
+    /// <param name="value">The value to write.</param>
+    /// <param name="format">The format string.</param>
+    /// <typeparam name="T">The type of the value to write.</typeparam>
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    void AppendCustomFormatter<T>(T value, string? format)
+    {
+        
+        
+        
+        
+        Debug.Assert(_hasCustomFormatter);
+        Debug.Assert(_provider != null);
+
+        var formatter = (ICustomFormatter?)_provider!.GetFormat(typeof(ICustomFormatter));
+        Debug.Assert(formatter != null, "An incorrectly written provider said it implemented ICustomFormatter, and then didn't");
+
+        if (formatter is not null)
+        {
+            _stringBuilder.Append(formatter.Format(format, value, _provider));
+        }
+    }
+
+    static bool HasTryFormatExtension(Type type) =>
+        type == typeof(int) || type == typeof(bool) || type == typeof(byte) || type == typeof(float) ||
+        type == typeof(double) || type == typeof(DateTime) || type == typeof(DateTimeOffset) ||
+        type == typeof(decimal) || type == typeof(long) || type == typeof(short) || type == typeof(ushort) ||
+        type == typeof(uint) || type == typeof(ulong) || type == typeof(sbyte);
+}
+
+#endif

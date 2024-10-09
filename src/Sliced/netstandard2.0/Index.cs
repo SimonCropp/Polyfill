@@ -1,12 +1,13 @@
 
 #pragma warning disable
 
+#if (NET46X && FeatureValueTuple) || NET47X || NET48X || NETSTANDARD2_0 || NETCOREAPP2X
 
 namespace System;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
+using Runtime.CompilerServices;
 
 /// <summary>Represent a type can be used to index a collection either from the start or the end.</summary>
 /// <remarks>
@@ -18,6 +19,8 @@ using System.Runtime.CompilerServices;
 /// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyPublic
+#endif
 readonly struct Index : IEquatable<Index>
 {
     readonly int _value;
@@ -147,3 +150,4 @@ readonly struct Index : IEquatable<Index>
     string ToStringFromEnd() =>
         '^' + Value.ToString();
 }
+#endif

@@ -10,6 +10,7 @@ using System.Linq;
 
 static partial class Polyfill
 {
+#if !NET6_0_OR_GREATER && (NETCOREAPP3_0_OR_GREATER || NETSTANDARD2_1)
 
     /// <summary>Returns the element at a specified index in a sequence.</summary>
     /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
@@ -100,4 +101,5 @@ static partial class Polyfill
         TryGetElementFromEnd(source, index.Value, out TSource? element);
         return element;
     }
+#endif
 }

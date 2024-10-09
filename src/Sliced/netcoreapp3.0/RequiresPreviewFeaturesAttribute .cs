@@ -3,6 +3,7 @@
 
 #nullable enable
 
+#if !NET6_0_OR_GREATER
 
 namespace System.Runtime.Versioning;
 
@@ -26,6 +27,8 @@ using Link = System.ComponentModel.DescriptionAttribute;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.versioning.requirespreviewfeaturesattribute")]
+#if PolyPublic
+#endif
 sealed class RequiresPreviewFeaturesAttribute :
     Attribute
 {
@@ -54,3 +57,4 @@ sealed class RequiresPreviewFeaturesAttribute :
     public string? Url { get; set; }
 }
 
+#endif

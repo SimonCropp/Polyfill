@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -37,6 +38,8 @@ using Targets = AttributeTargets;
              Targets.ReturnValue |
              Targets.Struct,
     Inherited = false)]
+#if PolyPublic
+#endif
 sealed class DynamicallyAccessedMembersAttribute :
     Attribute
 {
@@ -55,3 +58,4 @@ sealed class DynamicallyAccessedMembersAttribute :
     public DynamicallyAccessedMemberTypes MemberTypes { get; }
 }
 
+#endif

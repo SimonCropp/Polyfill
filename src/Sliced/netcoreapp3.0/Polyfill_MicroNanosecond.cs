@@ -8,6 +8,8 @@ using Link = System.ComponentModel.DescriptionAttribute;
 static partial class Polyfill
 {
 
+#if NET7_0_OR_GREATER
+#else
 
     const long TicksPerMicrosecond = TimeSpan.TicksPerMillisecond * 1000;
 
@@ -73,4 +75,5 @@ static partial class Polyfill
         var secondsPart = target - noSeconds;
         return secondsPart.Ticks;
     }
+#endif
 }

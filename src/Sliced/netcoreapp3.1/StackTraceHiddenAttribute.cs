@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET6_0_OR_GREATER
 
 namespace System.Diagnostics;
 
@@ -19,5 +20,8 @@ using Targets = AttributeTargets;
              Targets.Constructor |
              Targets.Struct,
     Inherited = false)]
+#if PolyPublic
+#endif
 sealed class StackTraceHiddenAttribute :
     Attribute;
+#endif

@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET7_0_OR_GREATER
 
 #nullable enable
 
@@ -16,6 +17,8 @@ using System.Diagnostics.CodeAnalysis;
 /// <seealso href="https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Diagnostics/UnreachableException.cs"/>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyPublic
+#endif
 sealed class UnreachableException : Exception
 {
     /// <summary>
@@ -49,3 +52,4 @@ sealed class UnreachableException : Exception
     }
 }
 
+#endif

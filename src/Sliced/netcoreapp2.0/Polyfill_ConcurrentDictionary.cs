@@ -1,12 +1,5 @@
 
 #pragma warning disable
 
-namespace Polyfills;
-using System;
-using System.Collections.Concurrent;
-using Link = System.ComponentModel.DescriptionAttribute;
-
-static partial class Polyfill
-{
-
-}
+#if NET46X || NETSTANDARD2_0 || NET47 || NET471
+#endif

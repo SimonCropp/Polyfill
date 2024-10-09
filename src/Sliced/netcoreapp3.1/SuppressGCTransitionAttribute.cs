@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER
 
 namespace System.Runtime.InteropServices;
 
@@ -66,5 +67,8 @@ using System.Diagnostics.CodeAnalysis;
 [AttributeUsage(
     validOn: AttributeTargets.Method,
     Inherited = false)]
+#if PolyPublic
+#endif
 sealed class SuppressGCTransitionAttribute :
     Attribute;
+#endif

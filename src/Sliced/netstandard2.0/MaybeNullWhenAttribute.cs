@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if NETSTANDARD2_0 || NETFRAMEWORK || NETCOREAPP2X
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -11,6 +12,8 @@ namespace System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
+#if PolyPublic
+#endif
 sealed class MaybeNullWhenAttribute :
     Attribute
 {
@@ -31,3 +34,4 @@ sealed class MaybeNullWhenAttribute :
         ReturnValue = returnValue;
 }
 
+#endif

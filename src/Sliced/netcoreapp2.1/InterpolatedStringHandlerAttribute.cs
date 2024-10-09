@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET6_0_OR_GREATER
 
 namespace System.Runtime.CompilerServices;
 
@@ -20,5 +21,8 @@ using Targets = AttributeTargets;
     validOn: Targets.Class |
              Targets.Struct,
     Inherited = false)]
+#if PolyPublic
+#endif
 sealed class InterpolatedStringHandlerAttribute :
     Attribute;
+#endif

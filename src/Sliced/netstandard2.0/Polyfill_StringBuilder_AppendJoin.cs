@@ -9,6 +9,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 static partial class Polyfill
 {
 
+#if NETSTANDARD2_0|| NETFRAMEWORK
 
     /// <summary>Concatenates the strings of the provided array, using the specified separator between each string, then appends the result to the current instance of the string builder.</summary>
     /// <param name="separator">The string to use as a separator. separator is included in the joined strings only if values has more than one element.</param>
@@ -76,4 +77,5 @@ static partial class Polyfill
         params T[] values) =>
         target.Append(string.Join(separator.ToString(), values));
 
+#endif
 }

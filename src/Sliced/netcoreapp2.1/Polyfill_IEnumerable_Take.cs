@@ -12,6 +12,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
+#if !NET6_0_OR_GREATER
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool IsEmptyArray<TSource>(IEnumerable<TSource> source) =>
@@ -151,5 +152,8 @@ static partial class Polyfill
         }
     }
 
+#if FeatureValueTuple
+#endif
+#endif
 
 }

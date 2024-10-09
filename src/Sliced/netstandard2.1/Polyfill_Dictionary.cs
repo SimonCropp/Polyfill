@@ -10,6 +10,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
+#if !NET7_0_OR_GREATER
     /// <summary>
     /// Returns a read-only <see cref="ReadOnlyDictionary{TKey,TValue}"/> wrapper for the current dictionary.
     /// </summary>
@@ -22,6 +23,11 @@ static partial class Polyfill
     public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> target)
         where TKey : notnull =>
         new(target);
+#endif
 
+#if NETFRAMEWORK || NETSTANDARD2_0
+#endif
 
+#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2X
+#endif
 }

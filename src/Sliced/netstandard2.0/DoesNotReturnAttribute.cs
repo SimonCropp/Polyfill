@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if NETSTANDARD2_0 || NETFRAMEWORK || NETCOREAPP2X
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -12,5 +13,8 @@ namespace System.Diagnostics.CodeAnalysis;
 [AttributeUsage(
     validOn: AttributeTargets.Method,
     Inherited = false)]
+#if PolyPublic
+#endif
 sealed class DoesNotReturnAttribute :
     Attribute;
+#endif

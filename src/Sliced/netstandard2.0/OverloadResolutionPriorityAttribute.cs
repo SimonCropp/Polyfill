@@ -1,12 +1,13 @@
 
 #pragma warning disable
 
+#if !NET9_0_OR_GREATER
 
 namespace System.Runtime.CompilerServices;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
+using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Specifies the priority of a member in overload resolution. When unspecified, the default priority is 0.
@@ -18,6 +19,9 @@ using Link = System.ComponentModel.DescriptionAttribute;
     AttributeTargets.Constructor |
     AttributeTargets.Property,
     Inherited = false)]
+[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute")]
+#if PolyPublic
+#endif
 sealed class OverloadResolutionPriorityAttribute :
     Attribute
 {
@@ -34,3 +38,4 @@ sealed class OverloadResolutionPriorityAttribute :
     /// </summary>
     public int Priority { get; }
 }
+#endif

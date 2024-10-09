@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -11,6 +12,8 @@ namespace System.Diagnostics.CodeAnalysis;
 /// bitwise combination of its member values.
 /// </summary>
 [Flags]
+#if PolyPublic
+#endif
 enum DynamicallyAccessedMemberTypes
 {
     /// <summary>
@@ -93,3 +96,4 @@ enum DynamicallyAccessedMemberTypes
     /// </summary>
     All = ~None
 }
+#endif

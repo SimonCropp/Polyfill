@@ -10,7 +10,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
-
+#if !NETCOREAPP3_0_OR_GREATER
 
     /// <summary>
     /// Registers a delegate that will be called when this
@@ -64,7 +64,9 @@ static partial class Polyfill
         }
     }
 
+#endif
 
+#if !NET6_0_OR_GREATER
 
     /// <summary>Registers a delegate that will be called when this <see cref="CancellationToken">CancellationToken</see> is canceled.</summary>
     /// <remarks>
@@ -130,4 +132,5 @@ static partial class Polyfill
         }
     }
 
+#endif
 }

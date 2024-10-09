@@ -9,9 +9,13 @@ using System.Runtime.InteropServices;
 using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
+#if FeatureMemory
+using System.Buffers;
+#endif
 
 static partial class Polyfill
 {
+#if !NET8_0_OR_GREATER
 
     
 
@@ -35,7 +39,9 @@ static partial class Polyfill
             .WaitAsync(cancellationToken);
     }
 
+#endif
 
+#if !NETCOREAPP3_0_OR_GREATER
     /// <summary>
     /// Equivalent to Write(stringBuilder.ToString()) however it uses the
     /// StringBuilder.GetChunks() method to avoid creating the intermediate string
@@ -49,7 +55,13 @@ static partial class Polyfill
             return;
         }
 
-        target.Write(value.ToString());
+#if FeatureMemory
+        foreach (ReadOnlyMemory<char> chunk in value.GetChunks())
+        {
+            target.Write(chunk.Span);
+        }
+#else
+#endif
     }
 
     /// <summary>
@@ -75,9 +87,17 @@ static partial class Polyfill
 
         async Task WriteAsyncCore(StringBuilder builder, CancellationToken cancel)
         {
+#if FeatureValueTask && FeatureMemory
+#else
             await target.WriteAsync(builder.ToString())
                 .WaitAsync(cancellationToken);
+#endif
         }
     }
+#endif
 
+#if (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0) && FeatureMemory
+#if FeatureValueTask
+#endif
+#endif
 }

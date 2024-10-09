@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER
 
 #nullable enable
 
@@ -37,13 +38,15 @@ using Link = System.ComponentModel.DescriptionAttribute;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource?view=net-8.0")]
+#if PolyPublic
+#endif
 class TaskCompletionSource
 {
     TaskCompletionSource<object?> inner;
 
     /// <summary>Creates a <see cref="TaskCompletionSource"/>.</summary>
     public TaskCompletionSource() =>
-        inner = new TaskCompletionSource<object>();
+        inner = new TaskCompletionSource<object?>();
 
     /// <summary>Creates a <see cref="TaskCompletionSource"/> with the specified options.</summary>
     /// <remarks>
@@ -221,3 +224,4 @@ class TaskCompletionSource
     public bool TrySetCanceled(CancellationToken cancellationToken) =>
         inner.TrySetCanceled(default);
 }
+#endif

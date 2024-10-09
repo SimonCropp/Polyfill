@@ -10,4 +10,6 @@ using System.Diagnostics.CodeAnalysis;
 [EditorBrowsable(EditorBrowsableState.Never)]
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyPublic
+#endif
 static partial class Polyfill;

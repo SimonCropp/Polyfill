@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER
 
 #nullable enable
 
@@ -23,6 +24,8 @@ using Targets = AttributeTargets;
              Targets.Constructor |
              Targets.Class,
     Inherited = false)]
+#if PolyPublic
+#endif
 sealed class RequiresUnreferencedCodeAttribute :
     Attribute
 {
@@ -48,3 +51,4 @@ sealed class RequiresUnreferencedCodeAttribute :
     public string? Url { get; set; }
 }
 
+#endif

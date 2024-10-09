@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET7_0_OR_GREATER
 
 namespace Polyfills;
 using System;
@@ -30,3 +31,4 @@ static partial class Polyfill
         this SortedList<TKey, TValue> target, int index) =>
         target.Values[index];
 }
+#endif

@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if NETSTANDARD2_0 || NETFRAMEWORK || NETCOREAPP2X
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -13,6 +14,8 @@ using Targets = AttributeTargets;
              Targets.Property |
              Targets.ReturnValue,
     AllowMultiple = true)]
+#if PolyPublic
+#endif
 sealed class NotNullIfNotNullAttribute :
     Attribute
 {
@@ -34,3 +37,4 @@ sealed class NotNullIfNotNullAttribute :
     public NotNullIfNotNullAttribute(string parameterName) =>
         ParameterName = parameterName;
 }
+#endif

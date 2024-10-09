@@ -8,4 +8,6 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
+#if !NET9_0_OR_GREATER && FeatureValueTuple
+#endif
 }

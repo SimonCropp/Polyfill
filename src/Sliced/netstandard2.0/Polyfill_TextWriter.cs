@@ -9,9 +9,13 @@ using System.Runtime.InteropServices;
 using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
+#if FeatureMemory
+using System.Buffers;
+#endif
 
 static partial class Polyfill
 {
+#if !NET8_0_OR_GREATER
 
     
 
@@ -35,7 +39,9 @@ static partial class Polyfill
             .WaitAsync(cancellationToken);
     }
 
+#endif
 
+#if !NETCOREAPP3_0_OR_GREATER
     /// <summary>
     /// Equivalent to Write(stringBuilder.ToString()) however it uses the
     /// StringBuilder.GetChunks() method to avoid creating the intermediate string
@@ -49,7 +55,13 @@ static partial class Polyfill
             return;
         }
 
-        target.Write(value.ToString());
+#if FeatureMemory
+        foreach (ReadOnlyMemory<char> chunk in value.GetChunks())
+        {
+            target.Write(chunk.Span);
+        }
+#else
+#endif
     }
 
     /// <summary>
@@ -75,9 +87,63 @@ static partial class Polyfill
 
         async Task WriteAsyncCore(StringBuilder builder, CancellationToken cancel)
         {
+#if FeatureValueTask && FeatureMemory
+#else
             await target.WriteAsync(builder.ToString())
                 .WaitAsync(cancellationToken);
+#endif
+        }
+    }
+#endif
+
+#if (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0) && FeatureMemory
+#if FeatureValueTask
+#endif
+
+    /// <summary>
+    /// Writes a character span to the text stream.
+    /// </summary>
+    /// <param name="buffer">The character span to write.</param>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))")]
+    public static void Write(
+        this TextWriter target,
+        ReadOnlySpan<char> buffer)
+    {
+        var pool = ArrayPool<char>.Shared;
+        var array = pool.Rent(buffer.Length);
+
+        try
+        {
+            buffer.CopyTo(new(array));
+            target.Write(array, 0, buffer.Length);
+        }
+        finally
+        {
+            pool.Return(array);
         }
     }
 
+    /// <summary>
+    /// Writes the text representation of a character span to the text stream, followed by a line terminator.
+    /// </summary>
+    /// <param name="buffer">The char span value to write to the text stream.</param>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline#system-io-textwriter-writeline(system-readonlyspan((system-char)))")]
+    public static void WriteLine(
+        this TextWriter target,
+        ReadOnlySpan<char> buffer)
+    {
+        var pool = ArrayPool<char>.Shared;
+        var array = pool.Rent(buffer.Length);
+
+        try
+        {
+            buffer.CopyTo(new(array));
+            target.WriteLine(array, 0, buffer.Length);
+        }
+        finally
+        {
+            pool.Return(array);
+        }
+    }
+#endif
 }

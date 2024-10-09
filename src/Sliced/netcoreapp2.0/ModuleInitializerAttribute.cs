@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER
 
 namespace System.Runtime.CompilerServices;
 
@@ -34,5 +35,8 @@ using Link = System.ComponentModel.DescriptionAttribute;
 [AttributeUsage(
     validOn: AttributeTargets.Method,
     Inherited = false)]
+#if PolyPublic
+#endif
 sealed class ModuleInitializerAttribute :
     Attribute;
+#endif

@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET8_0_OR_GREATER
 namespace Polyfills;
 using System;
 using System.Threading;
@@ -53,5 +54,5 @@ static partial class Polyfill
             return task;
         }
     }
-
 }
+#endif

@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET7_0_OR_GREATER
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -39,5 +40,8 @@ using Targets = AttributeTargets;
              Targets.Property |
              Targets.Parameter,
     Inherited = false)]
+#if PolyPublic
+#endif
 sealed class UnscopedRefAttribute :
     Attribute;
+#endif

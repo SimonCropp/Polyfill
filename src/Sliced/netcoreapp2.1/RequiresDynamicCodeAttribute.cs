@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET7_0_OR_GREATER
 
 #nullable enable
 
@@ -22,6 +23,8 @@ using Targets = AttributeTargets;
              Targets.Constructor |
              Targets.Class,
     Inherited = false)]
+#if PolyPublic
+#endif
 sealed class RequiresDynamicCodeAttribute :
     Attribute
 {
@@ -46,3 +49,4 @@ sealed class RequiresDynamicCodeAttribute :
     /// </summary>
     public string? Url { get; set; }
 }
+#endif

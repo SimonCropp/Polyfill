@@ -1,12 +1,13 @@
 
 #pragma warning disable
 
+#if !NET6_0_OR_GREATER
 
 namespace System.Runtime.CompilerServices;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
+using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Indicates which arguments to a method involving an interpolated string handler should be passed to that handler.
@@ -15,6 +16,8 @@ using Link = System.ComponentModel.DescriptionAttribute;
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.interpolatedstringhandlerargumentattribute")]
+#if PolyPublic
+#endif
 sealed class InterpolatedStringHandlerArgumentAttribute :
     Attribute
 {
@@ -38,3 +41,4 @@ sealed class InterpolatedStringHandlerArgumentAttribute :
     /// </remarks>
     public string[] Arguments { get; }
 }
+#endif

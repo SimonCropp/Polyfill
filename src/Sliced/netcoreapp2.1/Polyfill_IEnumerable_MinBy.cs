@@ -10,6 +10,7 @@ using System.Linq;
 static partial class Polyfill
 {
 
+#if !NET6_0_OR_GREATER
 
     /// <summary>
     /// Returns the minimum value in a generic sequence according to a specified key selector function.
@@ -51,5 +52,6 @@ static partial class Polyfill
             .OrderBy(keySelector, comparer)
             .FirstOrDefault();
 
+#endif
 
 }

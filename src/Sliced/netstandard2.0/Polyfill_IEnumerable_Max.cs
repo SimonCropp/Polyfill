@@ -9,6 +9,7 @@ using System.Linq;
 
 static partial class Polyfill
 {
+#if !NET6_0_OR_GREATER
 
     /// <summary>Returns the maximum value in a generic sequence.</summary>
     /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
@@ -30,4 +31,5 @@ static partial class Polyfill
             .OrderByDescending(_ => _, comparer)
             .FirstOrDefault();
 
+#endif
 }

@@ -1,11 +1,12 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER
 
 namespace System.Runtime.Versioning;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// Records the platform that the project targeted.
@@ -13,12 +14,11 @@ using System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Assembly)]
-sealed class TargetPlatformAttribute :
-    OSPlatformAttribute
+#if PolyPublic
+#endif
+sealed class TargetPlatformAttribute(string platformName) :
+    OSPlatformAttribute(platformName)
 {
-    public TargetPlatformAttribute(string platformName) :
-        base(platformName)
-    {
-    }
 }
 
+#endif

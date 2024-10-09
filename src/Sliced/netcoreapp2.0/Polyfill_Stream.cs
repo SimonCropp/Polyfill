@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
 
 namespace Polyfills;
 using System;
@@ -12,6 +13,8 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
+#if FeatureMemory && FeatureValueTask
+#endif
 
     /// <summary>
     /// Asynchronously reads the bytes from the current stream and writes them to another stream, using a specified
@@ -29,3 +32,4 @@ static partial class Polyfill
         CancellationToken cancellationToken = default) =>
         target.CopyToAsync(destination, 81920, cancellationToken);
 }
+#endif

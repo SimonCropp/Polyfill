@@ -1,12 +1,13 @@
 
 #pragma warning disable
 
+#if (NET46X && FeatureValueTuple) || NET47X || NET48X || NETSTANDARD2_0 || NETCOREAPP2X
 
 namespace System;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
+using Runtime.CompilerServices;
 
 /// <summary>Represent a range has start and end indexes.</summary>
 /// <remarks>
@@ -19,6 +20,8 @@ using System.Runtime.CompilerServices;
 /// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyPublic
+#endif
 record Range(Index Start, Index End)
 {
     /// <summary>Converts the value of the current Range object to its equivalent string representation.</summary>
@@ -74,3 +77,4 @@ record Range(Index Start, Index End)
         return (start, end - start);
     }
 }
+#endif

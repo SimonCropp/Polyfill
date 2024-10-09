@@ -1,12 +1,13 @@
 
 #pragma warning disable
 
+#if !NET7_0_OR_GREATER
 
 namespace System.Runtime.CompilerServices;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
+using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Disables the built-in runtime managed/unmanaged marshalling subsystem for
@@ -29,5 +30,8 @@ using Link = System.ComponentModel.DescriptionAttribute;
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Assembly)]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.disableruntimemarshallingattribute")]
+#if PolyPublic
+#endif
 sealed class DisableRuntimeMarshallingAttribute :
     Attribute;
+#endif

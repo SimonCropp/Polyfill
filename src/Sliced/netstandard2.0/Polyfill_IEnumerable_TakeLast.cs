@@ -13,6 +13,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 static partial class Polyfill
 {
 
+#if NETSTANDARD2_0 || NETFRAMEWORK
 
     /// <summary>
     /// Returns a new enumerable collection that contains the last count elements from source.
@@ -34,4 +35,5 @@ static partial class Polyfill
             isStartIndexFromEnd: true, startIndex: count,
             isEndIndexFromEnd: true, endIndex: 0);
     }
+#endif
 }

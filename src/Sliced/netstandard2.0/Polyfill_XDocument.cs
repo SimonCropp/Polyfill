@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if NETFRAMEWORK || NETSTANDARD2_0
 
 namespace Polyfills;
 using System.Xml;
@@ -78,3 +79,4 @@ static partial class Polyfill
         return Task.CompletedTask;
     }
 }
+#endif

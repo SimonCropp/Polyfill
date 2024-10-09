@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if ((NETFRAMEWORK && FetureHttp) || NETSTANDARD || NETCOREAPP2X || NETCOREAPP3X)
 
 namespace Polyfills;
 using System;
@@ -179,3 +180,4 @@ static partial class Polyfill
         CancellationToken cancellationToken = default) =>
         target.GetStringAsync(requestUri.ToString(), cancellationToken);
 }
+#endif

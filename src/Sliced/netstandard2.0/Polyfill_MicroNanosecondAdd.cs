@@ -7,6 +7,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
+#if !NET7_0_OR_GREATER
 
     /// <summary>
     /// Returns a new <see cref="DateTime"/> object that adds a specified number of microseconds to the value of this instance..
@@ -22,4 +23,5 @@ static partial class Polyfill
     public static DateTimeOffset AddMicroseconds(this DateTimeOffset target, double microseconds) =>
        target.AddMilliseconds(microseconds / 1000);
 
+#endif
 }

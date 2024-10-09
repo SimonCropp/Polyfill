@@ -8,6 +8,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
+#if !NET6_0_OR_GREATER
 
     /// <summary>Returns the first element of the sequence that satisfies a condition or a default value if no such element is found.</summary>
     /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
@@ -79,4 +80,5 @@ static partial class Polyfill
         found = false;
         return default;
     }
+#endif
 }

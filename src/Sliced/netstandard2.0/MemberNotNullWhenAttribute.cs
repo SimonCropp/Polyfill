@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if NETSTANDARD || NETFRAMEWORK || NETCOREAPPX
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -17,6 +18,8 @@ using Targets = AttributeTargets;
              Targets.Property,
     Inherited = false,
     AllowMultiple = true)]
+#if PolyPublic
+#endif
 sealed class MemberNotNullWhenAttribute :
     Attribute
 {
@@ -64,3 +67,4 @@ sealed class MemberNotNullWhenAttribute :
     }
 }
 
+#endif

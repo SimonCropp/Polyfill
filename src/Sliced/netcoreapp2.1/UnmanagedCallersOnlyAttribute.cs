@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER
 
 #nullable enable
 
@@ -25,6 +26,8 @@ using System.Diagnostics.CodeAnalysis;
 [AttributeUsage(
     AttributeTargets.Method,
     Inherited = false)]
+#if PolyPublic
+#endif
 sealed class UnmanagedCallersOnlyAttribute :
     Attribute
 {
@@ -43,3 +46,4 @@ sealed class UnmanagedCallersOnlyAttribute :
     public string? EntryPoint;
 }
 
+#endif

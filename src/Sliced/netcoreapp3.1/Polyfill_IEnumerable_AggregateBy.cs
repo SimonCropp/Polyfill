@@ -8,6 +8,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
+#if !NET9_0_OR_GREATER
 
     /// <summary>
     /// https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/overview#linq
@@ -121,4 +122,5 @@ static partial class Polyfill
         }
     }
 
+#endif
 }

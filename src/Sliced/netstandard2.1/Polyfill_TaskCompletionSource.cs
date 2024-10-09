@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER
 
 namespace Polyfills;
 using System;
@@ -34,3 +35,4 @@ static partial class Polyfill
         throw new InvalidOperationException("An attempt was made to transition a task to a final state when it had already completed.");
     }
 }
+#endif

@@ -10,6 +10,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
+#if !NET7_0_OR_GREATER
     /// <summary>
     /// Returns a read-only <see cref="ReadOnlyDictionary{TKey,TValue}"/> wrapper for the current dictionary.
     /// </summary>
@@ -22,8 +23,12 @@ static partial class Polyfill
     public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> target)
         where TKey : notnull =>
         new(target);
+#endif
 
+#if NETFRAMEWORK || NETSTANDARD2_0
+#endif
 
+#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2X
 
     /// <summary>
     /// Removes the value with the specified key from the <see cref="Dictionary{TKey,TValue}"/>, and copies the element
@@ -47,4 +52,5 @@ static partial class Polyfill
         return target.Remove(key);
     }
 
+#endif
 }

@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET6_0_OR_GREATER
 
 #nullable enable
 
@@ -9,9 +10,9 @@
 
 namespace System.Reflection;
 
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics;
-using Link = System.ComponentModel.DescriptionAttribute;
+using Diagnostics.CodeAnalysis;
+using Diagnostics;
+using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// A class that represents nullability info
@@ -19,6 +20,8 @@ using Link = System.ComponentModel.DescriptionAttribute;
 [DebuggerNonUserCode]
 [ExcludeFromCodeCoverage]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.reflection.nullabilityinfo?view=net-8.0")]
+#if PolyPublic
+#endif
 sealed class NullabilityInfo
 {
     internal NullabilityInfo(Type type, NullabilityState readState, NullabilityState writeState, NullabilityInfo? elementType, NullabilityInfo[] typeArguments)
@@ -56,6 +59,8 @@ sealed class NullabilityInfo
 /// <summary>
 /// An enum that represents nullability state
 /// </summary>
+#if PolyPublic
+#endif
 enum NullabilityState
 {
     /// <summary>
@@ -72,3 +77,4 @@ enum NullabilityState
     Nullable
 }
 
+#endif

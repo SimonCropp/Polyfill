@@ -9,6 +9,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 static partial class Polyfill
 {
 
+#if !NET6_0_OR_GREATER
 
     /// <summary>Returns distinct elements from a sequence according to a specified key selector function.</summary>
     /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
@@ -57,4 +58,5 @@ static partial class Polyfill
         }
     }
 
+#endif
 }

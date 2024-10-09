@@ -3,12 +3,12 @@
 
 #nullable enable
 
+#if !NET8_0_OR_GREATER
 
 namespace System.Diagnostics.CodeAnalysis;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
+using Diagnostics;
+using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Indicates that a parameter captures the expression passed for another parameter as a string.
@@ -35,6 +35,8 @@ using Link = System.ComponentModel.DescriptionAttribute;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.experimentalattribute")]
+#if PolyPublic
+#endif
 sealed class ExperimentalAttribute : Attribute
 {
     /// <summary>
@@ -42,10 +44,8 @@ sealed class ExperimentalAttribute : Attribute
     ///  when reporting a use of the API the attribute applies to.
     /// </summary>
     /// <param name="diagnosticId">The ID that the compiler will use when reporting a use of the API the attribute applies to.</param>
-    public ExperimentalAttribute(string diagnosticId)
-    {
+    public ExperimentalAttribute(string diagnosticId) =>
         DiagnosticId = diagnosticId;
-    }
 
     /// <summary>
     ///  Gets the ID that the compiler will use when reporting a use of the API the attribute applies to.
@@ -66,3 +66,4 @@ sealed class ExperimentalAttribute : Attribute
     public string? UrlFormat { get; set; }
 }
 
+#endif

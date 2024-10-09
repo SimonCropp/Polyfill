@@ -11,7 +11,10 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
+#if FeatureValueTask && FeatureMemory && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
+#endif
 
+#if !NET7_0_OR_GREATER
     /// <summary>
     /// Reads all characters from the current position to the end of the stream asynchronously and returns them as one string.
     /// </summary>
@@ -51,4 +54,5 @@ static partial class Polyfill
         return target.ReadLineAsync()
             .WaitAsync(cancellationToken);
     }
+#endif
 }

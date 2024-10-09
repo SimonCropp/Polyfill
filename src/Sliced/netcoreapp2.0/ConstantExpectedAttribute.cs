@@ -1,12 +1,13 @@
 
 #pragma warning disable
 
+#if !NET7_0_OR_GREATER
 
 #nullable enable
 namespace System.Diagnostics.CodeAnalysis;
 
-using System.Diagnostics;
-using Link = System.ComponentModel.DescriptionAttribute;
+using Diagnostics;
+using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Indicates that the specified method parameter expects a constant.
@@ -18,6 +19,8 @@ using Link = System.ComponentModel.DescriptionAttribute;
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.constantexpectedattribute")]
+#if PolyPublic
+#endif
 sealed class ConstantExpectedAttribute : Attribute
 {
     /// <summary>
@@ -29,3 +32,4 @@ sealed class ConstantExpectedAttribute : Attribute
     /// </summary>
     public object? Max { get; set; }
 }
+#endif

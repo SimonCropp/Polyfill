@@ -10,6 +10,7 @@ using System.Linq;
 static partial class Polyfill
 {
 
+#if !NET6_0_OR_GREATER
 
     /// <summary>Returns the minimum value in a generic sequence.</summary>
     /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
@@ -31,5 +32,6 @@ static partial class Polyfill
             .OrderBy(_ => _, comparer)
             .FirstOrDefault();
 
+#endif
 
 }

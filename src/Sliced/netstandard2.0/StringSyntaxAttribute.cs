@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if !NET7_0_OR_GREATER
 
 #nullable enable
 
@@ -17,6 +18,8 @@ using Targets = AttributeTargets;
     validOn: Targets.Parameter |
              Targets.Field |
              Targets.Property)]
+#if PolyPublic
+#endif
 sealed class StringSyntaxAttribute :
     Attribute
 {
@@ -82,3 +85,4 @@ sealed class StringSyntaxAttribute :
     public const string Xml = nameof(Xml);
 }
 
+#endif

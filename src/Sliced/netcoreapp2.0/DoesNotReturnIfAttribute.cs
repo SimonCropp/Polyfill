@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if NETSTANDARD2_0 || NETFRAMEWORK || NETCOREAPP2X
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -11,6 +12,8 @@ namespace System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
+#if PolyPublic
+#endif
 sealed class DoesNotReturnIfAttribute :
     Attribute
 {
@@ -34,3 +37,4 @@ sealed class DoesNotReturnIfAttribute :
         ParameterValue = parameterValue;
 }
 
+#endif

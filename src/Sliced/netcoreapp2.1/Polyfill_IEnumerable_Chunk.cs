@@ -1,6 +1,3 @@
-
-#pragma warning disable
-
 namespace Polyfills;
 using System;
 using System.Collections.Generic;
@@ -8,6 +5,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
+#if !NET6_0_OR_GREATER
 
     /// <summary>
     /// Split the elements of a sequence into chunks of size at most <paramref name="size"/>.
@@ -39,30 +37,30 @@ static partial class Polyfill
 
         return ChunkIterator(source, size);
 
-        static IEnumerable<TSource[]> ChunkIterator<TSource>(IEnumerable<TSource> source, int size)
+        static IEnumerable<TSource[]> ChunkIterator(IEnumerable<TSource> source, int size)
         {
-            using IEnumerator<TSource> e = source.GetEnumerator();
+            using var enumerator = source.GetEnumerator();
 
             
-            if (e.MoveNext())
+            if (enumerator.MoveNext())
             {
                 
                 
                 
-                int arraySize = Math.Min(size, 4);
+                var arraySize = Math.Min(size, 4);
                 int i;
                 do
                 {
                     var array = new TSource[arraySize];
 
                     
-                    array[0] = e.Current;
+                    array[0] = enumerator.Current;
                     i = 1;
 
                     if (size != array.Length)
                     {
                         
-                        for (; i < size && e.MoveNext(); i++)
+                        for (; i < size && enumerator.MoveNext(); i++)
                         {
                             if (i >= array.Length)
                             {
@@ -70,7 +68,7 @@ static partial class Polyfill
                                 Array.Resize(ref array, arraySize);
                             }
 
-                            array[i] = e.Current;
+                            array[i] = enumerator.Current;
                         }
                     }
                     else
@@ -78,10 +76,10 @@ static partial class Polyfill
                         
                         
                         
-                        TSource[] local = array;
-                        for (; (uint) i < (uint) local.Length && e.MoveNext(); i++)
+                        var local = array;
+                        for (; (uint) i < (uint) local.Length && enumerator.MoveNext(); i++)
                         {
-                            local[i] = e.Current;
+                            local[i] = enumerator.Current;
                         }
                     }
 
@@ -91,9 +89,10 @@ static partial class Polyfill
                     }
 
                     yield return array;
-                } while (i >= size && e.MoveNext());
+                } while (i >= size && enumerator.MoveNext());
             }
         }
     }
 
+#endif
 }

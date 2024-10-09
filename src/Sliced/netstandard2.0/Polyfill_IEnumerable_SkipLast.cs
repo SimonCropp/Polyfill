@@ -1,4 +1,5 @@
 
+#if NETFRAMEWORK || NETSTANDARD2_0
 #pragma warning disable
 
 namespace Polyfills;
@@ -24,3 +25,4 @@ static partial class Polyfill
         int count) =>
         target.Reverse().Skip(count).Reverse();
 }
+#endif

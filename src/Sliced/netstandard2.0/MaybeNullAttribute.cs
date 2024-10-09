@@ -1,6 +1,7 @@
 
 #pragma warning disable
 
+#if NETSTANDARD2_0 || NETFRAMEWORK || NETCOREAPP2X
 
 namespace System.Diagnostics.CodeAnalysis;
 
@@ -17,5 +18,8 @@ using Targets = AttributeTargets;
              Targets.Parameter |
              Targets.Property |
              Targets.ReturnValue)]
+#if PolyPublic
+#endif
 sealed class MaybeNullAttribute :
     Attribute;
+#endif

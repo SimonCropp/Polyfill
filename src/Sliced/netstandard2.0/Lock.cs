@@ -3,12 +3,13 @@
 
 #nullable enable
 
+#if !NET9_0_OR_GREATER
 
 namespace System.Threading;
 
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
+using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Provides a way to get mutual exclusion in regions of code between different threads. A lock may be held by one thread at
@@ -22,9 +23,13 @@ using Link = System.ComponentModel.DescriptionAttribute;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.threading.lock")]
+#if PolyPublic
+#endif
 class Lock
 {
+#if (NETCOREAPP) || (NETFRAMEWORK && NET45_OR_GREATER) || (NETSTANDARD)
     public bool IsHeldByCurrentThread => Monitor.IsEntered(this);
+#endif
 
     /// <summary>
     /// Enters the lock. Once the method returns, the calling thread would be the only thread that holds the lock.
@@ -173,3 +178,4 @@ class Lock
     }
 }
 
+#endif
