@@ -14,9 +14,15 @@ public class RoslynTest
 
         var sharedIdentifiers = new List<string>
         {
-"FeatureMemory",
-"PolyGuard",
-"PolyPublic","FetureHttp"
+            "FeatureMemory",
+            "PolyGuard",
+            "PolyPublic",
+            "FeatureHttp",
+            "PolyNullability",
+            "AllowUnsafeBlocks",
+            "FeatureValueTask",
+            "LangVersion13",
+            "FeatureValueTuple"
         };
 
         var identifiers = new List<Identifier>
@@ -93,19 +99,7 @@ public class RoslynTest
                 ]
             }
         };
-        var list = GetFiles().ToList();
 
-        var allIdentifiers = new HashSet<string>();
-        foreach (var file in list)
-        {
-            var source = File.ReadAllText(file);
-            foreach (var identifier in GetReferencedPreprocessorSymbols(CSharpSyntaxTree.ParseText(source)))
-            {
-                allIdentifiers.Add(identifier);
-            }
-        }
-
-        var join = string.Join("\n",allIdentifiers);
         foreach (var file in GetFiles())
         {
             var source = File.ReadAllText(file);
@@ -140,18 +134,6 @@ public class RoslynTest
             yield return file;
         }
     }
-
-    static IEnumerable<string> GetReferencedPreprocessorSymbols(SyntaxTree syntaxTree) =>
-        syntaxTree.GetRoot()
-            .DescendantTrivia()
-            .Where(t => t.IsKind(SyntaxKind.IfDirectiveTrivia) ||
-                        t.IsKind(SyntaxKind.ElifDirectiveTrivia))
-            .Select(t => t.GetStructure())
-            .Cast<ConditionalDirectiveTriviaSyntax>()
-            .SelectMany(c => c.Condition.DescendantNodesAndSelf().OfType<IdentifierNameSyntax>())
-            .Select(i => i.Identifier.ValueText)
-            .Distinct()
-            .OrderBy(i => i);
 
     static void PurgeDirectory(string directory)
     {
