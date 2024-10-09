@@ -4,6 +4,7 @@
 #if NETFRAMEWORK || NETSTANDARD2_0
 
 namespace Polyfills;
+
 using System.Xml;
 using System.IO;
 using System.Threading;

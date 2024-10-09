@@ -4,6 +4,7 @@
 #if !NET5_0_OR_GREATER
 
 namespace Polyfills;
+
 using System;
 using System.Threading;
 using System.Threading.Tasks;
