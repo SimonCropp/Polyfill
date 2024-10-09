@@ -28,6 +28,87 @@ public class RoslynTest
         {
             new()
             {
+                Moniker = "net461",
+                Directives =
+                [
+                    "NET461",
+                    "NET461_OR_GREATER",
+                    "NET46X",
+                    "NETFRAMEWORK",
+                ]
+            },
+            new()
+            {
+                Moniker = "NET47",
+                Directives =
+                [
+                    "NET47",
+                    "NET47_OR_GREATER",
+                    "NET47X",
+                    "NET461_OR_GREATER",
+                    "NETFRAMEWORK",
+                ]
+            },
+            new()
+            {
+                Moniker = "NET471",
+                Directives =
+                [
+                    "NET471",
+                    "NET471_OR_GREATER",
+                    "NET47_OR_GREATER",
+                    "NET47X",
+                    "NET461_OR_GREATER",
+                    "NETFRAMEWORK",
+                ]
+            },
+            new()
+            {
+                Moniker = "NET472",
+                Directives =
+                [
+                    "NET472",
+                    "NET472_OR_GREATER",
+                    "NET471_OR_GREATER",
+                    "NET47_OR_GREATER",
+                    "NET47X",
+                    "NET461_OR_GREATER",
+                    "NETFRAMEWORK",
+                ]
+            },
+            new()
+            {
+                Moniker = "NET48",
+                Directives =
+                [
+                    "NET48",
+                    "NET48_OR_GREATER",
+                    "NET472_OR_GREATER",
+                    "NET471_OR_GREATER",
+                    "NET47_OR_GREATER",
+                    "NET47X",
+                    "NET461_OR_GREATER",
+                    "NETFRAMEWORK",
+                ]
+            },
+            new()
+            {
+                Moniker = "NET481",
+                Directives =
+                [
+                    "NET481",
+                    "NET48X",
+                    "NET481_OR_GREATER",
+                    "NET48_OR_GREATER",
+                    "NET472_OR_GREATER",
+                    "NET471_OR_GREATER",
+                    "NET47_OR_GREATER",
+                    "NET461_OR_GREATER",
+                    "NETFRAMEWORK",
+                ]
+            },
+            new()
+            {
                 Moniker = "net5.0",
                 Directives =
                 [
