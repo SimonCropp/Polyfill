@@ -29,16 +29,16 @@ class Stripper : CSharpSyntaxRewriter
         return base.VisitTrivia(trivia);
     }
 
-    public override SyntaxNode? VisitIfDirectiveTrivia(IfDirectiveTriviaSyntax node) =>
-        null;
-
-    public override SyntaxNode? VisitElifDirectiveTrivia(ElifDirectiveTriviaSyntax node) =>
-        null;
-
-    public override SyntaxNode? VisitElseDirectiveTrivia(ElseDirectiveTriviaSyntax node) =>
-        null;
-
-    public override SyntaxNode? VisitEndIfDirectiveTrivia(EndIfDirectiveTriviaSyntax node) =>
-        null;
+    // public override SyntaxNode? VisitIfDirectiveTrivia(IfDirectiveTriviaSyntax node) =>
+    //     null;
+    //
+    // public override SyntaxNode? VisitElifDirectiveTrivia(ElifDirectiveTriviaSyntax node) =>
+    //     null;
+    //
+    // public override SyntaxNode? VisitElseDirectiveTrivia(ElseDirectiveTriviaSyntax node) =>
+    //     null;
+    //
+    // public override SyntaxNode? VisitEndIfDirectiveTrivia(EndIfDirectiveTriviaSyntax node) =>
+    //     null;
 }
 #endif

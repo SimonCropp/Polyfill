@@ -16,6 +16,11 @@ public class RoslynTest
         Directory.CreateDirectory(slicedPath);
         PurgeDirectory(slicedPath);
 
+//         var sharedIdentifiers = new List<Identifier>
+//         {
+// "FeatureMemory"
+//         };
+
         var identifiers = new List<Identifier>
         {
             new()
