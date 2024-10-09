@@ -1,0 +1,7 @@
+
+#pragma warning disable
+
+#if !NET9_0_OR_GREATER
+#if PolyPublic
+#endif
+#endif

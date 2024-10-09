@@ -6,7 +6,6 @@ public class RoslynTest
     static string polyfillPath = Path.Combine(SolutionDirectoryFinder.Find(), "Polyfill");
     static string slicedPath = Path.Combine(SolutionDirectoryFinder.Find(), "Sliced");
 
-
     static List<string> sharedIdentifiers =
     [
         "FeatureMemory",
@@ -27,6 +26,61 @@ public class RoslynTest
 
         var identifiers = new List<Identifier>
         {
+            new()
+            {
+                Moniker = "net5.0",
+                Directives =
+                [
+                    "NET5_0",
+                    "NET5_0_OR_GREATER",
+                ]
+            },
+            new()
+            {
+                Moniker = "net6.0",
+                Directives =
+                [
+                    "NET6_0",
+                    "NET6_0_OR_GREATER",
+                    "NET5_0_OR_GREATER",
+                ]
+            },
+            new()
+            {
+                Moniker = "net7.0",
+                Directives =
+                [
+                    "NET7_0",
+                    "NET7_0_OR_GREATER",
+                    "NET6_0_OR_GREATER",
+                    "NET5_0_OR_GREATER",
+                ]
+            },
+            new()
+            {
+                Moniker = "net8.0",
+                Directives =
+                [
+                    "NET8_0",
+                    "NET8_0_OR_GREATER",
+                    "NET7_0_OR_GREATER",
+                    "NET6_0_OR_GREATER",
+                    "NET5_0_OR_GREATER",
+                ]
+            },
+            new()
+            {
+                Moniker = "net9.0",
+                Directives =
+                [
+                    "NET9_0",
+                    "NET9_0_OR_GREATER",
+                    "NET8_0_OR_GREATER",
+                    "NET7_0_OR_GREATER",
+                    "NET6_0_OR_GREATER",
+                    "NET5_0_OR_GREATER",
+                ]
+            },
             new()
             {
                 Moniker = "netcoreapp2.0",

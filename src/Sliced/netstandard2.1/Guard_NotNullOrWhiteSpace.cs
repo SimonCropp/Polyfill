@@ -1,10 +1,10 @@
 
-
 #pragma warning disable
 
 #if PolyGuard
 
 namespace Polyfills;
+
 using System.Runtime.CompilerServices;
 using System;
 using System.Diagnostics.CodeAnalysis;

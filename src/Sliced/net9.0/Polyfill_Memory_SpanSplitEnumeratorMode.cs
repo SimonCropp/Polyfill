@@ -1,0 +1,7 @@
+
+#pragma warning disable
+
+#if FeatureMemory && !NET9_0_OR_GREATER
+#if NET8_0
+#endif
+#endif

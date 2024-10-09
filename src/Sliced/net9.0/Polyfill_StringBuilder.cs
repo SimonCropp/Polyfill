@@ -1,0 +1,49 @@
+
+#pragma warning disable
+
+namespace Polyfills;
+
+using System;
+using System.Text;
+using Link = System.ComponentModel.DescriptionAttribute;
+
+static partial class Polyfill
+{
+#if FeatureMemory && (!NETSTANDARD2_1_OR_GREATER && !NETCOREAPP2_1_OR_GREATER)
+
+    /// <summary>
+    /// Returns a value indicating whether the characters in this instance are equal to the characters in a specified
+    /// read-only character span.
+    /// </summary>
+    /// <param name="span">The character span to compare with the current instance.</param>
+    /// <remarks>
+    /// The Equals method performs an ordinal comparison to determine whether the characters in the current instance
+    /// and span are equal.
+    /// </remarks>
+    /// <returns>true if the characters in this instance and span are the same; otherwise, false.</returns>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.equals#system-text-stringbuilder-equals(system-readonlyspan((system-char)))")]
+    public static bool Equals(this StringBuilder target, ReadOnlySpan<char> span)
+    {
+        if (target.Length != span.Length)
+        {
+            return false;
+        }
+
+        for (var index = 0; index < target.Length; index++)
+        {
+            var ch1 = target[index];
+            var ch2 = span[index];
+            if (ch1 != ch2)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+#endif
+
+#if !NET9_0_OR_GREATER && FeatureMemory
+#endif
+}

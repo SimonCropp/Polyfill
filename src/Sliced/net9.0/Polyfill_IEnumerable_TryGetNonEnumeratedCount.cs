@@ -1,0 +1,5 @@
+
+#pragma warning disable
+
+#if !NET6_0_OR_GREATER
+#endif

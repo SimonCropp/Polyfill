@@ -1,0 +1,8 @@
+
+#pragma warning disable
+
+#if FeatureMemory && !NET6_0_OR_GREATER
+#nullable enable
+#if PolyPublic
+#endif
+#endif

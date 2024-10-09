@@ -4,6 +4,7 @@
 #if FeatureMemory && (!NETSTANDARD2_1_OR_GREATER && !NETCOREAPP2_1_OR_GREATER)
 
 namespace Polyfills;
+
 using System;
 using System.Text;
 using Link = System.ComponentModel.DescriptionAttribute;

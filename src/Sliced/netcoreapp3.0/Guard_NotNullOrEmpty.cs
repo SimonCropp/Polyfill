@@ -1,5 +1,4 @@
 
-
 #pragma warning disable
 
 #if PolyGuard

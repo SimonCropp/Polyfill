@@ -1,0 +1,43 @@
+
+#pragma warning disable
+
+namespace Polyfills;
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
+using Link = System.ComponentModel.DescriptionAttribute;
+
+static partial class Polyfill
+{
+#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
+#endif
+
+    /// <summary>
+    /// Gets a value that indicates whether the current Type represents a type parameter in the definition of a generic method.
+    /// </summary>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter")]
+    public static bool IsGenericMethodParameter(this Type target) =>
+#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
+#else
+        target.IsGenericMethodParameter;
+#endif
+
+    /// <summary>
+    /// Generic version of Type.IsAssignableTo https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto.
+    /// </summary>
+    public static bool IsAssignableTo<T>(this Type target) =>
+        typeof(T).IsAssignableFrom(target);
+
+    /// <summary>
+    /// Generic version of Type.IsAssignableFrom https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignablefrom.
+    /// </summary>
+    public static bool IsAssignableFrom<T>(this Type target) =>
+        target.IsAssignableFrom(typeof(T));
+
+#if NETFRAMEWORK || NETSTANDARD || NETCOREAPPX
+#endif
+
+#if !NET6_0_OR_GREATER
+#endif
+}

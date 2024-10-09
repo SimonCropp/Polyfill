@@ -4,6 +4,7 @@
 #nullable enable
 
 namespace Polyfills;
+
 using System;
 using System.Threading;
 using Link = System.ComponentModel.DescriptionAttribute;

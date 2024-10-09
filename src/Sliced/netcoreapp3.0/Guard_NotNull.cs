@@ -1,8 +1,7 @@
 
+#pragma warning disable
 
 namespace Polyfills;
-
-#pragma warning disable
 
 #if PolyGuard
 

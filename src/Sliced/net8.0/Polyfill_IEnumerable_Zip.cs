@@ -1,0 +1,20 @@
+
+#pragma warning disable
+
+namespace Polyfills;
+
+using System.Collections.Generic;
+using Link = System.ComponentModel.DescriptionAttribute;
+
+static partial class Polyfill
+{
+#if FeatureValueTuple
+
+#if !NET6_0_OR_GREATER
+#endif
+
+#if NETCOREAPP2X || NETSTANDARD || NETFRAMEWORK
+#endif
+
+#endif
+}

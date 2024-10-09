@@ -2,6 +2,7 @@
 #pragma warning disable
 
 namespace Polyfills;
+
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;

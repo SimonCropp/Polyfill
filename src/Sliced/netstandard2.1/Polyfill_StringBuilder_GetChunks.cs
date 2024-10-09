@@ -1,8 +1,10 @@
 
 #pragma warning disable
+
 #if !NET6_0_OR_GREATER && FeatureMemory
 
 namespace Polyfills;
+
 using System;
 using System.ComponentModel;
 using System.Reflection;

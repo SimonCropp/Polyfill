@@ -4,6 +4,7 @@
 #if (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2X) && FeatureValueTask
 
 namespace Polyfills;
+
 using System;
 using System.IO;
 using System.Threading.Tasks;

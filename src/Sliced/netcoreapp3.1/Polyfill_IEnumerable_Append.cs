@@ -1,4 +1,5 @@
 
-#if NET46X || NET47
 #pragma warning disable
+
+#if NET46X || NET47
 #endif
