@@ -6,24 +6,24 @@ public class RoslynTest
     static string polyfillPath = Path.Combine(SolutionDirectoryFinder.Find(), "Polyfill");
     static string slicedPath = Path.Combine(SolutionDirectoryFinder.Find(), "Sliced");
 
+
+    static List<string> sharedIdentifiers =
+    [
+        "FeatureMemory",
+        "PolyGuard",
+        "PolyPublic",
+        "FeatureHttp",
+        "PolyNullability",
+        "AllowUnsafeBlocks",
+        "FeatureValueTask",
+        "LangVersion13",
+        "FeatureValueTuple"
+    ];
     [Test]
     public void Run()
     {
         Directory.CreateDirectory(slicedPath);
         PurgeDirectory(slicedPath);
-
-        var sharedIdentifiers = new List<string>
-        {
-            "FeatureMemory",
-            "PolyGuard",
-            "PolyPublic",
-            "FeatureHttp",
-            "PolyNullability",
-            "AllowUnsafeBlocks",
-            "FeatureValueTask",
-            "LangVersion13",
-            "FeatureValueTuple"
-        };
 
         var identifiers = new List<Identifier>
         {
@@ -108,16 +108,28 @@ public class RoslynTest
 
             foreach (var identifier in identifiers)
             {
-                var resultPath = Path.Combine(slicedPath, identifier.Moniker, fileName);
-                var directives = identifier.Directives.Concat(sharedIdentifiers);
-                var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
-                var newTree = CSharpSyntaxTree.ParseText(source, options);
-                var strippedTree = Stripper.Strip(newTree);
-                Directory.CreateDirectory(Path.GetDirectoryName(resultPath)!);
-                using var writer = new StreamWriter(resultPath);
-                strippedTree.GetText().Write(writer);
+                ProcessIdentifier(identifier, fileName, source);
             }
         }
+    }
+
+    static void ProcessIdentifier(Identifier identifier, string fileName, string source)
+    {
+        var resultPath = Path.Combine(slicedPath, identifier.Moniker, fileName);
+        var directives = BuildDirectives(identifier);
+        var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
+        var newTree = CSharpSyntaxTree.ParseText(source, options);
+        var strippedTree = Stripper.Strip(newTree);
+        Directory.CreateDirectory(Path.GetDirectoryName(resultPath)!);
+        using var writer = new StreamWriter(resultPath);
+        strippedTree.GetText().Write(writer);
+    }
+
+    static IEnumerable<string> BuildDirectives(Identifier identifier)
+    {
+        return identifier.Directives
+            .Concat(sharedIdentifiers)
+            .Concat(identifier.Directives.Select(_=> $"{_}_OR_GREATER"));
     }
 
     static IEnumerable<string> GetFiles()
