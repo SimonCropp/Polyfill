@@ -170,20 +170,14 @@ public class RoslynTest
     static void ProcessIdentifier(Identifier identifier, string fileName, string source)
     {
         var resultPath = Path.Combine(slicedPath, identifier.Moniker, fileName);
-        var directives = BuildDirectives(identifier);
+        var directives = identifier.Directives
+            .Concat(sharedIdentifiers);
         var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
         var newTree = CSharpSyntaxTree.ParseText(source, options);
         var strippedTree = Stripper.Strip(newTree);
         Directory.CreateDirectory(Path.GetDirectoryName(resultPath)!);
         using var writer = new StreamWriter(resultPath);
         strippedTree.GetText().Write(writer);
-    }
-
-    static IEnumerable<string> BuildDirectives(Identifier identifier)
-    {
-        return identifier.Directives
-            .Concat(sharedIdentifiers)
-            .Concat(identifier.Directives.Select(_=> $"{_}_OR_GREATER"));
     }
 
     static IEnumerable<string> GetFiles()
