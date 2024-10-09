@@ -28,7 +28,7 @@ public
 #endif
 class Lock
 {
-#if (NETCOREAPP) || (NETFRAMEWORK && NET45_OR_GREATER) || (NETSTANDARD)
+#if NETCOREAPP || NETFRAMEWORK || NETSTANDARD
     public bool IsHeldByCurrentThread => Monitor.IsEntered(this);
 #endif
 
