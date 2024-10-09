@@ -19,6 +19,7 @@ using Targets = AttributeTargets;
     Inherited = false,
     AllowMultiple = true)]
 #if PolyPublic
+public
 #endif
 sealed class MemberNotNullAttribute :
     Attribute

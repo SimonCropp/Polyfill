@@ -39,6 +39,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 [DebuggerNonUserCode]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource?view=net-8.0")]
 #if PolyPublic
+public
 #endif
 class TaskCompletionSource
 {

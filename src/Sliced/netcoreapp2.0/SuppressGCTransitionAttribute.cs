@@ -68,6 +68,7 @@ using System.Diagnostics.CodeAnalysis;
     validOn: AttributeTargets.Method,
     Inherited = false)]
 #if PolyPublic
+public
 #endif
 sealed class SuppressGCTransitionAttribute :
     Attribute;

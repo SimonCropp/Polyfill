@@ -13,6 +13,7 @@ namespace System.Diagnostics.CodeAnalysis;
 /// </summary>
 [Flags]
 #if PolyPublic
+public
 #endif
 enum DynamicallyAccessedMemberTypes
 {

@@ -15,6 +15,7 @@ using Diagnostics.CodeAnalysis;
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Assembly)]
 #if PolyPublic
+public
 #endif
 sealed class TargetPlatformAttribute(string platformName) :
     OSPlatformAttribute(platformName)

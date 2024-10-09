@@ -14,6 +14,7 @@ using Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyPublic
+public
 #endif
 static class IsExternalInit;
 

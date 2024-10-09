@@ -31,6 +31,7 @@ using Targets = AttributeTargets;
     AllowMultiple = true,
     Inherited = false)]
 #if PolyPublic
+public
 #endif
 sealed class UnsupportedOSPlatformGuardAttribute(string platformName) :
     OSPlatformAttribute(platformName)

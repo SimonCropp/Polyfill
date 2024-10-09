@@ -18,6 +18,7 @@ using Runtime.CompilerServices;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyPublic
+public
 #endif
 struct AppendInterpolatedStringHandler
 {

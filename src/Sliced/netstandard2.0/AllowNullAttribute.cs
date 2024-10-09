@@ -18,6 +18,7 @@ using Targets = AttributeTargets;
              Targets.Parameter |
              Targets.Property)]
 #if PolyPublic
+public
 #endif
 sealed class AllowNullAttribute :
     Attribute;

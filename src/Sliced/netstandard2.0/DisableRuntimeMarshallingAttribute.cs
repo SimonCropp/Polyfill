@@ -31,6 +31,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [AttributeUsage(AttributeTargets.Assembly)]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.disableruntimemarshallingattribute")]
 #if PolyPublic
+public
 #endif
 sealed class DisableRuntimeMarshallingAttribute :
     Attribute;

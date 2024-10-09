@@ -20,6 +20,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.constantexpectedattribute")]
 #if PolyPublic
+public
 #endif
 sealed class ConstantExpectedAttribute : Attribute
 {

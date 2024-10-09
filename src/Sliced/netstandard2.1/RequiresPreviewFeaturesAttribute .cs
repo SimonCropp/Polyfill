@@ -28,6 +28,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 [DebuggerNonUserCode]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.versioning.requirespreviewfeaturesattribute")]
 #if PolyPublic
+public
 #endif
 sealed class RequiresPreviewFeaturesAttribute :
     Attribute

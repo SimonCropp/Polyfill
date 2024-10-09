@@ -24,6 +24,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [DebuggerNonUserCode]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.threading.lock")]
 #if PolyPublic
+public
 #endif
 class Lock
 {

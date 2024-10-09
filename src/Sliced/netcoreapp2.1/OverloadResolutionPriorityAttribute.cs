@@ -21,6 +21,7 @@ using Link = ComponentModel.DescriptionAttribute;
     Inherited = false)]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute")]
 #if PolyPublic
+public
 #endif
 sealed class OverloadResolutionPriorityAttribute :
     Attribute

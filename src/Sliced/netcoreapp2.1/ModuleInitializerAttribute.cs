@@ -36,6 +36,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
     validOn: AttributeTargets.Method,
     Inherited = false)]
 #if PolyPublic
+public
 #endif
 sealed class ModuleInitializerAttribute :
     Attribute;

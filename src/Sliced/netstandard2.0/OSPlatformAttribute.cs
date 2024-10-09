@@ -16,6 +16,7 @@ using Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyPublic
+public
 #endif
 abstract class OSPlatformAttribute(string platformName) :
     Attribute

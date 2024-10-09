@@ -21,6 +21,7 @@ using Runtime.CompilerServices;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyPublic
+public
 #endif
 record Range(Index Start, Index End)
 {

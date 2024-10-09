@@ -18,6 +18,7 @@ using System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyPublic
+public
 #endif
 sealed class UnreachableException : Exception
 {

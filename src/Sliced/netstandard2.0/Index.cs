@@ -20,6 +20,7 @@ using Runtime.CompilerServices;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyPublic
+public
 #endif
 readonly struct Index : IEquatable<Index>
 {

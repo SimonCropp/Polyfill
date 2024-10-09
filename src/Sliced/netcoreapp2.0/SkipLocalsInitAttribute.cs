@@ -37,6 +37,7 @@ using Targets = AttributeTargets;
              Targets.Event,
     Inherited = false)]
 #if PolyPublic
+public
 #endif
 sealed class SkipLocalsInitAttribute :
     Attribute;

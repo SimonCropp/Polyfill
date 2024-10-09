@@ -24,6 +24,7 @@ using Targets = AttributeTargets;
              Targets.Method,
     AllowMultiple = true, Inherited = false)]
 #if PolyPublic
+public
 #endif
 sealed class DynamicDependencyAttribute :
     Attribute

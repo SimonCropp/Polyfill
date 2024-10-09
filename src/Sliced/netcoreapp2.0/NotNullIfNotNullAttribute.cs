@@ -15,6 +15,7 @@ using Targets = AttributeTargets;
              Targets.ReturnValue,
     AllowMultiple = true)]
 #if PolyPublic
+public
 #endif
 sealed class NotNullIfNotNullAttribute :
     Attribute

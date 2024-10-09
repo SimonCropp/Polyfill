@@ -21,6 +21,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [DebuggerNonUserCode]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.spanlineenumerator")]
 #if PolyPublic
+public
 #endif
 ref struct SpanLineEnumerator
 {

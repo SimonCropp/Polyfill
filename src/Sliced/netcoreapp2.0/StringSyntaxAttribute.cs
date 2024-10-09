@@ -19,6 +19,7 @@ using Targets = AttributeTargets;
              Targets.Field |
              Targets.Property)]
 #if PolyPublic
+public
 #endif
 sealed class StringSyntaxAttribute :
     Attribute

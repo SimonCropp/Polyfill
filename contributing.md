@@ -682,6 +682,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
 #if FeatureMemory
+using System.Buffers;
 #endif
 
 static partial class Polyfill
@@ -727,8 +728,11 @@ static partial class Polyfill
         }
 
 #if FeatureMemory
+        foreach (ReadOnlyMemory<char> chunk in value.GetChunks())
+        {
+            target.Write(chunk.Span);
+        }
 #else
-        target.Write(value.ToString());
 #endif
     }
 
@@ -767,10 +771,56 @@ static partial class Polyfill
 #if (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0) && FeatureMemory
 #if FeatureValueTask
 #endif
+
+    /// <summary>
+    /// Writes a character span to the text stream.
+    /// </summary>
+    /// <param name="buffer">The character span to write.</param>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))")]
+    public static void Write(
+        this TextWriter target,
+        ReadOnlySpan<char> buffer)
+    {
+        var pool = ArrayPool<char>.Shared;
+        var array = pool.Rent(buffer.Length);
+
+        try
+        {
+            buffer.CopyTo(new(array));
+            target.Write(array, 0, buffer.Length);
+        }
+        finally
+        {
+            pool.Return(array);
+        }
+    }
+
+    /// <summary>
+    /// Writes the text representation of a character span to the text stream, followed by a line terminator.
+    /// </summary>
+    /// <param name="buffer">The char span value to write to the text stream.</param>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline#system-io-textwriter-writeline(system-readonlyspan((system-char)))")]
+    public static void WriteLine(
+        this TextWriter target,
+        ReadOnlySpan<char> buffer)
+    {
+        var pool = ArrayPool<char>.Shared;
+        var array = pool.Rent(buffer.Length);
+
+        try
+        {
+            buffer.CopyTo(new(array));
+            target.WriteLine(array, 0, buffer.Length);
+        }
+        finally
+        {
+            pool.Return(array);
+        }
+    }
 #endif
 }
 ```
-<sup><a href='/src/Sliced/netcoreapp2.0/Polyfill_TextWriter.cs#L1-L99' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs-1' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Sliced/netcoreapp2.0/Polyfill_TextWriter.cs#L1-L149' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs-1' title='Start of snippet'>anchor</a></sup>
 <a id='snippet-Polyfill_TextWriter.cs-2'></a>
 ```cs
 #pragma warning disable
@@ -784,6 +834,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
 #if FeatureMemory
+using System.Buffers;
 #endif
 
 static partial class Polyfill
@@ -829,8 +880,11 @@ static partial class Polyfill
         }
 
 #if FeatureMemory
+        foreach (ReadOnlyMemory<char> chunk in value.GetChunks())
+        {
+            target.Write(chunk.Span);
+        }
 #else
-        target.Write(value.ToString());
 #endif
     }
 
@@ -872,7 +926,7 @@ static partial class Polyfill
 #endif
 }
 ```
-<sup><a href='/src/Sliced/netcoreapp2.1/Polyfill_TextWriter.cs#L1-L99' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs-2' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Sliced/netcoreapp2.1/Polyfill_TextWriter.cs#L1-L103' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs-2' title='Start of snippet'>anchor</a></sup>
 <a id='snippet-Polyfill_TextWriter.cs-3'></a>
 ```cs
 #pragma warning disable
@@ -886,6 +940,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
 #if FeatureMemory
+using System.Buffers;
 #endif
 
 static partial class Polyfill
@@ -931,7 +986,7 @@ static partial class Polyfill
 #endif
 }
 ```
-<sup><a href='/src/Sliced/netcoreapp3.0/Polyfill_TextWriter.cs#L1-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs-3' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Sliced/netcoreapp3.0/Polyfill_TextWriter.cs#L1-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs-3' title='Start of snippet'>anchor</a></sup>
 <a id='snippet-Polyfill_TextWriter.cs-4'></a>
 ```cs
 #pragma warning disable
@@ -945,6 +1000,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
 #if FeatureMemory
+using System.Buffers;
 #endif
 
 static partial class Polyfill
@@ -990,7 +1046,7 @@ static partial class Polyfill
 #endif
 }
 ```
-<sup><a href='/src/Sliced/netcoreapp3.1/Polyfill_TextWriter.cs#L1-L56' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs-4' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Sliced/netcoreapp3.1/Polyfill_TextWriter.cs#L1-L57' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs-4' title='Start of snippet'>anchor</a></sup>
 <a id='snippet-Polyfill_TextWriter.cs-5'></a>
 ```cs
 #pragma warning disable
@@ -1004,6 +1060,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
 #if FeatureMemory
+using System.Buffers;
 #endif
 
 static partial class Polyfill
@@ -1049,8 +1106,11 @@ static partial class Polyfill
         }
 
 #if FeatureMemory
+        foreach (ReadOnlyMemory<char> chunk in value.GetChunks())
+        {
+            target.Write(chunk.Span);
+        }
 #else
-        target.Write(value.ToString());
 #endif
     }
 
@@ -1089,10 +1149,56 @@ static partial class Polyfill
 #if (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0) && FeatureMemory
 #if FeatureValueTask
 #endif
+
+    /// <summary>
+    /// Writes a character span to the text stream.
+    /// </summary>
+    /// <param name="buffer">The character span to write.</param>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))")]
+    public static void Write(
+        this TextWriter target,
+        ReadOnlySpan<char> buffer)
+    {
+        var pool = ArrayPool<char>.Shared;
+        var array = pool.Rent(buffer.Length);
+
+        try
+        {
+            buffer.CopyTo(new(array));
+            target.Write(array, 0, buffer.Length);
+        }
+        finally
+        {
+            pool.Return(array);
+        }
+    }
+
+    /// <summary>
+    /// Writes the text representation of a character span to the text stream, followed by a line terminator.
+    /// </summary>
+    /// <param name="buffer">The char span value to write to the text stream.</param>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline#system-io-textwriter-writeline(system-readonlyspan((system-char)))")]
+    public static void WriteLine(
+        this TextWriter target,
+        ReadOnlySpan<char> buffer)
+    {
+        var pool = ArrayPool<char>.Shared;
+        var array = pool.Rent(buffer.Length);
+
+        try
+        {
+            buffer.CopyTo(new(array));
+            target.WriteLine(array, 0, buffer.Length);
+        }
+        finally
+        {
+            pool.Return(array);
+        }
+    }
 #endif
 }
 ```
-<sup><a href='/src/Sliced/netstandard2.0/Polyfill_TextWriter.cs#L1-L99' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs-5' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Sliced/netstandard2.0/Polyfill_TextWriter.cs#L1-L149' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs-5' title='Start of snippet'>anchor</a></sup>
 <a id='snippet-Polyfill_TextWriter.cs-6'></a>
 ```cs
 #pragma warning disable
@@ -1106,6 +1212,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
 #if FeatureMemory
+using System.Buffers;
 #endif
 
 static partial class Polyfill
@@ -1151,8 +1258,11 @@ static partial class Polyfill
         }
 
 #if FeatureMemory
+        foreach (ReadOnlyMemory<char> chunk in value.GetChunks())
+        {
+            target.Write(chunk.Span);
+        }
 #else
-        target.Write(value.ToString());
 #endif
     }
 
@@ -1194,7 +1304,7 @@ static partial class Polyfill
 #endif
 }
 ```
-<sup><a href='/src/Sliced/netstandard2.1/Polyfill_TextWriter.cs#L1-L99' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs-6' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Sliced/netstandard2.1/Polyfill_TextWriter.cs#L1-L103' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs-6' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

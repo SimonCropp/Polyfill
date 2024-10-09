@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System;
 
 #if PolyPublic
+public
 #endif
 
 static partial class Guard

@@ -24,6 +24,7 @@ using Targets = AttributeTargets;
              Targets.Class,
     Inherited = false)]
 #if PolyPublic
+public
 #endif
 sealed class RequiresDynamicCodeAttribute :
     Attribute

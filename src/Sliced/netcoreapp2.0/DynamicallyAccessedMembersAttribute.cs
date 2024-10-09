@@ -39,6 +39,7 @@ using Targets = AttributeTargets;
              Targets.Struct,
     Inherited = false)]
 #if PolyPublic
+public
 #endif
 sealed class DynamicallyAccessedMembersAttribute :
     Attribute

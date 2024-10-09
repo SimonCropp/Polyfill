@@ -96,15 +96,8 @@ public class RoslynTest
             }
         };
 
-        foreach (var file in Directory.EnumerateFiles(polyfillPath, "*.cs", SearchOption.AllDirectories))
+        foreach (var file in GetFiles(polyfillPath))
         {
-            var directoryName = Path.GetDirectoryName(file)!;
-            if (directoryName.Contains("obj") ||
-                directoryName.Contains("bin"))
-            {
-                continue;
-            }
-
             var source = File.ReadAllText(file);
 
             var fileName = Path.GetFileName(file);
@@ -120,6 +113,21 @@ public class RoslynTest
                 using var writer = new StreamWriter(resultPath);
                 strippedTree.GetText().Write(writer);
             }
+        }
+    }
+
+    static IEnumerable<string> GetFiles(string polyfillPath)
+    {
+        foreach (var file in Directory.EnumerateFiles(polyfillPath, "*.cs", SearchOption.AllDirectories))
+        {
+            var directoryName = Path.GetDirectoryName(file)!;
+            if (directoryName.Contains("obj") ||
+                directoryName.Contains("bin"))
+            {
+                continue;
+            }
+
+            yield return file;
         }
     }
 

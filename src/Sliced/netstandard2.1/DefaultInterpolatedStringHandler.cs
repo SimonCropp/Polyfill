@@ -20,6 +20,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [DebuggerNonUserCode]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.defaultinterpolatedstringhandler")]
 #if PolyPublic
+public
 #endif
 ref struct DefaultInterpolatedStringHandler
 {

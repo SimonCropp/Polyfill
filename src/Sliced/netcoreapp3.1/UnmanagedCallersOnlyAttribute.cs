@@ -27,6 +27,7 @@ using System.Diagnostics.CodeAnalysis;
     AttributeTargets.Method,
     Inherited = false)]
 #if PolyPublic
+public
 #endif
 sealed class UnmanagedCallersOnlyAttribute :
     Attribute

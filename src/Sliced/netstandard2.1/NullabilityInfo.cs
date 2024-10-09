@@ -21,6 +21,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [ExcludeFromCodeCoverage]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.reflection.nullabilityinfo?view=net-8.0")]
 #if PolyPublic
+public
 #endif
 sealed class NullabilityInfo
 {
@@ -60,6 +61,7 @@ sealed class NullabilityInfo
 /// An enum that represents nullability state
 /// </summary>
 #if PolyPublic
+public
 #endif
 enum NullabilityState
 {

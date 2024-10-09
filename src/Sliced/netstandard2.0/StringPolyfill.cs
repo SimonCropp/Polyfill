@@ -10,6 +10,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyPublic
+public
 #endif
 static partial class StringPolyfill
 {

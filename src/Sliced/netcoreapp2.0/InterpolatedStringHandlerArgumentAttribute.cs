@@ -17,6 +17,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [AttributeUsage(AttributeTargets.Parameter)]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.interpolatedstringhandlerargumentattribute")]
 #if PolyPublic
+public
 #endif
 sealed class InterpolatedStringHandlerArgumentAttribute :
     Attribute

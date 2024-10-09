@@ -16,6 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 [DebuggerNonUserCode]
 [StackTraceHidden]
 #if PolyPublic
+public
 #endif
 static partial class Guard
 {

@@ -12,6 +12,7 @@ namespace System;
 /// <summary>Provides functionality to format the string representation of an object into a span.</summary>
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.ispanformattable")]
 #if PolyPublic
+public
 #endif
 interface ISpanFormattable : IFormattable
 {

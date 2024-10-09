@@ -18,6 +18,7 @@ using ValueMatchEnumerator = System.Text.RegularExpressions.ValueMatchEnumerator
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyPublic
+public
 #endif
     static class RegexPolyfill
 {

@@ -22,6 +22,7 @@ using Targets = AttributeTargets;
              Targets.Property,
     Inherited = false)]
 #if PolyPublic
+public
 #endif
 sealed class RequiredMemberAttribute :
     Attribute;

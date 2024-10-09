@@ -22,6 +22,7 @@ using Diagnostics.CodeAnalysis;
 [DebuggerNonUserCode]
 [ExcludeFromCodeCoverage]
 #if PolyPublic
+public
 #endif
 sealed class NullabilityInfoContext
 {

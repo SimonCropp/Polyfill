@@ -36,6 +36,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [DebuggerNonUserCode]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.experimentalattribute")]
 #if PolyPublic
+public
 #endif
 sealed class ExperimentalAttribute : Attribute
 {

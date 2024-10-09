@@ -20,6 +20,7 @@ using Link = ComponentModel.DescriptionAttribute;
     Inherited = false)]
 [Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute")]
 #if PolyPublic
+public
 #endif
 sealed class CompilerFeatureRequiredAttribute :
     Attribute

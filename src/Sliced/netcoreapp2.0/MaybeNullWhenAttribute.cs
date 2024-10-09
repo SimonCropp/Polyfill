@@ -13,6 +13,7 @@ namespace System.Diagnostics.CodeAnalysis;
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
 #if PolyPublic
+public
 #endif
 sealed class MaybeNullWhenAttribute :
     Attribute
