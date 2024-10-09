@@ -174,19 +174,19 @@ public class RoslynTest
             .Concat(sharedIdentifiers);
         var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
         var newTree = CSharpSyntaxTree.ParseText(source, options);
-        var strippedTree = Stripper.Strip(newTree);
+        var stripped = Stripper.Strip(newTree);
         Directory.CreateDirectory(Path.GetDirectoryName(resultPath)!);
         using var writer = new StreamWriter(resultPath);
-        strippedTree.GetText().Write(writer);
+        stripped.GetText().Write(writer);
     }
 
     static IEnumerable<string> GetFiles()
     {
         foreach (var file in Directory.EnumerateFiles(polyfillPath, "*.cs", SearchOption.AllDirectories))
         {
-            var directoryName = Path.GetDirectoryName(file)!;
-            if (directoryName.Contains("obj") ||
-                directoryName.Contains("bin"))
+            var directory = Path.GetDirectoryName(file)!;
+            if (directory.Contains("obj") ||
+                directory.Contains("bin"))
             {
                 continue;
             }
