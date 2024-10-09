@@ -1,7 +1,4 @@
 ﻿#if NET9_0
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 [TestFixture]
 public class RoslynTest
