@@ -4,6 +4,7 @@
 #if NETFRAMEWORK || NETSTANDARD || NETCOREAPPX || NET5_0
 
 namespace Polyfills;
+
 using System;
 using System.Threading;
 using System.Threading.Tasks;

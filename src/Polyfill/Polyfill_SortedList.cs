@@ -4,6 +4,7 @@
 #if !NET7_0_OR_GREATER
 
 namespace Polyfills;
+
 using System;
 using System.Collections.Generic;
 using Link = System.ComponentModel.DescriptionAttribute;
