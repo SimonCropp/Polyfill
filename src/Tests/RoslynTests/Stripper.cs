@@ -1,4 +1,8 @@
 ﻿#if NET9_0
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 
 class Stripper : CSharpSyntaxRewriter
 {
@@ -33,8 +37,33 @@ class Stripper : CSharpSyntaxRewriter
         return base.VisitTrivia(trivia);
     }
 
-    // public override SyntaxNode? VisitIfDirectiveTrivia(IfDirectiveTriviaSyntax node) =>
-    //     null;
+    public override SyntaxNode? VisitIfDirectiveTrivia(IfDirectiveTriviaSyntax node)
+    {
+        var ifLine = node.GetLocation().GetLineSpan().StartLinePosition;
+        var nextToken = node.GetNextDirective();
+
+        var nextLine = node.GetLocation().GetLineSpan().StartLinePosition;
+        if (nextToken.IsKind(SyntaxKind.EndIfDirectiveTrivia))
+        {
+            if (ifLine.Line + 1 == nextLine.Line)
+            {
+                return null;
+            }
+        }
+
+        // if (nextToken.IsKind(SyntaxKind.ElseDirectiveTrivia))
+        // {
+        //     return null;
+        // }
+        //
+        // if (nextToken.IsKind(SyntaxKind.ElifDirectiveTrivia))
+        // {
+        //
+        //     return null;
+        // }
+
+        return base.VisitIfDirectiveTrivia(node);
+    }
     //
     // public override SyntaxNode? VisitElifDirectiveTrivia(ElifDirectiveTriviaSyntax node) =>
     //     null;
