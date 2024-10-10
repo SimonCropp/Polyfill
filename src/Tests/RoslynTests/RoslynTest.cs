@@ -305,15 +305,19 @@ public class RoslynTest
 
     static void ProcessIdentifier(Identifier identifier, string fileName, string source)
     {
-        var resultPath = Path.Combine(slicedPath, identifier.Moniker, fileName);
-        var directives = identifier.Directives
-            .Concat(sharedIdentifiers);
-        var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
-        var newTree = CSharpSyntaxTree.ParseText(source, options);
-        var stripped = Stripper.Strip(newTree);
-        Directory.CreateDirectory(Path.GetDirectoryName(resultPath)!);
-        using var writer = new StreamWriter(resultPath);
-        stripped.GetText().Write(writer);
+        if (fileName.Contains("Polyfill_IEnumerable_ToHashSet") && identifier.Moniker == "NET47")
+        {
+            var resultPath = Path.Combine(slicedPath, identifier.Moniker, fileName);
+            var directives = identifier.Directives
+                .Concat(sharedIdentifiers);
+            var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
+            var newTree = CSharpSyntaxTree.ParseText(source, options);
+            var stripped = Stripper.Strip(newTree);
+            Directory.CreateDirectory(Path.GetDirectoryName(resultPath)!);
+            using var writer = new StreamWriter(resultPath);
+            stripped.GetText().Write(writer);
+
+        }
     }
 
     static IEnumerable<string> GetFiles()

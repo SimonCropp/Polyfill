@@ -42,12 +42,15 @@ class Stripper : CSharpSyntaxRewriter
         var ifLine = node.GetLocation().GetLineSpan().StartLinePosition;
         var nextToken = node.GetNextDirective();
 
-        var nextLine = node.GetLocation().GetLineSpan().StartLinePosition;
-        if (nextToken.IsKind(SyntaxKind.EndIfDirectiveTrivia))
+        if (nextToken != null)
         {
-            if (ifLine.Line + 1 == nextLine.Line)
+            var nextLine = nextToken.GetLocation().GetLineSpan().StartLinePosition;
+            if (nextToken.IsKind(SyntaxKind.EndIfDirectiveTrivia))
             {
-                return null;
+                if (ifLine.Line + 1 == nextLine.Line)
+                {
+                    return null;
+                }
             }
         }
 
