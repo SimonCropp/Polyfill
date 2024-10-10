@@ -12,15 +12,15 @@ class EmptyDirectiveStripper : CSharpSyntaxRewriter
 
     public override SyntaxNode? VisitIfDirectiveTrivia(IfDirectiveTriviaSyntax node)
     {
-        var ifLine = node.GetLocation().GetMappedLineSpan().StartLinePosition;
         var nextToken = node.GetNextDirective();
 
         if (nextToken != null)
         {
             if (nextToken.IsKind(SyntaxKind.EndIfDirectiveTrivia))
             {
-                var nextLine = nextToken.GetLocation().GetMappedLineSpan().StartLinePosition;
-                if (ifLine.Line + 1 == nextLine.Line)
+                var ifLine = node.Line();
+                var nextLine = nextToken.Line();
+                if (ifLine + 1 == nextLine)
                 {
                     return null;
                 }
@@ -37,8 +37,8 @@ class EmptyDirectiveStripper : CSharpSyntaxRewriter
         if (previous != null &&
             previous.IsKind(SyntaxKind.IfDirectiveTrivia))
         {
-            var endifLine = node.GetLocation().GetMappedLineSpan().StartLinePosition.Line;
-            var ifLine = previous.GetLocation().GetMappedLineSpan().StartLinePosition.Line;
+            var endifLine = node.Line();
+            var ifLine = previous.Line();
 
             if (ifLine + 1 == endifLine)
             {
@@ -48,5 +48,7 @@ class EmptyDirectiveStripper : CSharpSyntaxRewriter
 
         return base.VisitEndIfDirectiveTrivia(node);
     }
+
 }
+
 #endif
