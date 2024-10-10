@@ -1,11 +1,12 @@
 ﻿#if NET9_0
 class CommentStripper : CSharpSyntaxRewriter
 {
-    public static SyntaxTree Strip(SyntaxTree syntaxTree)
+    public static SyntaxTree Strip(string code)
     {
+        var tree = CSharpSyntaxTree.ParseText(code);
         var stripper = new CommentStripper();
-        var newRoot = stripper.Visit(syntaxTree.GetRoot());
-        return syntaxTree.WithRootAndOptions(newRoot, syntaxTree.Options);
+        var newRoot = stripper.Visit(tree.GetRoot());
+        return tree.WithRootAndOptions(newRoot, tree.Options);
     }
 
     public override bool VisitIntoStructuredTrivia => true;
