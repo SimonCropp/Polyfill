@@ -305,7 +305,7 @@ public class RoslynTest
 
     static void ProcessIdentifier(Identifier identifier, string fileName, string source)
     {
-        if (!fileName.Contains("Polyfill_IEnumerable_ToHashSet"))
+        if (!fileName.Contains("Polyfill_IEnumerable"))
         {
             return;
         }
