@@ -126,7 +126,7 @@ static partial class Polyfill
 
                 case SpanSplitEnumeratorMode.SingleElement:
                     separatorLength = 1;
-                    #if NETFRAMEWORK
+#if NETFRAMEWORK
                     if (_separator is null)
                     {
                         separatorIndex = -1;
@@ -140,7 +140,7 @@ static partial class Polyfill
                         }
                         break;
                     }
-                    #endif
+#endif
                     separatorIndex = _span.Slice(_startNext)
                         .IndexOf(_separator);
                     break;

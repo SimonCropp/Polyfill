@@ -3,6 +3,7 @@
 [TestFixture]
 public class RoslynTest
 {
+    static readonly List<Identifier> identifiers;
     static string polyfillPath = Path.Combine(SolutionDirectoryFinder.Find(), "Polyfill");
     static string slicedPath = Path.Combine(SolutionDirectoryFinder.Find(), "Sliced");
 
@@ -18,14 +19,10 @@ public class RoslynTest
         "LangVersion13",
         "FeatureValueTuple"
     ];
-    [Test]
-    public void Run()
-    {
-        Directory.CreateDirectory(slicedPath);
-        PurgeDirectory(slicedPath);
 
-        var identifiers = new List<Identifier>
-        {
+    static RoslynTest() =>
+        identifiers =
+        [
             new()
             {
                 Moniker = "net5.0",
@@ -35,6 +32,7 @@ public class RoslynTest
                     "NET5_0_OR_GREATER"
                 ]
             },
+
             new()
             {
                 Moniker = "net6.0",
@@ -45,6 +43,7 @@ public class RoslynTest
                     "NET5_0_OR_GREATER"
                 ]
             },
+
             new()
             {
                 Moniker = "net7.0",
@@ -56,6 +55,7 @@ public class RoslynTest
                     "NET5_0_OR_GREATER"
                 ]
             },
+
             new()
             {
                 Moniker = "net8.0",
@@ -68,6 +68,7 @@ public class RoslynTest
                     "NET5_0_OR_GREATER"
                 ]
             },
+
             new()
             {
                 Moniker = "net9.0",
@@ -81,6 +82,7 @@ public class RoslynTest
                     "NET5_0_OR_GREATER"
                 ]
             },
+
             new()
             {
                 Moniker = "net461",
@@ -92,6 +94,7 @@ public class RoslynTest
                     "NETFRAMEWORK",
                 ]
             },
+
             new()
             {
                 Moniker = "NET47",
@@ -104,6 +107,7 @@ public class RoslynTest
                     "NETFRAMEWORK",
                 ]
             },
+
             new()
             {
                 Moniker = "NET471",
@@ -117,6 +121,7 @@ public class RoslynTest
                     "NETFRAMEWORK",
                 ]
             },
+
             new()
             {
                 Moniker = "NET472",
@@ -131,6 +136,7 @@ public class RoslynTest
                     "NETFRAMEWORK",
                 ]
             },
+
             new()
             {
                 Moniker = "NET48",
@@ -146,6 +152,7 @@ public class RoslynTest
                     "NETFRAMEWORK",
                 ]
             },
+
             new()
             {
                 Moniker = "NET481",
@@ -162,6 +169,7 @@ public class RoslynTest
                     "NETFRAMEWORK",
                 ]
             },
+
             new()
             {
                 Moniker = "net5.0",
@@ -171,6 +179,7 @@ public class RoslynTest
                     "NET5_0_OR_GREATER",
                 ]
             },
+
             new()
             {
                 Moniker = "net6.0",
@@ -181,6 +190,7 @@ public class RoslynTest
                     "NET5_0_OR_GREATER",
                 ]
             },
+
             new()
             {
                 Moniker = "net7.0",
@@ -192,6 +202,7 @@ public class RoslynTest
                     "NET5_0_OR_GREATER",
                 ]
             },
+
             new()
             {
                 Moniker = "net8.0",
@@ -204,6 +215,7 @@ public class RoslynTest
                     "NET5_0_OR_GREATER",
                 ]
             },
+
             new()
             {
                 Moniker = "net9.0",
@@ -217,6 +229,7 @@ public class RoslynTest
                     "NET5_0_OR_GREATER",
                 ]
             },
+
             new()
             {
                 Moniker = "netcoreapp2.0",
@@ -228,6 +241,7 @@ public class RoslynTest
                     "NETCOREAPP2_0_OR_GREATER"
                 ]
             },
+
             new()
             {
                 Moniker = "netcoreapp2.1",
@@ -240,6 +254,7 @@ public class RoslynTest
                     "NETCOREAPP2_0_OR_GREATER"
                 ]
             },
+
             new()
             {
                 Moniker = "netcoreapp3.0",
@@ -253,6 +268,7 @@ public class RoslynTest
                     "NETCOREAPP2_0_OR_GREATER"
                 ]
             },
+
             new()
             {
                 Moniker = "netcoreapp3.1",
@@ -267,6 +283,7 @@ public class RoslynTest
                     "NETCOREAPP2_0_OR_GREATER"
                 ]
             },
+
             new()
             {
                 Moniker = "netstandard2.0",
@@ -277,6 +294,7 @@ public class RoslynTest
                     "NETSTANDARD2_0_OR_GREATER"
                 ]
             },
+
             new()
             {
                 Moniker = "netstandard2.1",
@@ -288,7 +306,13 @@ public class RoslynTest
                     "NETSTANDARD2_0_OR_GREATER"
                 ]
             }
-        };
+        ];
+
+    [Test]
+    public void Run()
+    {
+        Directory.CreateDirectory(slicedPath);
+        PurgeDirectory(slicedPath);
 
         foreach (var file in GetFiles())
         {
@@ -305,18 +329,13 @@ public class RoslynTest
 
     static void ProcessIdentifier(Identifier identifier, string fileName, string source)
     {
-        if (!fileName.Contains("Polyfill_IEnumerable"))
-        {
-            return;
-        }
-
         var resultPath = Path.Combine(slicedPath, identifier.Moniker, fileName);
         var directives = identifier.Directives
             .Concat(sharedIdentifiers);
         var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
         var newTree = CSharpSyntaxTree.ParseText(source, options);
         var stripped = CommentStripper.Strip(newTree.ToString());
-        stripped = EmptyDirectiveStripper.Strip(stripped.ToString());
+        //var stripped2 = EmptyDirectiveStripper.Strip(stripped.ToString());
         Directory.CreateDirectory(Path.GetDirectoryName(resultPath)!);
         File.WriteAllText(resultPath, stripped.ToString());
     }
@@ -355,4 +374,5 @@ public class RoslynTest
         public required List<string> Directives { get; init; }
     }
 }
+
 #endif

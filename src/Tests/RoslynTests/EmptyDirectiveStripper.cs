@@ -1,55 +1,131 @@
 ﻿#if NET9_0
-class EmptyDirectiveStripper : CSharpSyntaxRewriter
+[TestFixture]
+public class EmptyDirectiveStripper
 {
-    public static SyntaxTree Strip(string code)
+    [Test]
+    public void EmptyIf()
     {
-        var tree = CSharpSyntaxTree.ParseText(code);
-        var stripper = new EmptyDirectiveStripper();
-        var newRoot = stripper.Visit(tree.GetRoot());
-        return tree.WithRootAndOptions(newRoot, tree.Options);
+        var replace = Replace(
+            """
+            !if NET9_0
+            !endif
+            """);
+        var result = Strip(replace);
+        Assert.AreEqual("", result);
+    }
+    [Test]
+    public void EmptyNested()
+    {
+        var replace = Replace(
+            """
+            !if NET9_0
+            !if NET8_0
+            !endif
+            !endif
+            """);
+        var result = Strip(replace);
+        Assert.AreEqual("", result);
     }
 
-    public override bool VisitIntoStructuredTrivia => true;
-
-    public override SyntaxNode? VisitIfDirectiveTrivia(IfDirectiveTriviaSyntax node)
+    [Test]
+    public void NonEmptyIf()
     {
-        var nextToken = node.GetNextDirective();
+        var code = """
+                   !if NET9_0
+                   aa
+                   !endif
+                   """;
+        var replace = Replace(code);
+        var result = Strip(replace);
+        Assert.AreEqual(replace, result);
+    }
 
-        if (nextToken != null)
+    [Test]
+    public void IfElseEndif_EmptyIf()
+    {
+        var replace = Replace(
+            """
+            !if NET9_0
+            !else NET8_0
+            !endif
+            """);
+        var result = Strip(replace);
+        Assert.AreEqual("", result);
+    }
+
+    [Test]
+    public void IfElseEndif_EmptyElse()
+    {
+        var replace = Replace(
+            """
+            !if NET9_0
+            a
+            !else NET8_0
+            !endif
+            """);
+        var result = Strip(replace);
+        var expected = Replace(
+            """
+            !if NET9_0
+            a
+            !endif
+            """);
+        Assert.AreEqual(expected, result);
+    }
+
+    static string Replace(string code) =>
+        code.Replace('!', '#');
+
+    public static string Strip(string code)
+    {
+        var split = code.Split("\r\n").ToList();
+        while (true)
         {
-            if (nextToken.IsKind(SyntaxKind.EndIfDirectiveTrivia))
+            var result = InnerSplit(split);
+            if(result.Count == split.Count)
             {
-                var ifLine = node.Line();
-                var nextLine = nextToken.Line();
-                if (ifLine + 1 == nextLine)
+                break;
+            }
+            split = result;
+        }
+
+        return string.Join("\r\n", split);
+    }
+
+    static List<string> InnerSplit(List<string> split)
+    {
+        var result = new List<string>();
+        for (var index = 0; index < split.Count; index++)
+        {
+            var line = split[index];
+            if(line.StartsWith("#if"))
+            {
+                var next = split[index + 1];
+                if (next.StartsWith("#endif"))
                 {
-                    return null;
+                    index++;
+                    continue;
+                }
+                if (next.StartsWith("#else") &&
+                    split[index + 2].StartsWith("#endif"))
+                {
+                    index += 2;
+                    continue;
                 }
             }
-        }
-
-        return base.VisitIfDirectiveTrivia(node);
-    }
-
-    public override SyntaxNode? VisitEndIfDirectiveTrivia(EndIfDirectiveTriviaSyntax node)
-    {
-        var previous = node.GetPreviousDirective();
-
-        if (previous != null &&
-            previous.IsKind(SyntaxKind.IfDirectiveTrivia))
-        {
-            var endifLine = node.Line();
-            var ifLine = previous.Line();
-
-            if (ifLine + 1 == endifLine)
+            if(line.StartsWith("#else"))
             {
-                return null;
+                var next = split[index + 1];
+                if (next.StartsWith("#endif"))
+                {
+                    continue;
+                }
             }
+            result.Add(line);
         }
 
-        return base.VisitEndIfDirectiveTrivia(node);
+        return result;
     }
-
 }
 
 #endif
