@@ -200,6 +200,21 @@ class Consume
         await source.CancelAsync();
     }
 
+
+#if !NETFRAMEWORK && !NETSTANDARD2_0 && !NETCOREAPP2_0
+    class WithGenericMethod
+    {
+        public void GenericMethod<T>(string value)
+        {
+        }
+    }
+
+    void Type_GetMethod()
+    {
+        var type = typeof(WithGenericMethod);
+        type.GetMethod("GenericMethod", 1, BindingFlags.Public, [typeof(string)]);
+    }
+#endif
     void ConcurrentDictionary_Methods()
     {
         var dict = new ConcurrentDictionary<string, int>();
