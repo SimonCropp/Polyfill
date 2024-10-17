@@ -12,7 +12,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`
 
 
-**API count: 366**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 367**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -829,6 +829,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### Type
 
+ * `Reflection.MethodInfo GetMethod(String, Int32, Reflection.BindingFlags, Type[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-type()))
  * `Boolean IsAssignableFrom<T>()`
  * `Boolean IsAssignableTo<T>()`
  * `Boolean IsAssignableTo(Type)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto)
