@@ -376,6 +376,7 @@
 
 #### Type
 
+ * `Reflection.MethodInfo GetMethod(String, Int32, Reflection.BindingFlags, Type[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-type()))
  * `Boolean IsAssignableFrom<T>()`
  * `Boolean IsAssignableTo<T>()`
  * `Boolean IsAssignableTo(Type)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto)
