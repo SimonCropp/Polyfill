@@ -379,6 +379,8 @@ class Consume
         result = readOnlySpan.EndsWith("value", StringComparison.Ordinal);
         result = readOnlySpan.SequenceEqual("value");
         result = readOnlySpan.StartsWith("value");
+        result = readOnlySpan.StartsWith('a');
+        result = readOnlySpan.EndsWith('a');
         result = readOnlySpan.StartsWith("value", StringComparison.Ordinal);
         var split = readOnlySpan.Split('a');
         split = readOnlySpan.Split("a".AsSpan());
