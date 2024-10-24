@@ -1,4 +1,4 @@
-#if NET8_0 && DEBUG
+#if NET9_0 && DEBUG
 using Mono.Cecil;
 
 [TestFixture]
