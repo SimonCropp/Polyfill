@@ -131,7 +131,6 @@ Global
 		{CC0C08FE-14E1-4A3D-8547-EFC8097D48C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC0C08FE-14E1-4A3D-8547-EFC8097D48C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC0C08FE-14E1-4A3D-8547-EFC8097D48C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC0C08FE-14E1-4A3D-8547-EFC8097D48C4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
