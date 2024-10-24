@@ -16,8 +16,16 @@ public static class Extensions
         typeDeclaration
             .DescendantNodes()
             .OfType<MethodDeclarationSyntax>()
-            .Where(_ => _.IsPublic());
+            .Where(_ => _.IsPublic() && !_.IsConstructor());
 
+ public static bool IsConstructor(this MethodDeclarationSyntax method)
+ {
+     if (method.Parent is TypeDeclarationSyntax typeDeclaration)
+     {
+         return method.Identifier.Text == typeDeclaration.Identifier.Text;
+     }
+     return false;
+ }
     public static bool IsCaller(this ParameterSyntax parameter) =>
         parameter.Attributes()
             .Any(_ => _.Name.ToString().StartsWith("Caller"));

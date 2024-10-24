@@ -14,6 +14,10 @@ class BuildApiTest2
         var allDirectives = identifiers.SelectMany(_=>_.Directives).Concat(sharedIdentifiers).ToHashSet();
         foreach (var file in Directory.EnumerateFiles(polyfillDir, "*.cs", SearchOption.AllDirectories))
         {
+            if (file.Contains("Lock"))
+            {
+                Debug.WriteLine(file);
+            }
             var options = CSharpParseOptions.Default.WithPreprocessorSymbols(allDirectives);
             var tree = CSharpSyntaxTree.ParseText(File.ReadAllText(file),options);
             var typeDeclarations = tree.GetRoot().DescendantNodes().OfType<TypeDeclarationSyntax>();
@@ -59,10 +63,55 @@ class BuildApiTest2
             writer.WriteLine();
         }
 
+        writer.WriteLine("### Static helpers");
+        writer.WriteLine();
+
         count += types.Count(_ => _.Key.EndsWith("Attribute"));
+
+        WriteHelper(types, nameof(EnumPolyfill), writer, ref count);
+        WriteHelper(types, "RegexPolyfill", writer, ref count);
+        WriteHelper(types, "StringPolyfill", writer, ref count);
+        WriteHelper(types, "BytePolyfill", writer, ref count);
+        WriteHelper(types, "GuidPolyfill", writer, ref count);
+        WriteHelper(types, "DateTimePolyfill", writer, ref count);
+        WriteHelper(types, "DateTimeOffsetPolyfill", writer, ref count);
+        WriteHelper(types, "DoublePolyfill", writer, ref count);
+        WriteHelper(types, "IntPolyfill", writer, ref count);
+        WriteHelper(types, "LongPolyfill", writer, ref count);
+        WriteHelper(types, "SBytePolyfill", writer, ref count);
+        WriteHelper(types, "ShortPolyfill", writer, ref count);
+        WriteHelper(types, "UIntPolyfill", writer, ref count);
+        WriteHelper(types, "ULongPolyfill", writer, ref count);
+        WriteHelper(types, "UShortPolyfill", writer, ref count);
+        WriteHelper(types, "Guard", writer, ref count);
+        WriteHelper(types, "Lock", writer, ref count);
+        WriteType(nameof(TaskCompletionSource), writer, ref count);
+
         var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
         File.Delete(countMd);
         File.WriteAllText(countMd, $"**API count: {count}**");
+    }
+
+    static void WriteType(string name, StreamWriter writer, ref int count)
+    {
+        writer.WriteLine($"#### {name}");
+        count++;
+    }
+
+    static void WriteHelper(Dictionary<string, List<MethodDeclarationSyntax>> types, string name, StreamWriter writer, ref int count)
+    {
+        var methods = types[name];
+
+        writer.WriteLine($"#### {name}");
+        writer.WriteLine();
+        foreach (var method in methods.Where(_=>_.IsPublic() && !_.IsConstructor()))
+        {
+            count++;
+            WriteSignature(method, writer);
+        }
+
+        writer.WriteLine();
+        writer.WriteLine();
     }
 
     static void WriteSignature(MethodDeclarationSyntax method, StreamWriter writer)
