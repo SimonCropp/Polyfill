@@ -1,3 +1,4 @@
+// ReSharper disable ReturnValueOfPureMethodIsNotUsed
 partial class PolyfillTests
 {
     [Test]
