@@ -29,8 +29,7 @@ static partial class Polyfill
         this IEnumerable<TSource> source,
         IComparer<TSource>? comparer) =>
         source
-            .OrderByDescending(_ => _, comparer)
-            .FirstOrDefault();
+            .MaxBy(_ => _, comparer);
 
 #endif
 }

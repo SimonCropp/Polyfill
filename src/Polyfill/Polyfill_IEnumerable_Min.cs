@@ -30,8 +30,7 @@ static partial class Polyfill
         this IEnumerable<TSource> source,
         IComparer<TSource>? comparer) =>
         source
-            .OrderBy(_ => _, comparer)
-            .FirstOrDefault();
+            .MinBy(_ => _, comparer);
 
 #endif
 
