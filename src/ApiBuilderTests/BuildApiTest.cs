@@ -1,6 +1,3 @@
-#if NET9_0 && DEBUG
-using Microsoft.CodeAnalysis.CSharp;
-
 [TestFixture]
 class BuildApiTest
 {
@@ -46,7 +43,7 @@ class BuildApiTest
 
         count += types.Count(_ => _.Key.EndsWith("Attribute"));
 
-        WriteHelper(types, nameof(EnumPolyfill), writer, ref count);
+        WriteHelper(types, "EnumPolyfill", writer, ref count);
         WriteHelper(types, "RegexPolyfill", writer, ref count);
         WriteHelper(types, "StringPolyfill", writer, ref count);
         WriteHelper(types, "BytePolyfill", writer, ref count);
@@ -531,5 +528,3 @@ class BuildApiTest
             }
         ];
 }
-
-#endif

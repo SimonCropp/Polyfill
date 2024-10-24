@@ -1,6 +1,4 @@
-﻿#if NET9_0 && DEBUG
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
+﻿using Microsoft.CodeAnalysis;
 
 public static class RoslynExtensions
 {
@@ -49,4 +47,3 @@ public static class RoslynExtensions
     public static string Value(this AttributeArgumentSyntax argument) =>
         argument.Expression.ToString();
 }
-#endif

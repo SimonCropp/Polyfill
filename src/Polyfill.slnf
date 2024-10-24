@@ -2,6 +2,7 @@
   "solution": {
     "path": "Polyfill.sln",
     "projects": [
+      "ApiBuilderTests\\ApiBuilderTests.csproj",
       "Consume\\Consume.csproj",
       "Polyfill\\Polyfill.csproj",
       "TargetFrameworkUsage\\TargetFrameworkUsage.csproj",
