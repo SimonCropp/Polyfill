@@ -15,7 +15,7 @@ public static class Extensions
         method.Attributes()
             .Any(_ => _.Name.ToString() == "Extension");
 
- public   static IEnumerable<MethodDeclarationSyntax> PublicMethods(this TypeDeclarationSyntax typeDeclaration) =>
+    public static IEnumerable<MethodDeclarationSyntax> PublicMethods(this TypeDeclarationSyntax typeDeclaration) =>
         typeDeclaration
             .DescendantNodes()
             .OfType<MethodDeclarationSyntax>()
@@ -23,14 +23,16 @@ public static class Extensions
                         _.IsPublic() &&
                         !_.IsConstructor());
 
- public static bool IsConstructor(this MethodDeclarationSyntax method)
- {
-     if (method.Parent is TypeDeclarationSyntax typeDeclaration)
-     {
-         return method.Identifier.Text == typeDeclaration.Identifier.Text;
-     }
-     return false;
- }
+    public static bool IsConstructor(this MethodDeclarationSyntax method)
+    {
+        if (method.Parent is TypeDeclarationSyntax typeDeclaration)
+        {
+            return method.Identifier.Text == typeDeclaration.Identifier.Text;
+        }
+
+        return false;
+    }
+
     public static bool IsCaller(this ParameterSyntax parameter) =>
         parameter.Attributes()
             .Any(_ => _.Name.ToString().StartsWith("Caller"));
@@ -42,6 +44,7 @@ public static class Extensions
     public static IEnumerable<AttributeSyntax> Attributes(this ParameterSyntax method) =>
         method.AttributeLists
             .SelectMany(_ => _.Attributes);
+
     public static string Value(this AttributeArgumentSyntax argument) =>
         argument.Expression.ToString();
 }
