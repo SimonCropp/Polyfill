@@ -78,7 +78,6 @@ class BuildApiTest2
     {
         var polyfillDir = Path.Combine(solutionDirectory, "Polyfill");
         var types = new Dictionary<string, HashSet<MethodDeclarationSyntax>>();
-        var allDirectives = identifiers.SelectMany(_ => _.Directives).Concat(sharedIdentifiers).ToHashSet();
         var methodComparer = EqualityComparer<MethodDeclarationSyntax>
             .Create(
                 (x, y) => BuildKey(x!) == BuildKey(y!),
@@ -86,9 +85,10 @@ class BuildApiTest2
         foreach (var file in Directory.EnumerateFiles(polyfillDir, "*.cs", SearchOption.AllDirectories))
         {
             var code = File.ReadAllText(file);
-            foreach (var directive in allDirectives)
+            foreach (var directive in identifiers)
             {
-                var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directive);
+                var directives = directive.Directives.Concat(sharedIdentifiers).ToHashSet();
+                var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
                 var tree = CSharpSyntaxTree.ParseText(code, options);
                 var typeDeclarations = tree
                     .GetRoot()

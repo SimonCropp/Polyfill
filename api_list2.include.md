@@ -1,5 +1,15 @@
 ### Extension methods
 
+#### bool
+
+ * `bool TryFormat(bool, Span<char>, int)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.boolean.tryformat")
+
+
+#### byte
+
+ * `bool TryFormat(byte, Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryformat")
+
+
 #### CancellationToken
 
  * `CancellationTokenRegistration Register(CancellationToken, Action<object?, CancellationToken>, object?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken.register#system-threading-cancellationtoken-register(system-action((system-object-system-threading-cancellationtoken))-system-object)")
@@ -38,10 +48,20 @@
  * `bool TryFormat(DateTimeOffset, Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryformat")
 
 
+#### decimal
+
+ * `bool TryFormat(decimal, Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryformat")
+
+
 #### Dictionary<TKey, TValue>
 
  * `bool Remove<TKey, TValue>(Dictionary<TKey, TValue>, TKey, TValue) where TKey : notnull` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.remove")
  * `bool TryAdd<TKey, TValue>(Dictionary<TKey, TValue>, TKey, TValue) where TKey : notnull` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.tryadd")
+
+
+#### double
+
+ * `bool TryFormat(double, Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.double.tryformat")
 
 
 #### EventInfo
@@ -56,6 +76,16 @@
  * `NullabilityState GetNullability(FieldInfo)`
  * `NullabilityInfo GetNullabilityInfo(FieldInfo)`
  * `bool IsNullable(FieldInfo)`
+
+
+#### float
+
+ * `bool TryFormat(float, Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.single.tryformat")
+
+
+#### Guid
+
+ * `bool TryFormat(Guid, Span<char>, int, ReadOnlySpan<char>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryformat#system-guid-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char)))")
 
 
 #### HashSet<T>
@@ -88,6 +118,7 @@
 #### IEnumerable<TFirst>
 
  * `IEnumerable<(TFirst First, TSecond Second, TThird Third)> Zip<TFirst, TSecond, TThird>(IEnumerable<TFirst>, IEnumerable<TSecond>, IEnumerable<TThird>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-collections-generic-ienumerable((-2)))")
+ * `IEnumerable<(TFirst First, TSecond Second)> Zip<TFirst, TSecond>(IEnumerable<TFirst>, IEnumerable<TSecond>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip#system-linq-enumerable-zip-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1)))")
 
 
 #### IEnumerable<TSource>
@@ -131,6 +162,11 @@
  * `ReadOnlyCollection<T> AsReadOnly<T>(IList<T>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly#system-collections-generic-collectionextensions-asreadonly-1(system-collections-generic-ilist((-0)))")
 
 
+#### int
+
+ * `bool TryFormat(int, Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryformat")
+
+
 #### IReadOnlyDictionary<TKey, TValue>
 
  * `TValue? GetValueOrDefault<TKey, TValue>(IReadOnlyDictionary<TKey, TValue>, TKey) where TKey : notnull` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault")
@@ -147,6 +183,11 @@
  * `void AddRange<T>(List<T>, ReadOnlySpan<T>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.addrange")
  * `void CopyTo<T>(List<T>, Span<T>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.copyto")
  * `void InsertRange<T>(List<T>, int, ReadOnlySpan<T>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange")
+
+
+#### long
+
+ * `bool TryFormat(long, Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryformat")
 
 
 #### MemberInfo
@@ -178,20 +219,27 @@
 
 #### Random
 
+ * `void NextBytes(Random, Span<byte>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))")
  * `void Shuffle<T>(Random, T[])` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))")
  * `void Shuffle<T>(Random, Span<T>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))")
 
 
 #### ReadOnlySpan<char>
 
+ * `bool EndsWith(ReadOnlySpan<char>, string, StringComparison)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith#system-memoryextensions-endswith-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")
  * `SpanLineEnumerator EnumerateLines(ReadOnlySpan<char>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines#system-memoryextensions-enumeratelines(system-readonlyspan((system-char)))")
+ * `bool SequenceEqual(ReadOnlySpan<char>, string)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")
+ * `bool StartsWith(ReadOnlySpan<char>, string, StringComparison)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")
 
 
 #### ReadOnlySpan<T>
 
+ * `bool Contains<T>(ReadOnlySpan<T>, T) where T : IEquatable<T>` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)")
  * `bool EndsWith<T>(ReadOnlySpan<T>, T) where T : IEquatable<T>?` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith#system-memoryextensions-endswith-1(system-readonlyspan((-0))-0)")
  * `SpanSplitEnumerator<T> Split<T>(ReadOnlySpan<T>, T) where T : IEquatable<T>` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split#system-memoryextensions-split-1(system-readonlyspan((-0))-0)")
  * `SpanSplitEnumerator<T> Split<T>(ReadOnlySpan<T>, ReadOnlySpan<T>) where T : IEquatable<T>` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split#system-memoryextensions-split-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")
+ * `SpanSplitEnumerator<T> SplitAny<T>(ReadOnlySpan<T>, ReadOnlySpan<T>) where T : IEquatable<T>` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany#system-memoryextensions-splitany-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")
+ * `SpanSplitEnumerator<T> SplitAny<T>(ReadOnlySpan<T>, SearchValues<T>) where T : IEquatable<T>` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany#system-memoryextensions-splitany-1(system-readonlyspan((-0))-system-buffers-searchvalues((-0)))")
  * `bool StartsWith<T>(ReadOnlySpan<T>, T) where T : IEquatable<T>?` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith#system-memoryextensions-endswith-1(system-readonlyspan((-0))-0)")
 
 
@@ -203,6 +251,16 @@
  * `bool IsMatch(Regex, ReadOnlySpan<char>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char)))")
 
 
+#### sbyte
+
+ * `bool TryFormat(sbyte, Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryformat")
+
+
+#### short
+
+ * `bool TryFormat(short, Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.int16.tryformat")
+
+
 #### SortedList<TKey, TValue>
 
  * `TKey GetKeyAtIndex<TKey, TValue>(SortedList<TKey, TValue>, int)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedlist-2.getkeyatindex")
@@ -211,12 +269,25 @@
 
 #### Span<char>
 
+ * `bool EndsWith(Span<char>, string)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith#system-memoryextensions-endswith-1(system-span((-0))-system-readonlyspan((-0)))")
  * `SpanLineEnumerator EnumerateLines(Span<char>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines#system-memoryextensions-enumeratelines(system-span((system-char)))")
+ * `bool SequenceEqual(Span<char>, string)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))")
+ * `bool StartsWith(Span<char>, string)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith#system-memoryextensions-startswith-1(system-span((-0))-system-readonlyspan((-0)))")
+ * `Span<char> TrimEnd(Span<char>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimend#system-memoryextensions-trimend(system-span((system-char)))")
+ * `Span<char> TrimStart(Span<char>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimstart#system-memoryextensions-trimstart(system-span((system-char)))")
+
+
+#### Span<T>
+
+ * `bool Contains<T>(Span<T>, T) where T : IEquatable<T>` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-span((-0))-0)")
 
 
 #### Stream
 
  * `Task CopyToAsync(Stream, Stream, CancellationToken)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.copytoasync#system-io-stream-copytoasync(system-io-stream-system-threading-cancellationtoken)")
+ * `ValueTask DisposeAsync(Stream)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.disposeasync")
+ * `ValueTask<int> ReadAsync(Stream, Memory<byte>, CancellationToken)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken)")
+ * `ValueTask WriteAsync(Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken)")
 
 
 #### string
@@ -234,21 +305,21 @@
 
 #### StringBuilder
 
- * `StringBuilder Append(StringBuilder, StringBuilder.AppendInterpolatedStringHandler)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-text-stringbuilder-appendinterpolatedstringhandler@)")
- * `StringBuilder Append(StringBuilder, IFormatProvider?, StringBuilder.AppendInterpolatedStringHandler)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-iformatprovider-system-text-stringbuilder-appendinterpolatedstringhandler@)")
  * `StringBuilder Append(StringBuilder, ReadOnlySpan<char>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-readonlyspan((system-char)))")
  * `StringBuilder Append(StringBuilder, AppendInterpolatedStringHandler)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-text-stringbuilder-appendinterpolatedstringhandler@)")
  * `StringBuilder Append(StringBuilder, IFormatProvider?, AppendInterpolatedStringHandler)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-iformatprovider-system-text-stringbuilder-appendinterpolatedstringhandler@)")
+ * `StringBuilder Append(StringBuilder, StringBuilder.AppendInterpolatedStringHandler)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-text-stringbuilder-appendinterpolatedstringhandler@)")
+ * `StringBuilder Append(StringBuilder, IFormatProvider?, StringBuilder.AppendInterpolatedStringHandler)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-iformatprovider-system-text-stringbuilder-appendinterpolatedstringhandler@)")
  * `StringBuilder AppendJoin(StringBuilder, string, string[])` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin#system-text-stringbuilder-appendjoin(system-string-system-string())")
  * `StringBuilder AppendJoin(StringBuilder, string, Object[])` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin#system-text-stringbuilder-appendjoin(system-string-system-object())")
  * `StringBuilder AppendJoin(StringBuilder, char, string[])` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin#system-text-stringbuilder-appendjoin(system-char-system-string())")
  * `StringBuilder AppendJoin(StringBuilder, char, object[])` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin#system-text-stringbuilder-appendjoin(system-char-system-object())")
  * `StringBuilder AppendJoin<T>(StringBuilder, char, T[])` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin#system-text-stringbuilder-appendjoin-1(system-char-system-collections-generic-ienumerable((-0)))")
  * `StringBuilder AppendJoin<T>(StringBuilder, string, T[])` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin#system-text-stringbuilder-appendjoin-1(system-string-system-collections-generic-ienumerable((-0)))")
- * `StringBuilder AppendLine(StringBuilder, StringBuilder.AppendInterpolatedStringHandler)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendline#system-text-stringbuilder-appendline(system-text-stringbuilder-appendinterpolatedstringhandler@)")
- * `StringBuilder AppendLine(StringBuilder, IFormatProvider?, StringBuilder.AppendInterpolatedStringHandler)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendline#system-text-stringbuilder-appendline(system-iformatprovider-system-text-stringbuilder-appendinterpolatedstringhandler@)")
  * `StringBuilder AppendLine(StringBuilder, AppendInterpolatedStringHandler)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendline#system-text-stringbuilder-appendline(system-text-stringbuilder-appendinterpolatedstringhandler@)")
  * `StringBuilder AppendLine(StringBuilder, IFormatProvider?, AppendInterpolatedStringHandler)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendline#system-text-stringbuilder-appendline(system-iformatprovider-system-text-stringbuilder-appendinterpolatedstringhandler@)")
+ * `StringBuilder AppendLine(StringBuilder, StringBuilder.AppendInterpolatedStringHandler)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendline#system-text-stringbuilder-appendline(system-text-stringbuilder-appendinterpolatedstringhandler@)")
+ * `StringBuilder AppendLine(StringBuilder, IFormatProvider?, StringBuilder.AppendInterpolatedStringHandler)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendline#system-text-stringbuilder-appendline(system-iformatprovider-system-text-stringbuilder-appendinterpolatedstringhandler@)")
  * `void CopyTo(StringBuilder, int, Span<char>, int)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.copyto#system-text-stringbuilder-copyto(system-int32-system-span((system-char))-system-int32)")
  * `bool Equals(StringBuilder, ReadOnlySpan<char>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.equals#system-text-stringbuilder-equals(system-readonlyspan((system-char)))")
  * `ChunkEnumerator GetChunks(StringBuilder)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.getchunks")
@@ -277,6 +348,7 @@
 
 #### TextReader
 
+ * `ValueTask<int> ReadAsync(TextReader, Memory<char>, CancellationToken)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readasync#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)")
  * `Task<string> ReadLineAsync(TextReader, CancellationToken)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readtoendasync#system-io-textreader-readlineasync(system-threading-cancellationtoken)")
  * `Task<string> ReadToEndAsync(TextReader, CancellationToken)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readtoendasync#system-io-textreader-readtoendasync(system-threading-cancellationtoken)")
 
@@ -285,7 +357,11 @@
 
  * `Task FlushAsync(TextWriter, CancellationToken)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.flushasync#system-io-textwriter-flushasync(system-threading-cancellationtoken)")
  * `void Write(TextWriter, StringBuilder?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-text-stringbuilder)")
+ * `void Write(TextWriter, ReadOnlySpan<char>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))")
  * `Task WriteAsync(TextWriter, StringBuilder?, CancellationToken)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")
+ * `ValueTask WriteAsync(TextWriter, ReadOnlyMemory<char>, CancellationToken)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")
+ * `void WriteLine(TextWriter, ReadOnlySpan<char>)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline#system-io-textwriter-writeline(system-readonlyspan((system-char)))")
+ * `ValueTask WriteLineAsync(TextWriter, ReadOnlyMemory<char>, CancellationToken)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")
 
 
 #### TimeOnly
@@ -297,6 +373,7 @@
 
  * `int Microseconds(TimeSpan)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds")
  * `int Nanoseconds(TimeSpan)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds")
+ * `bool TryFormat(TimeSpan, Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat#system-timespan-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider)")
 
 
 #### Type
@@ -306,6 +383,21 @@
  * `bool IsAssignableTo<T>(Type)`
  * `bool IsAssignableTo(Type, Type?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto")
  * `bool IsGenericMethodParameter(Type)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter")
+
+
+#### uint
+
+ * `bool TryFormat(uint, Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryformat")
+
+
+#### ulong
+
+ * `bool TryFormat(ulong, Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryformat")
+
+
+#### ushort
+
+ * `bool TryFormat(ushort, Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference]("https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryformat")
 
 
 #### XDocument
@@ -479,13 +571,27 @@
  * `void FileExists(string)`
  * `void DirectoryExists(string)`
  * `void NotEmpty(string?)`
+ * `void NotEmpty<T>(ReadOnlySpan<T>)`
+ * `void NotEmpty<T>(Span<T>)`
+ * `void NotEmpty<T>(Memory<T>?)`
+ * `void NotEmpty<T>(Memory<T>)`
+ * `void NotEmpty<T>(ReadOnlyMemory<T>?)`
+ * `void NotEmpty<T>(ReadOnlyMemory<T>)`
  * `void NotEmpty<T>(T?) where T : IEnumerable`
  * `T NotNull<T>(T?) where T : class`
  * `string NotNull(string?)`
  * `string NotNullOrEmpty(string?)`
  * `T NotNullOrEmpty<T>(T?) where T : IEnumerable`
+ * `Memory<char> NotNullOrEmpty(Memory<char>?)`
+ * `ReadOnlyMemory<char> NotNullOrEmpty(ReadOnlyMemory<char>?)`
  * `string NotNullOrWhiteSpace(string?)`
+ * `Memory<char> NotNullOrWhiteSpace(Memory<char>?)`
+ * `ReadOnlyMemory<char> NotNullOrWhiteSpace(ReadOnlyMemory<char>?)`
  * `void NotWhiteSpace(string?)`
+ * `void NotWhiteSpace(ReadOnlySpan<char>)`
+ * `void NotWhiteSpace(Memory<char>?)`
+ * `void NotWhiteSpace(ReadOnlyMemory<char>?)`
+ * `void NotWhiteSpace(Span<char>)`
 
 
 #### Lock
