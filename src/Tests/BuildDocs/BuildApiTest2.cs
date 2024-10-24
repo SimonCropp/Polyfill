@@ -70,6 +70,17 @@ class BuildApiTest2
         var typeArgs = BuildTypeArgs(method);
         var signature = new StringBuilder($"{method.ReturnType.ToString()} {method.Identifier.Text}{typeArgs}({parameters})");
 
+        if (method.ConstraintClauses.Count > 0)
+        {
+            foreach (var constraint in method.ConstraintClauses)
+            {
+                signature.Append(" where ");
+                signature.Append(constraint.Name);
+                signature.Append(" : ");
+                signature.Append(string.Join(", ", constraint.Constraints.Select(_ => _.ToString())));
+            }
+        }
+
         if (TryGetReference(method, out var reference))
         {
             writer.WriteLine($" * `{signature}` [reference]({reference})");
