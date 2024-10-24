@@ -1,7 +1,8 @@
-﻿using Microsoft.CodeAnalysis;
+﻿#if NET9_0 && DEBUG
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-public static class Extensions
+public static class RoslynExtensions
 {
     public static bool IsPublic(this MemberDeclarationSyntax member) =>
         member.Modifiers.Any(_ => _.ValueText == "public");
@@ -48,3 +49,4 @@ public static class Extensions
     public static string Value(this AttributeArgumentSyntax argument) =>
         argument.Expression.ToString();
 }
+#endif
