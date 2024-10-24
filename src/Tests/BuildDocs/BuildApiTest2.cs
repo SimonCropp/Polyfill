@@ -18,17 +18,16 @@ class BuildApiTest2
             var tree = CSharpSyntaxTree.ParseText(File.ReadAllText(file),options);
             var typeDeclarations = tree.GetRoot().DescendantNodes().OfType<TypeDeclarationSyntax>();
 
-            foreach (var typeDeclaration in typeDeclarations)
+            foreach (var type in typeDeclarations)
             {
-                var identifier = typeDeclaration.Identifier.Text;
+                var identifier = type.Identifier.Text;
                 if (!types.TryGetValue(identifier, out var methods))
                 {
                     methods = new();
                     types.Add(identifier, methods);
                 }
 
-                foreach (var method in typeDeclaration
-                             .PublicMethods())
+                foreach (var method in type.PublicMethods())
                 {
                     methods.Add(method);
                 }
