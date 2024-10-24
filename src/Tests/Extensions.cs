@@ -12,6 +12,12 @@ public static class Extensions
         method.Attributes()
             .Any(_ => _.Name.ToString() == "Extension");
 
+ public   static IEnumerable<MethodDeclarationSyntax> PublicMethods(this TypeDeclarationSyntax typeDeclaration) =>
+        typeDeclaration
+            .DescendantNodes()
+            .OfType<MethodDeclarationSyntax>()
+            .Where(_ => _.IsPublic());
+
     public static bool IsCaller(this ParameterSyntax parameter) =>
         parameter.Attributes()
             .Any(_ => _.Name.ToString().StartsWith("Caller"));

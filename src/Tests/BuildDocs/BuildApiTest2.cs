@@ -28,9 +28,7 @@ class BuildApiTest2
                 }
 
                 foreach (var method in typeDeclaration
-                             .DescendantNodes()
-                             .OfType<MethodDeclarationSyntax>()
-                             .Where(_ => _.IsPublic()))
+                             .PublicMethods())
                 {
                     methods.Add(method);
                 }
@@ -61,7 +59,11 @@ class BuildApiTest2
             writer.WriteLine();
             writer.WriteLine();
         }
-        writer.Flush();
+
+        count += types.Count(_ => _.Key.EndsWith("Attribute"));
+        var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
+        File.Delete(countMd);
+        File.WriteAllText(countMd, $"**API count: {count}**");
     }
 
     static void WriteSignature(MethodDeclarationSyntax method, StreamWriter writer)
