@@ -220,7 +220,7 @@ class BuildApiTest
             return false;
         }
 
-        reference = descriptionAttribute.ArgumentList!.Arguments.Single().Value();
+        reference = descriptionAttribute.ArgumentList!.Arguments.Single().Value().Trim('"');
         return true;
     }
 
