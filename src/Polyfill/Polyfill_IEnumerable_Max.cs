@@ -26,9 +26,9 @@ static partial class Polyfill
     /// </remarks>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.max?view=net-8.0#system-linq-enumerable-max-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))")]
     public static TSource? Max<TSource>(
-        this IEnumerable<TSource> target,
+        this IEnumerable<TSource> source,
         IComparer<TSource>? comparer) =>
-        target
+        source
             .OrderByDescending(_ => _, comparer)
             .FirstOrDefault();
 
