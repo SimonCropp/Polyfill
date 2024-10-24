@@ -6,6 +6,9 @@ public static class Extensions
     public static bool IsPublic(this MemberDeclarationSyntax member) =>
         member.Modifiers.Any(_ => _.ValueText == "public");
 
+    public static bool IsNested(this TypeDeclarationSyntax type) =>
+        type.Parent is TypeDeclarationSyntax or ClassDeclarationSyntax;
+
     public static bool IsExtensionMethod(this MethodDeclarationSyntax method) =>
         method.Modifiers.Any(_ => _.IsKind(SyntaxKind.StaticKeyword)) &&
         method.ParameterList.Parameters.Count > 0 &&
@@ -16,7 +19,9 @@ public static class Extensions
         typeDeclaration
             .DescendantNodes()
             .OfType<MethodDeclarationSyntax>()
-            .Where(_ => _.IsPublic() && !_.IsConstructor());
+            .Where(_ => _.Parent == typeDeclaration &&
+                        _.IsPublic() &&
+                        !_.IsConstructor());
 
  public static bool IsConstructor(this MethodDeclarationSyntax method)
  {

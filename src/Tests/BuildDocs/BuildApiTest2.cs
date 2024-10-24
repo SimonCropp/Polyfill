@@ -9,34 +9,7 @@ class BuildApiTest2
     [Test]
     public void RunWithRoslyn()
     {
-        var polyfillDir = Path.Combine(solutionDirectory, "Polyfill");
-        var types = new Dictionary<string, List<MethodDeclarationSyntax>>();
-        var allDirectives = identifiers.SelectMany(_=>_.Directives).Concat(sharedIdentifiers).ToHashSet();
-        foreach (var file in Directory.EnumerateFiles(polyfillDir, "*.cs", SearchOption.AllDirectories))
-        {
-            if (file.Contains("Lock"))
-            {
-                Debug.WriteLine(file);
-            }
-            var options = CSharpParseOptions.Default.WithPreprocessorSymbols(allDirectives);
-            var tree = CSharpSyntaxTree.ParseText(File.ReadAllText(file),options);
-            var typeDeclarations = tree.GetRoot().DescendantNodes().OfType<TypeDeclarationSyntax>();
-
-            foreach (var type in typeDeclarations)
-            {
-                var identifier = type.Identifier.Text;
-                if (!types.TryGetValue(identifier, out var methods))
-                {
-                    methods = new();
-                    types.Add(identifier, methods);
-                }
-
-                foreach (var method in type.PublicMethods())
-                {
-                    methods.Add(method);
-                }
-            }
-        }
+        var types = ReadFiles();
 
         var md = Path.Combine(solutionDirectory, "..", "api_list2.include.md");
         File.Delete(md);
@@ -46,8 +19,13 @@ class BuildApiTest2
         var extensions = types.Single(_ => _.Key == "Polyfill").Value;
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
-        foreach (var extension in extensions
-                     .GroupBy(_ => _.ParameterList.Parameters[0].Type!.ToString())
+        foreach (var extension in PublicMethods(extensions)
+                     .GroupBy(_ =>
+                     {
+                         var syntaxNode = _.Parent;
+                         var s = _.ToString();
+                         return _.ParameterList.Parameters[0].Type!.ToString();
+                     })
                      .OrderBy(_ => _.Key))
         {
             writer.WriteLine($"#### {extension.Key}");
@@ -92,19 +70,65 @@ class BuildApiTest2
         File.WriteAllText(countMd, $"**API count: {count}**");
     }
 
+    static IEnumerable<MethodDeclarationSyntax> PublicMethods(HashSet<MethodDeclarationSyntax> type) =>
+        type.Where(_ => _.IsPublic() && !_.IsConstructor())
+            .OrderBy(_ => _.Identifier.ToString());
+
+    static Dictionary<string, HashSet<MethodDeclarationSyntax>> ReadFiles()
+    {
+        var polyfillDir = Path.Combine(solutionDirectory, "Polyfill");
+        var types = new Dictionary<string, HashSet<MethodDeclarationSyntax>>();
+        var allDirectives = identifiers.SelectMany(_ => _.Directives).Concat(sharedIdentifiers).ToHashSet();
+        var methodComparer = EqualityComparer<MethodDeclarationSyntax>
+            .Create(
+                (x, y) => BuildKey(x!) == BuildKey(y!),
+                _ => BuildKey(_).GetHashCode());
+        foreach (var file in Directory.EnumerateFiles(polyfillDir, "*.cs", SearchOption.AllDirectories))
+        {
+            var code = File.ReadAllText(file);
+            foreach (var directive in allDirectives)
+            {
+                var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directive);
+                var tree = CSharpSyntaxTree.ParseText(code, options);
+                var typeDeclarations = tree
+                    .GetRoot()
+                    .DescendantNodes()
+                    .OfType<TypeDeclarationSyntax>()
+                    .Where(_ => !_.IsNested());
+
+                foreach (var type in typeDeclarations)
+                {
+                    var identifier = type.Identifier.Text;
+                    if (!types.TryGetValue(identifier, out var methods))
+                    {
+                        methods = new(methodComparer);
+                        types.Add(identifier, methods);
+                    }
+
+                    foreach (var method in type.PublicMethods())
+                    {
+                        methods.Add(method);
+                    }
+                }
+            }
+        }
+
+        return types;
+    }
+
     static void WriteType(string name, StreamWriter writer, ref int count)
     {
         writer.WriteLine($"#### {name}");
         count++;
     }
 
-    static void WriteHelper(Dictionary<string, List<MethodDeclarationSyntax>> types, string name, StreamWriter writer, ref int count)
+    static void WriteHelper(Dictionary<string, HashSet<MethodDeclarationSyntax>> types, string name, StreamWriter writer, ref int count)
     {
         var methods = types[name];
 
         writer.WriteLine($"#### {name}");
         writer.WriteLine();
-        foreach (var method in methods.Where(_=>_.IsPublic() && !_.IsConstructor()))
+        foreach (var method in methods.Where(_ => _.IsPublic() && !_.IsConstructor()))
         {
             count++;
             WriteSignature(method, writer);
@@ -139,6 +163,13 @@ class BuildApiTest2
         {
             writer.WriteLine($" * `{signature}`");
         }
+    }
+
+    static string BuildKey(MethodDeclarationSyntax method)
+    {
+        var parameters = BuildParameters(method);
+        var typeArgs = BuildTypeArgs(method);
+        return $"{method.ReturnType.ToString()} {method.Identifier.Text}{typeArgs}({parameters})";
     }
 
     static string BuildTypeArgs(MethodDeclarationSyntax method)
@@ -499,6 +530,5 @@ class BuildApiTest2
             }
         ];
 }
-
 
 #endif
