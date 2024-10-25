@@ -15,7 +15,7 @@ static partial class Polyfill
     /// <summary>
     /// Returns the maximum value in a generic sequence according to a specified key selector function.
     /// </summary>
-    /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
     /// <typeparam name="TKey">The type of key to compare elements by.</typeparam>
     /// <param name="source">A sequence of values to determine the maximum value of.</param>
     /// <param name="keySelector">A function to extract the key for each element.</param>
@@ -27,12 +27,12 @@ static partial class Polyfill
     /// </remarks>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))")]
     public static TSource? MaxBy<TSource, TKey>(
-        this IEnumerable<TSource> target,
+        this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector) =>
-        MaxBy(target, keySelector, null);
+        MaxBy(source, keySelector, null);
 
     /// <summary>Returns the maximum value in a generic sequence according to a specified key selector function.</summary>
-    /// <typeparam name="TSource">The type of the elements of <paramref name="target" />.</typeparam>
+    /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
     /// <typeparam name="TKey">The type of key to compare elements by.</typeparam>
     /// <param name="source">A sequence of values to determine the maximum value of.</param>
     /// <param name="keySelector">A function to extract the key for each element.</param>
@@ -45,12 +45,81 @@ static partial class Polyfill
     /// </remarks>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))")]
     public static TSource? MaxBy<TSource, TKey>(
-        this IEnumerable<TSource> target,
+        this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,
-        IComparer<TKey>? comparer) =>
-        target
-            .OrderByDescending(keySelector, comparer)
-            .FirstOrDefault();
+        IComparer<TKey>? comparer)
+    {
+        // Simplified from https://github.com/dotnet/runtime/blob/5d09a8f94c72ca4ef0a9c79eb9c58d06198e3ba9/src/libraries/System.Linq/src/System/Linq/Max.cs#L445-L526
+        if (source is null) throw new ArgumentNullException(nameof(source));
+        if (keySelector is null) throw new ArgumentNullException(nameof(keySelector));
+
+        comparer ??= Comparer<TKey>.Default;
+
+        using IEnumerator<TSource> e = source.GetEnumerator();
+
+        if (!e.MoveNext())
+        {
+            if (default(TSource) is null)
+            {
+                return default;
+            }
+            else
+            {
+                ThrowHelper.ThrowNoElementsException();
+            }
+        }
+
+        TSource value = e.Current;
+        TKey key = keySelector(value);
+
+        if (default(TKey) is null)
+        {
+            if (key is null)
+            {
+                TSource firstValue = value;
+
+                do
+                {
+                    if (!e.MoveNext())
+                    {
+                        // All keys are null, surface the first element.
+                        return firstValue;
+                    }
+
+                    value = e.Current;
+                    key = keySelector(value);
+                }
+                while (key is null);
+            }
+
+            while (e.MoveNext())
+            {
+                TSource nextValue = e.Current;
+                TKey nextKey = keySelector(nextValue);
+                if (nextKey is not null && comparer.Compare(nextKey, key) > 0)
+                {
+                    key = nextKey;
+                    value = nextValue;
+                }
+            }
+        }
+        else
+        {
+            while (e.MoveNext())
+            {
+                TSource nextValue = e.Current;
+                TKey nextKey = keySelector(nextValue);
+                if (comparer.Compare(nextKey, key) > 0)
+                {
+                    key = nextKey;
+                    value = nextValue;
+                }
+            }
+        }
+
+        return value;
+
+    }
 
 #endif
 }

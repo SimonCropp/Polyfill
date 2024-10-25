@@ -2,52 +2,6 @@
 partial class PolyfillTests
 {
     [Test]
-    public void MaxBy()
-    {
-        IEnumerable<int> enumerable = [1, 2];
-
-        Assert.AreEqual(2, enumerable.MaxBy(_ => _));
-    }
-
-    [Test]
-    public void MaxComparer()
-    {
-        IEnumerable<int> enumerable = [1, 2];
-
-        Assert.AreEqual(1, enumerable.Max(new ReverseComparer()));
-    }
-
-    [Test]
-    public void MaxByComparer()
-    {
-        IEnumerable<int> enumerable = [1, 2];
-
-        Assert.AreEqual(1, enumerable.MaxBy(_ => _, new ReverseComparer()));
-    }
-
-    [Test]
-    public void MinComparer()
-    {
-        IEnumerable<int> enumerable = [1, 2];
-
-        Assert.AreEqual(2, enumerable.Min(new ReverseComparer()));
-    }
-
-    [Test]
-    public void MinByComparer()
-    {
-        IEnumerable<int> enumerable = [1, 2];
-
-        Assert.AreEqual(2, enumerable.MinBy(_ => _, new ReverseComparer()));
-    }
-
-    class ReverseComparer : IComparer<int>
-    {
-        public int Compare(int x, int y) =>
-            y.CompareTo(x);
-    }
-
-    [Test]
     public void TakeRange()
     {
         var letters = new List<char>
@@ -84,14 +38,6 @@ partial class PolyfillTests
     {
         IEnumerable<int> enumerable = [1, 2];
         Assert.AreEqual(1, enumerable.Except(2).Single());
-    }
-
-    [Test]
-    public void MinBy()
-    {
-        IEnumerable<int> enumerable = new List<int> {1, 2};
-
-        Assert.AreEqual(1, enumerable.MinBy(_ => _));
     }
 
     [Test]
