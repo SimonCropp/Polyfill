@@ -218,7 +218,7 @@ class Consume
     void ConcurrentDictionary_Methods()
     {
         var dict = new ConcurrentDictionary<string, int>();
-        var value = dict.GetOrAdd("Hello", (_, arg) => arg.Length, "World");
+        var value = dict.GetOrAdd("Hello", static (_, arg) => arg.Length, "World");
     }
 
     void Dictionary_Methods()
