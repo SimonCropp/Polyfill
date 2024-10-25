@@ -5,9 +5,6 @@ namespace Polyfills;
 
 static partial class Polyfill
 {
-    private static class ThrowHelper
-    {
-        public static void ThrowNoElementsException() =>
-            throw new System.InvalidOperationException("Sequence contains no elements");
-    }
+    static void ThrowNoElementsException() =>
+        throw new System.InvalidOperationException("Sequence contains no elements");
 }

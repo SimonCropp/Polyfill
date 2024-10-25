@@ -66,7 +66,7 @@ static partial class Polyfill
             }
             else
             {
-                ThrowHelper.ThrowNoElementsException();
+                ThrowNoElementsException();
             }
         }
 
