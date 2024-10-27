@@ -29,6 +29,17 @@ static class GuidPolyfill
 #if FeatureMemory
 
     /// <summary>
+    /// Converts span of characters representing the GUID to the equivalent Guid structure, provided that the string is in the specified format.
+    /// </summary>
+    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparseexact#system-guid-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-guid@)")]
+    public static bool TryParseExact(ReadOnlySpan<char> target, ReadOnlySpan<char> format, out Guid result) =>
+#if NETFRAMEWORK || NETCOREAPP2_0 || NETSTANDARD2_0
+        Guid.TryParseExact(target.ToString(), format.ToString(), out result);
+#else
+        Guid.TryParseExact(target, format, out result);
+#endif
+
+    /// <summary>
     /// Tries to parse a span of UTF-8 characters into a value.
     /// </summary>
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse#system-guid-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-guid@)")]
