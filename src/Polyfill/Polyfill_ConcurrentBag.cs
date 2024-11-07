@@ -17,11 +17,6 @@ static partial class Polyfill
     [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentbag-1.clear")]
     public static void Clear<T>(this ConcurrentBag<T> target)
     {
-        if (target is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-
         while (!target.IsEmpty)
         {
             target.TryTake(out _);
