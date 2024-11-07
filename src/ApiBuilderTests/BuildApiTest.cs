@@ -161,12 +161,14 @@ class BuildApiTest
     static string BuildKey(MethodDeclarationSyntax method)
     {
         var parameters = string.Join(',', method.ParameterList.Parameters.Select(_ => _.Type!.ToString()));
+        var returnType = method.ReturnType.ToString();
+        var identifier = method.Identifier.Text;
         if (method.TypeParameterList is null)
         {
-            return $"{method.ReturnType.ToString()}{method.Identifier.Text}({parameters})";
+            return $"{returnType}{identifier}({parameters})";
         }
 
-        return $"{method.ReturnType.ToString()}{method.Identifier.Text}<{string.Join(',', method.TypeParameterList.Parameters.Select(_ => _.Identifier.Text))}>({parameters})";
+        return $"{returnType}{identifier}<{string.Join(',', method.TypeParameterList.Parameters.Select(_ => _.Identifier.Text))}>({parameters})";
     }
 
     static string BuildTypeArgs(MethodDeclarationSyntax method)
