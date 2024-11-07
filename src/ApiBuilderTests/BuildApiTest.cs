@@ -177,29 +177,19 @@ class BuildApiTest
 
     static string BuildParameters(MethodDeclarationSyntax method)
     {
-        if (method.ParameterList.Parameters.Count == 0)
-        {
-            return "";
-        }
-
-        List<ParameterSyntax> parameters;
+        var parameters = method.ParameterList.Parameters.ToList();
         if (method.IsExtensionMethod())
         {
-            parameters = method.ParameterList.Parameters.Skip(1).ToList();
-            if (parameters.Count == 0)
-            {
-                return "";
-            }
-        }
-        else
-        {
-            parameters = method.ParameterList.Parameters.ToList();
+            parameters = parameters.Skip(1).ToList();
         }
 
-        var last = parameters.Last();
-        if (last.IsCaller())
+        if (parameters.Count > 0)
         {
-            parameters.Remove(last);
+            var last = parameters.Last();
+            if (last.IsCaller())
+            {
+                parameters.Remove(last);
+            }
         }
 
         return string.Join(", ", parameters.Select(_ => _.Type!.ToString()));
