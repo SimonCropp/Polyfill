@@ -171,12 +171,13 @@ class BuildApiTest
 
     static string BuildTypeArgs(MethodDeclarationSyntax method)
     {
-        if (method.TypeParameterList == null || method.TypeParameterList.Parameters.Count == 0)
+        var types = method.TypeParameterList;
+        if (types == null || types.Parameters.Count == 0)
         {
             return string.Empty;
         }
 
-        return $"<{string.Join(", ", method.TypeParameterList.Parameters.Select(_ => _.Identifier.Text))}>";
+        return $"<{string.Join(", ", types.Parameters.Select(_ => _.Identifier.Text))}>";
     }
 
     static string BuildParameters(MethodDeclarationSyntax method)
