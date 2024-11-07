@@ -9,10 +9,11 @@ public static class RoslynExtensions
         type.Parent is TypeDeclarationSyntax or ClassDeclarationSyntax;
 
     public static bool IsExtensionMethod(this MethodDeclarationSyntax method) =>
-        method.Modifiers.Any(_ => _.IsKind(SyntaxKind.StaticKeyword)) &&
-        method.ParameterList.Parameters.Count > 0 &&
-        method.Attributes()
-            .Any(_ => _.Name.ToString() == "Extension");
+        method.IsStatic() &&
+        method.ParameterList.Parameters.Count > 0;
+
+    public static bool IsStatic(this MethodDeclarationSyntax method) =>
+        method.Modifiers.Any(_ => _.IsKind(SyntaxKind.StaticKeyword));
 
     public static IEnumerable<MethodDeclarationSyntax> PublicMethods(this TypeDeclarationSyntax typeDeclaration) =>
         typeDeclaration
