@@ -1,6 +1,6 @@
 partial class PolyfillTests
 {
-    static readonly ReverseComparer reverseComparer = new ReverseComparer();
+    static readonly ReverseComparer reverseComparer = new();
 
     static readonly IEnumerable<int> comparableValues = [1, 2];
     static readonly IEnumerable<int?> comparableNullables = [null, 1, 2];

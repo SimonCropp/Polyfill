@@ -215,10 +215,17 @@ class Consume
         type.GetMethod("GenericMethod", 1, BindingFlags.Public, [typeof(string)]);
     }
 #endif
+
     void ConcurrentDictionary_Methods()
     {
         var dict = new ConcurrentDictionary<string, int>();
         var value = dict.GetOrAdd("Hello", static (_, arg) => arg.Length, "World");
+    }
+
+    void ConcurrentBag_Methods()
+    {
+        var bag = new ConcurrentBag<string>();
+        bag.Clear();
     }
 
     void Dictionary_Methods()
