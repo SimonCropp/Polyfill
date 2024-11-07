@@ -17,12 +17,7 @@ class BuildApiTest
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
         foreach (var extension in PublicMethods(extensions)
-                     .GroupBy(_ =>
-                     {
-                         var syntaxNode = _.Parent;
-                         var s = _.ToString();
-                         return _.ParameterList.Parameters[0].Type!.ToString();
-                     })
+                     .GroupBy(_ => _.ParameterList.Parameters[0].Type!.ToString())
                      .OrderBy(_ => _.Key))
         {
             writer.WriteLine($"#### {extension.Key}");
