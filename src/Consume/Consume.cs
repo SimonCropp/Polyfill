@@ -228,6 +228,12 @@ class Consume
         bag.Clear();
     }
 
+    void ConcurrentQueue_Methods()
+    {
+        var bag = new ConcurrentQueue<string>();
+        bag.Clear();
+    }
+
     void Dictionary_Methods()
     {
         var dictionary = new Dictionary<string, string?> { { "key", "value" } };
