@@ -17,12 +17,7 @@ class BuildApiTest
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
         foreach (var extension in PublicMethods(extensions)
-                     .GroupBy(_ =>
-                     {
-                         var syntaxNode = _.Parent;
-                         var s = _.ToString();
-                         return _.ParameterList.Parameters[0].Type!.ToString();
-                     })
+                     .GroupBy(_ => _.ParameterList.Parameters[0].Type!.ToString())
                      .OrderBy(_ => _.Key))
         {
             writer.WriteLine($"#### {extension.Key}");
@@ -165,46 +160,43 @@ class BuildApiTest
 
     static string BuildKey(MethodDeclarationSyntax method)
     {
-        var parameters = BuildParameters(method);
-        var typeArgs = BuildTypeArgs(method);
-        return $"{method.ReturnType.ToString()} {method.Identifier.Text}{typeArgs}({parameters})";
+        var parameters = string.Join(',', method.ParameterList.Parameters.Select(_ => _.Type!.ToString()));
+        var returnType = method.ReturnType.ToString();
+        var identifier = method.Identifier.Text;
+        if (method.TypeParameterList is null)
+        {
+            return $"{returnType}{identifier}({parameters})";
+        }
+
+        return $"{returnType}{identifier}<{string.Join(',', method.TypeParameterList.Parameters.Select(_ => _.Identifier.Text))}>({parameters})";
     }
 
     static string BuildTypeArgs(MethodDeclarationSyntax method)
     {
-        if (method.TypeParameterList == null || method.TypeParameterList.Parameters.Count == 0)
+        var types = method.TypeParameterList;
+        if (types == null || types.Parameters.Count == 0)
         {
             return string.Empty;
         }
 
-        return $"<{string.Join(", ", method.TypeParameterList.Parameters.Select(p => p.Identifier.Text))}>";
+        return $"<{string.Join(", ", types.Parameters.Select(_ => _.Identifier.Text))}>";
     }
 
     static string BuildParameters(MethodDeclarationSyntax method)
     {
-        if (method.ParameterList.Parameters.Count == 0)
-        {
-            return "";
-        }
-
-        List<ParameterSyntax> parameters;
+        var parameters = method.ParameterList.Parameters.ToList();
         if (method.IsExtensionMethod())
         {
-            parameters = method.ParameterList.Parameters.Skip(1).ToList();
-            if (parameters.Count == 0)
-            {
-                return "";
-            }
-        }
-        else
-        {
-            parameters = method.ParameterList.Parameters.ToList();
+            parameters = parameters.Skip(1).ToList();
         }
 
-        var last = parameters.Last();
-        if (last.IsCaller())
+        if (parameters.Count > 0)
         {
-            parameters.Remove(last);
+            var last = parameters.Last();
+            if (last.IsCaller())
+            {
+                parameters.Remove(last);
+            }
         }
 
         return string.Join(", ", parameters.Select(_ => _.Type!.ToString()));
