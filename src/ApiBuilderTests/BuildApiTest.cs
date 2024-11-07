@@ -160,9 +160,13 @@ class BuildApiTest
 
     static string BuildKey(MethodDeclarationSyntax method)
     {
-        var parameters = BuildParameters(method);
-        var typeArgs = BuildTypeArgs(method);
-        return $"{method.ReturnType.ToString()} {method.Identifier.Text}{typeArgs}({parameters})";
+        var parameters = string.Join(',', method.ParameterList.Parameters.Select(_ => _.Type!.ToString()));
+        if (method.TypeParameterList is null)
+        {
+            return $"{method.ReturnType.ToString()}{method.Identifier.Text}({parameters})";
+        }
+
+        return $"{method.ReturnType.ToString()}{method.Identifier.Text}<{string.Join(',', method.TypeParameterList.Parameters.Select(_ => _.Identifier.Text))}>({parameters})";
     }
 
     static string BuildTypeArgs(MethodDeclarationSyntax method)
@@ -177,29 +181,19 @@ class BuildApiTest
 
     static string BuildParameters(MethodDeclarationSyntax method)
     {
-        if (method.ParameterList.Parameters.Count == 0)
-        {
-            return "";
-        }
-
-        List<ParameterSyntax> parameters;
+        var parameters = method.ParameterList.Parameters.ToList();
         if (method.IsExtensionMethod())
         {
-            parameters = method.ParameterList.Parameters.Skip(1).ToList();
-            if (parameters.Count == 0)
-            {
-                return "";
-            }
-        }
-        else
-        {
-            parameters = method.ParameterList.Parameters.ToList();
+            parameters = parameters.Skip(1).ToList();
         }
 
-        var last = parameters.Last();
-        if (last.IsCaller())
+        if (parameters.Count > 0)
         {
-            parameters.Remove(last);
+            var last = parameters.Last();
+            if (last.IsCaller())
+            {
+                parameters.Remove(last);
+            }
         }
 
         return string.Join(", ", parameters.Select(_ => _.Type!.ToString()));
