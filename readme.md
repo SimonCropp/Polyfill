@@ -326,6 +326,7 @@ Reference: [Low Level Struct Improvements](https://github.com/dotnet/csharplang/
 <a id='snippet-UnscopedRefUsage.cs'></a>
 ```cs
 using System.Diagnostics.CodeAnalysis;
+#pragma warning disable CS0169 // Field is never used
 
 struct UnscopedRefUsage
 {
@@ -334,7 +335,7 @@ struct UnscopedRefUsage
     [UnscopedRef] ref int Prop1 => ref field;
 }
 ```
-<sup><a href='/src/Consume/UnscopedRefUsage.cs#L1-L8' title='Snippet source file'>snippet source</a> | <a href='#snippet-UnscopedRefUsage.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/UnscopedRefUsage.cs#L1-L9' title='Snippet source file'>snippet source</a> | <a href='#snippet-UnscopedRefUsage.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
