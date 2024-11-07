@@ -177,7 +177,7 @@ class BuildApiTest
             return string.Empty;
         }
 
-        return $"<{string.Join(", ", method.TypeParameterList.Parameters.Select(p => p.Identifier.Text))}>";
+        return $"<{string.Join(", ", method.TypeParameterList.Parameters.Select(_ => _.Identifier.Text))}>";
     }
 
     static string BuildParameters(MethodDeclarationSyntax method)
