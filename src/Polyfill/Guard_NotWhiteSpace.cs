@@ -24,7 +24,6 @@ static partial class Guard
         }
 #if NET8_0_OR_GREATER
         ArgumentException.ThrowIfNullOrWhiteSpace(value, argumentName);
-        return value;
 #else
 
         if (value.Length == 0)

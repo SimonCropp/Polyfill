@@ -330,9 +330,9 @@ using System.Diagnostics.CodeAnalysis;
 
 struct UnscopedRefUsage
 {
-    int field;
+    int field1;
 
-    [UnscopedRef] ref int Prop1 => ref field;
+    [UnscopedRef] ref int Prop1 => ref field1;
 }
 ```
 <sup><a href='/src/Consume/UnscopedRefUsage.cs#L1-L9' title='Snippet source file'>snippet source</a> | <a href='#snippet-UnscopedRefUsage.cs' title='Start of snippet'>anchor</a></sup>

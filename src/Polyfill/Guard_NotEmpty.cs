@@ -19,13 +19,14 @@ static partial class Guard
 {
     public static void NotEmpty(string? value, [CallerArgumentExpression("value")] string argumentName = "")
     {
-#if NET7_0_OR_GREATER
-        ArgumentException.ThrowIfNullOrEmpty(value, argumentName);
-#else
         if (value is null)
         {
             return;
         }
+
+#if NET7_0_OR_GREATER
+        ArgumentException.ThrowIfNullOrEmpty(value, argumentName);
+#else
 
         if (value.Length == 0)
         {

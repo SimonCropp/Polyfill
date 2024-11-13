@@ -19,6 +19,10 @@ static partial class Guard
         [NotNull] string? value,
         [CallerArgumentExpression("value")] string argumentName = "")
     {
+#if NET7_0_OR_GREATER
+        ArgumentException.ThrowIfNullOrEmpty(value, argumentName);
+        return value;
+#else
         if (value is null)
         {
             throw new ArgumentNullException(argumentName);
@@ -30,6 +34,7 @@ static partial class Guard
         }
 
         return value;
+#endif
     }
 
     public static T NotNullOrEmpty<T>(
