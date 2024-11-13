@@ -19,6 +19,10 @@ static partial class Guard
         [NotNull] string? value,
         [CallerArgumentExpression("value")] string argumentName = "")
     {
+#if NET8_0_OR_GREATER
+        ArgumentException.ThrowIfNullOrWhiteSpace(value, argumentName);
+        return value;
+#else
         if (value == null)
         {
             throw new ArgumentNullException(argumentName);
@@ -38,6 +42,7 @@ static partial class Guard
         }
 
         throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+#endif
     }
 
 #if FeatureMemory
