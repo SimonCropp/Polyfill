@@ -22,6 +22,10 @@ static partial class Guard
         {
             return;
         }
+#if NET8_0_OR_GREATER
+        ArgumentException.ThrowIfNullOrWhiteSpace(value, argumentName);
+        return value;
+#else
 
         if (value.Length == 0)
         {
@@ -37,6 +41,7 @@ static partial class Guard
         }
 
         throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+#endif
     }
 #if FeatureMemory
 
