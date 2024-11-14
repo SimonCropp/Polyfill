@@ -64,7 +64,7 @@ static partial class Polyfill
     ///             { /* operation on span[i] */ }
     ///    }
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.getchunks")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.getchunks
     public static ChunkEnumerator GetChunks(this StringBuilder target) =>
         new(target);
 

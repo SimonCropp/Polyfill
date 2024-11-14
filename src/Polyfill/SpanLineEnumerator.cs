@@ -19,7 +19,7 @@ using Link = ComponentModel.DescriptionAttribute;
 /// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.spanlineenumerator")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.spanlineenumerator
 #if PolyPublic
 public
 #endif

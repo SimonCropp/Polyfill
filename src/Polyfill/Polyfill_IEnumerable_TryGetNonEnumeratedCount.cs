@@ -32,7 +32,7 @@ static partial class Polyfill
     ///   The method is typically a constant-time operation, but ultimately this depends on the complexity
     ///   characteristics of the underlying collection implementation.
     /// </remarks>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.trygetnonenumeratedcount")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.trygetnonenumeratedcount
     public static bool TryGetNonEnumeratedCount<TSource>(this IEnumerable<TSource> target, out int count)
     {
         if (target is ICollection<TSource> genericCollection)

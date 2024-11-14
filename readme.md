@@ -478,7 +478,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### ConcurrentBag<T>
 
- * `void Clear<T>(ConcurrentBag<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentbag-1.clear)
+ * `void Clear<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentbag-1.clear)
 
 
 #### ConcurrentDictionary<TKey, TValue>
@@ -842,7 +842,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### Type
 
- * `MethodInfo? GetMethod(string, int, BindingFlags, Type[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-type()))
+ * `MethodInfo? GetMethod(string, int, BindingFlags, Type[])`
  * `bool IsAssignableFrom<T>()`
  * `bool IsAssignableTo<T>()`
  * `bool IsAssignableTo(Type?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto)

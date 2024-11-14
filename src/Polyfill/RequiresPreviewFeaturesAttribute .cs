@@ -26,7 +26,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
     Inherited = false)]
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.versioning.requirespreviewfeaturesattribute")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.versioning.requirespreviewfeaturesattribute
 #if PolyPublic
 public
 #endif

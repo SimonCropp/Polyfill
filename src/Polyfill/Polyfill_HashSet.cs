@@ -17,7 +17,7 @@ static partial class Polyfill
     /// <param name="equalValue">The value to search for.</param>
     /// <param name="actualValue">The value from the set that the search found, or the default value of T when the search yielded no match.</param>
     /// <returns>A value indicating whether the search was successful.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetvalue")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetvalue
     public static bool TryGetValue<T>(
         this HashSet<T> target,
         T equalValue,

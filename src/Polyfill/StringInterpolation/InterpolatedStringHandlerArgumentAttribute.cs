@@ -15,7 +15,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.interpolatedstringhandlerargumentattribute")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.interpolatedstringhandlerargumentattribute
 #if PolyPublic
 public
 #endif

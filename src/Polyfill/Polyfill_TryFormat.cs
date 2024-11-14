@@ -13,7 +13,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance as UTF-8 into the provided span of bytes.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat#system-timespan-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat#system-timespan-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider)
     public static bool TryFormat(this TimeSpan target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? formatProvider = null)
     {
         string result;
@@ -33,7 +33,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance as UTF-8 into the provided span of bytes.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryformat#system-guid-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char)))")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryformat#system-guid-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char)))
     public static bool TryFormat(this Guid target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default)
     {
         string result;
@@ -53,7 +53,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryformat
     public static bool TryFormat(
         this sbyte target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
@@ -74,7 +74,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryformat
     public static bool TryFormat(this byte target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
@@ -94,7 +94,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.int16.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int16.tryformat
     public static bool TryFormat(this short target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
@@ -114,7 +114,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryformat
     public static bool TryFormat(this ushort target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
@@ -134,7 +134,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryformat
     public static bool TryFormat(this int target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
@@ -154,7 +154,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryformat
     public static bool TryFormat(this uint target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
@@ -174,7 +174,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryformat
     public static bool TryFormat(this long target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
@@ -194,7 +194,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryformat
     public static bool TryFormat(this ulong target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
@@ -214,7 +214,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.single.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.single.tryformat
     public static bool TryFormat(this float target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
@@ -234,7 +234,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.double.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryformat
     public static bool TryFormat(this double target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
@@ -254,7 +254,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryformat
     public static bool TryFormat(this decimal target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
@@ -274,7 +274,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.boolean.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.boolean.tryformat
     public static bool TryFormat(this bool target, Span<char> destination, out int charsWritten)
     {
         var result = target.ToString();
@@ -286,7 +286,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryformat
     public static bool TryFormat(this DateTimeOffset target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
@@ -306,7 +306,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryformat
     public static bool TryFormat(this DateTime target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
@@ -329,7 +329,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.dateonly.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.dateonly.tryformat
     public static bool TryFormat(this DateOnly target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
@@ -349,7 +349,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.tryformat")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.tryformat
     public static bool TryFormat(this TimeOnly target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;

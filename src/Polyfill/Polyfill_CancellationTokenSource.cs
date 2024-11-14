@@ -32,7 +32,7 @@ static partial class Polyfill
     /// </para>
     /// </remarks>
     /// <exception cref="ObjectDisposedException">This <see cref="CancellationTokenSource"/> has been disposed.</exception>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancelasync")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancelasync
     public static Task CancelAsync(this CancellationTokenSource target)
     {
         if (target.IsCancellationRequested)

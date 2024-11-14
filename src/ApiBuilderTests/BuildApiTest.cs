@@ -212,7 +212,7 @@ class BuildApiTest
             if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
             {
                 var comment = trivia.ToString();
-                if (comment.Contains("Link:"))
+                if (comment.StartsWith("//Link: "))
                 {
                     reference = comment.Replace("//Link: ", string.Empty);
                     return true;

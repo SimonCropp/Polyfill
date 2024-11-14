@@ -24,7 +24,7 @@ static partial class Polyfill
     /// A task that will complete when the process has exited, cancellation has been requested,
     /// or an error occurs.
     /// </returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitasync")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitasync
     public static async Task WaitForExitAsync(this Process target, CancellationToken cancellationToken = default)
     {
         // Because the process has already started by the time this method is called,
