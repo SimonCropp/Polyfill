@@ -34,7 +34,7 @@ using Link = ComponentModel.DescriptionAttribute;
                 AttributeTargets.Delegate, Inherited = false)]
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.experimentalattribute")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.experimentalattribute
 #if PolyPublic
 public
 #endif

@@ -1,3 +1,5 @@
+using Microsoft.CodeAnalysis;
+
 [TestFixture]
 class BuildApiTest
 {
@@ -204,16 +206,22 @@ class BuildApiTest
 
     static bool TryGetReference(MethodDeclarationSyntax method, [NotNullWhen(true)] out string? reference)
     {
-        var descriptionAttribute = method.Attributes()
-            .SingleOrDefault(_ => _.Name.ToString() == "Link");
-        if (descriptionAttribute == null)
+        var syntaxTrivia = method.GetLeadingTrivia();
+        foreach (var trivia in syntaxTrivia)
         {
-            reference = null;
-            return false;
+            if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
+            {
+                var comment = trivia.ToString();
+                if (comment.StartsWith("//Link: "))
+                {
+                    reference = comment.Replace("//Link: ", string.Empty);
+                    return true;
+                }
+            }
         }
 
-        reference = descriptionAttribute.ArgumentList!.Arguments.Single().Value().Trim('"');
-        return true;
+        reference = null;
+        return false;
     }
 
 

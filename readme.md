@@ -478,7 +478,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### ConcurrentBag<T>
 
- * `void Clear<T>(ConcurrentBag<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentbag-1.clear)
+ * `void Clear<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentbag-1.clear)
 
 
 #### ConcurrentDictionary<TKey, TValue>

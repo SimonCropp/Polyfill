@@ -14,15 +14,15 @@ using Link = System.ComponentModel.DescriptionAttribute;
 static partial class Polyfill
 {
 #if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas
     public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other) =>
         target.MetadataToken == other.MetadataToken &&
         target.Module.Equals(other.Module);
 #endif
 
 #if !NET9_0_OR_GREATER && !NETFRAMEWORK && !NETSTANDARD2_0 && !NETCOREAPP2_0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-type())
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)]
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-type())")]
     public static MethodInfo? GetMethod(this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types) =>
         target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);
 #endif
@@ -30,7 +30,7 @@ static partial class Polyfill
     /// <summary>
     /// Gets a value that indicates whether the current Type represents a type parameter in the definition of a generic method.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter
     public static bool IsGenericMethodParameter(this Type target) =>
 #if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
         target.IsGenericParameter &&
@@ -55,7 +55,7 @@ static partial class Polyfill
     /// <summary>
     /// Determines whether the current type can be assigned to a variable of the specified targetType.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto
     public static bool IsAssignableTo(this Type target, [NotNullWhen(true)] Type? targetType) =>
         targetType?.IsAssignableFrom(target) ?? false;
 #endif
@@ -68,7 +68,7 @@ static partial class Polyfill
     /// <param name="type">The MemberInfo to find on the current Type.</param>
     /// <param name="member">The MemberInfo to find on the current Type.</param>
     /// <returns>An object representing the member on the current Type that matches the specified member.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.type.getmemberwithsamemetadatadefinitionas")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmemberwithsamemetadatadefinitionas
     internal static MemberInfo GetMemberWithSameMetadataDefinitionAs(
         this Type type,
         MemberInfo member)

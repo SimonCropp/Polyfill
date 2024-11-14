@@ -24,7 +24,7 @@ static partial class Polyfill
     /// <para>If the type of <paramref name="source" /> implements <see cref="IList{T}" />, that implementation is used to obtain the element at the specified index. Otherwise, this method obtains the specified element.</para>
     /// <para>This method throws an exception if <paramref name="index" /> is out of range. To instead return a default value when the specified index is out of range, use the <see cref="O:Enumerable.ElementAtOrDefault" /> method.</para>
     /// </remarks>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.elementat#system-linq-enumerable-elementat-1(system-collections-generic-ienumerable((-0))-system-index)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.elementat#system-linq-enumerable-elementat-1(system-collections-generic-ienumerable((-0))-system-index)
     public static TSource ElementAt<TSource>(this IEnumerable<TSource> source, Index index)
     {
         if (!index.IsFromEnd)
@@ -86,7 +86,7 @@ static partial class Polyfill
     /// <para>If the type of <paramref name="source" /> implements <see cref="IList{T}" />, that implementation is used to obtain the element at the specified index. Otherwise, this method obtains the specified element.</para>
     /// <para>The default value for reference and nullable types is <see langword="null" />.</para>
     /// </remarks>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.elementatordefault#system-linq-enumerable-elementatordefault-1(system-collections-generic-ienumerable((-0))-system-index)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.elementatordefault#system-linq-enumerable-elementatordefault-1(system-collections-generic-ienumerable((-0))-system-index)
     public static TSource? ElementAtOrDefault<TSource>(this IEnumerable<TSource> source, Index index)
     {
         if (!index.IsFromEnd)

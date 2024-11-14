@@ -32,7 +32,7 @@ static partial class Polyfill
     /// <returns>The <see cref="CancellationTokenRegistration"/> instance that can
     /// be used to unregister the callback.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="callback"/> is null.</exception>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken.unsaferegister#system-threading-cancellationtoken-unsaferegister(system-action((system-object))-system-object)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken.unsaferegister#system-threading-cancellationtoken-unsaferegister(system-action((system-object))-system-object)
     public static CancellationTokenRegistration UnsafeRegister(this CancellationToken target, Action<object?> callback, object? state)
     {
         if (callback is null)
@@ -79,7 +79,7 @@ static partial class Polyfill
     /// <param name="state">The state to pass to the <paramref name="callback"/> when the delegate is invoked.  This may be null.</param>
     /// <returns>The <see cref="CancellationTokenRegistration"/> instance that can be used to unregister the callback.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="callback"/> is null.</exception>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken.register#system-threading-cancellationtoken-register(system-action((system-object-system-threading-cancellationtoken))-system-object)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken.register#system-threading-cancellationtoken-register(system-action((system-object-system-threading-cancellationtoken))-system-object)
     public static CancellationTokenRegistration Register(this CancellationToken target, Action<object?, CancellationToken> callback, object? state)
     {
         if (callback is null)
@@ -99,7 +99,7 @@ static partial class Polyfill
     /// <param name="state">The state to pass to the <paramref name="callback"/> when the delegate is invoked.  This may be null.</param>
     /// <returns>The <see cref="CancellationTokenRegistration"/> instance that can be used to unregister the callback.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="callback"/> is null.</exception>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken.unsaferegister#system-threading-cancellationtoken-unsaferegister(system-action((system-object-system-threading-cancellationtoken))-system-object)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken.unsaferegister#system-threading-cancellationtoken-unsaferegister(system-action((system-object-system-threading-cancellationtoken))-system-object)
     public static CancellationTokenRegistration UnsafeRegister(this CancellationToken target, Action<object?, CancellationToken> callback, object? state)
     {
         if (callback is null)

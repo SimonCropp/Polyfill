@@ -22,7 +22,7 @@ using Link = ComponentModel.DescriptionAttribute;
 /// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.threading.lock")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.lock
 #if PolyPublic
 public
 #endif

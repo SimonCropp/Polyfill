@@ -23,7 +23,7 @@ static partial class Polyfill
     /// <see cref="TaskStatus.Faulted"/>, or
     /// <see cref="TaskStatus.Canceled"/>.
     /// </exception>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken)
     public static void SetCanceled<T>(
         this TaskCompletionSource<T> target,
         CancellationToken cancellationToken)

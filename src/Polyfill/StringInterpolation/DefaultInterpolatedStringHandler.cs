@@ -18,7 +18,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [InterpolatedStringHandler]
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.defaultinterpolatedstringhandler")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.defaultinterpolatedstringhandler
 #if PolyPublic
 public
 #endif

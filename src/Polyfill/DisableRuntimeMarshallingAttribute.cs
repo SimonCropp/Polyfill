@@ -29,7 +29,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Assembly)]
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.disableruntimemarshallingattribute")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.disableruntimemarshallingattribute
 #if PolyPublic
 public
 #endif

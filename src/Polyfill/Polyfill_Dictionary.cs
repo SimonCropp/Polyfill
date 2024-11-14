@@ -20,7 +20,7 @@ static partial class Polyfill
     /// <param name="dictionary">The dictionary to wrap.</param>
     /// <returns>An object that acts as a read-only wrapper around the current <see cref="IDictionary{TKey, TValue}"/>.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="dictionary"/> is null.</exception>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly#system-collections-generic-collectionextensions-asreadonly-2(system-collections-generic-idictionary((-0-1)))")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly#system-collections-generic-collectionextensions-asreadonly-2(system-collections-generic-idictionary((-0-1)))
     public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> target)
         where TKey : notnull =>
         new(target);
@@ -35,7 +35,7 @@ static partial class Polyfill
     /// <param name="value">The value of the element to add. It can be <see langword="null"/>.</param>
     /// <returns><c>true</c> if the key/value pair was added to the dictionary successfully; otherwise, <c>false</c>.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="key"/> is <see langword="null"/>.</exception>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.tryadd")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.tryadd
     public static bool TryAdd<TKey, TValue>(this Dictionary<TKey, TValue> target, TKey key, TValue value)
         where TKey : notnull
     {
@@ -68,7 +68,7 @@ static partial class Polyfill
     /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
     /// <returns><code>true</code> if the element is successfully found and removed; otherwise, <code>false</code>.</returns>
     /// <exception cref="ArgumentNullException"><paramref name="key"/> is <code>null</code>.</exception>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.remove")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.remove
     public static bool Remove<TKey, TValue>(
         this Dictionary<TKey, TValue> target,
         TKey key,

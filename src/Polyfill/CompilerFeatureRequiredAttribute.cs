@@ -18,7 +18,7 @@ using Link = ComponentModel.DescriptionAttribute;
     validOn: AttributeTargets.All,
     AllowMultiple = true,
     Inherited = false)]
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute
 #if PolyPublic
 public
 #endif
