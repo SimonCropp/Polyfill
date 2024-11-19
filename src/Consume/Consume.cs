@@ -84,6 +84,7 @@ class Consume
         type = typeof(DisableRuntimeMarshallingAttribute);
         type = typeof(RequiresUnreferencedCodeAttribute);
         type = typeof(UnreachableException);
+        type = typeof(DebuggerDisableUserUnhandledExceptionsAttribute);
 
         // Test to make sure there are no clashes in the Polyfill code with classes that
         // might be defined in user code. See comments in Debug.cs for more details.
