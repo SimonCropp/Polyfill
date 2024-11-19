@@ -9,7 +9,6 @@ using System.IO;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {

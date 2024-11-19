@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]

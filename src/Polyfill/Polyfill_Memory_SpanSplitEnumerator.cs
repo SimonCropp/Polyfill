@@ -9,7 +9,6 @@ using System;
 using System.Buffers;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {

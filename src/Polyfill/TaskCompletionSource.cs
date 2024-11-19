@@ -12,7 +12,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Represents the producer side of a <see cref="Tasks.Task"/> unbound to a

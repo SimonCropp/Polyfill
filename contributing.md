@@ -138,7 +138,6 @@ namespace System.Runtime.CompilerServices;
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Used to indicate to the compiler that a method should be called
@@ -173,7 +172,7 @@ sealed class ModuleInitializerAttribute :
     Attribute;
 #endif
 ```
-<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L43' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -195,7 +194,6 @@ using System;
 using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
-using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
 #if FeatureMemory
@@ -399,7 +397,7 @@ static partial class Polyfill
 #endif
 }
 ```
-<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L212' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L211' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

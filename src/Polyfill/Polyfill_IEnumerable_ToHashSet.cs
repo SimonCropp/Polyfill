@@ -7,7 +7,6 @@ namespace Polyfills;
 
 using System.Collections;
 using System.Collections.Generic;
-using Link = System.ComponentModel.DescriptionAttribute;
 using System.Linq;
 
 static partial class Polyfill

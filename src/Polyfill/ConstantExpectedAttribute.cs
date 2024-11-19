@@ -7,7 +7,6 @@
 namespace System.Diagnostics.CodeAnalysis;
 
 using Diagnostics;
-using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Indicates that the specified method parameter expects a constant.

@@ -7,7 +7,6 @@ using System;
 using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
-using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
 #if FeatureMemory

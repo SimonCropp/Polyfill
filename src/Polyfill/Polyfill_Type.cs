@@ -9,7 +9,6 @@ namespace Polyfills;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
