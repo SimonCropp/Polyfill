@@ -37,7 +37,7 @@ using Link = System.ComponentModel.DescriptionAttribute;
 /// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource?view=net-8.0
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource
 #if PolyPublic
 public
 #endif

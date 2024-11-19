@@ -53,7 +53,7 @@ static class GuidPolyfill
     /// <summary>
     /// Tries to parse a span of UTF-8 characters into a value.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-8.0#system-guid-tryparse(system-readonlyspan((system-char))-system-guid@)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse#system-guid-tryparse(system-readonlyspan((system-char))-system-guid@)
     public static bool TryParse(ReadOnlySpan<char> target, out Guid result) =>
 #if NETSTANDARD2_1 || NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER
         Guid.TryParse(target, out result);

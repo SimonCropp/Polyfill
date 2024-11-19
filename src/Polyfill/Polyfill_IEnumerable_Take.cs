@@ -165,7 +165,7 @@ static partial class Polyfill
     /// <para>This method is implemented by using deferred execution. The immediate return value is an object that stores all the information that is required to perform the action. The query represented by this method is not executed until the object is enumerated either by calling its `GetEnumerator` method directly or by using `foreach` in Visual C# or `For Each` in Visual Basic.</para>
     /// <para><see cref="O:Enumerable.Take" /> enumerates <paramref name="source" /> and yields elements whose indices belong to the specified <paramref name="range"/>.</para>
     /// </remarks>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.take?view=net-8.0#system-linq-enumerable-take-1(system-collections-generic-ienumerable((-0))-system-range)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.take#system-linq-enumerable-take-1(system-collections-generic-ienumerable((-0))-system-range)
     public static IEnumerable<TSource> Take<TSource>(
         this IEnumerable<TSource> target,
         Range range)

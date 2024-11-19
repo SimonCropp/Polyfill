@@ -19,7 +19,7 @@ using Link = ComponentModel.DescriptionAttribute;
 /// </summary>
 [DebuggerNonUserCode]
 [ExcludeFromCodeCoverage]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.reflection.nullabilityinfo?view=net-8.0
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.reflection.nullabilityinfo
 #if PolyPublic
 public
 #endif
