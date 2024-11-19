@@ -46,6 +46,7 @@ class Consume
         type = typeof(NotNullAttribute);
         type = typeof(NotNullIfNotNullAttribute);
         type = typeof(NotNullWhenAttribute);
+        type = typeof(ParamCollectionAttribute);
         type = typeof(CallerArgumentExpressionAttribute);
         type = typeof(IsExternalInit);
         type = typeof(ModuleInitializerAttribute);
@@ -115,6 +116,10 @@ class Consume
 
     [RequiresPreviewFeatures("This method uses a preview feature.")]
     void UsePreviewFeature()
+    {
+    }
+
+    public static void ParamCollection(params List<string> collection)
     {
     }
 
