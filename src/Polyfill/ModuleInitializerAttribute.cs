@@ -7,7 +7,6 @@ namespace System.Runtime.CompilerServices;
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Used to indicate to the compiler that a method should be called

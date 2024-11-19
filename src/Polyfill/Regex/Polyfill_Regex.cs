@@ -7,7 +7,6 @@ namespace Polyfills;
 
 using System;
 using System.Text.RegularExpressions;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {

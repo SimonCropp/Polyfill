@@ -7,7 +7,6 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 #if FeatureMemory
 #if NET7_0_OR_GREATER

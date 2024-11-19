@@ -12,7 +12,6 @@ namespace System.Reflection;
 
 using Diagnostics.CodeAnalysis;
 using Diagnostics;
-using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// A class that represents nullability info

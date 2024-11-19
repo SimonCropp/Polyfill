@@ -9,7 +9,6 @@ namespace System.Runtime.Versioning;
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 [AttributeUsage(AttributeTargets.Assembly |
                 AttributeTargets.Module |

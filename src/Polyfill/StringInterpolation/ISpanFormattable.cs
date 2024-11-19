@@ -3,8 +3,6 @@
 
 #if FeatureMemory && !NET6_0_OR_GREATER
 
-using Link = System.ComponentModel.DescriptionAttribute;
-
 #nullable enable
 
 namespace System;

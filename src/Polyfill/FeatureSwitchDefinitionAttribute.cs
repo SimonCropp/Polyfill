@@ -7,8 +7,6 @@ namespace System.Diagnostics.CodeAnalysis;
 
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
-using Link = ComponentModel.DescriptionAttribute;
-
 
 /// <summary>
 /// [AttributeUsage(AttributeTargets.Property, Inherited = false)]
@@ -16,7 +14,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Property, Inherited = false)]
-//Link:https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.featureswitchdefinitionattribute
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.featureswitchdefinitionattribute
 #if PolyPublic
 public
 #endif
