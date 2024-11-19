@@ -49,6 +49,7 @@ class Consume
         type = typeof(ParamCollectionAttribute);
         type = typeof(CallerArgumentExpressionAttribute);
         type = typeof(IsExternalInit);
+        type = typeof(FeatureGuardAttribute);
         type = typeof(ModuleInitializerAttribute);
         type = typeof(RequiredMemberAttribute);
         type = typeof(SetsRequiredMembersAttribute);
