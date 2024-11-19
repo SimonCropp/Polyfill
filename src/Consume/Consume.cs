@@ -48,6 +48,7 @@ class Consume
         type = typeof(NotNullWhenAttribute);
         type = typeof(CallerArgumentExpressionAttribute);
         type = typeof(IsExternalInit);
+        type = typeof(FeatureGuardAttribute);
         type = typeof(ModuleInitializerAttribute);
         type = typeof(RequiredMemberAttribute);
         type = typeof(SetsRequiredMembersAttribute);
