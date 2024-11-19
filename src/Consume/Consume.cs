@@ -46,6 +46,7 @@ class Consume
         type = typeof(NotNullAttribute);
         type = typeof(NotNullIfNotNullAttribute);
         type = typeof(NotNullWhenAttribute);
+        type = typeof(ParamCollectionAttribute);
         type = typeof(CallerArgumentExpressionAttribute);
         type = typeof(IsExternalInit);
         type = typeof(FeatureGuardAttribute);
@@ -120,6 +121,10 @@ class Consume
     }
 
 #if LangVersion13
+
+    public static void ParamCollection(params List<string> collection)
+    {
+    }
 
     [OverloadResolutionPriority(1)]
     void Method(int x)
