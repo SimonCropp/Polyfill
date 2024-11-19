@@ -120,11 +120,11 @@ class Consume
     {
     }
 
+#if LangVersion13
+
     public static void ParamCollection(params List<string> collection)
     {
     }
-
-#if LangVersion13
 
     [OverloadResolutionPriority(1)]
     void Method(int x)
