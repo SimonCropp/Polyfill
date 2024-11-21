@@ -35,6 +35,8 @@ static class LongPolyfill
     public static bool TryParse(ReadOnlySpan<byte> target, IFormatProvider? provider, out int result) =>
 #if NET8_0_OR_GREATER
         int.TryParse(target, provider, out result);
+#elif FeatureMemory && AllowUnsafeBlocks || NETCOREAPP2_1_OR_GREATER
+        int.TryParse(Encoding.UTF8.GetString(target), NumberStyles.Integer, provider, out result);
 #else
         int.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, provider, out result);
 #endif
@@ -68,6 +70,8 @@ static class LongPolyfill
     public static bool TryParse(ReadOnlySpan<byte> target, NumberStyles style, IFormatProvider? provider, out int result) =>
 #if NET8_0_OR_GREATER
         int.TryParse(target, style, provider, out result);
+#elif FeatureMemory && AllowUnsafeBlocks || NETCOREAPP2_1_OR_GREATER
+        int.TryParse(Encoding.UTF8.GetString(target), style, provider, out result);
 #else
         int.TryParse(Encoding.UTF8.GetString(target.ToArray()), style, provider, out result);
 #endif
@@ -79,6 +83,8 @@ static class LongPolyfill
     public static bool TryParse(ReadOnlySpan<byte> target, out int result) =>
 #if NET8_0_OR_GREATER
         int.TryParse(target, out result);
+#elif FeatureMemory && AllowUnsafeBlocks || NETCOREAPP2_1_OR_GREATER
+        int.TryParse(Encoding.UTF8.GetString(target), NumberStyles.Integer, null, out result);
 #else
         int.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Integer, null, out result);
 #endif

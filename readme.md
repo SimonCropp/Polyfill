@@ -12,7 +12,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`
 
 
-**API count: 410**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 412**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -526,6 +526,12 @@ The class `Polyfill` includes the following extension methods:
 #### double
 
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.double.tryformat)
+
+
+#### Encoding
+
+ * `int GetBytes(ReadOnlySpan<char>, Span<byte>)`
+ * `string GetString(ReadOnlySpan<byte>)`
 
 
 #### EventInfo
