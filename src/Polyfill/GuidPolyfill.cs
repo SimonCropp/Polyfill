@@ -32,6 +32,30 @@ static class GuidPolyfill
 
     public static Guid CreateVersion7(DateTimeOffset timestamp)
     {
+#if NET9_0_OR_GREATER
+        return Guid.CreateVersion7();
+#elif NET8_0_OR_GREATER
+        byte[] uuidAsBytes = new byte[16];
+
+        long unixTimeMilliseconds = timestamp.ToUnixTimeMilliseconds();
+
+        byte[] current = BitConverter.GetBytes(unixTimeMilliseconds);
+
+        if (BitConverter.IsLittleEndian)
+        {
+            Array.Reverse(current);
+        }
+
+        current[2..8].CopyTo(uuidAsBytes, 0);
+
+        Span<byte> random_part = uuidAsBytes.AsSpan().Slice(6);
+        RandomNumberGenerator.Fill(random_part);
+
+        uuidAsBytes[6] &= 0x0F;
+        uuidAsBytes[6] += 0x70;
+
+        return new Guid(uuidAsBytes, true);
+#else
         long unixTimeMilliseconds = timestamp.ToUnixTimeMilliseconds();
 
         byte[] timeBytes = BitConverter.GetBytes(unixTimeMilliseconds);
@@ -55,6 +79,7 @@ static class GuidPolyfill
         uuidBytes[8] = (byte)((uuidBytes[8] & 0x3F) | 0x80);
 
         return new Guid(uuidBytes);
+#endif
     }
 
 #if FeatureMemory
