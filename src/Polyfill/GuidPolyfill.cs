@@ -35,39 +35,42 @@ static class GuidPolyfill
 #if NET9_0_OR_GREATER
         return Guid.CreateVersion7();
 #elif NET8_0_OR_GREATER
-        byte[] uuidAsBytes = new byte[16];
+        byte[] uuidBytes = new byte[16];
 
         long unixTimeMilliseconds = timestamp.ToUnixTimeMilliseconds();
 
-        byte[] current = BitConverter.GetBytes(unixTimeMilliseconds);
+        byte[] timeBytes = BitConverter.GetBytes(unixTimeMilliseconds);
 
         if (BitConverter.IsLittleEndian)
         {
-            Array.Reverse(current);
+            Array.Reverse(timeBytes);
         }
 
-        current[2..8].CopyTo(uuidAsBytes, 0);
+        timeBytes[2..8].CopyTo(uuidBytes, 0);
 
-        Span<byte> random_part = uuidAsBytes.AsSpan().Slice(6);
-        RandomNumberGenerator.Fill(random_part);
+        Span<byte> randomBytes = uuidBytes.AsSpan().Slice(6);
 
-        uuidAsBytes[6] &= 0x0F;
-        uuidAsBytes[6] += 0x70;
+        RandomNumberGenerator.Fill(randomBytes);
 
-        return new Guid(uuidAsBytes, true);
+        uuidBytes[6] &= 0x0F;
+        uuidBytes[6] += 0x70;
+
+        return new Guid(uuidBytes, true);
 #else
         long unixTimeMilliseconds = timestamp.ToUnixTimeMilliseconds();
 
         byte[] timeBytes = BitConverter.GetBytes(unixTimeMilliseconds);
+
         if (BitConverter.IsLittleEndian)
         {
             Array.Reverse(timeBytes);
         }
 
         byte[] randomBytes = new byte[10];
-        using (var rng = RandomNumberGenerator.Create())
+
+        using (var randomNumberGenerator = RandomNumberGenerator.Create())
         {
-            rng.GetBytes(randomBytes);
+            randomNumberGenerator.GetBytes(randomBytes);
         }
 
         byte[] uuidBytes = new byte[16];
