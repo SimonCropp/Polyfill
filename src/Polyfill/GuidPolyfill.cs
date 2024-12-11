@@ -25,6 +25,31 @@ static class GuidPolyfill
         Guid.TryParse(target, out result);
 #endif
 
+    public static Guid CreateVersion7() => CreateVersion7(DateTimeOffset.UtcNow);
+
+    /// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
+    /// <param name="timestamp">The date time offset used to determine the Unix Epoch timestamp.</param>
+    /// <returns>A new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</returns>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="timestamp" /> represents an offset prior to <see cref="DateTimeOffset.UnixEpoch" />.</exception>
+    /// <remarks>
+    ///     <para>This seeds the rand_a and rand_b sub-fields with random data.</para>
+    /// </remarks>
+    public static Guid CreateVersion7(DateTimeOffset timestamp)
+    {
+        Guid result = Guid.NewGuid();
+
+        long unix_ts_ms = timestamp.ToUnixTimeMilliseconds();
+        ArgumentOutOfRangeException.ThrowIfNegative(unix_ts_ms, nameof(timestamp));
+
+        Unsafe.AsRef(in result._a) = (int)(unix_ts_ms >> 16);
+        Unsafe.AsRef(in result._b) = (short)(unix_ts_ms);
+
+        Unsafe.AsRef(in result._c) = (short)((result._c & ~VersionMask) | Version7Value);
+        Unsafe.AsRef(in result._d) = (byte)((result._d & ~Variant10xxMask) | Variant10xxValue);
+
+        return result;
+    }
+
 #if FeatureMemory
 
     /// <summary>
