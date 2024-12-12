@@ -528,6 +528,12 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryFormat(double, Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.double.tryformat)
 
 
+#### Encoding
+
+ * `int GetBytes(ReadOnlySpan<char>, Span<byte>)`
+ * `string GetString(ReadOnlySpan<byte>)`
+
+
 #### EventInfo
 
  * `NullabilityState GetNullability(EventInfo)`
