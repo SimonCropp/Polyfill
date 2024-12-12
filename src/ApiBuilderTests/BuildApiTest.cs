@@ -187,10 +187,6 @@ class BuildApiTest
     static string BuildParameters(MethodDeclarationSyntax method)
     {
         var parameters = method.ParameterList.Parameters.ToList();
-        if (method.IsExtensionMethod())
-        {
-            parameters = parameters.Skip(1).ToList();
-        }
 
         if (parameters.Count > 0)
         {
@@ -209,15 +205,19 @@ class BuildApiTest
         var syntaxTrivia = method.GetLeadingTrivia();
         foreach (var trivia in syntaxTrivia)
         {
-            if (trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
+            if (!trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
             {
-                var comment = trivia.ToString();
-                if (comment.StartsWith("//Link: "))
-                {
-                    reference = comment.Replace("//Link: ", string.Empty);
-                    return true;
-                }
+                continue;
             }
+
+            var comment = trivia.ToString();
+            if (!comment.StartsWith("//Link: "))
+            {
+                continue;
+            }
+
+            reference = comment.Replace("//Link: ", string.Empty);
+            return true;
         }
 
         reference = null;

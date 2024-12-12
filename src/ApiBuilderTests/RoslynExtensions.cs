@@ -8,10 +8,6 @@ public static class RoslynExtensions
     public static bool IsNested(this TypeDeclarationSyntax type) =>
         type.Parent is TypeDeclarationSyntax or ClassDeclarationSyntax;
 
-    public static bool IsExtensionMethod(this MethodDeclarationSyntax method) =>
-        method.IsStatic() &&
-        method.ParameterList.Parameters.Count > 0;
-
     public static bool IsStatic(this MethodDeclarationSyntax method) =>
         method.Modifiers.Any(_ => _.IsKind(SyntaxKind.StaticKeyword));
 
