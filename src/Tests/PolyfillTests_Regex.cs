@@ -1,5 +1,3 @@
-using System.Text.RegularExpressions;
-
 partial class PolyfillTests
 {
     [Test]

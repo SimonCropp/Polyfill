@@ -3,6 +3,7 @@
 
 struct UnscopedRefUsage
 {
+    // ReSharper disable once ReplaceWithFieldKeyword
     int field1;
 
     [UnscopedRef] ref int Prop1 => ref field1;
