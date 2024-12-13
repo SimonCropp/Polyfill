@@ -623,4 +623,9 @@
  * `Scope EnterScope()`
 
 
+#### KeyValuePair
+
+ * `KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey, TValue)`
+
+
 #### TaskCompletionSource

@@ -12,7 +12,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`
 
 
-**API count: 414**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 415**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -1075,6 +1075,11 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryEnter(int)`
  * `void Exit()`
  * `Scope EnterScope()`
+
+
+#### KeyValuePair
+
+ * `KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey, TValue)`
 
 
 #### TaskCompletionSource<!-- endInclude -->
