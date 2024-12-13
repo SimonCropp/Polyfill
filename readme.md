@@ -322,12 +322,9 @@ public class OverloadResolutionPriorityAttributeTests
 
 Reference: [Low Level Struct Improvements](https://github.com/dotnet/csharplang/blob/main/proposals/csharp-11.0/low-level-struct-improvements.md)
 
-<!-- snippet: UnscopedRefUsage.cs -->
-<a id='snippet-UnscopedRefUsage.cs'></a>
+<!-- snippet: UnscopedRefUsage -->
+<a id='snippet-UnscopedRefUsage'></a>
 ```cs
-using System.Diagnostics.CodeAnalysis;
-#pragma warning disable CS0169 // Field is never used
-
 struct UnscopedRefUsage
 {
     int field1;
@@ -335,7 +332,7 @@ struct UnscopedRefUsage
     [UnscopedRef] ref int Prop1 => ref field1;
 }
 ```
-<sup><a href='/src/Consume/UnscopedRefUsage.cs#L1-L9' title='Snippet source file'>snippet source</a> | <a href='#snippet-UnscopedRefUsage.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/UnscopedRefUsage.cs#L5-L12' title='Snippet source file'>snippet source</a> | <a href='#snippet-UnscopedRefUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -1079,7 +1076,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### KeyValuePair
 
- * `KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey, TValue)`
+ * `KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey, TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair.create)
 
 
 #### TaskCompletionSource<!-- endInclude -->

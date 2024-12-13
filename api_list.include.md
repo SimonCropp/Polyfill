@@ -625,7 +625,7 @@
 
 #### KeyValuePair
 
- * `KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey, TValue)`
+ * `KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey, TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair.create)
 
 
 #### TaskCompletionSource
