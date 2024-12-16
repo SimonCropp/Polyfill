@@ -95,6 +95,19 @@ If Polyfill is being consumed in a solution that produce a library (and usually 
 If, however, `InternalsVisibleTo` is being used to expose APIs (for example to test projects), then the Polyfill nuget should be added only to the root library project.
 
 
+## Troubleshooting
+
+Make sure `DefineConstants` is not set from dotnet CLI, which would override important constants set by Polyfill.
+
+Instead of using `dotnet publish -p:DefineConstants=MY_CONSTANT`, set the constant indirectly in the project:
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <DefineConstants Condition="'$(MyConstant)' == 'true'">$(DefineConstants);MY_CONSTANT</DefineConstants>
+```
+and use `dotnet publish -p:MyConstant=true`.
+
+
 ## Included polyfills
 
 
