@@ -37,11 +37,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoRefsTests", "NoRefsTests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumeNoRefs", "ConsumeNoRefs\ConsumeNoRefs.csproj", "{B4DC96CA-C700-499F-A9A2-0C767DCF8C30}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumeTasksWithNoMemory", "ConsumeTasksWithNoMemory\ConsumeTasksWithNoMemory.csproj", "{96EF1E04-5862-4D9E-B800-A6402F1ADF7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumeOnlyTasks", "ConsumeOnlyTasks\ConsumeOnlyTasks.csproj", "{96EF1E04-5862-4D9E-B800-A6402F1ADF7A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TargetFrameworkUsage", "TargetFrameworkUsage\TargetFrameworkUsage.csproj", "{41CB5A0C-E0F5-4C5C-B2FC-9A289E8CFDF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeMemoryWithNoTask", "ConsumeMemoryWithNoTask\ConsumeMemoryWithNoTask.csproj", "{1BDDA7F0-0D45-418C-B3DB-BBA39C29FD77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeOnlyMemory", "ConsumeOnlyMemory\ConsumeOnlyMemory.csproj", "{1BDDA7F0-0D45-418C-B3DB-BBA39C29FD77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeCs12", "ConsumeCs12\ConsumeCs12.csproj", "{4ACF4760-B3C5-4D07-9D92-2B8225BA8881}"
 EndProject
