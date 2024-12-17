@@ -37,11 +37,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoRefsTests", "NoRefsTests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumeNoRefs", "ConsumeNoRefs\ConsumeNoRefs.csproj", "{B4DC96CA-C700-499F-A9A2-0C767DCF8C30}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumeTasksWithNoMemory", "ConsumeTasksWithNoMemory\ConsumeTasksWithNoMemory.csproj", "{96EF1E04-5862-4D9E-B800-A6402F1ADF7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsumeOnlyTasks", "ConsumeOnlyTasks\ConsumeOnlyTasks.csproj", "{96EF1E04-5862-4D9E-B800-A6402F1ADF7A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TargetFrameworkUsage", "TargetFrameworkUsage\TargetFrameworkUsage.csproj", "{41CB5A0C-E0F5-4C5C-B2FC-9A289E8CFDF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeMemoryWithNoTask", "ConsumeMemoryWithNoTask\ConsumeMemoryWithNoTask.csproj", "{1BDDA7F0-0D45-418C-B3DB-BBA39C29FD77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeOnlyMemory", "ConsumeOnlyMemory\ConsumeOnlyMemory.csproj", "{1BDDA7F0-0D45-418C-B3DB-BBA39C29FD77}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeCs12", "ConsumeCs12\ConsumeCs12.csproj", "{4ACF4760-B3C5-4D07-9D92-2B8225BA8881}"
 EndProject
@@ -54,6 +54,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeCsDefault", "ConsumeCsDefault\ConsumeCsDefault.csproj", "{86AA1F8D-4081-4D31-812E-866C0951415D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiBuilderTests", "ApiBuilderTests\ApiBuilderTests.csproj", "{CC0C08FE-14E1-4A3D-8547-EFC8097D48C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeOnlyValueTuple", "ConsumeOnlyValueTuple\ConsumeOnlyValueTuple.csproj", "{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,6 +133,10 @@ Global
 		{CC0C08FE-14E1-4A3D-8547-EFC8097D48C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC0C08FE-14E1-4A3D-8547-EFC8097D48C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC0C08FE-14E1-4A3D-8547-EFC8097D48C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

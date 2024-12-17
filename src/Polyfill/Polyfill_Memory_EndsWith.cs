@@ -2,15 +2,14 @@
 
 #if FeatureMemory
 
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
 #pragma warning disable
 
 namespace Polyfills;
 
 using System;
 using System.Text;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 static partial class Polyfill
 {
@@ -25,8 +24,16 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith#system-memoryextensions-endswith-1(system-readonlyspan((-0))-0)
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool EndsWith<T>(this ReadOnlySpan<T> target, T value)
-        where T : IEquatable<T>? =>
-        target.Length != 0 && (target[^1]?.Equals(value) ?? (object?)value is null);
+        where T : IEquatable<T>?
+    {
+        if (target.Length == 0)
+        {
+            return false;
+        }
+
+        var last = target[target.Length-1];
+        return last?.Equals(value) ?? (object?)value is null;
+    }
 
 #endif
 
