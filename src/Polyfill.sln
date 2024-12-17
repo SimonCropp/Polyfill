@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeCsDefault", "Consume
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiBuilderTests", "ApiBuilderTests\ApiBuilderTests.csproj", "{CC0C08FE-14E1-4A3D-8547-EFC8097D48C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeOnlyValueTuple", "ConsumeOnlyValueTuple\ConsumeOnlyValueTuple.csproj", "{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -131,6 +133,10 @@ Global
 		{CC0C08FE-14E1-4A3D-8547-EFC8097D48C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CC0C08FE-14E1-4A3D-8547-EFC8097D48C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC0C08FE-14E1-4A3D-8547-EFC8097D48C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
