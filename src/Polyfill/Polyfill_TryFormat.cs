@@ -15,7 +15,7 @@ static partial class Polyfill
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat#system-timespan-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider)
-    public static bool TryFormat(this TimeSpan target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, [StringSyntax(StringSyntaxAttribute.TimeSpanFormat)] IFormatProvider? formatProvider = null)
+    public static bool TryFormat(this TimeSpan target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.TimeSpanFormat)] ReadOnlySpan<char> format = default, IFormatProvider? formatProvider = null)
     {
         string result;
 
@@ -55,7 +55,7 @@ static partial class Polyfill
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryformat#system-sbyte-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider)
-    public static bool TryFormat(this sbyte target, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, [StringSyntax(StringSyntaxAttribute.NumericFormat)] IFormatProvider? provider = default)
+    public static bool TryFormat(this sbyte target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.NumericFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
 
