@@ -565,8 +565,7 @@ class Consume
 
     void Type_Methods(MemberInfo info)
     {
-        bool result;
-        result = typeof(List<string>).IsAssignableTo(typeof(string));
+        var result = typeof(List<string>).IsAssignableTo(typeof(string));
         result = typeof(List<string>).IsAssignableTo(null);
         result = typeof(string).IsGenericMethodParameter();
         var member = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
