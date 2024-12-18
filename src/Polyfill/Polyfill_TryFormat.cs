@@ -376,6 +376,12 @@ static partial class Polyfill
             return true;
         }
 
+        if (result.Length > destination.Length)
+        {
+            charsWritten = 0;
+            return false;
+        }
+
         charsWritten = result.Length;
         return result.TryCopyTo(destination);
     }
