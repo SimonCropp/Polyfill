@@ -349,7 +349,7 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.tryformat
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.tryformat#system-timeonly-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider)
     public static bool TryFormat(this TimeOnly target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.TimeOnlyFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default)
     {
         string result;
