@@ -9,7 +9,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9", buffer.ToString());
+        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -31,7 +31,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.False(result);
-        Assert.AreEqual("\0", buffer.ToString());
+        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 
@@ -42,7 +42,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9", buffer.ToString());
+        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -53,7 +53,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9\0", buffer.ToString());
+        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -64,7 +64,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.False(result);
-        Assert.AreEqual("\0", buffer.ToString());
+        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 
@@ -75,7 +75,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9", buffer.ToString());
+        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -86,7 +86,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9\0", buffer.ToString());
+        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -97,7 +97,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.False(result);
-        Assert.AreEqual("\0", buffer.ToString());
+        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 
@@ -108,7 +108,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9", buffer.ToString());
+        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -119,7 +119,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9\0", buffer.ToString());
+        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -130,7 +130,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.False(result);
-        Assert.AreEqual("\0", buffer.ToString());
+        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 
@@ -141,7 +141,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9", buffer.ToString());
+        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -152,7 +152,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9\0", buffer.ToString());
+        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -163,7 +163,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.False(result);
-        Assert.AreEqual("\0", buffer.ToString());
+        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 
@@ -174,7 +174,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9", buffer.ToString());
+        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -185,7 +185,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9\0", buffer.ToString());
+        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -196,7 +196,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.False(result);
-        Assert.AreEqual("\0", buffer.ToString());
+        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 
@@ -207,7 +207,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9", buffer.ToString());
+        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -218,7 +218,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9\0", buffer.ToString());
+        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -229,7 +229,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.False(result);
-        Assert.AreEqual("\0", buffer.ToString());
+        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 
@@ -240,7 +240,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9", buffer.ToString());
+        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(buffer.Length, written);
     }
 
@@ -251,7 +251,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9\0", buffer.ToString());
+        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -262,7 +262,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.False(result);
-        Assert.AreEqual("\0", buffer.ToString());
+        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 
@@ -273,7 +273,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9", buffer.ToString());
+        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -284,7 +284,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9\0", buffer.ToString());
+        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -295,7 +295,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.False(result);
-        Assert.AreEqual("\0", buffer.ToString());
+        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 
@@ -306,7 +306,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[36];
         var result = value.TryFormat(buffer, out var written);
         Assert.True(result);
-        Assert.AreEqual("97008c2d-2114-4396-ae19-392c8e6f8f1b", buffer.ToString());
+        Assert.AreEqual("97008c2d-2114-4396-ae19-392c8e6f8f1b", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(buffer.Length, written);
     }
 
@@ -317,7 +317,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[40];
         var result = value.TryFormat(buffer, out var written);
         Assert.True(result);
-        Assert.AreEqual("97008c2d-2114-4396-ae19-392c8e6f8f1b\0\0\0\0", buffer.ToString());
+        Assert.AreEqual("97008c2d-2114-4396-ae19-392c8e6f8f1b\0\0\0\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(36, written);
     }
 
@@ -328,7 +328,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[35];
         var result = value.TryFormat(buffer, out var written);
         Assert.False(result);
-        Assert.AreEqual("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", buffer.ToString());
+        Assert.AreEqual("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 
@@ -339,7 +339,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9", buffer.ToString());
+        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -350,7 +350,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9\0", buffer.ToString());
+        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -361,7 +361,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.False(result);
-        Assert.AreEqual("\0", buffer.ToString());
+        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 
@@ -372,7 +372,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9", buffer.ToString());
+        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -383,7 +383,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("9\0", buffer.ToString());
+        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(1, written);
     }
 
@@ -394,7 +394,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
         Assert.False(result);
-        Assert.AreEqual("\0", buffer.ToString());
+        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 
@@ -405,7 +405,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[29];
         var result = value.TryFormat(buffer, out var written, format: "R".AsSpan(), CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT", buffer.ToString());
+        Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(29, written);
     }
 
@@ -416,7 +416,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[40];
         var result = value.TryFormat(buffer, out var written, format: "R".AsSpan(), CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT\0\0\0\0\0\0\0\0\0\0\0", buffer.ToString());
+        Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT\0\0\0\0\0\0\0\0\0\0\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(29, written);
     }
 
@@ -427,7 +427,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[28];
         var result = value.TryFormat(buffer, out var written, format: "R".AsSpan(), CultureInfo.InvariantCulture);
         Assert.False(result);
-        Assert.AreEqual("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", buffer.ToString());
+        Assert.AreEqual("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 
@@ -438,7 +438,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[29];
         var result = value.TryFormat(buffer, out var written, format: "R".AsSpan(), CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT", buffer.ToString());
+        Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(29, written);
     }
 
@@ -449,7 +449,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[40];
         var result = value.TryFormat(buffer, out var written, format: "R".AsSpan(), CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT\0\0\0\0\0\0\0\0\0\0\0", buffer.ToString());
+        Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT\0\0\0\0\0\0\0\0\0\0\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(29, written);
     }
 
@@ -460,7 +460,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[28];
         var result = value.TryFormat(buffer, out var written, format: "R".AsSpan(), CultureInfo.InvariantCulture);
         Assert.False(result);
-        Assert.AreEqual("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", buffer.ToString());
+        Assert.AreEqual("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 
@@ -472,7 +472,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[16];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("Mon, 01 Oct 2001", buffer.ToString());
+        Assert.AreEqual("Mon, 01 Oct 2001", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(16, written);
     }
 
@@ -505,7 +505,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[8];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("10:01:00", buffer.ToString());
+        Assert.AreEqual("10:01:00", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(8, written);
     }
 
@@ -516,7 +516,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[10];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.True(result);
-        Assert.AreEqual("10:01:00\0\0", buffer.ToString());
+        Assert.AreEqual("10:01:00\0\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(8, written);
     }
 
@@ -527,7 +527,7 @@ partial class PolyfillTests
         Span<byte> buffer = stackalloc byte[7];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.False(result);
-        Assert.AreEqual("\0\0\0\0\0\0\0", buffer.ToString());
+        Assert.AreEqual("\0\0\0\0\0\0\0", Encoding.UTF8.GetString(buffer));
         Assert.AreEqual(0, written);
     }
 #endif
