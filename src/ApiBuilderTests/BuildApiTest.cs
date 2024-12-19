@@ -25,7 +25,7 @@ class BuildApiTest
             writer.WriteLine($"#### {extension.Key}");
             writer.WriteLine();
 
-            foreach (var method in extension)
+            foreach (var method in extension.OrderBy(Key))
             {
                 count++;
                 WriteSignature(method, writer);
@@ -124,7 +124,9 @@ class BuildApiTest
 
         writer.WriteLine($"#### {name}");
         writer.WriteLine();
-        foreach (var method in methods.Where(_ => _.IsPublic() && !_.IsConstructor()))
+        foreach (var method in methods
+                     .Where(_ => _.IsPublic() && !_.IsConstructor())
+                     .OrderBy(Key))
         {
             count++;
             WriteSignature(method, writer);
@@ -136,9 +138,7 @@ class BuildApiTest
 
     static void WriteSignature(MethodDeclarationSyntax method, StreamWriter writer)
     {
-        var parameters = BuildParameters(method);
-        var typeArgs = BuildTypeArgs(method);
-        var signature = new StringBuilder($"{method.ReturnType.ToString()} {method.Identifier.Text}{typeArgs}({parameters})");
+        var signature = new StringBuilder($"{method.ReturnType} {Key(method)}");
 
         if (method.ConstraintClauses.Count > 0)
         {
@@ -159,6 +159,14 @@ class BuildApiTest
         {
             writer.WriteLine($" * `{signature}`");
         }
+    }
+
+    private static string Key(MethodDeclarationSyntax method)
+    {
+        var parameters = BuildParameters(method);
+        var typeArgs = BuildTypeArgs(method);
+        var key = $"{method.Identifier.Text}{typeArgs}({parameters})";
+        return key;
     }
 
     static string BuildKey(MethodDeclarationSyntax method)
