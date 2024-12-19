@@ -45,10 +45,13 @@ static partial class Polyfill
         }
     }
 
+#endif
+#if !NETCOREAPP2_1_OR_GREATER
     /// <summary>When overridden in a derived class, decodes all the bytes in the specified byte span into a string.</summary>
     /// <param name="bytes">A read-only byte span to decode to a Unicode string.</param>
     /// <returns>A string that contains the decoded bytes from the provided read-only span.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getstring#system-text-encoding-getstring(system-readonlyspan((system-byte)))
+#if AllowUnsafeBlocks
     public static unsafe string GetString(this Encoding target, ReadOnlySpan<byte> bytes)
     {
         if (target is null)
@@ -61,6 +64,17 @@ static partial class Polyfill
             return target.GetString(bytesPtr, bytes.Length);
         }
     }
+#else
+    public static string GetString(this Encoding target, ReadOnlySpan<byte> bytes)
+    {
+        if (target is null)
+        {
+            throw new ArgumentNullException(nameof(target));
+        }
+
+        return target.GetString(bytes.ToArray());
+    }
+#endif
 #endif
 }
 
