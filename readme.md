@@ -60,14 +60,19 @@ This project uses features from the current stable SDK and C# language. As such 
 
 ### global.json
 
+<!-- snippet: global.json -->
+<a id='snippet-global.json'></a>
 ```json
 {
   "sdk": {
-    "version": "8.0.301",
+    "version": "9.0.101",
+    "allowPrerelease": true,
     "rollForward": "latestFeature"
   }
 }
 ```
+<sup><a href='/src/global.json#L1-L7' title='Snippet source file'>snippet source</a> | <a href='#snippet-global.json' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
 
 
 ## Consuming and type visibility
