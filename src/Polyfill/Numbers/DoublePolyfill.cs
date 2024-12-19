@@ -35,10 +35,8 @@ static class DoublePolyfill
     public static bool TryParse(ReadOnlySpan<byte> target, IFormatProvider? provider, out double result) =>
 #if NET8_0_OR_GREATER
         double.TryParse(target, provider, out result);
-#elif FeatureMemory && AllowUnsafeBlocks || NETCOREAPP2_1_OR_GREATER
-        double.TryParse(Encoding.UTF8.GetString(target), NumberStyles.Float, provider, out result);
 #else
-        double.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Float, provider, out result);
+        double.TryParse(Encoding.UTF8.GetString(target), NumberStyles.Float, provider, out result);
 #endif
 
     /// <summary>
@@ -70,10 +68,8 @@ static class DoublePolyfill
     public static bool TryParse(ReadOnlySpan<byte> target, NumberStyles style, IFormatProvider? provider, out double result) =>
 #if NET8_0_OR_GREATER
         double.TryParse(target, style, provider, out result);
-#elif FeatureMemory && AllowUnsafeBlocks || NETCOREAPP2_1_OR_GREATER
-        double.TryParse(Encoding.UTF8.GetString(target), style, provider, out result);
 #else
-        double.TryParse(Encoding.UTF8.GetString(target.ToArray()), style, provider, out result);
+        double.TryParse(Encoding.UTF8.GetString(target), style, provider, out result);
 #endif
 
     /// <summary>
@@ -83,10 +79,8 @@ static class DoublePolyfill
     public static bool TryParse(ReadOnlySpan<byte> target, out double result) =>
 #if NET8_0_OR_GREATER
         double.TryParse(target, out result);
-#elif FeatureMemory && AllowUnsafeBlocks || NETCOREAPP2_1_OR_GREATER
-        double.TryParse(Encoding.UTF8.GetString(target), NumberStyles.Float, null, out result);
 #else
-        double.TryParse(Encoding.UTF8.GetString(target.ToArray()), NumberStyles.Float, null, out result);
+        double.TryParse(Encoding.UTF8.GetString(target), NumberStyles.Float, null, out result);
 #endif
 
     /// <summary>
