@@ -2,6 +2,7 @@
 
 #pragma warning disable
 
+#if FeatureMemory
 namespace Polyfills;
 
 using System;
@@ -9,7 +10,25 @@ using System.Diagnostics.CodeAnalysis;
 
 static partial class Polyfill
 {
-#if FeatureMemory && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)
+    static bool CopyToSpan(Span<char> destination, out int charsWritten, string result)
+    {
+        if (result.Length == 0)
+        {
+            charsWritten = 0;
+            return true;
+        }
+
+        if (result.Length > destination.Length)
+        {
+            charsWritten = 0;
+            return false;
+        }
+
+        charsWritten = result.Length;
+        return result.TryCopyTo(destination);
+    }
+
+#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X
 
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
@@ -282,7 +301,7 @@ static partial class Polyfill
     }
 #endif
 
-#if (FeatureMemory && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X)) || NET6_0
+#if (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X) || NET6_0
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
@@ -366,24 +385,5 @@ static partial class Polyfill
         return CopyToSpan(destination, out charsWritten, result);
     }
 #endif
-
-#if NET6_0 || (FeatureMemory && (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X))
-    static bool CopyToSpan(Span<char> destination, out int charsWritten, string result)
-    {
-        if (result.Length == 0)
-        {
-            charsWritten = 0;
-            return true;
-        }
-
-        if (result.Length > destination.Length)
-        {
-            charsWritten = 0;
-            return false;
-        }
-
-        charsWritten = result.Length;
-        return result.TryCopyTo(destination);
-    }
-#endif
 }
+#endif
