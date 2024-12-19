@@ -47,7 +47,6 @@ partial class PolyfillTests
     [Test]
     public void TryParse()
     {
-
         var result = EnumPolyfill.TryParse<DayOfWeek>("Sunday".AsSpan(), out var dayOfWeek);
         Assert.AreEqual(DayOfWeek.Sunday, dayOfWeek);
         Assert.True(result);
