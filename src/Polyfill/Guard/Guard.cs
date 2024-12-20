@@ -6,8 +6,6 @@ using System.Runtime.CompilerServices;
 
 #pragma warning disable
 
-#if PolyGuard
-
 using System;
 using System.IO;
 using System.Diagnostics;
@@ -39,4 +37,3 @@ static partial class Guard
         }
     }
 }
-#endif
