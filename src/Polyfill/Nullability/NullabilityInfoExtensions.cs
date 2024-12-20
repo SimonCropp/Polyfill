@@ -52,11 +52,13 @@ static partial class Polyfill
     }
 
     public static NullabilityInfo GetNullabilityInfo(this FieldInfo info) =>
-        fieldCache.GetOrAdd(info, static inner =>
-        {
-            var context = new NullabilityInfoContext();
-            return context.Create(inner);
-        });
+        fieldCache.GetOrAdd(
+            info,
+            static inner =>
+            {
+                var context = new NullabilityInfoContext();
+                return context.Create(inner);
+            });
 
     public static NullabilityState GetNullability(this FieldInfo info) =>
         GetReadOrWriteState(info.GetNullabilityInfo());
@@ -68,11 +70,13 @@ static partial class Polyfill
     }
 
     public static NullabilityInfo GetNullabilityInfo(this EventInfo info) =>
-        eventCache.GetOrAdd(info, static inner =>
-        {
-            var context = new NullabilityInfoContext();
-            return context.Create(inner);
-        });
+        eventCache.GetOrAdd(
+            info,
+            static inner =>
+            {
+                var context = new NullabilityInfoContext();
+                return context.Create(inner);
+            });
 
     public static NullabilityState GetNullability(this EventInfo info) =>
         GetReadOrWriteState(info.GetNullabilityInfo());
