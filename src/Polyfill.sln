@@ -57,6 +57,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiBuilderTests", "ApiBuild
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeOnlyValueTuple", "ConsumeOnlyValueTuple\ConsumeOnlyValueTuple.csproj", "{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoGuard", "NoGuard\NoGuard.csproj", "{4F482296-D4BF-4E56-AF23-351CCEF1B96E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +139,10 @@ Global
 		{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F482296-D4BF-4E56-AF23-351CCEF1B96E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F482296-D4BF-4E56-AF23-351CCEF1B96E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F482296-D4BF-4E56-AF23-351CCEF1B96E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F482296-D4BF-4E56-AF23-351CCEF1B96E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

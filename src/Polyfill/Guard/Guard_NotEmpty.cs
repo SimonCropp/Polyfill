@@ -3,8 +3,6 @@
 
 namespace Polyfills;
 
-#if PolyGuard
-
 using System.Runtime.CompilerServices;
 using System;
 using System.Collections;
@@ -144,4 +142,3 @@ static partial class Guard
         }
     }
 }
-#endif

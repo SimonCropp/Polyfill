@@ -3,8 +3,6 @@
 
 namespace Polyfills;
 
-#if PolyGuard
-
 using System;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;
@@ -39,4 +37,3 @@ static partial class Guard
         return argument;
     }
 }
-#endif
