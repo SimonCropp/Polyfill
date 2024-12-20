@@ -17,10 +17,10 @@ public
 #endif
 static partial class Polyfill
 {
-    static ConcurrentDictionary<ParameterInfo, NullabilityInfo> parameterCache = [];
-    static ConcurrentDictionary<PropertyInfo, NullabilityInfo> propertyCache = [];
-    static ConcurrentDictionary<EventInfo, NullabilityInfo> eventCache = [];
-    static ConcurrentDictionary<FieldInfo, NullabilityInfo> fieldCache = [];
+    static ConcurrentDictionary<ParameterInfo, NullabilityInfo> parameters = [];
+    static ConcurrentDictionary<PropertyInfo, NullabilityInfo> properties = [];
+    static ConcurrentDictionary<EventInfo, NullabilityInfo> events = [];
+    static ConcurrentDictionary<FieldInfo, NullabilityInfo> fields = [];
 
     public static NullabilityInfo GetNullabilityInfo(this MemberInfo info)
     {
@@ -52,7 +52,7 @@ static partial class Polyfill
     }
 
     public static NullabilityInfo GetNullabilityInfo(this FieldInfo info) =>
-        fieldCache.GetOrAdd(
+        fields.GetOrAdd(
             info,
             static inner =>
             {
@@ -70,7 +70,7 @@ static partial class Polyfill
     }
 
     public static NullabilityInfo GetNullabilityInfo(this EventInfo info) =>
-        eventCache.GetOrAdd(
+        events.GetOrAdd(
             info,
             static inner =>
             {
@@ -88,7 +88,7 @@ static partial class Polyfill
     }
 
     public static NullabilityInfo GetNullabilityInfo(this PropertyInfo info) =>
-        propertyCache.GetOrAdd(
+        properties.GetOrAdd(
             info,
             static inner =>
             {
@@ -106,7 +106,7 @@ static partial class Polyfill
     }
 
     public static NullabilityInfo GetNullabilityInfo(this ParameterInfo info) =>
-        parameterCache.GetOrAdd(
+        parameters.GetOrAdd(
             info,
             static inner =>
             {
@@ -123,35 +123,35 @@ static partial class Polyfill
         return IsNullable(info.Name!, nullability);
     }
 
-    static NullabilityState GetReadOrWriteState(NullabilityInfo nullability)
+    static NullabilityState GetReadOrWriteState(NullabilityInfo info)
     {
-        if (nullability.ReadState == NullabilityState.Unknown)
+        if (info.ReadState == NullabilityState.Unknown)
         {
-            return nullability.WriteState;
+            return info.WriteState;
         }
 
-        return nullability.ReadState;
+        return info.ReadState;
     }
 
-    static NullabilityState GetKnownState(string name, NullabilityInfo nullability)
+    static NullabilityState GetKnownState(string name, NullabilityInfo info)
     {
-        var read = nullability.ReadState;
+        var read = info.ReadState;
         if (read != NullabilityState.Unknown)
         {
             return read;
         }
 
-        var write = nullability.WriteState;
+        var write = info.WriteState;
         if (write != NullabilityState.Unknown)
         {
             return write;
         }
 
-        throw new($"The nullability of '{nullability.Type.FullName}.{name}' is unknown. Assembly: {nullability.Type.Assembly.FullName}.");
+        throw new($"The nullability of '{info.Type.FullName}.{name}' is unknown. Assembly: {info.Type.Assembly.FullName}.");
     }
 
-    static bool IsNullable(string name, NullabilityInfo nullability) =>
-        GetKnownState(name, nullability) == NullabilityState.Nullable;
+    static bool IsNullable(string name, NullabilityInfo info) =>
+        GetKnownState(name, info) == NullabilityState.Nullable;
 }
 
 #endif
