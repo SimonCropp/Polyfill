@@ -1,14 +1,14 @@
 partial class PolyfillTests
 {
-    static readonly ReverseComparer reverseComparer = new();
+    static ReverseComparer reverseComparer = new();
 
-    static readonly IEnumerable<int> comparableValues = [1, 2];
-    static readonly IEnumerable<int?> comparableNullables = [null, 1, 2];
-    static readonly IEnumerable<string?> comparableReferences = [null, "ab", "baa"];
+    static IEnumerable<int> comparableValues = [1, 2];
+    static IEnumerable<int?> comparableNullables = [null, 1, 2];
+    static IEnumerable<string?> comparableReferences = [null, "ab", "baa"];
 
-    static readonly IEnumerable<int> emptyValues = [];
-    static readonly IEnumerable<int?> emptyNullables = [];
-    static readonly IEnumerable<string?> emptyReferences = [];
+    static IEnumerable<int> emptyValues = [];
+    static IEnumerable<int?> emptyNullables = [];
+    static IEnumerable<string?> emptyReferences = [];
 
     static void AssertThrowsNoElementsException(TestDelegate code) =>
         Assert.AreEqual("Sequence contains no elements",
