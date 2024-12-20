@@ -17,12 +17,6 @@
   <PropertyGroup Condition="$(PolyPublic) == 'true' ">
     <DefineConstants>$(DefineConstants);PolyPublic</DefineConstants>
   </PropertyGroup>
-  <PropertyGroup Condition="$(PolyNullability) == 'true' ">
-    <DefineConstants>$(DefineConstants);PolyNullability</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="$(PolyGuard) == 'true' ">
-    <DefineConstants>$(DefineConstants);PolyGuard</DefineConstants>
-  </PropertyGroup>
   <PropertyGroup Condition="$(LowerFramework.StartsWith('netcoreapp2'))">
     <DefineConstants>$(DefineConstants);NETCOREAPP2X</DefineConstants>
   </PropertyGroup>
@@ -119,6 +113,9 @@ For example:
 
     <Compile Condition="$(PolyGuard) != 'true' "
              Remove="$(MSBuildThisFileDirectory)..\**\Guard\*.cs" />
+
+    <Compile Condition="$(PolyNullability) != 'true' "
+             Remove="$(MSBuildThisFileDirectory)..\**\NullabilityInfoExtensions.cs" />
 
     <Compile Update="@(Compile)">
       <Visible Condition="%(NuGetItemType) == 'Compile' and
