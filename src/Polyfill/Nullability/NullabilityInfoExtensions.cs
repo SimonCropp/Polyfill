@@ -102,11 +102,13 @@ static partial class Polyfill
     }
 
     public static NullabilityInfo GetNullabilityInfo(this ParameterInfo info) =>
-        parameterCache.GetOrAdd(info, static inner =>
-        {
-            var context = new NullabilityInfoContext();
-            return context.Create(inner);
-        });
+        parameterCache.GetOrAdd(
+            info,
+            static inner =>
+            {
+                var context = new NullabilityInfoContext();
+                return context.Create(inner);
+            });
 
     public static NullabilityState GetNullability(this ParameterInfo info) =>
         GetReadOrWriteState(info.GetNullabilityInfo());
@@ -129,16 +131,16 @@ static partial class Polyfill
 
     static NullabilityState GetKnownState(string name, NullabilityInfo nullability)
     {
-        var readState = nullability.ReadState;
-        if (readState != NullabilityState.Unknown)
+        var read = nullability.ReadState;
+        if (read != NullabilityState.Unknown)
         {
-            return readState;
+            return read;
         }
 
-        var writeState = nullability.WriteState;
-        if (writeState != NullabilityState.Unknown)
+        var write = nullability.WriteState;
+        if (write != NullabilityState.Unknown)
         {
-            return writeState;
+            return write;
         }
 
         throw new($"The nullability of '{nullability.Type.FullName}.{name}' is unknown. Assembly: {nullability.Type.Assembly.FullName}.");
