@@ -30,10 +30,10 @@ struct AppendInterpolatedStringHandler
     const int StackallocCharBufferSizeLimit = 256;
 
     /// <summary>The associated StringBuilder to which to append.</summary>
-    readonly StringBuilder _stringBuilder;
+    StringBuilder _stringBuilder;
 
     /// <summary>Optional provider to pass to IFormattable.ToString or ISpanFormattable.TryFormat calls.</summary>
-    readonly IFormatProvider? _provider;
+    IFormatProvider? _provider;
 
     /// <summary>Whether <see cref="_provider"/> provides an ICustomFormatter.</summary>
     /// <remarks>
@@ -43,7 +43,7 @@ struct AppendInterpolatedStringHandler
     /// provides a formatter, rather than actually storing the formatter.  This in turn means, if there is a
     /// formatter, we pay for the extra interface call on each AppendFormatted that needs it.
     /// </remarks>
-    readonly bool _hasCustomFormatter;
+    bool _hasCustomFormatter;
 
     /// <summary>Creates a handler used to append an interpolated string into a <see cref="StringBuilder"/>.</summary>
     /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>

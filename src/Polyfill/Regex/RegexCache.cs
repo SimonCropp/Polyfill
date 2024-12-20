@@ -40,11 +40,11 @@ internal sealed class RegexCache
     /// The concurrency level is initialized to 1 as we're using our own global lock for all mutations, so we don't need ConcurrentDictionary's
     /// striped locking.  Capacity is initialized to 31, which is the same as (the private) ConcurrentDictionary.DefaultCapacity.
     /// </remarks>
-    static readonly ConcurrentDictionary<Key, Node> s_cacheDictionary = new ConcurrentDictionary<Key, Node>(concurrencyLevel: 1, capacity: 31);
+    static ConcurrentDictionary<Key, Node> s_cacheDictionary = new ConcurrentDictionary<Key, Node>(concurrencyLevel: 1, capacity: 31);
     /// <summary>A list of all the items in the cache.  Protected by <see cref="SyncObj"/>.</summary>
-    static readonly List<Node> s_cacheList = new List<Node>(DefaultMaxCacheSize);
+    static List<Node> s_cacheList = new List<Node>(DefaultMaxCacheSize);
     /// <summary>Random number generator used to examine a subset of items when we need to drop one from a large list.  Protected by <see cref="SyncObj"/>.</summary>
-    static readonly Random s_random = new Random();
+    static Random s_random = new Random();
     /// <summary>The current maximum number of items allowed in the cache.  This rarely changes.  Mostly protected by <see cref="SyncObj"/>.</summary>
     static int s_maxCacheSize = DefaultMaxCacheSize;
 

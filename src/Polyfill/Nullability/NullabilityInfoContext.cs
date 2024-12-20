@@ -27,8 +27,8 @@ public
 sealed class NullabilityInfoContext
 {
     const string CompilerServicesNameSpace = "System.Runtime.CompilerServices";
-    readonly Dictionary<Module, NotAnnotatedStatus> _publicOnlyModules = new();
-    readonly Dictionary<MemberInfo, NullabilityState> _context = new();
+    Dictionary<Module, NotAnnotatedStatus> _publicOnlyModules = new();
+    Dictionary<MemberInfo, NullabilityState> _context = new();
 
     internal static bool IsSupported { get; } =
         AppContext.TryGetSwitch("System.Reflection.NullabilityInfoContext.IsSupported", out bool isSupported) ? isSupported : true;

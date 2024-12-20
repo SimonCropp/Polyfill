@@ -157,7 +157,7 @@ class Consume
     [CollectionBuilder(typeof(MyCollection), nameof(Create))]
     class MyCollection(ReadOnlySpan<int> initValues)
     {
-        readonly int[] values = initValues.ToArray();
+        int[] values = initValues.ToArray();
         public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>)values).GetEnumerator();
 
         public static MyCollection Create(ReadOnlySpan<int> values) => new(values);

@@ -234,7 +234,7 @@ class BuildApiTest
     }
 
 
-    static readonly List<Identifier> identifiers;
+    static List<Identifier> identifiers;
 
     static List<string> sharedIdentifiers =
     [
