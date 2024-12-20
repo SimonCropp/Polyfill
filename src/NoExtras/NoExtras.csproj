@@ -3,6 +3,7 @@
     <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
     <TargetFramework>net9.0</TargetFramework>
     <PolyGuard>false</PolyGuard>
+    <PolyNullability>false</PolyNullability>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NUnit" />
