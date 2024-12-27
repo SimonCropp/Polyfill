@@ -36,37 +36,30 @@ static partial class DelegatePolyfill
     public struct InvocationListEnumerator<TDelegate>
         where TDelegate : Delegate
     {
-        private readonly Delegate[] _delegates;
-        private int _index;
-        private TDelegate? _current;
+        Delegate[] delegates;
+        int index = -1;
 
-        internal InvocationListEnumerator(Delegate target)
-        {
-            _delegates = target.GetInvocationList();
-            _index = -1;
-        }
+        internal InvocationListEnumerator(Delegate target) =>
+            delegates = target.GetInvocationList();
 
         /// <summary>
         /// Implements the IEnumerator pattern.
         /// </summary>
-        public TDelegate Current
-        {
-            get => _current!;
-        }
+        public TDelegate Current { get; private set; }
 
         /// <summary>
         /// Implements the IEnumerator pattern.
         /// </summary>
         public bool MoveNext()
         {
-            int index = _index + 1;
-            if (index == _delegates.Length)
+            int index = this.index + 1;
+            if (index == delegates.Length)
             {
                 return false;
             }
 
-            _current = (TDelegate?) _delegates![index];
-            _index = index;
+            Current = (TDelegate) delegates[index];
+            this.index = index;
             return true;
         }
 
