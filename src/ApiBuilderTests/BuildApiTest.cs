@@ -30,22 +30,15 @@ public class BuildApiTest
 
         count += types.Count(_ => _.Key.EndsWith("Attribute"));
 
-        WriteHelper(types, "EnumPolyfill", writer, ref count);
-        WriteHelper(types, "RegexPolyfill", writer, ref count);
-        WriteHelper(types, "StringPolyfill", writer, ref count);
-        WriteHelper(types, "BytePolyfill", writer, ref count);
-        WriteHelper(types, "DelegatePolyfill", writer, ref count);
-        WriteHelper(types, "GuidPolyfill", writer, ref count);
-        WriteHelper(types, "DateTimePolyfill", writer, ref count);
-        WriteHelper(types, "DateTimeOffsetPolyfill", writer, ref count);
-        WriteHelper(types, "DoublePolyfill", writer, ref count);
-        WriteHelper(types, "IntPolyfill", writer, ref count);
-        WriteHelper(types, "LongPolyfill", writer, ref count);
-        WriteHelper(types, "SBytePolyfill", writer, ref count);
-        WriteHelper(types, "ShortPolyfill", writer, ref count);
-        WriteHelper(types, "UIntPolyfill", writer, ref count);
-        WriteHelper(types, "ULongPolyfill", writer, ref count);
-        WriteHelper(types, "UShortPolyfill", writer, ref count);
+        foreach (var (key, value) in types
+                     .OrderBy(_ => _.Key)
+                     .Where(_ => _.Key
+                                     .EndsWith("Polyfill") &&
+                                 _.Key != "Polyfill"))
+        {
+            WriteTypeMethods(key, writer, ref count, value.OrderBy(Key));
+        }
+
         WriteHelper(types, "Guard", writer, ref count);
         WriteHelper(types, "Lock", writer, ref count);
         WriteHelper(types, nameof(KeyValuePair), writer, ref count);
