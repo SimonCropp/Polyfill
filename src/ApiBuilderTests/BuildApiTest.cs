@@ -44,6 +44,7 @@ class BuildApiTest
         WriteHelper(types, "RegexPolyfill", writer, ref count);
         WriteHelper(types, "StringPolyfill", writer, ref count);
         WriteHelper(types, "BytePolyfill", writer, ref count);
+        WriteHelper(types, "DelegatePolyfill", writer, ref count);
         WriteHelper(types, "GuidPolyfill", writer, ref count);
         WriteHelper(types, "DateTimePolyfill", writer, ref count);
         WriteHelper(types, "DateTimeOffsetPolyfill", writer, ref count);
