@@ -42,14 +42,8 @@ static partial class DelegatePolyfill
         internal InvocationListEnumerator(Delegate target) =>
             delegates = target.GetInvocationList();
 
-        /// <summary>
-        /// Implements the IEnumerator pattern.
-        /// </summary>
         public TDelegate Current { get; private set; }
 
-        /// <summary>
-        /// Implements the IEnumerator pattern.
-        /// </summary>
         public bool MoveNext()
         {
             int index = this.index + 1;
@@ -63,10 +57,7 @@ static partial class DelegatePolyfill
             return true;
         }
 
-        /// <summary>
-        /// Implement IEnumerable.GetEnumerator() to return  'this' as the IEnumerator
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)] // Only here to make foreach work
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public InvocationListEnumerator<TDelegate> GetEnumerator() => this;
     }
 #endif
