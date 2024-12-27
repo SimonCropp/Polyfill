@@ -1,7 +1,7 @@
 using Microsoft.CodeAnalysis;
 
 [TestFixture]
-class BuildApiTest
+public class BuildApiTest
 {
     static string solutionDirectory = SolutionDirectoryFinder.Find();
 
