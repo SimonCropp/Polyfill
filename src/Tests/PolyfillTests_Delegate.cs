@@ -1,14 +1,14 @@
 partial class PolyfillTests
 {
-    public static event EventHandler? MyEvent;
+    public static event EventHandler? EventForHasSingleTarget;
 
     [Test]
     public void HasSingleTarget()
     {
-        MyEvent += Handler;
-        Assert.IsTrue(MyEvent.HasSingleTarget());
-        MyEvent += Handler;
-        Assert.IsFalse(MyEvent.HasSingleTarget());
+        EventForHasSingleTarget += Handler;
+        Assert.IsTrue(EventForHasSingleTarget.HasSingleTarget());
+        EventForHasSingleTarget += Handler;
+        Assert.IsFalse(EventForHasSingleTarget.HasSingleTarget());
         var action = () =>
         {
         };
@@ -19,5 +19,22 @@ partial class PolyfillTests
 
     static void Handler(object? sender, EventArgs e)
     {
+    }
+
+    public static event EventHandler? EventForEnumerateInvocationList;
+
+    [Test]
+    public void EnumerateInvocationList()
+    {
+        var count = 0;
+
+        EventForEnumerateInvocationList += (_, _) => count++;
+
+        foreach (var item in DelegatePolyfill.EnumerateInvocationList(EventForEnumerateInvocationList))
+        {
+            item(this, EventArgs.Empty);
+        }
+
+        Assert.AreEqual(1, count);
     }
 }
