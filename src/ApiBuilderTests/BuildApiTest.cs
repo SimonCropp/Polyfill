@@ -1,7 +1,7 @@
 using Microsoft.CodeAnalysis;
 
 [TestFixture]
-class BuildApiTest
+public class BuildApiTest
 {
     static string solutionDirectory = SolutionDirectoryFinder.Find();
 
@@ -18,21 +18,11 @@ class BuildApiTest
         var extensions = types.Single(_ => _.Key == "Polyfill").Value;
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
-        foreach (var extension in PublicMethods(extensions)
+        foreach (var grouping in PublicMethods(extensions)
                      .GroupBy(_ => _.ParameterList.Parameters[0].Type!.ToString())
                      .OrderBy(_ => _.Key))
         {
-            writer.WriteLine($"#### {extension.Key}");
-            writer.WriteLine();
-
-            foreach (var method in extension.OrderBy(Key))
-            {
-                count++;
-                WriteSignature(method, writer);
-            }
-
-            writer.WriteLine();
-            writer.WriteLine();
+            WriteTypeMethods(grouping.Key, writer, ref count, grouping);
         }
 
         writer.WriteLine("### Static helpers");
@@ -40,21 +30,15 @@ class BuildApiTest
 
         count += types.Count(_ => _.Key.EndsWith("Attribute"));
 
-        WriteHelper(types, "EnumPolyfill", writer, ref count);
-        WriteHelper(types, "RegexPolyfill", writer, ref count);
-        WriteHelper(types, "StringPolyfill", writer, ref count);
-        WriteHelper(types, "BytePolyfill", writer, ref count);
-        WriteHelper(types, "GuidPolyfill", writer, ref count);
-        WriteHelper(types, "DateTimePolyfill", writer, ref count);
-        WriteHelper(types, "DateTimeOffsetPolyfill", writer, ref count);
-        WriteHelper(types, "DoublePolyfill", writer, ref count);
-        WriteHelper(types, "IntPolyfill", writer, ref count);
-        WriteHelper(types, "LongPolyfill", writer, ref count);
-        WriteHelper(types, "SBytePolyfill", writer, ref count);
-        WriteHelper(types, "ShortPolyfill", writer, ref count);
-        WriteHelper(types, "UIntPolyfill", writer, ref count);
-        WriteHelper(types, "ULongPolyfill", writer, ref count);
-        WriteHelper(types, "UShortPolyfill", writer, ref count);
+        foreach (var (key, value) in types
+                     .OrderBy(_ => _.Key)
+                     .Where(_ => _.Key
+                                     .EndsWith("Polyfill") &&
+                                 _.Key != "Polyfill"))
+        {
+            WriteTypeMethods(key, writer, ref count, value.OrderBy(Key));
+        }
+
         WriteHelper(types, "Guard", writer, ref count);
         WriteHelper(types, "Lock", writer, ref count);
         WriteHelper(types, nameof(KeyValuePair), writer, ref count);
@@ -67,7 +51,8 @@ class BuildApiTest
     }
 
     static IEnumerable<MethodDeclarationSyntax> PublicMethods(HashSet<MethodDeclarationSyntax> type) =>
-        type.Where(_ => _.IsPublic() && !_.IsConstructor())
+        type.Where(_ => _.IsPublic() &&
+                        !_.IsConstructor())
             .OrderBy(_ => _.Identifier.ToString());
 
     static Dictionary<string, HashSet<MethodDeclarationSyntax>> ReadFiles()
@@ -122,11 +107,16 @@ class BuildApiTest
     {
         var methods = types[name];
 
+        WriteTypeMethods(name, writer, ref count, methods.OrderBy(Key));
+    }
+
+    static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<MethodDeclarationSyntax> items)
+    {
         writer.WriteLine($"#### {name}");
         writer.WriteLine();
-        foreach (var method in methods
-                     .Where(_ => _.IsPublic() && !_.IsConstructor())
-                     .OrderBy(Key))
+        foreach (var method in items
+                     .DistinctBy(Key)
+                     .Where(_ => _.IsPublic() && !_.IsConstructor()))
         {
             count++;
             WriteSignature(method, writer);
@@ -161,12 +151,11 @@ class BuildApiTest
         }
     }
 
-    private static string Key(MethodDeclarationSyntax method)
+    static string Key(MethodDeclarationSyntax method)
     {
         var parameters = BuildParameters(method);
         var typeArgs = BuildTypeArgs(method);
-        var key = $"{method.Identifier.Text}{typeArgs}({parameters})";
-        return key;
+        return $"{method.Identifier.Text}{typeArgs}({parameters})";
     }
 
     static string BuildKey(MethodDeclarationSyntax method)
