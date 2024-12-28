@@ -111,10 +111,10 @@ For example:
   </Target>
   <ItemGroup>
 
-    <Compile Condition="$(PolyGuard) != 'true' "
+    <Compile Condition="'$(PolyGuard)' != 'true' "
              Remove="$(MSBuildThisFileDirectory)..\**\Guard\*.cs" />
 
-    <Compile Condition="$(PolyNullability) != 'true' "
+    <Compile Condition="'$(PolyNullability)' != 'true' "
              Remove="$(MSBuildThisFileDirectory)..\**\NullabilityInfoExtensions.cs" />
 
     <Compile Update="@(Compile)">
