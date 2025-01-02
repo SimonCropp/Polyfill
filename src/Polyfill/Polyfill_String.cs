@@ -67,7 +67,7 @@ static partial class Polyfill
     /// <param name="value">The character to compare.</param>
     /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison.</remarks>
     /// <returns>true if value matches the beginning of this string; otherwise, false.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.contains#system-string-contains(system-char)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith#system-string-startswith(system-char)
     public static bool StartsWith(this string target, char value)
     {
         if (target.Length == 0)
@@ -84,7 +84,7 @@ static partial class Polyfill
     /// <param name="value">The character to seek.</param>
     /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison.</remarks>
     /// <returns>true if the value parameter occurs within this string; otherwise, false.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.contains#system-string-contains(system-char)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.endswith#system-string-endswith(system-char)
     public static bool EndsWith(this string target, char value)
     {
         if (target.Length == 0)
@@ -93,8 +93,7 @@ static partial class Polyfill
         }
 
         var lastPos = target.Length - 1;
-        return lastPos < target.Length &&
-               target[lastPos] == value;
+        return target[lastPos] == value;
     }
 
     /// <summary>
