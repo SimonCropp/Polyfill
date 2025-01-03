@@ -21,8 +21,30 @@ static partial class Polyfill
     /// <param name="chars">The span of characters to encode.</param>
     /// <returns>The number of bytes produced by encoding the specified character span.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getbytecount#system-text-encoding-getbytecount(system-readonlyspan((system-char)))
-    public static int GetByteCount(this Encoding target, ReadOnlySpan<char> chars) =>
-        target.GetByteCount(chars.ToArray());
+#if AllowUnsafeBlocks
+    public unsafe static int GetByteCount(this Encoding target, ReadOnlySpan<char> chars)
+    {
+        if (target is null)
+        {
+            throw new ArgumentNullException(nameof(target));
+        }
+
+        fixed (char* charsPtr = chars)
+        {
+            return target.GetByteCount(charsPtr, chars.Length);
+        }
+    }
+#else
+    public static int GetByteCount(this Encoding target, ReadOnlySpan<char> chars)
+    {
+        if (target is null)
+        {
+            throw new ArgumentNullException(nameof(target));
+        }
+
+        return target.GetByteCount(chars.ToArray());
+    }
+#endif
 #endif
 
 #if AllowUnsafeBlocks && !NETCOREAPP2_1_OR_GREATER
