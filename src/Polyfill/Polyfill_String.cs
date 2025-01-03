@@ -5,6 +5,8 @@ namespace Polyfills;
 
 using System;
 using System.Text;
+using System.IO;
+using System.Runtime.CompilerServices;
 
 static partial class Polyfill
 {
@@ -134,5 +136,46 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.contains#system-string-contains(system-char)
     public static bool Contains(this string target, char value) =>
         target.IndexOf(value) >= 0;
+#endif
+
+#if !NET6_0_OR_GREATER
+    /// <summary>
+    /// Replaces all newline sequences in the current string with <paramref name="replacementText"/>.
+    /// </summary>
+    /// <returns>
+    /// A string whose contents match the current string, but with all newline sequences replaced
+    /// with <paramref name="replacementText"/>.
+    /// </returns>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.replacelineendings?view=net-9.0#system-string-replacelineendings(system-string)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string ReplaceLineEndings(this string target, string replacementText)
+    {
+        var builder = new StringBuilder();
+        using var reader = new StringReader(target);
+        while (true)
+        {
+            var line = reader.ReadLine();
+            if (line == null)
+            {
+                break;
+            }
+
+            builder.Append(line);
+            builder.Append(replacementText);
+        }
+
+        return builder.ToString(0, builder.Length - replacementText.Length);
+    }
+
+    /// <summary>
+    /// Replaces all newline sequences in the current string with <see cref="Environment.NewLine"/>.
+    /// </summary>
+    /// <returns>
+    /// A string whose contents match the current string, but with all newline sequences replaced
+    /// with <see cref="Environment.NewLine"/>.
+    /// </returns>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.replacelineendings#system-string-replacelineendings
+    public static string ReplaceLineEndings(this string target) =>
+        ReplaceLineEndings(target, Environment.NewLine);
 #endif
 }

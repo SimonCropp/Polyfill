@@ -18,6 +18,13 @@ partial class PolyfillTests
     }
 
     [Test]
+    public void ReplaceLineEndings()
+    {
+        Assert.AreEqual("a\r\nb\r\nc\r\nd", "a\rb\nc\r\nd".ReplaceLineEndings());
+        Assert.AreEqual("a_b_c_d", "a\rb\nc\r\nd".ReplaceLineEndings("_"));
+    }
+
+    [Test]
     public void CopyTo()
     {
         var span = new Span<char>(new char[1]);
