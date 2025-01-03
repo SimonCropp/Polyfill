@@ -18,7 +18,6 @@ partial class PolyfillTests
         var result = Encoding.UTF8.GetString(array);
         Assert.AreEqual("value", result);
     }
-#if AllowUnsafeBlocks
 
     [Test]
     public void Encoding_GetBytes()
@@ -27,14 +26,11 @@ partial class PolyfillTests
         var chars = "Hello, World!".AsSpan();
         var bytes = new byte[encoding.GetByteCount(chars)].AsSpan();
 
-        // Act
         var byteCount = encoding.GetBytes(chars, bytes);
 
-        // Assert
         Assert.AreEqual(encoding.GetByteCount(chars), byteCount);
         Assert.AreEqual(encoding.GetBytes("Hello, World!"), bytes.ToArray());
     }
 
-#endif
 #endif
 }
