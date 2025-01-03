@@ -47,12 +47,13 @@ static partial class Polyfill
 #endif
 #endif
 
-#if AllowUnsafeBlocks && !NETCOREAPP2_1_OR_GREATER
+#if !NETCOREAPP2_1_OR_GREATER
     /// <summary>When overridden in a derived class, encodes into a span of bytes a set of characters from the specified read-only span.</summary>
     /// <param name="chars">The span containing the set of characters to encode.</param>
     /// <param name="bytes">The byte span to hold the encoded bytes.</param>
     /// <returns>The number of encoded bytes.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getbytes#system-text-encoding-getbytes(system-readonlyspan((system-char))-system-span((system-byte)))
+#if AllowUnsafeBlocks
     public static unsafe int GetBytes(this Encoding target, ReadOnlySpan<char> chars, Span<byte> bytes)
     {
         if (target is null)
@@ -66,7 +67,19 @@ static partial class Polyfill
             return target.GetBytes(charsPtr, chars.Length, bytesPtr, bytes.Length);
         }
     }
+#else
+    public static int GetBytes(this Encoding target, ReadOnlySpan<char> chars, Span<byte> bytes)
+    {
+        if (target is null)
+        {
+            throw new ArgumentNullException(nameof(target));
+        }
 
+        var result = target.GetBytes(chars.ToArray());
+        result.CopyTo(bytes);
+        return result.Length;
+    }
+#endif
 #endif
 #if !NETCOREAPP2_1_OR_GREATER
     /// <summary>When overridden in a derived class, decodes all the bytes in the specified byte span into a string.</summary>
