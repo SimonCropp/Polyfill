@@ -155,6 +155,10 @@ sealed class OperatingSystem : ICloneable, ISerializable
 
     }
 
+    private static Process CreateProcess(string targetFileName, string arguments)
+    {
+        ProcessStartInfo processStartInfo = new ProcessStartInfo
+        {
             FileName = targetFileName,
             Arguments = arguments,
             RedirectStandardInput = false,
