@@ -69,12 +69,26 @@ sealed class OperatingSystem : ICloneable, ISerializable
             }
             else
             {
+                Version = GetFallbackOsVersion();
             }
         }
         else if (IsAndroid())
         {
             Version = GetAndroidVersion();
         }
+        else if (IsIOS() || IsWatchOS() || IsTvOS())
+        {
+            Version = GetFallbackOsVersion();
+        }
+        else
+        {
+           Version = GetFallbackOsVersion();
+
+           ServicePack = Environment.OSVersion.ServicePack;
+           VersionString = Environment.OSVersion.VersionString;
+        }
+    }
+
     /// <summary>
     /// Initializes a new instance of the OperatingSystem class, using the specified platform identifier value and version object.
     /// </summary>
@@ -150,11 +164,6 @@ sealed class OperatingSystem : ICloneable, ISerializable
         return Version.Parse(result);
     }
 
-    private static Version GetIOSVersion()
-    {
-
-    }
-
     private static Process CreateProcess(string targetFileName, string arguments)
     {
         ProcessStartInfo processStartInfo = new ProcessStartInfo
@@ -192,7 +201,7 @@ sealed class OperatingSystem : ICloneable, ISerializable
 
     public static bool IsOSPlatformVersionIsAtLeast(string platform, int major, int minor = 0, int build = 0, int revision = 0)
     {
-        return IsOSPlatform(platform) &&  >= new Version(major, minor, build, revision);
+        return IsOSPlatform(platform) && IsOsVersionAtLeast(major, minor, build, revision);
     }
 
     /// <summary>
@@ -277,12 +286,12 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <exception cref="NotImplementedException"></exception>
     public static bool IsIOS()
     {
-        throw new NotImplementedException();
+        return RuntimeInformation.OSDescription.ToLower().Contains("ios");
     }
 
     public static bool IsTvOS()
     {
-        throw new NotImplementedException();
+        return RuntimeInformation.OSDescription.ToLower().Contains("tvos");
     }
 
     /// <summary>
@@ -349,6 +358,16 @@ sealed class OperatingSystem : ICloneable, ISerializable
         {
             return $"{Platform} {Version} {ServicePack}";
         }
+    }
+
+    private static bool IsOsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
+    {
+        return Environment.OSVersion.Version >= new Version(major, minor, build, revision);
+    }
+
+    private static Version GetFallbackOsVersion()
+    {
+        return Environment.OSVersion.Version;
     }
 
     public void GetObjectData(SerializationInfo info, StreamingContext context)
