@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
+// ReSharper disable RedundantIfElseBlock
 
 // ReSharper disable SuggestVarOrType_SimpleTypes
 // ReSharper disable SuggestVarOrType_BuiltInTypes
@@ -12,7 +13,7 @@ using System.Runtime.Serialization;
 // ReSharper disable InconsistentNaming
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
 
-#if !NET6_0_OR_GREATER
+#if !NET8_0_OR_GREATER
 
 namespace System;
 
@@ -235,6 +236,11 @@ sealed class OperatingSystem : ICloneable, ISerializable
         return RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
     }
 
+    public static bool IsMacCatalyst()
+    {
+        return IsMacOS() || IsIOS();
+    }
+
     /// <summary>
     ///
     /// </summary>
@@ -242,9 +248,14 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <param name="minor"></param>
     /// <param name="build"></param>
     /// <returns></returns>
-    public static bool IsMacOSVersionAtLeast(int major, int minor = 0, int build = 0)
+    public static bool IsMacOSVersionAtLeast(int major, int minor, int build = 0)
     {
         return IsMacOS() && GetMacOSVersion() >= new Version(major, minor, build);
+    }
+
+    public static bool IsMacCatalystVersionAtLeast(int major, int minor, int build = 0)
+    {
+        return IsMacCatalyst() && IsOsVersionAtLeast(major, minor, build);
     }
 
     /// <summary>
@@ -286,12 +297,32 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <exception cref="NotImplementedException"></exception>
     public static bool IsIOS()
     {
-        return RuntimeInformation.OSDescription.ToLower().Contains("ios");
+        string description = RuntimeInformation.OSDescription.ToLower();
+        return description.Contains("ios") ||
+               description.Contains("ipados")||
+               (description.Contains("iphone") &&
+                description.Contains("os"));
     }
 
+    public static bool IsIOSVersionAtLeast(int major, int minor, int build = 0, int revision = 0)
+    {
+        return IsIOS() && IsOsVersionAtLeast(major, minor, build, revision);
+    }
     public static bool IsTvOS()
     {
         return RuntimeInformation.OSDescription.ToLower().Contains("tvos");
+    }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="major"></param>
+    /// <param name="minor"></param>
+    /// <param name="build"></param>
+    /// <returns></returns>
+    public static bool IsTvOSVersionAtLeast(int major, int minor, int build = 0)
+    {
+        return IsTvOS() && IsOsVersionAtLeast(major, minor, build);
     }
 
     /// <summary>
@@ -325,22 +356,40 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <returns></returns>
     public static bool IsAndroidVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
     {
-        return GetAndroidVersion() >= new Version(major, minor, build, revision);
+        return IsAndroid() &&  GetAndroidVersion() >= new Version(major, minor, build, revision);
     }
 
+    /// <summary>
+    /// Indicates whether the current application is running on watchOS.
+    /// </summary>
+    /// <returns>true if the current application is running on watchOS; false otherwise.</returns>
     public static bool IsWatchOS()
     {
-        throw new NotImplementedException();
+        string description = RuntimeInformation.OSDescription.ToLower();
+
+        return IsIOS() || description.Contains("watchos");
     }
+
+    /// <summary>
+    ///
+    /// </summary>
+    /// <param name="major"></param>
+    /// <param name="minor"></param>
+    /// <param name="build"></param>
+    /// <returns></returns>
+    public static bool IsWatchOSVersionAtLeast(int major, int minor, int build = 0)
+    {
+        return IsWatchOS() && IsOsVersionAtLeast(major, minor, build);
+    }
+
 
     /// <summary>
     /// Indicates whether the current application is running as WASM in a browser.
     /// </summary>
     /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
     public static bool IsBrowser()
     {
-        throw new NotImplementedException();
+        return RuntimeInformation.FrameworkDescription.Contains(".NET WebAssembly");
     }
 
     /// <summary>
