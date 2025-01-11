@@ -30,16 +30,11 @@ internal sealed class RegexCache
     /// <summary>The default maximum number of items to store in the cache.</summary>
     const int DefaultMaxCacheSize = 15;
     /// <summary>The maximum number of cached items to examine when we need to replace an existing one in the cache with a new one.</summary>
-    /// <remarks>This is a somewhat arbitrary value, chosen to be small but at least as large as DefaultMaxCacheSize.</remarks>
     const int MaxExamineOnDrop = 30;
 
     /// <summary>A read-through cache of one element, representing the most recently used regular expression.</summary>
     static volatile Node? s_lastAccessed;
     /// <summary>The thread-safe dictionary storing all the items in the cache.</summary>
-    /// <remarks>
-    /// The concurrency level is initialized to 1 as we're using our own global lock for all mutations, so we don't need ConcurrentDictionary's
-    /// striped locking.  Capacity is initialized to 31, which is the same as (the private) ConcurrentDictionary.DefaultCapacity.
-    /// </remarks>
     static ConcurrentDictionary<Key, Node> s_cacheDictionary = new ConcurrentDictionary<Key, Node>(concurrencyLevel: 1, capacity: 31);
     /// <summary>A list of all the items in the cache.  Protected by <see cref="SyncObj"/>.</summary>
     static List<Node> s_cacheList = new List<Node>(DefaultMaxCacheSize);

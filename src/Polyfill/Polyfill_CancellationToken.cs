@@ -16,21 +16,10 @@ static partial class Polyfill
     /// Registers a delegate that will be called when this
     /// <see cref="CancellationToken">CancellationToken</see> is canceled.
     /// </summary>
-    /// <remarks>
-    /// <para>
-    /// If this token is already in the canceled state, the delegate will be run immediately and synchronously.
-    /// Any exception the delegate generates will be propagated out of this method call.
-    /// </para>
-    /// <para>
-    /// <see cref="ExecutionContext">ExecutionContext</see> is not captured nor flowed
-    /// to the callback's invocation.
-    /// </para>
-    /// </remarks>
     /// <param name="callback">The delegate to be executed when the <see cref="CancellationToken">CancellationToken</see> is canceled.</param>
     /// <param name="state">The state to pass to the <paramref name="callback"/> when the delegate is invoked.  This may be null.</param>
     /// <returns>The <see cref="CancellationTokenRegistration"/> instance that can
     /// be used to unregister the callback.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="callback"/> is null.</exception>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken.unsaferegister#system-threading-cancellationtoken-unsaferegister(system-action((system-object))-system-object)
     public static CancellationTokenRegistration UnsafeRegister(this CancellationToken target, Action<object?> callback, object? state)
     {
@@ -69,15 +58,9 @@ static partial class Polyfill
 #if !NET6_0_OR_GREATER
 
     /// <summary>Registers a delegate that will be called when this <see cref="CancellationToken">CancellationToken</see> is canceled.</summary>
-    /// <remarks>
-    /// If this token is already in the canceled state, the delegate will be run immediately and synchronously. Any exception the delegate
-    /// generates will be propagated out of this method call. The current <see cref="ExecutionContext">ExecutionContext</see>, if one exists,
-    /// will be captured along with the delegate and will be used when executing it. The current <see cref="SynchronizationContext"/> is not captured.
-    /// </remarks>
     /// <param name="callback">The delegate to be executed when the <see cref="CancellationToken">CancellationToken</see> is canceled.</param>
     /// <param name="state">The state to pass to the <paramref name="callback"/> when the delegate is invoked.  This may be null.</param>
     /// <returns>The <see cref="CancellationTokenRegistration"/> instance that can be used to unregister the callback.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="callback"/> is null.</exception>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken.register#system-threading-cancellationtoken-register(system-action((system-object-system-threading-cancellationtoken))-system-object)
     public static CancellationTokenRegistration Register(this CancellationToken target, Action<object?, CancellationToken> callback, object? state)
     {
@@ -90,14 +73,9 @@ static partial class Polyfill
     }
 
     /// <summary>Registers a delegate that will be called when this <see cref="CancellationToken">CancellationToken</see> is canceled.</summary>
-    /// <remarks>
-    /// If this token is already in the canceled state, the delegate will be run immediately and synchronously. Any exception the delegate
-    /// generates will be propagated out of this method call. <see cref="ExecutionContext"/> is not captured nor flowed to the callback's invocation.
-    /// </remarks>
     /// <param name="callback">The delegate to be executed when the <see cref="CancellationToken">CancellationToken</see> is canceled.</param>
     /// <param name="state">The state to pass to the <paramref name="callback"/> when the delegate is invoked.  This may be null.</param>
     /// <returns>The <see cref="CancellationTokenRegistration"/> instance that can be used to unregister the callback.</returns>
-    /// <exception cref="ArgumentNullException"><paramref name="callback"/> is null.</exception>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken.unsaferegister#system-threading-cancellationtoken-unsaferegister(system-action((system-object-system-threading-cancellationtoken))-system-object)
     public static CancellationTokenRegistration UnsafeRegister(this CancellationToken target, Action<object?, CancellationToken> callback, object? state)
     {

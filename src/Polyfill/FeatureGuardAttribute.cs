@@ -9,16 +9,10 @@ using Diagnostics;
 using Diagnostics.CodeAnalysis;
 using Link = ComponentModel.DescriptionAttribute;
 
-
 /// <summary>
 /// Indicates that the specified public static boolean get-only property
 /// guards access to the specified feature.
 /// </summary>
-/// <remarks>
-/// Analyzers can use this to prevent warnings on calls to code that is
-/// annotated as requiring that feature, when the callsite is guarded by a
-/// call to the property.
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = true)]

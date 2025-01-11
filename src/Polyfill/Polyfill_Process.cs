@@ -16,9 +16,6 @@ static partial class Polyfill
     /// Instructs the Process component to wait for the associated process to exit, or
     /// for the <paramref name="cancellationToken"/> to be canceled.
     /// </summary>
-    /// <remarks>
-    /// Calling this method will set <see cref="EnableRaisingEvents"/> to <see langword="true" />.
-    /// </remarks>
     /// <returns>
     /// A task that will complete when the process has exited, cancellation has been requested,
     /// or an error occurs.

@@ -11,20 +11,6 @@ using Targets = AttributeTargets;
 /// Indicates that certain members on a specified <see cref="Type"/> are accessed dynamically,
 /// for example through <see cref="System.Reflection"/>.
 /// </summary>
-/// <remarks>
-/// This allows tools to understand which members are being accessed during the execution
-/// of a program.
-///
-/// This attribute is valid on members whose type is <see cref="Type"/> or <see cref="string"/>.
-///
-/// When this attribute is applied to a location of type <see cref="string"/>, the assumption is
-/// that the string represents a fully qualified type name.
-///
-/// If the attribute is applied to a method it's treated as a special case and it implies
-/// the attribute should be applied to the "this" parameter of the method. As such the attribute
-/// should only be used on instance methods of types assignable to System.Type (or string, but no methods
-/// will use it there).
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
@@ -38,6 +24,7 @@ using Targets = AttributeTargets;
              Targets.ReturnValue |
              Targets.Struct,
     Inherited = false)]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.dynamicallyaccessedmembersattribute
 #if PolyPublic
 public
 #endif

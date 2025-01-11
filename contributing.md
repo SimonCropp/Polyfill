@@ -143,22 +143,6 @@ using System.Diagnostics.CodeAnalysis;
 /// Used to indicate to the compiler that a method should be called
 /// in its containing module's initializer.
 /// </summary>
-/// <remarks>
-/// When one or more valid methods
-/// with this attribute are found in a compilation, the compiler will
-/// emit a module initializer which calls each of the attributed methods.
-///
-/// Certain requirements are imposed on any method targeted with this attribute:
-/// - The method must be `static`.
-/// - The method must be an ordinary member method, as opposed to a property accessor, constructor, local function, etc.
-/// - The method must be parameterless.
-/// - The method must return `void`.
-/// - The method must not be generic or be contained in a generic type.
-/// - The method's effective accessibility must be `internal` or `public`.
-///
-/// The specification for module initializers in the .NET runtime can be found here:
-/// https://github.com/dotnet/runtime/blob/master/docs/design/specs/Ecma-335-Augments.md#module-initializer
-/// </remarks>
 //Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.moduleinitializerattribute
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
@@ -172,7 +156,7 @@ sealed class ModuleInitializerAttribute :
     Attribute;
 #endif
 ```
-<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L42' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L26' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -212,8 +196,6 @@ static partial class Polyfill
     /// </summary>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to monitor for cancellation requests.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous flush operation.</returns>
-    /// <exception cref="ObjectDisposedException">The text writer is disposed.</exception>
-    /// <exception cref="InvalidOperationException">The writer is currently in use by a previous write operation.</exception>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.flushasync#system-io-textwriter-flushasync(system-threading-cancellationtoken)
     public static Task FlushAsync(this TextWriter target, CancellationToken cancellationToken)
     {
@@ -397,7 +379,7 @@ static partial class Polyfill
 #endif
 }
 ```
-<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L211' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L209' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

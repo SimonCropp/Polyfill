@@ -14,12 +14,6 @@ using Targets = AttributeTargets;
 /// Records the operating system (and minimum version) that supports an API. Multiple attributes can be
 /// applied to indicate support on multiple operating systems.
 /// </summary>
-/// <remarks>
-/// Callers can apply a <see cref="SupportedOSPlatformAttribute " />
-/// or use guards to prevent calls to APIs on unsupported operating systems.
-///
-/// A given platform should only be specified once.
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(

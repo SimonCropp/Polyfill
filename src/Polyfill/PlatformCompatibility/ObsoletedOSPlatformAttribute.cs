@@ -15,9 +15,6 @@ using Targets = AttributeTargets;
 /// <summary>
 /// Marks APIs that were obsoleted in a given operating system version.
 /// </summary>
-/// <remarks>
-/// Primarily used by OS bindings to indicate APIs that should not be used anymore.
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
