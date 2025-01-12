@@ -24,7 +24,6 @@ public class PathTests
     [Test]
     public void GetExtension() =>
         Assert.AreEqual(".txt", PathPolyfill.GetExtension("file.txt".AsSpan()).ToString());
-#endif
 
     [Test]
     public void Combine()
@@ -40,6 +39,7 @@ public class PathTests
 
         Assert.AreEqual("folder1\\folder2\\file.txt", result);
     }
+#endif
 
     [Test]
     public void EndsInDirectorySeparator()

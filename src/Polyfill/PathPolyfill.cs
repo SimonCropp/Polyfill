@@ -147,7 +147,7 @@ static partial class PathPolyfill
             return false;
         }
 
-        return IsDirectorySeparator(path[^1]);
+        return IsDirectorySeparator(path[path.Length-1]);
     }
 #endif
 
