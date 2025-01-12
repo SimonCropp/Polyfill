@@ -1,6 +1,7 @@
 ﻿[TestFixture]
 public class PathTests
 {
+#if FeatureMemory
     [Test]
     public void GetDirectoryName() =>
         Assert.AreEqual("dir", PathPolyfill.GetDirectoryName("dir/file.txt".AsSpan()).ToString());
@@ -23,16 +24,17 @@ public class PathTests
     [Test]
     public void GetExtension() =>
         Assert.AreEqual(".txt", PathPolyfill.GetExtension("file.txt".AsSpan()).ToString());
+#endif
 
     [Test]
     public void Combine()
     {
-        ReadOnlySpan<string> paths = new[]
-        {
+        ReadOnlySpan<string> paths =
+        [
             "folder1",
             "folder2",
             "file.txt"
-        };
+        ];
 
         var result = PathPolyfill.Combine(paths);
 
@@ -42,9 +44,11 @@ public class PathTests
     [Test]
     public void EndsInDirectorySeparator()
     {
+        #if FeatureMemory
         Assert.False(PathPolyfill.EndsInDirectorySeparator("file.txt".AsSpan()));
-        Assert.False(PathPolyfill.EndsInDirectorySeparator("file.txt"));
         Assert.True(PathPolyfill.EndsInDirectorySeparator("path/".AsSpan()));
+        #endif
+        Assert.False(PathPolyfill.EndsInDirectorySeparator("file.txt"));
         Assert.True(PathPolyfill.EndsInDirectorySeparator("path/"));
     }
 
