@@ -1,5 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization;
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
+// ReSharper disable HeapView.ObjectAllocation.Evident
+// ReSharper disable UnusedMember.Global
+// ReSharper disable ConvertIfStatementToReturnStatement
 
 
 // ReSharper disable RedundantIfElseBlock
@@ -466,9 +472,27 @@ sealed class OperatingSystem : ICloneable, ISerializable
         return Environment.OSVersion.Version;
     }
 
+    /// <summary>
+    /// Populates a SerializationInfo object with the data necessary to deserialize this instance.
+    /// </summary>
+    /// <param name="info">The object to populate with serialization information.</param>
+    /// <param name="context">The place to store and retrieve serialized data. Reserved for future use.</param>
+    /// <exception cref="ArgumentNullException">Thrown if info is null.</exception>
+    /// <remarks>The context parameter is reserved for future use; it is currently not implemented in the GetObjectData method.
+    /// For more information, see the SerializationInfo.AddValue method.
+    /// </remarks>
+    [Obsolete("This API supports obsolete formatter-based serialization. It should not be called or extended by application code.")]
     public void GetObjectData(SerializationInfo info, StreamingContext context)
     {
-        throw new NotImplementedException();
+        if (info is null)
+        {
+            throw new ArgumentNullException(nameof(info));
+        }
+
+        info.AddValue("Platform", Platform);
+        info.AddValue("Version", Version);
+        info.AddValue("ServicePack", ServicePack);
+        info.AddValue("VersionString", VersionString);
     }
 
     /// <summary>
