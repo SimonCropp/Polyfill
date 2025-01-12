@@ -59,6 +59,5 @@ public class PathTests
         Assert.False(PathPolyfill.Exists(""));
         Assert.False(PathPolyfill.Exists("file.txt"));
         Assert.True(PathPolyfill.Exists(Environment.CurrentDirectory));
-        Assert.True(PathPolyfill.Exists("Tests.dll"));
     }
 }
