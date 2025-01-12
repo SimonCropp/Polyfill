@@ -1244,7 +1244,7 @@ public void Test()
 
 ### NullabilityInfoExtensions
 
-Enable by adding and MSBuild property `PolyNullability`
+Enable by adding an MSBuild property `PolyNullability`
 
 ```
 <PropertyGroup>
@@ -1266,7 +1266,7 @@ Enable by adding and MSBuild property `PolyNullability`
 
 ## Guard
 
-Enable by adding and MSBuild property `PolyGuard`
+Enable by adding an MSBuild property `PolyGuard`
 
 ```
 <PropertyGroup>
