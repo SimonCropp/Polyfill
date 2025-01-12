@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
+
+
 // ReSharper disable RedundantIfElseBlock
 
 // ReSharper disable SuggestVarOrType_SimpleTypes
@@ -37,6 +38,9 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// </summary>
     public System.Version Version { get; private set; }
 
+    /// <summary>
+    /// Gets the concatenated string representation of the platform identifier, version, and service pack that are currently installed on the operating system.
+    /// </summary>
     public string VersionString { get; private set; }
 
     /// <summary>
@@ -44,6 +48,9 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// </summary>
     public string ServicePack { get; private set;}
 
+    /// <summary>
+    /// Represents information about an operating system, such as the version and platform identifier. This class cannot be inherited.
+    /// </summary>
     public OperatingSystem()
     {
         if (IsWindows())
@@ -64,14 +71,7 @@ sealed class OperatingSystem : ICloneable, ISerializable
         }
         else if (IsMacCatalyst())
         {
-            if (IsMacOS())
-            {
-                Version = GetMacOSVersion();
-            }
-            else
-            {
-                Version = GetFallbackOsVersion();
-            }
+            Version = IsMacOS() ? GetMacOSVersion() : GetFallbackOsVersion();
         }
         else if (IsAndroid())
         {
@@ -88,6 +88,9 @@ sealed class OperatingSystem : ICloneable, ISerializable
            ServicePack = Environment.OSVersion.ServicePack;
            VersionString = Environment.OSVersion.VersionString;
         }
+
+        ServicePack = Environment.OSVersion.ServicePack;
+        VersionString = Environment.OSVersion.VersionString;
     }
 
     /// <summary>
@@ -105,12 +108,13 @@ sealed class OperatingSystem : ICloneable, ISerializable
             throw new NullReferenceException();
         }
 
-        if (platform != PlatformID.Win32NT && platform != PlatformID.Win32Windows
-                                           && platform != PlatformID.Win32S
-                                           && platform != PlatformID.WinCE
-                                           && platform != PlatformID.Xbox
-                                           && platform != PlatformID.MacOSX
-                                           && platform != PlatformID.Unix)
+        if (platform != PlatformID.Win32NT
+            && platform != PlatformID.Win32Windows
+            && platform != PlatformID.Win32S
+            && platform != PlatformID.WinCE
+            && platform != PlatformID.Xbox
+            && platform != PlatformID.MacOSX
+            && platform != PlatformID.Unix)
         {
             throw new ArgumentException($"Platform {platform.ToString()} is not a PlatformID enumeration value.");
         }
@@ -195,20 +199,34 @@ sealed class OperatingSystem : ICloneable, ISerializable
         return process.StandardOutput.ReadToEnd();
     }
 
+    /// <summary>
+    /// Indicates whether the current application is running on the specified platform.
+    /// </summary>
+    /// <param name="platform">The case-insensitive platform name. Examples: Browser, Linux, FreeBSD, Android, iOS, macOS, tvOS, watchOS, Windows.</param>
+    /// <returns>true if the current application is running on the specified platform; false otherwise.</returns>
     public static bool IsOSPlatform(string platform)
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.Create(platform));
     }
 
+    /// <summary>
+    /// Checks if the operating system version is greater than or equal to the specified platform version. This method can be used to guard APIs that were added in the specified OS version.
+    /// </summary>
+    /// <param name="platform">The case-insensitive platform name. Examples: Browser, Linux, FreeBSD, Android, iOS, macOS, tvOS, watchOS, Windows.</param>
+    /// <param name="major">The major release number.</param>
+    /// <param name="minor">The minor release number (optional).</param>
+    /// <param name="build">The build release number (optional).</param>
+    /// <param name="revision">The revision release number (optional).</param>
+    /// <returns>true if the current application is running on the specified platform and is at least in the version specified in the parameters; false otherwise.</returns>
     public static bool IsOSPlatformVersionIsAtLeast(string platform, int major, int minor = 0, int build = 0, int revision = 0)
     {
         return IsOSPlatform(platform) && IsOsVersionAtLeast(major, minor, build, revision);
     }
 
     /// <summary>
-    ///
+    /// Indicates whether the current application is running on Windows.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>true if the current application is running on Windows; false otherwise.</returns>
     public static bool IsWindows()
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -221,38 +239,49 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <param name="minor">The minor release number.</param>
     /// <param name="build">The build release number.</param>
     /// <param name="revision">The revision release number.</param>
-    /// <returns></returns>
+    /// <returns>true if the current application is running on a Windows version that is at least what was specified in the parameters; false otherwise.</returns>
     public static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
     {
         return IsWindows() && GetWindowsVersion() >= new Version(major, minor, build, revision);
     }
 
     /// <summary>
-    ///
+    /// Indicates whether the current application is running on macOS.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>true if the current application is running on macOS; false otherwise.</returns>
     public static bool IsMacOS()
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
     }
 
+    /// <summary>
+    /// Indicates whether the current application is running on Mac Catalyst.
+    /// </summary>
+    /// <returns>true if the current application is running on Mac Catalyst; false otherwise.</returns>
     public static bool IsMacCatalyst()
     {
         return IsMacOS() || IsIOS();
     }
 
     /// <summary>
-    ///
+    /// Checks if the macOS version (returned by libobjc.get_operatingSystemVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified macOS version.
     /// </summary>
-    /// <param name="major"></param>
-    /// <param name="minor"></param>
-    /// <param name="build"></param>
-    /// <returns></returns>
+    /// <param name="major">The major release number.</param>
+    /// <param name="minor">The minor release number.</param>
+    /// <param name="build">The build release number.</param>
+    /// <returns>true if the current application is running on an macOS version that is at least what was specified in the parameters; false otherwise.</returns>
     public static bool IsMacOSVersionAtLeast(int major, int minor, int build = 0)
     {
         return IsMacOS() && GetMacOSVersion() >= new Version(major, minor, build);
     }
 
+    /// <summary>
+    /// Check for the Mac Catalyst version (iOS version as presented in Apple documentation) with a ≤ version comparison. Used to guard APIs that were added in the given Mac Catalyst release.
+    /// </summary>
+    /// <param name="major">The version major number.</param>
+    /// <param name="minor">The version minor number.</param>
+    /// <param name="build">The version build number.</param>
+    /// <returns>true if the Mac Catalyst version is greater or equal than the specified version comparison; false otherwise.</returns>
     public static bool IsMacCatalystVersionAtLeast(int major, int minor, int build = 0)
     {
         return IsMacCatalyst() && IsOsVersionAtLeast(major, minor, build);
@@ -280,11 +309,11 @@ sealed class OperatingSystem : ICloneable, ISerializable
     ///Checks if the FreeBSD version (returned by the Linux command uname) is greater than or equal to the specified version.
     /// This method can be used to guard APIs that were added in the specified version.
     /// </summary>
-    /// <param name="major"></param>
-    /// <param name="minor"></param>
-    /// <param name="build"></param>
-    /// <param name="revision"></param>
-    /// <returns></returns>
+    /// <param name="major">The version major number.</param>
+    /// <param name="minor">The version minor number.</param>
+    /// <param name="build">The version build number.</param>
+    /// <param name="revision">The version revision number.</param>
+    /// <returns>true if the current application is running on a FreeBSD version that is at least what was specified in the parameters; false otherwise.</returns>
     public static bool IsFreeBSDVersionAtLeast(int major, int minor, int build = 0, int revision = 0)
     {
         return GetFreeBSDVersion() >= new Version(major, minor, build, revision);
@@ -293,8 +322,7 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <summary>
     /// Indicates whether the current application is running on iOS or MacCatalyst.
     /// </summary>
-    /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
+    /// <returns>true if the current application is running on iOS or MacCatalyst; false otherwise.</returns>
     public static bool IsIOS()
     {
         string description = RuntimeInformation.OSDescription.ToLower();
@@ -304,22 +332,34 @@ sealed class OperatingSystem : ICloneable, ISerializable
                 description.Contains("os"));
     }
 
-    public static bool IsIOSVersionAtLeast(int major, int minor, int build = 0, int revision = 0)
+    /// <summary>
+    /// Checks if the iOS/MacCatalyst version (returned by libobjc.get_operatingSystemVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified iOS version.
+    /// </summary>
+    /// <param name="major">The major release number.</param>
+    /// <param name="minor">The minor release number.</param>
+    /// <param name="build">The build release number.</param>
+    /// <returns>true if the current application is running on an iOS/MacCatalyst version that is at least what was specified in the parameters; false otherwise.</returns>
+    public static bool IsIOSVersionAtLeast(int major, int minor, int build = 0)
     {
-        return IsIOS() && IsOsVersionAtLeast(major, minor, build, revision);
+        return IsIOS() && IsOsVersionAtLeast(major, minor, build);
     }
+
+    /// <summary>
+    /// Indicates whether the current application is running on tvOS.
+    /// </summary>
+    /// <returns>true if the current application is running on tvOS; false otherwise.</returns>
     public static bool IsTvOS()
     {
         return RuntimeInformation.OSDescription.ToLower().Contains("tvos");
     }
 
     /// <summary>
-    ///
+    /// Checks if the tvOS version (returned by libobjc.get_operatingSystemVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified tvOS version.
     /// </summary>
-    /// <param name="major"></param>
-    /// <param name="minor"></param>
-    /// <param name="build"></param>
-    /// <returns></returns>
+    /// <param name="major">The major release number.</param>
+    /// <param name="minor">The minor release number.</param>
+    /// <param name="build">The build release number.</param>
+    /// <returns>true if the current application is running on a tvOS version that is at least what was specified in the parameters; false otherwise.</returns>
     public static bool IsTvOSVersionAtLeast(int major, int minor, int build = 0)
     {
         return IsTvOS() && IsOsVersionAtLeast(major, minor, build);
@@ -346,14 +386,13 @@ sealed class OperatingSystem : ICloneable, ISerializable
 
 
     /// <summary>
-    /// Checks if the Android version (returned by the Linux command uname) is greater than or equal to the specified version.
-    /// This method can be used to guard APIs that were added in the specified version.
+    /// Checks if the Android version (returned by the Linux command uname) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified version.
     /// </summary>
-    /// <param name="major"></param>
-    /// <param name="minor"></param>
-    /// <param name="build"></param>
-    /// <param name="revision"></param>
-    /// <returns></returns>
+    /// <param name="major">The major release number.</param>
+    /// <param name="minor">The minor release number.</param>
+    /// <param name="build">The build release number.</param>
+    /// <param name="revision">The revision release number.</param>
+    /// <returns>true if the current application is running on an Android version that is at least what was specified in the parameters; false otherwise.</returns>
     public static bool IsAndroidVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
     {
         return IsAndroid() &&  GetAndroidVersion() >= new Version(major, minor, build, revision);
@@ -371,22 +410,30 @@ sealed class OperatingSystem : ICloneable, ISerializable
     }
 
     /// <summary>
-    ///
+    /// Checks if the watchOS version (returned by libobjc.get_operatingSystemVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified watchOS version.
     /// </summary>
-    /// <param name="major"></param>
-    /// <param name="minor"></param>
-    /// <param name="build"></param>
-    /// <returns></returns>
+    /// <param name="major">The major release number.</param>
+    /// <param name="minor">The minor release number.</param>
+    /// <param name="build">The build release number.</param>
+    /// <returns>true if the current application is running on a watchOS version that is at least what was specified in the parameters; false otherwise.</returns>
     public static bool IsWatchOSVersionAtLeast(int major, int minor, int build = 0)
     {
         return IsWatchOS() && IsOsVersionAtLeast(major, minor, build);
     }
 
+    /// <summary>
+    /// Indicates whether the current application is running as WASI.
+    /// </summary>
+    /// <returns>true if running as WASI; false otherwise.</returns>
+    public static bool IsWASI()
+    {
+        return RuntimeInformation.FrameworkDescription.ToLower().Contains("wasi");
+    }
 
     /// <summary>
     /// Indicates whether the current application is running as WASM in a browser.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>true if running as WASM; false otherwise.</returns>
     public static bool IsBrowser()
     {
         return RuntimeInformation.FrameworkDescription.Contains(".NET WebAssembly");
