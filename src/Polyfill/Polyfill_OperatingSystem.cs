@@ -312,7 +312,7 @@ static partial class Polyfill
     /// Indicates whether the current application is running as WASI.
     /// </summary>
     /// <returns>true if running as WASI; false otherwise.</returns>
-    public static bool IsWASI(this OperatingSystem operatingSystem)
+    public static bool IsWasi(this OperatingSystem operatingSystem)
     {
         return RuntimeInformation.FrameworkDescription.ToLower().Contains("wasi");
     }
