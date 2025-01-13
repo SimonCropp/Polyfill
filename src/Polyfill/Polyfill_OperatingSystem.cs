@@ -1,136 +1,24 @@
-﻿using System.Diagnostics.CodeAnalysis;
+// ReSharper disable RedundantUsingDirective
+using System;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
-// ReSharper disable HeapView.ObjectAllocation.Evident
-// ReSharper disable UnusedMember.Global
-// ReSharper disable ConvertIfStatementToReturnStatement
-
-
-// ReSharper disable RedundantIfElseBlock
-
-// ReSharper disable SuggestVarOrType_SimpleTypes
-// ReSharper disable SuggestVarOrType_BuiltInTypes
-
-// ReSharper disable ArrangeConstructorOrDestructorBody
-// ReSharper disable UnnecessaryWhitespace
-// ReSharper disable RedundantNameQualifier
 // ReSharper disable ArrangeMethodOrOperatorBody
 // ReSharper disable InconsistentNaming
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+// ReSharper disable SuggestVarOrType_BuiltInTypes
+// ReSharper disable SuggestVarOrType_SimpleTypes
+// ReSharper disable InvalidXmlDocComment
 
-#if !NET8_0_OR_GREATER
+#pragma warning disable
 
-namespace System;
+namespace Polyfills;
 
-/// <summary>
-/// Represents information about an operating system, such as the version and platform identifier. This class cannot be inherited.
-/// </summary>
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
 #if PolyPublic
 public
 #endif
-sealed class OperatingSystem : ICloneable, ISerializable
+static partial class Polyfill
 {
-    /// <summary>
-    /// Gets a PlatformID enumeration value that identifies the operating system platform.
-    /// </summary>
-    public PlatformID Platform { get; private set;}
-
-    /// <summary>
-    /// Gets a Version object that identifies the operating system.
-    /// </summary>
-    public System.Version Version { get; private set; }
-
-    /// <summary>
-    /// Gets the concatenated string representation of the platform identifier, version, and service pack that are currently installed on the operating system.
-    /// </summary>
-    public string VersionString { get; private set; }
-
-    /// <summary>
-    /// Gets the concatenated string representation of the platform identifier, version, and service pack that are currently installed on the operating system.
-    /// </summary>
-    public string ServicePack { get; private set;}
-
-    /// <summary>
-    /// Represents information about an operating system, such as the version and platform identifier. This class cannot be inherited.
-    /// </summary>
-    public OperatingSystem()
-    {
-        if (IsWindows())
-        {
-            Version = GetWindowsVersion();
-        }
-        else if (IsMacOS())
-        {
-            Version = GetMacOSVersion();
-        }
-        else if (IsLinux())
-        {
-            Version = GetLinuxVersion();
-        }
-        else if (IsFreeBSD())
-        {
-            Version = GetFreeBSDVersion();
-        }
-        else if (IsMacCatalyst())
-        {
-            Version = IsMacOS() ? GetMacOSVersion() : GetFallbackOsVersion();
-        }
-        else if (IsAndroid())
-        {
-            Version = GetAndroidVersion();
-        }
-        else if (IsIOS() || IsWatchOS() || IsTvOS())
-        {
-            Version = GetFallbackOsVersion();
-        }
-        else
-        {
-           Version = GetFallbackOsVersion();
-
-           ServicePack = Environment.OSVersion.ServicePack;
-           VersionString = Environment.OSVersion.VersionString;
-        }
-
-        ServicePack = Environment.OSVersion.ServicePack;
-        VersionString = Environment.OSVersion.VersionString;
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the OperatingSystem class, using the specified platform identifier value and version object.
-    /// </summary>
-    /// <param name="platform">One of the PlatformID values that indicates the operating system platform.</param>
-    /// <param name="version">A Version object that indicates the version of the operating system.</param>
-    ///
-    /// <exception cref="ArgumentException">Platform is not a PlatformID enumeration value.</exception>
-    /// <exception cref="NullReferenceException">Version is null.</exception>
-    public OperatingSystem(PlatformID platform, Version version)
-    {
-        if (version == null)
-        {
-            throw new NullReferenceException();
-        }
-
-        if (platform != PlatformID.Win32NT
-            && platform != PlatformID.Win32Windows
-            && platform != PlatformID.Win32S
-            && platform != PlatformID.WinCE
-            && platform != PlatformID.Xbox
-            && platform != PlatformID.MacOSX
-            && platform != PlatformID.Unix)
-        {
-            throw new ArgumentException($"Platform {platform.ToString()} is not a PlatformID enumeration value.");
-        }
-
-        Version = version;
-        Platform = platform;
-
-       // ServicePack =version.
-        VersionString = ToString();
-    }
+    #if !NET8_0_OR_GREATER
 
     private static Version GetWindowsVersion()
     {
@@ -146,15 +34,7 @@ sealed class OperatingSystem : ICloneable, ISerializable
             .Replace("ProductVersion:", string.Empty)
             .Replace(" ", string.Empty);
 
-        return Version.Parse(versionString.Split(Environment.NewLine.ToCharArray()).First());
-    }
-
-    private static Version GetLinuxVersion()
-    {
-        string versionString = Environment.OSVersion.VersionString
-            .Replace("Unix", string.Empty).Replace(" ", string.Empty);
-
-        return Version.Parse(versionString);
+        return Version.Parse(versionString.Split(Environment.NewLine.ToCharArray())[0]);
     }
 
     private static Version GetFreeBSDVersion()
@@ -208,9 +88,10 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <summary>
     /// Indicates whether the current application is running on the specified platform.
     /// </summary>
+    /// <param name="operatingSystem"></param>
     /// <param name="platform">The case-insensitive platform name. Examples: Browser, Linux, FreeBSD, Android, iOS, macOS, tvOS, watchOS, Windows.</param>
     /// <returns>true if the current application is running on the specified platform; false otherwise.</returns>
-    public static bool IsOSPlatform(string platform)
+    public static bool IsOSPlatform(this OperatingSystem operatingSystem, string platform)
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.Create(platform));
     }
@@ -224,16 +105,17 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <param name="build">The build release number (optional).</param>
     /// <param name="revision">The revision release number (optional).</param>
     /// <returns>true if the current application is running on the specified platform and is at least in the version specified in the parameters; false otherwise.</returns>
-    public static bool IsOSPlatformVersionIsAtLeast(string platform, int major, int minor = 0, int build = 0, int revision = 0)
+    public static bool IsOSPlatformVersionIsAtLeast(this OperatingSystem operatingSystem, string platform, int major, int minor = 0, int build = 0, int revision = 0)
     {
-        return IsOSPlatform(platform) && IsOsVersionAtLeast(major, minor, build, revision);
+        return IsOSPlatform(operatingSystem, platform) && IsOsVersionAtLeast(major, minor, build, revision);
     }
 
     /// <summary>
     /// Indicates whether the current application is running on Windows.
     /// </summary>
+    /// <param name="operatingSystem"></param>
     /// <returns>true if the current application is running on Windows; false otherwise.</returns>
-    public static bool IsWindows()
+    public static bool IsWindows(this OperatingSystem operatingSystem)
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
     }
@@ -246,16 +128,17 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <param name="build">The build release number.</param>
     /// <param name="revision">The revision release number.</param>
     /// <returns>true if the current application is running on a Windows version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
+    public static bool IsWindowsVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor = 0, int build = 0, int revision = 0)
     {
-        return IsWindows() && GetWindowsVersion() >= new Version(major, minor, build, revision);
+        return IsWindows(operatingSystem) &&
+               GetWindowsVersion() >= new Version(major, minor, build, revision);
     }
 
     /// <summary>
     /// Indicates whether the current application is running on macOS.
     /// </summary>
     /// <returns>true if the current application is running on macOS; false otherwise.</returns>
-    public static bool IsMacOS()
+    public static bool IsMacOS(this OperatingSystem operatingSystem)
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
     }
@@ -264,9 +147,9 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// Indicates whether the current application is running on Mac Catalyst.
     /// </summary>
     /// <returns>true if the current application is running on Mac Catalyst; false otherwise.</returns>
-    public static bool IsMacCatalyst()
+    public static bool IsMacCatalyst(this OperatingSystem operatingSystem)
     {
-        return IsMacOS() || IsIOS();
+        return IsMacOS(operatingSystem) || IsIOS(operatingSystem);
     }
 
     /// <summary>
@@ -276,9 +159,9 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <param name="minor">The minor release number.</param>
     /// <param name="build">The build release number.</param>
     /// <returns>true if the current application is running on an macOS version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsMacOSVersionAtLeast(int major, int minor, int build = 0)
+    public static bool IsMacOSVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor, int build = 0)
     {
-        return IsMacOS() && GetMacOSVersion() >= new Version(major, minor, build);
+        return IsMacOS(operatingSystem) && GetMacOSVersion() >= new Version(major, minor, build);
     }
 
     /// <summary>
@@ -288,16 +171,16 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <param name="minor">The version minor number.</param>
     /// <param name="build">The version build number.</param>
     /// <returns>true if the Mac Catalyst version is greater or equal than the specified version comparison; false otherwise.</returns>
-    public static bool IsMacCatalystVersionAtLeast(int major, int minor, int build = 0)
+    public static bool IsMacCatalystVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor, int build = 0)
     {
-        return IsMacCatalyst() && IsOsVersionAtLeast(major, minor, build);
+        return IsMacCatalyst(operatingSystem) && IsOsVersionAtLeast(major, minor, build);
     }
 
     /// <summary>
     /// Indicates whether the current application is running on Linux.
     /// </summary>
     /// <returns>true if the current application is running on Linux; false otherwise.</returns>
-    public static bool IsLinux()
+    public static bool IsLinux(this OperatingSystem operatingSystem)
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
     }
@@ -306,7 +189,7 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// Indicates whether the current application is running on FreeBSD.
     /// </summary>
     /// <returns>true if the current application is running on FreeBSD; false otherwise.</returns>
-    public static bool IsFreeBSD()
+    public static bool IsFreeBSD(this OperatingSystem operatingSystem)
     {
         return RuntimeInformation.OSDescription.ToLower().Contains("freebsd");
     }
@@ -320,7 +203,7 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <param name="build">The version build number.</param>
     /// <param name="revision">The version revision number.</param>
     /// <returns>true if the current application is running on a FreeBSD version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsFreeBSDVersionAtLeast(int major, int minor, int build = 0, int revision = 0)
+    public static bool IsFreeBSDVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor, int build = 0, int revision = 0)
     {
         return GetFreeBSDVersion() >= new Version(major, minor, build, revision);
     }
@@ -329,11 +212,11 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// Indicates whether the current application is running on iOS or MacCatalyst.
     /// </summary>
     /// <returns>true if the current application is running on iOS or MacCatalyst; false otherwise.</returns>
-    public static bool IsIOS()
+    public static bool IsIOS(this OperatingSystem operatingSystem)
     {
         string description = RuntimeInformation.OSDescription.ToLower();
         return description.Contains("ios") ||
-               description.Contains("ipados")||
+               description.Contains("ipados") ||
                (description.Contains("iphone") &&
                 description.Contains("os"));
     }
@@ -345,16 +228,16 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <param name="minor">The minor release number.</param>
     /// <param name="build">The build release number.</param>
     /// <returns>true if the current application is running on an iOS/MacCatalyst version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsIOSVersionAtLeast(int major, int minor, int build = 0)
+    public static bool IsIOSVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor, int build = 0)
     {
-        return IsIOS() && IsOsVersionAtLeast(major, minor, build);
+        return IsIOS(operatingSystem) && IsOsVersionAtLeast(major, minor, build);
     }
 
     /// <summary>
     /// Indicates whether the current application is running on tvOS.
     /// </summary>
     /// <returns>true if the current application is running on tvOS; false otherwise.</returns>
-    public static bool IsTvOS()
+    public static bool IsTvOS(this OperatingSystem operatingSystem)
     {
         return RuntimeInformation.OSDescription.ToLower().Contains("tvos");
     }
@@ -366,16 +249,16 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <param name="minor">The minor release number.</param>
     /// <param name="build">The build release number.</param>
     /// <returns>true if the current application is running on a tvOS version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsTvOSVersionAtLeast(int major, int minor, int build = 0)
+    public static bool IsTvOSVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor, int build = 0)
     {
-        return IsTvOS() && IsOsVersionAtLeast(major, minor, build);
+        return IsTvOS(operatingSystem) && IsOsVersionAtLeast(major, minor, build);
     }
 
     /// <summary>
     /// Indicates whether the current application is running on Android.
     /// </summary>
     /// <returns>true if the current application is running on Android; false otherwise.</returns>
-    public static bool IsAndroid()
+    public static bool IsAndroid(this OperatingSystem operatingSystem)
     {
         try
         {
@@ -399,20 +282,20 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <param name="build">The build release number.</param>
     /// <param name="revision">The revision release number.</param>
     /// <returns>true if the current application is running on an Android version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsAndroidVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
+    public static bool IsAndroidVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor = 0, int build = 0, int revision = 0)
     {
-        return IsAndroid() &&  GetAndroidVersion() >= new Version(major, minor, build, revision);
+        return IsAndroid(operatingSystem) &&  GetAndroidVersion() >= new Version(major, minor, build, revision);
     }
 
     /// <summary>
     /// Indicates whether the current application is running on watchOS.
     /// </summary>
     /// <returns>true if the current application is running on watchOS; false otherwise.</returns>
-    public static bool IsWatchOS()
+    public static bool IsWatchOS(this OperatingSystem operatingSystem)
     {
         string description = RuntimeInformation.OSDescription.ToLower();
 
-        return IsIOS() || description.Contains("watchos");
+        return IsIOS(operatingSystem) || description.Contains("watchos");
     }
 
     /// <summary>
@@ -422,16 +305,16 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// <param name="minor">The minor release number.</param>
     /// <param name="build">The build release number.</param>
     /// <returns>true if the current application is running on a watchOS version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsWatchOSVersionAtLeast(int major, int minor, int build = 0)
+    public static bool IsWatchOSVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor, int build = 0)
     {
-        return IsWatchOS() && IsOsVersionAtLeast(major, minor, build);
+        return IsWatchOS(operatingSystem) && IsOsVersionAtLeast(major, minor, build);
     }
 
     /// <summary>
     /// Indicates whether the current application is running as WASI.
     /// </summary>
     /// <returns>true if running as WASI; false otherwise.</returns>
-    public static bool IsWASI()
+    public static bool IsWASI(this OperatingSystem operatingSystem)
     {
         return RuntimeInformation.FrameworkDescription.ToLower().Contains("wasi");
     }
@@ -440,26 +323,9 @@ sealed class OperatingSystem : ICloneable, ISerializable
     /// Indicates whether the current application is running as WASM in a browser.
     /// </summary>
     /// <returns>true if running as WASM; false otherwise.</returns>
-    public static bool IsBrowser()
+    public static bool IsBrowser(this OperatingSystem operatingSystem)
     {
         return RuntimeInformation.FrameworkDescription.Contains(".NET WebAssembly");
-    }
-
-    /// <summary>
-    /// Converts the value of this OperatingSystem object to its equivalent string representation.
-    /// </summary>
-    /// <returns>The string representation of the values returned by the Platform, Version, and ServicePack properties.</returns>
-    /// <remarks>For a list of Windows operating system versions and their corresponding version numbers, see Operating System Version.</remarks>
-    public override string ToString()
-    {
-        if (string.IsNullOrEmpty(ServicePack))
-        {
-            return $"{Platform}{Version}";
-        }
-        else
-        {
-            return $"{Platform} {Version} {ServicePack}";
-        }
     }
 
     private static bool IsOsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
@@ -467,42 +333,5 @@ sealed class OperatingSystem : ICloneable, ISerializable
         return Environment.OSVersion.Version >= new Version(major, minor, build, revision);
     }
 
-    private static Version GetFallbackOsVersion()
-    {
-        return Environment.OSVersion.Version;
-    }
-
-    /// <summary>
-    /// Populates a SerializationInfo object with the data necessary to deserialize this instance.
-    /// </summary>
-    /// <param name="info">The object to populate with serialization information.</param>
-    /// <param name="context">The place to store and retrieve serialized data. Reserved for future use.</param>
-    /// <exception cref="ArgumentNullException">Thrown if info is null.</exception>
-    /// <remarks>The context parameter is reserved for future use; it is currently not implemented in the GetObjectData method.
-    /// For more information, see the SerializationInfo.AddValue method.
-    /// </remarks>
-    [Obsolete("This API supports obsolete formatter-based serialization. It should not be called or extended by application code.")]
-    public void GetObjectData(SerializationInfo info, StreamingContext context)
-    {
-        if (info is null)
-        {
-            throw new ArgumentNullException(nameof(info));
-        }
-
-        info.AddValue("Platform", Platform);
-        info.AddValue("Version", Version);
-        info.AddValue("ServicePack", ServicePack);
-        info.AddValue("VersionString", VersionString);
-    }
-
-    /// <summary>
-    /// Creates an OperatingSystem object that is identical to this instance.
-    /// </summary>
-    /// <returns>An OperatingSystem object that is a copy of this instance.</returns>
-    public object Clone()
-    {
-        return new OperatingSystem(Platform, Version);
-    }
+    #endif
 }
-
-#endif

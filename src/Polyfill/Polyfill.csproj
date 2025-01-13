@@ -9,7 +9,9 @@
     <PackageReference Include="System.Memory" />
     <PackageReference Include="System.ValueTuple" />
     <PackageReference Include="System.Threading.Tasks.Extensions" />
+    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0"/>
   </ItemGroup>
+  
   <Target Name="SetPackageDependencies" BeforeTargets="GenerateNuspec">
     <PropertyGroup>
       <NuspecProperties>configuration=$(Configuration);version=$(PackageVersion);authors=$(Authors);projectUrl=$(PackageProjectUrl);description=$(Description);tags=$(PackageTags)</NuspecProperties>
