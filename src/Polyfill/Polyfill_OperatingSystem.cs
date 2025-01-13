@@ -13,9 +13,7 @@ using System.Runtime.InteropServices;
 
 namespace Polyfills;
 
-#if PolyPublic
-public
-#endif
+
 static partial class Polyfill
 {
     #if !NET8_0_OR_GREATER
