@@ -134,9 +134,7 @@ public class BuildApiTest
         {
             foreach (var constraint in method.ConstraintClauses)
             {
-                signature.Append(" where ");
-                signature.Append(constraint.Name);
-                signature.Append(" : ");
+                signature.Append($" where {constraint.Name} : ");
                 signature.Append(string.Join(", ", constraint.Constraints.Select(_ => _.ToString())));
             }
         }
@@ -293,6 +291,21 @@ public class BuildApiTest
                 Directives =
                 [
                     "NET9_0",
+                    "NET9_0_OR_GREATER",
+                    "NET8_0_OR_GREATER",
+                    "NET7_0_OR_GREATER",
+                    "NET6_0_OR_GREATER",
+                    "NET5_0_OR_GREATER"
+                ]
+            },
+
+            new()
+            {
+                Moniker = "net10.0",
+                Directives =
+                [
+                    "NET10_0",
+                    "NET10_0_OR_GREATER",
                     "NET9_0_OR_GREATER",
                     "NET8_0_OR_GREATER",
                     "NET7_0_OR_GREATER",
