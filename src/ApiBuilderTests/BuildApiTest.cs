@@ -463,6 +463,21 @@ public class BuildApiTest
 
             new()
             {
+                Moniker = "net10.0",
+                Directives =
+                [
+                    "NET10_0",
+                    "NET10_0_OR_GREATER",
+                    "NET9_0_OR_GREATER",
+                    "NET8_0_OR_GREATER",
+                    "NET7_0_OR_GREATER",
+                    "NET6_0_OR_GREATER",
+                    "NET5_0_OR_GREATER",
+                ]
+            },
+
+            new()
+            {
                 Moniker = "netcoreapp2.0",
                 Directives =
                 [
