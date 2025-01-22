@@ -103,7 +103,7 @@ static partial class Polyfill
     /// <param name="build">The build release number (optional).</param>
     /// <param name="revision">The revision release number (optional).</param>
     /// <returns>true if the current application is running on the specified platform and is at least in the version specified in the parameters; false otherwise.</returns>
-    public static bool IsOSPlatformVersionIsAtLeast(this OperatingSystem operatingSystem, string platform, int major, int minor = 0, int build = 0, int revision = 0)
+    public static bool IsOSPlatformVersionAtLeast(this OperatingSystem operatingSystem, string platform, int major, int minor = 0, int build = 0, int revision = 0)
     {
         return IsOSPlatform(operatingSystem, platform) && IsOsVersionAtLeast(major, minor, build, revision);
     }
@@ -157,7 +157,7 @@ static partial class Polyfill
     /// <param name="minor">The minor release number.</param>
     /// <param name="build">The build release number.</param>
     /// <returns>true if the current application is running on an macOS version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsMacOSVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor, int build = 0)
+    public static bool IsMacOSVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor = 0, int build = 0)
     {
         return IsMacOS(operatingSystem) && GetMacOSVersion() >= new Version(major, minor, build);
     }
@@ -169,7 +169,7 @@ static partial class Polyfill
     /// <param name="minor">The version minor number.</param>
     /// <param name="build">The version build number.</param>
     /// <returns>true if the Mac Catalyst version is greater or equal than the specified version comparison; false otherwise.</returns>
-    public static bool IsMacCatalystVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor, int build = 0)
+    public static bool IsMacCatalystVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor = 0, int build = 0)
     {
         return IsMacCatalyst(operatingSystem) && IsOsVersionAtLeast(major, minor, build);
     }
@@ -247,7 +247,7 @@ static partial class Polyfill
     /// <param name="minor">The minor release number.</param>
     /// <param name="build">The build release number.</param>
     /// <returns>true if the current application is running on a tvOS version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsTvOSVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor, int build = 0)
+    public static bool IsTvOSVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor = 0, int build = 0)
     {
         return IsTvOS(operatingSystem) && IsOsVersionAtLeast(major, minor, build);
     }
@@ -303,7 +303,7 @@ static partial class Polyfill
     /// <param name="minor">The minor release number.</param>
     /// <param name="build">The build release number.</param>
     /// <returns>true if the current application is running on a watchOS version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsWatchOSVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor, int build = 0)
+    public static bool IsWatchOSVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor = 0, int build = 0)
     {
         return IsWatchOS(operatingSystem) && IsOsVersionAtLeast(major, minor, build);
     }
