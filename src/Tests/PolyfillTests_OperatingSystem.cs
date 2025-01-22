@@ -1,3 +1,4 @@
+// ReSharper disable RedundantUsingDirective
 // ReSharper disable UnnecessaryWhitespace
 // ReSharper disable SuggestVarOrType_BuiltInTypes
 // ReSharper disable SuggestVarOrType_SimpleTypes
@@ -8,9 +9,11 @@ using OSPlatform = System.Runtime.InteropServices.OSPlatform;
 // ReSharper disable SuggestVarOrType_BuiltInTypes
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeObjectCreationWhenTypeEvident
+// ReSharper disable PartialTypeWithSinglePart
 
 namespace Tests;
 
+[SuppressMessage("Style", "IDE0007:Use implicit type")]
 partial class PolyfillTests
 {
 #if !NET8_0_OR_GREATER
@@ -43,6 +46,7 @@ partial class PolyfillTests
         Assert.AreEqual(expected, actual);
     }
 
+#if NETSTANDARD2_1 || NETCOREAPP3_1_OR_GREATER
     [Test]
     public void IsOperatingSystemFreeBSD()
     {
@@ -51,6 +55,7 @@ partial class PolyfillTests
 
         Assert.AreEqual(expected, actual);
     }
+#endif
 
 
     [Test]

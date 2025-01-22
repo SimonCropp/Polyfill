@@ -16,7 +16,7 @@ namespace Polyfills;
 
 static partial class Polyfill
 {
-    #if !NET8_0_OR_GREATER
+    #if !NET8_0_OR_GREATER || NET462_OR_GREATER
 
     private static Version GetWindowsVersion()
     {
