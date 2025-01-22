@@ -1131,6 +1131,28 @@ The class `Polyfill` includes the following extension methods:
  * `KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey, TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair.create)
 
 
+#### OperatingSystem
+* `bool IsWindows()`
+* `bool IsWindowsVersionAtLeast(int, int, int, int)`
+* `bool IsMacOS()`
+* `bool IsMacOSVersionAtLeast(int, int, int)`
+* `bool IsMacCatalyst()`
+* `bool IsMacCatalystVersionAtLeast(int, int, int)`
+* `bool IsLinux()`
+* `bool IsFreeBSD()`
+* `bool IsFreeBSDVersionAtLeast(int, int, int, int)`
+* `bool IsIOS()`
+* `bool IsIOSVersionAtLeast(int, int, int)`
+* `bool IsTvOS()`
+* `bool IsTvOSVersionAtLeast(int, int, int)`
+* `bool IsAndroid()`
+* `bool IsAndroidVersionAtLeast(int, int, int)`
+* `bool IsWatchOS()`
+* `bool IsWatchOSVersionAtLeast(int, int, int)`
+* `bool IsWasi()`
+* `bool IsBrowser()`
+
+
 #### TaskCompletionSource<!-- endInclude -->
 
 
@@ -1175,6 +1197,15 @@ If using ValueTask APIs and consuming in a project that target `netframework`, `
                              $(TargetFrameworkIdentifier) == '.NETFramework'" />
 ```
 
+### System.Runtime.InteropServices
+
+If using the RuntimeInformation class or OSPlatform struct and consuming in a project that targets `netframework`, a reference to [System.Runtime.InteropServices.RuntimeInformation](https://www.nuget.org/packages/System.Runtime.InteropServices.RuntimeInformation) nuget is required.
+
+```xml
+<PackageReference Include="System.Runtime.InteropService.RuntimeInformation"
+                  Version="4.3.0"
+                  Condition="$(TargetFrameworkIdentifier) == '.NETFramework'" />
+```
 
 ## Nullability
 
