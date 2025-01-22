@@ -374,6 +374,7 @@ class Consume
     }
     void OperatingSystem_Methods()
     {
+#if !NET8_0_OR_GREATER
         var operatingSystem = new OperatingSystem(Environment.OSVersion.Platform, Environment.OSVersion.Version);
 
         var isOSPlatform = operatingSystem.IsOSPlatform("windows");
@@ -406,6 +407,7 @@ class Consume
 
         var isWasi = operatingSystem.IsWasi();
         var isBrowser = operatingSystem.IsBrowser();
+#endif
     }
 
     async Task Process_Methods()
