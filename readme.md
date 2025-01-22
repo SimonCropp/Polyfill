@@ -698,6 +698,32 @@ The class `Polyfill` includes the following extension methods:
  * `bool HasSameMetadataDefinitionAs(MemberInfo, MemberInfo)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas)
  * `bool IsNullable(MemberInfo)`
 
+#### OperatingSystem
+These are 
+
+* `bool IsOSPlatform(string)`
+* `bool IsOSPlatform 
+* `bool IsWindows()`
+* `bool IsWindowsVersionAtLeast(int, int, int, int)`
+* `bool IsMacOS()`
+* `bool IsMacOSVersionAtLeast(int, int, int)`
+* `bool IsMacCatalyst()`
+* `bool IsMacCatalystVersionAtLeast(int, int, int)`
+* `bool IsLinux()`
+* `bool IsFreeBSD()`
+* `bool IsFreeBSDVersionAtLeast(int, int, int, int)`
+* `bool IsIOS()`
+* `bool IsIOSVersionAtLeast(int, int, int)`
+* `bool IsTvOS()`
+* `bool IsTvOSVersionAtLeast(int, int, int)`
+* `bool IsAndroid()`
+* `bool IsAndroidVersionAtLeast(int, int, int)`
+* `bool IsWatchOS()`
+* `bool IsWatchOSVersionAtLeast(int, int, int)`
+* `bool IsWasi()`
+* `bool IsBrowser()`
+
+
 
 #### ParameterInfo
 
@@ -1129,28 +1155,6 @@ The class `Polyfill` includes the following extension methods:
 #### KeyValuePair
 
  * `KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey, TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair.create)
-
-
-#### OperatingSystem
-* `bool IsWindows()`
-* `bool IsWindowsVersionAtLeast(int, int, int, int)`
-* `bool IsMacOS()`
-* `bool IsMacOSVersionAtLeast(int, int, int)`
-* `bool IsMacCatalyst()`
-* `bool IsMacCatalystVersionAtLeast(int, int, int)`
-* `bool IsLinux()`
-* `bool IsFreeBSD()`
-* `bool IsFreeBSDVersionAtLeast(int, int, int, int)`
-* `bool IsIOS()`
-* `bool IsIOSVersionAtLeast(int, int, int)`
-* `bool IsTvOS()`
-* `bool IsTvOSVersionAtLeast(int, int, int)`
-* `bool IsAndroid()`
-* `bool IsAndroidVersionAtLeast(int, int, int)`
-* `bool IsWatchOS()`
-* `bool IsWatchOSVersionAtLeast(int, int, int)`
-* `bool IsWasi()`
-* `bool IsBrowser()`
 
 
 #### TaskCompletionSource<!-- endInclude -->
