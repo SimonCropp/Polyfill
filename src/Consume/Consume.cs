@@ -29,6 +29,8 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using MemoryStream = System.IO.MemoryStream;
+// ReSharper disable UnnecessaryWhitespace
+// ReSharper disable InconsistentNaming
 #pragma warning disable CS4014
 
 class Consume
@@ -369,6 +371,41 @@ class Consume
     void MemberInfo_Methods(MemberInfo info)
     {
         var result = info.HasSameMetadataDefinitionAs(info);
+    }
+    void OperatingSystem_Methods()
+    {
+        var operatingSystem = new OperatingSystem(Environment.OSVersion.Platform, Environment.OSVersion.Version);
+
+        var isOSPlatform = operatingSystem.IsOSPlatform("windows");
+        var isOSPlatformWindows10 = operatingSystem.IsOSPlatformVersionAtLeast("windows", 10, 0, 10240);
+
+        var isWindows = operatingSystem.IsWindows();
+        var isWindows11 = operatingSystem.IsWindowsVersionAtLeast(10,0,22000);
+
+        var isMacOS = operatingSystem.IsMacOS();
+        var isMacOsSonoma = operatingSystem.IsMacOSVersionAtLeast(14);
+        var isMacCatalyst = operatingSystem.IsMacCatalyst();
+        var isMacCatalyst17 = operatingSystem.IsMacCatalystVersionAtLeast(17);
+
+        var isLinux = operatingSystem.IsLinux();
+
+        var isFreeBSD = operatingSystem.IsFreeBSD();
+        var isFreeBSD14 = operatingSystem.IsFreeBSDVersionAtLeast(14, 0);
+
+        var isIOS = operatingSystem.IsIOS();
+        var isIOS18 = operatingSystem.IsIOSVersionAtLeast(18);
+
+        var isAndroid = operatingSystem.IsAndroid();
+        var isAndroid13 = operatingSystem.IsAndroidVersionAtLeast(13);
+
+        var isTvOS = operatingSystem.IsTvOS();
+        var isTvOS17 = operatingSystem.IsTvOSVersionAtLeast(17);
+
+        var isWatchOS = operatingSystem.IsWatchOS();
+        var isWatchOS11 = operatingSystem.IsWatchOSVersionAtLeast(11);
+
+        var isWasi = operatingSystem.IsWasi();
+        var isBrowser = operatingSystem.IsBrowser();
     }
 
     async Task Process_Methods()
