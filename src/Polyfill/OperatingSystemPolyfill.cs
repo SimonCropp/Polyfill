@@ -25,40 +25,68 @@ static class OperatingSystemPolyfill
     [SupportedOSPlatform("windows")]
    private static Version GetWindowsVersion()
     {
-        return Version.Parse(RuntimeInformation.OSDescription
-            .Replace("Microsoft Windows", string.Empty)
-            .Replace(" ", string.Empty));
+        try
+        {
+            return Version.Parse(RuntimeInformation.OSDescription
+                .Replace("Microsoft Windows", string.Empty)
+                .Replace(" ", string.Empty));
+        }
+        catch
+        {
+           return Environment.OSVersion.Version;
+        }
     }
 
     [SupportedOSPlatform("macos")]
     private static Version GetMacOSVersion()
     {
-        string versionString = RunProcess(
-            CreateProcess("/usr/bin/sw_vers", ""))
-            .Replace("ProductVersion:", string.Empty)
-            .Replace(" ", string.Empty);
+        try
+        {
+            string versionString = RunProcess(
+                    CreateProcess("/usr/bin/sw_vers", ""))
+                .Replace("ProductVersion:", string.Empty)
+                .Replace(" ", string.Empty);
 
-        return Version.Parse(versionString.Split(Environment.NewLine.ToCharArray())[0]);
+            return Version.Parse(versionString.Split(Environment.NewLine.ToCharArray())[0]);
+        }
+        catch
+        {
+            return Environment.OSVersion.Version;
+        }
     }
 
     [SupportedOSPlatform("freebsd")]
     private static Version GetFreeBSDVersion()
     {
-        string versionString = Environment.OSVersion.VersionString
-            .Replace("Unix", string.Empty).Replace("FreeBSD", string.Empty)
-            .Replace("-release", string.Empty).Replace(" ", string.Empty);
+        try
+        {
+            string versionString = Environment.OSVersion.VersionString
+                .Replace("Unix", string.Empty).Replace("FreeBSD", string.Empty)
+                .Replace("-release", string.Empty).Replace(" ", string.Empty);
 
-        return Version.Parse(versionString);
+            return Version.Parse(versionString);
+        }
+        catch
+        {
+            return Environment.OSVersion.Version;
+        }
     }
 
     [SupportedOSPlatform("android")]
     private static Version GetAndroidVersion()
     {
-        string result = RunProcess(
-                CreateProcess("getprop", "ro.build.version.release"))
-            .Replace(" ", string.Empty);
+        try
+        {
+            string result = RunProcess(
+                    CreateProcess("getprop", "ro.build.version.release"))
+                .Replace(" ", string.Empty);
 
-        return Version.Parse(result);
+            return Version.Parse(result);
+        }
+        catch
+        {
+            return Environment.OSVersion.Version;
+        }
     }
 
     private static Process CreateProcess(string targetFileName, string arguments)
