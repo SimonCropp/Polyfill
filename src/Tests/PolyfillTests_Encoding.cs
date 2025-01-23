@@ -12,6 +12,24 @@ partial class PolyfillTests
     }
 
     [Test]
+    public void Encoding_GetChars()
+    {
+        // Arrange
+        var encoding = Encoding.UTF8;
+        var utf8Bytes = "Hello, World!"u8.ToArray();
+        var byteSpan = new ReadOnlySpan<byte>(utf8Bytes);
+        var charArray = new char[utf8Bytes.Length];
+        var charSpan = new Span<char>(charArray);
+
+        // Act
+        var charCount = encoding.GetChars(byteSpan, charSpan);
+
+        // Assert
+        var result = charSpan.Slice(0, charCount).ToString();
+        Assert.AreEqual("Hello, World!", result);
+    }
+
+    [Test]
     public void Encoding_GetString()
     {
         var array = (ReadOnlySpan<byte>)"value"u8.ToArray().AsSpan();
