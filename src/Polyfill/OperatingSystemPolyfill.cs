@@ -4,6 +4,9 @@ using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
+
+// ReSharper disable UnnecessaryWhitespace
 // ReSharper disable ArrangeMethodOrOperatorBody
 // ReSharper disable SuggestVarOrType_BuiltInTypes
 // ReSharper disable InconsistentNaming
@@ -19,6 +22,7 @@ public
 #endif
 static class OperatingSystemPolyfill
 {
+    [SupportedOSPlatform("windows")]
    private static Version GetWindowsVersion()
     {
         return Version.Parse(RuntimeInformation.OSDescription
@@ -26,6 +30,7 @@ static class OperatingSystemPolyfill
             .Replace(" ", string.Empty));
     }
 
+    [SupportedOSPlatform("macos")]
     private static Version GetMacOSVersion()
     {
         string versionString = RunProcess(
@@ -36,6 +41,7 @@ static class OperatingSystemPolyfill
         return Version.Parse(versionString.Split(Environment.NewLine.ToCharArray())[0]);
     }
 
+    [SupportedOSPlatform("freebsd")]
     private static Version GetFreeBSDVersion()
     {
         string versionString = Environment.OSVersion.VersionString
@@ -45,6 +51,7 @@ static class OperatingSystemPolyfill
         return Version.Parse(versionString);
     }
 
+    [SupportedOSPlatform("android")]
     private static Version GetAndroidVersion()
     {
         string result = RunProcess(
