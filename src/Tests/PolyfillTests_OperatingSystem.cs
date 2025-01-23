@@ -16,6 +16,7 @@ namespace Tests;
 partial class PolyfillTests
 {
 
+    #if FeatureRuntimeInformation
     [Test]
     public void IsOperatingSystemWindows()
     {
@@ -108,4 +109,5 @@ partial class PolyfillTests
 
         Assert.AreEqual(expected, actual);
     }
+    #endif
 }

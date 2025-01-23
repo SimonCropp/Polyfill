@@ -372,9 +372,10 @@ class Consume
     {
         var result = info.HasSameMetadataDefinitionAs(info);
     }
+
+    #if FeatureRuntimeInformation
     void OperatingSystem_Methods()
     {
-#if !NET8_0_OR_GREATER
         var isOSPlatform = OperatingSystemPolyfill.IsOSPlatform("windows");
         var isOSPlatformWindows10 = OperatingSystemPolyfill.IsOSPlatformVersionAtLeast("windows", 10, 0, 10240);
 
@@ -405,8 +406,8 @@ class Consume
 
         var isWasi = OperatingSystemPolyfill.IsWasi();
         var isBrowser = OperatingSystemPolyfill.IsBrowser();
-#endif
     }
+#endif
 
     async Task Process_Methods()
     {

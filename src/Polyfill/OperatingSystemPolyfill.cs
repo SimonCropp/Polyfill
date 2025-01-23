@@ -16,6 +16,8 @@ using System.Runtime.Versioning;
 
 namespace Polyfills;
 
+#if FeatureRuntimeInformation
+
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 
@@ -367,3 +369,5 @@ static class OperatingSystemPolyfill
         return Environment.OSVersion.Version >= new Version(major, minor, build, revision);
     }
 }
+
+#endif
