@@ -92,6 +92,8 @@
  * `int GetCharCount(Encoding, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getcharcount#system-text-encoding-getcharcount(system-readonlyspan((system-byte))))
  * `int GetChars(Encoding, ReadOnlySpan<byte>, Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getchars#system-text-encoding-getchars(system-readonlyspan((system-byte))-system-span((system-char))))
  * `string GetString(Encoding, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getstring#system-text-encoding-getstring(system-readonlyspan((system-byte))))
+ * `bool TryGetBytes(Encoding, ReadOnlySpan<char>, Span<byte>, int)`
+ * `bool TryGetChars(Encoding, ReadOnlySpan<byte>, Span<char>, int)`
 
 
 #### EventInfo
