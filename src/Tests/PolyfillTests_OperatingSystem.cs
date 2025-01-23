@@ -4,7 +4,6 @@
 // ReSharper disable SuggestVarOrType_SimpleTypes
 
 using System.Runtime.InteropServices;
-using Polyfill;
 using OSPlatform = System.Runtime.InteropServices.OSPlatform;
 // ReSharper disable SuggestVarOrType_BuiltInTypes
 // ReSharper disable InconsistentNaming
