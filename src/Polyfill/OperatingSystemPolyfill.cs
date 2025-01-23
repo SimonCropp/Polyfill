@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 // ReSharper disable InconsistentNaming
 // ReSharper disable SuggestVarOrType_SimpleTypes
 
-namespace Polyfill;
+namespace Polyfills;
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
