@@ -50,5 +50,40 @@ partial class PolyfillTests
         Assert.AreEqual(encoding.GetBytes("Hello, World!"), bytes.ToArray());
     }
 
+    [Test]
+    public void TryGetChars_WithValidInput_ReturnsTrue()
+    {
+        // Arrange
+        var encoding = Encoding.UTF8;
+        var utf8Bytes = "Hello, World!"u8.ToArray();
+        var byteSpan = new ReadOnlySpan<byte>(utf8Bytes);
+        var charArray = new char[utf8Bytes.Length];
+        var charSpan = new Span<char>(charArray);
+
+        // Act
+        var result = encoding.TryGetChars(byteSpan, charSpan, out var charsWritten);
+
+        // Assert
+        Assert.IsTrue(result);
+        Assert.AreEqual("Hello, World!", charSpan.Slice(0, charsWritten).ToString());
+    }
+
+    [Test]
+    public void TryGetChars_WithSmallDestination_ReturnsFalse()
+    {
+        // Arrange
+        var encoding = Encoding.UTF8;
+        var utf8Bytes = "Hello, World!"u8.ToArray();
+        var byteSpan = new ReadOnlySpan<byte>(utf8Bytes);
+        var charArray = new char[5]; // Smaller than needed
+        var charSpan = new Span<char>(charArray);
+
+        // Act
+        var result = encoding.TryGetChars(byteSpan, charSpan, out var charsWritten);
+
+        // Assert
+        Assert.IsFalse(result);
+        Assert.AreEqual(0, charsWritten);
+    }
 #endif
 }

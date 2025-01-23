@@ -32,6 +32,7 @@ static partial class Polyfill
         charsWritten = 0;
         return false;
     }
+
     /// <summary>Encodes into a span of bytes a set of characters from the specified read-only span if the destination is large enough.</summary>
     /// <param name="chars">The span containing the set of characters to encode.</param>
     /// <param name="bytes">The byte span to hold the encoded bytes.</param>
