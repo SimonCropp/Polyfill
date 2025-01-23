@@ -15,7 +15,7 @@ static partial class Polyfill
 {
 #if NETCOREAPP2_0 || NETFRAMEWORK || NETSTANDARD2_0
     /// <summary>
-    /// When overridden in a derived class, calculates the number of bytes produced by encoding the characters in the specified character span.
+    /// Calculates the number of bytes produced by encoding the characters in the specified character span.
     /// </summary>
     /// <param name="encoding"></param>
     /// <param name="chars">The span of characters to encode.</param>

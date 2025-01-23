@@ -13,7 +13,7 @@ using System.Text;
 static partial class Polyfill
 {
 #if !NETCOREAPP2_1_OR_GREATER
-    /// <summary>When overridden in a derived class, encodes into a span of bytes a set of characters from the specified read-only span.</summary>
+    /// <summary>Encodes into a span of bytes a set of characters from the specified read-only span.</summary>
     /// <param name="chars">The span containing the set of characters to encode.</param>
     /// <param name="bytes">The byte span to hold the encoded bytes.</param>
     /// <returns>The number of encoded bytes.</returns>
