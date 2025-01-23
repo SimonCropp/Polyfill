@@ -10,14 +10,6 @@ using Diagnostics.CodeAnalysis;
 using Runtime.CompilerServices;
 
 /// <summary>Represent a range has start and end indexes.</summary>
-/// <remarks>
-/// Range is used by the C# compiler to support the range syntax.
-/// <code>
-/// int[] someArray = new int[5] { 1, 2, 3, 4, 5 };
-/// int[] subArray1 = someArray[0..2]; // { 1, 2 }
-/// int[] subArray2 = someArray[1..^0]; // { 2, 3, 4, 5 }
-/// </code>
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyPublic
@@ -40,11 +32,6 @@ record Range(Index Start, Index End)
 
     /// <summary>Calculate the start offset and length of range object using a collection length.</summary>
     /// <param name="length">The length of the collection that the range will be used with. length has to be a positive value.</param>
-    /// <remarks>
-    /// For performance reason, we don't validate the input length parameter against negative values.
-    /// It is expected Range will be used with collections which always have non negative length/count.
-    /// We validate the range is inside the length scope though.
-    /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public (int Offset, int Length) GetOffsetAndLength(int length)
     {

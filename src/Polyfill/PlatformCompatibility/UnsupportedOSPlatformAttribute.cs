@@ -15,10 +15,6 @@ using Targets = AttributeTargets;
 /// <summary>
 /// Marks APIs that were removed in a given operating system version.
 /// </summary>
-/// <remarks>
-/// Primarily used by OS bindings to indicate APIs that are only available in
-/// earlier versions.
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(

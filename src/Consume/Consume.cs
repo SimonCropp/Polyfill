@@ -552,6 +552,7 @@ class Consume
         builder.Append("suffix".AsSpan());
         var targetSpan = new Span<char>(new char[1]);
         builder.CopyTo(0, targetSpan, 1);
+        builder.Insert(1, targetSpan);
         var equals = builder.Equals("value".AsSpan());
 
 #if NET6_0_OR_GREATER

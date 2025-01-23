@@ -28,20 +28,12 @@ static class GuidPolyfill
 
     /// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
     /// <returns>A new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</returns>
-    /// <remarks>
-    ///     <para>This uses <see cref="DateTimeOffset.UtcNow" /> to determine the Unix Epoch timestamp source.</para>
-    ///     <para>This seeds the rand_a and rand_b sub-fields with random data.</para>
-    /// </remarks>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.createversion7#system-guid-createversion7
     public static Guid CreateVersion7() => CreateVersion7(DateTimeOffset.UtcNow);
 
     /// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
     /// <param name="timestamp">The date time offset used to determine the Unix Epoch timestamp.</param>
     /// <returns>A new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</returns>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="timestamp" /> represents an offset prior to <see cref="DateTimeOffset.UnixEpoch" />.</exception>
-    /// <remarks>
-    ///     <para>This seeds the rand_a and rand_b sub-fields with random data.</para>
-    /// </remarks>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.createversion7#system-guid-createversion7(system-datetimeoffset)
     public static Guid CreateVersion7(DateTimeOffset timestamp)
     {

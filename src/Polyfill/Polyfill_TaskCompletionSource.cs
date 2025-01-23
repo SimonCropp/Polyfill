@@ -16,12 +16,6 @@ static partial class Polyfill
     /// using the specified token.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token with which to cancel the <see cref="Task{TResult}"/>.</param>
-    /// <exception cref="InvalidOperationException">
-    /// The underlying <see cref="Task{TResult}"/> is already in one of the three final states:
-    /// <see cref="TaskStatus.RanToCompletion"/>,
-    /// <see cref="TaskStatus.Faulted"/>, or
-    /// <see cref="TaskStatus.Canceled"/>.
-    /// </exception>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken)
     public static void SetCanceled<T>(
         this TaskCompletionSource<T> target,

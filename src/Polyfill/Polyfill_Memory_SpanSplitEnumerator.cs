@@ -68,11 +68,6 @@ static partial class Polyfill
 #endif
 
         /// <summary>Initializes the enumerator for <see cref="SpanSplitEnumeratorMode.Any"/>.</summary>
-        /// <remarks>
-        /// If <paramref name="separators"/> is empty and <typeparamref name="T"/> is <see cref="char"/>, as an optimization
-        /// it will instead use <see cref="SpanSplitEnumeratorMode.SearchValues"/> with a cached <see cref="SearchValues{Char}"/>
-        /// for all whitespace characters.
-        /// </remarks>
         internal SpanSplitEnumerator(ReadOnlySpan<T> span, ReadOnlySpan<T> separators)
         {
             _span = span;
@@ -94,7 +89,6 @@ static partial class Polyfill
         }
 
         /// <summary>Initializes the enumerator for <see cref="SpanSplitEnumeratorMode.Sequence"/> (or <see cref="SpanSplitEnumeratorMode.EmptySequence"/> if the separator is empty).</summary>
-        /// <remarks><paramref name="treatAsSingleSeparator"/> must be true.</remarks>
         internal SpanSplitEnumerator(ReadOnlySpan<T> span, ReadOnlySpan<T> separator, bool treatAsSingleSeparator)
         {
             _span = span;

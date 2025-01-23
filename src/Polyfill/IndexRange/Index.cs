@@ -10,13 +10,6 @@ using Diagnostics.CodeAnalysis;
 using Runtime.CompilerServices;
 
 /// <summary>Represent a type can be used to index a collection either from the start or the end.</summary>
-/// <remarks>
-/// Index is used by the C# compiler to support the new index syntax
-/// <code>
-/// int[] someArray = new int[5] { 1, 2, 3, 4, 5 } ;
-/// int lastElement = someArray[^1]; // lastElement = 5
-/// </code>
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyPublic
@@ -29,9 +22,6 @@ readonly struct Index : IEquatable<Index>
     /// <summary>Construct an Index using a value and indicating if the index is from the start or from the end.</summary>
     /// <param name="value">The index value. it has to be zero or positive number.</param>
     /// <param name="fromEnd">Indicating if the index is from the start or from the end.</param>
-    /// <remarks>
-    /// If the Index constructed from the end, index value 1 means pointing at the last element and index value 0 means pointing at beyond last element.
-    /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Index(int value, bool fromEnd = false)
     {
@@ -105,12 +95,6 @@ readonly struct Index : IEquatable<Index>
 
     /// <summary>Calculate the offset from the start using the giving collection length.</summary>
     /// <param name="length">The length of the collection that the Index will be used with. length has to be a positive value</param>
-    /// <remarks>
-    /// For performance reason, we don't validate the input length parameter and the returned offset value against negative values.
-    /// we don't validate either the returned offset is greater than the input length.
-    /// It is expected Index will be used with collections which always have non negative length/count. If the returned offset is negative and
-    /// then used to index a collection will get out of range exception which will be same affect as the validation.
-    /// </remarks>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int GetOffset(int length)
     {

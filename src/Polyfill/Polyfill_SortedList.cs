@@ -15,7 +15,6 @@ static partial class Polyfill
     /// </summary>
     /// <param name="index">The zero-based index of the key within the entire <see cref="SortedList{TKey, TValue}"/>.</param>
     /// <returns>The key corresponding to the specified index.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">The specified index is out of range.</exception>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedlist-2.getkeyatindex
     public static TKey GetKeyAtIndex<TKey, TValue>(
         this SortedList<TKey, TValue> target, int index) =>

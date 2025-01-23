@@ -11,9 +11,6 @@ using Diagnostics;
 /// <summary>
 /// Indicates that the specified method parameter expects a constant.
 /// </summary>
-/// <remarks>
-/// This can be used to inform tooling that a constant should be used as an argument for the annotated parameter.
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
