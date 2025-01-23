@@ -14,9 +14,6 @@ using Link = ComponentModel.DescriptionAttribute;
 /// <summary>
 /// Enumerates the lines of a <see cref="ReadOnlySpan{Char}"/>.
 /// </summary>
-/// <remarks>
-/// To get an instance of this type, use <see cref="MemoryExtensions.EnumerateLines(ReadOnlySpan{char})"/>.
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.spanlineenumerator

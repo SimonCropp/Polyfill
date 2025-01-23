@@ -23,7 +23,6 @@ static partial class Polyfill
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="list">The list to which the elements should be added.</param>
     /// <param name="source">The span whose elements should be added to the end of the <see cref="List{T}"/>.</param>
-    /// <exception cref="ArgumentNullException">The <paramref name="list"/> is null.</exception>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.addrange
     public static void AddRange<T>(this List<T> target, ReadOnlySpan<T> source)
     {
@@ -38,8 +37,6 @@ static partial class Polyfill
     /// <param name="list">The list into which the elements should be inserted.</param>
     /// <param name="index">The zero-based index at which the new elements should be inserted.</param>
     /// <param name="source">The span whose elements should be added to the <see cref="List{T}"/>.</param>
-    /// <exception cref="ArgumentNullException">The <paramref name="list"/> is null.</exception>
-    /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is less than 0 or greater than <paramref name="list"/>'s <see cref="List{T}.Count"/>.</exception>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange
     public static void InsertRange<T>(this List<T> target, int index, ReadOnlySpan<T> source)
     {
@@ -54,8 +51,6 @@ static partial class Polyfill
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="list">The list from which the elements are copied.</param>
     /// <param name="destination">The span that is the destination of the elements copied from <paramref name="list"/>.</param>
-    /// <exception cref="ArgumentNullException">The <paramref name="list"/> is null.</exception>
-    /// <exception cref="ArgumentException">The number of elements in the source <see cref="List{T}"/> is greater than the number of elements that the destination span can contain.</exception>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.copyto
     public static void CopyTo<T>(this List<T> target, Span<T> destination)
     {

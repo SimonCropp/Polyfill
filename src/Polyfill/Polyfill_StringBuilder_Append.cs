@@ -9,6 +9,38 @@ using System.Text;
 
 static partial class Polyfill
 {
+#if !NETSTANDARD2_1_OR_GREATER && !NETCOREAPP2_1_OR_GREATER
+
+    /// <summary>
+    /// Appends a copy of a substring within a specified string builder to this instance.
+    /// </summary>
+    /// <param name="value">The string builder that contains the substring to append.</param>
+    /// <param name="startIndex">The starting position of the substring within value.</param>
+    /// <param name="count">The number of characters in value to append.</param>
+    /// <returns>A reference to this instance after the append operation is completed.</returns>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-text-stringbuilder-system-int32-system-int32)
+    public static StringBuilder Append(this StringBuilder target, StringBuilder? value, int startIndex, int count)
+    {
+        if (value == null)
+        {
+            if (startIndex == 0 && count == 0)
+            {
+                return target;
+            }
+
+            throw new ArgumentNullException(nameof(value));
+        }
+
+        if (count == 0)
+        {
+            return target;
+        }
+
+        return target.Append(value.ToString(), startIndex, count);
+    }
+
+#endif
+
 #if FeatureMemory && (!NETSTANDARD2_1_OR_GREATER && !NETCOREAPP2_1_OR_GREATER)
 
     /// <summary>

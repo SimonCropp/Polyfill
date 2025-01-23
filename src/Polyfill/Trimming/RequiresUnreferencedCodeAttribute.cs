@@ -13,10 +13,6 @@ using Targets = AttributeTargets;
 /// Indicates that the specified method requires dynamic access to code that is not referenced
 /// statically, for example through <see cref="System.Reflection"/>.
 /// </summary>
-/// <remarks>
-/// This allows tools to understand which methods are unsafe to call when removing unreferenced
-/// code from an application.
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
@@ -24,6 +20,7 @@ using Targets = AttributeTargets;
              Targets.Constructor |
              Targets.Class,
     Inherited = false)]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.requiresunreferencedcodeattribute
 #if PolyPublic
 public
 #endif

@@ -67,7 +67,6 @@ static partial class Polyfill
     /// Determines whether this string instance starts with the specified character.
     /// </summary>
     /// <param name="value">The character to compare.</param>
-    /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison.</remarks>
     /// <returns>true if value matches the beginning of this string; otherwise, false.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith#system-string-startswith(system-char)
     public static bool StartsWith(this string target, char value)
@@ -84,7 +83,6 @@ static partial class Polyfill
     /// Returns a value indicating whether a specified character occurs within this string.
     /// </summary>
     /// <param name="value">The character to seek.</param>
-    /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison.</remarks>
     /// <returns>true if the value parameter occurs within this string; otherwise, false.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.endswith#system-string-endswith(system-char)
     public static bool EndsWith(this string target, char value)
@@ -130,8 +128,6 @@ static partial class Polyfill
     /// <summary>
     /// Returns a value indicating whether a specified character occurs within this string.
     /// </summary>
-    /// <remarks>This method performs an ordinal (case-sensitive and culture-insensitive) comparison.</remarks>
-    /// <param name="value">The character to seek.</param>
     /// <returns>true if the value parameter occurs within this string; otherwise, false.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.contains#system-string-contains(system-char)
     public static bool Contains(this string target, char value) =>
@@ -146,7 +142,7 @@ static partial class Polyfill
     /// A string whose contents match the current string, but with all newline sequences replaced
     /// with <paramref name="replacementText"/>.
     /// </returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.replacelineendings?view=net-9.0#system-string-replacelineendings(system-string)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.replacelineendings#system-string-replacelineendings(system-string)
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string ReplaceLineEndings(this string target, string replacementText)
     {

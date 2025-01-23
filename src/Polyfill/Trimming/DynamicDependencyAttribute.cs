@@ -12,10 +12,6 @@ using Targets = AttributeTargets;
 /// <summary>
 /// States a dependency that one member has on another.
 /// </summary>
-/// <remarks>
-/// This can be used to inform tooling of a dependency that is otherwise not evident purely from
-/// metadata and IL, for example a member relied on via reflection.
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
@@ -92,46 +88,27 @@ sealed class DynamicDependencyAttribute :
     /// <summary>
     /// Gets the signature of the member depended on.
     /// </summary>
-    /// <remarks>
-    /// Either <see cref="MemberSignature"/> must be a valid string or <see cref="MemberTypes"/>
-    /// must not equal <see cref="DynamicallyAccessedMemberTypes.None"/>, but not both.
-    /// </remarks>
     public string? MemberSignature { get; }
 
     /// <summary>
     /// Gets the <see cref="DynamicallyAccessedMemberTypes"/> which specifies the type
     /// of members depended on.
     /// </summary>
-    /// <remarks>
-    /// Either <see cref="MemberSignature"/> must be a valid string or <see cref="MemberTypes"/>
-    /// must not equal <see cref="DynamicallyAccessedMemberTypes.None"/>, but not both.
-    /// </remarks>
     public DynamicallyAccessedMemberTypes MemberTypes { get; }
 
     /// <summary>
     /// Gets the <see cref="System.Type"/> containing the specified member.
     /// </summary>
-    /// <remarks>
-    /// If neither <see cref="Type"/> nor <see cref="TypeName"/> are specified,
-    /// the type of the consumer is assumed.
-    /// </remarks>
     public Type? Type { get; }
 
     /// <summary>
     /// Gets the full name of the type containing the specified member.
     /// </summary>
-    /// <remarks>
-    /// If neither <see cref="Type"/> nor <see cref="TypeName"/> are specified,
-    /// the type of the consumer is assumed.
-    /// </remarks>
     public string? TypeName { get; }
 
     /// <summary>
     /// Gets the assembly name of the specified type.
     /// </summary>
-    /// <remarks>
-    /// <see cref="AssemblyName"/> is only valid when <see cref="TypeName"/> is specified.
-    /// </remarks>
     public string? AssemblyName { get; }
 
     /// <summary>

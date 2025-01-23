@@ -15,10 +15,6 @@ static partial class Polyfill
     /// <summary>
     /// Serializes the HTTP content and returns a stream that represents the content.
     /// </summary>
-    /// <remarks>
-    /// Note that this method will internally buffer the content unless <c>CreateContentReadStreamAsync()</c> has been
-    /// implemented to do otherwise.
-    /// </remarks>
     /// <param name="cancellationToken">
     /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
@@ -36,10 +32,6 @@ static partial class Polyfill
     /// <summary>
     /// Serializes the HTTP content to a byte array as an asynchronous operation.
     /// </summary>
-    /// <remarks>
-    /// Note that this method will internally buffer the content unless <c>CreateContentReadStreamAsync()</c> has been
-    /// implemented to do otherwise.
-    /// </remarks>
     /// <param name="cancellationToken">
     /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
@@ -57,10 +49,6 @@ static partial class Polyfill
     /// <summary>
     /// Serializes the HTTP content to a string as an asynchronous operation.
     /// </summary>
-    /// <remarks>
-    /// Note that this method will internally buffer the content unless <c>CreateContentReadStreamAsync()</c> has been
-    /// implemented to do otherwise.
-    /// </remarks>
     /// <param name="cancellationToken">
     /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
     /// </param>
