@@ -31,7 +31,7 @@ public StringBuilder Append(ReadOnlySpan<char> value)
 
 Which will result in a string allocation.
 
-As Polyfill is implemented as a source only nuget, the implementation for each polyfill is compiled into the IL of the resulting assembly. As a side-effect that implementation will continue to be used even if that assembly is executed in a runtime that has a more efficient implementation available.
+As Polyfill is implemented as a source only nuget, the implementation for each polyfill is compiled into the IL of the consuming assembly. As a side-effect that implementation will continue to be used even if that assembly is executed in a runtime that has a more efficient implementation available.
 
 As a result, in the context of a project producing nuget package, that project should target all frameworks from the lowest TargetFramework up to and including the current framework. This way the most performant implementation will be used for each runtime. Take the following examples:
 
