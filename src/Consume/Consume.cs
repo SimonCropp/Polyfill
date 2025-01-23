@@ -28,7 +28,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
-using Polyfill;
 using MemoryStream = System.IO.MemoryStream;
 // ReSharper disable UnnecessaryWhitespace
 // ReSharper disable InconsistentNaming
