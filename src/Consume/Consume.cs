@@ -28,6 +28,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Polyfill;
 using MemoryStream = System.IO.MemoryStream;
 // ReSharper disable UnnecessaryWhitespace
 // ReSharper disable InconsistentNaming
@@ -375,38 +376,36 @@ class Consume
     void OperatingSystem_Methods()
     {
 #if !NET8_0_OR_GREATER
-        var operatingSystem = new OperatingSystem(Environment.OSVersion.Platform, Environment.OSVersion.Version);
+        var isOSPlatform = OperatingSystemPolyfill.IsOSPlatform("windows");
+        var isOSPlatformWindows10 = OperatingSystemPolyfill.IsOSPlatformVersionAtLeast("windows", 10, 0, 10240);
 
-        var isOSPlatform = operatingSystem.IsOSPlatform("windows");
-        var isOSPlatformWindows10 = operatingSystem.IsOSPlatformVersionAtLeast("windows", 10, 0, 10240);
+        var isWindows = OperatingSystemPolyfill.IsWindows();
+        var isWindows11 = OperatingSystemPolyfill.IsWindowsVersionAtLeast(10,0,22000);
 
-        var isWindows = operatingSystem.IsWindows();
-        var isWindows11 = operatingSystem.IsWindowsVersionAtLeast(10,0,22000);
+        var isMacOS = OperatingSystemPolyfill.IsMacOS();
+        var isMacOsSonoma = OperatingSystemPolyfill.IsMacOSVersionAtLeast(14);
+        var isMacCatalyst = OperatingSystemPolyfill.IsMacCatalyst();
+        var isMacCatalyst17 = OperatingSystemPolyfill.IsMacCatalystVersionAtLeast(17);
 
-        var isMacOS = operatingSystem.IsMacOS();
-        var isMacOsSonoma = operatingSystem.IsMacOSVersionAtLeast(14);
-        var isMacCatalyst = operatingSystem.IsMacCatalyst();
-        var isMacCatalyst17 = operatingSystem.IsMacCatalystVersionAtLeast(17);
+        var isLinux = OperatingSystemPolyfill.IsLinux();
 
-        var isLinux = operatingSystem.IsLinux();
+        var isFreeBSD = OperatingSystemPolyfill.IsFreeBSD();
+        var isFreeBSD14 = OperatingSystemPolyfill.IsFreeBSDVersionAtLeast(14, 0);
 
-        var isFreeBSD = operatingSystem.IsFreeBSD();
-        var isFreeBSD14 = operatingSystem.IsFreeBSDVersionAtLeast(14, 0);
+        var isIOS = OperatingSystemPolyfill.IsIOS();
+        var isIOS18 = OperatingSystemPolyfill.IsIOSVersionAtLeast(18);
 
-        var isIOS = operatingSystem.IsIOS();
-        var isIOS18 = operatingSystem.IsIOSVersionAtLeast(18);
+        var isAndroid = OperatingSystemPolyfill.IsAndroid();
+        var isAndroid13 = OperatingSystemPolyfill.IsAndroidVersionAtLeast(13);
 
-        var isAndroid = operatingSystem.IsAndroid();
-        var isAndroid13 = operatingSystem.IsAndroidVersionAtLeast(13);
+        var isTvOS = OperatingSystemPolyfill.IsTvOS();
+        var isTvOS17 = OperatingSystemPolyfill.IsTvOSVersionAtLeast(17);
 
-        var isTvOS = operatingSystem.IsTvOS();
-        var isTvOS17 = operatingSystem.IsTvOSVersionAtLeast(17);
+        var isWatchOS = OperatingSystemPolyfill.IsWatchOS();
+        var isWatchOS11 = OperatingSystemPolyfill.IsWatchOSVersionAtLeast(11);
 
-        var isWatchOS = operatingSystem.IsWatchOS();
-        var isWatchOS11 = operatingSystem.IsWatchOSVersionAtLeast(11);
-
-        var isWasi = operatingSystem.IsWasi();
-        var isBrowser = operatingSystem.IsBrowser();
+        var isWasi = OperatingSystemPolyfill.IsWasi();
+        var isBrowser = OperatingSystemPolyfill.IsBrowser();
 #endif
     }
 

@@ -1,24 +1,25 @@
-// ReSharper disable RedundantUsingDirective
+﻿// ReSharper disable RedundantUsingDirective
+
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 // ReSharper disable ArrangeMethodOrOperatorBody
-// ReSharper disable InconsistentNaming
 // ReSharper disable SuggestVarOrType_BuiltInTypes
+// ReSharper disable InconsistentNaming
 // ReSharper disable SuggestVarOrType_SimpleTypes
-// ReSharper disable InvalidXmlDocComment
 
-#pragma warning disable
+namespace Polyfill;
 
-namespace Polyfills;
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 
-
-static partial class Polyfill
+#if PolyPublic
+public
+#endif
+static class OperatingSystemPolyfill
 {
-    #if !NET8_0_OR_GREATER || NET462_OR_GREATER
-
-    private static Version GetWindowsVersion()
+   private static Version GetWindowsVersion()
     {
         return Version.Parse(RuntimeInformation.OSDescription
             .Replace("Microsoft Windows", string.Empty)
@@ -86,10 +87,9 @@ static partial class Polyfill
     /// <summary>
     /// Indicates whether the current application is running on the specified platform.
     /// </summary>
-    /// <param name="operatingSystem"></param>
     /// <param name="platform">The case-insensitive platform name. Examples: Browser, Linux, FreeBSD, Android, iOS, macOS, tvOS, watchOS, Windows.</param>
     /// <returns>true if the current application is running on the specified platform; false otherwise.</returns>
-    public static bool IsOSPlatform(this OperatingSystem operatingSystem, string platform)
+    public static bool IsOSPlatform(string platform)
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.Create(platform));
     }
@@ -103,17 +103,16 @@ static partial class Polyfill
     /// <param name="build">The build release number (optional).</param>
     /// <param name="revision">The revision release number (optional).</param>
     /// <returns>true if the current application is running on the specified platform and is at least in the version specified in the parameters; false otherwise.</returns>
-    public static bool IsOSPlatformVersionAtLeast(this OperatingSystem operatingSystem, string platform, int major, int minor = 0, int build = 0, int revision = 0)
+    public static bool IsOSPlatformVersionAtLeast(string platform, int major, int minor = 0, int build = 0, int revision = 0)
     {
-        return IsOSPlatform(operatingSystem, platform) && IsOsVersionAtLeast(major, minor, build, revision);
+        return IsOSPlatform(platform) && IsOsVersionAtLeast(major, minor, build, revision);
     }
 
     /// <summary>
     /// Indicates whether the current application is running on Windows.
     /// </summary>
-    /// <param name="operatingSystem"></param>
     /// <returns>true if the current application is running on Windows; false otherwise.</returns>
-    public static bool IsWindows(this OperatingSystem operatingSystem)
+    public static bool IsWindows()
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
     }
@@ -126,9 +125,9 @@ static partial class Polyfill
     /// <param name="build">The build release number.</param>
     /// <param name="revision">The revision release number.</param>
     /// <returns>true if the current application is running on a Windows version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsWindowsVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor = 0, int build = 0, int revision = 0)
+    public static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
     {
-        return IsWindows(operatingSystem) &&
+        return IsWindows() &&
                GetWindowsVersion() >= new Version(major, minor, build, revision);
     }
 
@@ -136,7 +135,7 @@ static partial class Polyfill
     /// Indicates whether the current application is running on macOS.
     /// </summary>
     /// <returns>true if the current application is running on macOS; false otherwise.</returns>
-    public static bool IsMacOS(this OperatingSystem operatingSystem)
+    public static bool IsMacOS()
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
     }
@@ -145,9 +144,9 @@ static partial class Polyfill
     /// Indicates whether the current application is running on Mac Catalyst.
     /// </summary>
     /// <returns>true if the current application is running on Mac Catalyst; false otherwise.</returns>
-    public static bool IsMacCatalyst(this OperatingSystem operatingSystem)
+    public static bool IsMacCatalyst()
     {
-        return IsMacOS(operatingSystem) || IsIOS(operatingSystem);
+        return IsMacOS() || IsIOS();
     }
 
     /// <summary>
@@ -157,9 +156,9 @@ static partial class Polyfill
     /// <param name="minor">The minor release number.</param>
     /// <param name="build">The build release number.</param>
     /// <returns>true if the current application is running on an macOS version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsMacOSVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor = 0, int build = 0)
+    public static bool IsMacOSVersionAtLeast(int major, int minor = 0, int build = 0)
     {
-        return IsMacOS(operatingSystem) && GetMacOSVersion() >= new Version(major, minor, build);
+        return IsMacOS() && GetMacOSVersion() >= new Version(major, minor, build);
     }
 
     /// <summary>
@@ -169,16 +168,16 @@ static partial class Polyfill
     /// <param name="minor">The version minor number.</param>
     /// <param name="build">The version build number.</param>
     /// <returns>true if the Mac Catalyst version is greater or equal than the specified version comparison; false otherwise.</returns>
-    public static bool IsMacCatalystVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor = 0, int build = 0)
+    public static bool IsMacCatalystVersionAtLeast(int major, int minor = 0, int build = 0)
     {
-        return IsMacCatalyst(operatingSystem) && IsOsVersionAtLeast(major, minor, build);
+        return IsMacCatalyst() && IsOsVersionAtLeast(major, minor, build);
     }
 
     /// <summary>
     /// Indicates whether the current application is running on Linux.
     /// </summary>
     /// <returns>true if the current application is running on Linux; false otherwise.</returns>
-    public static bool IsLinux(this OperatingSystem operatingSystem)
+    public static bool IsLinux()
     {
         return RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
     }
@@ -187,7 +186,7 @@ static partial class Polyfill
     /// Indicates whether the current application is running on FreeBSD.
     /// </summary>
     /// <returns>true if the current application is running on FreeBSD; false otherwise.</returns>
-    public static bool IsFreeBSD(this OperatingSystem operatingSystem)
+    public static bool IsFreeBSD()
     {
         return RuntimeInformation.OSDescription.ToLower().Contains("freebsd");
     }
@@ -201,7 +200,7 @@ static partial class Polyfill
     /// <param name="build">The version build number.</param>
     /// <param name="revision">The version revision number.</param>
     /// <returns>true if the current application is running on a FreeBSD version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsFreeBSDVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor, int build = 0, int revision = 0)
+    public static bool IsFreeBSDVersionAtLeast(int major, int minor, int build = 0, int revision = 0)
     {
         return GetFreeBSDVersion() >= new Version(major, minor, build, revision);
     }
@@ -210,7 +209,7 @@ static partial class Polyfill
     /// Indicates whether the current application is running on iOS or MacCatalyst.
     /// </summary>
     /// <returns>true if the current application is running on iOS or MacCatalyst; false otherwise.</returns>
-    public static bool IsIOS(this OperatingSystem operatingSystem)
+    public static bool IsIOS()
     {
         string description = RuntimeInformation.OSDescription.ToLower();
         return description.Contains("ios") ||
@@ -226,16 +225,16 @@ static partial class Polyfill
     /// <param name="minor">The minor release number.</param>
     /// <param name="build">The build release number.</param>
     /// <returns>true if the current application is running on an iOS/MacCatalyst version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsIOSVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor = 0, int build = 0)
+    public static bool IsIOSVersionAtLeast(int major, int minor = 0, int build = 0)
     {
-        return IsIOS(operatingSystem) && IsOsVersionAtLeast(major, minor, build);
+        return IsIOS() && IsOsVersionAtLeast(major, minor, build);
     }
 
     /// <summary>
     /// Indicates whether the current application is running on tvOS.
     /// </summary>
     /// <returns>true if the current application is running on tvOS; false otherwise.</returns>
-    public static bool IsTvOS(this OperatingSystem operatingSystem)
+    public static bool IsTvOS()
     {
         return RuntimeInformation.OSDescription.ToLower().Contains("tvos");
     }
@@ -247,16 +246,16 @@ static partial class Polyfill
     /// <param name="minor">The minor release number.</param>
     /// <param name="build">The build release number.</param>
     /// <returns>true if the current application is running on a tvOS version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsTvOSVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor = 0, int build = 0)
+    public static bool IsTvOSVersionAtLeast(int major, int minor = 0, int build = 0)
     {
-        return IsTvOS(operatingSystem) && IsOsVersionAtLeast(major, minor, build);
+        return IsTvOS() && IsOsVersionAtLeast(major, minor, build);
     }
 
     /// <summary>
     /// Indicates whether the current application is running on Android.
     /// </summary>
     /// <returns>true if the current application is running on Android; false otherwise.</returns>
-    public static bool IsAndroid(this OperatingSystem operatingSystem)
+    public static bool IsAndroid()
     {
         try
         {
@@ -280,20 +279,20 @@ static partial class Polyfill
     /// <param name="build">The build release number.</param>
     /// <param name="revision">The revision release number.</param>
     /// <returns>true if the current application is running on an Android version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsAndroidVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor = 0, int build = 0, int revision = 0)
+    public static bool IsAndroidVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
     {
-        return IsAndroid(operatingSystem) &&  GetAndroidVersion() >= new Version(major, minor, build, revision);
+        return IsAndroid() &&  GetAndroidVersion() >= new Version(major, minor, build, revision);
     }
 
     /// <summary>
     /// Indicates whether the current application is running on watchOS.
     /// </summary>
     /// <returns>true if the current application is running on watchOS; false otherwise.</returns>
-    public static bool IsWatchOS(this OperatingSystem operatingSystem)
+    public static bool IsWatchOS()
     {
         string description = RuntimeInformation.OSDescription.ToLower();
 
-        return IsIOS(operatingSystem) || description.Contains("watchos");
+        return IsIOS() || description.Contains("watchos");
     }
 
     /// <summary>
@@ -303,16 +302,16 @@ static partial class Polyfill
     /// <param name="minor">The minor release number.</param>
     /// <param name="build">The build release number.</param>
     /// <returns>true if the current application is running on a watchOS version that is at least what was specified in the parameters; false otherwise.</returns>
-    public static bool IsWatchOSVersionAtLeast(this OperatingSystem operatingSystem, int major, int minor = 0, int build = 0)
+    public static bool IsWatchOSVersionAtLeast(int major, int minor = 0, int build = 0)
     {
-        return IsWatchOS(operatingSystem) && IsOsVersionAtLeast(major, minor, build);
+        return IsWatchOS() && IsOsVersionAtLeast(major, minor, build);
     }
 
     /// <summary>
     /// Indicates whether the current application is running as WASI.
     /// </summary>
     /// <returns>true if running as WASI; false otherwise.</returns>
-    public static bool IsWasi(this OperatingSystem operatingSystem)
+    public static bool IsWasi()
     {
         return RuntimeInformation.FrameworkDescription.ToLower().Contains("wasi");
     }
@@ -321,7 +320,7 @@ static partial class Polyfill
     /// Indicates whether the current application is running as WASM in a browser.
     /// </summary>
     /// <returns>true if running as WASM; false otherwise.</returns>
-    public static bool IsBrowser(this OperatingSystem operatingSystem)
+    public static bool IsBrowser()
     {
         return RuntimeInformation.FrameworkDescription.Contains(".NET WebAssembly");
     }
@@ -330,6 +329,4 @@ static partial class Polyfill
     {
         return Environment.OSVersion.Version >= new Version(major, minor, build, revision);
     }
-
-    #endif
 }
