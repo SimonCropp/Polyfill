@@ -27,7 +27,7 @@ public
 static class OperatingSystemPolyfill
 {
     [SupportedOSPlatform("windows")]
-   private static Version GetWindowsVersion()
+    static Version GetWindowsVersion()
     {
         try
         {
@@ -42,7 +42,7 @@ static class OperatingSystemPolyfill
     }
 
     [SupportedOSPlatform("macos")]
-    private static Version GetMacOSVersion()
+     static Version GetMacOSVersion()
     {
         try
         {
@@ -60,7 +60,7 @@ static class OperatingSystemPolyfill
     }
 
     [SupportedOSPlatform("freebsd")]
-    private static Version GetFreeBSDVersion()
+     static Version GetFreeBSDVersion()
     {
         try
         {
@@ -77,7 +77,7 @@ static class OperatingSystemPolyfill
     }
 
     [SupportedOSPlatform("android")]
-    private static Version GetAndroidVersion()
+     static Version GetAndroidVersion()
     {
         try
         {
@@ -93,7 +93,7 @@ static class OperatingSystemPolyfill
         }
     }
 
-    private static Process CreateProcess(string targetFileName, string arguments)
+     static Process CreateProcess(string targetFileName, string arguments)
     {
         ProcessStartInfo processStartInfo = new ProcessStartInfo
         {
@@ -114,7 +114,7 @@ static class OperatingSystemPolyfill
         return output;
     }
 
-    private static string RunProcess(Process process)
+     static string RunProcess(Process process)
     {
         process.Start();
 
@@ -364,7 +364,7 @@ static class OperatingSystemPolyfill
         return RuntimeInformation.FrameworkDescription.Contains(".NET WebAssembly");
     }
 
-    private static bool IsOsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
+    static bool IsOsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
     {
         return Environment.OSVersion.Version >= new Version(major, minor, build, revision);
     }
