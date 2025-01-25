@@ -37,4 +37,9 @@ sealed class InterpolatedStringHandlerArgumentAttribute :
     /// <summary>Gets the names of the arguments that should be passed to the handler.</summary>
     public string[] Arguments { get; }
 }
+
+#else
+using System.Runtime.CompilerServices;
+
+[assembly: TypeForwardedTo(typeof(InterpolatedStringHandlerArgumentAttribute))]
 #endif
