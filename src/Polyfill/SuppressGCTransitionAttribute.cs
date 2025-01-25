@@ -11,25 +11,6 @@ using System.Diagnostics.CodeAnalysis;
 /// <summary>
 /// An attribute used to indicate a GC transition should be skipped when making an unmanaged function call.
 /// </summary>
-/// <example>
-/// Example of a valid use case. The Win32 `GetTickCount()` function is a small performance related function
-/// that reads some global memory and returns the value. In this case, the GC transition overhead is significantly
-/// more than the memory read.
-/// <code>
-/// using System;
-/// using System.Runtime.InteropServices;
-/// class Program
-/// {
-///     [DllImport("Kernel32")]
-///     [SuppressGCTransition]
-///     static extern int GetTickCount();
-///     static void Main()
-///     {
-///         Console.WriteLine($"{GetTickCount()}");
-///     }
-/// }
-/// </code>
-/// </example>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
@@ -41,4 +22,8 @@ public
 #endif
 sealed class SuppressGCTransitionAttribute :
     Attribute;
+#else
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+[assembly: TypeForwardedTo(typeof(SuppressGCTransitionAttribute))]
 #endif

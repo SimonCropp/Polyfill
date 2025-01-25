@@ -39,4 +39,7 @@ sealed class OverloadResolutionPriorityAttribute :
     /// </summary>
     public int Priority { get; }
 }
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(OverloadResolutionPriorityAttribute))]
 #endif

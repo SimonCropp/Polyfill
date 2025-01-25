@@ -48,5 +48,8 @@ sealed class UnsupportedOSPlatformAttribute :
 
     public string? Message { get; }
 }
-
+#else
+using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
+[assembly: TypeForwardedTo(typeof(UnsupportedOSPlatformAttribute))]
 #endif

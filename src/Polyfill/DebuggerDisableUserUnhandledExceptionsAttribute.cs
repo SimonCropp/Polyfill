@@ -20,4 +20,8 @@ public
 #endif
 sealed class DebuggerDisableUserUnhandledExceptionsAttribute :
     Attribute;
+#else
+using System.Runtime.CompilerServices;
+using System.Diagnostics;
+[assembly: TypeForwardedTo(typeof(DebuggerDisableUserUnhandledExceptionsAttribute))]
 #endif

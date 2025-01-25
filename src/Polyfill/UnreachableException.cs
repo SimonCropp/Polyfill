@@ -52,5 +52,8 @@ sealed class UnreachableException : Exception
     {
     }
 }
-
+#else
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(UnreachableException))]
 #endif
