@@ -128,10 +128,7 @@ static class OperatingSystemPolyfill
     /// </summary>
     /// <param name="platform">The case-insensitive platform name. Examples: Browser, Linux, FreeBSD, Android, iOS, macOS, tvOS, watchOS, Windows.</param>
     /// <returns>true if the current application is running on the specified platform; false otherwise.</returns>
-    public static bool IsOSPlatform(string platform)
-    {
-        return RuntimeInformation.IsOSPlatform(OSPlatform.Create(platform));
-    }
+    public static bool IsOSPlatform(string platform) => return RuntimeInformation.IsOSPlatform(OSPlatform.Create(platform));
 
     /// <summary>
     /// Checks if the operating system version is greater than or equal to the specified platform version. This method can be used to guard APIs that were added in the specified OS version.
