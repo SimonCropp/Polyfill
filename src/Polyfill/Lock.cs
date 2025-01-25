@@ -105,4 +105,9 @@ class Lock
     }
 }
 
+#else
+using System.Threading;
+using System.Runtime.CompilerServices;
+
+[assembly: TypeForwardedTo(Lock)]
 #endif

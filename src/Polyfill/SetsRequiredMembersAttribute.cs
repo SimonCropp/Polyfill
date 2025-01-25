@@ -17,4 +17,10 @@ public
 #endif
 sealed class SetsRequiredMembersAttribute :
     Attribute;
+
+#else
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+
+[assembly: TypeForwardedTo(SetsRequiredMembersAttribute)]
 #endif

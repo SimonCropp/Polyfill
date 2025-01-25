@@ -19,4 +19,8 @@ public
 #endif
 static class IsExternalInit;
 
+#else
+using System.Runtime.CompilerServices;
+
+[assembly: TypeForwardedTo(IsExternalInit)]
 #endif
