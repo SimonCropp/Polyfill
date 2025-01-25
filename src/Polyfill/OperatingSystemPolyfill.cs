@@ -26,25 +26,23 @@ public
 #endif
 static class OperatingSystemPolyfill
 {
-    [SupportedOSPlatform("windows")]
     static Version GetWindowsVersion()
     {
-        try
+        if(IsWindows())
         {
             return Version.Parse(RuntimeInformation.OSDescription
                 .Replace("Microsoft Windows", string.Empty)
                 .Replace(" ", string.Empty));
         }
-        catch
+        else
         {
            return Environment.OSVersion.Version;
         }
     }
 
-    [SupportedOSPlatform("macos")]
      static Version GetMacOSVersion()
     {
-        try
+        if(IsMacOS())
         {
             string versionString = RunProcess(
                     CreateProcess("/usr/bin/sw_vers", ""))
@@ -53,16 +51,15 @@ static class OperatingSystemPolyfill
 
             return Version.Parse(versionString.Split(Environment.NewLine.ToCharArray())[0]);
         }
-        catch
+        else
         {
             return Environment.OSVersion.Version;
         }
     }
 
-    [SupportedOSPlatform("freebsd")]
      static Version GetFreeBSDVersion()
     {
-        try
+        if(IsFreeBSD())
         {
             string versionString = Environment.OSVersion.VersionString
                 .Replace("Unix", string.Empty).Replace("FreeBSD", string.Empty)
@@ -70,16 +67,15 @@ static class OperatingSystemPolyfill
 
             return Version.Parse(versionString);
         }
-        catch
+        else
         {
             return Environment.OSVersion.Version;
         }
     }
 
-    [SupportedOSPlatform("android")]
-     static Version GetAndroidVersion()
+    static Version GetAndroidVersion()
     {
-        try
+        if(IsAndroid())
         {
             string result = RunProcess(
                     CreateProcess("getprop", "ro.build.version.release"))
@@ -87,7 +83,7 @@ static class OperatingSystemPolyfill
 
             return Version.Parse(result);
         }
-        catch
+        else
         {
             return Environment.OSVersion.Version;
         }
