@@ -22,5 +22,5 @@ sealed class SetsRequiredMembersAttribute :
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-[assembly: TypeForwardedTo(SetsRequiredMembersAttribute)]
+[assembly: TypeForwardedTo(typeof(SetsRequiredMembersAttribute))]
 #endif

@@ -109,5 +109,5 @@ class Lock
 using System.Threading;
 using System.Runtime.CompilerServices;
 
-[assembly: TypeForwardedTo(Lock)]
+[assembly: TypeForwardedTo(typeof(Lock))]
 #endif

@@ -22,5 +22,5 @@ static class IsExternalInit;
 #else
 using System.Runtime.CompilerServices;
 
-[assembly: TypeForwardedTo(IsExternalInit)]
+[assembly: TypeForwardedTo(typeof(IsExternalInit))]
 #endif

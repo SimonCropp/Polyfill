@@ -30,5 +30,5 @@ sealed class RequiredMemberAttribute :
 #else
 using System.Runtime.CompilerServices;
 
-[assembly: TypeForwardedTo(RequiredMemberAttribute)]
+[assembly: TypeForwardedTo(typeof(RequiredMemberAttribute))]
 #endif
