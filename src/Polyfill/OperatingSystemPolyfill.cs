@@ -120,7 +120,11 @@ static class OperatingSystemPolyfill
 
         process.WaitForExit();
 
-        return process.StandardOutput.ReadToEnd();
+        string output = process.StandardOutput.ReadToEnd();
+
+        process.Close();
+
+        return output;
     }
 
     /// <summary>
