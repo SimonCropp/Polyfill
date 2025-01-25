@@ -5,6 +5,7 @@ namespace Polyfills;
 
 using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Diagnostics.CodeAnalysis;
 
 [ExcludeFromCodeCoverage]
@@ -27,14 +28,12 @@ static partial class RandomPolyfill
 
     class ThreadSafeRandom : Random
     {
-        object locker = new();
+        Lock locker = new();
 
         public override int Next()
         {
             lock (locker)
-            {
                 return base.Next();
-            }
         }
 
         public override int Next(int maxValue)
