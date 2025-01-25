@@ -56,5 +56,8 @@ sealed class RequiresPreviewFeaturesAttribute :
     /// </summary>
     public string? Url { get; set; }
 }
-
+#else
+using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
+[assembly: TypeForwardedTo(typeof(RequiresPreviewFeaturesAttribute))]
 #endif

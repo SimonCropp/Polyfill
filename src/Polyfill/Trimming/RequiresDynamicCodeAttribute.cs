@@ -47,4 +47,8 @@ sealed class RequiresDynamicCodeAttribute :
     /// </summary>
     public string? Url { get; set; }
 }
+#else
+using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+[assembly: TypeForwardedTo(typeof(RequiresDynamicCodeAttribute))]
 #endif

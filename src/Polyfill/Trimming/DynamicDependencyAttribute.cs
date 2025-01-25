@@ -116,4 +116,8 @@ sealed class DynamicDependencyAttribute :
     /// </summary>
     public string? Condition { get; set; }
 }
+#else
+using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+[assembly: TypeForwardedTo(typeof(DynamicDependencyAttribute))]
 #endif

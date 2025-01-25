@@ -49,5 +49,8 @@ sealed class ObsoletedOSPlatformAttribute :
     public string? Message { get; }
     public string? Url { get; set; }
 }
-
+#else
+using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
+[assembly: TypeForwardedTo(typeof(ObsoletedOSPlatformAttribute))]
 #endif

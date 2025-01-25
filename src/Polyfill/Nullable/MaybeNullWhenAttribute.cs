@@ -34,5 +34,8 @@ sealed class MaybeNullWhenAttribute :
     public MaybeNullWhenAttribute(bool returnValue) =>
         ReturnValue = returnValue;
 }
-
+#else
+using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+[assembly: TypeForwardedTo(typeof(MaybeNullWhenAttribute))]
 #endif

@@ -85,5 +85,8 @@ sealed class StringSyntaxAttribute :
     /// <summary>The syntax identifier for strings containing XML.</summary>
     public const string Xml = nameof(Xml);
 }
-
+#else
+using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+[assembly: TypeForwardedTo(typeof(StringSyntaxAttribute))]
 #endif

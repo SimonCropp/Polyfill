@@ -3,7 +3,8 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-#if FeatureMemory && !NET6_0_OR_GREATER
+#if FeatureMemory
+#if !NET6_0_OR_GREATER
 
 namespace System.Text;
 
@@ -89,4 +90,9 @@ ref struct SpanLineEnumerator
         return true;
     }
 }
+#else
+using System.Runtime.CompilerServices;
+using System.Text;
+[assembly: TypeForwardedTo(typeof(SpanLineEnumerator))]
+#endif
 #endif

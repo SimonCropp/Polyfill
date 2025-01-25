@@ -97,4 +97,8 @@ enum DynamicallyAccessedMemberTypes
     /// </summary>
     All = ~None
 }
+#else
+using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+[assembly: TypeForwardedTo(typeof(DynamicallyAccessedMemberTypes))]
 #endif
