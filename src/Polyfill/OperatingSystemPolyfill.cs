@@ -152,10 +152,8 @@ static class OperatingSystemPolyfill
     /// Indicates whether the current application is running on Windows.
     /// </summary>
     /// <returns>true if the current application is running on Windows; false otherwise.</returns>
-    public static bool IsWindows()
-    {
-        return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-    }
+    public static bool IsWindows() => RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
 
     /// <summary>
     /// Checks if the Windows version (returned by RtlGetVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified Windows version.
@@ -175,19 +173,13 @@ static class OperatingSystemPolyfill
     /// Indicates whether the current application is running on macOS.
     /// </summary>
     /// <returns>true if the current application is running on macOS; false otherwise.</returns>
-    public static bool IsMacOS()
-    {
-        return RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
-    }
+    public static bool IsMacOS() => RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 
     /// <summary>
     /// Indicates whether the current application is running on Mac Catalyst.
     /// </summary>
     /// <returns>true if the current application is running on Mac Catalyst; false otherwise.</returns>
-    public static bool IsMacCatalyst()
-    {
-        return IsMacOS() || IsIOS();
-    }
+    public static bool IsMacCatalyst() => IsMacOS() || IsIOS();
 
     /// <summary>
     /// Checks if the macOS version (returned by libobjc.get_operatingSystemVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified macOS version.
@@ -217,19 +209,13 @@ static class OperatingSystemPolyfill
     /// Indicates whether the current application is running on Linux.
     /// </summary>
     /// <returns>true if the current application is running on Linux; false otherwise.</returns>
-    public static bool IsLinux()
-    {
-        return RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-    }
+    public static bool IsLinux() => RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
     /// <summary>
     /// Indicates whether the current application is running on FreeBSD.
     /// </summary>
     /// <returns>true if the current application is running on FreeBSD; false otherwise.</returns>
-    public static bool IsFreeBSD()
-    {
-        return RuntimeInformation.OSDescription.ToLower().Contains("freebsd");
-    }
+    public static bool IsFreeBSD() => RuntimeInformation.OSDescription.ToLower().Contains("freebsd");
 
     /// <summary>
     ///Checks if the FreeBSD version (returned by the Linux command uname) is greater than or equal to the specified version.
@@ -274,10 +260,7 @@ static class OperatingSystemPolyfill
     /// Indicates whether the current application is running on tvOS.
     /// </summary>
     /// <returns>true if the current application is running on tvOS; false otherwise.</returns>
-    public static bool IsTvOS()
-    {
-        return RuntimeInformation.OSDescription.ToLower().Contains("tvos");
-    }
+    public static bool IsTvOS() => RuntimeInformation.OSDescription.ToLower().Contains("tvos");
 
     /// <summary>
     /// Checks if the tvOS version (returned by libobjc.get_operatingSystemVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified tvOS version.
@@ -351,19 +334,13 @@ static class OperatingSystemPolyfill
     /// Indicates whether the current application is running as WASI.
     /// </summary>
     /// <returns>true if running as WASI; false otherwise.</returns>
-    public static bool IsWasi()
-    {
-        return RuntimeInformation.FrameworkDescription.ToLower().Contains("wasi");
-    }
+    public static bool IsWasi() => RuntimeInformation.FrameworkDescription.ToLower().Contains("wasi");
 
     /// <summary>
     /// Indicates whether the current application is running as WASM in a browser.
     /// </summary>
     /// <returns>true if running as WASM; false otherwise.</returns>
-    public static bool IsBrowser()
-    {
-        return RuntimeInformation.FrameworkDescription.Contains(".NET WebAssembly");
-    }
+    public static bool IsBrowser() => RuntimeInformation.FrameworkDescription.Contains(".NET WebAssembly");
 
     static bool IsOsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
     {
