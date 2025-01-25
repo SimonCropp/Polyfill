@@ -19,5 +19,7 @@ using Diagnostics.CodeAnalysis;
 public
 #endif
 sealed class ParamCollectionAttribute : Attribute;
-
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(ParamCollectionAttribute))]
 #endif

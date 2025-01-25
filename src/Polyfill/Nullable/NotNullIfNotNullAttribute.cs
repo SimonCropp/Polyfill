@@ -38,4 +38,8 @@ sealed class NotNullIfNotNullAttribute :
     public NotNullIfNotNullAttribute(string parameterName) =>
         ParameterName = parameterName;
 }
+#else
+using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+[assembly: TypeForwardedTo(typeof(NotNullIfNotNullAttribute))]
 #endif

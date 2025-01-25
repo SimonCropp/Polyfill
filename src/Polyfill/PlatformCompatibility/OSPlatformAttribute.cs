@@ -21,5 +21,8 @@ abstract class OSPlatformAttribute(string platformName) :
 {
     public string PlatformName { get; } = platformName;
 }
-
+#else
+using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
+[assembly: TypeForwardedTo(typeof(OSPlatformAttribute))]
 #endif

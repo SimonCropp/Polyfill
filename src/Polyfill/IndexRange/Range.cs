@@ -65,4 +65,8 @@ record Range(Index Start, Index End)
         return (start, end - start);
     }
 }
+#else
+using System;
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(Range))]
 #endif

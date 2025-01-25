@@ -31,4 +31,8 @@ static class KeyValuePair
     public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value) =>
         new KeyValuePair<TKey, TValue>(key, value);
 }
+#else
+using System.Runtime.CompilerServices;
+using System.Collections.Generic;
+[assembly: TypeForwardedTo(typeof(KeyValuePair))]
 #endif

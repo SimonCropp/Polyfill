@@ -23,4 +23,8 @@ public
 #endif
 sealed class MaybeNullAttribute :
     Attribute;
+#else
+using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+[assembly: TypeForwardedTo(typeof(MaybeNullAttribute))]
 #endif

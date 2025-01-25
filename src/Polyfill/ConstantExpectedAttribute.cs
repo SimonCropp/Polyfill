@@ -29,4 +29,8 @@ sealed class ConstantExpectedAttribute : Attribute
     /// </summary>
     public object? Max { get; set; }
 }
+#else
+using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+[assembly: TypeForwardedTo(typeof(ConstantExpectedAttribute))]
 #endif

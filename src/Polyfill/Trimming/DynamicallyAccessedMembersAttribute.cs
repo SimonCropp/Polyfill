@@ -45,5 +45,8 @@ sealed class DynamicallyAccessedMembersAttribute :
     /// </summary>
     public DynamicallyAccessedMemberTypes MemberTypes { get; }
 }
-
+#else
+using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+[assembly: TypeForwardedTo(typeof(DynamicallyAccessedMembersAttribute))]
 #endif

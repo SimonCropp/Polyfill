@@ -22,4 +22,7 @@ public
 #endif
 sealed class DisableRuntimeMarshallingAttribute :
     Attribute;
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(DisableRuntimeMarshallingAttribute))]
 #endif
