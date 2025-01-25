@@ -4,10 +4,8 @@
 namespace Polyfills;
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading;
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
@@ -16,24 +14,24 @@ public
 #endif
 static partial class RandomPolyfill
 {
-    public static Random Shared { get; } = CreateRandomInstance();
-
-    private static Random CreateRandomInstance()
-    {
+    /// <summary>
+    /// Provides a thread-safe Random instance that may be used concurrently from any thread.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.shared
+    public static Random Shared { get; } =
 #if NET6_0_OR_GREATER
-        return Random.Shared;
+        Random.Shared;
 #else
-        return new ThreadSafeRandom();
+        new ThreadSafeRandom();
 #endif
-    }
 
-    private class ThreadSafeRandom : Random
+    class ThreadSafeRandom : Random
     {
-        private Lock _lock = new();
+        object locker = new();
 
         public override int Next()
         {
-            lock (_lock)
+            lock (locker)
             {
                 return base.Next();
             }
@@ -41,66 +39,32 @@ static partial class RandomPolyfill
 
         public override int Next(int maxValue)
         {
-            lock (_lock)
-            {
+            lock (locker)
                 return base.Next(maxValue);
-            }
         }
 
         public override int Next(int minValue, int maxValue)
         {
-            lock (_lock)
-            {
+            lock (locker)
                 return base.Next(minValue, maxValue);
-            }
         }
 
         public override void NextBytes(byte[] buffer)
         {
-            lock (_lock)
-            {
+            lock (locker)
                 base.NextBytes(buffer);
-            }
         }
 
         public override double NextDouble()
         {
-            lock (_lock)
-            {
+            lock (locker)
                 return base.NextDouble();
-            }
         }
 
         protected override double Sample()
         {
-            lock (_lock)
-            {
+            lock (locker)
                 return base.Sample();
-            }
-        }
-
-        public override bool Equals(object? obj)
-        {
-            lock (_lock)
-            {
-                return base.Equals(obj);
-            }
-        }
-
-        public override int GetHashCode()
-        {
-            lock (_lock)
-            {
-                return base.GetHashCode();
-            }
-        }
-
-        public override string ToString()
-        {
-            lock (_lock)
-            {
-                return base.ToString();
-            }
         }
     }
 }
