@@ -70,5 +70,4 @@ ref struct ValueMatchEnumerator
     /// </summary>
     public readonly ValueMatch Current => _current;
 }
-
 #endif

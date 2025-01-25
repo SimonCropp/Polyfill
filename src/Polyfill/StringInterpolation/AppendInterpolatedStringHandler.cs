@@ -338,5 +338,4 @@ struct AppendInterpolatedStringHandler
         type == typeof(decimal) || type == typeof(long) || type == typeof(short) || type == typeof(ushort) ||
         type == typeof(uint) || type == typeof(ulong) || type == typeof(sbyte);
 }
-
 #endif

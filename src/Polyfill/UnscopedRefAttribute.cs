@@ -24,4 +24,8 @@ public
 #endif
 sealed class UnscopedRefAttribute :
     Attribute;
+#else
+using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+[assembly: TypeForwardedTo(typeof(UnscopedRefAttribute))]
 #endif

@@ -22,4 +22,8 @@ public
 #endif
 sealed class AllowNullAttribute :
     Attribute;
+#else
+using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+[assembly: TypeForwardedTo(typeof(AllowNullAttribute))]
 #endif
