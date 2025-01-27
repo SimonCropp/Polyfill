@@ -220,10 +220,8 @@ static class OperatingSystemPolyfill
     public static bool IsIOS()
     {
         string description = RuntimeInformation.OSDescription.ToLower();
-        return description.Contains("ios") ||
-               description.Contains("ipados") ||
-               (description.Contains("iphone") &&
-                description.Contains("os"));
+        return description.Contains("ios") || description.Contains("ipados") ||
+               (description.Contains("iphone") && description.Contains("os"));
     }
 
     /// <summary>
