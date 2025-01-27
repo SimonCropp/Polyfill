@@ -114,7 +114,7 @@ static class OperatingSystemPolyfill
     {
         process.Start();
         process.WaitForExit();
-        
+
         string output = process.StandardOutput.ReadToEnd();
         process.Close();
         return output;
@@ -260,10 +260,9 @@ static class OperatingSystemPolyfill
     {
         try
         {
-            string result = RunProcess(CreateProcess("uname", "-o"))
-                .Replace(" ", string.Empty);
+            string result = RunProcess(CreateProcess("uname", "-o")).Replace(" ", string.Empty).ToLower().Equals("android");
 
-            return result.ToLower().Equals("android");
+            return result.;
         }
         catch
         {
