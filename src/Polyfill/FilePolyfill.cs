@@ -150,6 +150,8 @@ static partial class FilePolyfill
         return File.AppendAllTextAsync(path, contents, encoding, cancellationToken);
 #endif
     }
+
+#if FeatureMemory
     /// <summary>
     /// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file using the specified encoding, and then closes the file.
     /// </summary>
@@ -159,6 +161,7 @@ static partial class FilePolyfill
         File.AppendAllTextAsync(path, contents, encoding, cancellationToken);
 #else
         AppendAllTextAsync(path, contents.ToString(), encoding);
+#endif
 #endif
 
     /// <summary>
