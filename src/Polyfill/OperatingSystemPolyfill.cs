@@ -260,9 +260,7 @@ static class OperatingSystemPolyfill
     {
         try
         {
-            string result = RunProcess(CreateProcess("uname", "-o")).Replace(" ", string.Empty).ToLower().Equals("android");
-
-            return result;
+            return RunProcess(CreateProcess("uname", "-o")).Replace(" ", string.Empty).ToLower().Equals("android");
         }
         catch
         {
