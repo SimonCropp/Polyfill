@@ -34,8 +34,9 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class SupportedOSPlatformAttribute(string platformName) :
-    OSPlatformAttribute(platformName)
-{
-}
-
+    OSPlatformAttribute(platformName);
+#else
+using System.Runtime.CompilerServices;
+using System.Runtime.Versioning;
+[assembly: TypeForwardedTo(typeof(SupportedOSPlatformAttribute))]
 #endif

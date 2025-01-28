@@ -37,5 +37,8 @@ sealed class DoesNotReturnIfAttribute :
     public DoesNotReturnIfAttribute(bool parameterValue) =>
         ParameterValue = parameterValue;
 }
-
+#else
+using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+[assembly: TypeForwardedTo(typeof(DoesNotReturnIfAttribute))]
 #endif

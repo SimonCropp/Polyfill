@@ -10,7 +10,6 @@ using System.Collections.Concurrent;
 
 static partial class Polyfill
 {
-
     /// <summary>
     /// Adds a key/value pair to the <see cref="ConcurrentDictionary{TKey,TValue}"/>
     /// if the key does not already exist.

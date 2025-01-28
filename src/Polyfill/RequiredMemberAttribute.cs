@@ -26,4 +26,8 @@ public
 #endif
 sealed class RequiredMemberAttribute :
     Attribute;
+
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(RequiredMemberAttribute))]
 #endif

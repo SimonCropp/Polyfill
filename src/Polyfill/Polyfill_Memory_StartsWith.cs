@@ -4,11 +4,10 @@
 
 #if FeatureMemory
 
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-
 namespace Polyfills;
 
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System;
 using System.Text;
 

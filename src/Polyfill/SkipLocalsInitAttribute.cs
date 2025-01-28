@@ -32,4 +32,7 @@ public
 #endif
 sealed class SkipLocalsInitAttribute :
     Attribute;
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(SkipLocalsInitAttribute))]
 #endif

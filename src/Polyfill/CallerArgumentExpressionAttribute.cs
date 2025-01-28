@@ -37,4 +37,7 @@ sealed class CallerArgumentExpressionAttribute :
     public string ParameterName { get; }
 }
 
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(CallerArgumentExpressionAttribute))]
 #endif

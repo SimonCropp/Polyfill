@@ -25,4 +25,8 @@ public
 #endif
 sealed class StackTraceHiddenAttribute :
     Attribute;
+#else
+using System.Runtime.CompilerServices;
+using System.Diagnostics;
+[assembly: TypeForwardedTo(typeof(StackTraceHiddenAttribute))]
 #endif

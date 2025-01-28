@@ -43,8 +43,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TargetFrameworkUsage", "Tar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeOnlyMemory", "ConsumeOnlyMemory\ConsumeOnlyMemory.csproj", "{1BDDA7F0-0D45-418C-B3DB-BBA39C29FD77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeCs12", "ConsumeCs12\ConsumeCs12.csproj", "{4ACF4760-B3C5-4D07-9D92-2B8225BA8881}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeCs13", "ConsumeCs13\ConsumeCs13.csproj", "{EE99F818-0D49-434F-B787-348CA34051EF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeCsLatest", "ConsumeCsLatest\ConsumeCsLatest.csproj", "{684570FB-7049-44F0-9DCC-32F73F242694}"
@@ -112,10 +110,6 @@ Global
 		{1BDDA7F0-0D45-418C-B3DB-BBA39C29FD77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BDDA7F0-0D45-418C-B3DB-BBA39C29FD77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BDDA7F0-0D45-418C-B3DB-BBA39C29FD77}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4ACF4760-B3C5-4D07-9D92-2B8225BA8881}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4ACF4760-B3C5-4D07-9D92-2B8225BA8881}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4ACF4760-B3C5-4D07-9D92-2B8225BA8881}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4ACF4760-B3C5-4D07-9D92-2B8225BA8881}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EE99F818-0D49-434F-B787-348CA34051EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EE99F818-0D49-434F-B787-348CA34051EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE99F818-0D49-434F-B787-348CA34051EF}.Release|Any CPU.ActiveCfg = Release|Any CPU

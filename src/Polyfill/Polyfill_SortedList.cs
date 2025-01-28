@@ -5,7 +5,6 @@
 
 namespace Polyfills;
 
-using System;
 using System.Collections.Generic;
 
 static partial class Polyfill
