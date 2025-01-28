@@ -1018,6 +1018,7 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryParse(ReadOnlySpan<char>, NumberStyles, IFormatProvider?, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-int64@))
  * `bool TryParse(string?, IFormatProvider?, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-string-system-iformatprovider-system-int64@))
 
+
 #### OperatingSystemPolyfill
 * `bool IsOSPlatform(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isosplatform#system-operatingsystem-isosplatform(system-string))
 * `bool IsOSPlatform(string, int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isosplatformversionatleast#system-operatingsystem-isosplatformversionatleast(system-string-system-int32-system-int32-system-int32-system-int32))
@@ -1040,6 +1041,7 @@ The class `Polyfill` includes the following extension methods:
 * `bool IsWatchOSVersionAtLeast(int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.iswatchosversionatleast#system-operatingsystem-iswatchosversionatleast(system-int32-system-int32-system-int32))
 * `bool IsWasi()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.iswasi#system-operatingsystem-iswasi)
 * `bool IsBrowser()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isbrowser#system-operatingsystem-isbrowser)
+
 
 #### PathPolyfill
 
