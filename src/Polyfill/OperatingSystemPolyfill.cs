@@ -105,14 +105,21 @@ static class OperatingSystemPolyfill
             return false;
         }
 
-        var input = RuntimeInformation.OSDescription
+        if (windowsVersion == null)
+        {
+            var input = RuntimeInformation.OSDescription
                 .Replace("Microsoft Windows", string.Empty)
                 .Replace(" ", string.Empty);
-        var version = Version.Parse(input);
+            windowsVersion = Version.Parse(input);
+        }
 
-        return version >= new Version(major, minor, build, revision);
+        return windowsVersion >= new Version(major, minor, build, revision);
 #endif
     }
+
+#if !NET5_0_OR_GREATER
+    static Version? windowsVersion;
+#endif
 
     /// <summary>
     /// Indicates whether the current application is running on macOS.
@@ -157,15 +164,22 @@ static class OperatingSystemPolyfill
             return false;
         }
 
-        var versionString = RunProcess("/usr/bin/sw_vers", "")
-            .Replace("ProductVersion:", string.Empty)
-            .Replace(" ", string.Empty);
+        if (macOSVersion == null)
+        {
+            var versionString = RunProcess("/usr/bin/sw_vers", "")
+                .Replace("ProductVersion:", string.Empty)
+                .Replace(" ", string.Empty);
 
-        var version = Version.Parse(versionString.Split(Environment.NewLine.ToCharArray())[0]);
+            macOSVersion = Version.Parse(versionString.Split(Environment.NewLine.ToCharArray())[0]);
+        }
 
-        return version >= new Version(major, minor, build);
+        return macOSVersion >= new Version(major, minor, build);
 #endif
     }
+
+#if !NET5_0_OR_GREATER
+    static Version? macOSVersion;
+#endif
 
     /// <summary>
     /// Check for the Mac Catalyst version (iOS version as presented in Apple documentation) with a ≤ version comparison. Used to guard APIs that were added in the given Mac Catalyst release.
@@ -227,17 +241,24 @@ static class OperatingSystemPolyfill
             return false;
         }
 
-        var versionString = Environment.OSVersion.VersionString
-            .Replace("Unix", string.Empty)
-            .Replace("FreeBSD", string.Empty)
-            .Replace("-release", string.Empty)
-            .Replace(" ", string.Empty);
+        if (freeBsdVersion == null)
+        {
+            var versionString = Environment.OSVersion.VersionString
+                .Replace("Unix", string.Empty)
+                .Replace("FreeBSD", string.Empty)
+                .Replace("-release", string.Empty)
+                .Replace(" ", string.Empty);
 
-        var version = Version.Parse(versionString);
+            freeBsdVersion = Version.Parse(versionString);
+        }
 
-        return version >= new Version(major, minor, build, revision);
+        return freeBsdVersion >= new Version(major, minor, build, revision);
 #endif
     }
+
+#if !NET5_0_OR_GREATER
+    static Version? freeBsdVersion;
+#endif
 
     /// <summary>
     /// Indicates whether the current application is running on iOS or MacCatalyst.
@@ -311,19 +332,28 @@ static class OperatingSystemPolyfill
 #if NET5_0_OR_GREATER
         return OperatingSystem.IsAndroid();
 #else
-        try
+        if (!isAndroid.HasValue)
         {
-            return RunProcess("uname", "-o")
-                .Replace(" ", string.Empty)
-                .ToLower()
-                .Equals("android");
+            try
+            {
+                isAndroid = RunProcess("uname", "-o")
+                    .Replace(" ", string.Empty)
+                    .ToLower()
+                    .Equals("android");
+            }
+            catch
+            {
+                isAndroid = false;
+            }
         }
-        catch
-        {
-            return false;
-        }
+
+        return isAndroid.Value;
 #endif
     }
+
+#if !NET5_0_OR_GREATER
+    private static bool? isAndroid;
+#endif
 
     /// <summary>
     /// Checks if the Android version (returned by the Linux command uname) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified version.
@@ -344,14 +374,21 @@ static class OperatingSystemPolyfill
             return false;
         }
 
-        var result = RunProcess("getprop", "ro.build.version.release")
-            .Replace(" ", string.Empty);
+        if (androidVersion == null)
+        {
+            var result = RunProcess("getprop", "ro.build.version.release")
+                .Replace(" ", string.Empty);
 
-        var version = Version.Parse(result);
+            androidVersion = Version.Parse(result);
+        }
 
-        return version >= new Version(major, minor, build, revision);
+        return androidVersion >= new Version(major, minor, build, revision);
 #endif
     }
+
+#if !NET5_0_OR_GREATER
+    private static Version? androidVersion;
+#endif
 
     /// <summary>
     /// Indicates whether the current application is running on watchOS.
