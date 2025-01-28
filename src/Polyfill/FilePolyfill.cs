@@ -176,6 +176,7 @@ static partial class FilePolyfill
 #else
             AppendAllTextAsync(path, contents.ToString(), encoding);
 #endif
+
         /// <summary>
         /// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file, and then closes the file.
         /// </summary>
@@ -243,27 +244,80 @@ static partial class FilePolyfill
             File.ReadAllTextAsync(path, encoding, cancellationToken);
 #endif
 
-#if NETCOREAPP3_0_OR_GREATER// || NETSTANDARD TODO re add NETSTANDARD via https://www.nuget.org/packages/Microsoft.Bcl.AsyncInterfaces#dependencies-body-tab
+    //TODO: re add NETSTANDARD via https://www.nuget.org/packages/Microsoft.Bcl.AsyncInterfaces#dependencies-body-tab
+#if NETCOREAPP3_0_OR_GREATER// || NETSTANDARD
     /// <summary>
     /// Asynchronously reads the lines of a file.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readlinesasync#system-io-file-readalllinesasync(system-string-system-threading-cancellationtoken)
-    public static IAsyncEnumerable<string> ReadLinesAsync (string path, CancellationToken cancellationToken = default) =>
-#if NETSTANDARD2_0
-        Task.FromResult(File.ReadLines(path));
+    public static IAsyncEnumerable<string> ReadLinesAsync(string path, CancellationToken cancellationToken = default)
+    {
+#if NET7_0_OR_GREATER
+        return File.ReadLinesAsync(path, cancellationToken);
 #else
-        File.ReadLinesAsync(path, cancellationToken);
+        return AsyncEnumerable(path);
+
+        static async IAsyncEnumerable<string> AsyncEnumerable(string path)
+        {
+            foreach (var line in File.ReadLines(path))
+            {
+                yield return line;
+            }
+        }
 #endif
+    }
 
     /// <summary>
     /// Asynchronously reads the lines of a file that has a specified encoding.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readlinesasync#system-io-file-readalllinesasync(system-string-system-text-encoding-system-threading-cancellationtoken)
-    public static IAsyncEnumerable<string> ReadLinesAsync (string path, Encoding encoding, CancellationToken cancellationToken = default) =>
-#if NETSTANDARD2_0
-        Task.FromResult(File.ReadLines(path, encoding));
+    public static IAsyncEnumerable<string> ReadLinesAsync(string path, Encoding encoding, CancellationToken cancellationToken = default)
+    {
+#if NET7_0_OR_GREATER
+        return File.ReadLinesAsync(path, encoding, cancellationToken);
 #else
-        File.ReadLinesAsync(path, encoding, cancellationToken);
+        return AsyncEnumerable(path, encoding);
+
+        static async IAsyncEnumerable<string> AsyncEnumerable(string path, Encoding encoding)
+        {
+            foreach (var line in File.ReadLines(path, encoding))
+            {
+                yield return line;
+            }
+        }
 #endif
+    }
+#endif
+
+
+
+    /// <summary>
+    /// Asynchronously creates a new file, writes the specified byte array to the file, and then closes the file. If the target file already exists, it is truncated and overwritten.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writeallbytesasync#system-io-file-writeallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)
+    public static Task WriteAllBytesAsync (string path, byte[] bytes, CancellationToken cancellationToken = default)
+    {
+#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_1
+        return File.WriteAllBytesAsync (path, bytes, cancellationToken);
+#else
+        File.WriteAllBytes (path, bytes);
+        return Task.CompletedTask;
+#endif
+    }
+
+#if FeatureMemory
+    /// <summary>
+    /// Asynchronously creates a new file, writes the specified byte array to the file, and then closes the file. If the target file already exists, it is truncated and overwritten.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)
+    public static Task WriteAllBytesAsync (string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
+    {
+#if NET9_0_OR_GREATER
+        return File.WriteAllBytesAsync (path, bytes, cancellationToken);
+#else
+        WriteAllBytesAsync (path, bytes.ToArray(), cancellationToken);
+        return Task.CompletedTask;
+#endif
+    }
 #endif
 }
