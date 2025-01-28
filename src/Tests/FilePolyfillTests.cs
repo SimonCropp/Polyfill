@@ -21,6 +21,7 @@ public class FilePolyfillTests
         }
     }
 
+#if FeatureMemory
     [Test]
     public async Task AppendAllBytes()
     {
@@ -41,6 +42,7 @@ public class FilePolyfillTests
         var result = await FilePolyfill.ReadAllBytesAsync(TestFilePath);
         Assert.AreEqual(data, result);
     }
+#endif
 
     [Test]
     public async Task AppendAllTextAsync()
@@ -52,6 +54,7 @@ public class FilePolyfillTests
         Assert.AreEqual(content, result);
     }
 
+    #if FeatureMemory
     [Test]
     public async Task WriteAllBytesAsync()
     {
@@ -61,6 +64,7 @@ public class FilePolyfillTests
         var result = await FilePolyfill.ReadAllBytesAsync(TestFilePath);
         Assert.AreEqual(data, result);
     }
+    #endif
 
     [Test]
     public async Task WriteAllTextAsync()
