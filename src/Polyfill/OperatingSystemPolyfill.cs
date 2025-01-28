@@ -20,60 +20,6 @@ public
 static class OperatingSystemPolyfill
 {
     #if !NET5_0_OR_GREATER
-    static Version GetWindowsVersion()
-    {
-        if (IsWindows())
-        {
-            var input = RuntimeInformation.OSDescription
-                .Replace("Microsoft Windows", string.Empty)
-                .Replace(" ", string.Empty);
-            return Version.Parse(input);
-        }
-
-        return Environment.OSVersion.Version;
-    }
-
-    static Version GetMacOSVersion()
-    {
-        if (!IsMacOS())
-        {
-            return Environment.OSVersion.Version;
-        }
-
-        var version = RunProcess("/usr/bin/sw_vers", "")
-            .Replace("ProductVersion:", string.Empty)
-            .Replace(" ", string.Empty);
-
-        return Version.Parse(version.Split(Environment.NewLine.ToCharArray())[0]);
-
-    }
-
-    static Version GetFreeBSDVersion()
-    {
-        if (!IsFreeBSD())
-        {
-            return Environment.OSVersion.Version;
-        }
-
-        var version = Environment.OSVersion.VersionString
-            .Replace("Unix", string.Empty).Replace("FreeBSD", string.Empty)
-            .Replace("-release", string.Empty).Replace(" ", string.Empty);
-
-        return Version.Parse(version);
-    }
-
-    static Version GetAndroidVersion()
-    {
-        if (!IsAndroid())
-        {
-            return Environment.OSVersion.Version;
-        }
-
-        var result = RunProcess("getprop", "ro.build.version.release")
-            .Replace(" ", string.Empty);
-
-        return Version.Parse(result);
-    }
 
     static string RunProcess(string name, string arguments)
     {
@@ -149,13 +95,24 @@ static class OperatingSystemPolyfill
     /// <param name="revision">The revision release number.</param>
     /// <returns>true if the current application is running on a Windows version that is at least what was specified in the parameters; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.iswindowsversionatleast
-    public static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0) =>
+    public static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
+    {
 #if NET5_0_OR_GREATER
-        OperatingSystem.IsWindowsVersionAtLeast(major, minor, build, revision);
+        return OperatingSystem.IsWindowsVersionAtLeast(major, minor, build, revision);
 #else
-        IsWindows() &&
-        GetWindowsVersion() >= new Version(major, minor, build, revision);
+        if (!IsWindows())
+        {
+            return false;
+        }
+
+        var input = RuntimeInformation.OSDescription
+                .Replace("Microsoft Windows", string.Empty)
+                .Replace(" ", string.Empty);
+        var version = Version.Parse(input);
+
+        return version >= new Version(major, minor, build, revision);
 #endif
+    }
 
     /// <summary>
     /// Indicates whether the current application is running on macOS.
@@ -190,13 +147,25 @@ static class OperatingSystemPolyfill
     /// <param name="build">The build release number.</param>
     /// <returns>true if the current application is running on an macOS version that is at least what was specified in the parameters; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.ismacosversionatleast
-    public static bool IsMacOSVersionAtLeast(int major, int minor = 0, int build = 0) =>
+    public static bool IsMacOSVersionAtLeast(int major, int minor = 0, int build = 0)
+    {
 #if NET5_0_OR_GREATER
-        OperatingSystem.IsMacOSVersionAtLeast(major, minor, build);
+        return OperatingSystem.IsMacOSVersionAtLeast(major, minor, build);
 #else
-        IsMacOS() &&
-        GetMacOSVersion() >= new Version(major, minor, build);
+        if (!IsMacOS())
+        {
+            return false;
+        }
+
+        var versionString = RunProcess("/usr/bin/sw_vers", "")
+            .Replace("ProductVersion:", string.Empty)
+            .Replace(" ", string.Empty);
+
+        var version = Version.Parse(versionString.Split(Environment.NewLine.ToCharArray())[0]);
+
+        return version >= new Version(major, minor, build);
 #endif
+    }
 
     /// <summary>
     /// Check for the Mac Catalyst version (iOS version as presented in Apple documentation) with a ≤ version comparison. Used to guard APIs that were added in the given Mac Catalyst release.
@@ -248,12 +217,27 @@ static class OperatingSystemPolyfill
     /// <param name="revision">The version revision number.</param>
     /// <returns>true if the current application is running on a FreeBSD version that is at least what was specified in the parameters; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isfreebsdversionatleast
-    public static bool IsFreeBSDVersionAtLeast(int major, int minor, int build = 0, int revision = 0) =>
+    public static bool IsFreeBSDVersionAtLeast(int major, int minor, int build = 0, int revision = 0)
+    {
 #if NET5_0_OR_GREATER
-        OperatingSystem.IsFreeBSDVersionAtLeast(major, minor, build, revision);
+        return OperatingSystem.IsFreeBSDVersionAtLeast(major, minor, build, revision);
 #else
-        GetFreeBSDVersion() >= new Version(major, minor, build, revision);
+        if (!IsFreeBSD())
+        {
+            return false;
+        }
+
+        var versionString = Environment.OSVersion.VersionString
+            .Replace("Unix", string.Empty)
+            .Replace("FreeBSD", string.Empty)
+            .Replace("-release", string.Empty)
+            .Replace(" ", string.Empty);
+
+        var version = Version.Parse(versionString);
+
+        return version >= new Version(major, minor, build, revision);
 #endif
+    }
 
     /// <summary>
     /// Indicates whether the current application is running on iOS or MacCatalyst.
@@ -350,13 +334,24 @@ static class OperatingSystemPolyfill
     /// <param name="revision">The revision release number.</param>
     /// <returns>true if the current application is running on an Android version that is at least what was specified in the parameters; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isandroidversionatleast
-    public static bool IsAndroidVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0) =>
+    public static bool IsAndroidVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
+    {
 #if NET5_0_OR_GREATER
-        OperatingSystem.IsAndroidVersionAtLeast(major, minor, build, revision);
+        return OperatingSystem.IsAndroidVersionAtLeast(major, minor, build, revision);
 #else
-        IsAndroid() &&
-        GetAndroidVersion() >= new Version(major, minor, build, revision);
+        if (!IsAndroid())
+        {
+            return false;
+        }
+
+        var result = RunProcess("getprop", "ro.build.version.release")
+            .Replace(" ", string.Empty);
+
+        var version = Version.Parse(result);
+
+        return version >= new Version(major, minor, build, revision);
 #endif
+    }
 
     /// <summary>
     /// Indicates whether the current application is running on watchOS.
