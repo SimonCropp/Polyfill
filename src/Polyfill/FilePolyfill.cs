@@ -320,4 +320,86 @@ static partial class FilePolyfill
 #endif
     }
 #endif
+
+    /// <summary>
+    /// Asynchronously creates a new file, writes the specified lines to the file, and then closes the file.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealllinesasync#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)
+    public static Task WriteAllLinesAsync (string path, IEnumerable<string> contents, CancellationToken cancellationToken = default)
+    {
+#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_1
+        return File.WriteAllLinesAsync (path, contents, cancellationToken);
+#else
+        File.WriteAllLines(path, contents);
+        return Task.CompletedTask;
+#endif
+    }
+
+    /// <summary>
+    /// Asynchronously creates a new file, write the specified lines to the file by using the specified encoding, and then closes the file.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealllinesasync#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken)
+    public static Task WriteAllLinesAsync (string path, IEnumerable<string> contents, Encoding encoding, CancellationToken cancellationToken = default)
+    {
+#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_1
+        return File.WriteAllLinesAsync (path, contents, encoding, cancellationToken);
+#else
+        File.WriteAllLines(path, contents, encoding);
+        return Task.CompletedTask;
+#endif
+    }
+
+#if FeatureMemory
+        /// <summary>
+        /// Creates a new file, writes the specified string to the file, and then closes the file.
+        /// If the target file already exists, it is truncated and overwritten.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltext#system-io-file-writealltext(system-string-system-readonlyspan((system-char)))
+        public static void WriteAllText(string path, ReadOnlySpan<char> contents) =>
+#if NET9_0_OR_GREATER
+            File.WriteAllText(path, contents);
+#else
+            File.WriteAllText(path, contents.ToString());
+#endif
+
+        /// <summary>
+        /// Creates a new file, writes the specified string to the file using the specified encoding, and then closes the file.
+        /// If the target file already exists, it is truncated and overwritten.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltext#system-io-file-writealltext(system-string-system-readonlyspan((system-char))-system-text-encoding)
+        public static void WriteAllText(string path, ReadOnlySpan<char> contents, Encoding encoding) =>
+#if NET9_0_OR_GREATER
+            File.WriteAllText(path, contents, encoding);
+#else
+            File.WriteAllText(path, contents.ToString(), encoding);
+#endif
+#endif
+
+        /// <summary>
+        /// Asynchronously creates a new file, writes the specified string to the file using the specified encoding, and then closes the file. If the target file already exists, it is truncated and overwritten.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltextasync#system-io-file-writealltextasync(system-string-system-string-system-text-encoding-system-threading-cancellationtoken)
+        public static Task WriteAllTextAsync(string path, string? contents, Encoding encoding, CancellationToken cancellationToken = default)
+        {
+#if NETFRAMEWORK || NETSTANDARD2_0
+            File.WriteAllText(path, contents, encoding);
+            return Task.CompletedTask;
+#else
+            return File.WriteAllTextAsync(path, contents, encoding, cancellationToken);
+#endif
+        }
+
+        /// <summary>
+        /// Asynchronously creates a new file, writes the specified string to the file using the specified encoding, and then closes the file. If the target file already exists, it is truncated and overwritten.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltextasync#system-io-file-writealltextasync(system-string-system-string-system-text-encoding-system-threading-cancellationtoken)
+        public static Task WriteAllTextAsync(string path, string? contents, CancellationToken cancellationToken = default)
+        {
+#if NETFRAMEWORK || NETSTANDARD2_0
+            File.WriteAllText(path, contents);
+            return Task.CompletedTask;
+#else
+            return File.WriteAllTextAsync(path, contents, cancellationToken);
+#endif
+        }
 }
