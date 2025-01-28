@@ -113,7 +113,6 @@ static partial class PathPolyfill
         EndsInDirectorySeparator(path.ToString());
 #endif
 
-
     /// <summary>
     /// Trims one trailing directory separator beyond the root of the specified path.
     /// </summary>

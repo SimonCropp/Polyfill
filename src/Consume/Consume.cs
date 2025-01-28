@@ -29,6 +29,8 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using MemoryStream = System.IO.MemoryStream;
+// ReSharper disable UnnecessaryWhitespace
+// ReSharper disable InconsistentNaming
 #pragma warning disable CS4014
 
 class Consume
@@ -370,6 +372,42 @@ class Consume
     {
         var result = info.HasSameMetadataDefinitionAs(info);
     }
+
+    #if FeatureRuntimeInformation
+    void OperatingSystem_Methods()
+    {
+        var isOSPlatform = OperatingSystemPolyfill.IsOSPlatform("windows");
+        var isOSPlatformWindows10 = OperatingSystemPolyfill.IsOSPlatformVersionAtLeast("windows", 10, 0, 10240);
+
+        var isWindows = OperatingSystemPolyfill.IsWindows();
+        var isWindows11 = OperatingSystemPolyfill.IsWindowsVersionAtLeast(10,0,22000);
+
+        var isMacOS = OperatingSystemPolyfill.IsMacOS();
+        var isMacOsSonoma = OperatingSystemPolyfill.IsMacOSVersionAtLeast(14);
+        var isMacCatalyst = OperatingSystemPolyfill.IsMacCatalyst();
+        var isMacCatalyst17 = OperatingSystemPolyfill.IsMacCatalystVersionAtLeast(17);
+
+        var isLinux = OperatingSystemPolyfill.IsLinux();
+
+        var isFreeBSD = OperatingSystemPolyfill.IsFreeBSD();
+        var isFreeBSD14 = OperatingSystemPolyfill.IsFreeBSDVersionAtLeast(14, 0);
+
+        var isIOS = OperatingSystemPolyfill.IsIOS();
+        var isIOS18 = OperatingSystemPolyfill.IsIOSVersionAtLeast(18);
+
+        var isAndroid = OperatingSystemPolyfill.IsAndroid();
+        var isAndroid13 = OperatingSystemPolyfill.IsAndroidVersionAtLeast(13);
+
+        var isTvOS = OperatingSystemPolyfill.IsTvOS();
+        var isTvOS17 = OperatingSystemPolyfill.IsTvOSVersionAtLeast(17);
+
+        var isWatchOS = OperatingSystemPolyfill.IsWatchOS();
+        var isWatchOS11 = OperatingSystemPolyfill.IsWatchOSVersionAtLeast(11);
+
+        var isWasi = OperatingSystemPolyfill.IsWasi();
+        var isBrowser = OperatingSystemPolyfill.IsBrowser();
+    }
+#endif
 
     async Task Process_Methods()
     {
