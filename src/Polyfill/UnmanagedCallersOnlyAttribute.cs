@@ -38,6 +38,5 @@ sealed class UnmanagedCallersOnlyAttribute :
 }
 #else
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-[assembly: TypeForwardedTo(typeof(UnmanagedCallersOnlyAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute))]
 #endif

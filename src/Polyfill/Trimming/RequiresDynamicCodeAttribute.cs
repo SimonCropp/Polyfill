@@ -49,6 +49,5 @@ sealed class RequiresDynamicCodeAttribute :
 }
 #else
 using System.Runtime.CompilerServices;
-using System.Diagnostics.CodeAnalysis;
-[assembly: TypeForwardedTo(typeof(RequiresDynamicCodeAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute))]
 #endif
