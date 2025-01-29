@@ -4,22 +4,10 @@ public class FilePolyfillTests
     const string TestFilePath = "testfile.txt";
 
     [SetUp]
-    public void SetUp()
-    {
-        if (File.Exists(TestFilePath))
-        {
-            File.Delete(TestFilePath);
-        }
-    }
+    public void SetUp() => File.Delete(TestFilePath);
 
     [TearDown]
-    public void TearDown()
-    {
-        if (File.Exists(TestFilePath))
-        {
-            File.Delete(TestFilePath);
-        }
-    }
+    public void TearDown() => File.Delete(TestFilePath);
 
 #if FeatureMemory
     [Test]
@@ -54,7 +42,7 @@ public class FilePolyfillTests
         Assert.AreEqual(content, result);
     }
 
-    #if FeatureMemory
+#if FeatureMemory
     [Test]
     public async Task WriteAllBytesAsync()
     {
@@ -64,7 +52,7 @@ public class FilePolyfillTests
         var result = await FilePolyfill.ReadAllBytesAsync(TestFilePath);
         Assert.AreEqual(data, result);
     }
-    #endif
+#endif
 
     [Test]
     public async Task WriteAllTextAsync()
