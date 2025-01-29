@@ -109,14 +109,14 @@ static partial class FilePolyfill
             await File.AppendAllLinesAsync(path, contents, encoding, cancellationToken);
 #else
             using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
-            using var streamWriter = new StreamWriter(stream, encoding);
+            using var writer = new StreamWriter(stream, encoding);
 
             foreach (var content in contents)
             {
-                await streamWriter.WriteLineAsync(content);
+                await writer.WriteLineAsync(content);
             }
 
-            await streamWriter.FlushAsync();
+            await writer.FlushAsync();
 #endif
         }
 
@@ -152,11 +152,11 @@ static partial class FilePolyfill
         {
 #if NETFRAMEWORK || NETSTANDARD2_0
             using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
-            using var streamWriter = new StreamWriter(stream, encoding);
+            using var writer = new StreamWriter(stream, encoding);
 
-            await streamWriter.WriteAsync(contents);
+            await writer.WriteAsync(contents);
 
-            await streamWriter.FlushAsync(cancellationToken);
+            await writer.FlushAsync(cancellationToken);
 #else
             await File.AppendAllTextAsync(path, contents, encoding, cancellationToken);
 #endif
@@ -332,8 +332,6 @@ static partial class FilePolyfill
 #endif
     }
 #endif
-
-
 
     /// <summary>
     /// Asynchronously creates a new file, writes the specified byte array to the file, and then closes the file. If the target file already exists, it is truncated and overwritten.
