@@ -106,7 +106,7 @@ static partial class FilePolyfill
         public static async Task AppendAllLinesAsync(string path, IEnumerable<string> contents, Encoding encoding, CancellationToken cancellationToken = default)
         {
 #if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_1
-            return File.AppendAllLinesAsync(path, contents, encoding, cancellationToken);
+            await File.AppendAllLinesAsync(path, contents, encoding, cancellationToken);
 #else
             using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
             using var streamWriter = new StreamWriter(stream, encoding);
@@ -261,7 +261,7 @@ static partial class FilePolyfill
 
             return lines.ToArray();
     #else
-            await File.ReadAllLinesAsync(path, encoding, cancellationToken);
+            return await File.ReadAllLinesAsync(path, encoding, cancellationToken);
     #endif
         }
 
@@ -345,7 +345,7 @@ static partial class FilePolyfill
         await File.WriteAllBytesAsync (path, bytes, cancellationToken);
 #else
         using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
-        await stream.WriteAsync(bytes, cancellationToken);
+        await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
 #endif
     }
 
@@ -437,7 +437,7 @@ static partial class FilePolyfill
 
             if (contents != null)
             {
-                await writer.WriteAsync(contents.AsMemory(), cancellationToken).ConfigureAwait(false);
+                await writer.WriteAsync(contents).ConfigureAwait(false);
             }
 
             await writer.FlushAsync().ConfigureAwait(false);
