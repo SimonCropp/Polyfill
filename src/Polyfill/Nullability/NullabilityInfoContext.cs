@@ -660,6 +660,5 @@ sealed class NullabilityInfoContext
 
 #else
 using System.Runtime.CompilerServices;
-using System.Reflection;
-[assembly: TypeForwardedTo(typeof(NullabilityInfoContext))]
+[assembly: TypeForwardedTo(typeof(System.Reflection.NullabilityInfoContext))]
 #endif

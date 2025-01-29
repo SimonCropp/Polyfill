@@ -21,6 +21,5 @@ sealed class TargetPlatformAttribute(string platformName) :
     OSPlatformAttribute(platformName);
 #else
 using System.Runtime.CompilerServices;
-using System.Runtime.Versioning;
-[assembly: TypeForwardedTo(typeof(TargetPlatformAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.TargetPlatformAttribute))]
 #endif

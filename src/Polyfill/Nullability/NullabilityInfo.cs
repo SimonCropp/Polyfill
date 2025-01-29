@@ -79,6 +79,5 @@ enum NullabilityState
 }
 #else
 using System.Runtime.CompilerServices;
-//Need to fully qualify NullabilityInfo since also exists as public in Microsoft.CodeAnalysis
 [assembly: TypeForwardedTo(typeof(System.Reflection.NullabilityInfo))]
 #endif
