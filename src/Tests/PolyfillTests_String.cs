@@ -18,6 +18,7 @@ partial class PolyfillTests
     }
 
     [Test]
+    [Platform("Win")]
     public void ReplaceLineEndings()
     {
         Assert.AreEqual("a\r\nb\r\nc\r\nd", "a\rb\nc\r\nd".ReplaceLineEndings());
