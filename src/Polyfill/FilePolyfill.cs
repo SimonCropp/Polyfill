@@ -154,7 +154,7 @@ static partial class FilePolyfill
             using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
             using var streamWriter = new StreamWriter(stream, encoding);
 
-            await streamWriter.WriteLineAsync(contents);
+            await streamWriter.WriteAsync(contents);
 
             await streamWriter.FlushAsync(cancellationToken);
 #else
