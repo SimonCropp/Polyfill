@@ -39,6 +39,5 @@ sealed class FeatureGuardAttribute : Attribute
 }
 #else
 using System.Runtime.CompilerServices;
-using System.Diagnostics.CodeAnalysis;
-[assembly: TypeForwardedTo(typeof(FeatureGuardAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.FeatureGuardAttribute))]
 #endif

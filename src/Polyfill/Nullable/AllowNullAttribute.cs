@@ -24,6 +24,5 @@ sealed class AllowNullAttribute :
     Attribute;
 #else
 using System.Runtime.CompilerServices;
-using System.Diagnostics.CodeAnalysis;
-[assembly: TypeForwardedTo(typeof(AllowNullAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.AllowNullAttribute))]
 #endif

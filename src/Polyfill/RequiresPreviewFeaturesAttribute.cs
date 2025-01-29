@@ -58,6 +58,5 @@ sealed class RequiresPreviewFeaturesAttribute :
 }
 #else
 using System.Runtime.CompilerServices;
-using System.Runtime.Versioning;
-[assembly: TypeForwardedTo(typeof(RequiresPreviewFeaturesAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.RequiresPreviewFeaturesAttribute))]
 #endif
