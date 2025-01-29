@@ -18,7 +18,6 @@ public
 sealed class SetsRequiredMembersAttribute :
     Attribute;
 #else
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(SetsRequiredMembersAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.SetsRequiredMembersAttribute))]
 #endif

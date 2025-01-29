@@ -25,5 +25,5 @@ sealed class ModuleInitializerAttribute :
     Attribute;
 #else
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(ModuleInitializerAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.ModuleInitializerAttribute))]
 #endif

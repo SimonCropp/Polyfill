@@ -25,6 +25,5 @@ sealed class MaybeNullAttribute :
     Attribute;
 #else
 using System.Runtime.CompilerServices;
-using System.Diagnostics.CodeAnalysis;
-[assembly: TypeForwardedTo(typeof(MaybeNullAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.MaybeNullAttribute))]
 #endif

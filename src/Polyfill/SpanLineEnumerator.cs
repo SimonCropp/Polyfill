@@ -92,7 +92,6 @@ ref struct SpanLineEnumerator
 }
 #else
 using System.Runtime.CompilerServices;
-using System.Text;
-[assembly: TypeForwardedTo(typeof(SpanLineEnumerator))]
+[assembly: TypeForwardedTo(typeof(System.Text.SpanLineEnumerator))]
 #endif
 #endif

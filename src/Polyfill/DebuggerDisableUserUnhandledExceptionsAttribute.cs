@@ -22,6 +22,5 @@ sealed class DebuggerDisableUserUnhandledExceptionsAttribute :
     Attribute;
 #else
 using System.Runtime.CompilerServices;
-using System.Diagnostics;
-[assembly: TypeForwardedTo(typeof(DebuggerDisableUserUnhandledExceptionsAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.DebuggerDisableUserUnhandledExceptionsAttribute))]
 #endif

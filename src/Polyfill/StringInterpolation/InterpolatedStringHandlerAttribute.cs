@@ -27,6 +27,5 @@ sealed class InterpolatedStringHandlerAttribute :
 
 #else
 using System.Runtime.CompilerServices;
-
-[assembly: TypeForwardedTo(typeof(InterpolatedStringHandlerAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.InterpolatedStringHandlerAttribute))]
 #endif

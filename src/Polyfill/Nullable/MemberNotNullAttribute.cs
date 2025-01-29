@@ -49,6 +49,5 @@ sealed class MemberNotNullAttribute :
 }
 #else
 using System.Runtime.CompilerServices;
-using System.Diagnostics.CodeAnalysis;
-[assembly: TypeForwardedTo(typeof(MemberNotNullAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.MemberNotNullAttribute))]
 #endif

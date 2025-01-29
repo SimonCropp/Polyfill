@@ -51,6 +51,5 @@ sealed class ObsoletedOSPlatformAttribute :
 }
 #else
 using System.Runtime.CompilerServices;
-using System.Runtime.Versioning;
-[assembly: TypeForwardedTo(typeof(ObsoletedOSPlatformAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.ObsoletedOSPlatformAttribute))]
 #endif

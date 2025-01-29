@@ -87,6 +87,5 @@ sealed class StringSyntaxAttribute :
 }
 #else
 using System.Runtime.CompilerServices;
-using System.Diagnostics.CodeAnalysis;
-[assembly: TypeForwardedTo(typeof(StringSyntaxAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.StringSyntaxAttribute))]
 #endif

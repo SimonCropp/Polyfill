@@ -37,6 +37,5 @@ sealed class SupportedOSPlatformAttribute(string platformName) :
     OSPlatformAttribute(platformName);
 #else
 using System.Runtime.CompilerServices;
-using System.Runtime.Versioning;
-[assembly: TypeForwardedTo(typeof(SupportedOSPlatformAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.SupportedOSPlatformAttribute))]
 #endif

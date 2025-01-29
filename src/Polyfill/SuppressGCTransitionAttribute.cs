@@ -24,6 +24,5 @@ sealed class SuppressGCTransitionAttribute :
     Attribute;
 #else
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-[assembly: TypeForwardedTo(typeof(SuppressGCTransitionAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.InteropServices.SuppressGCTransitionAttribute))]
 #endif

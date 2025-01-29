@@ -24,8 +24,7 @@ interface ISpanFormattable : IFormattable
     bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider);
 }
 #else
-using System;
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(ISpanFormattable))]
+[assembly: TypeForwardedTo(typeof(System.ISpanFormattable))]
 #endif
 #endif

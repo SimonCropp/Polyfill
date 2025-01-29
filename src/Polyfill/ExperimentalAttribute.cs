@@ -58,7 +58,6 @@ sealed class ExperimentalAttribute : Attribute
 }
 
 #else
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(ExperimentalAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.ExperimentalAttribute))]
 #endif

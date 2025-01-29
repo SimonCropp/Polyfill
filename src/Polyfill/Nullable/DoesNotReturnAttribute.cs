@@ -20,6 +20,5 @@ sealed class DoesNotReturnAttribute :
     Attribute;
 #else
 using System.Runtime.CompilerServices;
-using System.Diagnostics.CodeAnalysis;
-[assembly: TypeForwardedTo(typeof(DoesNotReturnAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute))]
 #endif

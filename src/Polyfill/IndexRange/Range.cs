@@ -67,8 +67,7 @@ record Range(Index Start, Index End)
     }
 }
 #else
-using System;
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(Range))]
+[assembly: TypeForwardedTo(typeof(System.Range))]
 #endif
 #endif

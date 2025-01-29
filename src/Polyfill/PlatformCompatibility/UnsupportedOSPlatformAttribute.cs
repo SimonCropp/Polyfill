@@ -50,6 +50,5 @@ sealed class UnsupportedOSPlatformAttribute :
 }
 #else
 using System.Runtime.CompilerServices;
-using System.Runtime.Versioning;
-[assembly: TypeForwardedTo(typeof(UnsupportedOSPlatformAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.UnsupportedOSPlatformAttribute))]
 #endif
