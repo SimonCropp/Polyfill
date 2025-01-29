@@ -37,7 +37,7 @@ public class PathTests
 
         var result = PathPolyfill.Combine(paths);
 
-        Assert.AreEqual("folder1\\folder2\\file.txt", result);
+        Assert.AreEqual("folder1\\folder2\\file.txt", result.Replace('/','\\'));
     }
 #endif
 
