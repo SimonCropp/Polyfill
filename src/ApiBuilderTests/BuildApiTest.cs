@@ -32,8 +32,7 @@ public class BuildApiTest
 
         foreach (var (key, value) in types
                      .OrderBy(_ => _.Key)
-                     .Where(_ => _.Key
-                                     .EndsWith("Polyfill") &&
+                     .Where(_ => _.Key.EndsWith("Polyfill") &&
                                  _.Key != "Polyfill"))
         {
             WriteTypeMethods(key, writer, ref count, value.OrderBy(Key));
@@ -226,6 +225,7 @@ public class BuildApiTest
     static List<string> sharedIdentifiers =
     [
         "FeatureMemory",
+        "FeatureRuntimeInformation",
         "PolyGuard",
         "PolyPublic",
         "FeatureHttp",

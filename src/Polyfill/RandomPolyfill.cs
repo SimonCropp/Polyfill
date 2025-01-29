@@ -24,7 +24,6 @@ static partial class RandomPolyfill
         Random.Shared;
 #else
         new ThreadSafeRandom();
-#endif
 
     class ThreadSafeRandom : Random
     {
@@ -66,4 +65,5 @@ static partial class RandomPolyfill
                 return base.Sample();
         }
     }
+#endif
 }
