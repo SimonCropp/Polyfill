@@ -3,10 +3,7 @@ partial class PolyfillTests
     [Test]
     public void IListAsReadOnly()
     {
-        IList<char> list = new List<char>
-        {
-            'a'
-        };
+        IList<char> list = ['a'];
         var readOnly = list.AsReadOnly();
         Assert.AreEqual('a', readOnly[0]);
     }

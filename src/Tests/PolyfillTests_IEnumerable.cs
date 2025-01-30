@@ -163,23 +163,23 @@ partial class PolyfillTests
     [Test]
     public void IEnumerableAppend()
     {
-        IEnumerable<string> enumerable = new List<string> {"a", "b"};
+        IEnumerable<string> enumerable = ["a", "b"];
 
-        Assert.IsTrue(enumerable.Append("c").SequenceEqual(new List<string> {"a", "b", "c"}));
+        Assert.IsTrue(enumerable.Append("c").SequenceEqual(["a", "b", "c"]));
     }
 
     [Test]
     public void IEnumerableSkipLast()
     {
-        IEnumerable<string> enumerable = new List<string> { "a", "b" };
+        IEnumerable<string> enumerable = ["a", "b"];
 
-        Assert.IsTrue(enumerable.SkipLast(1).SequenceEqual(new List<string> { "a" }));
+        Assert.IsTrue(enumerable.SkipLast(1).SequenceEqual(["a"]));
     }
 
     [Test]
     public void ToHashSet()
     {
-        IEnumerable<string> enumerable = new List<string> { "a", "b" };
+        IEnumerable<string> enumerable = ["a", "b"];
 
         var hashSet = enumerable.ToHashSet();
         Assert.IsTrue(hashSet.Contains("a"));
@@ -217,11 +217,7 @@ partial class PolyfillTests
     [Test]
     public void LastOrDefault()
     {
-        IEnumerable<int> list = new List<int>
-        {
-            1,
-            2
-        };
+        IEnumerable<int> list = [1, 2];
 
         Assert.AreEqual(2, list.LastOrDefault(_ => _ == 2, 3));
         Assert.AreEqual(3, Enumerable.Empty<int>().LastOrDefault(3));
@@ -230,7 +226,7 @@ partial class PolyfillTests
     [Test]
     public void SingleOrDefault()
     {
-        IEnumerable<int> list = new List<int> { 1, 2 };
+        IEnumerable<int> list = [1, 2];
 
         Assert.AreEqual(2, list.SingleOrDefault(_ => _ == 2, 3));
         Assert.AreEqual(3, Enumerable.Empty<int>().SingleOrDefault(3));
@@ -239,7 +235,7 @@ partial class PolyfillTests
     [Test]
     public void FirstOrDefault()
     {
-        IEnumerable<int> list = new List<int> { 1, 2 };
+        IEnumerable<int> list = [1, 2];
 
         Assert.AreEqual(2, list.FirstOrDefault(_ => _ == 2, 3));
         Assert.AreEqual(3, Enumerable.Empty<int>().FirstOrDefault(3));
