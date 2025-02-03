@@ -82,6 +82,9 @@ For example:
       <DefineConstants
         Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.ValueTuple'))">$(DefineConstants);FeatureValueTuple</DefineConstants>
 
+      <DefineConstants
+              Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'Microsoft.Bcl.Memory'))">$(DefineConstants);RefsBclMemory</DefineConstants>
+
       <MemoryVersion>@(ResolvedCompileFileDefinitions->WithMetadataValue('NuGetPackageId', 'System.Memory')->Metadata('NuGetPackageVersion'))</MemoryVersion>
       
       <DefineConstants

@@ -57,6 +57,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeOnlyValueTuple", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoExtras", "NoExtras\NoExtras.csproj", "{4F482296-D4BF-4E56-AF23-351CCEF1B96E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeBclMemory", "ConsumeBclMemory\ConsumeBclMemory.csproj", "{A89A3ACD-3DC8-4321-AEBC-05DAF0DEC9E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeConsumeBclMemory", "ConsumeConsumeBclMemory\ConsumeConsumeBclMemory.csproj", "{E83A80D1-10E3-4CBE-942D-E671A04C93F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -137,6 +141,14 @@ Global
 		{4F482296-D4BF-4E56-AF23-351CCEF1B96E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F482296-D4BF-4E56-AF23-351CCEF1B96E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F482296-D4BF-4E56-AF23-351CCEF1B96E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A89A3ACD-3DC8-4321-AEBC-05DAF0DEC9E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A89A3ACD-3DC8-4321-AEBC-05DAF0DEC9E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A89A3ACD-3DC8-4321-AEBC-05DAF0DEC9E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A89A3ACD-3DC8-4321-AEBC-05DAF0DEC9E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E83A80D1-10E3-4CBE-942D-E671A04C93F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E83A80D1-10E3-4CBE-942D-E671A04C93F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E83A80D1-10E3-4CBE-942D-E671A04C93F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E83A80D1-10E3-4CBE-942D-E671A04C93F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
