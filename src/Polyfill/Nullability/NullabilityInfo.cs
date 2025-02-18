@@ -79,6 +79,5 @@ enum NullabilityState
 }
 #else
 using System.Runtime.CompilerServices;
-using System.Reflection;
-[assembly: TypeForwardedTo(typeof(NullabilityInfo))]
+[assembly: TypeForwardedTo(typeof(System.Reflection.NullabilityInfo))]
 #endif

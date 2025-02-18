@@ -785,6 +785,6 @@ static file class SR
 
 #else
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(DefaultInterpolatedStringHandler))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.DefaultInterpolatedStringHandler))]
 #endif
 #endif

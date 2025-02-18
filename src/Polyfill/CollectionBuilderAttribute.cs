@@ -36,6 +36,6 @@ sealed class CollectionBuilderAttribute : Attribute
 }
 #else
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(CollectionBuilderAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CollectionBuilderAttribute))]
 #endif
 #endif

@@ -21,7 +21,7 @@ public class GuardTests
     static ICollection<string> emptyICollection = [];
     static IReadOnlyCollection<string> emptyIReadOnlyCollection = [];
     static IEnumerable<string> emptyEnumerable = [];
-    static Dictionary<int, string> emptyDictionary = new();
+    static Dictionary<int, string> emptyDictionary = [];
     static IDictionary<int, string> emptyIDictionary = new Dictionary<int, string>();
     static IReadOnlyDictionary<int, string> emptyIReadOnlyDictionary = new Dictionary<int, string>();
     static string[] emptyArray = [];

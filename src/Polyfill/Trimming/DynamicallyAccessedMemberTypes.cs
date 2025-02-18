@@ -99,6 +99,5 @@ enum DynamicallyAccessedMemberTypes
 }
 #else
 using System.Runtime.CompilerServices;
-using System.Diagnostics.CodeAnalysis;
-[assembly: TypeForwardedTo(typeof(DynamicallyAccessedMemberTypes))]
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes))]
 #endif
