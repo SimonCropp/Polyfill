@@ -252,6 +252,12 @@ class Consume
         dictionary.GetValueOrDefault("key");
         dictionary.GetValueOrDefault("key", "default");
         dictionary.TryAdd("key", "value");
+        dictionary.Remove("key");
+
+        IDictionary<string, string?> iDictionary = dictionary;
+        iDictionary.TryAdd("key", "value");
+        iDictionary.TryAdd("key", "value");
+        iDictionary.Remove("key");
     }
 
     void Lock_Methods()
