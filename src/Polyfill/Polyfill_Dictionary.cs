@@ -36,11 +36,6 @@ static partial class Polyfill
     public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> target, TKey key, TValue value)
         where TKey : notnull
     {
-        if (key is null)
-        {
-            throw new ArgumentNullException(nameof(key));
-        }
-
         if (!target.ContainsKey(key))
         {
             target.Add(key, value);
