@@ -27,13 +27,13 @@ static partial class Polyfill
 #if NETFRAMEWORK || NETSTANDARD2_0
 
     /// <summary>
-    /// Attempts to add the specified key and value to the dictionary.
+    /// Attempts to add the specified key and value to the <see cref="IDictionary{TKey,TValue}"/>.
     /// </summary>
     /// <param name="key">The key of the element to add.</param>
     /// <param name="value">The value of the element to add. It can be <see langword="null"/>.</param>
     /// <returns><c>true</c> if the key/value pair was added to the dictionary successfully; otherwise, <c>false</c>.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.tryadd
-    public static bool TryAdd<TKey, TValue>(this Dictionary<TKey, TValue> target, TKey key, TValue value)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.tryadd
+    public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> target, TKey key, TValue value)
         where TKey : notnull
     {
         if (key is null)
@@ -52,10 +52,10 @@ static partial class Polyfill
 
 #endif
 
-#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2X
+#if NETFRAMEWORK || NETSTANDARD2_0
 
     /// <summary>
-    /// Removes the value with the specified key from the <see cref="Dictionary{TKey,TValue}"/>, and copies the element
+    /// Removes the value with the specified key from the <see cref="IDictionary{TKey,TValue}"/>, and copies the element
     /// to the value parameter.
     /// </summary>
     /// <param name="target">A dictionary with keys of type TKey and values of type TValue.</param>
@@ -64,9 +64,9 @@ static partial class Polyfill
     /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
     /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
     /// <returns><code>true</code> if the element is successfully found and removed; otherwise, <code>false</code>.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.remove
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.remove
     public static bool Remove<TKey, TValue>(
-        this Dictionary<TKey, TValue> target,
+        this IDictionary<TKey, TValue> target,
         TKey key,
         [MaybeNullWhen(false)] out TValue value)
         where TKey : notnull
