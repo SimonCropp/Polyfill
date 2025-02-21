@@ -18,6 +18,11 @@ The package targets `netstandard2.0` and is designed to support the following ru
 **See [Milestones](../../milestones?state=closed) for release notes.**
 
 
+### Powered by
+
+[![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSourceSupport)
+
+
 ## TargetFrameworks
 
 Some polyfills are implemented in a way that will not have the equivalent performance to the actual implementations.
