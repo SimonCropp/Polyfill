@@ -18,7 +18,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
 **See [Milestones](../../milestones?state=closed) for release notes.**
 
 
-### Powered by
+## Powered by
 
 [![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSourceSupport)
 
