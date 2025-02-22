@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <PolyGuard>false</PolyGuard>
     <PolyNullability>false</PolyNullability>
   </PropertyGroup>
