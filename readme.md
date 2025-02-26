@@ -70,7 +70,7 @@ This project uses features from the current stable SDK and C# language. As such 
 ```json
 {
   "sdk": {
-    "version": "10.0.100-preview.3.25120.7",
+    "version": "10.0.100-preview.3.25125.17",
     "allowPrerelease": true,
     "rollForward": "latestFeature"
   }

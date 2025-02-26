@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -233,6 +234,15 @@ class Consume
         var dict = new ConcurrentDictionary<string, int>();
         var value = dict.GetOrAdd("Hello", static (_, arg) => arg.Length, "World");
     }
+
+#if NET9_0_OR_GREATER
+    void OrderedDictionary_Methods()
+    {
+        var dict = new OrderedDictionary<string, int>();
+        var result = dict.TryAdd("Hello", 1, out var index1);
+        result = dict.TryGetValue("Hello", out var value, out var index2);
+    }
+#endif
 
     void ConcurrentBag_Methods()
     {
