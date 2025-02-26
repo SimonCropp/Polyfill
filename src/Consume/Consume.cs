@@ -234,6 +234,16 @@ class Consume
         var value = dict.GetOrAdd("Hello", static (_, arg) => arg.Length, "World");
     }
 
+
+    void String_Normalize()
+    {
+        var span = "Café".AsSpan();
+        var normalizedLength = span.GetNormalizedLength(NormalizationForm.FormC);
+        var isNormalized = span.IsNormalized(NormalizationForm.FormC);
+        Span<char> destination = new char[10];
+        var tryNormalize = span.TryNormalize(destination, out var chars, NormalizationForm.FormC);
+    }
+
     void ConcurrentBag_Methods()
     {
         var bag = new ConcurrentBag<string>();
