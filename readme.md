@@ -25,7 +25,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
 
 ## TargetFrameworks
 
-Some polyfills are implemented in a way that will not have the equivalent performance to the actual implementations.
+Some polyfills are implemented in a way that will not always have the equivalent performance to the actual implementations.
 
 For example the polyfill for `StringBuilder.Append(ReadOnlySpan<char>)` on netcore2 is:
 
