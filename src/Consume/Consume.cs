@@ -234,7 +234,8 @@ class Consume
         var dict = new ConcurrentDictionary<string, int>();
         var value = dict.GetOrAdd("Hello", static (_, arg) => arg.Length, "World");
     }
-
+    
+#if FeatureMemory
     void String_Normalize()
     {
         var span = "Café".AsSpan();
@@ -243,6 +244,7 @@ class Consume
         Span<char> destination = new char[10];
         var tryNormalize = span.TryNormalize(destination, out var chars, NormalizationForm.FormC);
     }
+#endif
 
 #if NET9_0_OR_GREATER
     void OrderedDictionary_Methods()
