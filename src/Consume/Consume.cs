@@ -234,7 +234,7 @@ class Consume
         var dict = new ConcurrentDictionary<string, int>();
         var value = dict.GetOrAdd("Hello", static (_, arg) => arg.Length, "World");
     }
-    
+
 #if FeatureMemory
     void String_Normalize()
     {
