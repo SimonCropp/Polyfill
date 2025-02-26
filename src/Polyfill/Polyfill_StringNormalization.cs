@@ -24,8 +24,14 @@ static partial class Polyfill
     public static bool TryNormalize(this ReadOnlySpan<char> target, Span<char> destination, out int charsWritten, NormalizationForm normalizationForm = NormalizationForm.FormC)
     {
         var normalize = target.ToString().Normalize(normalizationForm).AsSpan();
-        charsWritten = normalize.Length;
-        return normalize.TryCopyTo(destination);
+        if (normalize.TryCopyTo(destination))
+        {
+            charsWritten = normalize.Length;
+            return true;
+        }
+
+        charsWritten = 0;
+        return false;
     }
 }
 #endif
