@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -234,7 +235,6 @@ class Consume
         var value = dict.GetOrAdd("Hello", static (_, arg) => arg.Length, "World");
     }
 
-
     void String_Normalize()
     {
         var span = "Café".AsSpan();
@@ -243,6 +243,15 @@ class Consume
         Span<char> destination = new char[10];
         var tryNormalize = span.TryNormalize(destination, out var chars, NormalizationForm.FormC);
     }
+
+#if NET9_0_OR_GREATER
+    void OrderedDictionary_Methods()
+    {
+        var dict = new OrderedDictionary<string, int>();
+        var result = dict.TryAdd("Hello", 1, out var index1);
+        result = dict.TryGetValue("Hello", out var value, out var index2);
+    }
+#endif
 
     void ConcurrentBag_Methods()
     {
