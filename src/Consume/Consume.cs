@@ -91,18 +91,19 @@ class Consume
         type = typeof(UnreachableException);
         type = typeof(DebuggerDisableUserUnhandledExceptionsAttribute);
 
-        KeyValuePair.Create("a", "b");
+        var (key, value) = KeyValuePair.Create("a", "b");
+
+#if NET6_0_OR_GREATER
+        var (date, time, offset) = DateTimeOffset.Now;
+        var (dateOnly, timeOnly) = DateTime.Now;
+        var (hour, minute) = new TimeOnly();
+#endif
+
+        var (year, month, day) = DateTime.Now;
+
         // Test to make sure there are no clashes in the Polyfill code with classes that
         // might be defined in user code. See comments in Debug.cs for more details.
         Debug.Log("Test log to make sure this is working");
-    }
-
-    #region Compiler Features
-    void DeconstructTupleInForeach(IEnumerable<KeyValuePair<string, string>> variables)
-    {
-        foreach (var (name, value) in variables)
-        {
-        }
     }
 
 #if FeatureValueTuple
@@ -183,8 +184,6 @@ class Consume
     }
 
 #endif
-
-    #endregion
 
     void Byte_Methods()
     {
