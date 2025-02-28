@@ -1,5 +1,4 @@
-﻿#if NET9_0
-class CommentStripper : CSharpSyntaxRewriter
+﻿class CommentStripper : CSharpSyntaxRewriter
 {
     public static SyntaxTree Strip(string code)
     {
@@ -29,5 +28,3 @@ class CommentStripper : CSharpSyntaxRewriter
         return base.VisitTrivia(trivia);
     }
 }
-
-#endif

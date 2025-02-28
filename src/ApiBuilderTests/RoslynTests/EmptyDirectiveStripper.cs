@@ -1,5 +1,4 @@
-﻿#if NET9_0
-class EmptyDirectiveStripper : CSharpSyntaxRewriter
+﻿class EmptyDirectiveStripper : CSharpSyntaxRewriter
 {
     public static SyntaxTree Strip(string code)
     {
@@ -51,5 +50,3 @@ class EmptyDirectiveStripper : CSharpSyntaxRewriter
     }
 
 }
-
-#endif

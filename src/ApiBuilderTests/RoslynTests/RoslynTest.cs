@@ -1,6 +1,4 @@
-﻿#if NET9_0
-
-[TestFixture]
+﻿[TestFixture]
 public class RoslynTest
 {
     static string polyfillPath = Path.Combine(SolutionDirectoryFinder.Find(), "Polyfill");
@@ -18,6 +16,7 @@ public class RoslynTest
         "LangVersion13",
         "FeatureValueTuple"
     ];
+
     [Test]
     public void Run()
     {
@@ -355,4 +354,3 @@ public class RoslynTest
         public required List<string> Directives { get; init; }
     }
 }
-#endif

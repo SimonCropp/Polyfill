@@ -1,5 +1,8 @@
 ﻿public static class RoslynExtensions
 {
+    public static int Line(this DirectiveTriviaSyntax node) =>
+        node.GetLocation().GetMappedLineSpan().StartLinePosition.Line;
+
     public static bool IsPublic(this MemberDeclarationSyntax member) =>
         member.Modifiers.Any(_ => _.ValueText == "public");
 
