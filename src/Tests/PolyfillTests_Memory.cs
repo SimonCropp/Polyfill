@@ -274,6 +274,7 @@ partial class PolyfillTests
         Assert.True("value".AsSpan().StartsWith("value"));
         Assert.False("value".AsSpan().StartsWith("value2"));
         Assert.True("value".AsSpan().StartsWith("v"));
+        Assert.True("value".AsSpan().StartsWith('v'));
         var span = new Span<char>("value".ToCharArray());
         Assert.True(span.StartsWith("value"));
         Assert.False(span.StartsWith("value2"));
@@ -286,6 +287,7 @@ partial class PolyfillTests
         Assert.True("value".AsSpan().EndsWith("value"));
         Assert.False("value".AsSpan().EndsWith("value2"));
         Assert.True("value".AsSpan().EndsWith("e"));
+        Assert.True("value".AsSpan().EndsWith('e'));
         var span = new Span<char>("value".ToCharArray());
         Assert.True(span.EndsWith("value"));
         Assert.False(span.EndsWith("value2"));

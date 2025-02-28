@@ -138,29 +138,12 @@ namespace System.Runtime.CompilerServices;
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Used to indicate to the compiler that a method should be called
 /// in its containing module's initializer.
 /// </summary>
-/// <remarks>
-/// When one or more valid methods
-/// with this attribute are found in a compilation, the compiler will
-/// emit a module initializer which calls each of the attributed methods.
-///
-/// Certain requirements are imposed on any method targeted with this attribute:
-/// - The method must be `static`.
-/// - The method must be an ordinary member method, as opposed to a property accessor, constructor, local function, etc.
-/// - The method must be parameterless.
-/// - The method must return `void`.
-/// - The method must not be generic or be contained in a generic type.
-/// - The method's effective accessibility must be `internal` or `public`.
-///
-/// The specification for module initializers in the .NET runtime can be found here:
-/// https://github.com/dotnet/runtime/blob/master/docs/design/specs/Ecma-335-Augments.md#module-initializer
-/// </remarks>
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.moduleinitializerattribute")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.moduleinitializerattribute
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
@@ -171,9 +154,12 @@ public
 #endif
 sealed class ModuleInitializerAttribute :
     Attribute;
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.ModuleInitializerAttribute))]
 #endif
 ```
-<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L43' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -195,7 +181,6 @@ using System;
 using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
-using Link = System.ComponentModel.DescriptionAttribute;
 using System.Threading;
 using System.Threading.Tasks;
 #if FeatureMemory
@@ -214,9 +199,7 @@ static partial class Polyfill
     /// </summary>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to monitor for cancellation requests.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous flush operation.</returns>
-    /// <exception cref="ObjectDisposedException">The text writer is disposed.</exception>
-    /// <exception cref="InvalidOperationException">The writer is currently in use by a previous write operation.</exception>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.flushasync#system-io-textwriter-flushasync(system-threading-cancellationtoken)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.flushasync#system-io-textwriter-flushasync(system-threading-cancellationtoken)
     public static Task FlushAsync(this TextWriter target, CancellationToken cancellationToken)
     {
         if (cancellationToken.IsCancellationRequested)
@@ -236,7 +219,7 @@ static partial class Polyfill
     /// StringBuilder.GetChunks() method to avoid creating the intermediate string
     /// </summary>
     /// <param name="value">The string (as a StringBuilder) to write to the stream</param>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-text-stringbuilder)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-text-stringbuilder)
     public static void Write(this TextWriter target, StringBuilder? value)
     {
         if (value == null)
@@ -260,7 +243,7 @@ static partial class Polyfill
     /// </summary>
     /// <param name="value">The string (as a StringBuilder) to write to the stream</param>
     /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
     public static Task WriteAsync(this TextWriter target, StringBuilder? value, CancellationToken cancellationToken = default)
     {
         if (cancellationToken.IsCancellationRequested)
@@ -302,7 +285,7 @@ static partial class Polyfill
     /// The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
     public static ValueTask WriteAsync(
         this TextWriter target,
         ReadOnlyMemory<char> buffer,
@@ -330,7 +313,7 @@ static partial class Polyfill
     /// The default value is <see cref="CancellationToken.None"/>.
     /// </param>
     /// <returns>A task that represents the asynchronous write operation.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
     public static ValueTask WriteLineAsync(
         this TextWriter target,
         ReadOnlyMemory<char> buffer,
@@ -355,7 +338,7 @@ static partial class Polyfill
     /// Writes a character span to the text stream.
     /// </summary>
     /// <param name="buffer">The character span to write.</param>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write#system-io-textwriter-write(system-readonlyspan((system-char)))
     public static void Write(
         this TextWriter target,
         ReadOnlySpan<char> buffer)
@@ -378,7 +361,7 @@ static partial class Polyfill
     /// Writes the text representation of a character span to the text stream, followed by a line terminator.
     /// </summary>
     /// <param name="buffer">The char span value to write to the text stream.</param>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline#system-io-textwriter-writeline(system-readonlyspan((system-char)))")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline#system-io-textwriter-writeline(system-readonlyspan((system-char)))
     public static void WriteLine(
         this TextWriter target,
         ReadOnlySpan<char> buffer)
@@ -399,7 +382,7 @@ static partial class Polyfill
 #endif
 }
 ```
-<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L212' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L209' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -15,7 +15,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.callerargumentexpressionattribute")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.callerargumentexpressionattribute
 #if PolyPublic
 public
 #endif
@@ -37,4 +37,7 @@ sealed class CallerArgumentExpressionAttribute :
     public string ParameterName { get; }
 }
 
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CallerArgumentExpressionAttribute))]
 #endif

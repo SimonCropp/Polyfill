@@ -18,7 +18,7 @@ using Link = ComponentModel.DescriptionAttribute;
     validOn: AttributeTargets.All,
     AllowMultiple = true,
     Inherited = false)]
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute
 #if PolyPublic
 public
 #endif
@@ -53,4 +53,7 @@ sealed class CompilerFeatureRequiredAttribute :
     public const string RequiredMembers = nameof(RequiredMembers);
 }
 
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute))]
 #endif

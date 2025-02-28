@@ -1,51 +1,6 @@
+// ReSharper disable ReturnValueOfPureMethodIsNotUsed
 partial class PolyfillTests
 {
-    [Test]
-    public void MaxBy()
-    {
-        IEnumerable<int> enumerable = [1, 2];
-
-        Assert.AreEqual(2, enumerable.MaxBy(_ => _));
-    }
-
-    [Test]
-    public void MaxComparer()
-    {
-        IEnumerable<int> enumerable = [1, 2];
-
-        Assert.AreEqual(1, enumerable.Max(new ReverseComparer()));
-    }
-
-    [Test]
-    public void MaxByComparer()
-    {
-        IEnumerable<int> enumerable = [1, 2];
-
-        Assert.AreEqual(1, enumerable.MaxBy(_ => _, new ReverseComparer()));
-    }
-
-    [Test]
-    public void MinComparer()
-    {
-        IEnumerable<int> enumerable = [1, 2];
-
-        Assert.AreEqual(2, enumerable.Min(new ReverseComparer()));
-    }
-
-    [Test]
-    public void MinByComparer()
-    {
-        IEnumerable<int> enumerable = [1, 2];
-
-        Assert.AreEqual(2, enumerable.MinBy(_ => _, new ReverseComparer()));
-    }
-
-    class ReverseComparer : IComparer<int>
-    {
-        public int Compare(int x, int y) =>
-            y.CompareTo(x);
-    }
-
     [Test]
     public void TakeRange()
     {
@@ -83,14 +38,6 @@ partial class PolyfillTests
     {
         IEnumerable<int> enumerable = [1, 2];
         Assert.AreEqual(1, enumerable.Except(2).Single());
-    }
-
-    [Test]
-    public void MinBy()
-    {
-        IEnumerable<int> enumerable = new List<int> {1, 2};
-
-        Assert.AreEqual(1, enumerable.MinBy(_ => _));
     }
 
     [Test]
@@ -216,23 +163,23 @@ partial class PolyfillTests
     [Test]
     public void IEnumerableAppend()
     {
-        IEnumerable<string> enumerable = new List<string> {"a", "b"};
+        IEnumerable<string> enumerable = ["a", "b"];
 
-        Assert.IsTrue(enumerable.Append("c").SequenceEqual(new List<string> {"a", "b", "c"}));
+        Assert.IsTrue(enumerable.Append("c").SequenceEqual(["a", "b", "c"]));
     }
 
     [Test]
     public void IEnumerableSkipLast()
     {
-        IEnumerable<string> enumerable = new List<string> { "a", "b" };
+        IEnumerable<string> enumerable = ["a", "b"];
 
-        Assert.IsTrue(enumerable.SkipLast(1).SequenceEqual(new List<string> { "a" }));
+        Assert.IsTrue(enumerable.SkipLast(1).SequenceEqual(["a"]));
     }
 
     [Test]
     public void ToHashSet()
     {
-        IEnumerable<string> enumerable = new List<string> { "a", "b" };
+        IEnumerable<string> enumerable = ["a", "b"];
 
         var hashSet = enumerable.ToHashSet();
         Assert.IsTrue(hashSet.Contains("a"));
@@ -270,11 +217,7 @@ partial class PolyfillTests
     [Test]
     public void LastOrDefault()
     {
-        IEnumerable<int> list = new List<int>
-        {
-            1,
-            2
-        };
+        IEnumerable<int> list = [1, 2];
 
         Assert.AreEqual(2, list.LastOrDefault(_ => _ == 2, 3));
         Assert.AreEqual(3, Enumerable.Empty<int>().LastOrDefault(3));
@@ -283,7 +226,7 @@ partial class PolyfillTests
     [Test]
     public void SingleOrDefault()
     {
-        IEnumerable<int> list = new List<int> { 1, 2 };
+        IEnumerable<int> list = [1, 2];
 
         Assert.AreEqual(2, list.SingleOrDefault(_ => _ == 2, 3));
         Assert.AreEqual(3, Enumerable.Empty<int>().SingleOrDefault(3));
@@ -292,7 +235,7 @@ partial class PolyfillTests
     [Test]
     public void FirstOrDefault()
     {
-        IEnumerable<int> list = new List<int> { 1, 2 };
+        IEnumerable<int> list = [1, 2];
 
         Assert.AreEqual(2, list.FirstOrDefault(_ => _ == 2, 3));
         Assert.AreEqual(3, Enumerable.Empty<int>().FirstOrDefault(3));

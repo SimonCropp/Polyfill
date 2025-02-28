@@ -34,5 +34,7 @@ sealed class NotNullWhenAttribute :
     public NotNullWhenAttribute(bool returnValue) =>
         ReturnValue = returnValue;
 }
-
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.NotNullWhenAttribute))]
 #endif

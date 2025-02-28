@@ -18,4 +18,7 @@ public
 #endif
 sealed class DoesNotReturnAttribute :
     Attribute;
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.DoesNotReturnAttribute))]
 #endif

@@ -3,6 +3,9 @@
     <Compile Include="$(SolutionDir)Polyfill\*.cs">
       <Link>Pollyfill\%(Filename).cs</Link>
     </Compile>
+    <Compile Include="$(SolutionDir)Polyfill\Guard\*.cs">
+      <Link>Pollyfill\Guard\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
     <Compile Include="$(SolutionDir)Polyfill\Nullable\*.cs">
       <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>

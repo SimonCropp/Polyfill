@@ -3,7 +3,8 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-#if !NET7_0_OR_GREATER && FeatureMemory
+#if FeatureMemory
+#if !NET7_0_OR_GREATER
 
 namespace System.Text.RegularExpressions;
 
@@ -14,10 +15,6 @@ using System.Diagnostics.CodeAnalysis;
 /// <summary>
 /// Represents the results from a single regular expression match.
 /// </summary>
-/// <remarks>
-/// The <see cref="ValueMatch"/> type is immutable and has no public constructor. An instance of the <see cref="ValueMatch"/> struct is returned by the
-/// <see cref="Regex.ValueMatchEnumerator.Current"/> method when iterating over the results from calling <see cref="Regex.EnumerateMatches(ReadOnlySpan{char})"/>.
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyPublic
@@ -46,5 +43,8 @@ readonly ref struct ValueMatch
     /// </summary>
     public int Length { get; }
 }
-
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Text.RegularExpressions.ValueMatch))]
+#endif
 #endif

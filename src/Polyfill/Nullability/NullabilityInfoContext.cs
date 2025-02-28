@@ -27,8 +27,8 @@ public
 sealed class NullabilityInfoContext
 {
     const string CompilerServicesNameSpace = "System.Runtime.CompilerServices";
-    readonly Dictionary<Module, NotAnnotatedStatus> _publicOnlyModules = new();
-    readonly Dictionary<MemberInfo, NullabilityState> _context = new();
+    Dictionary<Module, NotAnnotatedStatus> _publicOnlyModules = new();
+    Dictionary<MemberInfo, NullabilityState> _context = new();
 
     internal static bool IsSupported { get; } =
         AppContext.TryGetSwitch("System.Reflection.NullabilityInfoContext.IsSupported", out bool isSupported) ? isSupported : true;
@@ -79,8 +79,6 @@ sealed class NullabilityInfoContext
     /// nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
     /// </summary>
     /// <param name="parameterInfo">The parameter which nullability info gets populated</param>
-    /// <exception cref="ArgumentNullException">If the parameterInfo parameter is null</exception>
-    /// <returns><see cref="NullabilityInfo" /></returns>
     public NullabilityInfo Create(ParameterInfo parameterInfo)
     {
         EnsureIsSupported();
@@ -203,8 +201,6 @@ sealed class NullabilityInfoContext
     /// nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
     /// </summary>
     /// <param name="propertyInfo">The parameter which nullability info gets populated</param>
-    /// <exception cref="ArgumentNullException">If the propertyInfo parameter is null</exception>
-    /// <returns><see cref="NullabilityInfo" /></returns>
     public NullabilityInfo Create(PropertyInfo propertyInfo)
     {
         EnsureIsSupported();
@@ -249,8 +245,6 @@ sealed class NullabilityInfoContext
     /// nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
     /// </summary>
     /// <param name="eventInfo">The parameter which nullability info gets populated</param>
-    /// <exception cref="ArgumentNullException">If the eventInfo parameter is null</exception>
-    /// <returns><see cref="NullabilityInfo" /></returns>
     public NullabilityInfo Create(EventInfo eventInfo)
     {
         EnsureIsSupported();
@@ -264,8 +258,6 @@ sealed class NullabilityInfoContext
     /// nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
     /// </summary>
     /// <param name="fieldInfo">The parameter which nullability info gets populated</param>
-    /// <exception cref="ArgumentNullException">If the fieldInfo parameter is null</exception>
-    /// <returns><see cref="NullabilityInfo" /></returns>
     public NullabilityInfo Create(FieldInfo fieldInfo)
     {
         EnsureIsSupported();
@@ -666,4 +658,7 @@ sealed class NullabilityInfoContext
     }
 }
 
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Reflection.NullabilityInfoContext))]
 #endif

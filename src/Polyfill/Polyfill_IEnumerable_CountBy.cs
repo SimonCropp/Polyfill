@@ -5,7 +5,6 @@ namespace Polyfills;
 
 using System;
 using System.Collections.Generic;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
@@ -14,7 +13,7 @@ static partial class Polyfill
     /// <summary>
     /// https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/overview#linq
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.countby")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.countby
     public static IEnumerable<KeyValuePair<TKey, int>> CountBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? keyComparer = null)
         where TKey : notnull
     {

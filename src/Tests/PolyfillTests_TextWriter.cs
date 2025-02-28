@@ -27,6 +27,7 @@ partial class PolyfillTests
     {
         using var stream = new MemoryStream();
         using var writer = new StreamWriter(stream);
+        // ReSharper disable once MethodHasAsyncOverload
         writer.Write(new StringBuilder("value"));
         await writer.FlushAsync();
         var s = Encoding.UTF8.GetString(stream.ToArray());

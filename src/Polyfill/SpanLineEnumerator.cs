@@ -3,7 +3,8 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-#if FeatureMemory && !NET6_0_OR_GREATER
+#if FeatureMemory
+#if !NET6_0_OR_GREATER
 
 namespace System.Text;
 
@@ -14,12 +15,9 @@ using Link = ComponentModel.DescriptionAttribute;
 /// <summary>
 /// Enumerates the lines of a <see cref="ReadOnlySpan{Char}"/>.
 /// </summary>
-/// <remarks>
-/// To get an instance of this type, use <see cref="MemoryExtensions.EnumerateLines(ReadOnlySpan{char})"/>.
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.spanlineenumerator")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.spanlineenumerator
 #if PolyPublic
 public
 #endif
@@ -92,4 +90,8 @@ ref struct SpanLineEnumerator
         return true;
     }
 }
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Text.SpanLineEnumerator))]
+#endif
 #endif

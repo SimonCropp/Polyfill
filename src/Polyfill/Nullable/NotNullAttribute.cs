@@ -23,4 +23,7 @@ public
 #endif
 sealed class NotNullAttribute :
     Attribute;
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.NotNullAttribute))]
 #endif

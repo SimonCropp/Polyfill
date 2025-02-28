@@ -1,13 +1,11 @@
 partial class PolyfillTests
 {
-    static bool IsCompletedSuccessfully(Task task)
-    {
+    static bool IsCompletedSuccessfully(Task task) =>
 #if NETFRAMEWORK || NETSTANDARD
-        return task.Status == TaskStatus.RanToCompletion;
+        task.Status == TaskStatus.RanToCompletion;
 #else
-        return task.IsCompletedSuccessfully;
+        task.IsCompletedSuccessfully;
 #endif
-    }
 
     // [Test]
     // [Ignore("This test is taken directly from the .NET repo but we can't match the real CancelAsync logic exactly, so differ slightly and can't pass this test")]

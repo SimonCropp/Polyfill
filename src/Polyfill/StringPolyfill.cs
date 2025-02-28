@@ -3,10 +3,10 @@
 
 namespace Polyfills;
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
@@ -18,8 +18,8 @@ static partial class StringPolyfill
     /// <summary>
     /// Concatenates an array of strings, using the specified separator between each member.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-string())")]
-    public static string Join(char separator, string[] values) =>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-string())
+    public static string Join(char separator, params string[] values) =>
 #if NETSTANDARD2_0 || NETFRAMEWORK
         string.Join(new([separator]), values);
 #else
@@ -29,18 +29,64 @@ static partial class StringPolyfill
     /// <summary>
     /// Concatenates the string representations of an array of objects, using the specified separator between each member.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-object())")]
-    public static string Join(char separator, object[] values) =>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-object())
+    public static string Join(char separator, params object[] values) =>
 #if NETSTANDARD2_0 || NETFRAMEWORK
         string.Join(new([separator]), values);
 #else
         string.Join(separator, values);
 #endif
 
+#if FeatureMemory
+    /// <summary>
+    /// Concatenates the string representations of a span of objects, using the specified separator between each member.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-readonlyspan((system-object)))
+    public static string Join(char separator, scoped ReadOnlySpan<object?> values) =>
+#if NET9_0_OR_GREATER
+        string.Join(separator, values);
+#else
+        Join(separator, values.ToArray());
+#endif
+
+    /// <summary>
+    /// Concatenates a span of strings, using the specified separator between each member.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-readonlyspan((system-string)))
+    public static string Join(char separator, scoped ReadOnlySpan<string?> values) =>
+#if NET9_0_OR_GREATER
+        string.Join(separator, values);
+#else
+        Join(separator, values.ToArray());
+#endif
+
+    /// <summary>
+    /// Concatenates the string representations of a span of objects, using the specified separator between each member.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-string-system-readonlyspan((system-object)))
+    public static string Join(string separator, scoped ReadOnlySpan<object?> values) =>
+#if NET9_0_OR_GREATER
+        string.Join(separator, values);
+#else
+        string.Join(separator, values.ToArray());
+#endif
+
+    /// <summary>
+    /// Concatenates a span of strings, using the specified separator between each member.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-string-system-readonlyspan((system-string)))
+    public static string Join(string separator, scoped ReadOnlySpan<string?> values) =>
+#if NET9_0_OR_GREATER
+        string.Join(separator, values);
+#else
+        string.Join(separator, values.ToArray());
+#endif
+#endif
+
     /// <summary>
     /// Concatenates the specified elements of a string array, using the specified separator between each element.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-string()-system-int32-system-int32)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-string()-system-int32-system-int32)
     public static string Join(char separator, string?[] value, int startIndex, int count) =>
 #if NETSTANDARD2_0 || NETFRAMEWORK
         string.Join(new([separator]), value, startIndex, count);
@@ -51,7 +97,7 @@ static partial class StringPolyfill
     /// <summary>
     /// Concatenates the specified elements of a string array, using the specified separator between each element.
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join-1(system-char-system-collections-generic-ienumerable((-0)))")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join-1(system-char-system-collections-generic-ienumerable((-0)))
     public static string Join<T>(char separator, IEnumerable<T> values) =>
 #if NETSTANDARD2_0 || NETFRAMEWORK
         string.Join(new([separator]), values);

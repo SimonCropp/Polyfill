@@ -4,7 +4,6 @@
 namespace Polyfills;
 
 using System;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
@@ -13,8 +12,7 @@ static partial class Polyfill
     /// Fills the elements of a specified span of bytes with random numbers.
     /// </summary>
     /// <param name="index">The array to be filled with random numbers.</param>
-    /// <remarks>Each element of the span of bytes is set to a random number greater than or equal to 0 and less than or equal to <see cref="byte.MaxValue"/>.</remarks>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))
     public static void NextBytes(
         this Random target,
         Span<byte> buffer)
@@ -32,11 +30,7 @@ static partial class Polyfill
     /// </summary>
     /// <param name="index">The array to shuffle.</param>
     /// <typeparam name="T">The type of array.</typeparam>
-    /// <remarks>
-    ///   This method uses <see cref="Next(int, int)" /> to choose values for shuffling.
-    ///   This method is an O(n) operation.
-    /// </remarks>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))
     public static void Shuffle<T>(
         this Random target,
         T[] values)
@@ -62,11 +56,7 @@ static partial class Polyfill
     /// </summary>
     /// <param name="index">The span to shuffle.</param>
     /// <typeparam name="T">The type of span.</typeparam>
-    /// <remarks>
-    ///   This method uses <see cref="Next(int, int)" /> to choose values for shuffling.
-    ///   This method is an O(n) operation.
-    /// </remarks>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))
     public static void Shuffle<T>(
         this Random target,
         Span<T> values)

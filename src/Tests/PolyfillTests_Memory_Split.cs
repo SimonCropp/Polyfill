@@ -6,9 +6,9 @@
 #if FeatureMemory
 
 #if NET9_0_OR_GREATER
-using Extensions = System.MemoryExtensions;
+using MemoryExtensions = System.MemoryExtensions;
 #else
-using Extensions = Polyfills.Polyfill;
+using MemoryExtensions = Polyfills.Polyfill;
 #endif
 
 #if NET8_0
@@ -20,8 +20,8 @@ partial class PolyfillTests
     [Test]
     public static void DefaultSpanSplitEnumeratorBehaviour()
     {
-        var charSpanEnumerator = new Extensions.SpanSplitEnumerator<char>();
-        var stringSpanEnumerator = new Extensions.SpanSplitEnumerator<string>();
+        var charSpanEnumerator = new MemoryExtensions.SpanSplitEnumerator<char>();
+        var stringSpanEnumerator = new MemoryExtensions.SpanSplitEnumerator<string>();
         Assert.AreEqual(new Range(0, 0), charSpanEnumerator.Current);
         Assert.False(charSpanEnumerator.MoveNext());
 
@@ -213,7 +213,7 @@ partial class PolyfillTests
         }
     }
 
-    static void AssertEnsureCorrectEnumeration<T>(Extensions.SpanSplitEnumerator<T> enumerator, Range[] result)
+    static void AssertEnsureCorrectEnumeration<T>(MemoryExtensions.SpanSplitEnumerator<T> enumerator, Range[] result)
         where T : IEquatable<T>
     {
         Assert.AreEqual(new Range(0, 0), enumerator.Current);

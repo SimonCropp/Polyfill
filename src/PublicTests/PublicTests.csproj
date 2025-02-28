@@ -2,11 +2,11 @@
   <PropertyGroup>
     <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT'">net462;net472;net48</TargetFrameworks>
-    <TargetFrameworks>$(TargetFrameworks);netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>$(TargetFrameworks);netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0;net10.0</TargetFrameworks>
     <PolyPublic>true</PolyPublic>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Tests\*.cs" Exclude="..\Tests\BuildApiTest.cs;..\Tests\NullabilitySync.cs" />
+    <Compile Include="..\Tests\*.cs" />
     <PackageReference Include="NUnit" />
     <PackageReference Include="NUnit3TestAdapter" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
@@ -15,6 +15,7 @@
     <PackageReference Include="System.ValueTuple" Condition="$(TargetFramework.StartsWith('net46'))" />
     <PackageReference Include="System.Net.Http" Condition="$(TargetFramework.StartsWith('net4'))" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Condition="$(TargetFramework) == 'netstandard2.0' or $(TargetFramework) == 'netcoreapp2.0' or $(TargetFrameworkIdentifier) == '.NETFramework'" />
+    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Condition="$(TargetFramework.StartsWith('net4'))" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
   <Import Project="$(SolutionDir)\TestIncludes.targets" />

@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
@@ -29,6 +30,8 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using MemoryStream = System.IO.MemoryStream;
+// ReSharper disable UnnecessaryWhitespace
+// ReSharper disable InconsistentNaming
 #pragma warning disable CS4014
 
 class Consume
@@ -46,8 +49,12 @@ class Consume
         type = typeof(NotNullAttribute);
         type = typeof(NotNullIfNotNullAttribute);
         type = typeof(NotNullWhenAttribute);
+        type = typeof(ParamCollectionAttribute);
         type = typeof(CallerArgumentExpressionAttribute);
         type = typeof(IsExternalInit);
+        type = typeof(KeyValuePair);
+        type = typeof(FeatureGuardAttribute);
+        type = typeof(FeatureSwitchDefinitionAttribute);
         type = typeof(ModuleInitializerAttribute);
         type = typeof(RequiredMemberAttribute);
         type = typeof(SetsRequiredMembersAttribute);
@@ -82,18 +89,21 @@ class Consume
         type = typeof(DisableRuntimeMarshallingAttribute);
         type = typeof(RequiresUnreferencedCodeAttribute);
         type = typeof(UnreachableException);
+        type = typeof(DebuggerDisableUserUnhandledExceptionsAttribute);
+
+        var (key, value) = KeyValuePair.Create("a", "b");
+
+#if NET6_0_OR_GREATER
+        var (date, time, offset) = DateTimeOffset.Now;
+        var (dateOnly, timeOnly) = DateTime.Now;
+        var (hour, minute) = new TimeOnly();
+#endif
+
+        var (year, month, day) = DateTime.Now;
 
         // Test to make sure there are no clashes in the Polyfill code with classes that
         // might be defined in user code. See comments in Debug.cs for more details.
         Debug.Log("Test log to make sure this is working");
-    }
-
-    #region Compiler Features
-    void DeconstructTupleInForeach(IEnumerable<KeyValuePair<string, string>> variables)
-    {
-        foreach (var (name, value) in variables)
-        {
-        }
     }
 
 #if FeatureValueTuple
@@ -119,6 +129,10 @@ class Consume
     }
 
 #if LangVersion13
+
+    public static void ParamCollection(params List<string> collection)
+    {
+    }
 
     [OverloadResolutionPriority(1)]
     void Method(int x)
@@ -147,7 +161,7 @@ class Consume
     [CollectionBuilder(typeof(MyCollection), nameof(Create))]
     class MyCollection(ReadOnlySpan<int> initValues)
     {
-        readonly int[] values = initValues.ToArray();
+        int[] values = initValues.ToArray();
         public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>)values).GetEnumerator();
 
         public static MyCollection Create(ReadOnlySpan<int> values) => new(values);
@@ -170,8 +184,6 @@ class Consume
     }
 
 #endif
-
-    #endregion
 
     void Byte_Methods()
     {
@@ -215,10 +227,43 @@ class Consume
         type.GetMethod("GenericMethod", 1, BindingFlags.Public, [typeof(string)]);
     }
 #endif
+
     void ConcurrentDictionary_Methods()
     {
         var dict = new ConcurrentDictionary<string, int>();
-        var value = dict.GetOrAdd("Hello", (_, arg) => arg.Length, "World");
+        var value = dict.GetOrAdd("Hello", static (_, arg) => arg.Length, "World");
+    }
+
+#if FeatureMemory
+    void String_Normalize()
+    {
+        var span = "Café".AsSpan();
+        var normalizedLength = span.GetNormalizedLength(NormalizationForm.FormC);
+        var isNormalized = span.IsNormalized(NormalizationForm.FormC);
+        Span<char> destination = new char[10];
+        var tryNormalize = span.TryNormalize(destination, out var chars, NormalizationForm.FormC);
+    }
+#endif
+
+#if NET9_0_OR_GREATER
+    void OrderedDictionary_Methods()
+    {
+        var dict = new OrderedDictionary<string, int>();
+        var result = dict.TryAdd("Hello", 1, out var index1);
+        result = dict.TryGetValue("Hello", out var value, out var index2);
+    }
+#endif
+
+    void ConcurrentBag_Methods()
+    {
+        var bag = new ConcurrentBag<string>();
+        bag.Clear();
+    }
+
+    void ConcurrentQueue_Methods()
+    {
+        var bag = new ConcurrentQueue<string>();
+        bag.Clear();
     }
 
     void Dictionary_Methods()
@@ -227,6 +272,12 @@ class Consume
         dictionary.GetValueOrDefault("key");
         dictionary.GetValueOrDefault("key", "default");
         dictionary.TryAdd("key", "value");
+        dictionary.Remove("key");
+
+        IDictionary<string, string?> iDictionary = dictionary;
+        iDictionary.TryAdd("key", "value");
+        iDictionary.TryAdd("key", "value");
+        iDictionary.Remove("key");
     }
 
     void Lock_Methods()
@@ -348,6 +399,42 @@ class Consume
         var result = info.HasSameMetadataDefinitionAs(info);
     }
 
+    #if FeatureRuntimeInformation
+    void OperatingSystem_Methods()
+    {
+        var isOSPlatform = OperatingSystemPolyfill.IsOSPlatform("windows");
+        var isOSPlatformWindows10 = OperatingSystemPolyfill.IsOSPlatformVersionAtLeast("windows", 10, 0, 10240);
+
+        var isWindows = OperatingSystemPolyfill.IsWindows();
+        var isWindows11 = OperatingSystemPolyfill.IsWindowsVersionAtLeast(10,0,22000);
+
+        var isMacOS = OperatingSystemPolyfill.IsMacOS();
+        var isMacOsSonoma = OperatingSystemPolyfill.IsMacOSVersionAtLeast(14);
+        var isMacCatalyst = OperatingSystemPolyfill.IsMacCatalyst();
+        var isMacCatalyst17 = OperatingSystemPolyfill.IsMacCatalystVersionAtLeast(17);
+
+        var isLinux = OperatingSystemPolyfill.IsLinux();
+
+        var isFreeBSD = OperatingSystemPolyfill.IsFreeBSD();
+        var isFreeBSD14 = OperatingSystemPolyfill.IsFreeBSDVersionAtLeast(14, 0);
+
+        var isIOS = OperatingSystemPolyfill.IsIOS();
+        var isIOS18 = OperatingSystemPolyfill.IsIOSVersionAtLeast(18);
+
+        var isAndroid = OperatingSystemPolyfill.IsAndroid();
+        var isAndroid13 = OperatingSystemPolyfill.IsAndroidVersionAtLeast(13);
+
+        var isTvOS = OperatingSystemPolyfill.IsTvOS();
+        var isTvOS17 = OperatingSystemPolyfill.IsTvOSVersionAtLeast(17);
+
+        var isWatchOS = OperatingSystemPolyfill.IsWatchOS();
+        var isWatchOS11 = OperatingSystemPolyfill.IsWatchOSVersionAtLeast(11);
+
+        var isWasi = OperatingSystemPolyfill.IsWasi();
+        var isBrowser = OperatingSystemPolyfill.IsBrowser();
+    }
+#endif
+
     async Task Process_Methods()
     {
         var process = new Process();
@@ -379,11 +466,14 @@ class Consume
         result = readOnlySpan.EndsWith("value", StringComparison.Ordinal);
         result = readOnlySpan.SequenceEqual("value");
         result = readOnlySpan.StartsWith("value");
+        result = readOnlySpan.StartsWith('a');
+        result = readOnlySpan.EndsWith('a');
         result = readOnlySpan.StartsWith("value", StringComparison.Ordinal);
         var split = readOnlySpan.Split('a');
         split = readOnlySpan.Split("a".AsSpan());
 #if LangVersion13
-        split = readOnlySpan.SplitAny('a');
+        // ReSharper disable once RedundantExplicitParamsArrayCreation
+        split = readOnlySpan.SplitAny(['a']);
         split = readOnlySpan.SplitAny("a".AsSpan());
 #endif
     }
@@ -487,6 +577,7 @@ class Consume
         builder.Append("suffix".AsSpan());
         var targetSpan = new Span<char>(new char[1]);
         builder.CopyTo(0, targetSpan, 1);
+        builder.Insert(1, targetSpan);
         var equals = builder.Equals("value".AsSpan());
 
 #if NET6_0_OR_GREATER
@@ -539,8 +630,7 @@ class Consume
 
     void Type_Methods(MemberInfo info)
     {
-        bool result;
-        result = typeof(List<string>).IsAssignableTo(typeof(string));
+        var result = typeof(List<string>).IsAssignableTo(typeof(string));
         result = typeof(List<string>).IsAssignableTo(null);
         result = typeof(string).IsGenericMethodParameter();
         var member = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);

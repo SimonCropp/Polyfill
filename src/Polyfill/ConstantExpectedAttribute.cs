@@ -7,18 +7,14 @@
 namespace System.Diagnostics.CodeAnalysis;
 
 using Diagnostics;
-using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Indicates that the specified method parameter expects a constant.
 /// </summary>
-/// <remarks>
-/// This can be used to inform tooling that a constant should be used as an argument for the annotated parameter.
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.constantexpectedattribute")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.constantexpectedattribute
 #if PolyPublic
 public
 #endif
@@ -33,4 +29,7 @@ sealed class ConstantExpectedAttribute : Attribute
     /// </summary>
     public object? Max { get; set; }
 }
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute))]
 #endif

@@ -12,14 +12,13 @@ namespace System.Reflection;
 
 using Diagnostics.CodeAnalysis;
 using Diagnostics;
-using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// A class that represents nullability info
 /// </summary>
 [DebuggerNonUserCode]
 [ExcludeFromCodeCoverage]
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.reflection.nullabilityinfo?view=net-8.0")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.reflection.nullabilityinfo
 #if PolyPublic
 public
 #endif
@@ -78,5 +77,7 @@ enum NullabilityState
     /// </summary>
     Nullable
 }
-
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Reflection.NullabilityInfo))]
 #endif

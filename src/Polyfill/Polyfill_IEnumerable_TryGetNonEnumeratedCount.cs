@@ -7,7 +7,6 @@ namespace Polyfills;
 
 using System.Collections;
 using System.Collections.Generic;
-using Link = System.ComponentModel.DescriptionAttribute;
 using System.Linq;
 
 static partial class Polyfill
@@ -24,15 +23,7 @@ static partial class Polyfill
     ///   <see langword="true" /> if the count of <paramref name="source"/> can be determined without enumeration;
     ///   otherwise, <see langword="false" />.
     /// </returns>
-    /// <remarks>
-    ///   The method performs a series of type tests, identifying common subtypes whose
-    ///   count can be determined without enumerating; this includes <see cref="ICollection{T}"/>,
-    ///   <see cref="ICollection"/> as well as internal types used in the LINQ implementation.
-    ///
-    ///   The method is typically a constant-time operation, but ultimately this depends on the complexity
-    ///   characteristics of the underlying collection implementation.
-    /// </remarks>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.trygetnonenumeratedcount")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.trygetnonenumeratedcount
     public static bool TryGetNonEnumeratedCount<TSource>(this IEnumerable<TSource> target, out int count)
     {
         if (target is ICollection<TSource> genericCollection)

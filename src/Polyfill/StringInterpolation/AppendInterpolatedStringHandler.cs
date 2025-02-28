@@ -12,6 +12,7 @@ using Diagnostics;
 using Diagnostics.CodeAnalysis;
 using Runtime.CompilerServices;
 
+//https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Text/StringBuilder.cs
 /// <summary>Provides a handler used by the language compiler to append interpolated strings into <see cref="StringBuilder"/> instances.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 [InterpolatedStringHandler]
@@ -30,26 +31,18 @@ struct AppendInterpolatedStringHandler
     const int StackallocCharBufferSizeLimit = 256;
 
     /// <summary>The associated StringBuilder to which to append.</summary>
-    readonly StringBuilder _stringBuilder;
+    StringBuilder _stringBuilder;
 
     /// <summary>Optional provider to pass to IFormattable.ToString or ISpanFormattable.TryFormat calls.</summary>
-    readonly IFormatProvider? _provider;
+    IFormatProvider? _provider;
 
     /// <summary>Whether <see cref="_provider"/> provides an ICustomFormatter.</summary>
-    /// <remarks>
-    /// Custom formatters are very rare.  We want to support them, but it's ok if we make them more expensive
-    /// in order to make them as pay-for-play as possible.  So, we avoid adding another reference type field
-    /// to reduce the size of the handler and to reduce required zero'ing, by only storing whether the provider
-    /// provides a formatter, rather than actually storing the formatter.  This in turn means, if there is a
-    /// formatter, we pay for the extra interface call on each AppendFormatted that needs it.
-    /// </remarks>
-    readonly bool _hasCustomFormatter;
+    bool _hasCustomFormatter;
 
     /// <summary>Creates a handler used to append an interpolated string into a <see cref="StringBuilder"/>.</summary>
     /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
     /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
     /// <param name="stringBuilder">The associated StringBuilder to which to append.</param>
-    /// <remarks>This is intended to be called only by compiler-generated code. Arguments are not validated as they'd otherwise be for members intended to be used directly.</remarks>
     public AppendInterpolatedStringHandler(int literalLength, int formattedCount, StringBuilder stringBuilder)
     {
         _stringBuilder = stringBuilder;
@@ -62,7 +55,6 @@ struct AppendInterpolatedStringHandler
     /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
     /// <param name="stringBuilder">The associated StringBuilder to which to append.</param>
     /// <param name="provider">An object that supplies culture-specific formatting information.</param>
-    /// <remarks>This is intended to be called only by compiler-generated code. Arguments are not validated as they'd otherwise be for members intended to be used directly.</remarks>
     public AppendInterpolatedStringHandler(int literalLength, int formattedCount, StringBuilder stringBuilder, IFormatProvider? provider)
     {
         _stringBuilder = stringBuilder;
@@ -346,5 +338,4 @@ struct AppendInterpolatedStringHandler
         type == typeof(decimal) || type == typeof(long) || type == typeof(short) || type == typeof(ushort) ||
         type == typeof(uint) || type == typeof(ulong) || type == typeof(sbyte);
 }
-
 #endif

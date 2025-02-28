@@ -67,5 +67,7 @@ sealed class MemberNotNullWhenAttribute :
         Members = members;
     }
 }
-
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute))]
 #endif

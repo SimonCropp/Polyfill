@@ -9,7 +9,6 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 using System.Text;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
@@ -64,7 +63,7 @@ static partial class Polyfill
     ///             { /* operation on span[i] */ }
     ///    }
     /// </summary>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.getchunks")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.getchunks
     public static ChunkEnumerator GetChunks(this StringBuilder target) =>
         new(target);
 

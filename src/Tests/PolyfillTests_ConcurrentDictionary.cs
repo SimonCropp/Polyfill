@@ -5,7 +5,7 @@ partial class PolyfillTests
     {
         var dictionary = new ConcurrentDictionary<string, int>();
 
-        Func<string, string, int> valueFactory = (key, arg) => arg.Length;
+        Func<string, string, int> valueFactory = static (key, arg) => arg.Length;
 
         var value = dictionary.GetOrAdd("Hello", valueFactory, "World");
 

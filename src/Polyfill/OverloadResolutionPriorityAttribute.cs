@@ -19,7 +19,7 @@ using Link = ComponentModel.DescriptionAttribute;
     AttributeTargets.Constructor |
     AttributeTargets.Property,
     Inherited = false)]
-[Link("https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute")]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.overloadresolutionpriorityattribute
 #if PolyPublic
 public
 #endif
@@ -39,4 +39,7 @@ sealed class OverloadResolutionPriorityAttribute :
     /// </summary>
     public int Priority { get; }
 }
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.OverloadResolutionPriorityAttribute))]
 #endif

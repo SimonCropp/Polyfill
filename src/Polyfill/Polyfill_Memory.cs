@@ -5,9 +5,10 @@
 
 namespace Polyfills;
 
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System;
 using System.Text;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
@@ -16,24 +17,14 @@ static partial class Polyfill
     /// <summary>
     /// Returns an enumeration of lines over the provided span.
     /// </summary>
-    /// <remarks>
-    /// It is recommended that protocol parsers not utilize this API. See the documentation
-    /// for <see cref="string.ReplaceLineEndings"/> for more information on how newline
-    /// sequences are detected.
-    /// </remarks>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines#system-memoryextensions-enumeratelines(system-readonlyspan((system-char)))")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines#system-memoryextensions-enumeratelines(system-readonlyspan((system-char)))
     public static SpanLineEnumerator EnumerateLines(this ReadOnlySpan<char> target) =>
         new(target);
 
     /// <summary>
     /// Returns an enumeration of lines over the provided span.
     /// </summary>
-    /// <remarks>
-    /// It is recommended that protocol parsers not utilize this API. See the documentation
-    /// for <see cref="string.ReplaceLineEndings"/> for more information on how newline
-    /// sequences are detected.
-    /// </remarks>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines#system-memoryextensions-enumeratelines(system-span((system-char)))")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines#system-memoryextensions-enumeratelines(system-span((system-char)))
     public static SpanLineEnumerator EnumerateLines(this Span<char> target) =>
         new(target);
 
@@ -45,7 +36,7 @@ static partial class Polyfill
     /// Removes all leading white-space characters from the span.
     /// </summary>
     /// <param name="span">The source span from which the characters are removed.</param>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimstart#system-memoryextensions-trimstart(system-span((system-char)))")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimstart#system-memoryextensions-trimstart(system-span((system-char)))
     public static Span<char> TrimStart(this Span<char> target)
         => target.Slice(ClampStart(target));
 
@@ -53,7 +44,7 @@ static partial class Polyfill
     /// Removes all trailing white-space characters from the span.
     /// </summary>
     /// <param name="span">The source span from which the characters are removed.</param>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimend#system-memoryextensions-trimend(system-span((system-char)))")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimend#system-memoryextensions-trimend(system-span((system-char)))
     public static Span<char> TrimEnd(this Span<char> target)
         => target.Slice(0, ClampEnd(target, 0));
 
@@ -101,7 +92,7 @@ static partial class Polyfill
     /// </summary>
     /// <param name="value">The value to search for.</param>
     /// <returns><c>true</c> if found, <c>false</c> otherwise.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)
     public static bool Contains<T>(
         this ReadOnlySpan<T> target,
         T value)
@@ -123,7 +114,7 @@ static partial class Polyfill
     /// </summary>
     /// <param name="value">The value to search for.</param>
     /// <returns><c>true</c> if found, <c>false</c> otherwise.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-span((-0))-0)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-span((-0))-0)
     public static bool Contains<T>(
         this Span<T> target,
         T value)
@@ -146,7 +137,7 @@ static partial class Polyfill
     /// <param name="target">The first sequence to compare.</param>
     /// <param name="other">The second sequence to compare.</param>
     /// <returns><c>true</c> if the two sequences are equal; otherwise, <c>false</c>.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
     public static bool SequenceEqual(
         this ReadOnlySpan<char> target,
         string other) =>
@@ -158,63 +149,11 @@ static partial class Polyfill
     /// <param name="target">The first sequence to compare.</param>
     /// <param name="other">The second sequence to compare.</param>
     /// <returns><c>true</c> if the two sequences are equal; otherwise, <c>false</c>.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))
     public static bool SequenceEqual(
         this Span<char> target,
         string other) =>
         target.SequenceEqual(other.AsSpan());
-
-    /// <summary>
-    /// Determines whether a read-only character span begins with a specified value when compared using a specified <see cref="StringComparison"/> value.
-    /// </summary>
-    /// <param name="target">The source span.</param>
-    /// <param name="other">The sequence to compare to the beginning of the source span.</param>
-    /// <param name="comparison">An enumeration value that determines how span and value are compared.</param>
-    /// <returns><c>true</c> if value matches the beginning of span; otherwise, <c>false</c>.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")]
-    public static bool StartsWith(
-        this ReadOnlySpan<char> target,
-        string other,
-        StringComparison comparison = StringComparison.CurrentCulture) =>
-        target.StartsWith(other.AsSpan(), comparison);
-
-    /// <summary>
-    /// Determines whether a specified sequence appears at the start of a span.
-    /// </summary>
-    /// <param name="target">The source span.</param>
-    /// <param name="other">The sequence to compare to the beginning of the source span.</param>
-    /// <returns><c>true</c> if value matches the beginning of span; otherwise, <c>false</c>.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith#system-memoryextensions-startswith-1(system-span((-0))-system-readonlyspan((-0)))")]
-    public static bool StartsWith(
-        this Span<char> target,
-        string other) =>
-        target.StartsWith(other.AsSpan());
-
-    /// <summary>
-    /// Determines whether the end of the span matches the specified value when compared using the specified <paramref name="comparison"/> option.
-    /// </summary>
-    /// <param name="target">The source span.</param>
-    /// <param name="other">The sequence to compare to the end of the source span.</param>
-    /// <param name="comparison">An enumeration value that determines how span and value are compared.</param>
-    /// <returns><c>true</c> if value matches the end of span; otherwise, <c>false</c>.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith#system-memoryextensions-endswith-1(system-readonlyspan((-0))-system-readonlyspan((-0)))")]
-    public static bool EndsWith(
-        this ReadOnlySpan<char> target,
-        string other,
-        StringComparison comparison = StringComparison.CurrentCulture) =>
-        target.EndsWith(other.AsSpan(), comparison);
-
-    /// <summary>
-    /// Determines whether the specified sequence appears at the end of a span.
-    /// </summary>
-    /// <param name="target">The source span.</param>
-    /// <param name="other">The sequence to compare to the end of the source span.</param>
-    /// <returns><c>true</c> if value matches the end of span; otherwise, <c>false</c>.</returns>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith#system-memoryextensions-endswith-1(system-span((-0))-system-readonlyspan((-0)))")]
-    public static bool EndsWith(
-        this Span<char> target,
-        string other) =>
-        target.EndsWith(other.AsSpan());
 
 #endif
 

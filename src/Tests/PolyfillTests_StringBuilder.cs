@@ -63,6 +63,16 @@ partial class PolyfillTests
     }
 
     [Test]
+    public void AppendLine()
+    {
+        var builder = new StringBuilder();
+
+        var x = 10;
+        Polyfill.AppendLine(builder, $"value{x}");
+        Assert.AreEqual("value10" + Environment.NewLine, builder.ToString());
+    }
+
+    [Test]
     public void AppendWithFormat()
     {
         var builder = new StringBuilder();
@@ -70,6 +80,16 @@ partial class PolyfillTests
         var x = 10;
         Polyfill.Append(builder, null, $"value{x}");
         Assert.AreEqual("value10", builder.ToString());
+    }
+
+    [Test]
+    public void AppendLineWithFormat()
+    {
+        var builder = new StringBuilder();
+
+        var x = 10;
+        Polyfill.AppendLine(builder, null, $"value{x}");
+        Assert.AreEqual("value10" + Environment.NewLine, builder.ToString());
     }
 
     [Test]
@@ -86,6 +106,7 @@ partial class PolyfillTests
         Assert();
         builder.AppendJoin(',', new object[]{"value1", "value2"});
         Assert();
+        // ReSharper disable once RedundantExplicitParamsArrayCreation
         builder.AppendJoin<string>(',', ["value1", "value2"]);
         Assert();
 

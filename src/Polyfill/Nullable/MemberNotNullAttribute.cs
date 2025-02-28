@@ -47,5 +47,7 @@ sealed class MemberNotNullAttribute :
     public MemberNotNullAttribute(params string[] members) =>
         Members = members;
 }
-
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.MemberNotNullAttribute))]
 #endif

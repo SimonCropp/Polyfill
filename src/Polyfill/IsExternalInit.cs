@@ -13,9 +13,13 @@ using Diagnostics.CodeAnalysis;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.isexternalinit
 #if PolyPublic
 public
 #endif
 static class IsExternalInit;
 
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.IsExternalInit))]
 #endif

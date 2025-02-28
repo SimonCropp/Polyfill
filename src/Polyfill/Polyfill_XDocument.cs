@@ -10,7 +10,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using Link = System.ComponentModel.DescriptionAttribute;
 
 static partial class Polyfill
 {
@@ -23,7 +22,7 @@ static partial class Polyfill
     /// <param name="cancellationToken">
     /// A cancellation token.
     /// </param>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync#system-xml-linq-xdocument-saveasync(system-xml-xmlwriter-system-threading-cancellationtoken)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync#system-xml-linq-xdocument-saveasync(system-xml-xmlwriter-system-threading-cancellationtoken)
     public static Task SaveAsync(
         this XDocument target,
         XmlWriter writer,
@@ -45,7 +44,7 @@ static partial class Polyfill
     /// If SaveOptions.OmitDuplicateNamespaces is enabled duplicate namespace declarations will be removed.
     /// </param>
     /// <param name="cancellationToken">A cancellation token.</param>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync#system-xml-linq-xdocument-saveasync(system-io-stream-system-xml-linq-saveoptions-system-threading-cancellationtoken)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync#system-xml-linq-xdocument-saveasync(system-io-stream-system-xml-linq-saveoptions-system-threading-cancellationtoken)
     public static Task SaveAsync(
         this XDocument target,
         Stream stream,
@@ -68,7 +67,7 @@ static partial class Polyfill
     /// If SaveOptions.OmitDuplicateNamespaces is enabled duplicate namespace declarations will be removed.
     /// </param>
     /// <param name="cancellationToken">A cancellation token.</param>
-    [Link("https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync#system-xml-linq-xdocument-saveasync(system-io-textwriter-system-xml-linq-saveoptions-system-threading-cancellationtoken)")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync#system-xml-linq-xdocument-saveasync(system-io-textwriter-system-xml-linq-saveoptions-system-threading-cancellationtoken)
     public static Task SaveAsync(
         this XDocument target,
         TextWriter textWriter,

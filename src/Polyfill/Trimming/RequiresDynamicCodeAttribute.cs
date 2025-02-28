@@ -13,9 +13,6 @@ using Targets = AttributeTargets;
 /// Indicates that the specified method requires the ability to generate new code at runtime,
 /// for example through <see cref="System.Reflection"/>.
 /// </summary>
-/// <remarks>
-/// This allows tools to understand which methods are unsafe to call when compiling ahead of time.
-/// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
@@ -50,4 +47,7 @@ sealed class RequiresDynamicCodeAttribute :
     /// </summary>
     public string? Url { get; set; }
 }
+#else
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute))]
 #endif
