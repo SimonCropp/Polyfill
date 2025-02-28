@@ -1,5 +1,3 @@
-using Microsoft.CodeAnalysis;
-
 [TestFixture]
 public class BuildApiTest
 {

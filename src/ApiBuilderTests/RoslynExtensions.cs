@@ -1,6 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
-
-public static class RoslynExtensions
+﻿public static class RoslynExtensions
 {
     public static bool IsPublic(this MemberDeclarationSyntax member) =>
         member.Modifiers.Any(_ => _.ValueText == "public");
