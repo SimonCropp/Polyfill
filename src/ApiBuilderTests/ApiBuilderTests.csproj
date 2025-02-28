@@ -8,8 +8,6 @@
     <PackageReference Include="NUnit3TestAdapter" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\Tests\SolutionDirectoryFinder.cs">
       <Link>SolutionDirectoryFinder.cs</Link>
     </Compile>
