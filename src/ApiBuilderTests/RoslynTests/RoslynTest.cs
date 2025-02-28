@@ -4,19 +4,6 @@ public class RoslynTest
     static string polyfillPath = Path.Combine(SolutionDirectoryFinder.Find(), "Polyfill");
     static string slicedPath = Path.Combine(SolutionDirectoryFinder.Find(), "Sliced");
 
-    static List<string> sharedIdentifiers =
-    [
-        "FeatureMemory",
-        "PolyGuard",
-        "PolyPublic",
-        "FeatureHttp",
-        "PolyNullability",
-        "AllowUnsafeBlocks",
-        "FeatureValueTask",
-        "LangVersion13",
-        "FeatureValueTuple"
-    ];
-
     [Test]
     public void Run()
     {
@@ -311,7 +298,7 @@ public class RoslynTest
 
         var resultPath = Path.Combine(slicedPath, identifier.Moniker, fileName);
         var directives = identifier.Directives
-            .Concat(sharedIdentifiers);
+            .Concat(Identifier.SharedIdentifiers);
         var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
         var newTree = CSharpSyntaxTree.ParseText(source, options);
         var stripped = CommentStripper.Strip(newTree.ToString());
@@ -346,11 +333,5 @@ public class RoslynTest
         {
             File.Delete(file);
         }
-    }
-
-    public class Identifier
-    {
-        public required string Moniker { get; init; }
-        public required List<string> Directives { get; init; }
     }
 }

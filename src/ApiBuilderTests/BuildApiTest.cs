@@ -65,7 +65,7 @@ public class BuildApiTest
             var code = File.ReadAllText(file);
             foreach (var directive in identifiers)
             {
-                var directives = directive.Directives.Concat(sharedIdentifiers).ToHashSet();
+                var directives = directive.Directives.Concat(Identifier.SharedIdentifiers).ToHashSet();
                 var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
                 var tree = CSharpSyntaxTree.ParseText(code, options);
                 var typeDeclarations = tree
@@ -219,20 +219,6 @@ public class BuildApiTest
 
 
     static List<Identifier> identifiers;
-
-    static List<string> sharedIdentifiers =
-    [
-        "FeatureMemory",
-        "FeatureRuntimeInformation",
-        "PolyGuard",
-        "PolyPublic",
-        "FeatureHttp",
-        "PolyNullability",
-        "AllowUnsafeBlocks",
-        "FeatureValueTask",
-        "LangVersion13",
-        "FeatureValueTuple"
-    ];
 
     static BuildApiTest() =>
         identifiers =
