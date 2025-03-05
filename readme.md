@@ -12,7 +12,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`, `net10.0`
 
 
-**API count: 520**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 522**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -705,6 +705,12 @@ The class `Polyfill` includes the following extension methods:
  * `NullabilityInfo GetNullabilityInfo(MemberInfo)`
  * `bool HasSameMetadataDefinitionAs(MemberInfo, MemberInfo)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas)
  * `bool IsNullable(MemberInfo)`
+
+
+#### MethodInfo
+
+ * `T CreateDelegate<T>(MethodInfo) where T : Delegate` [reference](https://learn.microsoft.com/en-us/dotnet/api/System.Reflection.MethodInfo.CreateDelegate#system-reflection-methodinfo-createdelegate-1)
+ * `T CreateDelegate<T>(MethodInfo, object?) where T : Delegate` [reference](https://learn.microsoft.com/en-us/dotnet/api/System.Reflection.MethodInfo.CreateDelegate?#system-reflection-methodinfo-createdelegate-1(system-object))
 
 
 #### OrderedDictionary<TKey, TValue>

@@ -233,6 +233,12 @@
  * `bool IsNullable(MemberInfo)`
 
 
+#### MethodInfo
+
+ * `T CreateDelegate<T>(MethodInfo) where T : Delegate` [reference](https://learn.microsoft.com/en-us/dotnet/api/System.Reflection.MethodInfo.CreateDelegate#system-reflection-methodinfo-createdelegate-1)
+ * `T CreateDelegate<T>(MethodInfo, object?) where T : Delegate` [reference](https://learn.microsoft.com/en-us/dotnet/api/System.Reflection.MethodInfo.CreateDelegate?#system-reflection-methodinfo-createdelegate-1(system-object))
+
+
 #### OrderedDictionary<TKey, TValue>
 
  * `bool TryAdd<TKey, TValue>(OrderedDictionary<TKey, TValue>, TKey, TValue, int) where TKey : notnull` [reference](https://github.com/dotnet/core/blob/main/release-notes/10.0/preview/preview1/libraries.md#additional-tryadd-and-trygetvalue-overloads-for-ordereddictionarytkey-tvalue)
