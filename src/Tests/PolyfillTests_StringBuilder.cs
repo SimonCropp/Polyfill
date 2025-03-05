@@ -106,6 +106,10 @@ partial class PolyfillTests
         Assert();
         builder.AppendJoin(',', new object[]{"value1", "value2"});
         Assert();
+        builder.AppendJoin(",", new object[]{"value1", "value2"}.Select(_=>_));
+        Assert();
+        builder.AppendJoin(',', new object[]{"value1", "value2"}.Select(_=>_));
+        Assert();
         // ReSharper disable once RedundantExplicitParamsArrayCreation
         builder.AppendJoin<string>(',', ["value1", "value2"]);
         Assert();
