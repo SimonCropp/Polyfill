@@ -78,7 +78,7 @@ static partial class Polyfill
         params T[] values) =>
         target.AppendJoinCore(separator, values);
 
-    private static StringBuilder AppendJoinCore<T>(
+    static StringBuilder AppendJoinCore<T>(
         this StringBuilder target,
         char separator,
         IEnumerable<T> values)
@@ -88,33 +88,32 @@ static partial class Polyfill
             throw new ArgumentNullException(nameof(values));
         }
 
-        using (IEnumerator<T> en = values.GetEnumerator())
+        using var enumerator = values.GetEnumerator();
+        if (!enumerator.MoveNext())
         {
-            if (!en.MoveNext())
-            {
-                return target;
-            }
+            return target;
+        }
 
-            T value = en.Current;
+        T value = enumerator.Current;
+        if (value != null)
+        {
+            target.Append(value);
+        }
+
+        while (enumerator.MoveNext())
+        {
+            target.Append(separator);
+            value = enumerator.Current;
             if (value != null)
             {
-                target.Append(value.ToString());
-            }
-
-            while (en.MoveNext())
-            {
-                target.Append(separator);
-                value = en.Current;
-                if (value != null)
-                {
-                    target.Append(value.ToString());
-                }
+                target.Append(value);
             }
         }
+
         return target;
     }
 
-    private static StringBuilder AppendJoinCore<T>(
+    static StringBuilder AppendJoinCore<T>(
         this StringBuilder target,
         char separator,
         T[] values)
@@ -129,23 +128,26 @@ static partial class Polyfill
             return target;
         }
 
-        if (values[0] != null)
+        var first = values[0];
+        if (first != null)
         {
-            target.Append(values[0]!.ToString());
+            target.Append(first);
         }
 
         for (int i = 1; i < values.Length; i++)
         {
             target.Append(separator);
-            if (values[i] != null)
+            var value = values[i];
+            if (value != null)
             {
-                target.Append(values[i]!.ToString());
+                target.Append(value);
             }
         }
+
         return target;
     }
 
-    private static StringBuilder AppendJoinCore<T>(
+    static StringBuilder AppendJoinCore<T>(
         this StringBuilder target,
         string separator,
         IEnumerable<T> values)
@@ -155,33 +157,32 @@ static partial class Polyfill
             throw new ArgumentNullException(nameof(values));
         }
 
-        using (IEnumerator<T> en = values.GetEnumerator())
+        using var enumerator = values.GetEnumerator();
+        if (!enumerator.MoveNext())
         {
-            if (!en.MoveNext())
-            {
-                return target;
-            }
+            return target;
+        }
 
-            T value = en.Current;
+        T value = enumerator.Current;
+        if (value != null)
+        {
+            target.Append(value);
+        }
+
+        while (enumerator.MoveNext())
+        {
+            target.Append(separator);
+            value = enumerator.Current;
             if (value != null)
             {
-                target.Append(value.ToString());
-            }
-
-            while (en.MoveNext())
-            {
-                target.Append(separator);
-                value = en.Current;
-                if (value != null)
-                {
-                    target.Append(value.ToString());
-                }
+                target.Append(value);
             }
         }
+
         return target;
     }
 
-    private static StringBuilder AppendJoinCore<T>(
+    static StringBuilder AppendJoinCore<T>(
         this StringBuilder target,
         string separator,
         T[] values)
@@ -196,19 +197,22 @@ static partial class Polyfill
             return target;
         }
 
-        if (values[0] != null)
+        var first = values[0];
+        if (first != null)
         {
-            target.Append(values[0]!.ToString());
+            target.Append(first);
         }
 
         for (int i = 1; i < values.Length; i++)
         {
             target.Append(separator);
-            if (values[i] != null)
+            var value = values[i];
+            if (value != null)
             {
-                target.Append(values[i]!.ToString());
+                target.Append(value);
             }
         }
+
         return target;
     }
 #endif

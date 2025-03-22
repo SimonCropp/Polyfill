@@ -65,7 +65,7 @@ static partial class Polyfill
             }
         }
 #else
-        target.Append(value.ToString());
+        target.Append(value);
 #endif
         return target;
     }

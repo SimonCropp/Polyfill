@@ -110,7 +110,7 @@ struct AppendInterpolatedStringHandler
         }
         else if (value is not null)
         {
-            _stringBuilder.Append(value.ToString());
+            _stringBuilder.Append(value);
         }
     }
 
@@ -148,7 +148,7 @@ struct AppendInterpolatedStringHandler
         }
         else if (value is not null)
         {
-            _stringBuilder.Append(value.ToString());
+            _stringBuilder.Append(value);
         }
     }
 
