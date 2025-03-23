@@ -19,9 +19,13 @@ static partial class StringPolyfill
     /// Concatenates an array of strings, using the specified separator between each member.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-string())
-    public static string Join(char separator, params string[] values) =>
+    public static string Join(char separator, params string?[] values) =>
 #if NETSTANDARD2_0 || NETFRAMEWORK
-        string.Join(new([separator]), values);
+#if AllowUnsafeBlocks && FeatureMemory
+        Join(separator, new ReadOnlySpan<string?>(values));
+#else
+        string.Join(new(separator, 1), values);
+#endif
 #else
         string.Join(separator, values);
 #endif
@@ -30,9 +34,9 @@ static partial class StringPolyfill
     /// Concatenates the string representations of an array of objects, using the specified separator between each member.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-object())
-    public static string Join(char separator, params object[] values) =>
+    public static string Join(char separator, params object?[] values) =>
 #if NETSTANDARD2_0 || NETFRAMEWORK
-        string.Join(new([separator]), values);
+        string.Join(new(separator, 1), values);
 #else
         string.Join(separator, values);
 #endif
@@ -53,18 +57,58 @@ static partial class StringPolyfill
     /// Concatenates a span of strings, using the specified separator between each member.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-readonlyspan((system-string)))
-    public static string Join(char separator, scoped ReadOnlySpan<string?> values) =>
+    public static string Join(char separator, scoped ReadOnlySpan<string?> values)
+    {
+        if (values.Length == 0) return string.Empty;
+        if (values.Length == 1) return values[0] ?? string.Empty;
+
 #if NET9_0_OR_GREATER
-        string.Join(separator, values);
+        return string.Join(separator, values);
+#elif AllowUnsafeBlocks
+        var length = 0;
+
+        foreach (var value in values)
+        {
+            length += 1 + (value == null ? 0 : value.Length);
+        }
+
+        length -= 1;
+
+        var str = new string(separator, length);
+
+        unsafe
+        {
+            fixed (char* strPtr = str)
+            {
+                var span = new Span<char>(strPtr, length);
+
+                for (var index = 0; index < values.Length; index++)
+                {
+                    if (index > 0)
+                    {
+                        span = span.Slice(1);
+                    }
+
+                    var value = values[index];
+
+                    value.CopyTo(span);
+
+                    span = span.Slice(value.Length);
+                }
+            }
+        }
+
+        return str;
 #else
-        Join(separator, values.ToArray());
+        return Join(separator, values.ToArray());
 #endif
+    }
 
     /// <summary>
     /// Concatenates the string representations of a span of objects, using the specified separator between each member.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-string-system-readonlyspan((system-object)))
-    public static string Join(string separator, scoped ReadOnlySpan<object?> values) =>
+    public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
 #if NET9_0_OR_GREATER
         string.Join(separator, values);
 #else
@@ -75,12 +119,56 @@ static partial class StringPolyfill
     /// Concatenates a span of strings, using the specified separator between each member.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-string-system-readonlyspan((system-string)))
-    public static string Join(string separator, scoped ReadOnlySpan<string?> values) =>
+    public static string Join(string? separator, scoped ReadOnlySpan<string?> values)
+    {
+        if (values.Length == 0) return string.Empty;
+        if (values.Length == 1) return values[0] ?? string.Empty;
+
 #if NET9_0_OR_GREATER
-        string.Join(separator, values);
+        return string.Join(separator, values);
+#elif AllowUnsafeBlocks
+        separator ??= string.Empty;
+
+        var length = 0;
+
+        foreach (var value in values)
+        {
+            length += separator.Length + (value == null ? 0 : value.Length);
+        }
+
+        length -= separator.Length;
+
+        var str = new string('\0', length);
+
+        unsafe
+        {
+            fixed (char* strPtr = str)
+            {
+                var span = new Span<char>(strPtr, length);
+
+                for (var index = 0; index < values.Length; index++)
+                {
+                    if (index > 0 && separator.Length > 0)
+                    {
+                        separator.CopyTo(span);
+
+                        span = span.Slice(separator.Length);
+                    }
+
+                    var value = values[index];
+
+                    value.CopyTo(span);
+
+                    span = span.Slice(value.Length);
+                }
+            }
+        }
+
+        return str;
 #else
-        string.Join(separator, values.ToArray());
+        return string.Join(separator, values.ToArray());
 #endif
+    }
 #endif
 
     /// <summary>
@@ -89,7 +177,11 @@ static partial class StringPolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-string()-system-int32-system-int32)
     public static string Join(char separator, string?[] value, int startIndex, int count) =>
 #if NETSTANDARD2_0 || NETFRAMEWORK
-        string.Join(new([separator]), value, startIndex, count);
+#if AllowUnsafeBlocks && FeatureMemory
+        Join(separator, new ReadOnlySpan<string>(value, startIndex, count));
+#else
+        string.Join(new(separator, 1), value, startIndex, count);
+#endif
 #else
         string.Join(separator, value, startIndex, count);
 #endif
@@ -100,7 +192,7 @@ static partial class StringPolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join-1(system-char-system-collections-generic-ienumerable((-0)))
     public static string Join<T>(char separator, IEnumerable<T> values) =>
 #if NETSTANDARD2_0 || NETFRAMEWORK
-        string.Join(new([separator]), values);
+        string.Join(new(separator, 1), values);
 #else
         string.Join(separator, values);
 #endif
