@@ -469,12 +469,14 @@ class Consume
         result = readOnlySpan.StartsWith('a');
         result = readOnlySpan.EndsWith('a');
         result = readOnlySpan.StartsWith("value", StringComparison.Ordinal);
+#if FeatureValueTuple
         var split = readOnlySpan.Split('a');
         split = readOnlySpan.Split("a".AsSpan());
 #if LangVersion13
         // ReSharper disable once RedundantExplicitParamsArrayCreation
         split = readOnlySpan.SplitAny(['a']);
         split = readOnlySpan.SplitAny("a".AsSpan());
+#endif
 #endif
     }
 
