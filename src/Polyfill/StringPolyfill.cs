@@ -59,8 +59,15 @@ static partial class StringPolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-char-system-readonlyspan((system-string)))
     public static string Join(char separator, scoped ReadOnlySpan<string?> values)
     {
-        if (values.Length == 0) return string.Empty;
-        if (values.Length == 1) return values[0] ?? string.Empty;
+        if (values.Length == 0)
+        {
+            return string.Empty;
+        }
+
+        if (values.Length == 1)
+        {
+            return values[0] ?? string.Empty;
+        }
 
 #if NET9_0_OR_GREATER
         return string.Join(separator, values);
@@ -69,16 +76,20 @@ static partial class StringPolyfill
 
         foreach (var value in values)
         {
-            length += 1 + (value == null ? 0 : value.Length);
+            length += 1;
+            if (value != null)
+            {
+                length += value.Length;
+            }
         }
 
         length -= 1;
 
-        var str = new string(separator, length);
+        var result = new string(separator, length);
 
         unsafe
         {
-            fixed (char* strPtr = str)
+            fixed (char* strPtr = result)
             {
                 var span = new Span<char>(strPtr, length);
 
@@ -98,7 +109,7 @@ static partial class StringPolyfill
             }
         }
 
-        return str;
+        return result;
 #else
         return Join(separator, values.ToArray());
 #endif
@@ -121,8 +132,15 @@ static partial class StringPolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join#system-string-join(system-string-system-readonlyspan((system-string)))
     public static string Join(string? separator, scoped ReadOnlySpan<string?> values)
     {
-        if (values.Length == 0) return string.Empty;
-        if (values.Length == 1) return values[0] ?? string.Empty;
+        if (values.Length == 0)
+        {
+            return string.Empty;
+        }
+
+        if (values.Length == 1)
+        {
+            return values[0] ?? string.Empty;
+        }
 
 #if NET9_0_OR_GREATER
         return string.Join(separator, values);
@@ -133,22 +151,27 @@ static partial class StringPolyfill
 
         foreach (var value in values)
         {
-            length += separator.Length + (value == null ? 0 : value.Length);
+            length += separator.Length;
+            if (value != null)
+            {
+                length += value.Length;
+            }
         }
 
         length -= separator.Length;
 
-        var str = new string('\0', length);
+        var result = new string('\0', length);
 
         unsafe
         {
-            fixed (char* strPtr = str)
+            fixed (char* strPtr = result)
             {
                 var span = new Span<char>(strPtr, length);
 
                 for (var index = 0; index < values.Length; index++)
                 {
-                    if (index > 0 && separator.Length > 0)
+                    if (index > 0 &&
+                        separator.Length > 0)
                     {
                         separator.CopyTo(span);
 
@@ -164,7 +187,7 @@ static partial class StringPolyfill
             }
         }
 
-        return str;
+        return result;
 #else
         return string.Join(separator, values.ToArray());
 #endif
