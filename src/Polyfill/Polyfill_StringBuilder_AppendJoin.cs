@@ -128,10 +128,10 @@ static partial class Polyfill
             return target;
         }
 
-        var firsy = values[0];
-        if (firsy != null)
+        var first = values[0];
+        if (first != null)
         {
-            target.Append(firsy.ToString());
+            target.Append(first.ToString());
         }
 
         for (int i = 1; i < values.Length; i++)
@@ -212,6 +212,7 @@ static partial class Polyfill
                 target.Append(value.ToString());
             }
         }
+
         return target;
     }
 #endif
