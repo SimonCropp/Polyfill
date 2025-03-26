@@ -9,18 +9,21 @@ using System;
 using System.Text;
 using System.Collections.Concurrent;
 
-//TODO: Add XML documentation and fix links
+//TODO: Add XML documentation
 static partial class Polyfill
 {
-    //Link: https://github.com/dotnet/core/blob/main/release-notes/10.0/preview/preview1/libraries.md#string-normalization-apis-to-work-with-span-of-characters
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.stringnormalizationextensions.getnormalizedlength#system-stringnormalizationextensions-getnormalizedlength(system-readonlyspan((system-char))-system-text-normalizationform)
     public static int GetNormalizedLength(this ReadOnlySpan<char> target, NormalizationForm normalizationForm = NormalizationForm.FormC) =>
         target.ToString().Normalize(normalizationForm).Length;
 
-    //Link: https://github.com/dotnet/core/blob/main/release-notes/10.0/preview/preview1/libraries.md#string-normalization-apis-to-work-with-span-of-characters
+    /// <summary>
+    /// Indicates whether the specified string is in Unicode normalization form C.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.stringnormalizationextensions.isnormalized#system-stringnormalizationextensions-isnormalized(system-readonlyspan((system-char))-system-text-normalizationform)
     public static bool IsNormalized(this ReadOnlySpan<char> target, NormalizationForm normalizationForm = NormalizationForm.FormC) =>
         target.ToString().IsNormalized(normalizationForm);
 
-    //Link: https://github.com/dotnet/core/blob/main/release-notes/10.0/preview/preview1/libraries.md#string-normalization-apis-to-work-with-span-of-characters
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.stringnormalizationextensions.trynormalize#system-stringnormalizationextensions-trynormalize(system-readonlyspan((system-char))-system-span((system-char))-system-int32@-system-text-normalizationform)
     public static bool TryNormalize(this ReadOnlySpan<char> target, Span<char> destination, out int charsWritten, NormalizationForm normalizationForm = NormalizationForm.FormC)
     {
         var normalize = target.ToString().Normalize(normalizationForm).AsSpan();
