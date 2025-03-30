@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -490,6 +491,17 @@ class Consume
         regex.IsMatch("value".AsSpan());
     }
 
+#endif
+
+#if NET9_0_OR_GREATER
+    void Set_Methods()
+    {
+        var set = new HashSet<string>
+        {
+            "value"
+        };
+        set.AsReadOnly();
+    }
 #endif
 
     void SByte_Methods()
