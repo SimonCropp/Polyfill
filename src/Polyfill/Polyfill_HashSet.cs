@@ -50,4 +50,16 @@ static partial class Polyfill
     }
 
 #endif
+
+#if !NET9_0_OR_GREATER
+
+    /// <summary>
+    /// Sets the capacity of a HashSet object to the specified number of entries, rounded up to a nearby, implementation-specific value.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trimexcess?#system-collections-generic-hashset-1-trimexcess(system-int32)
+    public static void TrimExcess<T>(this HashSet<T> target, int capacity)
+    {
+    }
+
+#endif
 }
