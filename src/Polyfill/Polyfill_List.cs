@@ -66,8 +66,16 @@ static partial class Polyfill
     /// <summary>
     /// Ensures that the capacity of this list is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.ensurecapacity?view=net-9.0#system-collections-generic-list-1-ensurecapacity(system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.ensurecapacity#system-collections-generic-list-1-ensurecapacity(system-int32)
     public static void EnsureCapacity<T>(this List<T> target, int capacity)
+    {
+    }
+
+    /// <summary>
+    /// Sets the capacity to the actual number of elements in the List<T>, if that number is less than a threshold value.
+    /// </summary>
+    //Link:https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.trimexcess
+    public static void TrimExcess<T>(this List<T> target)
     {
     }
 

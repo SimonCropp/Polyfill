@@ -13,7 +13,7 @@ static partial class Polyfill
     /// <summary>
     /// Deconstructs this <see cref="DateTimeOffset"/> instance by <see cref="DateOnly"/>, <see cref="TimeOnly"/>, and <see cref="TimeSpan"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.deconstruct?view=net-9.0#definition
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.deconstruct
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct(this DateTimeOffset target, out DateOnly date, out TimeOnly time, out TimeSpan offset)
     {

@@ -279,6 +279,8 @@ class Consume
         dictionary.TryAdd("key", "value");
         dictionary.Remove("key");
         dictionary.EnsureCapacity(1);
+        dictionary.TrimExcess(1);
+        dictionary.TrimExcess();
 
         IDictionary<string, string?> iDictionary = dictionary;
         iDictionary.TryAdd("key", "value");
@@ -318,6 +320,8 @@ class Consume
         var set = new HashSet<string> { "value" };
         var found = set.TryGetValue("value", out var result);
         set.EnsureCapacity(1);
+        set.TrimExcess(1);
+        set.TrimExcess();
     }
 
 #if FeatureHttp
@@ -388,6 +392,7 @@ class Consume
     {
         var list = new List<char>();
         list.EnsureCapacity(1);
+        list.TrimExcess();
 #if FeatureMemory
         var array = new char[1];
         list.AddRange("ab".AsSpan());
@@ -400,6 +405,8 @@ class Consume
     {
         var queue = new Queue<char>();
         queue.EnsureCapacity(1);
+        queue.TrimExcess(1);
+        queue.TrimExcess();
     }
 
     void Long_Methods()
@@ -574,6 +581,8 @@ class Consume
         stack.TryPeek(out var ch1);
         stack.TryPop(out var ch2);
         stack.EnsureCapacity(1);
+        stack.TrimExcess(1);
+        stack.TrimExcess();
     }
 
     async Task Stream_Methods()
