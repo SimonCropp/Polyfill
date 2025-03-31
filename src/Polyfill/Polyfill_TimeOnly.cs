@@ -5,6 +5,7 @@ namespace Polyfills;
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 static partial class Polyfill
 {
@@ -14,6 +15,7 @@ static partial class Polyfill
     /// Deconstructs this TimeOnly instance.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.deconstruct#system-timeonly-deconstruct(system-int32@-system-int32@-system-int32@-system-int32@-system-int32@)
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct(this TimeOnly target, out int hour, out int minute, out int second, out int millisecond, out int microsecond)
     {
         hour = target.Hour;
@@ -29,6 +31,7 @@ static partial class Polyfill
     /// Deconstructs this TimeOnly instance.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.deconstruct#system-timeonly-deconstruct(system-int32@-system-int32@-system-int32@-system-int32@)
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct(this TimeOnly target, out int hour, out int minute, out int second, out int millisecond)
     {
         hour = target.Hour;
@@ -41,6 +44,7 @@ static partial class Polyfill
     /// Deconstructs this TimeOnly instance.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.deconstruct#system-timeonly-deconstruct(system-int32@-system-int32@-system-int32@)
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct(this TimeOnly target, out int hour, out int minute, out int second)
     {
         hour = target.Hour;
@@ -52,6 +56,7 @@ static partial class Polyfill
     /// Deconstructs this TimeOnly instance.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.deconstruct#system-timeonly-deconstruct(system-int32@-system-int32@)
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct(this TimeOnly target, out int hour, out int minute)
     {
         hour = target.Hour;
