@@ -60,4 +60,16 @@ static partial class Polyfill
         }
     }
 #endif
+
+#if !NET6_0_OR_GREATER
+
+    /// <summary>
+    /// Ensures that the capacity of this list is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.ensurecapacity?view=net-9.0#system-collections-generic-list-1-ensurecapacity(system-int32)
+    public static void EnsureCapacity<T>(this List<T> target, int capacity)
+    {
+    }
+
+#endif
 }
