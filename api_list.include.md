@@ -76,6 +76,11 @@
  * `bool HasSingleTarget(Delegate)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.delegate.hassingletarget)
 
 
+#### DictionaryEntry
+
+ * `void Deconstruct(DictionaryEntry, object, object?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.dictionaryentry.deconstruct#system-collections-dictionaryentry-deconstruct(system-object@-system-object@))
+
+
 #### double
 
  * `bool TryFormat(double, Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.double.tryformat#system-double-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
