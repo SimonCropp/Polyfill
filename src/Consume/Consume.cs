@@ -555,6 +555,12 @@ class Consume
 
 #endif
 
+    void Stack_Methods()
+    {
+        var stack = new Stack<char>();
+        stack.TryPeek(out var ch);
+    }
+
     async Task Stream_Methods()
     {
         var input = new byte[] { 1, 2 };
