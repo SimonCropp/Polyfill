@@ -27,5 +27,21 @@ static partial class Polyfill
         return false;
     }
 
+    /// <summary>
+    /// Returns a value that indicates whether there is an object at the top of the <see cref="Stack{T}"/>, and if one is present, copies it to the result parameter, and removes it from the <see cref="Stack{T}"/>.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trypop?view=net-9.0
+    public static bool TryPop<T>(this Stack<T> target, [MaybeNullWhen(false)] out T result)
+    {
+        if (target.Count > 0)
+        {
+            result = target.Pop();
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
 #endif
 }
