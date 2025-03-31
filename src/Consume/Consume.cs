@@ -10,6 +10,7 @@
 #nullable enable
 
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -299,6 +300,12 @@ class Consume
         DoublePolyfill.TryParse("1"u8, out _);
         DoublePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
+    }
+
+    void DictionaryEntry_Methods()
+    {
+        var entry = new DictionaryEntry("key", "value");
+        var (key, value) = entry;
     }
 
     void HashSet_Methods()
