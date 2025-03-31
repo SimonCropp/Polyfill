@@ -6,6 +6,9 @@
 // ReSharper disable PossibleMultipleEnumeration
 // ReSharper disable AllUnderscoreLocalParameterName
 // ReSharper disable NotAccessedVariable
+// ReSharper disable UnnecessaryWhitespace
+// ReSharper disable InconsistentNaming
+// ReSharper disable CollectionNeverUpdated.Local
 
 #nullable enable
 
@@ -31,8 +34,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using MemoryStream = System.IO.MemoryStream;
-// ReSharper disable UnnecessaryWhitespace
-// ReSharper disable InconsistentNaming
+
 #pragma warning disable CS4014
 
 class Consume
@@ -551,7 +553,8 @@ class Consume
     void Stack_Methods()
     {
         var stack = new Stack<char>();
-        stack.TryPeek(out var ch);
+        stack.TryPeek(out var ch1);
+        stack.TryPop(out var ch2);
     }
 
     async Task Stream_Methods()
