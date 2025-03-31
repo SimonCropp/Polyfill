@@ -35,6 +35,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using MemoryStream = System.IO.MemoryStream;
+// ReSharper disable MethodHasAsyncOverload
 
 #pragma warning disable CS4014
 
@@ -266,8 +267,8 @@ class Consume
 
     void ConcurrentQueue_Methods()
     {
-        var bag = new ConcurrentQueue<string>();
-        bag.Clear();
+        var queue = new ConcurrentQueue<string>();
+        queue.Clear();
     }
 
     void Dictionary_Methods()
@@ -380,16 +381,17 @@ class Consume
 #endif
     }
 
-#if FeatureMemory
     void List_Methods()
     {
         var list = new List<char>();
+        list.EnsureCapacity(1);
+#if FeatureMemory
         var array = new char[1];
         list.AddRange("ab".AsSpan());
         list.CopyTo(array.AsSpan());
         list.InsertRange(1, "bc".AsSpan());
-    }
 #endif
+    }
 
     void Long_Methods()
     {
@@ -562,6 +564,7 @@ class Consume
         var stack = new Stack<char>();
         stack.TryPeek(out var ch1);
         stack.TryPop(out var ch2);
+        stack.EnsureCapacity(1);
     }
 
     async Task Stream_Methods()
