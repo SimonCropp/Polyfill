@@ -9,7 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 
 static partial class Polyfill
 {
-#if NETSTANDARD || NETFRAMEWORK
+#if !NET6_0_OR_GREATER
 
     /// <summary>
     /// Ensures that the capacity of this Stack is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.

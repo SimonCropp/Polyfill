@@ -12,7 +12,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`, `net10.0`
 
 
-**API count: 528**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 533**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -550,6 +550,11 @@ The class `Polyfill` includes the following extension methods:
  * `bool HasSingleTarget(Delegate)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.delegate.hassingletarget)
 
 
+#### Dictionary<TKey, TValue>
+
+ * `void EnsureCapacity<TKey, TValue>(Dictionary<TKey, TValue>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity)
+
+
 #### DictionaryEntry
 
  * `void Deconstruct(DictionaryEntry, object, object?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.dictionaryentry.deconstruct#system-collections-dictionaryentry-deconstruct(system-object@-system-object@))
@@ -600,6 +605,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### HashSet<T>
 
+ * `void EnsureCapacity<T>(HashSet<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.ensurecapacity#system-collections-generic-hashset-1-ensurecapacity(system-int32))
  * `bool TryGetValue<T>(HashSet<T>, T, T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetvalue)
 
 
@@ -700,6 +706,7 @@ The class `Polyfill` includes the following extension methods:
 
  * `void AddRange<T>(List<T>, ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.addrange)
  * `void CopyTo<T>(List<T>, Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.copyto)
+ * `void EnsureCapacity<T>(List<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.ensurecapacity?view=net-9.0#system-collections-generic-list-1-ensurecapacity(system-int32))
  * `void InsertRange<T>(List<T>, int, ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange)
 
 
@@ -746,6 +753,11 @@ The class `Polyfill` includes the following extension methods:
  * `NullabilityState GetNullability(PropertyInfo)`
  * `NullabilityInfo GetNullabilityInfo(PropertyInfo)`
  * `bool IsNullable(PropertyInfo)`
+
+
+#### Queue<T>
+
+ * `void EnsureCapacity<T>(Queue<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.ensurecapacity#system-collections-generic-queue-1-ensurecapacity(system-int32))
 
 
 #### Random
@@ -820,6 +832,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### Stack<T>
 
+ * `void EnsureCapacity<T>(Stack<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.ensurecapacity)
  * `bool TryPeek<T>(Stack<T>, T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trypeek)
  * `bool TryPop<T>(Stack<T>, T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trypop?view=net-9.0)
 

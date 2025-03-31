@@ -278,11 +278,13 @@ class Consume
         dictionary.GetValueOrDefault("key", "default");
         dictionary.TryAdd("key", "value");
         dictionary.Remove("key");
+        dictionary.EnsureCapacity(1);
 
         IDictionary<string, string?> iDictionary = dictionary;
         iDictionary.TryAdd("key", "value");
         iDictionary.TryAdd("key", "value");
         iDictionary.Remove("key");
+
     }
 
     void Lock_Methods()
@@ -315,6 +317,7 @@ class Consume
     {
         var set = new HashSet<string> { "value" };
         var found = set.TryGetValue("value", out var result);
+        set.EnsureCapacity(1);
     }
 
 #if FeatureHttp
@@ -391,6 +394,12 @@ class Consume
         list.CopyTo(array.AsSpan());
         list.InsertRange(1, "bc".AsSpan());
 #endif
+    }
+
+    void Queue_Methods()
+    {
+        var queue = new Queue<char>();
+        queue.EnsureCapacity(1);
     }
 
     void Long_Methods()
