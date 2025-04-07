@@ -476,7 +476,17 @@ class Consume
         Span<byte> bufferSpan = new byte[10];
         random.NextBytes(bufferSpan);
         random.Shuffle(bufferSpan);
+
+        ReadOnlySpan<int> choicesSpan = [1, 2, 3, 4, 5];
+        Span<int> destination = new int[10];
+        random.GetItems(choicesSpan, destination);
+
+        var resultFromSpan = random.GetItems(choicesSpan, 10);
 #endif
+
+        int[] choicesArray = [1, 2, 3, 4, 5];
+        var resultFromArray = random.GetItems(choicesArray, 10);
+
         var bufferArray = new byte[10];
         random.Shuffle(bufferArray);
     }
