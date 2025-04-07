@@ -7,7 +7,82 @@ using System;
 
 static partial class Polyfill
 {
+#if !NET8_0_OR_GREATER
+
+#if FeatureMemory
+
+    /// <summary>
+    /// Fills the elements of a specified span with items chosen at random from the provided set of choices.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems#system-random-getitems-1(system-readonlyspan((-0))-system-span((-0)))
+    public static void GetItems<T>(
+        this Random target,
+        ReadOnlySpan<T> choices,
+        Span<T> destination)
+    {
+        if (choices.IsEmpty)
+        {
+            throw new ArgumentException("Choices cannot be empty.", nameof(choices));
+        }
+
+        for (int i = 0; i < destination.Length; i++)
+        {
+            destination[i] = choices[target.Next(choices.Length)];
+        }
+    }
+
+    /// <summary>
+    /// Creates an array populated with items chosen at random from the provided set of choices.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems#system-random-getitems-1(system-readonlyspan((-0))-system-int32)
+    public static T[] GetItems<T>(
+        this Random target,
+        ReadOnlySpan<T> choices,
+        int length)
+    {
+        if (choices.IsEmpty)
+        {
+            throw new ArgumentException("Choices cannot be empty.", nameof(choices));
+        }
+
+        T[] result = new T[length];
+        for (int i = 0; i < length; i++)
+        {
+            result[i] = choices[target.Next(choices.Length)];
+        }
+
+        return result;
+    }
+
+#endif
+
+    /// <summary>
+    /// Creates an array populated with items chosen at random from the provided set of choices.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems#system-random-getitems-1(-0()-system-int32)
+    public static T[] GetItems<T>(
+        this Random target,
+        T[] choices,
+        int length)
+    {
+        if (choices.Length == 0)
+        {
+            throw new ArgumentException("Choices cannot be null or empty.", nameof(choices));
+        }
+
+        T[] result = new T[length];
+        for (int i = 0; i < length; i++)
+        {
+            result[i] = choices[target.Next(choices.Length)];
+        }
+
+        return result;
+    }
+
+#endif
+
 #if (NETSTANDARD || NETFRAMEWORK || NETCOREAPP2_0) && FeatureMemory
+
     /// <summary>
     /// Fills the elements of a specified span of bytes with random numbers.
     /// </summary>
