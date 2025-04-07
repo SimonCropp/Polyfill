@@ -7,7 +7,28 @@ using System;
 
 static partial class Polyfill
 {
+#if !NET8_0_OR_GREATER && FeatureMemory
+
+    public static void GetItems<T>(
+        this Random target,
+        ReadOnlySpan<T> choices,
+        Span<T> destination)
+    {
+        if (choices.IsEmpty)
+        {
+            throw new ArgumentException("Choices cannot be empty.", nameof(choices));
+        }
+
+        for (int i = 0; i < destination.Length; i++)
+        {
+            destination[i] = choices[target.Next(choices.Length)];
+        }
+    }
+
+#endif
+
 #if (NETSTANDARD || NETFRAMEWORK || NETCOREAPP2_0) && FeatureMemory
+
     /// <summary>
     /// Fills the elements of a specified span of bytes with random numbers.
     /// </summary>
