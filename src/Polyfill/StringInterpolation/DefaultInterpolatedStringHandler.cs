@@ -19,6 +19,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [InterpolatedStringHandler]
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+//https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Runtime/CompilerServices/DefaultInterpolatedStringHandler.cs
 //Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.defaultinterpolatedstringhandler
 #if PolyPublic
 public
@@ -31,27 +32,48 @@ ref struct DefaultInterpolatedStringHandler
     // when one isn't expected to produce a NullReferenceException rather than an ArgumentNullException.
 
     /// <summary>Expected average length of formatted data used for an individual interpolation expression result.</summary>
-    const int GuessedLengthPerHole = 11;
-    /// <summary>Minimum size array to rent from the pool.</summary>
-    const int MinimumArrayPoolLength = 256;
+    /// <remarks>
+    /// This is inherited from string.Format, and could be changed based on further data.
+    /// string.Format actually uses `format.Length + args.Length * 8`, but format.Length
+    /// includes the format items themselves, e.g. "{0}", and since it's rare to have double-digit
+    /// numbers of items, we bump the 8 up to 11 to account for the three extra characters in "{d}",
+    /// since the compiler-provided base length won't include the equivalent character count.
+    /// </remarks>
+    private const int GuessedLengthPerHole = 11;
 
     /// <summary>Maximum length allowed for a string.</summary>
     const int StringMaxLength = 0x3FFFFFDF;
 
+    /// <summary>Minimum size array to rent from the pool.</summary>
+    /// <remarks>Same as stack-allocation size used today by string.Format.</remarks>
+    private const int MinimumArrayPoolLength = 256;
+
     /// <summary>Optional provider to pass to IFormattable.ToString or ISpanFormattable.TryFormat calls.</summary>
-    readonly IFormatProvider? _provider;
+    private readonly IFormatProvider? _provider;
+
     /// <summary>Array rented from the array pool and used to back <see cref="_chars"/>.</summary>
-    char[]? _arrayToReturnToPool;
+    private char[]? _arrayToReturnToPool;
+
     /// <summary>The span to write into.</summary>
-    Span<char> _chars;
+    private Span<char> _chars;
+
     /// <summary>Position at which to write the next character.</summary>
-    int _pos;
+    private int _pos;
+
     /// <summary>Whether <see cref="_provider"/> provides an ICustomFormatter.</summary>
-    bool _hasCustomFormatter;
+    /// <remarks>
+    /// Custom formatters are very rare.  We want to support them, but it's ok if we make them more expensive
+    /// in order to make them as pay-for-play as possible.  So, we avoid adding another reference type field
+    /// to reduce the size of the handler and to reduce required zero'ing, by only storing whether the provider
+    /// provides a formatter, rather than actually storing the formatter.  This in turn means, if there is a
+    /// formatter, we pay for the extra interface call on each AppendFormatted that needs it.
+    /// </remarks>
+    private readonly bool _hasCustomFormatter;
 
     /// <summary>Creates a handler used to translate an interpolated string into a <see cref="string"/>.</summary>
     /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
     /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
+    /// <remarks>This is intended to be called only by compiler-generated code. Arguments are not validated as they'd otherwise be for members intended to be used directly.</remarks>
     public DefaultInterpolatedStringHandler(int literalLength, int formattedCount)
     {
         _provider = null;
@@ -64,6 +86,7 @@ ref struct DefaultInterpolatedStringHandler
     /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
     /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
     /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+    /// <remarks>This is intended to be called only by compiler-generated code. Arguments are not validated as they'd otherwise be for members intended to be used directly.</remarks>
     public DefaultInterpolatedStringHandler(int literalLength, int formattedCount, IFormatProvider? provider)
     {
         _provider = provider;
@@ -77,6 +100,7 @@ ref struct DefaultInterpolatedStringHandler
     /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
     /// <param name="provider">An object that supplies culture-specific formatting information.</param>
     /// <param name="initialBuffer">A buffer temporarily transferred to the handler for use as part of its formatting.  Contents may be overwritten.</param>
+    /// <remarks>This is intended to be called only by compiler-generated code. Arguments are not validated as they'd otherwise be for members intended to be used directly.</remarks>
     public DefaultInterpolatedStringHandler(int literalLength, int formattedCount, IFormatProvider? provider, Span<char> initialBuffer)
     {
         _provider = provider;
@@ -91,33 +115,52 @@ ref struct DefaultInterpolatedStringHandler
     /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)] // becomes a constant when inputs are constant
     internal static int GetDefaultLength(int literalLength, int formattedCount) =>
-        Math.Max(MinimumArrayPoolLength, literalLength + formattedCount * GuessedLengthPerHole);
+        Math.Max(MinimumArrayPoolLength, literalLength + (formattedCount * GuessedLengthPerHole));
 
     /// <summary>Gets the built <see cref="string"/>.</summary>
+    /// <returns>The built string.</returns>
     public override string ToString() => Text.ToString();
 
     /// <summary>Gets the built <see cref="string"/> and clears the handler.</summary>
+    /// <returns>The built string.</returns>
+    /// <remarks>
+    /// This releases any resources used by the handler. The method should be invoked only
+    /// once and as the last thing performed on the handler. Subsequent use is erroneous, ill-defined,
+    /// and may destabilize the process, as may using any other copies of the handler after
+    /// <see cref="ToStringAndClear" /> is called on any one of them.
+    /// </remarks>
     public string ToStringAndClear()
     {
-        var result = Text.ToString();
+        string result = Text.ToString();
         Clear();
         return result;
     }
 
-    /// <summary>Clears the handler, returning any rented array to the pool.</summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)] // used only on a few hot paths
-    internal void Clear()
+    /// <summary>Clears the handler.</summary>
+    /// <remarks>
+    /// This releases any resources used by the handler. The method should be invoked only
+    /// once and as the last thing performed on the handler. Subsequent use is erroneous, ill-defined,
+    /// and may destabilize the process, as may using any other copies of the handler after <see cref="Clear"/>
+    /// is called on any one of them.
+    /// </remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Clear()
     {
-        var toReturn = _arrayToReturnToPool;
-        this = default; // defensive clear
+        char[]? toReturn = _arrayToReturnToPool;
+
+        // Defensive clear
+        _arrayToReturnToPool = null;
+        _chars = default;
+        _pos = 0;
+
         if (toReturn is not null)
         {
             ArrayPool<char>.Shared.Return(toReturn);
         }
     }
 
-    /// <summary>Gets a span of the written characters thus far.</summary>
-    internal ReadOnlySpan<char> Text => _chars.Slice(0, _pos);
+    /// <summary>Gets a span of the characters appended to the handler.</summary>
+    public ReadOnlySpan<char> Text => _chars.Slice(0, _pos);
 
     /// <summary>Writes the specified string to the handler.</summary>
     /// <param name="value">The string to write.</param>
@@ -135,6 +178,7 @@ ref struct DefaultInterpolatedStringHandler
     }
 
     #region AppendFormatted
+
     // Design note:
     // The compiler requires a AppendFormatted overload for anything that might be within an interpolation expression;
     // if it can't find an appropriate overload, for handlers in general it'll simply fail to compile.
@@ -173,23 +217,21 @@ ref struct DefaultInterpolatedStringHandler
     //   at compile time for value types but don't (currently) if the Nullable<T> goes through the same code paths
     //   (see https://github.com/dotnet/runtime/issues/50915).
     //
-    // We could try to take a more elaborate approach for DefaultInterpolatedStringHandler, since it is the most common
-    // handler and we want to minimize overheads both at runtime and in IL size, e.g. have a complete set of overloads
-    // for each of:
+    // We could try to take a more elaborate approach for DefaultInterpolatedStringHandler, since it is the most common handler
+    // and we want to minimize overheads both at runtime and in IL size, e.g. have a complete set of overloads for each of:
     //     (T, ...) where T : struct
     //     (T?, ...) where T : struct
     //     (object, ...)
     //     (ReadOnlySpan<char>, ...)
     //     (string, ...)
     // but this also has shortcomings, most importantly:
-    // - If you have an unconstrained T that happens to be a value type, it'll now end up getting boxed to use the object
-    //   overload. This also necessitates the T? overload, since nullable value types don't meet a T : struct constraint,
-    //   so without those they'd all map to the object overloads as well.
-    // - Any reference type with an implicit cast to ROS<char> will fail to compile due to ambiguities between the
-    //   overloads. string is one such type, hence needing dedicated overloads for it that can be bound to more tightly.
+    // - If you have an unconstrained T that happens to be a value type, it'll now end up getting boxed to use the object overload.
+    //   This also necessitates the T? overload, since nullable value types don't meet a T : struct constraint, so without those
+    //   they'd all map to the object overloads as well.
+    // - Any reference type with an implicit cast to ROS<char> will fail to compile due to ambiguities between the overloads. string
+    //   is one such type, hence needing dedicated overloads for it that can be bound to more tightly.
     //
-    // A middle ground we've settled on, which is likely to be the right approach for most other handlers as well,
-    //   would be the set:
+    // A middle ground we've settled on, which is likely to be the right approach for most other handlers as well, would be the set:
     //     (T, ...) with no constraint
     //     (ReadOnlySpan<char>) and (ReadOnlySpan<char>, int)
     //     (object, int alignment = 0, string? format = null)
@@ -203,16 +245,16 @@ ref struct DefaultInterpolatedStringHandler
     // need to pay the shared generic overheads, etc.) we can add overloads specifically to optimize for them.
     //
     // Hole values are formatted according to the following policy:
-    // 1. If an IFormatProvider was supplied and it provides an ICustomFormatter, use ICustomFormatter.Format (even if
-    //   the value is null).
+    // 1. If an IFormatProvider was supplied and it provides an ICustomFormatter, use ICustomFormatter.Format (even if the value is null).
     // 2. If the type implements ISpanFormattable, use ISpanFormattable.TryFormat.
     // 3. If the type implements IFormattable, use IFormattable.ToString.
     // 4. Otherwise, use object.ToString.
-    // This matches the behavior of string.Format, StringBuilder.AppendFormat, etc.  The only overloads for which this
-    // doesn't apply is ReadOnlySpan<char>, which isn't supported by either string.Format nor StringBuilder.AppendFormat,
-    // but more importantly which can't be boxed to be passed to ICustomFormatter.Format.
+    // This matches the behavior of string.Format, StringBuilder.AppendFormat, etc.  The only overloads for which this doesn't
+    // apply is ReadOnlySpan<char>, which isn't supported by either string.Format nor StringBuilder.AppendFormat, but more
+    // importantly which can't be boxed to be passed to ICustomFormatter.Format.
 
     #region AppendFormatted T
+
     /// <summary>Writes the specified value to the handler.</summary>
     /// <param name="value">The value to write.</param>
     /// <typeparam name="T">The type of the value to write.</typeparam>
@@ -237,19 +279,14 @@ ref struct DefaultInterpolatedStringHandler
         // if it only implements IFormattable, we come out even: only if it implements both do we
         // end up paying for an extra interface check.
         string? s;
-        if (value is IFormattable fValue)
+        if (value is IFormattable)
         {
             // If the value can format itself directly into our buffer, do so.
 
-            if (TryFormatWithExtensions(value, default))
-            {
-                return;
-            }
-            else if (fValue is ISpanFormattable sfValue)
+            if (typeof(T).IsEnum)
             {
                 int charsWritten;
-                // constrained call avoiding boxing for value types
-                while (!sfValue.TryFormat(_chars.Slice(_pos), out charsWritten, default, _provider))
+                while (!EnumPolyfill.TryFormatUnconstrained(value, _chars.Slice(_pos), out charsWritten))
                 {
                     Grow();
                 }
@@ -258,7 +295,19 @@ ref struct DefaultInterpolatedStringHandler
                 return;
             }
 
-            s = fValue.ToString(format: null, _provider); // constrained call avoiding boxing for value types
+            if (value is ISpanFormattable)
+            {
+                int charsWritten;
+                while (!((ISpanFormattable) value).TryFormat(_chars.Slice(_pos), out charsWritten, default, _provider)) // constrained call avoiding boxing for value types
+                {
+                    Grow();
+                }
+
+                _pos += charsWritten;
+                return;
+            }
+
+            s = ((IFormattable) value).ToString(format: null, _provider); // constrained call avoiding boxing for value types
         }
         else
         {
@@ -292,19 +341,15 @@ ref struct DefaultInterpolatedStringHandler
         // if it only implements IFormattable, we come out even: only if it implements both do we
         // end up paying for an extra interface check.
         string? s;
-        if (value is IFormattable fValue)
+        if (value is IFormattable)
         {
             // If the value can format itself directly into our buffer, do so.
 
-            if (TryFormatWithExtensions(value, format.AsSpan()))
-            {
-                return;
-            }
-            else if (fValue is ISpanFormattable sfValue)
+            var formatSpan = format.AsSpan();
+            if (typeof(T).IsEnum)
             {
                 int charsWritten;
-                // constrained call avoiding boxing for value types
-                while (!sfValue.TryFormat(_chars.Slice(_pos), out charsWritten, format.AsSpan(), _provider))
+                while (!EnumPolyfill.TryFormatUnconstrained(value, _chars.Slice(_pos), out charsWritten, formatSpan))
                 {
                     Grow();
                 }
@@ -313,7 +358,19 @@ ref struct DefaultInterpolatedStringHandler
                 return;
             }
 
-            s = fValue.ToString(format, _provider); // constrained call avoiding boxing for value types
+            if (value is ISpanFormattable)
+            {
+                int charsWritten;
+                while (!((ISpanFormattable) value).TryFormat(_chars.Slice(_pos), out charsWritten, formatSpan, _provider)) // constrained call avoiding boxing for value types
+                {
+                    Grow();
+                }
+
+                _pos += charsWritten;
+                return;
+            }
+
+            s = ((IFormattable) value).ToString(format, _provider); // constrained call avoiding boxing for value types
         }
         else
         {
@@ -328,14 +385,11 @@ ref struct DefaultInterpolatedStringHandler
 
     /// <summary>Writes the specified value to the handler.</summary>
     /// <param name="value">The value to write.</param>
-    /// <param name="alignment">
-    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
-    /// left-aligned and the required minimum is the absolute value.
-    /// </param>
+    /// <param name="alignment">Minimum number of characters that should be written for this value.  If the value is negative, it indicates left-aligned and the required minimum is the absolute value.</param>
     /// <typeparam name="T">The type of the value to write.</typeparam>
     public void AppendFormatted<T>(T value, int alignment)
     {
-        var startingPos = _pos;
+        int startingPos = _pos;
         AppendFormatted(value);
         if (alignment != 0)
         {
@@ -346,23 +400,22 @@ ref struct DefaultInterpolatedStringHandler
     /// <summary>Writes the specified value to the handler.</summary>
     /// <param name="value">The value to write.</param>
     /// <param name="format">The format string.</param>
-    /// <param name="alignment">
-    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
-    /// left-aligned and the required minimum is the absolute value.
-    /// </param>
+    /// <param name="alignment">Minimum number of characters that should be written for this value.  If the value is negative, it indicates left-aligned and the required minimum is the absolute value.</param>
     /// <typeparam name="T">The type of the value to write.</typeparam>
     public void AppendFormatted<T>(T value, int alignment, string? format)
     {
-        var startingPos = _pos;
+        int startingPos = _pos;
         AppendFormatted(value, format);
         if (alignment != 0)
         {
             AppendOrInsertAlignmentIfNeeded(startingPos, alignment);
         }
     }
+
     #endregion
 
     #region AppendFormatted ReadOnlySpan<char>
+
     /// <summary>Writes the specified character span to the handler.</summary>
     /// <param name="value">The span to write.</param>
     public void AppendFormatted(scoped ReadOnlySpan<char> value)
@@ -380,21 +433,18 @@ ref struct DefaultInterpolatedStringHandler
 
     /// <summary>Writes the specified string of chars to the handler.</summary>
     /// <param name="value">The span to write.</param>
-    /// <param name="alignment">
-    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
-    /// left-aligned and the required minimum is the absolute value.
-    /// </param>
+    /// <param name="alignment">Minimum number of characters that should be written for this value.  If the value is negative, it indicates left-aligned and the required minimum is the absolute value.</param>
     /// <param name="format">The format string.</param>
     public void AppendFormatted(scoped ReadOnlySpan<char> value, int alignment = 0, string? format = null)
     {
-        var leftAlign = false;
+        bool leftAlign = false;
         if (alignment < 0)
         {
             leftAlign = true;
             alignment = -alignment;
         }
 
-        var paddingRequired = alignment - value.Length;
+        int paddingRequired = alignment - value.Length;
         if (paddingRequired <= 0)
         {
             // The value is as large or larger than the required amount of padding,
@@ -420,9 +470,11 @@ ref struct DefaultInterpolatedStringHandler
             _pos += value.Length;
         }
     }
+
     #endregion
 
     #region AppendFormatted string
+
     /// <summary>Writes the specified value to the handler.</summary>
     /// <param name="value">The value to write.</param>
     public void AppendFormatted(string? value)
@@ -442,8 +494,12 @@ ref struct DefaultInterpolatedStringHandler
 
     /// <summary>Writes the specified value to the handler.</summary>
     /// <param name="value">The value to write.</param>
+    /// <remarks>
+    /// Slow path to handle a custom formatter, potentially null value,
+    /// or a string that doesn't fit in the current buffer.
+    /// </remarks>
     [MethodImpl(MethodImplOptions.NoInlining)]
-    void AppendFormattedSlow(string? value)
+    private void AppendFormattedSlow(string? value)
     {
         if (_hasCustomFormatter)
         {
@@ -459,32 +515,30 @@ ref struct DefaultInterpolatedStringHandler
 
     /// <summary>Writes the specified value to the handler.</summary>
     /// <param name="value">The value to write.</param>
-    /// <param name="alignment">
-    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
-    /// left-aligned and the required minimum is the absolute value.
-    /// </param>
+    /// <param name="alignment">Minimum number of characters that should be written for this value.  If the value is negative, it indicates left-aligned and the required minimum is the absolute value.</param>
     /// <param name="format">The format string.</param>
     public void AppendFormatted(string? value, int alignment = 0, string? format = null) =>
         // Format is meaningless for strings and doesn't make sense for someone to specify.  We have the overload
         // simply to disambiguate between ROS<char> and object, just in case someone does specify a format, as
         // string is implicitly convertible to both. Just delegate to the T-based implementation.
         AppendFormatted<string?>(value, alignment, format);
+
     #endregion
 
     #region AppendFormatted object
+
     /// <summary>Writes the specified value to the handler.</summary>
     /// <param name="value">The value to write.</param>
-    /// <param name="alignment">
-    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
-    /// left-aligned and the required minimum is the absolute value.
-    /// </param>
+    /// <param name="alignment">Minimum number of characters that should be written for this value.  If the value is negative, it indicates left-aligned and the required minimum is the absolute value.</param>
     /// <param name="format">The format string.</param>
     public void AppendFormatted(object? value, int alignment = 0, string? format = null) =>
         // This overload is expected to be used rarely, only if either a) something strongly typed as object is
         // formatted with both an alignment and a format, or b) the compiler is unable to target type to T. It
         // exists purely to help make cases from (b) compile. Just delegate to the T-based implementation.
         AppendFormatted<object?>(value, alignment, format);
+
     #endregion
+
     #endregion
 
     /// <summary>Gets whether the provider provides a custom formatter.</summary>
@@ -492,12 +546,9 @@ ref struct DefaultInterpolatedStringHandler
     internal static bool HasCustomFormatter(IFormatProvider provider)
     {
         Debug.Assert(provider is not null);
-        Debug.Assert(
-            provider is not CultureInfo || provider.GetFormat(typeof(ICustomFormatter)) is null,
-            "Expected CultureInfo to not provide a custom formatter");
-
+        Debug.Assert(provider is not CultureInfo || provider.GetFormat(typeof(ICustomFormatter)) is null, "Expected CultureInfo to not provide a custom formatter");
         return
-            provider!.GetType() != typeof(CultureInfo) && // optimization to avoid GetFormat in the majority case
+            provider.GetType() != typeof(CultureInfo) && // optimization to avoid GetFormat in the majority case
             provider.GetFormat(typeof(ICustomFormatter)) != null;
     }
 
@@ -506,7 +557,7 @@ ref struct DefaultInterpolatedStringHandler
     /// <param name="format">The format string.</param>
     /// <typeparam name="T">The type of the value to write.</typeparam>
     [MethodImpl(MethodImplOptions.NoInlining)]
-    void AppendCustomFormatter<T>(T value, string? format)
+    private void AppendCustomFormatter<T>(T value, string? format)
     {
         // This case is very rare, but we need to handle it prior to the other checks in case
         // a provider was used that supplied an ICustomFormatter which wanted to intercept the particular value.
@@ -515,12 +566,10 @@ ref struct DefaultInterpolatedStringHandler
         Debug.Assert(_hasCustomFormatter);
         Debug.Assert(_provider != null);
 
-        var formatter = (ICustomFormatter?)_provider!.GetFormat(typeof(ICustomFormatter));
-        Debug.Assert(
-            formatter != null,
-            "An incorrectly written provider said it implemented ICustomFormatter, and then didn't");
+        ICustomFormatter? formatter = (ICustomFormatter?) _provider.GetFormat(typeof(ICustomFormatter));
+        Debug.Assert(formatter != null, "An incorrectly written provider said it implemented ICustomFormatter, and then didn't");
 
-        if (formatter?.Format(format, value, _provider) is { } customFormatted)
+        if (formatter is not null && formatter.Format(format, value, _provider) is string customFormatted)
         {
             AppendLiteral(customFormatted);
         }
@@ -528,25 +577,22 @@ ref struct DefaultInterpolatedStringHandler
 
     /// <summary>Handles adding any padding required for aligning a formatted value in an interpolation expression.</summary>
     /// <param name="startingPos">The position at which the written value started.</param>
-    /// <param name="alignment">
-    /// Non-zero minimum number of characters that should be written for this value.  If the value is negative, it
-    /// indicates left-aligned and the required minimum is the absolute value.
-    /// </param>
-    void AppendOrInsertAlignmentIfNeeded(int startingPos, int alignment)
+    /// <param name="alignment">Non-zero minimum number of characters that should be written for this value.  If the value is negative, it indicates left-aligned and the required minimum is the absolute value.</param>
+    private void AppendOrInsertAlignmentIfNeeded(int startingPos, int alignment)
     {
         Debug.Assert(startingPos >= 0 && startingPos <= _pos);
         Debug.Assert(alignment != 0);
 
-        var charsWritten = _pos - startingPos;
+        int charsWritten = _pos - startingPos;
 
-        var leftAlign = false;
+        bool leftAlign = false;
         if (alignment < 0)
         {
             leftAlign = true;
             alignment = -alignment;
         }
 
-        var paddingNeeded = alignment - charsWritten;
+        int paddingNeeded = alignment - charsWritten;
         if (paddingNeeded > 0)
         {
             EnsureCapacityForAdditionalChars(paddingNeeded);
@@ -565,11 +611,9 @@ ref struct DefaultInterpolatedStringHandler
         }
     }
 
-    /// <summary>
-    /// Ensures <see cref="_chars"/> has the capacity to store <paramref name="additionalChars"/> beyond <see cref="_pos"/>.
-    /// </summary>
+    /// <summary>Ensures <see cref="_chars"/> has the capacity to store <paramref name="additionalChars"/> beyond <see cref="_pos"/>.</summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    void EnsureCapacityForAdditionalChars(int additionalChars)
+    private void EnsureCapacityForAdditionalChars(int additionalChars)
     {
         if (_chars.Length - _pos < additionalChars)
         {
@@ -577,72 +621,64 @@ ref struct DefaultInterpolatedStringHandler
         }
     }
 
-    /// <summary>
-    /// Fallback for fast path in <see cref="AppendLiteral(string)"/> when there's not enough space in the destination.
-    /// </summary>
+    /// <summary>Fallback for fast path in <see cref="AppendLiteral(string)"/> when there's not enough space in the destination.</summary>
     /// <param name="value">The string to write.</param>
     [MethodImpl(MethodImplOptions.NoInlining)]
-    void GrowThenCopyString(string value)
+    private void GrowThenCopyString(string value)
     {
         Grow(value.Length);
         value.CopyTo(_chars.Slice(_pos));
         _pos += value.Length;
     }
 
-    /// <summary>
-    /// Fallback for <see cref="AppendFormatted(ReadOnlySpan{char})"/> for when not enough space exists in the current buffer.
-    /// </summary>
+    /// <summary>Fallback for <see cref="AppendFormatted(ReadOnlySpan{char})"/> for when not enough space exists in the current buffer.</summary>
     /// <param name="value">The span to write.</param>
     [MethodImpl(MethodImplOptions.NoInlining)]
-    void GrowThenCopySpan(scoped ReadOnlySpan<char> value)
+    private void GrowThenCopySpan(scoped ReadOnlySpan<char> value)
     {
         Grow(value.Length);
         value.CopyTo(_chars.Slice(_pos));
         _pos += value.Length;
     }
 
-    /// <summary>
-    /// Grows <see cref="_chars"/> to have the capacity to store at least <paramref name="additionalChars"/>
-    /// beyond <see cref="_pos"/>.
-    /// </summary>
+    /// <summary>Grows <see cref="_chars"/> to have the capacity to store at least <paramref name="additionalChars"/> beyond <see cref="_pos"/>.</summary>
     [MethodImpl(MethodImplOptions.NoInlining)] // keep consumers as streamlined as possible
-    void Grow(int additionalChars)
+    private void Grow(int additionalChars)
     {
         // This method is called when the remaining space (_chars.Length - _pos) is
         // insufficient to store a specific number of additional characters.  Thus, we
         // need to grow to at least that new total. GrowCore will handle growing by more
         // than that if possible.
         Debug.Assert(additionalChars > _chars.Length - _pos);
-        GrowCore((uint)_pos + (uint)additionalChars);
+        GrowCore((uint) _pos + (uint) additionalChars);
     }
 
     /// <summary>Grows the size of <see cref="_chars"/>.</summary>
     [MethodImpl(MethodImplOptions.NoInlining)] // keep consumers as streamlined as possible
-    void Grow() =>
+    private void Grow()
+    {
         // This method is called when the remaining space in _chars isn't sufficient to continue
         // the operation.  Thus, we need at least one character beyond _chars.Length.  GrowCore
         // will handle growing by more than that if possible.
-        GrowCore((uint)_chars.Length + 1);
+        GrowCore((uint) _chars.Length + 1);
+    }
 
-    /// <summary>
-    /// Grow the size of <see cref="_chars"/> to at least the specified <paramref name="requiredMinCapacity"/>.
-    /// </summary>
+    /// <summary>Grow the size of <see cref="_chars"/> to at least the specified <paramref name="requiredMinCapacity"/>.</summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)] // but reuse this grow logic directly in both of the above grow routines
-    void GrowCore(uint requiredMinCapacity)
+    private void GrowCore(uint requiredMinCapacity)
     {
-        // We want the max of how much space we actually required and doubling our capacity (without going beyond
-        // the max allowed length). We also want to avoid asking for small arrays, to reduce the number of times we
-        // need to grow, and since we're working with unsigned ints that could technically overflow if someone tried
-        // to, for example, append a huge string to a huge string, we also clamp to int.MaxValue.
+        // We want the max of how much space we actually required and doubling our capacity (without going beyond the max allowed length). We
+        // also want to avoid asking for small arrays, to reduce the number of times we need to grow, and since we're working with unsigned
+        // ints that could technically overflow if someone tried to, for example, append a huge string to a huge string, we also clamp to int.MaxValue.
         // Even if the array creation fails in such a case, we may later fail in ToStringAndClear.
 
-        var newCapacity = Math.Max(requiredMinCapacity, Math.Min((uint)_chars.Length * 2, StringMaxLength));
-        var arraySize = (int)InternalMath.Clamp(newCapacity, MinimumArrayPoolLength, int.MaxValue);
+        uint newCapacity = Math.Max(requiredMinCapacity, Math.Min((uint) _chars.Length * 2, StringMaxLength));
+        int arraySize = (int) MathPolyfill.Clamp(newCapacity, MinimumArrayPoolLength, int.MaxValue);
 
-        var newArray = ArrayPool<char>.Shared.Rent(arraySize);
+        char[] newArray = ArrayPool<char>.Shared.Rent(arraySize);
         _chars.Slice(0, _pos).CopyTo(newArray);
 
-        var toReturn = _arrayToReturnToPool;
+        char[]? toReturn = _arrayToReturnToPool;
         _chars = _arrayToReturnToPool = newArray;
 
         if (toReturn is not null)
@@ -650,131 +686,6 @@ ref struct DefaultInterpolatedStringHandler
             ArrayPool<char>.Shared.Return(toReturn);
         }
     }
-
-    bool TryFormatWithExtensions<T>(T value, ReadOnlySpan<char> format)
-    {
-        int charsWritten;
-        switch (value)
-        {
-            case int cval:
-                while (!cval.TryFormat(_chars.Slice(_pos), out charsWritten, format, _provider))
-                {
-                    Grow();
-                }
-                break;
-            case bool cval:
-                while (!cval.TryFormat(_chars.Slice(_pos), out charsWritten))
-                {
-                    Grow();
-                }
-                break;
-            case byte cval:
-                while (!cval.TryFormat(_chars.Slice(_pos), out charsWritten, format, _provider))
-                {
-                    Grow();
-                }
-                break;
-            case float cval:
-                while (!cval.TryFormat(_chars.Slice(_pos), out charsWritten, format, _provider))
-                {
-                    Grow();
-                }
-                break;
-            case double cval:
-                while (!cval.TryFormat(_chars.Slice(_pos), out charsWritten, format, _provider))
-                {
-                    Grow();
-                }
-                break;
-            case DateTime cval:
-                while (!cval.TryFormat(_chars.Slice(_pos), out charsWritten, format, _provider))
-                {
-                    Grow();
-                }
-                break;
-            case DateTimeOffset cval:
-                while (!cval.TryFormat(_chars.Slice(_pos), out charsWritten, format, _provider))
-                {
-                    Grow();
-                }
-                break;
-            case decimal cval:
-                while (!cval.TryFormat(_chars.Slice(_pos), out charsWritten, format, _provider))
-                {
-                    Grow();
-                }
-                break;
-            case long cval:
-                while (!cval.TryFormat(_chars.Slice(_pos), out charsWritten, format, _provider))
-                {
-                    Grow();
-                }
-                break;
-            case short cval:
-                while (!cval.TryFormat(_chars.Slice(_pos), out charsWritten, format, _provider))
-                {
-                    Grow();
-                }
-                break;
-            case ushort cval:
-                while (!cval.TryFormat(_chars.Slice(_pos), out charsWritten, format, _provider))
-                {
-                    Grow();
-                }
-                break;
-            case uint cval:
-                while (!cval.TryFormat(_chars.Slice(_pos), out charsWritten, format, _provider))
-                {
-                    Grow();
-                }
-                break;
-            case ulong cval:
-                while (!cval.TryFormat(_chars.Slice(_pos), out charsWritten, format, _provider))
-                {
-                    Grow();
-                }
-                break;
-            case sbyte cval:
-                while (!cval.TryFormat(_chars.Slice(_pos), out charsWritten, format, _provider))
-                {
-                    Grow();
-                }
-                break;
-            default:
-                return false;
-        }
-
-        _pos += charsWritten;
-        return true;
-    }
-}
-
-[ExcludeFromCodeCoverage]
-static file class InternalMath
-{
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint Clamp(uint value, uint min, uint max)
-    {
-        if (min > max)
-        {
-            ThrowMinMaxException(min, max);
-        }
-
-        if (value < min)
-        {
-            return min;
-        }
-        else if (value > max)
-        {
-            return max;
-        }
-
-        return value;
-    }
-
-    [DoesNotReturn]
-    static void ThrowMinMaxException<T>(T min, T max) =>
-        throw new ArgumentException(string.Format(SR.Argument_MinMaxValue, min, max));
 }
 
 [ExcludeFromCodeCoverage]
