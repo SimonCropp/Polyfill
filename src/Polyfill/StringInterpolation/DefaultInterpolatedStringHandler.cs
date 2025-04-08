@@ -19,6 +19,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [InterpolatedStringHandler]
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+//https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Runtime/CompilerServices/DefaultInterpolatedStringHandler.cs
 //Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.defaultinterpolatedstringhandler
 #if PolyPublic
 public
@@ -344,7 +345,7 @@ ref struct DefaultInterpolatedStringHandler
             if (typeof(T).IsEnum)
             {
                 int charsWritten;
-                while (!Enum.TryFormatUnconstrained(value, _chars.Slice(_pos), out charsWritten, format))
+                while (!EnumPolyfill.TryFormat(value, _chars.Slice(_pos), out charsWritten, format))
                 {
                     Grow();
                 }
