@@ -86,6 +86,7 @@ public class SanityChecks
                 name == "ScopedRefAttribute" ||
                 name == "RefSafetyRulesAttribute" ||
                 name == "ParamCollectionAttribute" ||
+                name == "NativeIntegerAttribute" ||
                 name == "FileUtil")
             {
                 continue;
