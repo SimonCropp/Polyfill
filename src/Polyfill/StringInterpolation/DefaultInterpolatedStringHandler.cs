@@ -345,10 +345,11 @@ ref struct DefaultInterpolatedStringHandler
         {
             // If the value can format itself directly into our buffer, do so.
 
+            var formatSpan = format.AsSpan();
             if (typeof(T).IsEnum)
             {
                 int charsWritten;
-                while (!EnumPolyfill.TryFormatUnconstrained(value, _chars.Slice(_pos), out charsWritten, format))
+                while (!EnumPolyfill.TryFormatUnconstrained(value, _chars.Slice(_pos), out charsWritten, formatSpan))
                 {
                     Grow();
                 }
@@ -360,7 +361,7 @@ ref struct DefaultInterpolatedStringHandler
             if (value is ISpanFormattable)
             {
                 int charsWritten;
-                while (!((ISpanFormattable) value).TryFormat(_chars.Slice(_pos), out charsWritten, format, _provider)) // constrained call avoiding boxing for value types
+                while (!((ISpanFormattable) value).TryFormat(_chars.Slice(_pos), out charsWritten, formatSpan, _provider)) // constrained call avoiding boxing for value types
                 {
                     Grow();
                 }
