@@ -286,7 +286,7 @@ ref struct DefaultInterpolatedStringHandler
             if (typeof(T).IsEnum)
             {
                 int charsWritten;
-                while (!EnumPolyfill.TryFormat(value, _chars.Slice(_pos), out charsWritten))
+                while (!EnumPolyfill.TryFormatUnconstrained(value, _chars.Slice(_pos), out charsWritten))
                 {
                     Grow();
                 }
@@ -348,7 +348,7 @@ ref struct DefaultInterpolatedStringHandler
             if (typeof(T).IsEnum)
             {
                 int charsWritten;
-                while (!EnumPolyfill.TryFormat(value, _chars.Slice(_pos), out charsWritten, format))
+                while (!EnumPolyfill.TryFormatUnconstrained(value, _chars.Slice(_pos), out charsWritten, format))
                 {
                     Grow();
                 }

@@ -141,9 +141,15 @@ static class EnumPolyfill
     public static bool TryFormat<TEnum>(TEnum value, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default)
         where TEnum : struct, Enum
     {
-    #if NET8_0_OR_GREATER
+#if NET8_0_OR_GREATER
         return Enum.TryFormat<TEnum>(value, destination, out charsWritten, format);
     #else
+        return TryFormatUnconstrained(value, destination, out charsWritten, format);
+#endif
+    }
+
+    internal static bool TryFormatUnconstrained(object value, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default)
+    {
         string result;
         if (format.Length == 0)
         {
@@ -151,7 +157,7 @@ static class EnumPolyfill
         }
         else
         {
-            result = Enum.Format(typeof(TEnum), value, format.ToString());
+            result = Enum.Format(value.GetType(), value, format.ToString());
         }
 
         if (result.Length > destination.Length)
@@ -163,7 +169,6 @@ static class EnumPolyfill
         charsWritten = result.Length;
         result.CopyTo(destination);
         return true;
-    #endif
     }
 #endif
 }
