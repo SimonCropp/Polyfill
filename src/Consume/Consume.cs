@@ -630,6 +630,14 @@ class Consume
         split = "a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
         var startsWith = "value".StartsWith('a');
     }
+    #if FeatureMemory
+    void DefaultInterpolatedStringHandler_Methods()
+    {
+        var handler = new DefaultInterpolatedStringHandler();
+        handler.AppendLiteral("value");
+        handler.Clear();
+    }
+    #endif
 
     void StringBuilder_Methods()
     {
