@@ -116,7 +116,7 @@ ref struct DefaultInterpolatedStringHandler
 
     /// <summary>Gets the built <see cref="string"/>.</summary>
     /// <returns>The built string.</returns>
-    public override string ToString() => new string(Text);
+    public override string ToString() => Text.ToString();
 
     /// <summary>Gets the built <see cref="string"/> and clears the handler.</summary>
     /// <returns>The built string.</returns>
@@ -128,7 +128,7 @@ ref struct DefaultInterpolatedStringHandler
     /// </remarks>
     public string ToStringAndClear()
     {
-        string result = new string(Text);
+        string result = Text.ToString();
         Clear();
         return result;
     }
