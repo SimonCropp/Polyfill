@@ -41,6 +41,9 @@ ref struct DefaultInterpolatedStringHandler
     /// </remarks>
     private const int GuessedLengthPerHole = 11;
 
+    /// <summary>Maximum length allowed for a string.</summary>
+    const int StringMaxLength = 0x3FFFFFDF;
+
     /// <summary>Minimum size array to rent from the pool.</summary>
     /// <remarks>Same as stack-allocation size used today by string.Format.</remarks>
     private const int MinimumArrayPoolLength = 256;
@@ -668,7 +671,7 @@ ref struct DefaultInterpolatedStringHandler
         // ints that could technically overflow if someone tried to, for example, append a huge string to a huge string, we also clamp to int.MaxValue.
         // Even if the array creation fails in such a case, we may later fail in ToStringAndClear.
 
-        uint newCapacity = Math.Max(requiredMinCapacity, Math.Min((uint) _chars.Length * 2, string.MaxLength));
+        uint newCapacity = Math.Max(requiredMinCapacity, Math.Min((uint) _chars.Length * 2, StringMaxLength));
         int arraySize = (int) Math.Clamp(newCapacity, MinimumArrayPoolLength, int.MaxValue);
 
         char[] newArray = ArrayPool<char>.Shared.Rent(arraySize);
