@@ -1344,7 +1344,7 @@ If using ValueTask APIs and consuming in a project that target `netframework`, `
 If using the RuntimeInformation class or OSPlatform struct and consuming in a project that targets `netframework`, a reference to [System.Runtime.InteropServices.RuntimeInformation](https://www.nuget.org/packages/System.Runtime.InteropServices.RuntimeInformation) nuget is required.
 
 ```xml
-<PackageReference Include="System.Runtime.InteropService.RuntimeInformation"
+<PackageReference Include="System.Runtime.InteropServices.RuntimeInformation"
                   Version="4.3.0"
                   Condition="$(TargetFrameworkIdentifier) == '.NETFramework'" />
 ```
