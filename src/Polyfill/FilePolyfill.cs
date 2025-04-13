@@ -85,8 +85,15 @@ static partial class FilePolyfill
 #if NETCOREAPP3_0_OR_GREATER
         File.Move(sourceFileName, destFileName, overwrite: overwrite);
 #else
-        File.Copy(sourceFileName, destFileName, overwrite: true);
-        File.Delete(sourceFileName);
+        if (overwrite)
+        {
+            File.Copy(sourceFileName, destFileName, overwrite: true);
+            File.Delete(sourceFileName);
+        }
+        else
+        {
+            File.Move(sourceFileName, destFileName);
+        }
 #endif
     }
 
