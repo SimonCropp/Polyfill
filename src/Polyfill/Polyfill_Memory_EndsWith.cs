@@ -31,8 +31,8 @@ static partial class Polyfill
             return false;
         }
 
-        var last = target[target.Length-1];
-        return last?.Equals(value) ?? (object?)value is null;
+        var last = target[target.Length - 1];
+        return last?.Equals(value) ?? (object?) value is null;
     }
 
 #endif
