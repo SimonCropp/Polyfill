@@ -1,13 +1,25 @@
 ﻿[TestFixture]
 public class FilePolyfillTests
 {
+    private const string SourceFilePath = "source.txt";
+    private const string DestinationFilePath = "destination.txt";
     const string TestFilePath = "testfile.txt";
 
     [SetUp]
-    public void SetUp() => File.Delete(TestFilePath);
+    public void SetUp()
+    {
+        File.Delete(TestFilePath);
+        File.Delete(SourceFilePath);
+        File.Delete(DestinationFilePath);
+    }
 
     [TearDown]
-    public void TearDown() => File.Delete(TestFilePath);
+    public void TearDown()
+    {
+        File.Delete(TestFilePath);
+        File.Delete(SourceFilePath);
+        File.Delete(DestinationFilePath);
+    }
 
 #if FeatureMemory
     [Test]
@@ -62,5 +74,55 @@ public class FilePolyfillTests
 
         var result = await FilePolyfill.ReadAllTextAsync(TestFilePath);
         Assert.AreEqual(content, result);
+    }
+
+    [Test]
+    public void Move_ShouldMoveFileToNewLocation()
+    {
+        // Arrange
+        var content = "Test content";
+        File.WriteAllText(SourceFilePath, content);
+
+        // Act
+        FilePolyfill.Move(SourceFilePath, DestinationFilePath, overwrite: true);
+
+        // Assert
+        Assert.IsFalse(File.Exists(SourceFilePath), "Source file should no longer exist.");
+        Assert.IsTrue(File.Exists(DestinationFilePath), "Destination file should exist.");
+        var result = File.ReadAllText(DestinationFilePath);
+        Assert.AreEqual(content, result, "File content should remain unchanged.");
+    }
+
+    [Test]
+    public void Move_ShouldOverwriteDestinationFile_WhenOverwriteIsTrue()
+    {
+        // Arrange
+        var sourceContent = "Source content";
+        var destinationContent = "Destination content";
+        File.WriteAllText(SourceFilePath, sourceContent);
+        File.WriteAllText(DestinationFilePath, destinationContent);
+
+        // Act
+        FilePolyfill.Move(SourceFilePath, DestinationFilePath, overwrite: true);
+
+        // Assert
+        Assert.IsFalse(File.Exists(SourceFilePath), "Source file should no longer exist.");
+        Assert.IsTrue(File.Exists(DestinationFilePath), "Destination file should exist.");
+        var result = File.ReadAllText(DestinationFilePath);
+        Assert.AreEqual(sourceContent, result, "Destination file content should be replaced by source content.");
+    }
+
+    [Test]
+    public void Move_ShouldThrowIOException_WhenDestinationExistsAndOverwriteIsFalse()
+    {
+        // Arrange
+        var sourceContent = "Source content";
+        var destinationContent = "Destination content";
+        File.WriteAllText(SourceFilePath, sourceContent);
+        File.WriteAllText(DestinationFilePath, destinationContent);
+
+        // Act & Assert
+        Assert.Throws<IOException>(() =>
+            FilePolyfill.Move(SourceFilePath, DestinationFilePath, overwrite: false));
     }
 }
