@@ -49,7 +49,7 @@ As a result, in the context of a project producing nuget package, that project s
 https://nuget.org/packages/Polyfill/
 
 
-### SDK / LangVersion
+## SDK / LangVersion
 
 This project uses features from the current stable SDK and C# language. As such consuming projects should target those:
 
