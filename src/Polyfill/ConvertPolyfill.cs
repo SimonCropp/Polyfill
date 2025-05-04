@@ -35,7 +35,7 @@ static partial class ConvertPolyfill
         if (offset > (inArray.Length - length))
             throw new ArgumentOutOfRangeException(nameof(offset));
 
-        var builder = new StringBuilder();
+        var builder = new StringBuilder(length * 2);
 
         var end = length + offset;
         for (int i = offset; i < end; i++)
@@ -65,7 +65,7 @@ static partial class ConvertPolyfill
         if (offset > (inArray.Length - length))
             throw new ArgumentOutOfRangeException(nameof(offset));
 
-        var builder = new StringBuilder();
+        var builder = new StringBuilder(length * 2);
 
         var end = length + offset;
         for (int i = offset; i < end; i++)
@@ -132,15 +132,16 @@ static partial class ConvertPolyfill
         => Convert.TryToHexString(source, destination, out charsWritten);
 #else
     {
-        var hexString = ConvertPolyfill.ToHexString(source);
-        if (hexString.TryCopyTo(destination))
+        if (source.Length > destination.Length / 2)
         {
-            charsWritten = hexString.Length;
-            return true;
+            charsWritten = 0;
+            return false;
         }
 
-        charsWritten = 0;
-        return false;
+        var hexString = ConvertPolyfill.ToHexString(source);
+        hexString.CopyTo(destination);
+        charsWritten = hexString.Length;
+        return true;
     }
 #endif
 
@@ -153,15 +154,16 @@ static partial class ConvertPolyfill
         => Convert.TryToHexStringLower(source, destination, out charsWritten);
 #else
     {
-        var hexString = ConvertPolyfill.ToHexStringLower(source);
-        if (hexString.TryCopyTo(destination))
+        if (source.Length > destination.Length / 2)
         {
-            charsWritten = hexString.Length;
-            return true;
+            charsWritten = 0;
+            return false;
         }
 
-        charsWritten = 0;
-        return false;
+        var hexString = ConvertPolyfill.ToHexStringLower(source);
+        hexString.CopyTo(destination);
+        charsWritten = hexString.Length;
+        return true;
     }
 #endif
 
