@@ -167,4 +167,51 @@ static partial class ConvertPolyfill
 
 
 #endif
+
+    /// <summary>
+    /// Converts the specified string, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-string)
+    public static byte[] FromHexString(string hexString)
+#if NET5_0_OR_GREATER
+        => Convert.FromHexString(hexString);
+#else
+    {
+        if (hexString.Length % 2 != 0)
+            throw new FormatException("Hex string must have an even length.");
+
+        var result = new byte[hexString.Length / 2];
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            result[i] = (byte) ((GetHexValue(hexString[i * 2]) << 4) + GetHexValue(hexString[i * 2 + 1]));
+        }
+
+        return result;
+
+        static int GetHexValue(char hex)
+        {
+            return hex switch
+            {
+                >= '0' and <= '9' => hex - '0',
+                >= 'A' and <= 'F' => hex - 'A' + 10,
+                >= 'a' and <= 'f' => hex - 'a' + 10,
+                _ => throw new FormatException($"Invalid hex character: {hex}")
+            };
+        }
+    }
+#endif
+
+#if FeatureMemory
+    /// <summary>
+    /// Converts the span, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-readonlyspan((system-char)))
+    public static byte[] FromHexString(ReadOnlySpan<char> chars)
+#if NET5_0_OR_GREATER
+        => Convert.FromHexString(chars);
+#else
+        => ConvertPolyfill.FromHexString(chars.ToString());
+#endif
+#endif
 }

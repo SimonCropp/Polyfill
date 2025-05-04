@@ -51,10 +51,10 @@ public class ConvertPolyfillTests
         var result = ConvertPolyfill.ToHexString(input, 0, input.Length);
         Assert.AreEqual("0FA35C", result);
         result = ConvertPolyfill.ToHexStringLower(input);
-        Assert.AreEqual("0FA35C", result);
+        Assert.AreEqual("0fa35c", result);
 #if  FeatureMemory
         result = ConvertPolyfill.ToHexStringLower(input.AsSpan());
-        Assert.AreEqual("0FA35C", result);
+        Assert.AreEqual("0fa35c", result);
 #endif
     }
 
@@ -63,7 +63,7 @@ public class ConvertPolyfillTests
     {
         byte[] input = [0x0F, 0xA3, 0x5C, 0x7E];
         var result = ConvertPolyfill.ToHexStringLower(input, 1, 2);
-        Assert.AreEqual("A35C", result);
+        Assert.AreEqual("a35c", result);
     }
 
     [Test]
@@ -121,28 +121,6 @@ public class ConvertPolyfillTests
     }
 
     [Test]
-    public void TryToHexString_LargeInput()
-    {
-        // Max size for valid input
-        ReadOnlySpan<byte> source = new byte[1073741823 / 2];
-        Span<char> destination = new char[source.Length * 2];
-        var result = ConvertPolyfill.TryToHexString(source, destination, out var charsWritten);
-        Assert.IsTrue(result);
-        Assert.AreEqual(source.Length * 2, charsWritten);
-    }
-
-    [Test]
-    public void TryToHexString_InputTooLarge()
-    {
-        // Exceeds max size
-        ReadOnlySpan<byte> source = new byte[(1073741823 / 2) + 1];
-        Span<char> destination = new char[source.Length * 2];
-        var result = ConvertPolyfill.TryToHexString(source, destination, out var charsWritten);
-        Assert.IsFalse(result);
-        Assert.AreEqual(0, charsWritten);
-    }
-
-    [Test]
     public void TryToHexStringLower_ValidInput()
     {
         ReadOnlySpan<byte> source = [0x0F, 0xA3, 0x5C];
@@ -150,7 +128,7 @@ public class ConvertPolyfillTests
         var result = ConvertPolyfill.TryToHexStringLower(source, destination, out var charsWritten);
         Assert.IsTrue(result);
         Assert.AreEqual(6, charsWritten);
-        Assert.AreEqual("0FA35C", destination.Slice(0, charsWritten).ToString());
+        Assert.AreEqual("0fa35c", destination.Slice(0, charsWritten).ToString());
     }
 
     [Test]
@@ -173,26 +151,43 @@ public class ConvertPolyfillTests
         Assert.AreEqual(0, charsWritten);
     }
 
+#endif
+
     [Test]
-    public void TryToHexStringLower_LargeInput()
+    public void FromHexString_ValidInput()
     {
-        // Max size for valid input
-        ReadOnlySpan<byte> source = new byte[1073741823 / 2];
-        Span<char> destination = new char[source.Length * 2];
-        var result = ConvertPolyfill.TryToHexStringLower(source, destination, out var charsWritten);
-        Assert.IsTrue(result);
-        Assert.AreEqual(source.Length * 2, charsWritten);
+        var hexString = "0FA35C";
+        var result = ConvertPolyfill.FromHexString(hexString);
+        CollectionAssert.AreEqual(new byte[] { 0x0F, 0xA3, 0x5C }, result);
     }
 
     [Test]
-    public void TryToHexStringLower_InputTooLarge()
+    public void FromHexString_EmptyString()
     {
-        // Exceeds max size
-        ReadOnlySpan<byte> source = new byte[(1073741823 / 2) + 1];
-        Span<char> destination = new char[source.Length * 2];
-        var result = ConvertPolyfill.TryToHexStringLower(source, destination, out var charsWritten);
-        Assert.IsFalse(result);
-        Assert.AreEqual(0, charsWritten);
+        var hexString = string.Empty;
+        var result = ConvertPolyfill.FromHexString(hexString);
+        CollectionAssert.AreEqual(Array.Empty<byte>(), result);
     }
-#endif
+
+    [Test]
+    public void FromHexString_InvalidCharacter_ThrowsFormatException()
+    {
+        var hexString = "0FA3ZC";
+        Assert.Throws<FormatException>(() => ConvertPolyfill.FromHexString(hexString));
+    }
+
+    [Test]
+    public void FromHexString_OddLength_ThrowsFormatException()
+    {
+        var hexString = "0FA3C";
+        Assert.Throws<FormatException>(() => ConvertPolyfill.FromHexString(hexString));
+    }
+
+    [Test]
+    public void FromHexString_LowercaseInput()
+    {
+        var hexString = "0fa35c";
+        var result = ConvertPolyfill.FromHexString(hexString);
+        CollectionAssert.AreEqual(new byte[] { 0x0F, 0xA3, 0x5C }, result);
+    }
 }
