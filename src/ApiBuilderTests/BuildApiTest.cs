@@ -27,6 +27,10 @@ public class BuildApiTest
         writer.WriteLine();
 
         count += types.Count(_ => _.Key.EndsWith("Attribute"));
+        // Index and Range
+        count++;
+        //Nullability*
+        count += 3;
 
         foreach (var (key, value) in types
                      .OrderBy(_ => _.Key)
@@ -40,6 +44,7 @@ public class BuildApiTest
         WriteHelper(types, "Lock", writer, ref count);
         WriteHelper(types, nameof(KeyValuePair), writer, ref count);
         WriteType(nameof(TaskCompletionSource), writer, ref count);
+        WriteType(nameof(UnreachableException), writer, ref count);
 
         count += types.Count(_ => _.Key.EndsWith("Attribute"));
         var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
@@ -96,7 +101,11 @@ public class BuildApiTest
 
     static void WriteType(string name, StreamWriter writer, ref int count)
     {
-        writer.WriteLine($"#### {name}");
+        writer.WriteLine(
+            $"""
+             #### {name}
+
+             """);
         count++;
     }
 
