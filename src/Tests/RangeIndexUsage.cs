@@ -1,3 +1,5 @@
+
+// ReSharper disable UnusedVariable
 #region RangeIndex
 
 public class RangeIndexUsage
