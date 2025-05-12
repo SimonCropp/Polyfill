@@ -86,9 +86,9 @@ static class SHA256Polyfill
 #if NET7_0_OR_GREATER
         return SHA256.HashData(source, destination);
 #else
-        var hashed = HashData(source);
-        hashed.CopyTo(destination);
-        return hashed.Length;
+        var hash = HashData(source);
+        hash.CopyTo(destination);
+        return hash.Length;
 #endif
     }
 
@@ -101,9 +101,9 @@ static class SHA256Polyfill
 #if NET7_0_OR_GREATER
         return SHA256.HashDataAsync(source, destination);
 #else
-        var hashed = HashData(source);
-        hashed.CopyTo(destination);
-        return new ValueTask<int>(hashed.Length);
+        var hash = HashData(source);
+        hash.CopyTo(destination);
+        return new ValueTask<int>(hash.Length);
 #endif
     }
 
@@ -116,22 +116,23 @@ static class SHA256Polyfill
 #if NET5_0_OR_GREATER
         return SHA256.HashData(source, destination);
 #else
-        var hashed = HashData(source);
-        hashed.CopyTo(destination);
-        return hashed.Length;
+        var hash = HashData(source);
+        hash.CopyTo(destination);
+        return hash.Length;
 #endif
     }
 
     /// <summary>
     /// Attempts to compute the hash of data using the SHA-256 algorithm.
     /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.tryhashdata
     public static bool TryHashData(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
     {
 #if NET5_0_OR_GREATER
         return SHA256.TryHashData(source, destination, out bytesWritten);
 #else
         using var hasher = SHA256.Create();
-        byte[] hash = hasher.ComputeHash(source.ToArray());
+        var hash = hasher.ComputeHash(source.ToArray());
 
         if (destination.Length < hash.Length)
         {

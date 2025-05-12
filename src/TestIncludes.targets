@@ -30,5 +30,8 @@
     <Compile Include="$(SolutionDir)Polyfill\Regex\*.cs">
       <Link>Pollyfill\Regex\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
+    <Compile Include="$(SolutionDir)Polyfill\Crypto\*.cs">
+      <Link>Pollyfill\Crypto\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
   </ItemGroup>
 </Project>
