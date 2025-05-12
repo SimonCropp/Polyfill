@@ -109,5 +109,28 @@ public class Sha256PolyfillTests
         Assert.True(exception!.Message.StartsWith("Destination is too short."));
     }
 
+
+    [Test]
+    public void TryHashData_ValidInput_ReturnsTrueAndCorrectHash()
+    {
+        Span<byte> destination = stackalloc byte[32];
+
+        var result = SHA256Polyfill.TryHashData(data, destination, out var bytesWritten);
+
+        Assert.IsTrue(result);
+        Assert.AreEqual(expected.Length, bytesWritten);
+        Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Slice(0, bytesWritten)));
+    }
+
+    [Test]
+    public void TryHashData_InsufficientDestinationBuffer_ReturnsFalse()
+    {
+        Span<byte> destination = stackalloc byte[16];
+
+        var result = SHA256Polyfill.TryHashData(data, destination, out var bytesWritten);
+
+        Assert.IsFalse(result);
+        Assert.AreEqual(0, bytesWritten);
+    }
 #endif
 }

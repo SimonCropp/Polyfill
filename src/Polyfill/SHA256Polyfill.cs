@@ -121,5 +121,29 @@ static class SHA256Polyfill
         return hashed.Length;
 #endif
     }
+
+    /// <summary>
+    /// Attempts to compute the hash of data using the SHA-256 algorithm.
+    /// </summary>
+    public static bool TryHashData(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
+    {
+#if NET5_0_OR_GREATER
+        return SHA256.TryHashData(source, destination, out bytesWritten);
+#else
+        using var hasher = SHA256.Create();
+        byte[] hash = hasher.ComputeHash(source.ToArray());
+
+        if (destination.Length < hash.Length)
+        {
+            bytesWritten = 0;
+            return false;
+        }
+
+        hash.CopyTo(destination);
+        bytesWritten = hash.Length;
+        return true;
+#endif
+    }
+
 #endif
 }
