@@ -12,7 +12,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `net5.0`, `net6.0`, `net7.0`, `net8.0`, `net9.0`, `net10.0`
 
 
-**API count: 581**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 582**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -1221,6 +1221,7 @@ The class `Polyfill` includes the following extension methods:
  * `byte[] HashData(Stream)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.hashdata?system-security-cryptography-sha256-hashdata(system-io-stream))
  * `ValueTask<byte[]> HashDataAsync(Stream, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.hashdataasync?system-security-cryptography-sha256-hashdataasync(system-io-stream-system-threading-cancellationtoken))
  * `ValueTask<int> HashDataAsync(Stream, Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.hashdataasync?system-security-cryptography-sha256-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken))
+ * `bool TryHashData(ReadOnlySpan<byte>, Span<byte>, int)`
 
 
 #### ShortPolyfill

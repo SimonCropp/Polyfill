@@ -752,6 +752,7 @@
  * `byte[] HashData(Stream)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.hashdata?system-security-cryptography-sha256-hashdata(system-io-stream))
  * `ValueTask<byte[]> HashDataAsync(Stream, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.hashdataasync?system-security-cryptography-sha256-hashdataasync(system-io-stream-system-threading-cancellationtoken))
  * `ValueTask<int> HashDataAsync(Stream, Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.hashdataasync?system-security-cryptography-sha256-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken))
+ * `bool TryHashData(ReadOnlySpan<byte>, Span<byte>, int)`
 
 
 #### ShortPolyfill
