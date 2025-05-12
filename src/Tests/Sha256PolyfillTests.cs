@@ -126,7 +126,7 @@ public class Sha256PolyfillTests
 
         Assert.IsTrue(result);
         Assert.AreEqual(expected.Length, bytesWritten);
-        Assert.IsTrue(expected.AsSpan().SequenceEqual(destination[..bytesWritten]));
+        Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)));
     }
 
     [Test]
