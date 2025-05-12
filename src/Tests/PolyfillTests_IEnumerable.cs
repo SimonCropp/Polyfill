@@ -204,7 +204,9 @@ partial class PolyfillTests
     [Test]
     public void ElementAtIndex()
     {
+#pragma warning disable IDE0028
         IEnumerable<int> list = new List<int> { 1, 2 };
+#pragma warning restore IDE0028
 
         // ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
         Assert.AreEqual(2, list.ElementAt(new Index(1)));
