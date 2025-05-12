@@ -45,6 +45,7 @@ public class Sha256PolyfillTests
         Assert.AreEqual(expected, actualHash);
     }
 
+#if FeatureValueTask
     [Test]
     public async Task HashDataAsync_Memory_ReturnsCorrectHash()
     {
@@ -57,6 +58,7 @@ public class Sha256PolyfillTests
         Assert.AreEqual(expected.Length, length);
         Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Span));
     }
+#endif
 
     [Test]
     public void HashData_StreamAndSpan_LongerDestination()
