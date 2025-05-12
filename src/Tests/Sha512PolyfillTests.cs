@@ -1,4 +1,7 @@
-﻿[TestFixture]
+﻿// ReSharper disable ReplaceSliceWithRangeIndexer
+#pragma warning disable IDE0057
+
+[TestFixture]
 public class Sha512PolyfillTests
 {
     static byte[] data = [1, 2, 3, 4, 5];
@@ -71,7 +74,7 @@ public class Sha512PolyfillTests
         var length = SHA512Polyfill.HashData(stream, destination);
 
         Assert.AreEqual(expected.Length, length);
-        Assert.IsTrue(expected.AsSpan().SequenceEqual(destination[..expected.Length]));
+        Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)));
     }
 
     [Test]
@@ -82,7 +85,7 @@ public class Sha512PolyfillTests
         var length = SHA512Polyfill.HashData(data, destination);
 
         Assert.AreEqual(expected.Length, length);
-        Assert.IsTrue(expected.AsSpan().SequenceEqual(destination[..expected.Length]));
+        Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)));
     }
 
     [Test]
