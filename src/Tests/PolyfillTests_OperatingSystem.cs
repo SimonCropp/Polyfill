@@ -10,13 +10,10 @@ using OSPlatform = System.Runtime.InteropServices.OSPlatform;
 // ReSharper disable ArrangeObjectCreationWhenTypeEvident
 // ReSharper disable PartialTypeWithSinglePart
 
-namespace Tests;
-
 [SuppressMessage("Style", "IDE0007:Use implicit type")]
 partial class PolyfillTests
 {
-
-    #if FeatureRuntimeInformation
+#if FeatureRuntimeInformation
     [Test]
     public void IsOperatingSystemWindows()
     {
@@ -109,5 +106,5 @@ partial class PolyfillTests
 
         Assert.AreEqual(expected, actual);
     }
-    #endif
+#endif
 }
