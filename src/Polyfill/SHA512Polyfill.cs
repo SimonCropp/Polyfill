@@ -92,6 +92,7 @@ static class SHA512Polyfill
 #endif
     }
 
+#if FeatureValueTask
     /// <summary>
     /// Asynchronously computes the hash of a stream using the SHA-512 algorithm.
     /// </summary>
@@ -106,6 +107,7 @@ static class SHA512Polyfill
         return new ValueTask<int>(hash.Length);
 #endif
     }
+#endif
 
     /// <summary>
     /// Computes the hash of a stream using the SHA-512 algorithm.
