@@ -22,6 +22,7 @@ public class Sha512PolyfillTests
         Assert.AreEqual(expected, actualHash);
     }
 
+#if FeatureValueTask
     [Test]
     public async Task HashDataAsync_Stream_ReturnsCorrectHash()
     {
@@ -32,6 +33,7 @@ public class Sha512PolyfillTests
         var actualHash = await SHA512Polyfill.HashDataAsync(stream);
         Assert.AreEqual(expected, actualHash);
     }
+#endif
 
 #if FeatureMemory
     [Test]
