@@ -72,7 +72,7 @@ static class SHA256Polyfill
 #if NET5_0_OR_GREATER
         return SHA256.HashData(source);
 #else
-        using SHA256 hasher = SHA256.Create();
+        using var hasher = SHA256.Create();
         return hasher.ComputeHash(source.ToArray());
 #endif
     }
