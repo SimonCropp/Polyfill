@@ -10,7 +10,7 @@
     <PackageVersion Include="NUnit" Version="3.14.0" />
     <PackageVersion Include="NUnit3TestAdapter" Version="5.0.0" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.152" />
-    <PackageVersion Include="Microsoft.Bcl.Memory" Version="9.0.4" />
+    <PackageVersion Include="Microsoft.Bcl.Memory" Version="9.0.5" />
     <PackageVersion Include="System.Memory" Version="4.6.3" />
     <PackageVersion Include="System.Net.Http" Version="4.3.4" />
     <PackageVersion Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
