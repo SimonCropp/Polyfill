@@ -1546,9 +1546,33 @@ https://github.com/theraot/Theraot
  * https://github.com/manuelroemer/IsExternalInit
 
 
-### Reason this project was created instead of using the above
+### Comparing the above above
 
-PolySharp uses c# source generators. In my opinion a "source-only package" implementation is better because:
+
+### Source generator / Source-only / Binary assembly
+
+There are three main approaches to deploying polyfills via NuGet
+
+#### C# Source Generators
+
+[C# Source Generators](https://github.com/dotnet/roslyn/blob/main/docs/features/source-generators.md) is an assembly that runs during compilation and can inspect the source code the the project to produce additional files that are compiled together with the rest of the project.
+
+
+#### Source-only NuGet package
+
+[Source-only NuGet packages](https://andrewlock.net/creating-source-only-nuget-packages/) bundle C# files in a NuGet package and use MsBuild to control what code to inject into a project during build.
+
+
+#### Binary assembly
+
+This is the common approach used in NuGet package where an assembly dll (or multiple) is shipped.
+
+
+
+
+PolySharp uses c# source generators. 
+
+In my opinion a "source-only package" implementation is better because:
 
  * Simpler implementation
  * Easier to debug if something goes wrong.
@@ -1560,6 +1584,13 @@ The combination of the other 3 packages is not ideal because:
  * Required multiple packages to be referenced.
  * Does not cover all the scenarios included in this package.
 
+|                                 | Generators | Source-only | Binary assembly |
+|---------------------------------|------------|-------------|-----------------|
+| Build time                      | Medium     | Medium      | Low             |
+| Debugging complexity            | Medium     | Easy        | Difficult       |
+| Assembly size increase          | Low        | Low         | None            |
+| Effect on EmbedUntrackedSources | Low        | Medium      | None            |
+|                                 |            |             |                 |
 
 ## Notes
 
