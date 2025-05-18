@@ -13,7 +13,7 @@ public static class Extensions
     }
 }
 
-public class ExtensionsUsgae
+public class ExtensionsUsage
 {
     void Foo()
     {
