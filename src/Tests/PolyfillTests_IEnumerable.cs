@@ -200,7 +200,6 @@ partial class PolyfillTests
         Assert.AreEqual("a", result.Third);
     }
 
-#if NETCOREAPP3_0_OR_GREATER || NETSTANDARD2_1
     [Test]
     public void ElementAtIndex()
     {
@@ -214,7 +213,6 @@ partial class PolyfillTests
         Assert.AreEqual(0, list.ElementAtOrDefault(new Index(3)));
         // ReSharper restore ArrangeObjectCreationWhenTypeNotEvident
     }
-#endif
 
     [Test]
     public void LastOrDefault()

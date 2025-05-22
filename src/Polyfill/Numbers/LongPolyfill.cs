@@ -44,10 +44,10 @@ static class LongPolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-readonlyspan((system-char))-system-int64@)
     public static bool TryParse(ReadOnlySpan<char> target, out long result) =>
-#if NETCOREAPP2_0 || NETFRAMEWORK || NETSTANDARD2_0
-        long.TryParse(target.ToString(), out result);
-#else
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         long.TryParse(target, out result);
+#else
+        long.TryParse(target.ToString(), out result);
 #endif
 
     /// <summary>
@@ -88,10 +88,10 @@ static class LongPolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse#system-int64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-int64@)
     public static bool TryParse(ReadOnlySpan<char> target, NumberStyles style, IFormatProvider? provider, out long result) =>
-#if NETCOREAPP2_0 || NETSTANDARD2_0 || NETFRAMEWORK
-        long.TryParse(target.ToString(), style, provider, out result);
-#else
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         long.TryParse(target, style, provider, out result);
+#else
+        long.TryParse(target.ToString(), style, provider, out result);
 #endif
 #endif
 }

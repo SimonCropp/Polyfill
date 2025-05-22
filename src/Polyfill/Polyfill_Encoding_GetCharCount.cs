@@ -12,7 +12,7 @@ using System.Text;
 
 static partial class Polyfill
 {
-#if NETCOREAPP2_0 || NETFRAMEWORK || NETSTANDARD2_0
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Calculates the number of characters produced by decoding the provided read-only byte span.
     /// </summary>

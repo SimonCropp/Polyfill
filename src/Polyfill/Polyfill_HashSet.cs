@@ -8,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 
 static partial class Polyfill
 {
-#if NET46X || NET47  || NET471 || NETSTANDARD2_0
+#if !NETCOREAPP && !NETSTANDARD2_1_OR_GREATER && !NET472_OR_GREATER
     /// <summary>
     ///  Searches the set for a given value and returns the equal value it finds, if any.
     /// </summary>

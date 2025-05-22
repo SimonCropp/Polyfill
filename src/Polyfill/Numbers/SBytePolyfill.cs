@@ -44,10 +44,10 @@ static class SBytePolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-readonlyspan((system-char))-system-sbyte@)
     public static bool TryParse(ReadOnlySpan<char> target, out sbyte result) =>
-#if NETCOREAPP2_0 || NETFRAMEWORK || NETSTANDARD2_0
-        sbyte.TryParse(target.ToString(), out result);
-#else
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         sbyte.TryParse(target, out result);
+#else
+        sbyte.TryParse(target.ToString(), out result);
 #endif
 
     /// <summary>
@@ -88,10 +88,10 @@ static class SBytePolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryparse#system-sbyte-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-sbyte@)
     public static bool TryParse(ReadOnlySpan<char> target, NumberStyles style, IFormatProvider? provider, out sbyte result) =>
-#if NETCOREAPP2_0 || NETSTANDARD2_0 || NETFRAMEWORK
-        sbyte.TryParse(target.ToString(), style, provider, out result);
-#else
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         sbyte.TryParse(target, style, provider, out result);
+#else
+        sbyte.TryParse(target.ToString(), style, provider, out result);
 #endif
 #endif
 }

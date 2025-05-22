@@ -3,5 +3,8 @@
     "version": "10.0.100-preview.5.25266.36",
     "allowPrerelease": true,
     "rollForward": "latestFeature"
+  },
+  "msbuild-sdks": {
+      "MSBuild.Sdk.Extras": "3.0.44"
   }
 }

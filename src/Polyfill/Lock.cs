@@ -23,9 +23,7 @@ public
 #endif
 class Lock
 {
-#if NETCOREAPP || NETFRAMEWORK || NETSTANDARD
     public bool IsHeldByCurrentThread => Monitor.IsEntered(this);
-#endif
 
     /// <summary>
     /// Enters the lock. Once the method returns, the calling thread would be the only thread that holds the lock.

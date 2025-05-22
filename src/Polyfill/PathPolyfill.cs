@@ -24,11 +24,10 @@ static partial class PathPolyfill
     /// </summary>
     /// <param name="path">The path to retrieve the directory information from.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getdirectoryname#system-io-path-getdirectoryname(system-readonlyspan((system-char)))
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
     public static ReadOnlySpan<char> GetDirectoryName(ReadOnlySpan<char> path) =>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
         Path.GetDirectoryName(path);
 #else
-    public static ReadOnlySpan<char> GetDirectoryName(ReadOnlySpan<char> path) =>
         Path.GetDirectoryName(path.ToString()).AsSpan();
 #endif
 
@@ -38,11 +37,10 @@ static partial class PathPolyfill
     /// <param name="path">A read-only span that contains the path from which to obtain the file name and extension.</param>
     /// <returns>The characters after the last directory separator character in path.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getfilename#system-io-path-getfilename(system-readonlyspan((system-char)))
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
     public static ReadOnlySpan<char> GetFileName(ReadOnlySpan<char> path) =>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
         Path.GetFileName(path);
 #else
-    public static ReadOnlySpan<char> GetFileName(ReadOnlySpan<char> path) =>
         Path.GetFileName(path.ToString()).AsSpan();
 #endif
 
@@ -51,11 +49,10 @@ static partial class PathPolyfill
     /// </summary>
     /// <param name="path">A read-only span that contains the path from which to obtain the file name without the extension.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getfilenamewithoutextension#system-io-path-getfilenamewithoutextension(system-readonlyspan((system-char)))
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
     public static ReadOnlySpan<char> GetFileNameWithoutExtension(ReadOnlySpan<char> path) =>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
         Path.GetFileNameWithoutExtension(path);
 #else
-    public static ReadOnlySpan<char> GetFileNameWithoutExtension(ReadOnlySpan<char> path) =>
         Path.GetFileNameWithoutExtension(path.ToString()).AsSpan();
 #endif
 
@@ -65,11 +62,10 @@ static partial class PathPolyfill
     /// <param name="path">The path to search for an extension.</param>
     /// <returns>true if the characters that follow the last directory separator character or volume separator in the path include a period (".") followed by one or more characters; otherwise, false.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getfilenamewithoutextension#system-io-path-getfilenamewithoutextension(system-readonlyspan((system-char)))
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
     public static bool HasExtension(ReadOnlySpan<char> path) =>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
         Path.HasExtension(path);
 #else
-    public static bool HasExtension(ReadOnlySpan<char> path) =>
         Path.HasExtension(path.ToString());
 #endif
 
@@ -77,11 +73,10 @@ static partial class PathPolyfill
     /// Returns the extension of the given path.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getextension#system-io-path-getextension(system-readonlyspan((system-char)))
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
     public static ReadOnlySpan<char> GetExtension(ReadOnlySpan<char> path) =>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
         Path.GetExtension(path);
 #else
-    public static ReadOnlySpan<char> GetExtension(ReadOnlySpan<char> path) =>
         Path.GetExtension(path.ToString()).AsSpan();
 #endif
 
@@ -91,11 +86,10 @@ static partial class PathPolyfill
     /// <param name="paths">A span of parts of the path.</param>
     /// <returns>The combined paths.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.combine#system-io-path-combine(system-readonlyspan((system-string)))
-#if NET9_0_OR_GREATER
     public static string Combine(scoped ReadOnlySpan<string> paths) =>
+#if NET9_0_OR_GREATER
         Path.Combine(paths);
 #else
-    public static string Combine(scoped ReadOnlySpan<string> paths) =>
         Path.Combine(paths.ToArray());
 #endif
 
@@ -105,11 +99,10 @@ static partial class PathPolyfill
     /// <param name="path">The path to analyze.</param>
     /// <returns>true if the path ends in a directory separator; otherwise, false.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.endsindirectoryseparator#system-io-path-endsindirectoryseparator(system-readonlyspan((system-char)))
-#if NETCOREAPP3_0_OR_GREATER
     public static bool EndsInDirectorySeparator (ReadOnlySpan<char> path) =>
+#if NETCOREAPP3_0_OR_GREATER
         Path.EndsInDirectorySeparator(path);
 #else
-    public static bool EndsInDirectorySeparator(ReadOnlySpan<char> path) =>
         EndsInDirectorySeparator(path.ToString());
 #endif
 
@@ -119,11 +112,10 @@ static partial class PathPolyfill
     /// <param name="path">The path to trim.</param>
     /// <returns>The path without any trailing directory separators.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.trimendingdirectoryseparator#system-io-path-trimendingdirectoryseparator(system-readonlyspan((system-char)))
-#if NETCOREAPP3_0_OR_GREATER
     public static ReadOnlySpan<char> TrimEndingDirectorySeparator(ReadOnlySpan<char> path) =>
+#if NETCOREAPP3_0_OR_GREATER
         Path.TrimEndingDirectorySeparator(path);
 #else
-    public static ReadOnlySpan<char> TrimEndingDirectorySeparator(ReadOnlySpan<char> path) =>
         TrimEndingDirectorySeparator(path.ToString()).AsSpan();
 #endif
 

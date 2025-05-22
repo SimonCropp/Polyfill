@@ -44,10 +44,10 @@ static class ULongPolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-readonlyspan((system-char))-system-uint64@)
     public static bool TryParse(ReadOnlySpan<char> target, out ulong result) =>
-#if NETCOREAPP2_0 || NETFRAMEWORK || NETSTANDARD2_0
-        ulong.TryParse(target.ToString(), out result);
-#else
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         ulong.TryParse(target, out result);
+#else
+        ulong.TryParse(target.ToString(), out result);
 #endif
 
     /// <summary>
@@ -88,10 +88,10 @@ static class ULongPolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse#system-uint64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint64@)
     public static bool TryParse(ReadOnlySpan<char> target, NumberStyles style, IFormatProvider? provider, out ulong result) =>
-#if NETCOREAPP2_0 || NETSTANDARD2_0 || NETFRAMEWORK
-        ulong.TryParse(target.ToString(), style, provider, out result);
-#else
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         ulong.TryParse(target, style, provider, out result);
+#else
+        ulong.TryParse(target.ToString(), style, provider, out result);
 #endif
 #endif
 }

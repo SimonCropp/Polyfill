@@ -10,7 +10,7 @@ using System.ComponentModel;
 
 static partial class Polyfill
 {
-#if NETSTANDARD2_0 || NETFRAMEWORK
+#if !NETCOREAPP && !NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Deconstructs the current <see cref="DictionaryEntry"/>.
     /// </summary>

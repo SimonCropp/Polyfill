@@ -23,13 +23,13 @@ static class EnumPolyfill
     public static TEnum[] GetValues<TEnum>()
         where TEnum : struct, Enum
     {
-#if NETCOREAPPX || NETFRAMEWORK || NETSTANDARD
+#if NET
+        return Enum.GetValues<TEnum>();
+#else
         var values = Enum.GetValues(typeof(TEnum));
         var result = new TEnum[values.Length];
         Array.Copy(values, result, values.Length);
         return result;
-#else
-        return Enum.GetValues<TEnum>();
 #endif
     }
 
@@ -41,7 +41,7 @@ static class EnumPolyfill
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsDefined<TEnum> (TEnum value)
         where TEnum : struct, Enum =>
-#if NET5_0_OR_GREATER
+#if NET
         Enum.IsDefined<TEnum>(value);
 #else
         Enum.IsDefined(typeof(TEnum), value);
@@ -54,10 +54,10 @@ static class EnumPolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.enum.getnames
     public static string[] GetNames<TEnum>()
         where TEnum : struct, Enum =>
-#if NETCOREAPPX || NETFRAMEWORK || NETSTANDARD
-        Enum.GetNames(typeof(TEnum));
-#else
+#if NET
         Enum.GetNames<TEnum>();
+#else
+        Enum.GetNames(typeof(TEnum));
 #endif
 
     /// <summary>
@@ -139,14 +139,12 @@ static class EnumPolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryformat
     public static bool TryFormat<TEnum>(TEnum value, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default)
-        where TEnum : struct, Enum
-    {
+        where TEnum : struct, Enum =>
 #if NET8_0_OR_GREATER
-        return Enum.TryFormat<TEnum>(value, destination, out charsWritten, format);
-    #else
-        return TryFormatUnconstrained(value, destination, out charsWritten, format);
+        Enum.TryFormat<TEnum>(value, destination, out charsWritten, format);
+#else
+        TryFormatUnconstrained(value, destination, out charsWritten, format);
 #endif
-    }
 
     internal static bool TryFormatUnconstrained(object value, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default)
     {

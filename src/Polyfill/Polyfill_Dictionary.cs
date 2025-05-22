@@ -24,7 +24,7 @@ static partial class Polyfill
         new(target);
 #endif
 
-#if NETFRAMEWORK || NETSTANDARD2_0
+#if !NETCOREAPP && !NETSTANDARD2_1_OR_GREATER
 
     /// <summary>
     /// Attempts to add the specified key and value to the <see cref="IDictionary{TKey,TValue}"/>.
@@ -47,7 +47,7 @@ static partial class Polyfill
 
 #endif
 
-#if NETFRAMEWORK || NETSTANDARD2_0
+#if !NETCOREAPP && !NETSTANDARD2_1_OR_GREATER
 
     /// <summary>
     /// Removes the value with the specified key from the <see cref="IDictionary{TKey,TValue}"/>, and copies the element
@@ -72,7 +72,7 @@ static partial class Polyfill
 
 #endif
 
-#if NETCOREAPP2_0 || NETSTANDARD2_0 || NETFRAMEWORK
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
 
     /// <summary>
     /// Ensures that the capacity of this dictionary is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.

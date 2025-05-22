@@ -99,7 +99,7 @@ static partial class Polyfill
     }
 #endif
 
-#if (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0) && FeatureMemory
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER && FeatureMemory
 #if FeatureValueTask
 
     /// <summary>

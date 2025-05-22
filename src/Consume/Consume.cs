@@ -363,7 +363,12 @@ class Consume
         var minBy = enumerable.MinBy(_ => _);
         var distinctBy = enumerable.DistinctBy(_ => _);
         var skipLast = enumerable.SkipLast(1);
+        int[] numbers = [1, 2, 3, 4];
+        string[] words = ["one", "two", "three"];
+        var numbersAndWords = numbers.Zip(words, (first, second) => first + " " + second);
 #if FeatureValueTuple
+        var elementAt = enumerable.ElementAt(new Index(1));
+
         var take = enumerable.Take(1..3);
 #endif
         var takeLast = enumerable.TakeLast(3);

@@ -28,7 +28,7 @@ static partial class Polyfill
         return result.TryCopyTo(destination);
     }
 
-#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X
+#if !NETCOREAPP3_0_OR_GREATER
 
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
@@ -301,7 +301,7 @@ static partial class Polyfill
     }
 #endif
 
-#if (NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X) || NET6_0
+#if !NETCOREAPP3_0_OR_GREATER || NET6_0
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
