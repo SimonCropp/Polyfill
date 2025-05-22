@@ -25,8 +25,9 @@ build_script:
         sudo ./dotnet-install.sh --jsonfile src/global.json --architecture x64 --install-dir '/usr/share/dotnet'
       }
     }
-- dotnet build src --configuration Release --verbosity quiet
-- dotnet test src --configuration Release --no-build --no-restore
+- dotnet build src/Polyfill.sln --configuration Release --verbosity quiet
+- dotnet test src/Polyfill.sln --configuration Release --no-build --no-restore
+- msbuild.exe src/PolyfillUwp.sln --configuration Release -verbosity:quiet
 
 on_failure:
   - ps: Get-ChildItem *.received.* -recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
