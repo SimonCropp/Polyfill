@@ -8,7 +8,7 @@ using System.Text;
 
 static partial class Polyfill
 {
-#if (!NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_0) && FeatureMemory
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER && FeatureMemory
     /// <summary>
     /// Inserts the sequence of characters into this instance at the specified character position.
     /// </summary>

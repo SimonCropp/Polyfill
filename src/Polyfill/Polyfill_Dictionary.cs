@@ -45,10 +45,6 @@ static partial class Polyfill
         return false;
     }
 
-#endif
-
-#if NETFRAMEWORK || NETSTANDARD2_0
-
     /// <summary>
     /// Removes the value with the specified key from the <see cref="IDictionary{TKey,TValue}"/>, and copies the element
     /// to the value parameter.
@@ -72,7 +68,7 @@ static partial class Polyfill
 
 #endif
 
-#if NETCOREAPP2_0 || NETSTANDARD2_0 || NETFRAMEWORK
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
 
     /// <summary>
     /// Ensures that the capacity of this dictionary is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.

@@ -30,7 +30,7 @@ static partial class FilePolyfill
     public static void AppendAllBytes(string path, byte[] bytes)
     {
 #if NET9_0_OR_GREATER
-            File.AppendAllBytes(path, bytes);
+        File.AppendAllBytes(path, bytes);
 #else
         using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
         stream.Write(bytes, 0, bytes.Length);
@@ -103,28 +103,24 @@ static partial class FilePolyfill
     /// If the file doesn't exist, this method creates a new file. If the operation is canceled, the task will return in a canceled state.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)
-    public static Task AppendAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
-    {
+    public static Task AppendAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default) =>
 #if NET9_0_OR_GREATER
-            return File.AppendAllBytesAsync(path, bytes, cancellationToken);
+        File.AppendAllBytesAsync(path, bytes, cancellationToken);
 #else
-        return AppendAllBytesAsync(path, bytes.ToArray(), cancellationToken);
+        AppendAllBytesAsync(path, bytes.ToArray(), cancellationToken);
 #endif
-    }
 #endif
 
     /// <summary>
     /// Asynchronously appends lines to a file, and then closes the file. If the specified file does not exist, this method creates a file, writes the specified lines to the file, and then closes the file.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendalllinesasync#system-io-file-appendalllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)
-    public static Task AppendAllLinesAsync(string path, IEnumerable<string> contents, CancellationToken cancellationToken = default)
-    {
-#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_1
-            return File.AppendAllLinesAsync(path, contents, cancellationToken);
+    public static Task AppendAllLinesAsync(string path, IEnumerable<string> contents, CancellationToken cancellationToken = default) =>
+#if NETCOREAPP || NETSTANDARD2_1
+        File.AppendAllLinesAsync(path, contents, cancellationToken);
 #else
-        return AppendAllLinesAsync(path, contents, Encoding.UTF8, cancellationToken);
+        AppendAllLinesAsync(path, contents, Encoding.UTF8, cancellationToken);
 #endif
-    }
 
     /// <summary>
     /// Asynchronously appends lines to a file by using a specified encoding, and then closes the file. If the specified file does not exist, this method creates a file, writes the specified lines to the file, and then closes the file.
@@ -132,8 +128,8 @@ static partial class FilePolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendalllinesasync#system-io-file-appendalllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken)
     public static async Task AppendAllLinesAsync(string path, IEnumerable<string> contents, Encoding encoding, CancellationToken cancellationToken = default)
     {
-#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_1
-            await File.AppendAllLinesAsync(path, contents, encoding, cancellationToken);
+#if NETCOREAPP || NETSTANDARD2_1
+        await File.AppendAllLinesAsync(path, contents, encoding, cancellationToken);
 #else
         using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
         using var writer = new StreamWriter(stream, encoding);
@@ -154,7 +150,7 @@ static partial class FilePolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendalltext#system-io-file-appendalltext(system-string-system-readonlyspan((system-char)))
     public static void AppendAllText(string path, ReadOnlySpan<char> contents) =>
 #if NET9_0_OR_GREATER
-            File.AppendAllText(path, contents);
+        File.AppendAllText(path, contents);
 #else
         File.AppendAllText(path, contents.ToString());
 #endif
@@ -165,7 +161,7 @@ static partial class FilePolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendalltext#system-io-file-appendalltext(system-string-system-readonlyspan((system-char))-system-text-encoding)
     public static void AppendAllText(string path, ReadOnlySpan<char> contents, Encoding encoding) =>
 #if NET9_0_OR_GREATER
-            File.AppendAllText(path, contents, encoding);
+        File.AppendAllText(path, contents, encoding);
 #else
         File.AppendAllText(path, contents.ToString(), encoding);
 #endif
@@ -185,7 +181,7 @@ static partial class FilePolyfill
 
         await writer.FlushAsync(cancellationToken);
 #else
-            await File.AppendAllTextAsync(path, contents, encoding, cancellationToken);
+        await File.AppendAllTextAsync(path, contents, encoding, cancellationToken);
 #endif
     }
 
@@ -193,14 +189,12 @@ static partial class FilePolyfill
     /// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file, and then closes the file.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendalltextasync#system-io-file-appendalltextasync(system-string-system-string-system-threading-cancellationtoken)
-    public static Task AppendAllTextAsync(string path, string? contents, CancellationToken cancellationToken = default)
-    {
+    public static Task AppendAllTextAsync(string path, string? contents, CancellationToken cancellationToken = default) =>
 #if NETFRAMEWORK || NETSTANDARD2_0
-        return AppendAllTextAsync(path, contents, Encoding.UTF8, cancellationToken);
+        AppendAllTextAsync(path, contents, Encoding.UTF8, cancellationToken);
 #else
-            return File.AppendAllTextAsync(path, contents, cancellationToken);
+        File.AppendAllTextAsync(path, contents, cancellationToken);
 #endif
-    }
 
 #if FeatureMemory
     /// <summary>
@@ -209,7 +203,7 @@ static partial class FilePolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendalltextasync#system-io-file-appendalltextasync(system-string-system-readonlymemory((system-char))-system-text-encoding-system-threading-cancellationtoken)
     public static Task AppendAllTextAsync(string path, ReadOnlyMemory<char> contents, Encoding encoding, CancellationToken cancellationToken = default) =>
 #if NET9_0_OR_GREATER
-            File.AppendAllTextAsync(path, contents, encoding, cancellationToken);
+        File.AppendAllTextAsync(path, contents, encoding, cancellationToken);
 #else
         AppendAllTextAsync(path, contents.ToString(), encoding);
 #endif
@@ -220,7 +214,7 @@ static partial class FilePolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendalltextasync#system-io-file-appendalltextasync(system-string-system-readonlymemory((system-char))-system-threading-cancellationtoken)
     public static Task AppendAllTextAsync(string path, ReadOnlyMemory<char> contents, CancellationToken cancellationToken = default) =>
 #if NET9_0_OR_GREATER
-            File.AppendAllTextAsync(path, contents, cancellationToken);
+        File.AppendAllTextAsync(path, contents, cancellationToken);
 #else
         AppendAllTextAsync(path, contents.ToString());
 #endif
@@ -250,7 +244,7 @@ static partial class FilePolyfill
 
         return bytes;
 #else
-            return await File.ReadAllBytesAsync(path, cancellationToken);
+        return await File.ReadAllBytesAsync(path, cancellationToken);
 #endif
     }
 
@@ -262,7 +256,7 @@ static partial class FilePolyfill
 #if NETFRAMEWORK || NETSTANDARD2_0
         ReadAllLinesAsync(path, Encoding.UTF8, cancellationToken);
 #else
-            File.ReadAllLinesAsync(path, cancellationToken);
+        File.ReadAllLinesAsync(path, cancellationToken);
 #endif
 
 
@@ -289,7 +283,7 @@ static partial class FilePolyfill
 
         return lines.ToArray();
 #else
-            return await File.ReadAllLinesAsync(path, encoding, cancellationToken);
+        return await File.ReadAllLinesAsync(path, encoding, cancellationToken);
 #endif
     }
 
@@ -301,7 +295,7 @@ static partial class FilePolyfill
 #if NETFRAMEWORK || NETSTANDARD2_0
         ReadAllTextAsync(path, Encoding.UTF8, cancellationToken);
 #else
-            File.ReadAllTextAsync(path, cancellationToken);
+        File.ReadAllTextAsync(path, cancellationToken);
 #endif
 
     /// <summary>
@@ -325,14 +319,12 @@ static partial class FilePolyfill
     /// Asynchronously reads the lines of a file.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readlinesasync#system-io-file-readalllinesasync(system-string-system-threading-cancellationtoken)
-    public static IAsyncEnumerable<string> ReadLinesAsync(string path, [EnumeratorCancellation] CancellationToken cancellationToken = default)
-    {
+    public static IAsyncEnumerable<string> ReadLinesAsync(string path, [EnumeratorCancellation] CancellationToken cancellationToken = default) =>
 #if NET7_0_OR_GREATER
-        return File.ReadLinesAsync(path, cancellationToken);
+        File.ReadLinesAsync(path, cancellationToken);
 #else
-        return ReadLinesAsync(path, Encoding.UTF8, cancellationToken);
+        ReadLinesAsync(path, Encoding.UTF8, cancellationToken);
 #endif
-    }
 
     /// <summary>
     /// Asynchronously reads the lines of a file that has a specified encoding.
@@ -367,7 +359,7 @@ static partial class FilePolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writeallbytesasync#system-io-file-writeallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)
     public static async Task WriteAllBytesAsync(string path, byte[] bytes, CancellationToken cancellationToken = default)
     {
-#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_1
+#if NETCOREAPP || NETSTANDARD2_1
         await File.WriteAllBytesAsync (path, bytes, cancellationToken);
 #else
         using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
@@ -380,28 +372,24 @@ static partial class FilePolyfill
     /// Asynchronously creates a new file, writes the specified byte array to the file, and then closes the file. If the target file already exists, it is truncated and overwritten.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendallbytesasync#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)
-    public static Task WriteAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
-    {
+    public static Task WriteAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default) =>
 #if NET9_0_OR_GREATER
-        return File.WriteAllBytesAsync (path, bytes, cancellationToken);
+        File.WriteAllBytesAsync (path, bytes, cancellationToken);
 #else
-        return WriteAllBytesAsync(path, bytes.ToArray(), cancellationToken);
+        WriteAllBytesAsync(path, bytes.ToArray(), cancellationToken);
 #endif
-    }
 #endif
 
     /// <summary>
     /// Asynchronously creates a new file, writes the specified lines to the file, and then closes the file.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealllinesasync#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)
-    public static Task WriteAllLinesAsync(string path, IEnumerable<string> contents, CancellationToken cancellationToken = default)
-    {
-#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_1
-        return File.WriteAllLinesAsync(path, contents, cancellationToken);
+    public static Task WriteAllLinesAsync(string path, IEnumerable<string> contents, CancellationToken cancellationToken = default) =>
+#if NETCOREAPP || NETSTANDARD2_1
+        File.WriteAllLinesAsync(path, contents, cancellationToken);
 #else
-        return WriteAllLinesAsync(path, contents, Encoding.UTF8, cancellationToken);
+        WriteAllLinesAsync(path, contents, Encoding.UTF8, cancellationToken);
 #endif
-    }
 
     /// <summary>
     /// Asynchronously creates a new file, write the specified lines to the file by using the specified encoding, and then closes the file.
@@ -409,7 +397,7 @@ static partial class FilePolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealllinesasync#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken)
     public static async Task WriteAllLinesAsync(string path, IEnumerable<string> contents, Encoding encoding, CancellationToken cancellationToken = default)
     {
-#if NETCOREAPP2_0_OR_GREATER || NETSTANDARD2_1
+#if NETCOREAPP || NETSTANDARD2_1
         await File.WriteAllLinesAsync(path, contents, encoding, cancellationToken);
 #else
         using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
@@ -433,7 +421,7 @@ static partial class FilePolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltext#system-io-file-writealltext(system-string-system-readonlyspan((system-char)))
     public static void WriteAllText(string path, ReadOnlySpan<char> contents) =>
 #if NET9_0_OR_GREATER
-            File.WriteAllText(path, contents);
+        File.WriteAllText(path, contents);
 #else
         File.WriteAllText(path, contents.ToString());
 #endif
@@ -445,7 +433,7 @@ static partial class FilePolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltext#system-io-file-writealltext(system-string-system-readonlyspan((system-char))-system-text-encoding)
     public static void WriteAllText(string path, ReadOnlySpan<char> contents, Encoding encoding) =>
 #if NET9_0_OR_GREATER
-            File.WriteAllText(path, contents, encoding);
+        File.WriteAllText(path, contents, encoding);
 #else
         File.WriteAllText(path, contents.ToString(), encoding);
 #endif
@@ -468,7 +456,7 @@ static partial class FilePolyfill
 
         await writer.FlushAsync().ConfigureAwait(false);
 #else
-            await File.WriteAllTextAsync(path, contents, encoding, cancellationToken);
+        await File.WriteAllTextAsync(path, contents, encoding, cancellationToken);
 #endif
     }
 
@@ -476,12 +464,10 @@ static partial class FilePolyfill
     /// Asynchronously creates a new file, writes the specified string to the file using the specified encoding, and then closes the file. If the target file already exists, it is truncated and overwritten.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltextasync#system-io-file-writealltextasync(system-string-system-string-system-text-encoding-system-threading-cancellationtoken)
-    public static Task WriteAllTextAsync(string path, string? contents, CancellationToken cancellationToken = default)
-    {
+    public static Task WriteAllTextAsync(string path, string? contents, CancellationToken cancellationToken = default) =>
 #if NETFRAMEWORK || NETSTANDARD2_0
-        return WriteAllTextAsync(path, contents, Encoding.UTF8, cancellationToken);
+        WriteAllTextAsync(path, contents, Encoding.UTF8, cancellationToken);
 #else
-            return File.WriteAllTextAsync(path, contents, cancellationToken);
+        File.WriteAllTextAsync(path, contents, cancellationToken);
 #endif
-    }
 }

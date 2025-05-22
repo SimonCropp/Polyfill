@@ -92,10 +92,10 @@ static class GuidPolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparseexact#system-guid-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-guid@)
     public static bool TryParseExact(ReadOnlySpan<char> target, ReadOnlySpan<char> format, out Guid result) =>
-#if NETFRAMEWORK || NETCOREAPP2_0 || NETSTANDARD2_0
-        Guid.TryParseExact(target.ToString(), format.ToString(), out result);
-#else
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         Guid.TryParseExact(target, format, out result);
+#else
+        Guid.TryParseExact(target.ToString(), format.ToString(), out result);
 #endif
 
     /// <summary>

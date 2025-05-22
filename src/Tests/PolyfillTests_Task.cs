@@ -17,7 +17,7 @@ partial class PolyfillTests
     {
         foreach (var timeout in new[] { TimeSpan.FromMilliseconds(-2), TimeSpan.MaxValue, TimeSpan.MinValue })
         {
-#if NET5_0_OR_GREATER
+#if NET
             AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource().Task.WaitAsync(timeout));
             AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource().Task.WaitAsync(timeout, Cancel.None));
             AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource().Task.WaitAsync(timeout, new Cancel(true)));
@@ -116,7 +116,7 @@ partial class PolyfillTests
     {
         var cancelSource = new CancelSource();
 
-#if NET5_0_OR_GREATER
+#if NET
         var tcs = new TaskCompletionSource();
         var t = tcs.Task.WaitAsync(TimeSpan.FromDays(1), cancelSource.Token);
         Assert.False(t.IsCompleted);

@@ -24,7 +24,7 @@ static class SHA512Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?#system-security-cryptography-sha512-hashdata(system-byte())
     public static byte[] HashData(byte[] source)
     {
-#if NET5_0_OR_GREATER
+#if NET
         return SHA512.HashData(source);
 #else
         using var hasher = SHA512.Create();
@@ -69,7 +69,7 @@ static class SHA512Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?system-security-cryptography-sha512-hashdata(system-readonlyspan((system-byte)))
     public static byte[] HashData(ReadOnlySpan<byte> source)
     {
-#if NET5_0_OR_GREATER
+#if NET
         return SHA512.HashData(source);
 #else
         using var hasher = SHA512.Create();
@@ -115,7 +115,7 @@ static class SHA512Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?system-security-cryptography-sha512-hashdata(system-readonlyspan((system-byte))-system-span((system-byte)))
     public static int HashData(ReadOnlySpan<byte> source, Span<byte> destination)
     {
-#if NET5_0_OR_GREATER
+#if NET
         return SHA512.HashData(source, destination);
 #else
         var hash = HashData(source);
@@ -130,7 +130,7 @@ static class SHA512Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.tryhashdata
     public static bool TryHashData(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
     {
-#if NET5_0_OR_GREATER
+#if NET
         return SHA512.TryHashData(source, destination, out bytesWritten);
 #else
         using var hasher = SHA512.Create();

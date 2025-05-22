@@ -13,6 +13,9 @@ build_script:
       ./dotnet-install.ps1 -JSonFile src/global.json -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
       ./dotnet-install.ps1 -Version 5.0.408 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
       ./dotnet-install.ps1 -Version 9.0.203 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
+      dotnet build src/Polyfill.sln --configuration Release --verbosity quiet
+      dotnet test src/Polyfill.sln --configuration Release --no-build --no-restore
+      msbuild.exe src/PolyfillUwp.sln /p:Configuration=Release -verbosity:quiet
     }
     else {
       Invoke-WebRequest "https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh" -OutFile "./dotnet-install.sh"
@@ -24,9 +27,9 @@ build_script:
       } else {
         sudo ./dotnet-install.sh --jsonfile src/global.json --architecture x64 --install-dir '/usr/share/dotnet'
       }
+      dotnet build src/Polyfill.sln --configuration Release --verbosity quiet
+      dotnet test src/Polyfill.sln --configuration Release --no-build --no-restore
     }
-- dotnet build src --configuration Release --verbosity quiet
-- dotnet test src --configuration Release --no-build --no-restore
 
 on_failure:
   - ps: Get-ChildItem *.received.* -recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }

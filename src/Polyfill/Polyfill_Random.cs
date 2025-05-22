@@ -81,7 +81,7 @@ static partial class Polyfill
 
 #endif
 
-#if (NETSTANDARD || NETFRAMEWORK || NETCOREAPP2_0) && FeatureMemory
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER && FeatureMemory
 
     /// <summary>
     /// Fills the elements of a specified span of bytes with random numbers.

@@ -24,7 +24,7 @@ static partial class ConvertPolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte()-system-int32-system-int32)
     public static string ToHexString(byte[] inArray, int offset, int length)
-#if NET5_0_OR_GREATER
+#if NET
         => Convert.ToHexString(inArray, offset, length);
 #else
     {
@@ -83,7 +83,7 @@ static partial class ConvertPolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte())
     public static string ToHexString(byte[] inArray) =>
-#if NET5_0_OR_GREATER
+#if NET
         Convert.ToHexString(inArray);
 #else
         ConvertPolyfill.ToHexString(inArray, 0, inArray.Length);
@@ -106,7 +106,7 @@ static partial class ConvertPolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-readonlyspan((system-byte)))
     public static string ToHexString(ReadOnlySpan<byte> bytes) =>
-#if NET5_0_OR_GREATER
+#if NET
         Convert.ToHexString(bytes);
 #else
         ConvertPolyfill.ToHexString(bytes.ToArray());
@@ -175,7 +175,7 @@ static partial class ConvertPolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-string)
     public static byte[] FromHexString(string hexString)
-#if NET5_0_OR_GREATER
+#if NET
         => Convert.FromHexString(hexString);
 #else
     {
@@ -210,7 +210,7 @@ static partial class ConvertPolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-readonlyspan((system-char)))
     public static byte[] FromHexString(ReadOnlySpan<char> chars)
-#if NET5_0_OR_GREATER
+#if NET
         => Convert.FromHexString(chars);
 #else
         => ConvertPolyfill.FromHexString(chars.ToString());

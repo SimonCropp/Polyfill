@@ -19,7 +19,7 @@ public
 #endif
 static class OperatingSystemPolyfill
 {
-    #if !NET5_0_OR_GREATER
+    #if !NET
 
     static string RunProcess(string name, string arguments)
     {
@@ -50,7 +50,7 @@ static class OperatingSystemPolyfill
     /// <returns>true if the current application is running on the specified platform; false otherwise.</returns>
     ///Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isosplatform
     public static bool IsOSPlatform(string platform) =>
-#if NET5_0_OR_GREATER
+#if NET
         OperatingSystem.IsOSPlatform(platform);
 #else
         RuntimeInformation.IsOSPlatform(OSPlatform.Create(platform));
@@ -67,7 +67,7 @@ static class OperatingSystemPolyfill
     /// <returns>true if the current application is running on the specified platform and is at least in the version specified in the parameters; false otherwise.</returns>
     ///Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isosplatformversionatleast
     public static bool IsOSPlatformVersionAtLeast(string platform, int major, int minor = 0, int build = 0, int revision = 0) =>
-#if NET5_0_OR_GREATER
+#if NET
         OperatingSystem.IsOSPlatformVersionAtLeast(platform, major, minor, build, revision);
 #else
         IsOSPlatform(platform) &&
@@ -80,7 +80,7 @@ static class OperatingSystemPolyfill
     /// <returns>true if the current application is running on Windows; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.iswindows
     public static bool IsWindows() =>
-#if NET5_0_OR_GREATER
+#if NET
         OperatingSystem.IsWindows();
 #else
         RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -97,7 +97,7 @@ static class OperatingSystemPolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.iswindowsversionatleast
     public static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
     {
-#if NET5_0_OR_GREATER
+#if NET
         return OperatingSystem.IsWindowsVersionAtLeast(major, minor, build, revision);
 #else
         if (!IsWindows())
@@ -117,7 +117,7 @@ static class OperatingSystemPolyfill
 #endif
     }
 
-#if !NET5_0_OR_GREATER
+#if !NET
     static Version? windowsVersion;
 #endif
 
@@ -127,7 +127,7 @@ static class OperatingSystemPolyfill
     /// <returns>true if the current application is running on macOS; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.ismacos
     public static bool IsMacOS() =>
-#if NET5_0_OR_GREATER
+#if NET
         OperatingSystem.IsMacOS();
 #else
         RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
@@ -156,7 +156,7 @@ static class OperatingSystemPolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.ismacosversionatleast
     public static bool IsMacOSVersionAtLeast(int major, int minor = 0, int build = 0)
     {
-#if NET5_0_OR_GREATER
+#if NET
         return OperatingSystem.IsMacOSVersionAtLeast(major, minor, build);
 #else
         if (!IsMacOS())
@@ -177,7 +177,7 @@ static class OperatingSystemPolyfill
 #endif
     }
 
-#if !NET5_0_OR_GREATER
+#if !NET
     static Version? macOSVersion;
 #endif
 
@@ -203,7 +203,7 @@ static class OperatingSystemPolyfill
     /// <returns>true if the current application is running on Linux; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.islinux
     public static bool IsLinux() =>
-#if NET5_0_OR_GREATER
+#if NET
         OperatingSystem.IsLinux();
 #else
         RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
@@ -215,7 +215,7 @@ static class OperatingSystemPolyfill
     /// <returns>true if the current application is running on FreeBSD; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isfreebsd
     public static bool IsFreeBSD() =>
-#if NET5_0_OR_GREATER
+#if NET
         OperatingSystem.IsFreeBSD();
 #else
         RuntimeInformation.OSDescription.ToLower().Contains("freebsd");
@@ -233,7 +233,7 @@ static class OperatingSystemPolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isfreebsdversionatleast
     public static bool IsFreeBSDVersionAtLeast(int major, int minor, int build = 0, int revision = 0)
     {
-#if NET5_0_OR_GREATER
+#if NET
         return OperatingSystem.IsFreeBSDVersionAtLeast(major, minor, build, revision);
 #else
         if (!IsFreeBSD())
@@ -256,7 +256,7 @@ static class OperatingSystemPolyfill
 #endif
     }
 
-#if !NET5_0_OR_GREATER
+#if !NET
     static Version? freeBsdVersion;
 #endif
 
@@ -267,7 +267,7 @@ static class OperatingSystemPolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isios
     public static bool IsIOS()
     {
-#if NET5_0_OR_GREATER
+#if NET
         return OperatingSystem.IsIOS();
 #else
         var description = RuntimeInformation.OSDescription.ToLower();
@@ -287,7 +287,7 @@ static class OperatingSystemPolyfill
     /// <returns>true if the current application is running on an iOS/MacCatalyst version that is at least what was specified in the parameters; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isiosversionatleast
     public static bool IsIOSVersionAtLeast(int major, int minor = 0, int build = 0) =>
-#if NET5_0_OR_GREATER
+#if NET
         OperatingSystem.IsIOSVersionAtLeast(major, minor, build);
 #else
         IsIOS() &&
@@ -300,7 +300,7 @@ static class OperatingSystemPolyfill
     /// <returns>true if the current application is running on tvOS; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.istvos
     public static bool IsTvOS() =>
-#if NET5_0_OR_GREATER
+#if NET
         OperatingSystem.IsTvOS();
 #else
         RuntimeInformation.OSDescription.ToLower().Contains("tvos");
@@ -315,7 +315,7 @@ static class OperatingSystemPolyfill
     /// <returns>true if the current application is running on a tvOS version that is at least what was specified in the parameters; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.istvosversionatleast
     public static bool IsTvOSVersionAtLeast(int major, int minor = 0, int build = 0) =>
-#if NET5_0_OR_GREATER
+#if NET
         OperatingSystem.IsTvOSVersionAtLeast(major, minor, build);
 #else
         IsTvOS() &&
@@ -329,7 +329,7 @@ static class OperatingSystemPolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isandroid
     public static bool IsAndroid()
     {
-#if NET5_0_OR_GREATER
+#if NET
         return OperatingSystem.IsAndroid();
 #else
         if (!isAndroid.HasValue)
@@ -351,7 +351,7 @@ static class OperatingSystemPolyfill
 #endif
     }
 
-#if !NET5_0_OR_GREATER
+#if !NET
     private static bool? isAndroid;
 #endif
 
@@ -366,7 +366,7 @@ static class OperatingSystemPolyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isandroidversionatleast
     public static bool IsAndroidVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
     {
-#if NET5_0_OR_GREATER
+#if NET
         return OperatingSystem.IsAndroidVersionAtLeast(major, minor, build, revision);
 #else
         if (!IsAndroid())
@@ -386,7 +386,7 @@ static class OperatingSystemPolyfill
 #endif
     }
 
-#if !NET5_0_OR_GREATER
+#if !NET
     private static Version? androidVersion;
 #endif
 
@@ -396,7 +396,7 @@ static class OperatingSystemPolyfill
     /// <returns>true if the current application is running on watchOS; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.iswatchos
     public static bool IsWatchOS() =>
-#if NET5_0_OR_GREATER
+#if NET
         OperatingSystem.IsWatchOS();
 #else
         IsIOS() ||
@@ -412,7 +412,7 @@ static class OperatingSystemPolyfill
     /// <returns>true if the current application is running on a watchOS version that is at least what was specified in the parameters; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.iswatchosversionatleast
     public static bool IsWatchOSVersionAtLeast(int major, int minor = 0, int build = 0) =>
-#if NET5_0_OR_GREATER
+#if NET
         OperatingSystem.IsWatchOSVersionAtLeast(major, minor, build);
 #else
         IsWatchOS() &&
@@ -437,7 +437,7 @@ static class OperatingSystemPolyfill
     /// <returns>true if running as WASM; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isbrowser
     public static bool IsBrowser() =>
-#if NET5_0_OR_GREATER
+#if NET
         OperatingSystem.IsBrowser();
 #else
         RuntimeInformation.FrameworkDescription.Contains(".NET WebAssembly");

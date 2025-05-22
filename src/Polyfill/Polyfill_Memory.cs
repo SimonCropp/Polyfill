@@ -30,7 +30,7 @@ static partial class Polyfill
 
 #endif
 
-#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X
+#if !NETCOREAPP3_0_OR_GREATER
 
     /// <summary>
     /// Removes all leading white-space characters from the span.

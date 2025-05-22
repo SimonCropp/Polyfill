@@ -2,7 +2,7 @@
 
 #pragma warning disable
 
-#if NETFRAMEWORK || NETSTANDARD2_0
+#if !NETCOREAPP && !NETSTANDARD2_1_OR_GREATER
 
 namespace Polyfills;
 
