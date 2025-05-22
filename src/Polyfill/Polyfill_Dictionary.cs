@@ -24,7 +24,7 @@ static partial class Polyfill
         new(target);
 #endif
 
-#if !NETCOREAPP && !NETSTANDARD2_1_OR_GREATER
+#if NETFRAMEWORK || NETSTANDARD2_0
 
     /// <summary>
     /// Attempts to add the specified key and value to the <see cref="IDictionary{TKey,TValue}"/>.
@@ -44,10 +44,6 @@ static partial class Polyfill
 
         return false;
     }
-
-#endif
-
-#if !NETCOREAPP && !NETSTANDARD2_1_OR_GREATER
 
     /// <summary>
     /// Removes the value with the specified key from the <see cref="IDictionary{TKey,TValue}"/>, and copies the element
