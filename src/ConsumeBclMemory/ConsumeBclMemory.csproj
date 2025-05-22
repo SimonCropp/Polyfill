@@ -7,7 +7,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Bcl.Memory" />
-    <PackageReference Include="System.ValueTuple" Condition="$(TargetFramework.StartsWith('net46'))" />
+    <PackageReference Include="System.ValueTuple" Condition="$(TargetFramework.StartsWith('net4'))" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
   <Import Project="$(SolutionDir)\TestIncludes.targets" />

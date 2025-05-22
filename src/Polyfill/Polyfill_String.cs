@@ -30,6 +30,34 @@ static partial class Polyfill
         target.AsSpan().TryCopyTo(destination);
 #endif
 
+#if FeatureMemory && !NET8_0_OR_GREATER && FeatureValueTuple
+    /// <summary>Creates a new <see cref="ReadOnlySpan{Char}"/> over a portion of the target string from a specified position to the end of the string.</summary>
+    /// <param name="text">The target string.</param>
+    /// <param name="startIndex">The index at which to begin this slice.</param>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="startIndex"/> is less than 0 or greater than <paramref name="text"/>.Length.</exception>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-range)
+    public static ReadOnlySpan<char> AsSpan(this string? text, Index startIndex)
+    {
+        int actualIndex = startIndex.GetOffset(text == null ? 0 : text.Length);
+
+        return MemoryExtensions.AsSpan(text, actualIndex);
+    }
+
+    /// <summary>Creates a new <see cref="ReadOnlySpan{Char}"/> over a portion of a target string using the range start and end indexes.</summary>
+    /// <param name="text">The target string.</param>
+    /// <param name="range">The range which has start and end indexes to use for slicing the string.</param>
+    /// <exception cref="ArgumentNullException"><paramref name="text"/> is null.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="range"/>'s start or end index is not within the bounds of the string.</exception>
+    /// <exception cref="ArgumentOutOfRangeException"><paramref name="range"/>'s start index is greater than its end index.</exception>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.asspan#system-memoryextensions-asspan(system-string-system-index)
+    public static ReadOnlySpan<char> AsSpan(this string? text, Range range)
+    {
+        var tuple = range.GetOffsetAndLength(text == null ? 0 : text.Length);
+
+        return text.AsSpan(tuple.Offset, tuple.Length);
+    }
+#endif
+
 #if NETFRAMEWORK || NETSTANDARD2_0
 
     /// <summary>
