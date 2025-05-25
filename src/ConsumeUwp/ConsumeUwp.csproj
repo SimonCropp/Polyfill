@@ -1,0 +1,17 @@
+<Project Sdk="MSBuild.Sdk.Extras">
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TargetFramework>uap10.0.16299</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Memory" />
+    <PackageReference Include="System.ValueTuple" />
+    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" />
+    <PackageReference Include="System.Net.Http" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" />
+    <Compile Include="..\Consume\*.cs" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
+  <Import Project="$(SolutionDir)\TestIncludes.targets" />
+</Project>

@@ -12,7 +12,7 @@ using System.Reflection;
 
 static partial class Polyfill
 {
-#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas
     public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other) =>
         target.MetadataToken == other.MetadataToken &&
@@ -22,8 +22,56 @@ static partial class Polyfill
 #if !NET9_0_OR_GREATER && !NETFRAMEWORK && !NETSTANDARD2_0 && !NETCOREAPP2_0
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-type())
     [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)]
-    public static MethodInfo? GetMethod(this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types) =>
-        target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);
+    public static MethodInfo? GetMethod(this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types)
+    {
+#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP
+        return target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);
+#else
+        var methods = target.GetMethods(bindingAttr);
+        if (genericParameterCount == 0)
+        {
+            foreach (var method in methods)
+            {
+                if (method.IsGenericMethod)
+                {
+                    continue;
+                }
+
+                if (IsMatch(method))
+                {
+                    return method;
+                }
+            }
+        }
+        else
+        {
+            foreach (var method in methods)
+            {
+                if (!method.IsGenericMethod)
+                {
+                    continue;
+                }
+
+                var genericArguments = method.GetGenericArguments();
+                if (genericParameterCount != genericArguments.Length)
+                {
+                    continue;
+                }
+
+                if (IsMatch(method))
+                {
+                    return method;
+                }
+            }
+        }
+
+        return null;
+
+        bool IsMatch(MethodInfo method) =>
+            name == method.Name &&
+            method.GetParameters().Select(_ => _.ParameterType).SequenceEqual(types);
+#endif
+    }
 #endif
 
     /// <summary>
@@ -31,11 +79,11 @@ static partial class Polyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter
     public static bool IsGenericMethodParameter(this Type target) =>
-#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        target.IsGenericMethodParameter;
+#else
         target.IsGenericParameter &&
         target.DeclaringMethod != null;
-#else
-        target.IsGenericMethodParameter;
 #endif
 
     /// <summary>
@@ -50,7 +98,7 @@ static partial class Polyfill
     public static bool IsAssignableFrom<T>(this Type target) =>
         target.IsAssignableFrom(typeof(T));
 
-#if NETFRAMEWORK || NETSTANDARD || NETCOREAPPX
+#if !NET
     /// <summary>
     /// Determines whether the current type can be assigned to a variable of the specified targetType.
     /// </summary>

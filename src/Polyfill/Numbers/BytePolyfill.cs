@@ -45,10 +45,10 @@ static class BytePolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-char))-system-byte@)
     public static bool TryParse(ReadOnlySpan<char> target, out byte result) =>
-#if NETCOREAPP2_0 || NETFRAMEWORK || NETSTANDARD2_0
-        byte.TryParse(target.ToString(), out result);
-#else
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         byte.TryParse(target, out result);
+#else
+        byte.TryParse(target.ToString(), out result);
 #endif
 
     /// <summary>
@@ -89,10 +89,10 @@ static class BytePolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse#system-byte-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-byte@)
     public static bool TryParse(ReadOnlySpan<char> target, NumberStyles style, IFormatProvider? provider, out byte result) =>
-#if NETCOREAPP2_0 || NETSTANDARD2_0 || NETFRAMEWORK
-        byte.TryParse(target.ToString(), style, provider, out result);
-#else
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         byte.TryParse(target, style, provider, out result);
+#else
+        byte.TryParse(target.ToString(), style, provider, out result);
 #endif
 #endif
 }

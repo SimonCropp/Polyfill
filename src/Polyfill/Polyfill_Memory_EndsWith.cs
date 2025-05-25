@@ -37,7 +37,7 @@ static partial class Polyfill
 
 #endif
 
-#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X
+#if !NETCOREAPP3_0_OR_GREATER
 
     /// <summary>
     /// Determines whether the end of the span matches the specified value when compared using the specified <paramref name="comparison"/> option.

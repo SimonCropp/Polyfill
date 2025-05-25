@@ -44,10 +44,10 @@ static class UIntPolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-readonlyspan((system-char))-system-uint32@)
     public static bool TryParse(ReadOnlySpan<char> target, out uint result) =>
-#if NETCOREAPP2_0 || NETFRAMEWORK || NETSTANDARD2_0
-        uint.TryParse(target.ToString(), out result);
-#else
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         uint.TryParse(target, out result);
+#else
+        uint.TryParse(target.ToString(), out result);
 #endif
 
     /// <summary>
@@ -88,10 +88,10 @@ static class UIntPolyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint32@)
     public static bool TryParse(ReadOnlySpan<char> target, NumberStyles style, IFormatProvider? provider, out uint result) =>
-#if NETCOREAPP2_0 || NETSTANDARD2_0 || NETFRAMEWORK
-        uint.TryParse(target.ToString(), style, provider, out result);
-#else
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         uint.TryParse(target, style, provider, out result);
+#else
+        uint.TryParse(target.ToString(), style, provider, out result);
 #endif
 #endif
 }

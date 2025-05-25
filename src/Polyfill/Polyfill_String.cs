@@ -144,7 +144,7 @@ static partial class Polyfill
         target.Split([separator], count, options);
 #endif
 
-#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Returns a value indicating whether a specified character occurs within this string.
     /// </summary>

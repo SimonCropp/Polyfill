@@ -36,7 +36,7 @@ static partial class Polyfill
     }
 #endif
 
-#if NETCOREAPP2X || NETSTANDARD || NETFRAMEWORK
+#if !NETCOREAPP3_1_OR_GREATER
 
     /// <summary>
     /// Produces a sequence of tuples with elements from the two specified sequences.

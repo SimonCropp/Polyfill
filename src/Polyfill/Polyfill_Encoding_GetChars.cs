@@ -12,7 +12,7 @@ using System.Text;
 
 static partial class Polyfill
 {
-#if NETCOREAPP2_0 || NETFRAMEWORK || NETSTANDARD2_0
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Decodes all the bytes in the specified read-only byte span into a character span.
     /// </summary>

@@ -28,7 +28,7 @@ static partial class Polyfill
 
 #endif
 
-#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X
+#if !NETCOREAPP3_0_OR_GREATER
 
     /// <summary>
     /// Determines whether a read-only character span begins with a specified value when compared using a specified <see cref="StringComparison"/> value.

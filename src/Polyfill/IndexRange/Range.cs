@@ -2,7 +2,7 @@
 #pragma warning disable
 
 #if FeatureValueTuple && !RefsBclMemory
-#if NET46X || NET47X || NET48X || NETSTANDARD2_0 || NETCOREAPP2X
+#if !NETCOREAPP3_0_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
 
 namespace System;
 
