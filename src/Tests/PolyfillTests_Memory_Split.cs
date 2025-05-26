@@ -227,9 +227,8 @@ partial class PolyfillTests
         Assert.False(enumerator.MoveNext());
     }
 
-    public record struct CustomStruct(int value) :
-        IEquatable<CustomStruct>;
+    public record struct CustomStruct(int value);
 
-    public record class CustomClass(int value) : IEquatable<CustomClass>;
+    public record CustomClass(int value);
 }
 #endif
