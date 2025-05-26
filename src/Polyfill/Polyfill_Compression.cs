@@ -100,7 +100,7 @@ static partial class Polyfill
 
             var fileDestinationPath = Path.GetFullPath(Path.Combine(destinationDirectoryFullPath, fullName));
 
-            if (!fileDestinationPath.StartsWith(destinationDirectoryFullPath, PathStringComparison))
+            if (!fileDestinationPath.StartsWith(destinationDirectoryFullPath, StringComparison.OrdinalIgnoreCase))
             {
                 throw new IOException("Extracting Zip entry would have resulted in a file outside the specified destination directory.");
             }
@@ -121,16 +121,6 @@ static partial class Polyfill
             source.ExtractToFile(fileDestinationPath, overwrite: overwriteFiles);
         }
     }
-
-    //https://github.com/dotnet/runtime/blob/main/src/libraries/Common/src/System/IO/PathInternal.CaseSensitivity.cs#L9
-    static StringComparison PathStringComparison =
-        OperatingSystemPolyfill.IsWindows() ||
-        OperatingSystemPolyfill.IsMacOS() ||
-        OperatingSystemPolyfill.IsIOS() ||
-        OperatingSystemPolyfill.IsTvOS() ||
-        OperatingSystemPolyfill.IsWatchOS() ?
-            StringComparison.OrdinalIgnoreCase :
-            StringComparison.Ordinal;
 
     static string SanitizeEntryFilePath(string fullName)
     {
