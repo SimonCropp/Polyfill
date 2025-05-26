@@ -1,29 +1,26 @@
 ﻿public class ConditionalCompilationFilterTests
 {
     [Fact]
-    public void FilterCodeByTargetFramework_ShouldKeepMatchingCode()
+    public Task FilterCodeByTargetFramework_ShouldKeepMatchingCode()
     {
-        // Arrange
-        var sourceCode = @"
-#if NET6_0
-Console.WriteLine(""NET6_0"");
-#endif
-";
+        var sourceCode =
+            """
+
+            #if NET6_0
+            Console.WriteLine("NET6_0");
+            #endif
+
+            """;
         var targetFramework = "NET6_0";
 
-        // Act
         var result = ConditionalCompilationFilter.FilterCodeByTargetFramework(sourceCode, targetFramework);
 
-        // Assert
-        Assert.That(result, Does.Contain("Console.WriteLine(\"NET6_0\");"));
-        Assert.That(result, Does.Not.Contain("#if"));
-        Assert.That(result, Does.Not.Contain("#endif"));
+        return Verify(result);
     }
 
     [Fact]
-    public void FilterCodeByTargetFramework_ShouldRemoveNonMatchingCode()
+    public Task FilterCodeByTargetFramework_ShouldRemoveNonMatchingCode()
     {
-        // Arrange
         var sourceCode =
             """
 
@@ -34,19 +31,14 @@ Console.WriteLine(""NET6_0"");
             """;
         var targetFramework = "NET6_0";
 
-        // Act
         var result = ConditionalCompilationFilter.FilterCodeByTargetFramework(sourceCode, targetFramework);
 
-        // Assert
-        Assert.That(result, Does.Not.Contain("Console.WriteLine(\"NET5_0\");"));
-        Assert.That(result, Does.Not.Contain("#if"));
-        Assert.That(result, Does.Not.Contain("#endif"));
+        return Verify(result);
     }
 
     [Fact]
-    public void FilterCodeByTargetFramework_ShouldHandleElseBlocks()
+    public Task FilterCodeByTargetFramework_ShouldHandleElseBlocks()
     {
-        // Arrange
         var sourceCode =
             """
 
@@ -59,18 +51,14 @@ Console.WriteLine(""NET6_0"");
             """;
         var targetFramework = "NET6_0";
 
-        // Act
         var result = ConditionalCompilationFilter.FilterCodeByTargetFramework(sourceCode, targetFramework);
 
-        // Assert
-        Assert.That(result, Does.Contain("Console.WriteLine(\"NET6_0\");"));
-        Assert.That(result, Does.Not.Contain("Console.WriteLine(\"Other\");"));
+        return Verify(result);
     }
 
     [Fact]
     public Task FilterCodeByTargetFramework_ShouldHandleNestedDirectives()
     {
-        // Arrange
         var sourceCode =
             """
 
@@ -84,24 +72,20 @@ Console.WriteLine(""NET6_0"");
             """;
         var targetFramework = "NET6_0";
 
-        // Act
         var result = ConditionalCompilationFilter.FilterCodeByTargetFramework(sourceCode, targetFramework);
 
         return Verify(result);
     }
 
-    [Test]
+    [Fact]
     public void FilterCodeByTargetFramework_ShouldHandleEmptySourceCode()
     {
-        // Arrange
         var sourceCode = "";
         var targetFramework = "NET6_0";
 
-        // Act
         var result = ConditionalCompilationFilter.FilterCodeByTargetFramework(sourceCode, targetFramework);
 
-        // Assert
-        Assert.That(result, Is.Empty);
+        Assert.Empty(result);
     }
 }
 
