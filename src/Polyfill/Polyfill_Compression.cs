@@ -2,10 +2,11 @@
 
 #pragma warning disable
 
-#if !NET10_0_OR_GREATER && FeatureCompression
+#if FeatureCompression
 namespace Polyfills;
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
@@ -99,7 +100,7 @@ static partial class Polyfill
 
             var fileDestinationPath = Path.GetFullPath(Path.Combine(destinationDirectoryFullPath, fullName));
 
-            if (!fileDestinationPath.StartsWith(destinationDirectoryFullPath, PathStringComparison))
+            if (!fileDestinationPath.StartsWith(destinationDirectoryFullPath, StringComparison.OrdinalIgnoreCase))
             {
                 throw new IOException("Extracting Zip entry would have resulted in a file outside the specified destination directory.");
             }
@@ -121,23 +122,14 @@ static partial class Polyfill
         }
     }
 
-    //https://github.com/dotnet/runtime/blob/main/src/libraries/Common/src/System/IO/PathInternal.CaseSensitivity.cs#L9
-    static StringComparison PathStringComparison =
-        OperatingSystemPolyfill.IsWindows() ||
-        OperatingSystemPolyfill.IsMacOS() ||
-        OperatingSystemPolyfill.IsIOS() ||
-        OperatingSystemPolyfill.IsTvOS() ||
-        OperatingSystemPolyfill.IsWatchOS() ?
-            StringComparison.OrdinalIgnoreCase :
-            StringComparison.Ordinal;
-
     static string SanitizeEntryFilePath(string fullName)
     {
         var sanitized = new char[fullName.Length];
         for (var index = 0; index < fullName.Length; index++)
         {
             var ch = fullName[index];
-            if (Path.GetInvalidPathChars().Contains(ch))
+            var chars = Path.GetInvalidPathChars();
+            if (chars.Contains(ch))
             {
                 sanitized[index] = '_';
                 continue;
