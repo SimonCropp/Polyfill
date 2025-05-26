@@ -83,7 +83,7 @@ For example:
         Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.ValueTuple'))">$(DefineConstants);FeatureValueTuple</DefineConstants>
 
       <DefineConstants
-              Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'Microsoft.Bcl.Memory'))">$(DefineConstants);RefsBclMemory</DefineConstants>
+        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'Microsoft.Bcl.Memory'))">$(DefineConstants);RefsBclMemory</DefineConstants>
 
       <MemoryVersion>@(ResolvedCompileFileDefinitions->WithMetadataValue('NuGetPackageId', 'System.Memory')->Metadata('NuGetPackageVersion'))</MemoryVersion>
       
@@ -94,7 +94,7 @@ For example:
         Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Runtime.InteropServices.RuntimeInformation'))">$(DefineConstants);FeatureRuntimeInformation</DefineConstants>
       
       <DefineConstants
-              Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Threading.Tasks.Extensions'))">$(DefineConstants);FeatureValueTask</DefineConstants>
+        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Threading.Tasks.Extensions'))">$(DefineConstants);FeatureValueTask</DefineConstants>
 
       <DefineConstants
               Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Net.Http')) OR @(Reference->AnyHaveMetadataValue('Identity', 'System.Net.Http'))">$(DefineConstants);FeatureHttp</DefineConstants>
