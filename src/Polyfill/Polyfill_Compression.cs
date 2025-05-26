@@ -2,10 +2,11 @@
 
 #pragma warning disable
 
-#if !NET10_0_OR_GREATER && FeatureCompression
+#if FeatureCompression
 namespace Polyfills;
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
@@ -137,7 +138,8 @@ static partial class Polyfill
         for (var index = 0; index < fullName.Length; index++)
         {
             var ch = fullName[index];
-            if (Path.GetInvalidPathChars().Contains(ch))
+            var chars = Path.GetInvalidPathChars();
+            if (chars.Contains(ch))
             {
                 sanitized[index] = '_';
                 continue;
