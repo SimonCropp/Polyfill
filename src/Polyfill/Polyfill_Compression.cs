@@ -2,6 +2,7 @@
 
 #pragma warning disable
 
+#if !NET10_0_OR_GREATER && FeatureCompression
 namespace Polyfills;
 
 using System;
@@ -12,7 +13,7 @@ using System.IO.Compression;
 
 static partial class Polyfill
 {
-#if !NET10_0_OR_GREATER && FeatureCompression
+#if !NET10_0_OR_GREATER
 
     /// <summary>
     /// Opens the entry from the zip archive.
@@ -21,5 +22,132 @@ static partial class Polyfill
     public static Task<Stream> OpenAsync(this ZipArchiveEntry target, CancellationToken cancellationToken = default) =>
         Task.FromResult(target.Open());
 
+    /// <summary>
+    /// Archives a file by compressing it and adding it to the zip archive.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.createentryfromfileasync
+    public static Task<ZipArchiveEntry> CreateEntryFromFileAsync(this System.IO.Compression.ZipArchive target, string sourceFileName, string entryName, CancellationToken cancellationToken = default) =>
+        Task.FromResult(target.CreateEntryFromFile(sourceFileName, entryName));
+
+    /// <summary>
+    /// Archives a file by compressing it and adding it to the zip archive.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.createentryfromfileasync
+    public static Task<ZipArchiveEntry> CreateEntryFromFileAsync(this System.IO.Compression.ZipArchive target, string sourceFileName, string entryName, CompressionLevel compressionLevel, CancellationToken cancellationToken = default) =>
+        Task.FromResult(target.CreateEntryFromFile(sourceFileName, entryName, compressionLevel));
+
+    /// <summary>
+    /// Extracts all the files in the zip archive to a directory on the file system.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttodirectory#system-io-compression-zipfileextensions-extracttodirectory(system-io-compression-ziparchive-system-string)
+    public static Task ExtractToDirectoryAsync(this ZipArchive target, string destinationDirectoryName, CancellationToken cancellationToken = default)
+    {
+        target.ExtractToDirectory(destinationDirectoryName, false);
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Extracts all the files in the zip archive to a directory on the file system.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttodirectoryasync#system-io-compression-zipfileextensions-extracttodirectoryasync(system-io-compression-ziparchive-system-string-system-boolean-system-threading-cancellationtoken)
+    public static Task ExtractToDirectoryAsync(this ZipArchive target, string destinationDirectoryName, bool overwriteFiles, CancellationToken cancellationToken = default)
+    {
+        target.ExtractToDirectory(destinationDirectoryName, overwriteFiles);
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Extracts an entry in the zip archive to a file.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttofileasync#system-io-compression-zipfileextensions-extracttofileasync(system-io-compression-ziparchiveentry-system-string-system-threading-cancellationtoken)
+    public static Task ExtractToFileAsync(this ZipArchiveEntry source, string destinationFileName, CancellationToken cancellationToken = default)
+    {
+        source.ExtractToFile(destinationFileName);
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Extracts an entry in the zip archive to a file.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttofileasync#system-io-compression-zipfileextensions-extracttofileasync(system-io-compression-ziparchiveentry-system-string-system-boolean-system-threading-cancellationtoken)
+    public static Task ExtractToFileAsync(this ZipArchiveEntry source, string destinationFileName, bool overwrite, CancellationToken cancellationToken = default)
+    {
+        source.ExtractToFile(destinationFileName, overwrite);
+        return Task.CompletedTask;
+    }
+#endif
+
+#if !NETSTANDARD2_1_OR_GREATER && !NETCOREAPP2_0_OR_GREATER
+
+    /// <summary>
+    /// Extracts all the files in the zip archive to a directory on the file system.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttodirectory#system-io-compression-zipfileextensions-extracttodirectory(system-io-compression-ziparchive-system-string-system-boolean)
+    public static void ExtractToDirectory(this ZipArchive target, string destinationDirectoryName, bool overwriteFiles)
+    {
+        var directoryInfo = Directory.CreateDirectory(destinationDirectoryName);
+        var destinationDirectoryFullPath = directoryInfo.FullName;
+
+        if (!destinationDirectoryFullPath.EndsWith(Path.DirectorySeparatorChar))
+        {
+            destinationDirectoryFullPath = string.Concat(destinationDirectoryFullPath, Path.DirectorySeparatorChar);
+        }
+
+        foreach (var source in target.Entries)
+        {
+            var fullName = SanitizeEntryFilePath(source.FullName);
+
+            var fileDestinationPath = Path.GetFullPath(Path.Combine(destinationDirectoryFullPath, fullName));
+
+            if (!fileDestinationPath.StartsWith(destinationDirectoryFullPath, PathStringComparison))
+            {
+                throw new IOException("Extracting Zip entry would have resulted in a file outside the specified destination directory.");
+            }
+
+            if (Path.GetFileName(fileDestinationPath).Length == 0)
+            {
+                if (source.Length != 0)
+                {
+                    throw new IOException("Zip entry name ends in directory separator character but contains data.");
+                }
+
+                Directory.CreateDirectory(fileDestinationPath);
+
+                // It is a directory
+                continue;
+            }
+
+            source.ExtractToFile(fileDestinationPath, overwrite: overwriteFiles);
+        }
+    }
+
+    //https://github.com/dotnet/runtime/blob/main/src/libraries/Common/src/System/IO/PathInternal.CaseSensitivity.cs#L9
+    static StringComparison PathStringComparison =
+        OperatingSystemPolyfill.IsWindows() ||
+        OperatingSystemPolyfill.IsMacOS() ||
+        OperatingSystemPolyfill.IsIOS() ||
+        OperatingSystemPolyfill.IsTvOS() ||
+        OperatingSystemPolyfill.IsWatchOS() ?
+            StringComparison.OrdinalIgnoreCase :
+            StringComparison.Ordinal;
+
+    static string SanitizeEntryFilePath(string fullName)
+    {
+        var sanitized = new char[fullName.Length];
+        for (var index = 0; index < fullName.Length; index++)
+        {
+            var ch = fullName[index];
+            if (Path.GetInvalidPathChars().Contains(ch))
+            {
+                sanitized[index] = '_';
+                continue;
+            }
+
+            sanitized[index] = ch;
+        }
+
+        return new string(sanitized);
+    }
 #endif
 }
+#endif
