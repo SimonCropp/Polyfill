@@ -99,21 +99,24 @@ For example:
       <DefineConstants
         Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Net.Http')) OR @(Reference->AnyHaveMetadataValue('Identity', 'System.Net.Http'))">$(DefineConstants);FeatureHttp</DefineConstants>
 
-      <DefineConstants Condition="$(LowerFramework.StartsWith('net10'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp</DefineConstants>
-      <DefineConstants Condition="$(LowerFramework.StartsWith('net9'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp</DefineConstants>
-      <DefineConstants Condition="$(LowerFramework.StartsWith('net8'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp</DefineConstants>
-      <DefineConstants Condition="$(LowerFramework.StartsWith('net7'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp</DefineConstants>
-      <DefineConstants Condition="$(LowerFramework.StartsWith('net6'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp</DefineConstants>
-      <DefineConstants Condition="$(LowerFramework.StartsWith('net5'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp</DefineConstants>
-      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp3.1'">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp</DefineConstants>
-      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp3.0'">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp</DefineConstants>
-      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.2'">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp</DefineConstants>
-      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.1'">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp</DefineConstants>
-      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.0'">$(DefineConstants);FeatureValueTuple;FeatureRuntimeInformation</DefineConstants>
+      <DefineConstants
+        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.IO.Compression')) OR @(Reference->AnyHaveMetadataValue('Identity', 'System.IO.Compression'))">$(DefineConstants);FeatureCompression</DefineConstants>
+
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net10'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net9'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net8'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net7'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net6'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net5'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
+      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp3.1'">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
+      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp3.0'">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
+      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.2'">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
+      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.1'">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
+      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.0'">$(DefineConstants);FeatureValueTuple;FeatureRuntimeInformation;FeatureCompression</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net47'))">$(DefineConstants);FeatureValueTuple</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net48'))">$(DefineConstants);FeatureValueTuple;FeatureRuntimeInformation</DefineConstants>
-      <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.1'))">$(DefineConstants);FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation</DefineConstants>
-      <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.0'))">$(DefineConstants);FeatureValueTuple;FeatureRuntimeInformation</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.1'))">$(DefineConstants);FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureCompression</DefineConstants>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.0'))">$(DefineConstants);FeatureValueTuple;FeatureRuntimeInformation;FeatureCompression</DefineConstants>
     </PropertyGroup>
   </Target>
   <ItemGroup>
