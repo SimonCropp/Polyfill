@@ -240,7 +240,8 @@ public class BuildApiTest
         "AllowUnsafeBlocks",
         "FeatureValueTask",
         "LangVersion13",
-        "FeatureValueTuple"
+        "FeatureValueTuple",
+        "FeatureCompression"
     ];
 
     static BuildApiTest() =>

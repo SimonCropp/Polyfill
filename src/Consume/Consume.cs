@@ -22,6 +22,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
@@ -756,4 +757,9 @@ class Consume
         document.SaveAsync(new StringWriter(), SaveOptions.None, CancellationToken.None);
         document.SaveAsync(new MemoryStream(), SaveOptions.None, CancellationToken.None);
     }
+
+#if FeatureCompression
+    void ZipArchiveEntry_Methods(ZipArchiveEntry entry) =>
+        entry.OpenAsync();
+#endif
 }

@@ -12,7 +12,7 @@ using System.IO.Compression;
 
 static partial class Polyfill
 {
-#if !NET10_0_OR_GREATER
+#if !NET10_0_OR_GREATER && FeatureCompression
 
     /// <summary>
     /// Opens the entry from the zip archive.
