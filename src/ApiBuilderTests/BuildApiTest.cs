@@ -1,9 +1,8 @@
-[TestFixture]
 public class BuildApiTest
 {
     static string solutionDirectory = SolutionDirectoryFinder.Find();
 
-    [Test]
+    [Fact]
     public void RunWithRoslyn()
     {
         var types = ReadFiles();

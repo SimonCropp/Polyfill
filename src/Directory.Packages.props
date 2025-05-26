@@ -19,5 +19,7 @@
     <PackageVersion Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
     <PackageVersion Include="System.IO.Compression" Version="4.3.0" />
     <PackageVersion Include="Microsoft.Sbom.Targets" Version="4.0.3" />
+    <PackageVersion Include="Verify.XunitV3" Version="30.1.0" />
+    <PackageVersion Include="xunit.v3" Version="2.0.2" />
   </ItemGroup>
 </Project>
