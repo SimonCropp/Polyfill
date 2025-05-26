@@ -12,7 +12,7 @@
     }
 
     class ConditionalCompilationRewriter(string targetFramework) :
-        CSharpSyntaxRewriter
+        CSharpSyntaxRewriter(true)
     {
         static SyntaxNode? GetNextSibling(SyntaxNode node)
         {
