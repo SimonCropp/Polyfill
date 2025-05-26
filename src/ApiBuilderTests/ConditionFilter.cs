@@ -1,6 +1,41 @@
 ﻿public class ConditionalCompilationFilterTests
 {
     [Fact]
+    public Task FilterCodeByMultipleTargetFrameworkOr()
+    {
+        var sourceCode =
+            """
+            #if NET6_0 || FeatureMemory
+            Console.WriteLine("NET6_0");
+            #else
+            Console.WriteLine("Exclude");
+            #endif
+            """;
+        var targetFramework = "NET6_0";
+
+        var result = ConditionalCompilationFilter.FilterCodeByTargetFramework(sourceCode, targetFramework);
+
+        return Verify(result);
+    }
+    [Fact]
+    public Task FilterCodeByMultipleTargetFrameworkAnd()
+    {
+        var sourceCode =
+            """
+            #if NET6_0 && FeatureMemory
+            Console.WriteLine("Exclude");
+            #else
+            Console.WriteLine("Include");
+            #endif
+
+            """;
+        var targetFramework = "NET6_0";
+
+        var result = ConditionalCompilationFilter.FilterCodeByTargetFramework(sourceCode, targetFramework);
+
+        return Verify(result);
+    }
+    [Fact]
     public Task FilterCodeByTargetFramework_ShouldKeepMatchingCode()
     {
         var sourceCode =
