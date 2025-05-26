@@ -759,7 +759,17 @@ class Consume
     }
 
 #if FeatureCompression
-    void ZipArchiveEntry_Methods(ZipArchiveEntry entry) =>
+    void ZipArchiveEntry_Methods(ZipArchive zip, ZipArchiveEntry entry)
+    {
         entry.OpenAsync();
+        zip.CreateEntryFromFile("file.txt", "entry.txt");
+        zip.CreateEntryFromFile("file.txt", "entry.txt", CompressionLevel.Optimal);
+        zip.CreateEntryFromFileAsync("file.txt", "entry.txt");
+        zip.CreateEntryFromFileAsync("file.txt", "entry.txt", CompressionLevel.Optimal);
+        zip.ExtractToDirectory("destinationPath", true);
+        zip.ExtractToDirectoryAsync("destinationPath", true);
+        entry.ExtractToFile("destinationPath", true);
+        entry.ExtractToFileAsync("destinationPath", true);
+    }
 #endif
 }
