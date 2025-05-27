@@ -19,7 +19,7 @@ static partial class Polyfill
     /// <param name="source">A sequence of values to determine the maximum value of.</param>
     /// <param name="keySelector">A function to extract the key for each element.</param>
     /// <returns>The value with the maximum key in the sequence.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby?view=net-10.0#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))
     public static TSource? MaxBy<TSource, TKey>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector) =>
@@ -32,7 +32,7 @@ static partial class Polyfill
     /// <param name="keySelector">A function to extract the key for each element.</param>
     /// <param name="comparer">The <see cref="IComparer{TKey}" /> to compare keys.</param>
     /// <returns>The value with the maximum key in the sequence.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby?view=net-10.0#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))
     public static TSource? MaxBy<TSource, TKey>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,

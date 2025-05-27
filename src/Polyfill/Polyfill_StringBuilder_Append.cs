@@ -18,7 +18,7 @@ static partial class Polyfill
     /// <param name="startIndex">The starting position of the substring within value.</param>
     /// <param name="count">The number of characters in value to append.</param>
     /// <returns>A reference to this instance after the append operation is completed.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-text-stringbuilder-system-int32-system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append?view=net-10.0#system-text-stringbuilder-append(system-text-stringbuilder-system-int32-system-int32)
     public static StringBuilder Append(this StringBuilder target, StringBuilder? value, int startIndex, int count)
     {
         if (value == null)
@@ -48,7 +48,7 @@ static partial class Polyfill
     /// </summary>
     /// <param name="value">The read-only character span to append.</param>
     /// <returns>A reference to this instance after the append operation is completed.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-readonlyspan((system-char)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append?view=net-10.0#system-text-stringbuilder-append(system-readonlyspan((system-char)))
     public static StringBuilder Append(this StringBuilder target, ReadOnlySpan<char> value)
     {
         if (value.Length <= 0)
@@ -76,7 +76,7 @@ static partial class Polyfill
     /// <summary>Appends the specified interpolated string to this instance.</summary>
     /// <param name="handler">The interpolated string to append.</param>
     /// <returns>A reference to this instance after the append operation has completed.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-text-stringbuilder-appendinterpolatedstringhandler@)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append?view=net-10.0#system-text-stringbuilder-append(system-text-stringbuilder-appendinterpolatedstringhandler@)
     public static StringBuilder Append(
         StringBuilder target,
         [InterpolatedStringHandlerArgument(nameof(target))]
@@ -86,7 +86,7 @@ static partial class Polyfill
     /// <param name="provider">An object that supplies culture-specific formatting information.</param>
     /// <param name="handler">The interpolated string to append.</param>
     /// <returns>A reference to this instance after the append operation has completed.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-iformatprovider-system-text-stringbuilder-appendinterpolatedstringhandler@)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append?view=net-10.0#system-text-stringbuilder-append(system-iformatprovider-system-text-stringbuilder-appendinterpolatedstringhandler@)
     public static StringBuilder Append(
         StringBuilder target,
         IFormatProvider? provider,
@@ -98,7 +98,7 @@ static partial class Polyfill
     /// <summary>Appends the specified interpolated string to this instance.</summary>
     /// <param name="handler">The interpolated string to append.</param>
     /// <returns>A reference to this instance after the append operation has completed.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-text-stringbuilder-appendinterpolatedstringhandler@)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append?view=net-10.0#system-text-stringbuilder-append(system-text-stringbuilder-appendinterpolatedstringhandler@)
     public static StringBuilder Append(
         StringBuilder target,
         [InterpolatedStringHandlerArgument(nameof(target))] ref StringBuilder.AppendInterpolatedStringHandler handler) =>
@@ -108,7 +108,7 @@ static partial class Polyfill
     /// <param name="provider">An object that supplies culture-specific formatting information.</param>
     /// <param name="handler">The interpolated string to append.</param>
     /// <returns>A reference to this instance after the append operation has completed.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append#system-text-stringbuilder-append(system-iformatprovider-system-text-stringbuilder-appendinterpolatedstringhandler@)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append?view=net-10.0#system-text-stringbuilder-append(system-iformatprovider-system-text-stringbuilder-appendinterpolatedstringhandler@)
     public static StringBuilder Append(
         StringBuilder target,
         IFormatProvider? provider,

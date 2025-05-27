@@ -22,7 +22,7 @@ static partial class ConvertPolyfill
     /// Converts a subset of an array of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
     /// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte()-system-int32-system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring?view=net-10.0#system-convert-tohexstring(system-byte()-system-int32-system-int32)
     public static string ToHexString(byte[] inArray, int offset, int length)
 #if NET
         => Convert.ToHexString(inArray, offset, length);
@@ -52,7 +52,7 @@ static partial class ConvertPolyfill
     /// Converts a subset of an array of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
     /// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-byte()-system-int32-system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower?view=net-10.0#system-convert-tohexstringlower(system-byte()-system-int32-system-int32)
     public static string ToHexStringLower(byte[] inArray, int offset, int length)
 #if NET9_0_OR_GREATER
         => Convert.ToHexStringLower(inArray, offset, length);
@@ -81,7 +81,7 @@ static partial class ConvertPolyfill
     /// <summary>
     /// Converts an array of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-byte())
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring?view=net-10.0#system-convert-tohexstring(system-byte())
     public static string ToHexString(byte[] inArray) =>
 #if NET
         Convert.ToHexString(inArray);
@@ -92,7 +92,7 @@ static partial class ConvertPolyfill
     /// <summary>
     /// Converts an array of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-byte())
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower?view=net-10.0#system-convert-tohexstringlower(system-byte())
     public static string ToHexStringLower(byte[] inArray) =>
 #if NET9_0_OR_GREATER
         Convert.ToHexStringLower(inArray);
@@ -104,7 +104,7 @@ static partial class ConvertPolyfill
     /// <summary>
     /// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring#system-convert-tohexstring(system-readonlyspan((system-byte)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring?view=net-10.0#system-convert-tohexstring(system-readonlyspan((system-byte)))
     public static string ToHexString(ReadOnlySpan<byte> bytes) =>
 #if NET
         Convert.ToHexString(bytes);
@@ -115,7 +115,7 @@ static partial class ConvertPolyfill
     /// <summary>
     /// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower#system-convert-tohexstringlower(system-readonlyspan((system-byte)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower?view=net-10.0#system-convert-tohexstringlower(system-readonlyspan((system-byte)))
     public static string ToHexStringLower(ReadOnlySpan<byte> bytes) =>
 #if NET9_0_OR_GREATER
         Convert.ToHexStringLower(bytes);
@@ -126,7 +126,7 @@ static partial class ConvertPolyfill
     /// <summary>
     /// Converts a span of 8-bit unsigned integers to its equivalent span representation that is encoded with uppercase hex characters.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstring
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstring?view=net-10.0
     public static bool TryToHexString(ReadOnlySpan<byte> source, Span<char> destination, out int charsWritten)
 #if NET9_0_OR_GREATER
         => Convert.TryToHexString(source, destination, out charsWritten);
@@ -148,7 +148,7 @@ static partial class ConvertPolyfill
     /// <summary>
     /// Converts a span of 8-bit unsigned integers to its equivalent span representation that is encoded with lowercase hex characters.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstringlower
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstringlower?view=net-10.0
     public static bool TryToHexStringLower(ReadOnlySpan<byte> source, Span<char> destination, out int charsWritten)
 #if NET9_0_OR_GREATER
         => Convert.TryToHexStringLower(source, destination, out charsWritten);
@@ -173,7 +173,7 @@ static partial class ConvertPolyfill
     /// <summary>
     /// Converts the specified string, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-string)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-10.0#system-convert-fromhexstring(system-string)
     public static byte[] FromHexString(string hexString)
 #if NET
         => Convert.FromHexString(hexString);
@@ -208,7 +208,7 @@ static partial class ConvertPolyfill
     /// <summary>
     /// Converts the span, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring#system-convert-fromhexstring(system-readonlyspan((system-char)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-10.0#system-convert-fromhexstring(system-readonlyspan((system-char)))
     public static byte[] FromHexString(ReadOnlySpan<char> chars)
 #if NET
         => Convert.FromHexString(chars);

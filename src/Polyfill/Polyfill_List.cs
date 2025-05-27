@@ -13,7 +13,7 @@ static partial class Polyfill
 
     /// <summary>Returns a read-only <see cref="ReadOnlyCollection{T}" /> wrapper for the current collection.</summary>
     /// <returns>An object that acts as a read-only wrapper around the current <see cref="IList{T}" />.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly#system-collections-generic-collectionextensions-asreadonly-1(system-collections-generic-ilist((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly?view=net-10.0#system-collections-generic-collectionextensions-asreadonly-1(system-collections-generic-ilist((-0)))
     public static ReadOnlyCollection<T> AsReadOnly<T>(this IList<T> target) =>
         new(target);
 #endif
@@ -23,7 +23,7 @@ static partial class Polyfill
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="list">The list to which the elements should be added.</param>
     /// <param name="source">The span whose elements should be added to the end of the <see cref="List{T}"/>.</param>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.addrange
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.addrange?view=net-10.0
     public static void AddRange<T>(this List<T> target, ReadOnlySpan<T> source)
     {
         foreach (var item in source)
@@ -37,7 +37,7 @@ static partial class Polyfill
     /// <param name="list">The list into which the elements should be inserted.</param>
     /// <param name="index">The zero-based index at which the new elements should be inserted.</param>
     /// <param name="source">The span whose elements should be added to the <see cref="List{T}"/>.</param>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange?view=net-10.0
     public static void InsertRange<T>(this List<T> target, int index, ReadOnlySpan<T> source)
     {
         for (var i = 0; i < source.Length; i++)
@@ -51,7 +51,7 @@ static partial class Polyfill
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="list">The list from which the elements are copied.</param>
     /// <param name="destination">The span that is the destination of the elements copied from <paramref name="list"/>.</param>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.copyto
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.copyto?view=net-10.0
     public static void CopyTo<T>(this List<T> target, Span<T> destination)
     {
         for (var index = 0; index < target.Count; index++)
@@ -66,7 +66,7 @@ static partial class Polyfill
     /// <summary>
     /// Ensures that the capacity of this list is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.ensurecapacity#system-collections-generic-list-1-ensurecapacity(system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.ensurecapacity?view=net-10.0#system-collections-generic-list-1-ensurecapacity(system-int32)
     public static void EnsureCapacity<T>(this List<T> target, int capacity)
     {
     }
@@ -74,7 +74,7 @@ static partial class Polyfill
     /// <summary>
     /// Sets the capacity to the actual number of elements in the List<T>, if that number is less than a threshold value.
     /// </summary>
-    //Link:https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.trimexcess
+    //Link:https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.trimexcess?view=net-10.0
     public static void TrimExcess<T>(this List<T> target)
     {
     }

@@ -13,7 +13,7 @@ using Diagnostics.CodeAnalysis;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.isexternalinit
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.isexternalinit?view=net-10.0
 #if PolyPublic
 public
 #endif

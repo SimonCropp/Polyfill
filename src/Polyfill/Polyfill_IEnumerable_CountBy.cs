@@ -13,7 +13,7 @@ static partial class Polyfill
     /// <summary>
     /// https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/overview#linq
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.countby
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.countby?view=net-10.0
     public static IEnumerable<KeyValuePair<TKey, int>> CountBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? keyComparer = null)
         where TKey : notnull
     {

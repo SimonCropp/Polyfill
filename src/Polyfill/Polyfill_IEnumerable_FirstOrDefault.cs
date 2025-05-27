@@ -16,7 +16,7 @@ static partial class Polyfill
     /// <param name="predicate">A function to test each element for a condition.</param>
     /// <param name="defaultValue">The default value to return if the sequence is empty.</param>
     /// <returns><paramref name="defaultValue" /> if <paramref name="source" /> is empty or if no element passes the test specified by <paramref name="predicate" />; otherwise, the first element in <paramref name="source" /> that passes the test specified by <paramref name="predicate" />.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.firstordefault#system-linq-enumerable-firstordefault-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-boolean))-0)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.firstordefault?view=net-10.0#system-linq-enumerable-firstordefault-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-boolean))-0)
     public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate, TSource defaultValue)
     {
         TSource? first = source.TryGetFirst(predicate, out bool found);
@@ -28,7 +28,7 @@ static partial class Polyfill
     /// <param name="source">The <see cref="IEnumerable{T}" /> to return the first element of.</param>
     /// <param name="defaultValue">The default value to return if the sequence is empty.</param>
     /// <returns><paramref name="defaultValue" /> if <paramref name="source" /> is empty; otherwise, the first element in <paramref name="source" />.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.firstordefault#system-linq-enumerable-firstordefault-1(system-collections-generic-ienumerable((-0))-0)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.firstordefault?view=net-10.0#system-linq-enumerable-firstordefault-1(system-collections-generic-ienumerable((-0))-0)
     public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, TSource defaultValue)
     {
         TSource? first = source.TryGetFirst(out bool found);

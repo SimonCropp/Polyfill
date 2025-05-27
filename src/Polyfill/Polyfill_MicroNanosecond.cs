@@ -12,42 +12,42 @@ static partial class Polyfill
     /// <summary>
     /// Gets the nanosecond component of the time represented by the current <see cref="TimeSpan"/> object.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds?view=net-10.0
     public static int Nanoseconds(this TimeSpan target) =>
         target.Nanoseconds;
 
     /// <summary>
     /// Gets the nanosecond component of the time represented by the current <see cref="DateTime"/> object.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.nanosecond
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.nanosecond?view=net-10.0
     public static int Nanosecond(this DateTime target) =>
         target.Nanosecond;
 
     /// <summary>
     /// Gets the nanosecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.nanosecond
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.nanosecond?view=net-10.0
     public static int Nanosecond(this DateTimeOffset target) =>
         target.Nanosecond;
 
     /// <summary>
     /// Gets the microsecond component of the time represented by the current <see cref="TimeSpan"/> object.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecond
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecond?view=net-10.0
     public static int Microseconds(this TimeSpan target) =>
         target.Microseconds;
 
     /// <summary>
     /// Gets the microsecond component of the time represented by the current <see cref="DateTime"/> object.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.microsecond
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.microsecond?view=net-10.0
     public static int Microsecond(this DateTime target) =>
         target.Microsecond;
 
     /// <summary>
     /// Gets the microsecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.microsecond
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.microsecond?view=net-10.0
     public static int Microsecond(this DateTimeOffset target) =>
         target.Microsecond;
 
@@ -58,42 +58,42 @@ static partial class Polyfill
     /// <summary>
     /// Gets the nanosecond component of the time represented by the current <see cref="TimeSpan"/> object.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds?view=net-10.0
     public static int Nanoseconds(this TimeSpan target) =>
         (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
 
     /// <summary>
     /// Gets the nanosecond component of the time represented by the current <see cref="DateTime"/> object.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.nanosecond
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.nanosecond?view=net-10.0
     public static int Nanosecond(this DateTime target) =>
         (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
 
     /// <summary>
     /// Gets the nanosecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.nanosecond
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.nanosecond?view=net-10.0
     public static int Nanosecond(this DateTimeOffset target) =>
         (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
 
     /// <summary>
     /// Gets the microsecond component of the time represented by the current <see cref="TimeSpan"/> object.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds?view=net-10.0
     public static int Microseconds(this TimeSpan target) =>
         (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
 
     /// <summary>
     /// Gets the microsecond component of the time represented by the current <see cref="DateTime"/> object.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.microsecond
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.microsecond?view=net-10.0
     public static int Microsecond(this DateTime target) =>
         (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
 
     /// <summary>
     /// Gets the microsecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.microsecond
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.microsecond?view=net-10.0
     public static int Microsecond(this DateTimeOffset target) =>
         (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
 

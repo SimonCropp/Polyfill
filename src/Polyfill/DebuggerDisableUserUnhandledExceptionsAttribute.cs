@@ -14,7 +14,7 @@ using Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(System.AttributeTargets.Method)]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.debuggerdisableuserunhandledexceptionsattribute
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.debuggerdisableuserunhandledexceptionsattribute?view=net-10.0
 #if PolyPublic
 public
 #endif

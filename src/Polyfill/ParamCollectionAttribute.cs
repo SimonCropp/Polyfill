@@ -14,7 +14,7 @@ using Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter, Inherited = true, AllowMultiple = false)]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.paramcollectionattribute
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.paramcollectionattribute?view=net-10.0
 #if PolyPublic
 public
 #endif

@@ -19,7 +19,7 @@ static partial class Polyfill
     /// <param name="chars">The character span receiving the decoded bytes.</param>
     /// <param name="charsWritten">Upon successful completion of the operation, the number of chars decoded into <paramref name="chars"/>.</param>
     /// <returns><see langword="true"/> if all of the characters were decoded into the destination; <see langword="false"/> if the destination was too small to contain all the decoded chars.</returns>
-    ///Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetchars
+    ///Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetchars?view=net-10.0
     public static bool TryGetChars(this Encoding target, ReadOnlySpan<byte> bytes, Span<char> chars, out int charsWritten)
     {
         int required = target.GetCharCount(bytes);
@@ -38,7 +38,7 @@ static partial class Polyfill
     /// <param name="bytes">The byte span to hold the encoded bytes.</param>
     /// <param name="bytesWritten">Upon successful completion of the operation, the number of bytes encoded into <paramref name="bytes"/>.</param>
     /// <returns><see langword="true"/> if all of the characters were encoded into the destination; <see langword="false"/> if the destination was too small to contain all the encoded bytes.</returns>
-    ///Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetbytes
+    ///Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetbytes?view=net-10.0
     public static bool TryGetBytes(this Encoding target, ReadOnlySpan<char> chars, Span<byte> bytes, out int bytesWritten)
     {
         int required = target.GetByteCount(chars);

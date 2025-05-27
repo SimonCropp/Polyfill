@@ -16,7 +16,7 @@ static partial class Polyfill
     /// <param name="predicate">A function to test an element for a condition.</param>
     /// <param name="defaultValue">The default value to return if the sequence is empty.</param>
     /// <returns>The single element of the input sequence that satisfies the condition, or <paramref name="defaultValue" /> if no such element is found.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.singleordefault#system-linq-enumerable-singleordefault-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-boolean))-0)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.singleordefault?view=net-10.0#system-linq-enumerable-singleordefault-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-boolean))-0)
     public static TSource SingleOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate, TSource defaultValue)
     {
         var single = source.TryGetSingle(predicate, out bool found);
@@ -54,7 +54,7 @@ static partial class Polyfill
     /// <param name="source">An <see cref="IEnumerable{T}" /> to return the single element of.</param>
     /// <param name="defaultValue">The default value to return if the sequence is empty.</param>
     /// <returns>The single element of the input sequence, or <paramref name="defaultValue" /> if the sequence contains no elements.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.singleordefault#system-linq-enumerable-singleordefault-1(system-collections-generic-ienumerable((-0))-0)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.singleordefault?view=net-10.0#system-linq-enumerable-singleordefault-1(system-collections-generic-ienumerable((-0))-0)
     public static TSource SingleOrDefault<TSource>(this IEnumerable<TSource> source, TSource defaultValue)
     {
         var single = source.TryGetSingle(out bool found);

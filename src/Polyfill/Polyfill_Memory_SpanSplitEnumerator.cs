@@ -16,7 +16,7 @@ static partial class Polyfill
     /// Enables enumerating each split within a <see cref="ReadOnlySpan{T}"/> that has been divided using one or more separators.
     /// </summary>
     //https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.cs
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.spansplitenumerator-1")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.spansplitenumerator-1?view=net-10.0
     public ref struct SpanSplitEnumerator<T>
         where T : IEquatable<T>
     {

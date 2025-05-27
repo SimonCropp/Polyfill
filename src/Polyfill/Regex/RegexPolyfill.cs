@@ -28,7 +28,7 @@ public
     /// Indicates whether the specified regular expression finds a match in the specified input span, using the specified matching options and time-out interval.
     /// </summary>
     /// <returns>true if the regular expression finds a match; otherwise, false.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-10.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan)
     public static bool IsMatch(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan timeout)
     {
 #if NET7_0_OR_GREATER
@@ -42,7 +42,7 @@ public
     /// Indicates whether the specified regular expression finds a match in the specified input span, using the specified matching options.
     /// </summary>
     /// <returns>true if the regular expression finds a match; otherwise, false.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-10.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions)
     public static bool IsMatch(ReadOnlySpan<char> input, string pattern, RegexOptions options)
     {
 #if NET7_0_OR_GREATER
@@ -56,7 +56,7 @@ public
     /// Indicates whether the specified regular expression finds a match in the specified input span.
     /// </summary>
     /// <returns>true if the regular expression finds a match; otherwise, false.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-10.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string)
     public static bool IsMatch(ReadOnlySpan<char> input, string pattern)
     {
 #if NET7_0_OR_GREATER
@@ -70,7 +70,7 @@ public
     /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
     /// </summary>
     /// <returns>A Regex.ValueMatchEnumerator to iterate over the matches.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-10.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string)
     public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern)
     {
 #if NET7_0_OR_GREATER
@@ -84,7 +84,7 @@ public
     /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
     /// </summary>
     /// <returns>A Regex.ValueMatchEnumerator to iterate over the matches.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-10.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan)
     public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan timeout)
     {
 #if NET7_0_OR_GREATER
@@ -98,7 +98,7 @@ public
     /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
     /// </summary>
     /// <returns>A Regex.ValueMatchEnumerator to iterate over the matches.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-10.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions)
     public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern, RegexOptions options)
     {
 #if NET7_0_OR_GREATER

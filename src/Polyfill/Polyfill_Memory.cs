@@ -17,14 +17,14 @@ static partial class Polyfill
     /// <summary>
     /// Returns an enumeration of lines over the provided span.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines#system-memoryextensions-enumeratelines(system-readonlyspan((system-char)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines?view=net-10.0#system-memoryextensions-enumeratelines(system-readonlyspan((system-char)))
     public static SpanLineEnumerator EnumerateLines(this ReadOnlySpan<char> target) =>
         new(target);
 
     /// <summary>
     /// Returns an enumeration of lines over the provided span.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines#system-memoryextensions-enumeratelines(system-span((system-char)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines?view=net-10.0#system-memoryextensions-enumeratelines(system-span((system-char)))
     public static SpanLineEnumerator EnumerateLines(this Span<char> target) =>
         new(target);
 
@@ -36,7 +36,7 @@ static partial class Polyfill
     /// Removes all leading white-space characters from the span.
     /// </summary>
     /// <param name="span">The source span from which the characters are removed.</param>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimstart#system-memoryextensions-trimstart(system-span((system-char)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimstart?view=net-10.0#system-memoryextensions-trimstart(system-span((system-char)))
     public static Span<char> TrimStart(this Span<char> target)
         => target.Slice(ClampStart(target));
 
@@ -44,7 +44,7 @@ static partial class Polyfill
     /// Removes all trailing white-space characters from the span.
     /// </summary>
     /// <param name="span">The source span from which the characters are removed.</param>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimend#system-memoryextensions-trimend(system-span((system-char)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimend?view=net-10.0#system-memoryextensions-trimend(system-span((system-char)))
     public static Span<char> TrimEnd(this Span<char> target)
         => target.Slice(0, ClampEnd(target, 0));
 
@@ -92,7 +92,7 @@ static partial class Polyfill
     /// </summary>
     /// <param name="value">The value to search for.</param>
     /// <returns><c>true</c> if found, <c>false</c> otherwise.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-10.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)
     public static bool Contains<T>(
         this ReadOnlySpan<T> target,
         T value)
@@ -114,7 +114,7 @@ static partial class Polyfill
     /// </summary>
     /// <param name="value">The value to search for.</param>
     /// <returns><c>true</c> if found, <c>false</c> otherwise.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-span((-0))-0)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-10.0#system-memoryextensions-contains-1(system-span((-0))-0)
     public static bool Contains<T>(
         this Span<T> target,
         T value)
@@ -137,7 +137,7 @@ static partial class Polyfill
     /// <param name="target">The first sequence to compare.</param>
     /// <param name="other">The second sequence to compare.</param>
     /// <returns><c>true</c> if the two sequences are equal; otherwise, <c>false</c>.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal?view=net-10.0#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
     public static bool SequenceEqual(
         this ReadOnlySpan<char> target,
         string other) =>
@@ -149,7 +149,7 @@ static partial class Polyfill
     /// <param name="target">The first sequence to compare.</param>
     /// <param name="other">The second sequence to compare.</param>
     /// <returns><c>true</c> if the two sequences are equal; otherwise, <c>false</c>.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal?view=net-10.0#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))
     public static bool SequenceEqual(
         this Span<char> target,
         string other) =>

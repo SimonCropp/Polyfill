@@ -219,6 +219,10 @@ public class BuildApiTest
             }
 
             reference = comment.Replace("//Link: ", string.Empty);
+            if (reference.Contains("learn.") && !reference.Contains("?view=net-10.0"))
+            {
+                throw new($"Missing view: {reference}");
+            }
             return true;
         }
 

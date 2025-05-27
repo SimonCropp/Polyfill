@@ -14,7 +14,7 @@ static partial class Polyfill
     /// Indicates whether the regular expression specified in the Regex constructor finds a match in a specified input span.
     /// </summary>
     /// <returns>true if the regular expression finds a match; otherwise, false.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-10.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-int32)
     public static bool IsMatch(this Regex target, ReadOnlySpan<char> input, int startat) =>
         target.IsMatch(input.ToString(), startat);
 
@@ -22,7 +22,7 @@ static partial class Polyfill
     /// Indicates whether the regular expression specified in the Regex constructor finds a match in a specified input span.
     /// </summary>
     /// <returns>true if the regular expression finds a match; otherwise, false.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-10.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char)))
     public static bool IsMatch(this Regex target, ReadOnlySpan<char> input) =>
         target.IsMatch(input.ToString());
 
@@ -30,7 +30,7 @@ static partial class Polyfill
     /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
     /// </summary>
     /// <returns>A Regex.ValueMatchEnumerator to iterate over the matches.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-10.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char)))
     public static ValueMatchEnumerator EnumerateMatches (this Regex target, ReadOnlySpan<char> input) =>
         new(target, input, target.RightToLeft ? input.Length : 0);
 
@@ -38,7 +38,7 @@ static partial class Polyfill
     /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
     /// </summary>
     /// <returns>A Regex.ValueMatchEnumerator to iterate over the matches.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-10.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-int32)
     public static ValueMatchEnumerator EnumerateMatches (this Regex target, ReadOnlySpan<char> input, int startat) =>
         new(target, input, startat);
 }
