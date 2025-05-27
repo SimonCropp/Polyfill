@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
 #if FeatureMemory && NET6_0_OR_GREATER && !NET10_0_OR_GREATER
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.defaultinterpolatedstringhandler.clear
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.defaultinterpolatedstringhandler.clear?view=net-10.0
     public static void Clear(this DefaultInterpolatedStringHandler target) =>
         target.ToStringAndClear();
 #endif

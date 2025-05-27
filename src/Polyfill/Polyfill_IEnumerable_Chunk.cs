@@ -19,7 +19,7 @@ static partial class Polyfill
     /// <returns>
     /// An <see cref="IEnumerable{T}"/> that contains the elements the input sequence split into chunks of size <paramref name="size"/>.
     /// </returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.chunk
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.chunk?view=net-10.0
     public static IEnumerable<TSource[]> Chunk<TSource>(this IEnumerable<TSource> source, int size)
     {
         if (source is null)

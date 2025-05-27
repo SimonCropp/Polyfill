@@ -20,7 +20,7 @@ static partial class DelegatePolyfill
     /// <summary>
     /// Gets an enumerator for the invocation targets of this delegate.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.enumerateinvocationlist
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.enumerateinvocationlist?view=net-10.0
 #if NET9_0_OR_GREATER
     public static Delegate.InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate? target) where TDelegate : Delegate =>
         Delegate.EnumerateInvocationList(target);

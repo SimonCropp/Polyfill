@@ -14,7 +14,7 @@ using Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Property, Inherited = false)]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.featureswitchdefinitionattribute
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.featureswitchdefinitionattribute?view=net-10.0
 #if PolyPublic
 public
 #endif

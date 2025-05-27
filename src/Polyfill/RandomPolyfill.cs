@@ -18,7 +18,7 @@ static partial class RandomPolyfill
     /// <summary>
     /// Provides a thread-safe Random instance that may be used concurrently from any thread.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.shared
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.shared?view=net-10.0
     public static Random Shared { get; } =
 #if NET6_0_OR_GREATER
         Random.Shared;
