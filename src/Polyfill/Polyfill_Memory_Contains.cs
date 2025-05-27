@@ -19,7 +19,7 @@ static partial class Polyfill
     /// <summary>
     /// Indicates whether a specified value occurs within a read-only span.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains#system-memoryextensions-contains-1(system-readonlyspan((-0))-0-system-collections-generic-iequalitycomparer((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-10.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0-system-collections-generic-iequalitycomparer((-0)))
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool Contains<T>(this ReadOnlySpan<T> span, T value, IEqualityComparer<T>? comparer = null) =>
         span.IndexOf(value, comparer) >= 0;

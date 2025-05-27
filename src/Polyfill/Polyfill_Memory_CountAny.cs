@@ -13,7 +13,7 @@ static partial class Polyfill
 #if NET8_0_OR_GREATER && !NET10_0_OR_GREATER
 
     /// <summary>Counts the number of times any of the specified <paramref name="values"/> occurs in the <paramref name="span"/>.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.countany#system-memoryextensions-countany-1(system-readonlyspan((-0))-system-buffers-searchvalues((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.countany?view=net-10.0#system-memoryextensions-countany-1(system-readonlyspan((-0))-system-buffers-searchvalues((-0)))
     public static int CountAny<T>(this ReadOnlySpan<T> span, SearchValues<T> values)
         where T : IEquatable<T>?
     {
@@ -30,7 +30,7 @@ static partial class Polyfill
     }
 
     /// <summary>Counts the number of times any of the specified <paramref name="values"/> occurs in the <paramref name="span"/>.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.countany#system-memoryextensions-countany-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.countany?view=net-10.0#system-memoryextensions-countany-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
     public static int CountAny<T>(this ReadOnlySpan<T> span, params ReadOnlySpan<T> values) where T : IEquatable<T>?
     {
         int count = 0;
@@ -46,7 +46,7 @@ static partial class Polyfill
     }
 
     /// <summary>Counts the number of times any of the specified <paramref name="values"/> occurs in the <paramref name="span"/>.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.countany#system-memoryextensions-countany-1(system-readonlyspan((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.countany?view=net-10.0#system-memoryextensions-countany-1(system-readonlyspan((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0)))
     public static int CountAny<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values, IEqualityComparer<T>? comparer = null)
     {
         int count = 0;
