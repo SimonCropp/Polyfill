@@ -32,12 +32,7 @@ static partial class Polyfill
         TimeSpan timeout,
         CancellationToken cancellationToken)
     {
-        if (target is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-
-        long totalMilliseconds = (long) timeout.TotalMilliseconds;
+        var totalMilliseconds = (long) timeout.TotalMilliseconds;
         if (totalMilliseconds < -1 || totalMilliseconds > MaxSupportedTimeout)
         {
             throw new ArgumentOutOfRangeException(nameof(timeout));

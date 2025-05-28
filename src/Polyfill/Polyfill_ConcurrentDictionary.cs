@@ -18,20 +18,6 @@ static partial class Polyfill
     public static TValue GetOrAdd<TKey, TValue, TArg>(this ConcurrentDictionary<TKey, TValue> target, TKey key, Func<TKey, TArg, TValue> valueFactory, TArg factoryArgument)
         where TKey : notnull
     {
-        if (target is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-
-        if (key is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-        if (valueFactory is null)
-        {
-            throw new ArgumentNullException(nameof(valueFactory));
-        }
-
         while (true)
         {
             TValue value;

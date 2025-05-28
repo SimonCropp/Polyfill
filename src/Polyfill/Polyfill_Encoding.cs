@@ -18,11 +18,6 @@ static partial class Polyfill
 #if AllowUnsafeBlocks
     public static unsafe int GetBytes(this Encoding target, ReadOnlySpan<char> chars, Span<byte> bytes)
     {
-        if (target is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-
         fixed (char* charsPtr = chars)
         fixed (byte* bytesPtr = bytes)
         {
@@ -32,11 +27,6 @@ static partial class Polyfill
 #else
     public static int GetBytes(this Encoding target, ReadOnlySpan<char> chars, Span<byte> bytes)
     {
-        if (target is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-
         var result = target.GetBytes(chars.ToArray());
         result.CopyTo(bytes);
         return result.Length;
@@ -49,11 +39,6 @@ static partial class Polyfill
 #if AllowUnsafeBlocks
     public static unsafe string GetString(this Encoding target, ReadOnlySpan<byte> bytes)
     {
-        if (target is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-
         fixed (byte* bytesPtr = bytes)
         {
             return target.GetString(bytesPtr, bytes.Length);
@@ -62,11 +47,6 @@ static partial class Polyfill
 #else
     public static string GetString(this Encoding target, ReadOnlySpan<byte> bytes)
     {
-        if (target is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-
         return target.GetString(bytes.ToArray());
     }
 #endif

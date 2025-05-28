@@ -16,11 +16,6 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.chunk?view=net-10.0
     public static IEnumerable<TSource[]> Chunk<TSource>(this IEnumerable<TSource> source, int size)
     {
-        if (source is null)
-        {
-            throw new ArgumentNullException(nameof(source));
-        }
-
         if (size < 1)
         {
             throw new ArgumentOutOfRangeException(nameof(size), size, "Size must be greater than 0.");

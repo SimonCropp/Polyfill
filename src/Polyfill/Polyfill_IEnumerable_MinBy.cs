@@ -28,16 +28,6 @@ static partial class Polyfill
         IComparer<TKey>? comparer)
     {
         // Simplified from https://github.com/dotnet/runtime/blob/5d09a8f94c72ca4ef0a9c79eb9c58d06198e3ba9/src/libraries/System.Linq/src/System/Linq/Min.cs#L413-L503
-        if (source is null)
-        {
-            throw new ArgumentNullException(nameof(source));
-        }
-
-        if (keySelector is null)
-        {
-            throw new ArgumentNullException(nameof(keySelector));
-        }
-
         comparer ??= Comparer<TKey>.Default;
 
         using IEnumerator<TSource> e = source.GetEnumerator();

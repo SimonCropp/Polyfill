@@ -83,11 +83,6 @@ static partial class Polyfill
         char separator,
         IEnumerable<T> values)
     {
-        if (values == null)
-        {
-            throw new ArgumentNullException(nameof(values));
-        }
-
         using var enumerator = values.GetEnumerator();
         if (!enumerator.MoveNext())
         {
@@ -118,11 +113,6 @@ static partial class Polyfill
         char separator,
         T[] values)
     {
-        if (values == null)
-        {
-            throw new ArgumentNullException(nameof(values));
-        }
-
         if (values.Length == 0)
         {
             return target;
@@ -152,11 +142,6 @@ static partial class Polyfill
         string separator,
         IEnumerable<T> values)
     {
-        if (values == null)
-        {
-            throw new ArgumentNullException(nameof(values));
-        }
-
         using var enumerator = values.GetEnumerator();
         if (!enumerator.MoveNext())
         {
@@ -187,11 +172,6 @@ static partial class Polyfill
         string separator,
         T[] values)
     {
-        if (values == null)
-        {
-            throw new ArgumentNullException(nameof(values));
-        }
-
         if (values.Length == 0)
         {
             return target;

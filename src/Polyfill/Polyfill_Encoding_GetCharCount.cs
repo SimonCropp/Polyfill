@@ -20,11 +20,6 @@ static partial class Polyfill
 #if AllowUnsafeBlocks
     public static unsafe int GetCharCount(this Encoding target, ReadOnlySpan<byte> bytes)
     {
-        if (target is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-
         fixed (byte* bytesPtr = bytes)
         {
             return target.GetCharCount(bytesPtr, bytes.Length);
@@ -33,11 +28,6 @@ static partial class Polyfill
 #else
     public static int GetCharCount(this Encoding target, ReadOnlySpan<byte> bytes)
     {
-        if (target is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-
         return target.GetCharCount(bytes.ToArray());
     }
 #endif

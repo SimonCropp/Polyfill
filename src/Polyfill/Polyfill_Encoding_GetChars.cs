@@ -20,11 +20,6 @@ static partial class Polyfill
 #if AllowUnsafeBlocks
     public static unsafe int GetChars(this Encoding target, ReadOnlySpan<byte> bytes, Span<char> chars)
     {
-        if (target is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-
         fixed (byte* bytesPtr = bytes)
         fixed (char* charsPtr = chars)
         {
