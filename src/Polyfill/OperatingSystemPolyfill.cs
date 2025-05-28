@@ -310,7 +310,7 @@ static class OperatingSystemPolyfill
     }
 
 #if !NET
-    private static bool? isAndroid;
+    static bool? isAndroid;
 #endif
 
     /// <summary>
@@ -340,7 +340,7 @@ static class OperatingSystemPolyfill
     }
 
 #if !NET
-    private static Version? androidVersion;
+    static Version? androidVersion;
 #endif
 
     /// <summary>

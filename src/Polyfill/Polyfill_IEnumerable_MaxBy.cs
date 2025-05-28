@@ -67,7 +67,6 @@ static partial class Polyfill
                 {
                     if (!e.MoveNext())
                     {
-                        // All keys are null, surface the first element.
                         return firstValue;
                     }
 

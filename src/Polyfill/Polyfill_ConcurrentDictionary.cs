@@ -18,11 +18,6 @@ static partial class Polyfill
     public static TValue GetOrAdd<TKey, TValue, TArg>(this ConcurrentDictionary<TKey, TValue> target, TKey key, Func<TKey, TArg, TValue> valueFactory, TArg factoryArgument)
         where TKey : notnull
     {
-        // Implementation based on https://github.com/dotnet/runtime/issues/13978#issuecomment-69494764.
-        // Because this API is intended to be used in high performance scenarios where avoiding allocations
-        // is important, we can't delegate to the existing `GetOrAdd`2`, as that would allocate a closure
-        // over `factoryArgument`.
-
         if (target is null)
         {
             throw new ArgumentNullException(nameof(target));

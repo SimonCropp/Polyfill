@@ -23,20 +23,12 @@ public
 #endif
 struct AppendInterpolatedStringHandler
 {
-    // Implementation note:
-    // As this type is only intended to be targeted by the compiler, public APIs eschew argument validation logic
-    // in a variety of places, e.g. allowing a null input when one isn't expected to produce a NullReferenceException rather
-    // than an ArgumentNullException.
-
     const int StackallocCharBufferSizeLimit = 256;
 
-    /// <summary>The associated StringBuilder to which to append.</summary>
     StringBuilder _stringBuilder;
 
-    /// <summary>Optional provider to pass to IFormattable.ToString or ISpanFormattable.TryFormat calls.</summary>
     IFormatProvider? _provider;
 
-    /// <summary>Whether <see cref="_provider"/> provides an ICustomFormatter.</summary>
     bool _hasCustomFormatter;
 
     /// <summary>Creates a handler used to append an interpolated string into a <see cref="StringBuilder"/>.</summary>
@@ -60,41 +52,23 @@ struct AppendInterpolatedStringHandler
 
     #region AppendFormatted
 
-    // Design note:
-    // This provides the same set of overloads and semantics as DefaultInterpolatedStringHandler.
-
     #region AppendFormatted T
 
     /// <summary>Writes the specified value to the handler.</summary>
     public void AppendFormatted<T>(T value)
     {
-        // This method could delegate to AppendFormatted with a null format, but explicitly passing
-        // default as the format to TryFormat helps to improve code quality in some cases when TryFormat is inlined,
-        // e.g. for Int32 it enables the JIT to eliminate code in the inlined method based on a length check on the format.
-
         if (_hasCustomFormatter)
         {
-            // If there's a custom formatter, always use it.
             AppendCustomFormatter(value, format: null);
         }
         else if (value is IFormattable fValue)
         {
-            // Check first for IFormattable, even though we'll prefer to use ISpanFormattable, as the latter
-            // requires the former.  For value types, it won't matter as the type checks devolve into
-            // JIT-time constants.  For reference types, they're more likely to implement IFormattable
-            // than they are to implement ISpanFormattable: if they don't implement either, we save an
-            // interface check over first checking for ISpanFormattable and then for IFormattable, and
-            // if it only implements IFormattable, we come out even: only if it implements both do we
-            // end up paying for an extra interface check.
-
             if (typeof(T).IsEnum || HasTryFormatExtension(typeof(T)) || fValue is ISpanFormattable)
             {
-                // Formats into temporary space and then copies the result into the StringBuilder.
                 AppendFormattedWithTempSpace(value, 0, format: null);
             }
             else
             {
-                // constrained call avoiding boxing for value types
                 _stringBuilder.Append(fValue.ToString(format: null, _provider));
             }
         }
@@ -109,27 +83,16 @@ struct AppendInterpolatedStringHandler
     {
         if (_hasCustomFormatter)
         {
-            // If there's a custom formatter, always use it.
             AppendCustomFormatter(value, format);
         }
         else if (value is IFormattable fValue)
         {
-            // Check first for IFormattable, even though we'll prefer to use ISpanFormattable, as the latter
-            // requires the former.  For value types, it won't matter as the type checks devolve into
-            // JIT-time constants.  For reference types, they're more likely to implement IFormattable
-            // than they are to implement ISpanFormattable: if they don't implement either, we save an
-            // interface check over first checking for ISpanFormattable and then for IFormattable, and
-            // if it only implements IFormattable, we come out even: only if it implements both do we
-            // end up paying for an extra interface check.
-
             if (typeof(T).IsEnum || HasTryFormatExtension(typeof(T)) || fValue is ISpanFormattable)
             {
-                // Formats into temporary space and then copies the result into the StringBuilder.
                 AppendFormattedWithTempSpace(value, 0, format);
             }
             else
             {
-                // constrained call avoiding boxing for value types
                 _stringBuilder.Append(fValue.ToString(format, _provider));
             }
         }
@@ -148,12 +111,10 @@ struct AppendInterpolatedStringHandler
     {
         if (alignment == 0)
         {
-            // This overload is used as a fallback from several disambiguation overloads, so special-case 0.
             AppendFormatted(value, format);
         }
         else if (alignment < 0)
         {
-            // Left aligned: format into the handler, then append any additional padding required.
             var start = _stringBuilder.Length;
             AppendFormatted(value, format);
             var paddingRequired = -alignment - (_stringBuilder.Length - start);
@@ -164,19 +125,12 @@ struct AppendInterpolatedStringHandler
         }
         else
         {
-            // Right aligned: format into temporary space and then copy that into the handler, appropriately aligned.
             AppendFormattedWithTempSpace(value, alignment, format);
         }
     }
 
-    /// <summary>Formats into temporary space and then appends the result into the StringBuilder.</summary>
     void AppendFormattedWithTempSpace<T>(T value, int alignment, string? format)
     {
-        // It's expected that either there's not enough space in the current chunk to store this formatted value,
-        // or we have a non-0 alignment that could require padding inserted. So format into temporary space and
-        // then append that written span into the StringBuilder: StringBuilder.Append(span) is able to split the
-        // span across the current chunk and any additional chunks required.
-
         var handler = new DefaultInterpolatedStringHandler(0, 0, _provider, stackalloc char[StackallocCharBufferSizeLimit]);
         handler.AppendFormatted(value, format);
         AppendFormatted(handler.Text, alignment);
@@ -243,9 +197,6 @@ struct AppendInterpolatedStringHandler
 
     /// <summary>Writes the specified value to the handler.</summary>
     public void AppendFormatted(string? value, int alignment = 0, string? format = null) =>
-        // Format is meaningless for strings and doesn't make sense for someone to specify.  We have the overload
-        // simply to disambiguate between ROS<char> and object, just in case someone does specify a format, as
-        // string is implicitly convertible to both. Just delegate to the T-based implementation.
         AppendFormatted<string?>(value, alignment, format);
 
     #endregion
@@ -254,9 +205,6 @@ struct AppendInterpolatedStringHandler
 
     /// <summary>Writes the specified value to the handler.</summary>
     public void AppendFormatted(object? value, int alignment = 0, string? format = null) =>
-        // This overload is expected to be used rarely, only if either a) something strongly typed as object is
-        // formatted with both an alignment and a format, or b) the compiler is unable to target type to T. It
-        // exists purely to help make cases from (b) compile. Just delegate to the T-based implementation.
         AppendFormatted<object?>(value, alignment, format);
 
     #endregion
@@ -267,15 +215,7 @@ struct AppendInterpolatedStringHandler
     [MethodImpl(MethodImplOptions.NoInlining)]
     void AppendCustomFormatter<T>(T value, string? format)
     {
-        // This case is very rare, but we need to handle it prior to the other checks in case
-        // a provider was used that supplied an ICustomFormatter which wanted to intercept the particular value.
-        // We do the cast here rather than in the ctor, even though this could be executed multiple times per
-        // formatting, to make the cast pay for play.
-        Debug.Assert(_hasCustomFormatter);
-        Debug.Assert(_provider != null);
-
         var formatter = (ICustomFormatter?)_provider!.GetFormat(typeof(ICustomFormatter));
-        Debug.Assert(formatter != null, "An incorrectly written provider said it implemented ICustomFormatter, and then didn't");
 
         if (formatter is not null)
         {

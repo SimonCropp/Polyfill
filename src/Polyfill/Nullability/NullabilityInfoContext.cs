@@ -36,13 +36,8 @@ sealed class NullabilityInfoContext
     [Flags]
     enum NotAnnotatedStatus
     {
-        // no restriction, all members annotated
         None = 0x0,
-
-        // private members not annotated
         Private = 0x1,
-
-        // internal members not annotated
         Internal = 0x2
     }
 
@@ -472,8 +467,6 @@ sealed class NullabilityInfoContext
             {
                 CheckGenericParameters(elementNullability, metaMember, metaType.GetElementType()!, reflectedType);
             }
-            // We could also follow this branch for metaType.IsPointer, but since pointers must be unmanaged this
-            // will be a no-op regardless
             else if (metaType.IsByRef)
             {
                 CheckGenericParameters(nullability, metaMember, metaType.GetElementType()!, reflectedType);
@@ -483,8 +476,6 @@ sealed class NullabilityInfoContext
 
     bool TryUpdateGenericParameterNullability(NullabilityInfo nullability, Type genericParameter, Type? reflectedType)
     {
-        Debug.Assert(genericParameter.IsGenericParameter);
-
         if (reflectedType is not null
             && !genericParameter.IsGenericMethodParameter()
             && TryUpdateGenericTypeParameterNullabilityFromReflectedType(nullability, genericParameter, reflectedType, reflectedType))
@@ -517,15 +508,13 @@ sealed class NullabilityInfoContext
 
     bool TryUpdateGenericTypeParameterNullabilityFromReflectedType(NullabilityInfo nullability, Type genericParameter, Type context, Type reflectedType)
     {
-        Debug.Assert(genericParameter.IsGenericParameter && !genericParameter.IsGenericMethodParameter());
-
-        Type contextTypeDefinition = context.IsGenericType && !context.IsGenericTypeDefinition ? context.GetGenericTypeDefinition() : context;
+        var contextTypeDefinition = context.IsGenericType && !context.IsGenericTypeDefinition ? context.GetGenericTypeDefinition() : context;
         if (genericParameter.DeclaringType == contextTypeDefinition)
         {
             return false;
         }
 
-        Type? baseType = contextTypeDefinition.BaseType;
+        var baseType = contextTypeDefinition.BaseType;
         if (baseType is null)
         {
             return false;
@@ -545,7 +534,7 @@ sealed class NullabilityInfoContext
         }
 
         NullableAttributeStateParser parser = CreateParser(contextTypeDefinition.GetCustomAttributesData());
-        int nullabilityStateIndex = 1; // start at 1 since index 0 is the type itself
+        int nullabilityStateIndex = 1;
         for (int i = 0; i < genericParameter.GenericParameterPosition; i++)
         {
             nullabilityStateIndex += CountNullabilityStates(genericArguments[i]);

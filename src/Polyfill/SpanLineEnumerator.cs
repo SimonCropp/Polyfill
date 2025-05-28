@@ -50,7 +50,6 @@ ref struct SpanLineEnumerator
     {
         if (!isActive)
         {
-            // EOF previously reached or enumerator was never initialized
             return false;
         }
 
@@ -77,8 +76,6 @@ ref struct SpanLineEnumerator
             return true;
         }
 
-        // We've reached EOF, but we still need to return 'true' for this final
-        // iteration so that the caller can query the Current property once more.
         Current = remaining;
         remaining = default;
         isActive = false;

@@ -24,7 +24,6 @@ static partial class Polyfill
     {
         try
         {
-            // Must not be disposed for the stream to be usable
             var response = await target.GetAsync(
                 requestUri,
                 HttpCompletionOption.ResponseHeadersRead,
@@ -35,7 +34,6 @@ static partial class Polyfill
 
             return await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
         }
-        // Older versions of HttpClient methods don't propagate the cancellation token inside the exception
         catch (OperationCanceledException ex) when (
             ex.CancellationToken != cancellationToken &&
             cancellationToken.IsCancellationRequested)
@@ -77,7 +75,6 @@ static partial class Polyfill
                 .ReadAsByteArrayAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        // Older versions of HttpClient methods don't propagate the cancellation token inside the exception
         catch (OperationCanceledException exception) when (
             exception.CancellationToken != cancellationToken &&
             cancellationToken.IsCancellationRequested)
@@ -119,7 +116,6 @@ static partial class Polyfill
                 .ReadAsStringAsync(cancellationToken)
                 .ConfigureAwait(false);
         }
-        // Older versions of HttpClient methods don't propagate the cancellation token inside the exception
         catch (OperationCanceledException exception) when (
             exception.CancellationToken != cancellationToken &&
             cancellationToken.IsCancellationRequested)

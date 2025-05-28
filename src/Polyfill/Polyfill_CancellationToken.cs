@@ -24,11 +24,6 @@ static partial class Polyfill
             throw new ArgumentNullException(nameof(callback));
         }
 
-        // The main difference between UnsafeRegister and Register appears to be that UnsafeRegister callbacks don't capture and use the execution context.
-        // So to emulate that here, let's suppress the execution context if needed before calling Register.
-        // This idea was taken from UniTask and how they implemented their RegisterWithoutCaptureExecutionContext extension methods:
-        // https://github.com/Cysharp/UniTask/blob/master/src/UniTask/Assets/Plugins/UniTask/Runtime/CancellationTokenExtensions.cs
-
         var restoreFlow = false;
         if (!ExecutionContext.IsFlowSuppressed())
         {
@@ -73,11 +68,6 @@ static partial class Polyfill
         {
             throw new ArgumentNullException(nameof(callback));
         }
-
-        // The main difference between UnsafeRegister and Register appears to be that UnsafeRegister callbacks don't capture and use the execution context.
-        // So to emulate that here, let's suppress the execution context if needed before calling Register.
-        // This idea was taken from UniTask and how they implemented their RegisterWithoutCaptureExecutionContext extension methods:
-        // https://github.com/Cysharp/UniTask/blob/master/src/UniTask/Assets/Plugins/UniTask/Runtime/CancellationTokenExtensions.cs
 
         var restoreFlow = false;
         if (!ExecutionContext.IsFlowSuppressed())

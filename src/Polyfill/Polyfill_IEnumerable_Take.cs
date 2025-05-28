@@ -19,11 +19,6 @@ static partial class Polyfill
 
     static IEnumerable<TSource> TakeRangeFromEndIterator<TSource>(IEnumerable<TSource> source, bool isStartIndexFromEnd, int startIndex, bool isEndIndexFromEnd, int endIndex)
     {
-        // Attempt to extract the count of the source enumerator,
-        // in order to convert fromEnd indices to regular indices.
-        // Enumerable counts can change over time, so it is very
-        // important that this check happens at enumeration time;
-        // do not move it outside of the iterator method.
         if (source.TryGetNonEnumeratedCount(out int count))
         {
             startIndex = CalculateStartIndex(isStartIndexFromEnd, startIndex, count);
@@ -44,7 +39,6 @@ static partial class Polyfill
 
         if (isStartIndexFromEnd)
         {
-            // TakeLast compat: enumerator should be disposed before yielding the first element.
             using (IEnumerator<TSource> e = source.GetEnumerator())
             {
                 if (!e.MoveNext())
@@ -90,7 +84,6 @@ static partial class Polyfill
         }
         else
         {
-            // SkipLast compat: the enumerator should be disposed at the end of the enumeration.
             using IEnumerator<TSource> e = source.GetEnumerator();
 
             count = 0;

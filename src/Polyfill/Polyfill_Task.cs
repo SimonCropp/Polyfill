@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
-    // Copied from .NET library const Timer.MaxSupportedTimeout
     const uint MaxSupportedTimeout = 0xfffffffe;
 
     /// <summary>Gets a <see cref="Task"/> that will complete when this <see cref="Task"/> completes or when the specified <see cref="CancellationToken"/> has cancellation requested.</summary>

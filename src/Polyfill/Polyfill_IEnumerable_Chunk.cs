@@ -32,25 +32,19 @@ static partial class Polyfill
         {
             using var enumerator = source.GetEnumerator();
 
-            // Before allocating anything, make sure there's at least one element.
             if (enumerator.MoveNext())
             {
-                // Now that we know we have at least one item, allocate an initial storage array. This is not
-                // the array we'll yield.  It starts out small in order to avoid significantly overallocating
-                // when the source has many fewer elements than the chunk size.
                 var arraySize = Math.Min(size, 4);
                 int i;
                 do
                 {
                     var array = new TSource[arraySize];
 
-                    // Store the first item.
                     array[0] = enumerator.Current;
                     i = 1;
 
                     if (size != array.Length)
                     {
-                        // This is the first chunk. As we fill the array, grow it as needed.
                         for (; i < size && enumerator.MoveNext(); i++)
                         {
                             if (i >= array.Length)
@@ -64,9 +58,6 @@ static partial class Polyfill
                     }
                     else
                     {
-                        // For all but the first chunk, the array will already be correctly sized.
-                        // We can just store into it until either it's full or MoveNext returns false.
-                        // avoid bounds checks by using cached local (`array` is lifted to iterator object as a field)
                         var local = array;
                         for (; (uint) i < (uint) local.Length && enumerator.MoveNext(); i++)
                         {

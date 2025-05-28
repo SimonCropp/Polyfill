@@ -12,7 +12,6 @@ using System;
 //     'Debug' does not contain a definition for 'Assert'
 //
 // So, this file defines a custom Debug class to make sure that Polyfill code doesn't clash with user code.
-
 class Debug
 {
     public static void Log(string content) => Console.WriteLine(content);

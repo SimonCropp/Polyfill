@@ -107,7 +107,6 @@ static partial class Polyfill
         /// </summary>
         public bool MoveNext()
         {
-            // Search for the next separator index.
             int separatorIndex, separatorLength;
             switch (_splitMode)
             {
@@ -180,7 +179,6 @@ static partial class Polyfill
             {
                 _startNext = _endCurrent = _span.Length;
 
-                // Set _splitMode to None so that subsequent MoveNext calls will return false.
                 _splitMode = SpanSplitEnumeratorMode.None;
             }
 

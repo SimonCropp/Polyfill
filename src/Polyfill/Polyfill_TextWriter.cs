@@ -106,7 +106,6 @@ static partial class Polyfill
         ReadOnlyMemory<char> buffer,
         CancellationToken cancellationToken = default)
     {
-        // StreamReader doesn't accept cancellation token (pre-netstd2.1)
         cancellationToken.ThrowIfCancellationRequested();
 
         if (!MemoryMarshal.TryGetArray(buffer, out var segment))
@@ -128,7 +127,6 @@ static partial class Polyfill
         ReadOnlyMemory<char> buffer,
         CancellationToken cancellationToken = default)
     {
-        // StreamReader doesn't accept cancellation token (pre-netstd2.1)
         cancellationToken.ThrowIfCancellationRequested();
 
         if (!MemoryMarshal.TryGetArray(buffer, out var segment))

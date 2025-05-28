@@ -280,7 +280,6 @@ static partial class Polyfill
         ReadOnlyMemory<char> buffer,
         CancellationToken cancellationToken = default)
     {
-        // StreamReader doesn't accept cancellation token (pre-netstd2.1)
         cancellationToken.ThrowIfCancellationRequested();
 
         if (!MemoryMarshal.TryGetArray(buffer, out var segment))
@@ -302,7 +301,6 @@ static partial class Polyfill
         ReadOnlyMemory<char> buffer,
         CancellationToken cancellationToken = default)
     {
-        // StreamReader doesn't accept cancellation token (pre-netstd2.1)
         cancellationToken.ThrowIfCancellationRequested();
 
         if (!MemoryMarshal.TryGetArray(buffer, out var segment))
@@ -363,7 +361,7 @@ static partial class Polyfill
 #endif
 }
 ```
-<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L190' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L188' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

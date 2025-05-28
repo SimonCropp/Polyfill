@@ -31,12 +31,8 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-10.0#system-memoryextensions-commonprefixlength-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
         public static int CommonPrefixLength<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> other)
         {
-            // Shrink one of the spans if necessary to ensure they're both the same length. We can then iterate until
-            // the Length of one of them and at least have bounds checks removed from that one.
             SliceLongerSpanToMatchShorterLength(ref span, ref other);
 
-            // Find the first element pairwise that is not equal, and return its index as the length
-            // of the sequence before it that matches.
             for (int i = 0; i < span.Length; i++)
             {
                 if (!EqualityComparer<T>.Default.Equals(span[i], other[i]))
@@ -52,18 +48,13 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-10.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0)))
         public static int CommonPrefixLength<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> other, IEqualityComparer<T>? comparer)
         {
-            // If the comparer is null or the default, and T is a value type, we want to use EqualityComparer<T>.Default.Equals
-            // directly to enable devirtualization.  The non-comparer overload already does so, so just use it.
             if (typeof(T).IsValueType && (comparer is null || comparer == EqualityComparer<T>.Default))
             {
                 return CommonPrefixLength(span, other);
             }
 
-            // Shrink one of the spans if necessary to ensure they're both the same length. We can then iterate until
-            // the Length of one of them and at least have bounds checks removed from that one.
             SliceLongerSpanToMatchShorterLength(ref span, ref other);
 
-            // Ensure we have a comparer, then compare the spans.
             comparer ??= EqualityComparer<T>.Default;
             for (int i = 0; i < span.Length; i++)
             {

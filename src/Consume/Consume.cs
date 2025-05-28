@@ -106,10 +106,6 @@ class Consume
 #endif
 
         var (year, month, day) = DateTime.Now;
-
-        // Test to make sure there are no clashes in the Polyfill code with classes that
-        // might be defined in user code. See comments in Debug.cs for more details.
-        Debug.Log("Test log to make sure this is working");
     }
 
 #if FeatureValueTuple
