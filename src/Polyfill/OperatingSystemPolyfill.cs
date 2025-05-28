@@ -46,7 +46,7 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Indicates whether the current application is running on the specified platform.
     /// </summary>
-    ///Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isosplatform?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isosplatform?view=net-10.0
     public static bool IsOSPlatform(string platform) =>
 #if NET
         OperatingSystem.IsOSPlatform(platform);
@@ -57,7 +57,7 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Checks if the operating system version is greater than or equal to the specified platform version. This method can be used to guard APIs that were added in the specified OS version.
     /// </summary>
-    ///Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isosplatformversionatleast?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isosplatformversionatleast?view=net-10.0
     public static bool IsOSPlatformVersionAtLeast(string platform, int major, int minor = 0, int build = 0, int revision = 0) =>
 #if NET
         OperatingSystem.IsOSPlatformVersionAtLeast(platform, major, minor, build, revision);
