@@ -21,5 +21,5 @@ public
 sealed class ParamCollectionAttribute : Attribute;
 #else
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.ParamCollectionAttribute))]
+[assembly: TypeForwardedTo(typeof(ParamCollectionAttribute))]
 #endif

@@ -34,5 +34,5 @@ sealed class SkipLocalsInitAttribute :
     Attribute;
 #else
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.SkipLocalsInitAttribute))]
+[assembly: TypeForwardedTo(typeof(SkipLocalsInitAttribute))]
 #endif

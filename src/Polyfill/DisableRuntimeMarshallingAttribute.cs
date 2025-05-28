@@ -23,5 +23,5 @@ sealed class DisableRuntimeMarshallingAttribute :
     Attribute;
 #else
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.DisableRuntimeMarshallingAttribute))]
+[assembly: TypeForwardedTo(typeof(DisableRuntimeMarshallingAttribute))]
 #endif
