@@ -32,18 +32,12 @@ internal sealed class RegexCache
     /// <summary>The maximum number of cached items to examine when we need to replace an existing one in the cache with a new one.</summary>
     const int MaxExamineOnDrop = 30;
 
-    /// <summary>A read-through cache of one element, representing the most recently used regular expression.</summary>
     static volatile Node? s_lastAccessed;
-    /// <summary>The thread-safe dictionary storing all the items in the cache.</summary>
     static ConcurrentDictionary<Key, Node> s_cacheDictionary = new ConcurrentDictionary<Key, Node>(concurrencyLevel: 1, capacity: 31);
-    /// <summary>A list of all the items in the cache.  Protected by <see cref="SyncObj"/>.</summary>
     static List<Node> s_cacheList = new List<Node>(DefaultMaxCacheSize);
-    /// <summary>Random number generator used to examine a subset of items when we need to drop one from a large list.  Protected by <see cref="SyncObj"/>.</summary>
     static Random s_random = new Random();
-    /// <summary>The current maximum number of items allowed in the cache.  This rarely changes.  Mostly protected by <see cref="SyncObj"/>.</summary>
     static int s_maxCacheSize = DefaultMaxCacheSize;
 
-    /// <summary>Lock used to protect shared state on mutations.</summary>
     static object SyncObj => s_cacheDictionary;
 
     /// <summary>Gets or sets the maximum size of the cache.</summary>

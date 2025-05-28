@@ -46,9 +46,6 @@ static partial class Polyfill
     public static Span<char> TrimEnd(this Span<char> target)
         => target.Slice(0, ClampEnd(target, 0));
 
-    /// <summary>
-    /// Delimits all leading occurrences of whitespace charecters from the span.
-    /// </summary>
     static int ClampStart(ReadOnlySpan<char> target)
     {
         int start = 0;
@@ -64,9 +61,6 @@ static partial class Polyfill
         return start;
     }
 
-    /// <summary>
-    /// Delimits all trailing occurrences of whitespace characters from the span.
-    /// </summary>
     static int ClampEnd(ReadOnlySpan<char> target, int start)
     {
         int end = target.Length - 1;
