@@ -13,7 +13,6 @@ using Buffers;
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
 using Globalization;
-using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>Provides a handler used by the language compiler to process interpolated strings into <see cref="string"/> instances.</summary>
 [InterpolatedStringHandler]

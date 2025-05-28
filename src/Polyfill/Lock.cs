@@ -9,7 +9,6 @@ namespace System.Threading;
 
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
-using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Provides a way to get mutual exclusion in regions of code between different threads. A lock may be held by one thread at

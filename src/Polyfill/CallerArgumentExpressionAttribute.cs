@@ -7,7 +7,6 @@ namespace System.Runtime.CompilerServices;
 
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
-using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Indicates that a parameter captures the expression passed for another parameter as a string.

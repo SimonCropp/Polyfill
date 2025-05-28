@@ -7,7 +7,6 @@ namespace System.Runtime.CompilerServices;
 
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
-using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Specifies the priority of a member in overload resolution. When unspecified, the default priority is 0.

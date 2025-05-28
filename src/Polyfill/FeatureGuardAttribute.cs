@@ -6,8 +6,6 @@
 namespace System.Diagnostics.CodeAnalysis;
 
 using Diagnostics;
-using Diagnostics.CodeAnalysis;
-using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Indicates that the specified public static boolean get-only property

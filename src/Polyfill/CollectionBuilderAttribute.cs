@@ -8,7 +8,6 @@ namespace System.Runtime.CompilerServices;
 
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
-using Link = ComponentModel.DescriptionAttribute;
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]

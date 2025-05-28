@@ -10,7 +10,6 @@ namespace System.Text;
 
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
-using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Enumerates the lines of a <see cref="ReadOnlySpan{Char}"/>.
