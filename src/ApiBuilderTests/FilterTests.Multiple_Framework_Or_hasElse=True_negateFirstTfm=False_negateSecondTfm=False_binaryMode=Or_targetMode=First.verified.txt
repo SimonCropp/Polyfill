@@ -1,0 +1,22 @@
+﻿code:
+
+```
+#if FirstTfm
+ || SecondTfm
+Console.WriteLine("one");
+#else
+Console.WriteLine("two");
+#endif
+
+```
+
+result:
+
+```
+#if FirstTfm
+ || SecondTfm
+Console.WriteLine("one");
+#else
+#endif
+
+```

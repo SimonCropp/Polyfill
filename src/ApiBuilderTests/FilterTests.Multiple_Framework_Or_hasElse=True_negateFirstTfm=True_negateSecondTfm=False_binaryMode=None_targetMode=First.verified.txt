@@ -1,0 +1,20 @@
+﻿code:
+
+```
+#if !FirstTfm
+Console.WriteLine("one");
+#else
+Console.WriteLine("two");
+#endif
+
+```
+
+result:
+
+```
+#if !FirstTfm
+#else
+Console.WriteLine("two");
+#endif
+
+```

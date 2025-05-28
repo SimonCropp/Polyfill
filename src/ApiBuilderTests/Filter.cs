@@ -1,7 +1,7 @@
 ﻿#pragma warning disable CS9113 // Parameter is unread.
-public static class ConditionalCompilationFilter
+public static class Filter
 {
-    public static string FilterCodeByTargetFramework(string sourceCode, string targetFramework)
+    public static string ByTargetFramework(string sourceCode, string targetFramework)
     {
         var options = CSharpParseOptions.Default.WithPreprocessorSymbols(targetFramework);
         var syntaxTree = CSharpSyntaxTree.ParseText(sourceCode, options);

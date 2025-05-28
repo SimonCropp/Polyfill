@@ -1,0 +1,17 @@
+﻿code:
+
+```
+#if FirstTfm
+Console.WriteLine("one");
+#endif
+
+```
+
+result:
+
+```
+#if FirstTfm
+Console.WriteLine("one");
+#endif
+
+```

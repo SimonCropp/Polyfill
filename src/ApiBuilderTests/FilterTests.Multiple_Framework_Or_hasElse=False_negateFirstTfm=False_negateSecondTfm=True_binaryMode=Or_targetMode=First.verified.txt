@@ -1,0 +1,19 @@
+﻿code:
+
+```
+#if FirstTfm
+ || !SecondTfm
+Console.WriteLine("one");
+#endif
+
+```
+
+result:
+
+```
+#if FirstTfm
+ || !SecondTfm
+Console.WriteLine("one");
+#endif
+
+```
