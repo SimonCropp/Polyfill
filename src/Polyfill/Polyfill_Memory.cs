@@ -88,50 +88,6 @@ static partial class Polyfill
     }
 
     /// <summary>
-    /// Indicates whether a specified value is found in a read-only span. Values are compared using IEquatable{T}.Equals(T).
-    /// </summary>
-    /// <param name="value">The value to search for.</param>
-    /// <returns><c>true</c> if found, <c>false</c> otherwise.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-10.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)
-    public static bool Contains<T>(
-        this ReadOnlySpan<T> target,
-        T value)
-        where T : IEquatable<T>
-    {
-        for (var index = 0; index < target.Length; index++)
-        {
-            if (target[index].Equals(value))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /// <summary>
-    /// Indicates whether a specified value is found in a only span. Values are compared using IEquatable{T}.Equals(T).
-    /// </summary>
-    /// <param name="value">The value to search for.</param>
-    /// <returns><c>true</c> if found, <c>false</c> otherwise.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-10.0#system-memoryextensions-contains-1(system-span((-0))-0)
-    public static bool Contains<T>(
-        this Span<T> target,
-        T value)
-        where T : IEquatable<T>
-    {
-        for (var index = 0; index < target.Length; index++)
-        {
-            if (target[index].Equals(value))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /// <summary>
     /// Determines whether two sequences are equal by comparing the elements using IEquatable{T}.Equals(T).
     /// </summary>
     /// <param name="target">The first sequence to compare.</param>
