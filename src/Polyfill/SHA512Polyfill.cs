@@ -57,7 +57,7 @@ static class SHA512Polyfill
         return SHA512.HashDataAsync(source);
 #else
         using var hasher = SHA512.Create();
-        return new ValueTask<byte[]>(hasher.ComputeHash(source));
+        return new(hasher.ComputeHash(source));
 #endif
     }
 #endif
