@@ -31,7 +31,6 @@ static partial class DelegatePolyfill
     /// <summary>
     /// Provides an enumerator for the invocation list of a delegate.
     /// </summary>
-    /// <typeparam name="TDelegate">Delegate type being enumerated.</typeparam>
     public struct InvocationListEnumerator<TDelegate>
         where TDelegate : Delegate
     {

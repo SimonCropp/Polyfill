@@ -25,9 +25,6 @@ sealed class CallerArgumentExpressionAttribute :
     /// <summary>
     /// Initializes a new instance of the <see cref="CallerArgumentExpressionAttribute"/> class.
     /// </summary>
-    /// <param name="parameterName">
-    /// The name of the parameter whose expression should be captured as a string.
-    /// </param>
     public CallerArgumentExpressionAttribute(string parameterName) =>
         ParameterName = parameterName;
 

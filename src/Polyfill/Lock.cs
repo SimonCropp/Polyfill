@@ -34,25 +34,12 @@ class Lock
     /// Tries to enter the lock without waiting. If the lock is entered, the calling thread would be the only thread that
     /// holds the lock.
     /// </summary>
-    /// <returns>
-    /// <code>true</code> if the lock was entered, <code>false</code> otherwise.
-    /// </returns>
     public bool TryEnter() => Monitor.TryEnter(this);
 
     /// <summary>
     /// Tries to enter the lock, waiting for roughly the specified duration. If the lock is entered, the calling thread
     /// would be the only thread that holds the lock.
     /// </summary>
-    /// <param name="timeout">
-    /// The rough duration for which the method will wait if the lock is not available. The timeout is converted to a number
-    /// of milliseconds by casting <see cref="TimeSpan.TotalMilliseconds"/> of the timeout to an integer value. A value
-    /// representing <code>0</code> milliseconds specifies that the method should not wait, and a value representing
-    /// <see cref="Timeout.Infinite"/> or <code>-1</code> milliseconds specifies that the method should wait indefinitely
-    /// until the lock is entered.
-    /// </param>
-    /// <returns>
-    /// <code>true</code> if the lock was entered, <code>false</code> otherwise.
-    /// </returns>
     public bool TryEnter(TimeSpan timeout) =>
         Monitor.TryEnter(this, timeout);
 
@@ -60,14 +47,6 @@ class Lock
     /// Tries to enter the lock, waiting for roughly the specified duration. If the lock is entered, the calling thread
     /// would be the only thread that holds the lock.
     /// </summary>
-    /// <param name="millisecondsTimeout">
-    /// The rough duration in milliseconds for which the method will wait if the lock is not available. A value of
-    /// <code>0</code> specifies that the method should not wait, and a value of <see cref="Timeout.Infinite"/> or
-    /// <code>-1</code> specifies that the method should wait indefinitely until the lock is entered.
-    /// </param>
-    /// <returns>
-    /// <code>true</code> if the lock was entered, <code>false</code> otherwise.
-    /// </returns>
     public bool TryEnter(int millisecondsTimeout) =>
         TryEnter(TimeSpan.FromMilliseconds(millisecondsTimeout));
 
@@ -82,9 +61,6 @@ class Lock
     /// language construct that would automatically dispose the <see cref="Scope"/>, such as with the C# <code>using</code>
     /// statement.
     /// </summary>
-    /// <returns>
-    /// A <see cref="Scope"/> that may be disposed to exit the lock.
-    /// </returns>
     public Scope EnterScope()
     {
         Enter();

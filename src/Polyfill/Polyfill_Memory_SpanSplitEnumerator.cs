@@ -50,11 +50,9 @@ static partial class Polyfill
         int _startNext = 0;
 
         /// <summary>Gets an enumerator that allows for iteration over the split span.</summary>
-        /// <returns>Returns a <see cref="SpanSplitEnumerator{T}"/> that can be used to iterate over the split span.</returns>
         public SpanSplitEnumerator<T> GetEnumerator() => this;
 
         /// <summary>Gets the current element of the enumeration.</summary>
-        /// <returns>Returns a <see cref="Range"/> instance that indicates the bounds of the current element withing the source span.</returns>
         public Range Current => new Range(_startCurrent, _endCurrent);
 
 #if NET8_0
@@ -107,7 +105,6 @@ static partial class Polyfill
         /// <summary>
         /// Advances the enumerator to the next element of the enumeration.
         /// </summary>
-        /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the enumeration.</returns>
         public bool MoveNext()
         {
             // Search for the next separator index.

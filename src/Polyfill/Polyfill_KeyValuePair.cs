@@ -15,8 +15,6 @@ static partial class Polyfill
     /// <summary>
     /// Deconstructs the current <see cref="KeyValuePair{TKey,TValue}"/>
     /// </summary>
-    /// <param name="key">The key of the current <see cref="KeyValuePair{TKey,TValue}"/>.</param>
-    /// <param name="value">The value of the current <see cref="KeyValuePair{TKey,TValue}"/>.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct?view=net-10.0
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct<TKey, TValue>(

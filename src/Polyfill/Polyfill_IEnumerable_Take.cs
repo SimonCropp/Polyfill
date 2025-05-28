@@ -155,10 +155,6 @@ static partial class Polyfill
 
     //https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Take.cs
     /// <summary>Returns a specified range of contiguous elements from a sequence.</summary>
-    /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
-    /// <param name="source">The sequence to return elements from.</param>
-    /// <param name="range">The range of elements to return, which has start and end indexes either from the start or the end.</param>
-    /// <returns>An <see cref="IEnumerable{T}" /> that contains the specified <paramref name="range" /> of elements from the <paramref name="source" /> sequence.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.take?view=net-10.0#system-linq-enumerable-take-1(system-collections-generic-ienumerable((-0))-system-range)
     public static IEnumerable<TSource> Take<TSource>(
         this IEnumerable<TSource> target,

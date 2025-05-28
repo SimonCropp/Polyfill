@@ -14,11 +14,6 @@ static partial class Polyfill
     /// <summary>
     /// Returns the maximum value in a generic sequence according to a specified key selector function.
     /// </summary>
-    /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
-    /// <typeparam name="TKey">The type of key to compare elements by.</typeparam>
-    /// <param name="source">A sequence of values to determine the maximum value of.</param>
-    /// <param name="keySelector">A function to extract the key for each element.</param>
-    /// <returns>The value with the maximum key in the sequence.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby?view=net-10.0#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))
     public static TSource? MaxBy<TSource, TKey>(
         this IEnumerable<TSource> source,
@@ -26,12 +21,6 @@ static partial class Polyfill
         MaxBy(source, keySelector, null);
 
     /// <summary>Returns the maximum value in a generic sequence according to a specified key selector function.</summary>
-    /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
-    /// <typeparam name="TKey">The type of key to compare elements by.</typeparam>
-    /// <param name="source">A sequence of values to determine the maximum value of.</param>
-    /// <param name="keySelector">A function to extract the key for each element.</param>
-    /// <param name="comparer">The <see cref="IComparer{TKey}" /> to compare keys.</param>
-    /// <returns>The value with the maximum key in the sequence.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby?view=net-10.0#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))
     public static TSource? MaxBy<TSource, TKey>(
         this IEnumerable<TSource> source,

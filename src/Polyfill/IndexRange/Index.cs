@@ -21,8 +21,6 @@ readonly struct Index : IEquatable<Index>
     readonly int _value;
 
     /// <summary>Construct an Index using a value and indicating if the index is from the start or from the end.</summary>
-    /// <param name="value">The index value. it has to be zero or positive number.</param>
-    /// <param name="fromEnd">Indicating if the index is from the start or from the end.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public Index(int value, bool fromEnd = false)
     {
@@ -52,7 +50,6 @@ readonly struct Index : IEquatable<Index>
     public static Index End => new(~0);
 
     /// <summary>Create an Index from the start at the position indicated by the value.</summary>
-    /// <param name="value">The index value from the start.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Index FromStart(int value)
     {
@@ -65,7 +62,6 @@ readonly struct Index : IEquatable<Index>
     }
 
     /// <summary>Create an Index from the end at the position indicated by the value.</summary>
-    /// <param name="value">The index value from the end.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Index FromEnd(int value)
     {
@@ -95,7 +91,6 @@ readonly struct Index : IEquatable<Index>
     public bool IsFromEnd => _value < 0;
 
     /// <summary>Calculate the offset from the start using the giving collection length.</summary>
-    /// <param name="length">The length of the collection that the Index will be used with. length has to be a positive value</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int GetOffset(int length)
     {
@@ -109,11 +104,9 @@ readonly struct Index : IEquatable<Index>
     }
 
     /// <summary>Indicates whether the current Index object is equal to another object of the same type.</summary>
-    /// <param name="value">An object to compare with this object</param>
     public override bool Equals(object value) => value is Index index && _value == index._value;
 
     /// <summary>Indicates whether the current Index object is equal to another Index object.</summary>
-    /// <param name="other">An object to compare with this object</param>
     public bool Equals(Index other) => _value == other._value;
 
     /// <summary>Returns the hash code for this instance.</summary>

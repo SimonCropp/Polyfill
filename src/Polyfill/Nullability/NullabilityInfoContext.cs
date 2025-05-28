@@ -78,7 +78,6 @@ sealed class NullabilityInfoContext
     /// If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
     /// nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
     /// </summary>
-    /// <param name="parameterInfo">The parameter which nullability info gets populated</param>
     public NullabilityInfo Create(ParameterInfo parameterInfo)
     {
         EnsureIsSupported();
@@ -200,7 +199,6 @@ sealed class NullabilityInfoContext
     /// If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
     /// nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
     /// </summary>
-    /// <param name="propertyInfo">The parameter which nullability info gets populated</param>
     public NullabilityInfo Create(PropertyInfo propertyInfo)
     {
         EnsureIsSupported();
@@ -244,7 +242,6 @@ sealed class NullabilityInfoContext
     /// If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
     /// nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
     /// </summary>
-    /// <param name="eventInfo">The parameter which nullability info gets populated</param>
     public NullabilityInfo Create(EventInfo eventInfo)
     {
         EnsureIsSupported();
@@ -257,7 +254,6 @@ sealed class NullabilityInfoContext
     /// If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
     /// nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
     /// </summary>
-    /// <param name="fieldInfo">The parameter which nullability info gets populated</param>
     public NullabilityInfo Create(FieldInfo fieldInfo)
     {
         EnsureIsSupported();

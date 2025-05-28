@@ -30,11 +30,6 @@ sealed class NotNullIfNotNullAttribute :
     /// <summary>
     ///   Initializes the attribute with the associated parameter name.
     /// </summary>
-    /// <param name="parameterName">
-    ///   The associated parameter name.
-    ///   The output will be non-<see langword="null"/> if the argument to the
-    ///   parameter specified is non-<see langword="null"/>.
-    /// </param>
     public NotNullIfNotNullAttribute(string parameterName) =>
         ParameterName = parameterName;
 }

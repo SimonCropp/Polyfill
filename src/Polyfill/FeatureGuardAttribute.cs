@@ -26,9 +26,6 @@ sealed class FeatureGuardAttribute : Attribute
     /// Initializes a new instance of the <see cref="FeatureGuardAttribute"/> class
     /// with the specified feature type.
     /// </summary>
-    /// <param name="featureType">
-    /// The type that represents the feature guarded by the property.
-    /// </param>
     public FeatureGuardAttribute(Type featureType) =>
         FeatureType = featureType;
 

@@ -29,11 +29,6 @@ sealed class DoesNotReturnIfAttribute :
     ///   Initializes a new instance of the <see cref="DoesNotReturnIfAttribute"/>
     ///   class with the specified parameter value.
     /// </summary>
-    /// <param name="parameterValue">
-    ///   The condition parameter value.
-    ///   Code after the method is considered unreachable by diagnostics if the argument
-    ///   to the associated parameter matches this value.
-    /// </param>
     public DoesNotReturnIfAttribute(bool parameterValue) =>
         ParameterValue = parameterValue;
 }

@@ -71,9 +71,6 @@ ref struct DefaultInterpolatedStringHandler
     private readonly bool _hasCustomFormatter;
 
     /// <summary>Creates a handler used to translate an interpolated string into a <see cref="string"/>.</summary>
-    /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
-    /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
-    /// <remarks>This is intended to be called only by compiler-generated code. Arguments are not validated as they'd otherwise be for members intended to be used directly.</remarks>
     public DefaultInterpolatedStringHandler(int literalLength, int formattedCount)
     {
         _provider = null;
@@ -83,10 +80,6 @@ ref struct DefaultInterpolatedStringHandler
     }
 
     /// <summary>Creates a handler used to translate an interpolated string into a <see cref="string"/>.</summary>
-    /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
-    /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
-    /// <param name="provider">An object that supplies culture-specific formatting information.</param>
-    /// <remarks>This is intended to be called only by compiler-generated code. Arguments are not validated as they'd otherwise be for members intended to be used directly.</remarks>
     public DefaultInterpolatedStringHandler(int literalLength, int formattedCount, IFormatProvider? provider)
     {
         _provider = provider;
@@ -96,11 +89,6 @@ ref struct DefaultInterpolatedStringHandler
     }
 
     /// <summary>Creates a handler used to translate an interpolated string into a <see cref="string"/>.</summary>
-    /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
-    /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
-    /// <param name="provider">An object that supplies culture-specific formatting information.</param>
-    /// <param name="initialBuffer">A buffer temporarily transferred to the handler for use as part of its formatting.  Contents may be overwritten.</param>
-    /// <remarks>This is intended to be called only by compiler-generated code. Arguments are not validated as they'd otherwise be for members intended to be used directly.</remarks>
     public DefaultInterpolatedStringHandler(int literalLength, int formattedCount, IFormatProvider? provider, Span<char> initialBuffer)
     {
         _provider = provider;
@@ -111,24 +99,14 @@ ref struct DefaultInterpolatedStringHandler
     }
 
     /// <summary>Derives a default length with which to seed the handler.</summary>
-    /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
-    /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)] // becomes a constant when inputs are constant
     internal static int GetDefaultLength(int literalLength, int formattedCount) =>
         Math.Max(MinimumArrayPoolLength, literalLength + (formattedCount * GuessedLengthPerHole));
 
     /// <summary>Gets the built <see cref="string"/>.</summary>
-    /// <returns>The built string.</returns>
     public override string ToString() => Text.ToString();
 
     /// <summary>Gets the built <see cref="string"/> and clears the handler.</summary>
-    /// <returns>The built string.</returns>
-    /// <remarks>
-    /// This releases any resources used by the handler. The method should be invoked only
-    /// once and as the last thing performed on the handler. Subsequent use is erroneous, ill-defined,
-    /// and may destabilize the process, as may using any other copies of the handler after
-    /// <see cref="ToStringAndClear" /> is called on any one of them.
-    /// </remarks>
     public string ToStringAndClear()
     {
         string result = Text.ToString();
@@ -163,7 +141,6 @@ ref struct DefaultInterpolatedStringHandler
     public ReadOnlySpan<char> Text => _chars.Slice(0, _pos);
 
     /// <summary>Writes the specified string to the handler.</summary>
-    /// <param name="value">The string to write.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AppendLiteral(string value)
     {
@@ -256,8 +233,6 @@ ref struct DefaultInterpolatedStringHandler
     #region AppendFormatted T
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <typeparam name="T">The type of the value to write.</typeparam>
     public void AppendFormatted<T>(T value)
     {
         // This method could delegate to AppendFormatted with a null format, but explicitly passing
@@ -321,9 +296,6 @@ ref struct DefaultInterpolatedStringHandler
     }
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <param name="format">The format string.</param>
-    /// <typeparam name="T">The type of the value to write.</typeparam>
     public void AppendFormatted<T>(T value, string? format)
     {
         // If there's a custom formatter, always use it.
@@ -384,9 +356,6 @@ ref struct DefaultInterpolatedStringHandler
     }
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <param name="alignment">Minimum number of characters that should be written for this value.  If the value is negative, it indicates left-aligned and the required minimum is the absolute value.</param>
-    /// <typeparam name="T">The type of the value to write.</typeparam>
     public void AppendFormatted<T>(T value, int alignment)
     {
         int startingPos = _pos;
@@ -398,10 +367,6 @@ ref struct DefaultInterpolatedStringHandler
     }
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <param name="format">The format string.</param>
-    /// <param name="alignment">Minimum number of characters that should be written for this value.  If the value is negative, it indicates left-aligned and the required minimum is the absolute value.</param>
-    /// <typeparam name="T">The type of the value to write.</typeparam>
     public void AppendFormatted<T>(T value, int alignment, string? format)
     {
         int startingPos = _pos;
@@ -417,7 +382,6 @@ ref struct DefaultInterpolatedStringHandler
     #region AppendFormatted ReadOnlySpan<char>
 
     /// <summary>Writes the specified character span to the handler.</summary>
-    /// <param name="value">The span to write.</param>
     public void AppendFormatted(scoped ReadOnlySpan<char> value)
     {
         // Fast path for when the value fits in the current buffer
@@ -432,9 +396,6 @@ ref struct DefaultInterpolatedStringHandler
     }
 
     /// <summary>Writes the specified string of chars to the handler.</summary>
-    /// <param name="value">The span to write.</param>
-    /// <param name="alignment">Minimum number of characters that should be written for this value.  If the value is negative, it indicates left-aligned and the required minimum is the absolute value.</param>
-    /// <param name="format">The format string.</param>
     public void AppendFormatted(scoped ReadOnlySpan<char> value, int alignment = 0, string? format = null)
     {
         bool leftAlign = false;
@@ -476,7 +437,6 @@ ref struct DefaultInterpolatedStringHandler
     #region AppendFormatted string
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
     public void AppendFormatted(string? value)
     {
         // Fast-path for no custom formatter and a non-null string that fits in the current destination buffer.
@@ -493,11 +453,6 @@ ref struct DefaultInterpolatedStringHandler
     }
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <remarks>
-    /// Slow path to handle a custom formatter, potentially null value,
-    /// or a string that doesn't fit in the current buffer.
-    /// </remarks>
     [MethodImpl(MethodImplOptions.NoInlining)]
     private void AppendFormattedSlow(string? value)
     {
@@ -514,9 +469,6 @@ ref struct DefaultInterpolatedStringHandler
     }
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <param name="alignment">Minimum number of characters that should be written for this value.  If the value is negative, it indicates left-aligned and the required minimum is the absolute value.</param>
-    /// <param name="format">The format string.</param>
     public void AppendFormatted(string? value, int alignment = 0, string? format = null) =>
         // Format is meaningless for strings and doesn't make sense for someone to specify.  We have the overload
         // simply to disambiguate between ROS<char> and object, just in case someone does specify a format, as
@@ -528,9 +480,6 @@ ref struct DefaultInterpolatedStringHandler
     #region AppendFormatted object
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <param name="alignment">Minimum number of characters that should be written for this value.  If the value is negative, it indicates left-aligned and the required minimum is the absolute value.</param>
-    /// <param name="format">The format string.</param>
     public void AppendFormatted(object? value, int alignment = 0, string? format = null) =>
         // This overload is expected to be used rarely, only if either a) something strongly typed as object is
         // formatted with both an alignment and a format, or b) the compiler is unable to target type to T. It
@@ -553,9 +502,6 @@ ref struct DefaultInterpolatedStringHandler
     }
 
     /// <summary>Formats the value using the custom formatter from the provider.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <param name="format">The format string.</param>
-    /// <typeparam name="T">The type of the value to write.</typeparam>
     [MethodImpl(MethodImplOptions.NoInlining)]
     private void AppendCustomFormatter<T>(T value, string? format)
     {
@@ -576,8 +522,6 @@ ref struct DefaultInterpolatedStringHandler
     }
 
     /// <summary>Handles adding any padding required for aligning a formatted value in an interpolation expression.</summary>
-    /// <param name="startingPos">The position at which the written value started.</param>
-    /// <param name="alignment">Non-zero minimum number of characters that should be written for this value.  If the value is negative, it indicates left-aligned and the required minimum is the absolute value.</param>
     private void AppendOrInsertAlignmentIfNeeded(int startingPos, int alignment)
     {
         Debug.Assert(startingPos >= 0 && startingPos <= _pos);
@@ -622,7 +566,6 @@ ref struct DefaultInterpolatedStringHandler
     }
 
     /// <summary>Fallback for fast path in <see cref="AppendLiteral(string)"/> when there's not enough space in the destination.</summary>
-    /// <param name="value">The string to write.</param>
     [MethodImpl(MethodImplOptions.NoInlining)]
     private void GrowThenCopyString(string value)
     {
@@ -632,7 +575,6 @@ ref struct DefaultInterpolatedStringHandler
     }
 
     /// <summary>Fallback for <see cref="AppendFormatted(ReadOnlySpan{char})"/> for when not enough space exists in the current buffer.</summary>
-    /// <param name="value">The span to write.</param>
     [MethodImpl(MethodImplOptions.NoInlining)]
     private void GrowThenCopySpan(scoped ReadOnlySpan<char> value)
     {

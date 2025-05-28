@@ -13,17 +13,12 @@ static partial class Polyfill
     /// <summary>
     /// Creates a delegate of type T with the specified target from this method.
     /// </summary>
-    /// <typeparam name="T">The type of the delegate to create.</typeparam>
-    /// <returns>The delegate for this method.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/System.Reflection.MethodInfo.CreateDelegate?view=net-10.0#system-reflection-methodinfo-createdelegate-1
     public static T CreateDelegate<T>(this MethodInfo method) where T : Delegate => (T)method.CreateDelegate(typeof(T));
 
     /// <summary>
     /// Creates a delegate of type T with the specified target from this method.
     /// </summary>
-    /// <param name="target">The object targeted by the delegate.</param>
-    /// <typeparam name="T">The type of the delegate to create.</typeparam>
-    /// <returns>The delegate for this method.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/System.Reflection.MethodInfo.CreateDelegate?view=net-10.0#system-reflection-methodinfo-createdelegate-1(system-object)
     public static T CreateDelegate<T>(this MethodInfo method, object? target) where T : Delegate => (T)method.CreateDelegate(typeof(T), target);
 }

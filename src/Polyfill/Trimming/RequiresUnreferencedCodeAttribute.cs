@@ -28,12 +28,8 @@ sealed class RequiresUnreferencedCodeAttribute :
     Attribute
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="RequiresUnreferencedCodeAttribute"/> class
-    /// with the specified message.
+    /// Initializes a new instance of the <see cref="RequiresUnreferencedCodeAttribute"/> class with the specified message.
     /// </summary>
-    /// <param name="message">
-    /// A message that contains information about the usage of unreferenced code.
-    /// </param>
     public RequiresUnreferencedCodeAttribute(string message) =>
         Message = message;
 

@@ -11,10 +11,6 @@ static partial class Polyfill
 #if !NET6_0_OR_GREATER
 
     /// <summary>Returns the last element of a sequence, or a default value if the sequence contains no elements.</summary>
-    /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
-    /// <param name="source">An <see cref="IEnumerable{T}" /> to return the last element of.</param>
-    /// <param name="defaultValue">The default value to return if the sequence is empty.</param>
-    /// <returns><paramref name="defaultValue" /> if the source sequence is empty; otherwise, the last element in the <see cref="IEnumerable{T}" />.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.lastordefault?view=net-10.0#system-linq-enumerable-lastordefault-1(system-collections-generic-ienumerable((-0))-0)
     public static TSource LastOrDefault<TSource>(this IEnumerable<TSource> source, TSource defaultValue)
     {
@@ -23,11 +19,6 @@ static partial class Polyfill
     }
 
     /// <summary>Returns the last element of a sequence that satisfies a condition or a default value if no such element is found.</summary>
-    /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
-    /// <param name="source">An <see cref="IEnumerable{T}" /> to return an element from.</param>
-    /// <param name="predicate">A function to test each element for a condition.</param>
-    /// <param name="defaultValue">The default value to return if the sequence is empty.</param>
-    /// <returns><paramref name="defaultValue" /> if the sequence is empty or if no elements pass the test in the predicate function; otherwise, the last element that passes the test in the predicate function.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.lastordefault?view=net-10.0#system-linq-enumerable-lastordefault-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-boolean))-0)
     public static TSource LastOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate, TSource defaultValue)
     {

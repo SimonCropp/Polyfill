@@ -28,8 +28,6 @@ sealed class UnconditionalSuppressMessageAttribute :
     /// Initializes a new instance of the <see cref="UnconditionalSuppressMessageAttribute"/>
     /// class, specifying the category of the tool and the identifier for an analysis rule.
     /// </summary>
-    /// <param name="category">The category for the attribute.</param>
-    /// <param name="checkId">The identifier of the analysis rule the attribute applies to.</param>
     public UnconditionalSuppressMessageAttribute(string category, string checkId)
     {
         Category = category;

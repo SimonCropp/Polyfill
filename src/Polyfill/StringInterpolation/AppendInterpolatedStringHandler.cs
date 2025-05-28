@@ -40,9 +40,6 @@ struct AppendInterpolatedStringHandler
     bool _hasCustomFormatter;
 
     /// <summary>Creates a handler used to append an interpolated string into a <see cref="StringBuilder"/>.</summary>
-    /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
-    /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
-    /// <param name="stringBuilder">The associated StringBuilder to which to append.</param>
     public AppendInterpolatedStringHandler(int literalLength, int formattedCount, StringBuilder stringBuilder)
     {
         _stringBuilder = stringBuilder;
@@ -51,10 +48,6 @@ struct AppendInterpolatedStringHandler
     }
 
     /// <summary>Creates a handler used to translate an interpolated string into a <see cref="string"/>.</summary>
-    /// <param name="literalLength">The number of constant characters outside of interpolation expressions in the interpolated string.</param>
-    /// <param name="formattedCount">The number of interpolation expressions in the interpolated string.</param>
-    /// <param name="stringBuilder">The associated StringBuilder to which to append.</param>
-    /// <param name="provider">An object that supplies culture-specific formatting information.</param>
     public AppendInterpolatedStringHandler(int literalLength, int formattedCount, StringBuilder stringBuilder, IFormatProvider? provider)
     {
         _stringBuilder = stringBuilder;
@@ -63,7 +56,6 @@ struct AppendInterpolatedStringHandler
     }
 
     /// <summary>Writes the specified string to the handler.</summary>
-    /// <param name="value">The string to write.</param>
     public void AppendLiteral(string value) => _stringBuilder.Append(value);
 
     #region AppendFormatted
@@ -74,8 +66,6 @@ struct AppendInterpolatedStringHandler
     #region AppendFormatted T
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <typeparam name="T">The type of the value to write.</typeparam>
     public void AppendFormatted<T>(T value)
     {
         // This method could delegate to AppendFormatted with a null format, but explicitly passing
@@ -115,9 +105,6 @@ struct AppendInterpolatedStringHandler
     }
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <param name="format">The format string.</param>
-    /// <typeparam name="T">The type of the value to write.</typeparam>
     public void AppendFormatted<T>(T value, string? format)
     {
         if (_hasCustomFormatter)
@@ -153,23 +140,10 @@ struct AppendInterpolatedStringHandler
     }
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <param name="alignment">
-    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
-    /// left-aligned and the required minimum is the absolute value.
-    /// </param>
-    /// <typeparam name="T">The type of the value to write.</typeparam>
     public void AppendFormatted<T>(T value, int alignment) =>
         AppendFormatted(value, alignment, format: null);
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <param name="format">The format string.</param>
-    /// <param name="alignment">
-    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
-    /// left-aligned and the required minimum is the absolute value.
-    /// </param>
-    /// <typeparam name="T">The type of the value to write.</typeparam>
     public void AppendFormatted<T>(T value, int alignment, string? format)
     {
         if (alignment == 0)
@@ -214,16 +188,9 @@ struct AppendInterpolatedStringHandler
     #region AppendFormatted ReadOnlySpan<char>
 
     /// <summary>Writes the specified character span to the handler.</summary>
-    /// <param name="value">The span to write.</param>
     public void AppendFormatted(ReadOnlySpan<char> value) => _stringBuilder.Append(value);
 
     /// <summary>Writes the specified string of chars to the handler.</summary>
-    /// <param name="value">The span to write.</param>
-    /// <param name="alignment">
-    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
-    /// left-aligned and the required minimum is the absolute value.
-    /// </param>
-    /// <param name="format">The format string.</param>
     public void AppendFormatted(ReadOnlySpan<char> value, int alignment = 0, string? format = null)
     {
         if (alignment == 0)
@@ -262,7 +229,6 @@ struct AppendInterpolatedStringHandler
     #region AppendFormatted string
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
     public void AppendFormatted(string? value)
     {
         if (!_hasCustomFormatter)
@@ -276,12 +242,6 @@ struct AppendInterpolatedStringHandler
     }
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <param name="alignment">
-    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
-    /// left-aligned and the required minimum is the absolute value.
-    /// </param>
-    /// <param name="format">The format string.</param>
     public void AppendFormatted(string? value, int alignment = 0, string? format = null) =>
         // Format is meaningless for strings and doesn't make sense for someone to specify.  We have the overload
         // simply to disambiguate between ROS<char> and object, just in case someone does specify a format, as
@@ -293,12 +253,6 @@ struct AppendInterpolatedStringHandler
     #region AppendFormatted object
 
     /// <summary>Writes the specified value to the handler.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <param name="alignment">
-    /// Minimum number of characters that should be written for this value.  If the value is negative, it indicates
-    /// left-aligned and the required minimum is the absolute value.
-    /// </param>
-    /// <param name="format">The format string.</param>
     public void AppendFormatted(object? value, int alignment = 0, string? format = null) =>
         // This overload is expected to be used rarely, only if either a) something strongly typed as object is
         // formatted with both an alignment and a format, or b) the compiler is unable to target type to T. It
@@ -310,9 +264,6 @@ struct AppendInterpolatedStringHandler
     #endregion
 
     /// <summary>Formats the value using the custom formatter from the provider.</summary>
-    /// <param name="value">The value to write.</param>
-    /// <param name="format">The format string.</param>
-    /// <typeparam name="T">The type of the value to write.</typeparam>
     [MethodImpl(MethodImplOptions.NoInlining)]
     void AppendCustomFormatter<T>(T value, string? format)
     {

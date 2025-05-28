@@ -47,10 +47,6 @@ ref struct SpanLineEnumerator
     /// <summary>
     /// Advances the enumerator to the next line of the span.
     /// </summary>
-    /// <returns>
-    /// True if the enumerator successfully advanced to the next line; false if
-    /// the enumerator has advanced past the end of the span.
-    /// </returns>
     public bool MoveNext()
     {
         if (!isActive)

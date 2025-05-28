@@ -27,10 +27,6 @@ sealed class MaybeNullWhenAttribute :
     /// <summary>
     ///    Initializes the attribute with the specified return value condition.
     /// </summary>
-    /// <param name="returnValue">
-    ///   The return value condition.
-    ///   If the method returns this value, the associated parameter may be <see langword="null"/>.
-    /// </param>
     public MaybeNullWhenAttribute(bool returnValue) =>
         ReturnValue = returnValue;
 }

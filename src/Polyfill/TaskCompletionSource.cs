@@ -32,23 +32,18 @@ class TaskCompletionSource
         inner = new TaskCompletionSource<object?>();
 
     /// <summary>Creates a <see cref="TaskCompletionSource"/> with the specified options.</summary>
-    /// <param name="creationOptions">The options to use when creating the underlying <see cref="Tasks.Task"/>.</param>
     public TaskCompletionSource(TaskCreationOptions creationOptions) :
         this(null, creationOptions)
     {
     }
 
     /// <summary>Creates a <see cref="TaskCompletionSource"/> with the specified state.</summary>
-    /// <param name="state">The state to use as the underlying
-    /// <see cref="Tasks.Task"/>'s AsyncState.</param>
     public TaskCompletionSource(object? state) :
         this(state, TaskCreationOptions.None)
     {
     }
 
     /// <summary>Creates a <see cref="TaskCompletionSource"/> with the specified state and options.</summary>
-    /// <param name="creationOptions">The options to use when creating the underlying <see cref="Tasks.Task"/>.</param>
-    /// <param name="state">The state to use as the underlying <see cref="Tasks.Task"/>'s AsyncState.</param>
     public TaskCompletionSource(object? state, TaskCreationOptions creationOptions) =>
         inner = new(state, creationOptions);
 
@@ -59,28 +54,22 @@ class TaskCompletionSource
     public Task Task => inner.Task;
 
     /// <summary>Transitions the underlying <see cref="Tasks.Task"/> into the <see cref="TaskStatus.Faulted"/> state.</summary>
-    /// <param name="exception">The exception to bind to this <see cref="Tasks.Task"/>.</param>
     public void SetException(Exception exception) =>
         inner.SetException(exception);
 
     /// <summary>Transitions the underlying <see cref="Tasks.Task"/> into the <see cref="TaskStatus.Faulted"/> state.</summary>
-    /// <param name="exceptions">The collection of exceptions to bind to this <see cref="Tasks.Task"/>.</param>
     public void SetException(IEnumerable<Exception> exceptions) =>
         inner.SetException(exceptions);
 
     /// <summary>
     /// Attempts to transition the underlying <see cref="Tasks.Task"/> into the <see cref="TaskStatus.Faulted"/> state.
     /// </summary>
-    /// <param name="exception">The exception to bind to this <see cref="Tasks.Task"/>.</param>
-    /// <returns>True if the operation was successful; otherwise, false.</returns>
     public bool TrySetException(Exception exception) =>
         inner.TrySetException(exception);
 
     /// <summary>
     /// Attempts to transition the underlying <see cref="Tasks.Task"/> into the <see cref="TaskStatus.Faulted"/> state.
     /// </summary>
-    /// <param name="exceptions">The collection of exceptions to bind to this <see cref="Tasks.Task"/>.</param>
-    /// <returns>True if the operation was successful; otherwise, false.</returns>
     public bool TrySetException(IEnumerable<Exception> exceptions) =>
         inner.TrySetException(exceptions);
 
@@ -93,7 +82,6 @@ class TaskCompletionSource
     /// <summary>
     /// Attempts to transition the underlying <see cref="Tasks.Task"/> into the <see cref="TaskStatus.RanToCompletion"/> state.
     /// </summary>
-    /// <returns>True if the operation was successful; otherwise, false.</returns>
     public bool TrySetResult() =>
         inner.TrySetResult(null);
 
@@ -106,22 +94,18 @@ class TaskCompletionSource
     /// Transitions the underlying <see cref="Tasks.Task"/> into the <see cref="TaskStatus.Canceled"/> state
     /// using the specified token.
     /// </summary>
-    /// <param name="cancellationToken">The cancellation token with which to cancel the <see cref="Tasks.Task"/>.</param>
     public void SetCanceled(CancellationToken cancellationToken) =>
         inner.SetCanceled(cancellationToken);
 
     /// <summary>
     /// Attempts to transition the underlying <see cref="Tasks.Task"/> into the <see cref="TaskStatus.Canceled"/> state.
     /// </summary>
-    /// <returns>True if the operation was successful; otherwise, false.</returns>
     public bool TrySetCanceled() =>
         TrySetCanceled(default);
 
     /// <summary>
     /// Attempts to transition the underlying <see cref="Tasks.Task"/> into the <see cref="TaskStatus.Canceled"/> state.
     /// </summary>
-    /// <param name="cancellationToken">The cancellation token with which to cancel the <see cref="Tasks.Task"/>.</param>
-    /// <returns>True if the operation was successful; otherwise, false.</returns>
     public bool TrySetCanceled(CancellationToken cancellationToken) =>
         inner.TrySetCanceled(default);
 }

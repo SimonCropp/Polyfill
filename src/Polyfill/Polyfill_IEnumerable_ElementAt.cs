@@ -13,10 +13,6 @@ static partial class Polyfill
 #if FeatureValueTuple && !NET6_0_OR_GREATER
 
     /// <summary>Returns the element at a specified index in a sequence.</summary>
-    /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
-    /// <param name="source">An <see cref="IEnumerable{T}" /> to return an element from.</param>
-    /// <param name="index">The index of the element to retrieve, which is either from the start or the end.</param>
-    /// <returns>The element at the specified position in the <paramref name="source" /> sequence.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.elementat?view=net-10.0#system-linq-enumerable-elementat-1(system-collections-generic-ienumerable((-0))-system-index)
     public static TSource ElementAt<TSource>(this IEnumerable<TSource> source, Index index)
     {
@@ -70,10 +66,6 @@ static partial class Polyfill
     }
 
     /// <summary>Returns the element at a specified index in a sequence or a default value if the index is out of range.</summary>
-    /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
-    /// <param name="source">An <see cref="IEnumerable{T}" /> to return an element from.</param>
-    /// <param name="index">The index of the element to retrieve, which is either from the start or the end.</param>
-    /// <returns><see langword="default" /> if <paramref name="index" /> is outside the bounds of the <paramref name="source" /> sequence; otherwise, the element at the specified position in the <paramref name="source" /> sequence.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.elementatordefault?view=net-10.0#system-linq-enumerable-elementatordefault-1(system-collections-generic-ienumerable((-0))-system-index)
     public static TSource? ElementAtOrDefault<TSource>(this IEnumerable<TSource> source, Index index)
     {

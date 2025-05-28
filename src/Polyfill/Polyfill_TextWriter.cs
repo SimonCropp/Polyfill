@@ -23,8 +23,6 @@ static partial class Polyfill
     /// Asynchronously clears all buffers for the current writer and causes any buffered data to
     /// be written to the underlying device.
     /// </summary>
-    /// <param name="cancellationToken">The <see cref="CancellationToken"/> to monitor for cancellation requests.</param>
-    /// <returns>A <see cref="Task"/> that represents the asynchronous flush operation.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.flushasync?view=net-10.0#system-io-textwriter-flushasync(system-threading-cancellationtoken)
     public static Task FlushAsync(this TextWriter target, CancellationToken cancellationToken)
     {
@@ -44,7 +42,6 @@ static partial class Polyfill
     /// Equivalent to Write(stringBuilder.ToString()) however it uses the
     /// StringBuilder.GetChunks() method to avoid creating the intermediate string
     /// </summary>
-    /// <param name="value">The string (as a StringBuilder) to write to the stream</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write?view=net-10.0#system-io-textwriter-write(system-text-stringbuilder)
     public static void Write(this TextWriter target, StringBuilder? value)
     {
@@ -67,8 +64,6 @@ static partial class Polyfill
     /// Equivalent to WriteAsync(stringBuilder.ToString()) however it uses the
     /// StringBuilder.GetChunks() method to avoid creating the intermediate string
     /// </summary>
-    /// <param name="value">The string (as a StringBuilder) to write to the stream</param>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-10.0#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
     public static Task WriteAsync(this TextWriter target, StringBuilder? value, CancellationToken cancellationToken = default)
     {
@@ -105,12 +100,6 @@ static partial class Polyfill
     /// <summary>
     /// Asynchronously writes a character memory region to the stream.
     /// </summary>
-    /// <param name="buffer">The character memory region to write to the stream.</param>
-    /// <param name="cancellationToken">
-    /// The token to monitor for cancellation requests.
-    /// The default value is <see cref="CancellationToken.None"/>.
-    /// </param>
-    /// <returns>A task that represents the asynchronous write operation.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-10.0#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
     public static ValueTask WriteAsync(
         this TextWriter target,
@@ -133,12 +122,6 @@ static partial class Polyfill
     /// <summary>
     /// Asynchronously writes the text representation of a character memory region to the stream, followed by a line terminator.
     /// </summary>
-    /// <param name="buffer">The character memory region to write to the stream.</param>
-    /// <param name="cancellationToken">
-    /// The token to monitor for cancellation requests.
-    /// The default value is <see cref="CancellationToken.None"/>.
-    /// </param>
-    /// <returns>A task that represents the asynchronous write operation.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-10.0#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
     public static ValueTask WriteLineAsync(
         this TextWriter target,
@@ -163,7 +146,6 @@ static partial class Polyfill
     /// <summary>
     /// Writes a character span to the text stream.
     /// </summary>
-    /// <param name="buffer">The character span to write.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write?view=net-10.0#system-io-textwriter-write(system-readonlyspan((system-char)))
     public static void Write(
         this TextWriter target,
@@ -186,7 +168,6 @@ static partial class Polyfill
     /// <summary>
     /// Writes the text representation of a character span to the text stream, followed by a line terminator.
     /// </summary>
-    /// <param name="buffer">The char span value to write to the text stream.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline?view=net-10.0#system-io-textwriter-writeline(system-readonlyspan((system-char)))
     public static void WriteLine(
         this TextWriter target,

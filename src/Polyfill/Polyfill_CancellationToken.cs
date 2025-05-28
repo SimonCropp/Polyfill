@@ -16,10 +16,6 @@ static partial class Polyfill
     /// Registers a delegate that will be called when this
     /// <see cref="CancellationToken">CancellationToken</see> is canceled.
     /// </summary>
-    /// <param name="callback">The delegate to be executed when the <see cref="CancellationToken">CancellationToken</see> is canceled.</param>
-    /// <param name="state">The state to pass to the <paramref name="callback"/> when the delegate is invoked.  This may be null.</param>
-    /// <returns>The <see cref="CancellationTokenRegistration"/> instance that can
-    /// be used to unregister the callback.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken.unsaferegister?view=net-10.0#system-threading-cancellationtoken-unsaferegister(system-action((system-object))-system-object)
     public static CancellationTokenRegistration UnsafeRegister(this CancellationToken target, Action<object?> callback, object? state)
     {
@@ -58,9 +54,6 @@ static partial class Polyfill
 #if !NET6_0_OR_GREATER
 
     /// <summary>Registers a delegate that will be called when this <see cref="CancellationToken">CancellationToken</see> is canceled.</summary>
-    /// <param name="callback">The delegate to be executed when the <see cref="CancellationToken">CancellationToken</see> is canceled.</param>
-    /// <param name="state">The state to pass to the <paramref name="callback"/> when the delegate is invoked.  This may be null.</param>
-    /// <returns>The <see cref="CancellationTokenRegistration"/> instance that can be used to unregister the callback.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken.register?view=net-10.0#system-threading-cancellationtoken-register(system-action((system-object-system-threading-cancellationtoken))-system-object)
     public static CancellationTokenRegistration Register(this CancellationToken target, Action<object?, CancellationToken> callback, object? state)
     {
@@ -73,9 +66,6 @@ static partial class Polyfill
     }
 
     /// <summary>Registers a delegate that will be called when this <see cref="CancellationToken">CancellationToken</see> is canceled.</summary>
-    /// <param name="callback">The delegate to be executed when the <see cref="CancellationToken">CancellationToken</see> is canceled.</param>
-    /// <param name="state">The state to pass to the <paramref name="callback"/> when the delegate is invoked.  This may be null.</param>
-    /// <returns>The <see cref="CancellationTokenRegistration"/> instance that can be used to unregister the callback.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtoken.unsaferegister?view=net-10.0#system-threading-cancellationtoken-unsaferegister(system-action((system-object-system-threading-cancellationtoken))-system-object)
     public static CancellationTokenRegistration UnsafeRegister(this CancellationToken target, Action<object?, CancellationToken> callback, object? state)
     {

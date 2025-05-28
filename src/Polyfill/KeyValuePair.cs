@@ -21,11 +21,6 @@ static class KeyValuePair
     /// <summary>
     /// Creates a new key/value pair instance using provided values.
     /// </summary>
-    /// <param name="key">The key of the new <see cref="KeyValuePair{TKey,TValue}"/> to be created.</param>
-    /// <param name="value">The value of the new <see cref="KeyValuePair{TKey,TValue}"/> to be created.</param>
-    /// <typeparam name="TKey">The type of the key.</typeparam>
-    /// <typeparam name="TValue">The type of the value.</typeparam>
-    /// <returns>A key/value pair containing the provided arguments as values.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair.create?view=net-10.0
     public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value) =>
         new KeyValuePair<TKey, TValue>(key, value);

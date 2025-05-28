@@ -16,12 +16,6 @@ static partial class Polyfill
     /// <summary>
     /// Output this <see cref="XDocument"/> to an <see cref="XmlWriter"/>.
     /// </summary>
-    /// <param name="writer">
-    /// The <see cref="XmlWriter"/> to output the XML to.
-    /// </param>
-    /// <param name="cancellationToken">
-    /// A cancellation token.
-    /// </param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync?view=net-10.0#system-xml-linq-xdocument-saveasync(system-xml-xmlwriter-system-threading-cancellationtoken)
     public static Task SaveAsync(
         this XDocument target,
@@ -36,14 +30,6 @@ static partial class Polyfill
     /// <summary>
     /// Output this <see cref="XDocument"/> to a <see cref="Stream"/>.
     /// </summary>
-    /// <param name="stream">
-    /// The <see cref="Stream"/> to output the XML to.
-    /// </param>
-    /// <param name="options">
-    /// If SaveOptions.DisableFormatting is enabled the output is not indented.
-    /// If SaveOptions.OmitDuplicateNamespaces is enabled duplicate namespace declarations will be removed.
-    /// </param>
-    /// <param name="cancellationToken">A cancellation token.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync?view=net-10.0#system-xml-linq-xdocument-saveasync(system-io-stream-system-xml-linq-saveoptions-system-threading-cancellationtoken)
     public static Task SaveAsync(
         this XDocument target,
@@ -59,14 +45,6 @@ static partial class Polyfill
     /// <summary>
     /// Output this <see cref="XDocument"/> to a <see cref="TextWriter"/>.
     /// </summary>
-    /// <param name="textWriter">
-    /// The <see cref="TextWriter"/> to output the XML to.
-    /// </param>
-    /// <param name="options">
-    /// If SaveOptions.DisableFormatting is enabled the output is not indented.
-    /// If SaveOptions.OmitDuplicateNamespaces is enabled duplicate namespace declarations will be removed.
-    /// </param>
-    /// <param name="cancellationToken">A cancellation token.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync?view=net-10.0#system-xml-linq-xdocument-saveasync(system-io-textwriter-system-xml-linq-saveoptions-system-threading-cancellationtoken)
     public static Task SaveAsync(
         this XDocument target,

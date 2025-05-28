@@ -14,8 +14,6 @@ static partial class Polyfill
     /// Returns a value indicating whether the characters in this instance are equal to the characters in a specified
     /// read-only character span.
     /// </summary>
-    /// <param name="span">The character span to compare with the current instance.</param>
-    /// <returns>true if the characters in this instance and span are the same; otherwise, false.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.equals?view=net-10.0#system-text-stringbuilder-equals(system-readonlyspan((system-char)))
     public static bool Equals(this StringBuilder target, ReadOnlySpan<char> span)
     {

@@ -15,7 +15,6 @@ static partial class Polyfill
     /// Transitions the underlying <see cref="Task{TResult}"/> into the <see cref="TaskStatus.Canceled"/> state
     /// using the specified token.
     /// </summary>
-    /// <param name="cancellationToken">The cancellation token with which to cancel the <see cref="Task{TResult}"/>.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled?view=net-10.0#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken)
     public static void SetCanceled<T>(
         this TaskCompletionSource<T> target,

@@ -28,7 +28,6 @@ sealed class CompilerFeatureRequiredAttribute :
     /// <summary>
     /// Initialize a new instance of <see cref="CompilerFeatureRequiredAttribute"/>
     /// </summary>
-    /// <param name="featureName">The name of the required compiler feature.</param>
     public CompilerFeatureRequiredAttribute(string featureName) =>
         FeatureName = featureName;
 

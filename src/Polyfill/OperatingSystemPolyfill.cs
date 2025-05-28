@@ -46,8 +46,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Indicates whether the current application is running on the specified platform.
     /// </summary>
-    /// <param name="platform">The case-insensitive platform name. Examples: Browser, Linux, FreeBSD, Android, iOS, macOS, tvOS, watchOS, Windows.</param>
-    /// <returns>true if the current application is running on the specified platform; false otherwise.</returns>
     ///Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isosplatform?view=net-10.0
     public static bool IsOSPlatform(string platform) =>
 #if NET
@@ -59,12 +57,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Checks if the operating system version is greater than or equal to the specified platform version. This method can be used to guard APIs that were added in the specified OS version.
     /// </summary>
-    /// <param name="platform">The case-insensitive platform name. Examples: Browser, Linux, FreeBSD, Android, iOS, macOS, tvOS, watchOS, Windows.</param>
-    /// <param name="major">The major release number.</param>
-    /// <param name="minor">The minor release number (optional).</param>
-    /// <param name="build">The build release number (optional).</param>
-    /// <param name="revision">The revision release number (optional).</param>
-    /// <returns>true if the current application is running on the specified platform and is at least in the version specified in the parameters; false otherwise.</returns>
     ///Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isosplatformversionatleast?view=net-10.0
     public static bool IsOSPlatformVersionAtLeast(string platform, int major, int minor = 0, int build = 0, int revision = 0) =>
 #if NET
@@ -77,7 +69,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Indicates whether the current application is running on Windows.
     /// </summary>
-    /// <returns>true if the current application is running on Windows; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.iswindows?view=net-10.0
     public static bool IsWindows() =>
 #if NET
@@ -89,11 +80,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Checks if the Windows version (returned by RtlGetVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified Windows version.
     /// </summary>
-    /// <param name="major">The major release number.</param>
-    /// <param name="minor">The minor release number.</param>
-    /// <param name="build">The build release number.</param>
-    /// <param name="revision">The revision release number.</param>
-    /// <returns>true if the current application is running on a Windows version that is at least what was specified in the parameters; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.iswindowsversionatleast?view=net-10.0
     public static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
     {
@@ -124,7 +110,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Indicates whether the current application is running on macOS.
     /// </summary>
-    /// <returns>true if the current application is running on macOS; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.ismacos?view=net-10.0
     public static bool IsMacOS() =>
 #if NET
@@ -136,7 +121,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Indicates whether the current application is running on Mac Catalyst.
     /// </summary>
-    /// <returns>true if the current application is running on Mac Catalyst; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.ismaccatalyst?view=net-10.0
     public static bool IsMacCatalyst() =>
 #if NET6_0_OR_GREATER
@@ -149,10 +133,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Checks if the macOS version (returned by libobjc.get_operatingSystemVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified macOS version.
     /// </summary>
-    /// <param name="major">The major release number.</param>
-    /// <param name="minor">The minor release number.</param>
-    /// <param name="build">The build release number.</param>
-    /// <returns>true if the current application is running on an macOS version that is at least what was specified in the parameters; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.ismacosversionatleast?view=net-10.0
     public static bool IsMacOSVersionAtLeast(int major, int minor = 0, int build = 0)
     {
@@ -184,10 +164,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Check for the Mac Catalyst version (iOS version as presented in Apple documentation) with a ≤ version comparison. Used to guard APIs that were added in the given Mac Catalyst release.
     /// </summary>
-    /// <param name="major">The version major number.</param>
-    /// <param name="minor">The version minor number.</param>
-    /// <param name="build">The version build number.</param>
-    /// <returns>true if the Mac Catalyst version is greater or equal than the specified version comparison; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.ismaccatalystversionatleast?view=net-10.0
     public static bool IsMacCatalystVersionAtLeast(int major, int minor = 0, int build = 0) =>
 #if NET6_0_OR_GREATER
@@ -200,7 +176,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Indicates whether the current application is running on Linux.
     /// </summary>
-    /// <returns>true if the current application is running on Linux; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.islinux?view=net-10.0
     public static bool IsLinux() =>
 #if NET
@@ -212,7 +187,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Indicates whether the current application is running on FreeBSD.
     /// </summary>
-    /// <returns>true if the current application is running on FreeBSD; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isfreebsd?view=net-10.0
     public static bool IsFreeBSD() =>
 #if NET
@@ -222,14 +196,9 @@ static class OperatingSystemPolyfill
 #endif
 
     /// <summary>
-    ///Checks if the FreeBSD version (returned by the Linux command uname) is greater than or equal to the specified version.
+    /// Checks if the FreeBSD version (returned by the Linux command uname) is greater than or equal to the specified version.
     /// This method can be used to guard APIs that were added in the specified version.
     /// </summary>
-    /// <param name="major">The version major number.</param>
-    /// <param name="minor">The version minor number.</param>
-    /// <param name="build">The version build number.</param>
-    /// <param name="revision">The version revision number.</param>
-    /// <returns>true if the current application is running on a FreeBSD version that is at least what was specified in the parameters; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isfreebsdversionatleast?view=net-10.0
     public static bool IsFreeBSDVersionAtLeast(int major, int minor, int build = 0, int revision = 0)
     {
@@ -263,7 +232,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Indicates whether the current application is running on iOS or MacCatalyst.
     /// </summary>
-    /// <returns>true if the current application is running on iOS or MacCatalyst; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isios?view=net-10.0
     public static bool IsIOS()
     {
@@ -281,10 +249,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Checks if the iOS/MacCatalyst version (returned by libobjc.get_operatingSystemVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified iOS version.
     /// </summary>
-    /// <param name="major">The major release number.</param>
-    /// <param name="minor">The minor release number.</param>
-    /// <param name="build">The build release number.</param>
-    /// <returns>true if the current application is running on an iOS/MacCatalyst version that is at least what was specified in the parameters; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isiosversionatleast?view=net-10.0
     public static bool IsIOSVersionAtLeast(int major, int minor = 0, int build = 0) =>
 #if NET
@@ -297,7 +261,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Indicates whether the current application is running on tvOS.
     /// </summary>
-    /// <returns>true if the current application is running on tvOS; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.istvos?view=net-10.0
     public static bool IsTvOS() =>
 #if NET
@@ -309,10 +272,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Checks if the tvOS version (returned by libobjc.get_operatingSystemVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified tvOS version.
     /// </summary>
-    /// <param name="major">The major release number.</param>
-    /// <param name="minor">The minor release number.</param>
-    /// <param name="build">The build release number.</param>
-    /// <returns>true if the current application is running on a tvOS version that is at least what was specified in the parameters; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.istvosversionatleast?view=net-10.0
     public static bool IsTvOSVersionAtLeast(int major, int minor = 0, int build = 0) =>
 #if NET
@@ -325,7 +284,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Indicates whether the current application is running on Android.
     /// </summary>
-    /// <returns>true if the current application is running on Android; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isandroid?view=net-10.0
     public static bool IsAndroid()
     {
@@ -358,11 +316,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Checks if the Android version (returned by the Linux command uname) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified version.
     /// </summary>
-    /// <param name="major">The major release number.</param>
-    /// <param name="minor">The minor release number.</param>
-    /// <param name="build">The build release number.</param>
-    /// <param name="revision">The revision release number.</param>
-    /// <returns>true if the current application is running on an Android version that is at least what was specified in the parameters; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isandroidversionatleast?view=net-10.0
     public static bool IsAndroidVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
     {
@@ -393,7 +346,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Indicates whether the current application is running on watchOS.
     /// </summary>
-    /// <returns>true if the current application is running on watchOS; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.iswatchos?view=net-10.0
     public static bool IsWatchOS() =>
 #if NET
@@ -406,10 +358,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Checks if the watchOS version (returned by libobjc.get_operatingSystemVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified watchOS version.
     /// </summary>
-    /// <param name="major">The major release number.</param>
-    /// <param name="minor">The minor release number.</param>
-    /// <param name="build">The build release number.</param>
-    /// <returns>true if the current application is running on a watchOS version that is at least what was specified in the parameters; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.iswatchosversionatleast?view=net-10.0
     public static bool IsWatchOSVersionAtLeast(int major, int minor = 0, int build = 0) =>
 #if NET
@@ -422,7 +370,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Indicates whether the current application is running as WASI.
     /// </summary>
-    /// <returns>true if running as WASI; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.iswasi?view=net-10.0
     public static bool IsWasi() =>
 #if NET8_0_OR_GREATER
@@ -434,7 +381,6 @@ static class OperatingSystemPolyfill
     /// <summary>
     /// Indicates whether the current application is running as WASM in a browser.
     /// </summary>
-    /// <returns>true if running as WASM; false otherwise.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isbrowser?view=net-10.0
     public static bool IsBrowser() =>
 #if NET

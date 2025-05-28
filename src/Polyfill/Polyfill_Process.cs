@@ -16,10 +16,6 @@ static partial class Polyfill
     /// Instructs the Process component to wait for the associated process to exit, or
     /// for the <paramref name="cancellationToken"/> to be canceled.
     /// </summary>
-    /// <returns>
-    /// A task that will complete when the process has exited, cancellation has been requested,
-    /// or an error occurs.
-    /// </returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitasync?view=net-10.0
     public static async Task WaitForExitAsync(this Process target, CancellationToken cancellationToken = default)
     {

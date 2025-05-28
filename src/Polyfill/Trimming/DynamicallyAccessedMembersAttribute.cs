@@ -35,7 +35,6 @@ sealed class DynamicallyAccessedMembersAttribute :
     /// Initializes a new instance of the <see cref="DynamicallyAccessedMembersAttribute"/> class
     /// with the specified member types.
     /// </summary>
-    /// <param name="memberTypes">The types of members dynamically accessed.</param>
     public DynamicallyAccessedMembersAttribute(DynamicallyAccessedMemberTypes memberTypes) =>
         MemberTypes = memberTypes;
 

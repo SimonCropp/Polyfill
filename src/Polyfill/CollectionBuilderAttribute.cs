@@ -20,8 +20,6 @@ public
 sealed class CollectionBuilderAttribute : Attribute
 {
     /// <summary>Initialize the attribute to refer to the <paramref name="methodName"/> method on the <paramref name="builderType"/> type.</summary>
-    /// <param name="builderType">The type of the builder to use to construct the collection.</param>
-    /// <param name="methodName">The name of the method on the builder to use to construct the collection.</param>
     public CollectionBuilderAttribute(Type builderType, string methodName)
     {
         BuilderType = builderType;

@@ -86,7 +86,6 @@ static partial class Polyfill
     /// <summary>
     /// Fills the elements of a specified span of bytes with random numbers.
     /// </summary>
-    /// <param name="index">The array to be filled with random numbers.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-10.0#system-random-nextbytes(system-span((system-byte)))
     public static void NextBytes(
         this Random target,
@@ -103,8 +102,6 @@ static partial class Polyfill
     /// <summary>
     /// Performs an in-place shuffle of an array.
     /// </summary>
-    /// <param name="index">The array to shuffle.</param>
-    /// <typeparam name="T">The type of array.</typeparam>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-10.0#system-random-nextbytes(system-span((system-byte)))
     public static void Shuffle<T>(
         this Random target,
@@ -129,8 +126,6 @@ static partial class Polyfill
     /// <summary>
     /// Performs an in-place shuffle of a span.
     /// </summary>
-    /// <param name="index">The span to shuffle.</param>
-    /// <typeparam name="T">The type of span.</typeparam>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-10.0#system-random-nextbytes(system-span((system-byte)))
     public static void Shuffle<T>(
         this Random target,

@@ -35,7 +35,6 @@ static partial class Polyfill
     /// <summary>
     /// Removes all leading white-space characters from the span.
     /// </summary>
-    /// <param name="span">The source span from which the characters are removed.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimstart?view=net-10.0#system-memoryextensions-trimstart(system-span((system-char)))
     public static Span<char> TrimStart(this Span<char> target)
         => target.Slice(ClampStart(target));
@@ -43,7 +42,6 @@ static partial class Polyfill
     /// <summary>
     /// Removes all trailing white-space characters from the span.
     /// </summary>
-    /// <param name="span">The source span from which the characters are removed.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimend?view=net-10.0#system-memoryextensions-trimend(system-span((system-char)))
     public static Span<char> TrimEnd(this Span<char> target)
         => target.Slice(0, ClampEnd(target, 0));
@@ -51,7 +49,6 @@ static partial class Polyfill
     /// <summary>
     /// Delimits all leading occurrences of whitespace charecters from the span.
     /// </summary>
-    /// <param name="span">The source span from which the characters are removed.</param>
     static int ClampStart(ReadOnlySpan<char> target)
     {
         int start = 0;
@@ -68,10 +65,8 @@ static partial class Polyfill
     }
 
     /// <summary>
-    /// Delimits all trailing occurrences of whitespace charecters from the span.
+    /// Delimits all trailing occurrences of whitespace characters from the span.
     /// </summary>
-    /// <param name="span">The source span from which the characters are removed.</param>
-    /// <param name="start">The start index from which to being searching.</param>
     static int ClampEnd(ReadOnlySpan<char> target, int start)
     {
         int end = target.Length - 1;
@@ -90,9 +85,6 @@ static partial class Polyfill
     /// <summary>
     /// Determines whether two sequences are equal by comparing the elements using IEquatable{T}.Equals(T).
     /// </summary>
-    /// <param name="target">The first sequence to compare.</param>
-    /// <param name="other">The second sequence to compare.</param>
-    /// <returns><c>true</c> if the two sequences are equal; otherwise, <c>false</c>.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal?view=net-10.0#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
     public static bool SequenceEqual(
         this ReadOnlySpan<char> target,
@@ -102,9 +94,6 @@ static partial class Polyfill
     /// <summary>
     /// Determines whether two sequences are equal by comparing the elements using IEquatable{T}.Equals(T).
     /// </summary>
-    /// <param name="target">The first sequence to compare.</param>
-    /// <param name="other">The second sequence to compare.</param>
-    /// <returns><c>true</c> if the two sequences are equal; otherwise, <c>false</c>.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal?view=net-10.0#system-memoryextensions-sequenceequal-1(system-span((-0))-system-readonlyspan((-0)))
     public static bool SequenceEqual(
         this Span<char> target,

@@ -12,7 +12,6 @@ static partial class Polyfill
 #if !NET7_0_OR_GREATER
 
     /// <summary>Returns a read-only <see cref="ReadOnlyCollection{T}" /> wrapper for the current collection.</summary>
-    /// <returns>An object that acts as a read-only wrapper around the current <see cref="IList{T}" />.</returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly?view=net-10.0#system-collections-generic-collectionextensions-asreadonly-1(system-collections-generic-ilist((-0)))
     public static ReadOnlyCollection<T> AsReadOnly<T>(this IList<T> target) =>
         new(target);
@@ -20,9 +19,6 @@ static partial class Polyfill
 
 #if !NET8_0_OR_GREATER && FeatureMemory
     /// <summary>Adds the elements of the specified span to the end of the <see cref="List{T}"/>.</summary>
-    /// <typeparam name="T">The type of elements in the list.</typeparam>
-    /// <param name="list">The list to which the elements should be added.</param>
-    /// <param name="source">The span whose elements should be added to the end of the <see cref="List{T}"/>.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.addrange?view=net-10.0
     public static void AddRange<T>(this List<T> target, ReadOnlySpan<T> source)
     {
@@ -33,10 +29,6 @@ static partial class Polyfill
     }
 
     /// <summary>Inserts the elements of a span into the <see cref="List{T}"/> at the specified index.</summary>
-    /// <typeparam name="T">The type of elements in the list.</typeparam>
-    /// <param name="list">The list into which the elements should be inserted.</param>
-    /// <param name="index">The zero-based index at which the new elements should be inserted.</param>
-    /// <param name="source">The span whose elements should be added to the <see cref="List{T}"/>.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange?view=net-10.0
     public static void InsertRange<T>(this List<T> target, int index, ReadOnlySpan<T> source)
     {
@@ -48,9 +40,6 @@ static partial class Polyfill
     }
 
     /// <summary>Copies the entire <see cref="List{T}"/> to a span.</summary>
-    /// <typeparam name="T">The type of elements in the list.</typeparam>
-    /// <param name="list">The list from which the elements are copied.</param>
-    /// <param name="destination">The span that is the destination of the elements copied from <paramref name="list"/>.</param>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.copyto?view=net-10.0
     public static void CopyTo<T>(this List<T> target, Span<T> destination)
     {

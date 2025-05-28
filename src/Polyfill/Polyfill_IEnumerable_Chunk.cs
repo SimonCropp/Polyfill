@@ -13,12 +13,6 @@ static partial class Polyfill
     /// <summary>
     /// Split the elements of a sequence into chunks of size at most <paramref name="size"/>.
     /// </summary>
-    /// <param name="source">An <see cref="IEnumerable{T}"/> whose elements to chunk.</param>
-    /// <param name="size">Maximum size of each chunk.</param>
-    /// <typeparam name="TSource">The type of the elements of source.</typeparam>
-    /// <returns>
-    /// An <see cref="IEnumerable{T}"/> that contains the elements the input sequence split into chunks of size <paramref name="size"/>.
-    /// </returns>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.chunk?view=net-10.0
     public static IEnumerable<TSource[]> Chunk<TSource>(this IEnumerable<TSource> source, int size)
     {
