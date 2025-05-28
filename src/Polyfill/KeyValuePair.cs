@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 // Provides the Create factory method for KeyValuePair<TKey, TValue>.
-// https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair
+// https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair?view=net-10.0
 #if PolyPublic
 public
 #endif
@@ -26,7 +26,7 @@ static class KeyValuePair
     /// <typeparam name="TKey">The type of the key.</typeparam>
     /// <typeparam name="TValue">The type of the value.</typeparam>
     /// <returns>A key/value pair containing the provided arguments as values.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair.create
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair.create?view=net-10.0
     public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value) =>
         new KeyValuePair<TKey, TValue>(key, value);
 }

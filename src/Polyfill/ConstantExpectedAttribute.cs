@@ -14,7 +14,7 @@ using Diagnostics;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.constantexpectedattribute
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.constantexpectedattribute?view=net-10.0
 #if PolyPublic
 public
 #endif

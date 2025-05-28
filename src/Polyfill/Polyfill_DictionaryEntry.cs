@@ -14,7 +14,7 @@ static partial class Polyfill
     /// <summary>
     /// Deconstructs the current <see cref="DictionaryEntry"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.dictionaryentry.deconstruct#system-collections-dictionaryentry-deconstruct(system-object@-system-object@)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.dictionaryentry.deconstruct?view=net-10.0#system-collections-dictionaryentry-deconstruct(system-object@-system-object@)
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct(this DictionaryEntry target, out object key, out object? value)
     {

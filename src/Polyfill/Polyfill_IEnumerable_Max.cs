@@ -16,7 +16,7 @@ static partial class Polyfill
     /// <param name="source">A sequence of values to determine the maximum value of.</param>
     /// <param name="comparer">The <see cref="IComparer{T}" /> to compare values.</param>
     /// <returns>The maximum value in the sequence.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.max#system-linq-enumerable-max-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.max?view=net-10.0#system-linq-enumerable-max-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0)))
     public static TSource? Max<TSource>(
         this IEnumerable<TSource> source,
         IComparer<TSource>? comparer) =>

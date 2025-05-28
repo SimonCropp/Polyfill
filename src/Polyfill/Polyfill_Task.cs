@@ -17,14 +17,14 @@ static partial class Polyfill
     /// <summary>Gets a <see cref="Task"/> that will complete when this <see cref="Task"/> completes or when the specified <see cref="CancellationToken"/> has cancellation requested.</summary>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to monitor for a cancellation request.</param>
     /// <returns>The <see cref="Task"/> representing the asynchronous wait.  It may or may not be the same instance as the current instance.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-10.0#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)
     public static Task WaitAsync(this Task target, CancellationToken cancellationToken) =>
         target.WaitAsync(Timeout.InfiniteTimeSpan, cancellationToken);
 
     /// <summary>Gets a <see cref="Task"/> that will complete when this <see cref="Task"/> completes or when the specified timeout expires.</summary>
     /// <param name="timeout">The timeout after which the <see cref="Task"/> should be faulted with a <see cref="TimeoutException"/> if it hasn't otherwise completed.</param>
     /// <returns>The <see cref="Task"/> representing the asynchronous wait.  It may or may not be the same instance as the current instance.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-10.0#system-threading-tasks-task-waitasync(system-timespan)
     public static Task WaitAsync(
         this Task target,
         TimeSpan timeout) =>
@@ -34,7 +34,7 @@ static partial class Polyfill
     /// <param name="timeout">The timeout after which the <see cref="Task"/> should be faulted with a <see cref="TimeoutException"/> if it hasn't otherwise completed.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to monitor for a cancellation request.</param>
     /// <returns>The <see cref="Task"/> representing the asynchronous wait.  It may or may not be the same instance as the current instance.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-10.0#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)
     public static Task WaitAsync(
         this Task target,
         TimeSpan timeout,
@@ -90,7 +90,7 @@ static partial class Polyfill
     /// </summary>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to monitor for a cancellation request.</param>
     /// <returns>The <see cref="Task"/> representing the asynchronous wait.  It may or may not be the same instance as the current instance.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-10.0#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)
     public static Task<TResult> WaitAsync<TResult>(
         this Task<TResult> target,
         CancellationToken cancellationToken) =>
@@ -101,7 +101,7 @@ static partial class Polyfill
     /// </summary>
     /// <param name="timeout">The timeout after which the <see cref="Task"/> should be faulted with a <see cref="TimeoutException"/> if it hasn't otherwise completed.</param>
     /// <returns>The <see cref="Task"/> representing the asynchronous wait.  It may or may not be the same instance as the current instance.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync?view=net-10.0#system-threading-tasks-task-1-waitasync(system-timespan)
     public static Task<TResult> WaitAsync<TResult>(
         this Task<TResult> target,
         TimeSpan timeout) =>
@@ -113,7 +113,7 @@ static partial class Polyfill
     /// <param name="timeout">The timeout after which the <see cref="Task"/> should be faulted with a <see cref="TimeoutException"/> if it hasn't otherwise completed.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> to monitor for a cancellation request.</param>
     /// <returns>The <see cref="Task"/> representing the asynchronous wait.  It may or may not be the same instance as the current instance.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync?view=net-10.0#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)
     public static async Task<TResult> WaitAsync<TResult>(
         this Task<TResult> target,
         TimeSpan timeout,

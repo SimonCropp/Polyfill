@@ -15,7 +15,7 @@ static partial class Polyfill
     /// <param name="index">The position in this instance where insertion begins.</param>
     /// <param name="value">The character span to insert.</param>
     /// <returns>A reference to this instance after the insert operation has completed.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.insert#system-text-stringbuilder-insert(system-int32-system-readonlyspan((system-char)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.insert?view=net-10.0#system-text-stringbuilder-insert(system-int32-system-readonlyspan((system-char)))
     public static StringBuilder Insert(this StringBuilder target, int index, ReadOnlySpan<char> value) =>
         target.Insert(index, value.ToString());
 #endif

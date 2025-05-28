@@ -21,7 +21,7 @@ static partial class Polyfill
     /// <typeparam name="T">The type of the elements.</typeparam>
     /// <param name="source">The source span to be enumerated.</param>
     /// <param name="separator">The separator character to be used to split the provided span.</param>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split#system-memoryextensions-split-1(system-readonlyspan((-0))-0)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split?view=net-10.0#system-memoryextensions-split-1(system-readonlyspan((-0))-0)
     public static SpanSplitEnumerator<T> Split<T>(this ReadOnlySpan<T> source, T separator)
         where T : IEquatable<T> =>
         new SpanSplitEnumerator<T>(source, separator);
@@ -33,7 +33,7 @@ static partial class Polyfill
     /// <typeparam name="T">The type of the elements.</typeparam>
     /// <param name="source">The source span to be enumerated.</param>
     /// <param name="separator">The separator span to be used to split the provided span.</param>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split#system-memoryextensions-split-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split?view=net-10.0#system-memoryextensions-split-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
     public static SpanSplitEnumerator<T> Split<T>(this ReadOnlySpan<T> source, ReadOnlySpan<T> separator)
         where T : IEquatable<T> =>
         new SpanSplitEnumerator<T>(source, separator, treatAsSingleSeparator: true);
@@ -47,7 +47,7 @@ static partial class Polyfill
     /// <typeparam name="T">The type of the elements.</typeparam>
     /// <param name="source">The source span to be enumerated.</param>
     /// <param name="separators">The separators to be used to split the provided span.</param>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany#system-memoryextensions-splitany-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany?view=net-10.0#system-memoryextensions-splitany-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
     public static SpanSplitEnumerator<T> SplitAny<T>(this ReadOnlySpan<T> source, [UnscopedRef] params ReadOnlySpan<T> separators)
         where T : IEquatable<T> =>
         new SpanSplitEnumerator<T>(source, separators);
@@ -63,7 +63,7 @@ static partial class Polyfill
     /// <typeparam name="T">The type of the elements.</typeparam>
     /// <param name="source">The source span to be enumerated.</param>
     /// <param name="separators">The <see cref="SpanSplitEnumerator{T}"/> to be used to split the provided span.</param>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany#system-memoryextensions-splitany-1(system-readonlyspan((-0))-system-buffers-searchvalues((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany?view=net-10.0#system-memoryextensions-splitany-1(system-readonlyspan((-0))-system-buffers-searchvalues((-0)))
     public static SpanSplitEnumerator<T> SplitAny<T>(this ReadOnlySpan<T> source, SearchValues<T> separators)
         where T : IEquatable<T> =>
         new SpanSplitEnumerator<T>(source, separators);

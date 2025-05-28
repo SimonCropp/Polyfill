@@ -19,7 +19,7 @@ static class UIntPolyfill
     /// <summary>
     /// Tries to parse a string into a value.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-string-system-iformatprovider-system-uint32@)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-string-system-iformatprovider-system-uint32@)
     public static bool TryParse(string? target, IFormatProvider? provider, out uint result) =>
 #if NET7_0_OR_GREATER
         uint.TryParse(target, provider, out result);
@@ -31,7 +31,7 @@ static class UIntPolyfill
     /// <summary>
     /// Tries to parse a span of UTF-8 characters into a value.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint32@)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint32@)
     public static bool TryParse(ReadOnlySpan<byte> target, IFormatProvider? provider, out uint result) =>
 #if NET8_0_OR_GREATER
         uint.TryParse(target, provider, out result);
@@ -42,7 +42,7 @@ static class UIntPolyfill
     /// <summary>
     /// Converts the span representation of a number in a specified style and culture-specific format to its uint equivalent. A return value indicates whether the conversion succeeded.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-readonlyspan((system-char))-system-uint32@)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-readonlyspan((system-char))-system-uint32@)
     public static bool TryParse(ReadOnlySpan<char> target, out uint result) =>
 #if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         uint.TryParse(target, out result);
@@ -53,7 +53,7 @@ static class UIntPolyfill
     /// <summary>
     /// Tries to parse a span of characters into a value.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint32@)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint32@)
     public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out uint result) =>
 #if NET7_0_OR_GREATER
         uint.TryParse(target, provider, out result);
@@ -64,7 +64,7 @@ static class UIntPolyfill
     /// <summary>
     /// Tries to parse a span of UTF-8 characters into a value.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uint32@)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uint32@)
     public static bool TryParse(ReadOnlySpan<byte> target, NumberStyles style, IFormatProvider? provider, out uint result) =>
 #if NET8_0_OR_GREATER
         uint.TryParse(target, style, provider, out result);
@@ -75,7 +75,7 @@ static class UIntPolyfill
     /// <summary>
     /// Tries to convert a UTF-8 character span containing the string representation of a number to its uint equivalent.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint32@)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint32@)
     public static bool TryParse(ReadOnlySpan<byte> target, out uint result) =>
 #if NET8_0_OR_GREATER
         uint.TryParse(target, out result);
@@ -86,7 +86,7 @@ static class UIntPolyfill
     /// <summary>
     /// Converts the span representation of a number in a specified style and culture-specific format to its uint equivalent. A return value indicates whether the conversion succeeded.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse#system-uint32-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint32@)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint32@)
     public static bool TryParse(ReadOnlySpan<char> target, NumberStyles style, IFormatProvider? provider, out uint result) =>
 #if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         uint.TryParse(target, style, provider, out result);

@@ -9,7 +9,7 @@
 namespace System;
 
 /// <summary>Provides functionality to format the string representation of an object into a span.</summary>
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.ispanformattable
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.ispanformattable?view=net-10.0
 #if PolyPublic
 public
 #endif

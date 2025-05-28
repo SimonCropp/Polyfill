@@ -17,7 +17,7 @@ static partial class Polyfill
     /// <param name="source">The sequence to remove duplicate elements from.</param>
     /// <param name="keySelector">A function to extract the key for each element.</param>
     /// <returns>An <see cref="IEnumerable{T}" /> that contains distinct elements from the source sequence.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.distinctby#system-linq-enumerable-distinctby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.distinctby?view=net-10.0#system-linq-enumerable-distinctby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))
     public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector) =>
         DistinctBy(source, keySelector, null);
 
@@ -28,7 +28,7 @@ static partial class Polyfill
     /// <param name="keySelector">A function to extract the key for each element.</param>
     /// <param name="comparer">An <see cref="IEqualityComparer{TKey}" /> to compare keys.</param>
     /// <returns>An <see cref="IEnumerable{T}" /> that contains distinct elements from the source sequence.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.distinctby#system-linq-enumerable-distinctby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.distinctby?view=net-10.0#system-linq-enumerable-distinctby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
     public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
     {
         using IEnumerator<TSource> enumerator = source.GetEnumerator();

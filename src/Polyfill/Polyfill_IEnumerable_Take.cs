@@ -159,7 +159,7 @@ static partial class Polyfill
     /// <param name="source">The sequence to return elements from.</param>
     /// <param name="range">The range of elements to return, which has start and end indexes either from the start or the end.</param>
     /// <returns>An <see cref="IEnumerable{T}" /> that contains the specified <paramref name="range" /> of elements from the <paramref name="source" /> sequence.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.take#system-linq-enumerable-take-1(system-collections-generic-ienumerable((-0))-system-range)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.take?view=net-10.0#system-linq-enumerable-take-1(system-collections-generic-ienumerable((-0))-system-range)
     public static IEnumerable<TSource> Take<TSource>(
         this IEnumerable<TSource> target,
         Range range)

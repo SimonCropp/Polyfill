@@ -17,7 +17,7 @@ static partial class Polyfill
     /// <param name="chars">The span containing the set of characters to encode.</param>
     /// <param name="bytes">The byte span to hold the encoded bytes.</param>
     /// <returns>The number of encoded bytes.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getbytes#system-text-encoding-getbytes(system-readonlyspan((system-char))-system-span((system-byte)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getbytes?view=net-10.0#system-text-encoding-getbytes(system-readonlyspan((system-char))-system-span((system-byte)))
 #if AllowUnsafeBlocks
     public static unsafe int GetBytes(this Encoding target, ReadOnlySpan<char> chars, Span<byte> bytes)
     {
@@ -50,7 +50,7 @@ static partial class Polyfill
     /// <summary>When overridden in a derived class, decodes all the bytes in the specified byte span into a string.</summary>
     /// <param name="bytes">A read-only byte span to decode to a Unicode string.</param>
     /// <returns>A string that contains the decoded bytes from the provided read-only span.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getstring#system-text-encoding-getstring(system-readonlyspan((system-byte)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getstring?view=net-10.0#system-text-encoding-getstring(system-readonlyspan((system-byte)))
 #if AllowUnsafeBlocks
     public static unsafe string GetString(this Encoding target, ReadOnlySpan<byte> bytes)
     {

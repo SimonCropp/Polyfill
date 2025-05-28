@@ -25,7 +25,7 @@ using System.Diagnostics.CodeAnalysis;
     Inherited = false)]
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.versioning.requirespreviewfeaturesattribute
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.versioning.requirespreviewfeaturesattribute?view=net-10.0
 #if PolyPublic
 public
 #endif

@@ -26,21 +26,21 @@ static partial class Polyfill
     /// <summary>
     /// Archives a file by compressing it and adding it to the zip archive.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.createentryfromfileasync
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.createentryfromfileasync?view=net-10.0
     public static Task<ZipArchiveEntry> CreateEntryFromFileAsync(this System.IO.Compression.ZipArchive target, string sourceFileName, string entryName, CancellationToken cancellationToken = default) =>
         Task.FromResult(target.CreateEntryFromFile(sourceFileName, entryName));
 
     /// <summary>
     /// Archives a file by compressing it and adding it to the zip archive.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.createentryfromfileasync
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.createentryfromfileasync?view=net-10.0
     public static Task<ZipArchiveEntry> CreateEntryFromFileAsync(this System.IO.Compression.ZipArchive target, string sourceFileName, string entryName, CompressionLevel compressionLevel, CancellationToken cancellationToken = default) =>
         Task.FromResult(target.CreateEntryFromFile(sourceFileName, entryName, compressionLevel));
 
     /// <summary>
     /// Extracts all the files in the zip archive to a directory on the file system.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttodirectory#system-io-compression-zipfileextensions-extracttodirectory(system-io-compression-ziparchive-system-string)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttodirectory?view=net-10.0#system-io-compression-zipfileextensions-extracttodirectory(system-io-compression-ziparchive-system-string)
     public static Task ExtractToDirectoryAsync(this ZipArchive target, string destinationDirectoryName, CancellationToken cancellationToken = default)
     {
         target.ExtractToDirectory(destinationDirectoryName, false);
@@ -50,7 +50,7 @@ static partial class Polyfill
     /// <summary>
     /// Extracts all the files in the zip archive to a directory on the file system.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttodirectoryasync#system-io-compression-zipfileextensions-extracttodirectoryasync(system-io-compression-ziparchive-system-string-system-boolean-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttodirectoryasync?view=net-10.0#system-io-compression-zipfileextensions-extracttodirectoryasync(system-io-compression-ziparchive-system-string-system-boolean-system-threading-cancellationtoken)
     public static Task ExtractToDirectoryAsync(this ZipArchive target, string destinationDirectoryName, bool overwriteFiles, CancellationToken cancellationToken = default)
     {
         target.ExtractToDirectory(destinationDirectoryName, overwriteFiles);
@@ -60,7 +60,7 @@ static partial class Polyfill
     /// <summary>
     /// Extracts an entry in the zip archive to a file.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttofileasync#system-io-compression-zipfileextensions-extracttofileasync(system-io-compression-ziparchiveentry-system-string-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttofileasync?view=net-10.0#system-io-compression-zipfileextensions-extracttofileasync(system-io-compression-ziparchiveentry-system-string-system-threading-cancellationtoken)
     public static Task ExtractToFileAsync(this ZipArchiveEntry source, string destinationFileName, CancellationToken cancellationToken = default)
     {
         source.ExtractToFile(destinationFileName);
@@ -70,7 +70,7 @@ static partial class Polyfill
     /// <summary>
     /// Extracts an entry in the zip archive to a file.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttofileasync#system-io-compression-zipfileextensions-extracttofileasync(system-io-compression-ziparchiveentry-system-string-system-boolean-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttofileasync?view=net-10.0#system-io-compression-zipfileextensions-extracttofileasync(system-io-compression-ziparchiveentry-system-string-system-boolean-system-threading-cancellationtoken)
     public static Task ExtractToFileAsync(this ZipArchiveEntry source, string destinationFileName, bool overwrite, CancellationToken cancellationToken = default)
     {
         source.ExtractToFile(destinationFileName, overwrite);
@@ -83,7 +83,7 @@ static partial class Polyfill
     /// <summary>
     /// Extracts all the files in the zip archive to a directory on the file system.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttodirectory#system-io-compression-zipfileextensions-extracttodirectory(system-io-compression-ziparchive-system-string-system-boolean)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttodirectory?view=net-10.0#system-io-compression-zipfileextensions-extracttodirectory(system-io-compression-ziparchive-system-string-system-boolean)
     public static void ExtractToDirectory(this ZipArchive target, string destinationDirectoryName, bool overwriteFiles)
     {
         var directoryInfo = Directory.CreateDirectory(destinationDirectoryName);

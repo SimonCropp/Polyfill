@@ -16,7 +16,7 @@ static partial class Polyfill
     /// <param name="newValue">The string to replace <paramref name="oldValue"/> with.</param>
     /// <param name="startIndex">The index to start in this builder.</param>
     /// <param name="count">The number of characters to read in this builder.</param>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.replace#system-text-stringbuilder-replace(system-readonlyspan((system-char))-system-readonlyspan((system-char)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.replace?view=net-10.0#system-text-stringbuilder-replace(system-readonlyspan((system-char))-system-readonlyspan((system-char)))
     public static StringBuilder Replace(this StringBuilder target, ReadOnlySpan<char> oldValue, ReadOnlySpan<char> newValue) =>
         target.Replace(oldValue.ToString(), newValue.ToString());
 
@@ -27,7 +27,7 @@ static partial class Polyfill
     /// <param name="newValue">The read-only character span to replace <paramref name="oldValue"/> with.</param>
     /// <param name="startIndex">The index to start in this builder.</param>
     /// <param name="count">The number of characters to read in this builder.</param>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.replace#system-text-stringbuilder-replace(system-char-system-char-system-int32-system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.replace?view=net-10.0#system-text-stringbuilder-replace(system-char-system-char-system-int32-system-int32)
     public static StringBuilder Replace(this StringBuilder target, ReadOnlySpan<char> oldValue, ReadOnlySpan<char> newValue, int startIndex, int count) =>
         target.Replace(oldValue.ToString(), newValue.ToString(), startIndex, count);
 #endif

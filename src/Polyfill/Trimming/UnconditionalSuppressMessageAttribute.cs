@@ -17,7 +17,7 @@ namespace System.Diagnostics.CodeAnalysis;
     validOn: AttributeTargets.All,
     Inherited = false,
     AllowMultiple = true)]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.unconditionalsuppressmessageattribute
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.unconditionalsuppressmessageattribute?view=net-10.0
 #if PolyPublic
 public
 #endif

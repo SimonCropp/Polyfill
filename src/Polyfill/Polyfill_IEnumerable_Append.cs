@@ -18,7 +18,7 @@ static partial class Polyfill
     /// <param name="element">The value to append to <paramref name="target" />.</param>
     /// <typeparam name="TSource">The type of the elements of source.</typeparam>
     /// <returns>A new sequence that ends with element.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.append
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.append?view=net-10.0
     public static IEnumerable<TSource> Append<TSource>(
         this IEnumerable<TSource> target,
         TSource element)
