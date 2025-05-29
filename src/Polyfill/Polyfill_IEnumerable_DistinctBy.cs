@@ -20,21 +20,23 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.distinctby?view=net-10.0#system-linq-enumerable-distinctby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
     public static IEnumerable<TSource> DistinctBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
     {
-        using IEnumerator<TSource> enumerator = source.GetEnumerator();
+        using var enumerator = source.GetEnumerator();
 
-        if (enumerator.MoveNext())
+        if (!enumerator.MoveNext())
         {
-            var set = new HashSet<TKey>(comparer);
-            do
-            {
-                TSource element = enumerator.Current;
-                if (set.Add(keySelector(element)))
-                {
-                    yield return element;
-                }
-            }
-            while (enumerator.MoveNext());
+            yield break;
         }
+
+        var set = new HashSet<TKey>(comparer);
+        do
+        {
+            var element = enumerator.Current;
+            if (set.Add(keySelector(element)))
+            {
+                yield return element;
+            }
+        }
+        while (enumerator.MoveNext());
     }
 
 #endif
