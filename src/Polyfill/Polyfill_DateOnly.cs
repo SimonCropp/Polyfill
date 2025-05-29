@@ -2,6 +2,7 @@
 
 #pragma warning disable
 
+#if NET6_0 || NET7_0
 namespace Polyfills;
 
 using System;
@@ -10,7 +11,6 @@ using System.ComponentModel;
 
 static partial class Polyfill
 {
-#if NET6_0 || NET7_0
     /// <summary>
     /// Deconstructs DateOnly by Year, Month, and Day.
     /// </summary>
@@ -22,6 +22,6 @@ static partial class Polyfill
         month = target.Month;
         day = target.Day;
     }
-#endif
-
 }
+
+#endif

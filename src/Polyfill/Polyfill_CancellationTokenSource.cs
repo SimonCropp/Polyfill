@@ -5,7 +5,6 @@
 
 namespace Polyfills;
 
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,14 +18,12 @@ static partial class Polyfill
         {
             return Task.CompletedTask;
         }
-        else
-        {
-            Task task = Task.Run(() => target.Cancel());
 
-            while (!target.IsCancellationRequested) ;
+        var task = Task.Run(target.Cancel);
 
-            return task;
-        }
+        while (!target.IsCancellationRequested) ;
+
+        return task;
     }
 }
 #endif

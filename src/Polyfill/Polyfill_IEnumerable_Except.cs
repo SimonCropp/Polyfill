@@ -37,9 +37,8 @@ static partial class Polyfill
         TSource item,
         IEqualityComparer<TSource>? comparer)
     {
-        var set = new HashSet<TSource>(comparer);
-        set.Add(item);
-        foreach (TSource element in target)
+        var set = new HashSet<TSource>(comparer) {item};
+        foreach (var element in target)
         {
             if (set.Add(element))
             {

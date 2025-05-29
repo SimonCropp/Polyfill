@@ -28,8 +28,7 @@ sealed class OverloadResolutionPriorityAttribute :
     /// <summary>
     /// Initializes a new instance of the <see cref="OverloadResolutionPriorityAttribute"/> class.
     /// </summary>
-    public OverloadResolutionPriorityAttribute(int priority) =>
-        Priority = priority;
+    public OverloadResolutionPriorityAttribute(int priority) => Priority = priority;
 
     /// <summary>
     /// The priority of the member.

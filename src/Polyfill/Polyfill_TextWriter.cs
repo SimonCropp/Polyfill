@@ -51,7 +51,7 @@ static partial class Polyfill
         }
 
 #if FeatureMemory
-        foreach (ReadOnlyMemory<char> chunk in value.GetChunks())
+        foreach (var chunk in value.GetChunks())
         {
             target.Write(chunk.Span);
         }
@@ -82,7 +82,7 @@ static partial class Polyfill
         async Task WriteAsyncCore(StringBuilder builder, CancellationToken cancel)
         {
 #if FeatureValueTask && FeatureMemory
-            foreach (ReadOnlyMemory<char> chunk in builder.GetChunks())
+            foreach (var chunk in builder.GetChunks())
             {
                 await target.WriteAsync(chunk, cancel).ConfigureAwait(false);
             }

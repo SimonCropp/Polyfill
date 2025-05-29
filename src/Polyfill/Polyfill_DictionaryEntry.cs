@@ -2,6 +2,8 @@
 
 #pragma warning disable
 
+#if !NETCOREAPP && !NETSTANDARD2_1_OR_GREATER
+
 namespace Polyfills;
 
 using System;
@@ -10,7 +12,6 @@ using System.ComponentModel;
 
 static partial class Polyfill
 {
-#if !NETCOREAPP && !NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Deconstructs the current <see cref="DictionaryEntry"/>.
     /// </summary>
@@ -21,6 +22,6 @@ static partial class Polyfill
         key = target.Key;
         value = target.Value;
     }
-#endif
-
 }
+
+#endif

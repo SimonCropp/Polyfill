@@ -26,10 +26,8 @@ static partial class Polyfill
         }
     }
 #else
-    public static int GetByteCount(this Encoding target, ReadOnlySpan<char> chars)
-    {
-        return target.GetByteCount(chars.ToArray());
-    }
+    public static int GetByteCount(this Encoding target, ReadOnlySpan<char> chars) =>
+        target.GetByteCount(chars.ToArray());
 #endif
 #endif
 

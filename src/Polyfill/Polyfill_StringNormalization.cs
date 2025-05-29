@@ -7,7 +7,6 @@ namespace Polyfills;
 
 using System;
 using System.Text;
-using System.Collections.Concurrent;
 
 //TODO: Add XML documentation
 static partial class Polyfill

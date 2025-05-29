@@ -25,7 +25,7 @@ static partial class Polyfill
             throw new ArgumentException("Choices cannot be empty.", nameof(choices));
         }
 
-        for (int i = 0; i < destination.Length; i++)
+        for (var i = 0; i < destination.Length; i++)
         {
             destination[i] = choices[target.Next(choices.Length)];
         }
@@ -45,8 +45,8 @@ static partial class Polyfill
             throw new ArgumentException("Choices cannot be empty.", nameof(choices));
         }
 
-        T[] result = new T[length];
-        for (int i = 0; i < length; i++)
+        var result = new T[length];
+        for (var i = 0; i < length; i++)
         {
             result[i] = choices[target.Next(choices.Length)];
         }
@@ -70,7 +70,7 @@ static partial class Polyfill
             throw new ArgumentException("Choices cannot be null or empty.", nameof(choices));
         }
 
-        T[] result = new T[length];
+        var result = new T[length];
         for (int i = 0; i < length; i++)
         {
             result[i] = choices[target.Next(choices.Length)];
@@ -107,11 +107,11 @@ static partial class Polyfill
         this Random target,
         T[] values)
     {
-        int n = values.Length;
+        var n = values.Length;
 
-        for (int i = 0; i < n - 1; i++)
+        for (var i = 0; i < n - 1; i++)
         {
-            int j = target.Next(i, n);
+            var j = target.Next(i, n);
 
             if (j != i)
             {
@@ -131,15 +131,15 @@ static partial class Polyfill
         this Random target,
         Span<T> values)
     {
-        int n = values.Length;
+        var n = values.Length;
 
         for (int i = 0; i < n - 1; i++)
         {
-            int j = target.Next(i, n);
+            var j = target.Next(i, n);
 
             if (j != i)
             {
-                T temp = values[i];
+                var temp = values[i];
                 values[i] = values[j];
                 values[j] = temp;
             }

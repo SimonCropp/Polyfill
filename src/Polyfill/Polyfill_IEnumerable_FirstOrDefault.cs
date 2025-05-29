@@ -14,7 +14,7 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.firstordefault?view=net-10.0#system-linq-enumerable-firstordefault-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-boolean))-0)
     public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate, TSource defaultValue)
     {
-        TSource? first = source.TryGetFirst(predicate, out bool found);
+        var first = source.TryGetFirst(predicate, out var found);
         return found ? first! : defaultValue;
     }
 
@@ -22,7 +22,7 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.firstordefault?view=net-10.0#system-linq-enumerable-firstordefault-1(system-collections-generic-ienumerable((-0))-0)
     public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, TSource defaultValue)
     {
-        TSource? first = source.TryGetFirst(out bool found);
+        var first = source.TryGetFirst(out var found);
         return found ? first! : defaultValue;
     }
 
@@ -41,13 +41,11 @@ static partial class Polyfill
         }
         else
         {
-            using (IEnumerator<TSource> e = source.GetEnumerator())
+            using var e = source.GetEnumerator();
+            if (e.MoveNext())
             {
-                if (e.MoveNext())
-                {
-                    found = true;
-                    return e.Current;
-                }
+                found = true;
+                return e.Current;
             }
         }
 
@@ -57,7 +55,7 @@ static partial class Polyfill
 
     static TSource? TryGetFirst<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate, out bool found)
     {
-        foreach (TSource element in source)
+        foreach (var element in source)
         {
             if (predicate(element))
             {

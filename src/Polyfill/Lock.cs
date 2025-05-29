@@ -39,8 +39,7 @@ class Lock
     /// Tries to enter the lock, waiting for roughly the specified duration. If the lock is entered, the calling thread
     /// would be the only thread that holds the lock.
     /// </summary>
-    public bool TryEnter(TimeSpan timeout) =>
-        Monitor.TryEnter(this, timeout);
+    public bool TryEnter(TimeSpan timeout) => Monitor.TryEnter(this, timeout);
 
     /// <summary>
     /// Tries to enter the lock, waiting for roughly the specified duration. If the lock is entered, the calling thread
@@ -63,7 +62,7 @@ class Lock
     public Scope EnterScope()
     {
         Enter();
-        return new Scope(this);
+        return new(this);
     }
 
     /// <summary>

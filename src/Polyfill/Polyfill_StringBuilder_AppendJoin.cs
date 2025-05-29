@@ -89,7 +89,7 @@ static partial class Polyfill
             return target;
         }
 
-        T value = enumerator.Current;
+        var value = enumerator.Current;
         if (value != null)
         {
             target.Append(value.ToString());
@@ -124,7 +124,7 @@ static partial class Polyfill
             target.Append(first.ToString());
         }
 
-        for (int i = 1; i < values.Length; i++)
+        for (var i = 1; i < values.Length; i++)
         {
             target.Append(separator);
             var value = values[i];
@@ -183,7 +183,7 @@ static partial class Polyfill
             target.Append(first.ToString());
         }
 
-        for (int i = 1; i < values.Length; i++)
+        for (var i = 1; i < values.Length; i++)
         {
             target.Append(separator);
             var value = values[i];

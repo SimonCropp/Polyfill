@@ -131,7 +131,7 @@ static partial class Polyfill
                     throw new InvalidOperationException("Enumeration operation cant happen");
                 }
 
-                return new ReadOnlyMemory<char>(GetChunkChars(_currentChunk), 0, GetChunkLength(_currentChunk));
+                return new(GetChunkChars(_currentChunk), 0, GetChunkLength(_currentChunk));
             }
         }
 
@@ -144,7 +144,7 @@ static partial class Polyfill
             var chunkCount = ChunkCount(builder);
             if (8 < chunkCount)
             {
-                _manyChunks = new ManyChunkInfo(builder, chunkCount);
+                _manyChunks = new(builder, chunkCount);
             }
         }
 

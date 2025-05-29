@@ -57,7 +57,7 @@ static class SHA256Polyfill
         return SHA256.HashDataAsync(source);
 #else
         using var hasher = SHA256.Create();
-        return new ValueTask<byte[]>(hasher.ComputeHash(source));
+        return new(hasher.ComputeHash(source));
 #endif
     }
 #endif

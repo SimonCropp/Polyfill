@@ -45,10 +45,8 @@ static partial class Polyfill
         }
     }
 #else
-    public static string GetString(this Encoding target, ReadOnlySpan<byte> bytes)
-    {
-        return target.GetString(bytes.ToArray());
-    }
+    public static string GetString(this Encoding target, ReadOnlySpan<byte> bytes) =>
+        target.GetString(bytes.ToArray());
 #endif
 #endif
 }

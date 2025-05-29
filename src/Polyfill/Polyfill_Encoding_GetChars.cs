@@ -29,12 +29,7 @@ static partial class Polyfill
 #else
     public static int GetChars(this Encoding target, ReadOnlySpan<byte> bytes, Span<char> chars)
     {
-        if (target is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-
-        char[] charArray = new char[bytes.Length];
+        var charArray = new char[bytes.Length];
         var array = bytes.ToArray();
         var count = target.GetChars(array, 0, bytes.Length, charArray, 0);
         new ReadOnlySpan<char>(charArray).CopyTo(chars);

@@ -5,7 +5,6 @@
 
 namespace Polyfills;
 
-using System;
 using System.Collections.Concurrent;
 
 static partial class Polyfill

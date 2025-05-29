@@ -4,15 +4,15 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+
+#if NETSTANDARD2_0 || NETFRAMEWORK
+
 namespace Polyfills;
 
 using System.Collections.Generic;
 
 static partial class Polyfill
 {
-
-#if NETSTANDARD2_0 || NETFRAMEWORK
-
     /// <summary>
     /// Returns a new enumerable collection that contains the last count elements from source.
     /// </summary>
@@ -29,5 +29,5 @@ static partial class Polyfill
             isStartIndexFromEnd: true, startIndex: count,
             isEndIndexFromEnd: true, endIndex: 0);
     }
-#endif
 }
+#endif

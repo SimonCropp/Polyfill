@@ -23,10 +23,7 @@ sealed class FeatureSwitchDefinitionAttribute : Attribute
     /// Initializes a new instance of the <see cref="FeatureSwitchDefinitionAttribute"/> class
     /// with the specified feature switch name.
     /// </summary>
-    public FeatureSwitchDefinitionAttribute(string switchName)
-    {
-        SwitchName = switchName;
-    }
+    public FeatureSwitchDefinitionAttribute(string switchName) => SwitchName = switchName;
 
     /// <summary>
     /// The name of the feature switch that provides the value for the specified property.

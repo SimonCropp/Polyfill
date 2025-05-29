@@ -104,7 +104,7 @@ static class SHA512Polyfill
 #else
         var hash = HashData(source);
         hash.CopyTo(destination);
-        return new ValueTask<int>(hash.Length);
+        return new(hash.Length);
 #endif
     }
 #endif

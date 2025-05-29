@@ -33,7 +33,7 @@ static partial class Polyfill
         CancellationToken cancellationToken)
     {
         var totalMilliseconds = (long) timeout.TotalMilliseconds;
-        if (totalMilliseconds < -1 || totalMilliseconds > MaxSupportedTimeout)
+        if (totalMilliseconds is < -1 or > MaxSupportedTimeout)
         {
             throw new ArgumentOutOfRangeException(nameof(timeout));
         }

@@ -23,7 +23,7 @@ static class KeyValuePair
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair.create?view=net-10.0
     public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value) =>
-        new KeyValuePair<TKey, TValue>(key, value);
+        new(key, value);
 }
 #else
 using System.Runtime.CompilerServices;

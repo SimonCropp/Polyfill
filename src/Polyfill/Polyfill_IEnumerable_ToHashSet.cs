@@ -5,9 +5,7 @@
 
 namespace Polyfills;
 
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 static partial class Polyfill
 {
@@ -18,7 +16,7 @@ static partial class Polyfill
     public static HashSet<TSource> ToHashSet<TSource>(
         this IEnumerable<TSource> target,
         IEqualityComparer<TSource>? comparer = null) =>
-        new HashSet<TSource>(target, comparer);
+        new(target, comparer);
 
 }
 #endif

@@ -5,8 +5,6 @@
 
 namespace Polyfills;
 
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System;
 using System.Text;
 
@@ -48,7 +46,7 @@ static partial class Polyfill
 
     static int ClampStart(ReadOnlySpan<char> target)
     {
-        int start = 0;
+        var start = 0;
 
         for (; start < target.Length; start++)
         {
@@ -63,7 +61,7 @@ static partial class Polyfill
 
     static int ClampEnd(ReadOnlySpan<char> target, int start)
     {
-        int end = target.Length - 1;
+        var end = target.Length - 1;
 
         for (; end >= start; end--)
         {
