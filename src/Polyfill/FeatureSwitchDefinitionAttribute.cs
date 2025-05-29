@@ -6,7 +6,6 @@
 namespace System.Diagnostics.CodeAnalysis;
 
 using Diagnostics;
-using Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// [AttributeUsage(AttributeTargets.Property, Inherited = false)]

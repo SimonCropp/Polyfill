@@ -15,6 +15,7 @@ using Collections.ObjectModel;
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
 
+//https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Reflection/NullabilityInfoContext.cs
 /// <summary>
 /// Provides APIs for populating nullability information/context from reflection members:
 /// <see cref="ParameterInfo"/>, <see cref="FieldInfo"/>, <see cref="PropertyInfo"/> and <see cref="EventInfo"/>.

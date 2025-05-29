@@ -5,7 +5,6 @@
 
 namespace System.Diagnostics;
 
-using Diagnostics;
 using Diagnostics.CodeAnalysis;
 
 /// <summary>
