@@ -21,29 +21,11 @@ static partial class ConvertPolyfill
     /// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring?view=net-10.0#system-convert-tohexstring(system-byte()-system-int32-system-int32)
-    public static string ToHexString(byte[] inArray, int offset, int length)
+    public static string ToHexString(byte[] inArray, int offset, int length) =>
 #if NET
-        => Convert.ToHexString(inArray, offset, length);
+        Convert.ToHexString(inArray, offset, length);
 #else
-    {
-        if (length < 0)
-            throw new ArgumentOutOfRangeException(nameof(length));
-        if (offset < 0)
-            throw new ArgumentOutOfRangeException(nameof(offset));
-        if (offset > (inArray.Length - length))
-            throw new ArgumentOutOfRangeException(nameof(offset));
-
-        var builder = new StringBuilder(length * 2);
-
-        var end = length + offset;
-        for (int i = offset; i < end; i++)
-        {
-            var item = inArray[i];
-            builder.Append(item.ToString("X2"));
-        }
-
-        return builder.ToString();
-    }
+        ToHexString(inArray, offset, length, "X2");
 #endif
 
     /// <summary>
@@ -51,10 +33,15 @@ static partial class ConvertPolyfill
     /// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower?view=net-10.0#system-convert-tohexstringlower(system-byte()-system-int32-system-int32)
-    public static string ToHexStringLower(byte[] inArray, int offset, int length)
+    public static string ToHexStringLower(byte[] inArray, int offset, int length) =>
 #if NET9_0_OR_GREATER
-        => Convert.ToHexStringLower(inArray, offset, length);
+        Convert.ToHexStringLower(inArray, offset, length);
 #else
+        ToHexString(inArray, offset, length, "x2");
+#endif
+
+#if !NET || !NET9_0_OR_GREATER
+    static string ToHexString(byte[] inArray, int offset, int length, string format)
     {
         if (length < 0)
             throw new ArgumentOutOfRangeException(nameof(length));
