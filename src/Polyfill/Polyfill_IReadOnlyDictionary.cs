@@ -5,28 +5,10 @@
 
 namespace Polyfills;
 
-using System;
 using System.Collections.Generic;
 
 static partial class Polyfill
 {
-    /// <summary>
-    /// Tries to get the value associated with the specified key in the dictionary.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault?view=net-10.0
-    public static TValue? GetValueOrDefault<TKey, TValue>(
-        this IReadOnlyDictionary<TKey, TValue> target,
-        TKey key)
-        where TKey : notnull
-    {
-        if (target.TryGetValue(key, out var result))
-        {
-            return result;
-        }
-
-        return default;
-    }
-
     /// <summary>
     /// Tries to get the value associated with the specified key in the dictionary.
     /// </summary>
