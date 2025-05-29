@@ -32,8 +32,8 @@ static partial class Polyfill
         TimeSpan timeout,
         CancellationToken cancellationToken)
     {
-        var totalMilliseconds = (long) timeout.TotalMilliseconds;
-        if (totalMilliseconds is < -1 or > MaxSupportedTimeout)
+        var milliseconds = (long) timeout.TotalMilliseconds;
+        if (milliseconds is < -1 or > MaxSupportedTimeout)
         {
             throw new ArgumentOutOfRangeException(nameof(timeout));
         }
@@ -63,7 +63,7 @@ static partial class Polyfill
             }
             else if (completedTask.Result == delayTask)
             {
-                throw new TimeoutException($"Execution did not complete within the time allotted {timeout.TotalMilliseconds} ms");
+                throw new TimeoutException($"Execution did not complete within the time allotted {milliseconds} ms");
             }
 
             return target;
