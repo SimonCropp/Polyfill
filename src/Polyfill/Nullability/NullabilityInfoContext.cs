@@ -27,22 +27,19 @@ public
 #endif
 sealed class NullabilityInfoContext
 {
-    const string CompilerServicesNameSpace = "System.Runtime.CompilerServices";
-    Dictionary<Module, NotAnnotatedStatus> _publicOnlyModules = new();
-    Dictionary<MemberInfo, NullabilityState> _context = new();
-
-    internal static bool IsSupported { get; } =
-        AppContext.TryGetSwitch("System.Reflection.NullabilityInfoContext.IsSupported", out bool isSupported) ? isSupported : true;
+    private const string CompilerServicesNameSpace = "System.Runtime.CompilerServices";
+    private readonly Dictionary<Module, NotAnnotatedStatus> _publicOnlyModules = new();
+    private readonly Dictionary<MemberInfo, NullabilityState> _context = new();
 
     [Flags]
-    enum NotAnnotatedStatus
+    private enum NotAnnotatedStatus
     {
-        None = 0x0,
-        Private = 0x1,
-        Internal = 0x2
+        None = 0x0,    // no restriction, all members annotated
+        Private = 0x1, // private members not annotated
+        Internal = 0x2 // internal members not annotated
     }
 
-    NullabilityState? GetNullableContext(MemberInfo? memberInfo)
+    private NullabilityState? GetNullableContext(MemberInfo? memberInfo)
     {
         while (memberInfo != null)
         {
@@ -74,10 +71,11 @@ sealed class NullabilityInfoContext
     /// If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
     /// nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
     /// </summary>
+    /// <param name="parameterInfo">The parameter which nullability info gets populated</param>
+    /// <exception cref="ArgumentNullException">If the parameterInfo parameter is null</exception>
+    /// <returns><see cref="NullabilityInfo" /></returns>
     public NullabilityInfo Create(ParameterInfo parameterInfo)
     {
-        EnsureIsSupported();
-
         IList<CustomAttributeData> attributes = parameterInfo.GetCustomAttributesData();
         NullableAttributeStateParser parser = parameterInfo.Member is MethodBase method && IsPrivateOrInternalMethodAndAnnotationDisabled(method)
             ? NullableAttributeStateParser.Unknown
@@ -93,7 +91,7 @@ sealed class NullabilityInfoContext
         return nullability;
     }
 
-    void CheckParameterMetadataType(ParameterInfo parameter, NullabilityInfo nullability)
+    private void CheckParameterMetadataType(ParameterInfo parameter, NullabilityInfo nullability)
     {
         ParameterInfo? metaParameter;
         MemberInfo metaMember;
@@ -122,7 +120,7 @@ sealed class NullabilityInfoContext
         }
     }
 
-    static ParameterInfo? GetMetaParameter(MethodBase metaMethod, ParameterInfo parameter)
+    private static ParameterInfo? GetMetaParameter(MethodBase metaMethod, ParameterInfo parameter)
     {
         var parameters = metaMethod.GetParameters();
         for (int i = 0; i < parameters.Length; i++)
@@ -136,8 +134,7 @@ sealed class NullabilityInfoContext
 
         return null;
     }
-
-    static MethodInfo GetMethodMetadataDefinition(MethodInfo method)
+    private static MethodInfo GetMethodMetadataDefinition(MethodInfo method)
     {
         if (method.IsGenericMethod && !method.IsGenericMethodDefinition)
         {
@@ -147,7 +144,7 @@ sealed class NullabilityInfoContext
         return (MethodInfo)GetMemberMetadataDefinition(method);
     }
 
-    static void CheckNullabilityAttributes(NullabilityInfo nullability, IList<CustomAttributeData> attributes)
+    private static void CheckNullabilityAttributes(NullabilityInfo nullability, IList<CustomAttributeData> attributes)
     {
         var codeAnalysisReadState = NullabilityState.Unknown;
         var codeAnalysisWriteState = NullabilityState.Unknown;
@@ -161,9 +158,9 @@ sealed class NullabilityInfoContext
                     codeAnalysisReadState = NullabilityState.NotNull;
                 }
                 else if ((attribute.AttributeType.Name == "MaybeNullAttribute" ||
-                          attribute.AttributeType.Name == "MaybeNullWhenAttribute") &&
-                         codeAnalysisReadState == NullabilityState.Unknown &&
-                         !IsValueTypeOrValueTypeByRef(nullability.Type))
+                        attribute.AttributeType.Name == "MaybeNullWhenAttribute") &&
+                        codeAnalysisReadState == NullabilityState.Unknown &&
+                        !IsValueTypeOrValueTypeByRef(nullability.Type))
                 {
                     codeAnalysisReadState = NullabilityState.Nullable;
                 }
@@ -172,8 +169,8 @@ sealed class NullabilityInfoContext
                     codeAnalysisWriteState = NullabilityState.NotNull;
                 }
                 else if (attribute.AttributeType.Name == "AllowNullAttribute" &&
-                         codeAnalysisWriteState == NullabilityState.Unknown &&
-                         !IsValueTypeOrValueTypeByRef(nullability.Type))
+                    codeAnalysisWriteState == NullabilityState.Unknown &&
+                    !IsValueTypeOrValueTypeByRef(nullability.Type))
                 {
                     codeAnalysisWriteState = NullabilityState.Nullable;
                 }
@@ -195,14 +192,15 @@ sealed class NullabilityInfoContext
     /// If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
     /// nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
     /// </summary>
+    /// <param name="propertyInfo">The parameter which nullability info gets populated</param>
+    /// <exception cref="ArgumentNullException">If the propertyInfo parameter is null</exception>
+    /// <returns><see cref="NullabilityInfo" /></returns>
     public NullabilityInfo Create(PropertyInfo propertyInfo)
     {
-        EnsureIsSupported();
-
         MethodInfo? getter = propertyInfo.GetGetMethod(true);
         MethodInfo? setter = propertyInfo.GetSetMethod(true);
         bool annotationsDisabled = (getter == null || IsPrivateOrInternalMethodAndAnnotationDisabled(getter))
-                                   && (setter == null || IsPrivateOrInternalMethodAndAnnotationDisabled(setter));
+            && (setter == null || IsPrivateOrInternalMethodAndAnnotationDisabled(setter));
         NullableAttributeStateParser parser = annotationsDisabled ? NullableAttributeStateParser.Unknown : CreateParser(propertyInfo.GetCustomAttributesData());
         NullabilityInfo nullability = GetNullabilityInfo(propertyInfo, propertyInfo.PropertyType, parser);
 
@@ -218,8 +216,8 @@ sealed class NullabilityInfoContext
         if (setter != null)
         {
             var parameters = setter.GetParameters();
-
-            CheckNullabilityAttributes(nullability, parameters[parameters.Length-1].GetCustomAttributesData());
+            ParameterInfo parameter = parameters[parameters.Length - 1];
+            CheckNullabilityAttributes(nullability, parameter.GetCustomAttributesData());
         }
         else
         {
@@ -229,19 +227,27 @@ sealed class NullabilityInfoContext
         return nullability;
     }
 
-    bool IsPrivateOrInternalMethodAndAnnotationDisabled(MethodBase method) =>
-        (method.IsPrivate || method.IsFamilyAndAssembly || method.IsAssembly) &&
-        IsPublicOnly(method.IsPrivate, method.IsFamilyAndAssembly, method.IsAssembly, method.Module);
+    private bool IsPrivateOrInternalMethodAndAnnotationDisabled(MethodBase method)
+    {
+        if ((method.IsPrivate || method.IsFamilyAndAssembly || method.IsAssembly) &&
+           IsPublicOnly(method.IsPrivate, method.IsFamilyAndAssembly, method.IsAssembly, method.Module))
+        {
+            return true;
+        }
+
+        return false;
+    }
 
     /// <summary>
     /// Populates <see cref="NullabilityInfo" /> for the given <see cref="EventInfo" />.
     /// If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
     /// nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
     /// </summary>
+    /// <param name="eventInfo">The parameter which nullability info gets populated</param>
+    /// <exception cref="ArgumentNullException">If the eventInfo parameter is null</exception>
+    /// <returns><see cref="NullabilityInfo" /></returns>
     public NullabilityInfo Create(EventInfo eventInfo)
     {
-        EnsureIsSupported();
-
         return GetNullabilityInfo(eventInfo, eventInfo.EventHandlerType!, CreateParser(eventInfo.GetCustomAttributesData()));
     }
 
@@ -250,10 +256,11 @@ sealed class NullabilityInfoContext
     /// If the nullablePublicOnly feature is set for an assembly, like it does in .NET SDK, the private and/or internal member's
     /// nullability attributes are omitted, in this case the API will return NullabilityState.Unknown state.
     /// </summary>
+    /// <param name="fieldInfo">The parameter which nullability info gets populated</param>
+    /// <exception cref="ArgumentNullException">If the fieldInfo parameter is null</exception>
+    /// <returns><see cref="NullabilityInfo" /></returns>
     public NullabilityInfo Create(FieldInfo fieldInfo)
     {
-        EnsureIsSupported();
-
         IList<CustomAttributeData> attributes = fieldInfo.GetCustomAttributesData();
         NullableAttributeStateParser parser = IsPrivateOrInternalFieldAndAnnotationDisabled(fieldInfo) ? NullableAttributeStateParser.Unknown : CreateParser(attributes);
         NullabilityInfo nullability = GetNullabilityInfo(fieldInfo, fieldInfo.FieldType, parser);
@@ -261,19 +268,18 @@ sealed class NullabilityInfoContext
         return nullability;
     }
 
-    static void EnsureIsSupported()
+    private bool IsPrivateOrInternalFieldAndAnnotationDisabled(FieldInfo fieldInfo)
     {
-        if (!IsSupported)
+        if ((fieldInfo.IsPrivate || fieldInfo.IsFamilyAndAssembly || fieldInfo.IsAssembly) &&
+            IsPublicOnly(fieldInfo.IsPrivate, fieldInfo.IsFamilyAndAssembly, fieldInfo.IsAssembly, fieldInfo.Module))
         {
-            throw new InvalidOperationException("NullabilityInfoContext is not supported");
+            return true;
         }
+
+        return false;
     }
 
-    bool IsPrivateOrInternalFieldAndAnnotationDisabled(FieldInfo fieldInfo) =>
-        (fieldInfo.IsPrivate || fieldInfo.IsFamilyAndAssembly || fieldInfo.IsAssembly) &&
-        IsPublicOnly(fieldInfo.IsPrivate, fieldInfo.IsFamilyAndAssembly, fieldInfo.IsAssembly, fieldInfo.Module);
-
-    bool IsPublicOnly(bool isPrivate, bool isFamilyAndAssembly, bool isAssembly, Module module)
+    private bool IsPublicOnly(bool isPrivate, bool isFamilyAndAssembly, bool isAssembly, Module module)
     {
         if (!_publicOnlyModules.TryGetValue(module, out NotAnnotatedStatus value))
         {
@@ -287,7 +293,7 @@ sealed class NullabilityInfoContext
         }
 
         if ((isPrivate || isFamilyAndAssembly) && value.HasFlag(NotAnnotatedStatus.Private) ||
-            isAssembly && value.HasFlag(NotAnnotatedStatus.Internal))
+             isAssembly && value.HasFlag(NotAnnotatedStatus.Internal))
         {
             return true;
         }
@@ -295,7 +301,7 @@ sealed class NullabilityInfoContext
         return false;
     }
 
-    static NotAnnotatedStatus PopulateAnnotationInfo(IList<CustomAttributeData> customAttributes)
+    private static NotAnnotatedStatus PopulateAnnotationInfo(IList<CustomAttributeData> customAttributes)
     {
         foreach (CustomAttributeData attribute in customAttributes)
         {
@@ -317,7 +323,7 @@ sealed class NullabilityInfoContext
         return NotAnnotatedStatus.None;
     }
 
-    NullabilityInfo GetNullabilityInfo(MemberInfo memberInfo, Type type, NullableAttributeStateParser parser)
+    private NullabilityInfo GetNullabilityInfo(MemberInfo memberInfo, Type type, NullableAttributeStateParser parser)
     {
         int index = 0;
         NullabilityInfo nullability = GetNullabilityInfo(memberInfo, type, parser, ref index);
@@ -330,7 +336,7 @@ sealed class NullabilityInfoContext
         return nullability;
     }
 
-    NullabilityInfo GetNullabilityInfo(MemberInfo memberInfo, Type type, NullableAttributeStateParser parser, ref int index)
+    private NullabilityInfo GetNullabilityInfo(MemberInfo memberInfo, Type type, NullableAttributeStateParser parser, ref int index)
     {
         NullabilityState state = NullabilityState.Unknown;
         NullabilityInfo? elementState = null;
@@ -387,7 +393,7 @@ sealed class NullabilityInfoContext
         return new NullabilityInfo(type, state, state, elementState, genericArgumentsState);
     }
 
-    static NullableAttributeStateParser CreateParser(IList<CustomAttributeData> customAttributes)
+    private static NullableAttributeStateParser CreateParser(IList<CustomAttributeData> customAttributes)
     {
         foreach (CustomAttributeData attribute in customAttributes)
         {
@@ -402,7 +408,7 @@ sealed class NullabilityInfoContext
         return new NullableAttributeStateParser(null);
     }
 
-    void TryLoadGenericMetaTypeNullability(MemberInfo memberInfo, NullabilityInfo nullability)
+    private void TryLoadGenericMetaTypeNullability(MemberInfo memberInfo, NullabilityInfo nullability)
     {
         MemberInfo? metaMember = GetMemberMetadataDefinition(memberInfo);
         Type? metaType = null;
@@ -421,12 +427,10 @@ sealed class NullabilityInfoContext
         }
     }
 
-    static MemberInfo GetMemberMetadataDefinition(MemberInfo member)
+    private static MemberInfo GetMemberMetadataDefinition(MemberInfo member)
     {
         Type? type = member.DeclaringType;
-        if ((type != null) &&
-            type.IsGenericType &&
-            !type.IsGenericTypeDefinition)
+        if ((type != null) && type.IsGenericType && !type.IsGenericTypeDefinition)
         {
             return type.GetGenericTypeDefinition().GetMemberWithSameMetadataDefinitionAs(member);
         }
@@ -434,7 +438,7 @@ sealed class NullabilityInfoContext
         return member;
     }
 
-    static Type GetPropertyMetaType(PropertyInfo property)
+    private static Type GetPropertyMetaType(PropertyInfo property)
     {
         if (property.GetGetMethod(true) is MethodInfo method)
         {
@@ -444,7 +448,7 @@ sealed class NullabilityInfoContext
         return property.GetSetMethod(true)!.GetParameters()[0].ParameterType;
     }
 
-    void CheckGenericParameters(NullabilityInfo nullability, MemberInfo metaMember, Type metaType, Type? reflectedType)
+    private void CheckGenericParameters(NullabilityInfo nullability, MemberInfo metaMember, Type metaType, Type? reflectedType)
     {
         if (metaType.IsGenericParameter)
         {
@@ -468,6 +472,8 @@ sealed class NullabilityInfoContext
             {
                 CheckGenericParameters(elementNullability, metaMember, metaType.GetElementType()!, reflectedType);
             }
+            // We could also follow this branch for metaType.IsPointer, but since pointers must be unmanaged this
+            // will be a no-op regardless
             else if (metaType.IsByRef)
             {
                 CheckGenericParameters(nullability, metaMember, metaType.GetElementType()!, reflectedType);
@@ -475,10 +481,16 @@ sealed class NullabilityInfoContext
         }
     }
 
-    bool TryUpdateGenericParameterNullability(NullabilityInfo nullability, Type genericParameter, Type? reflectedType)
+    private bool TryUpdateGenericParameterNullability(NullabilityInfo nullability, Type genericParameter, Type? reflectedType)
     {
+        Debug.Assert(genericParameter.IsGenericParameter);
+
         if (reflectedType is not null
+#if NET
+            && !genericParameter.IsGenericMethodParameter
+#else
             && !genericParameter.IsGenericMethodParameter()
+#endif
             && TryUpdateGenericTypeParameterNullabilityFromReflectedType(nullability, genericParameter, reflectedType, reflectedType))
         {
             return true;
@@ -507,15 +519,22 @@ sealed class NullabilityInfoContext
         return false;
     }
 
-    bool TryUpdateGenericTypeParameterNullabilityFromReflectedType(NullabilityInfo nullability, Type genericParameter, Type context, Type reflectedType)
+    private bool TryUpdateGenericTypeParameterNullabilityFromReflectedType(NullabilityInfo nullability, Type genericParameter, Type context, Type reflectedType)
     {
-        var contextTypeDefinition = context.IsGenericType && !context.IsGenericTypeDefinition ? context.GetGenericTypeDefinition() : context;
+        Debug.Assert(genericParameter.IsGenericParameter &&
+#if NET
+            !genericParameter.IsGenericMethodParameter);
+#else
+            !genericParameter.IsGenericMethodParameter());
+#endif
+
+        Type contextTypeDefinition = context.IsGenericType && !context.IsGenericTypeDefinition ? context.GetGenericTypeDefinition() : context;
         if (genericParameter.DeclaringType == contextTypeDefinition)
         {
             return false;
         }
 
-        var baseType = contextTypeDefinition.BaseType;
+        Type? baseType = contextTypeDefinition.BaseType;
         if (baseType is null)
         {
             return false;
@@ -535,7 +554,7 @@ sealed class NullabilityInfoContext
         }
 
         NullableAttributeStateParser parser = CreateParser(contextTypeDefinition.GetCustomAttributesData());
-        int nullabilityStateIndex = 1;
+        int nullabilityStateIndex = 1; // start at 1 since index 0 is the type itself
         for (int i = 0; i < genericParameter.GenericParameterPosition; i++)
         {
             nullabilityStateIndex += CountNullabilityStates(genericArguments[i]);
@@ -564,7 +583,7 @@ sealed class NullabilityInfoContext
         }
     }
 
-    static bool TryPopulateNullabilityInfo(NullabilityInfo nullability, NullableAttributeStateParser parser, ref int index)
+    private static bool TryPopulateNullabilityInfo(NullabilityInfo nullability, NullableAttributeStateParser parser, ref int index)
     {
         bool isValueType = IsValueTypeOrValueTypeByRef(nullability.Type);
         if (!isValueType)
@@ -599,10 +618,12 @@ sealed class NullabilityInfoContext
         return true;
     }
 
-    static NullabilityState TranslateByte(object? value) =>
-        value is byte b ? TranslateByte(b) : NullabilityState.Unknown;
+    private static NullabilityState TranslateByte(object? value)
+    {
+        return value is byte b ? TranslateByte(b) : NullabilityState.Unknown;
+    }
 
-    static NullabilityState TranslateByte(byte b) =>
+    private static NullabilityState TranslateByte(byte b) =>
         b switch
         {
             1 => NullabilityState.NotNull,
@@ -610,14 +631,14 @@ sealed class NullabilityInfoContext
             _ => NullabilityState.Unknown
         };
 
-    static bool IsValueTypeOrValueTypeByRef(Type type) =>
+    private static bool IsValueTypeOrValueTypeByRef(Type type) =>
         type.IsValueType || ((type.IsByRef || type.IsPointer) && type.GetElementType()!.IsValueType);
 
-    readonly struct NullableAttributeStateParser
+    private readonly struct NullableAttributeStateParser
     {
-        static readonly object UnknownByte = (byte)0;
+        private static readonly object UnknownByte = (byte)0;
 
-        readonly object? _nullableAttributeArgument;
+        private readonly object? _nullableAttributeArgument;
 
         public NullableAttributeStateParser(object? nullableAttributeArgument)
         {
@@ -637,6 +658,11 @@ sealed class NullabilityInfoContext
                     when index < args.Count && args[index].Value is byte elementB:
                     state = TranslateByte(elementB);
                     return true;
+#if MONO
+                case byte[] ba when index < ba.Length:
+                    state = TranslateByte(ba[index]);
+                    return true;
+#endif
                 default:
                     return false;
             }
