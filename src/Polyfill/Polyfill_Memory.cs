@@ -16,15 +16,13 @@ static partial class Polyfill
     /// Returns an enumeration of lines over the provided span.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines?view=net-10.0#system-memoryextensions-enumeratelines(system-readonlyspan((system-char)))
-    public static SpanLineEnumerator EnumerateLines(this ReadOnlySpan<char> target) =>
-        new(target);
+    public static SpanLineEnumerator EnumerateLines(this ReadOnlySpan<char> target) =>new(target);
 
     /// <summary>
     /// Returns an enumeration of lines over the provided span.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines?view=net-10.0#system-memoryextensions-enumeratelines(system-span((system-char)))
-    public static SpanLineEnumerator EnumerateLines(this Span<char> target) =>
-        new(target);
+    public static SpanLineEnumerator EnumerateLines(this Span<char> target) =>new(target);
 
 #endif
 
@@ -34,15 +32,13 @@ static partial class Polyfill
     /// Removes all leading white-space characters from the span.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimstart?view=net-10.0#system-memoryextensions-trimstart(system-span((system-char)))
-    public static Span<char> TrimStart(this Span<char> target)
-        => target.Slice(ClampStart(target));
+    public static Span<char> TrimStart(this Span<char> target) => target.Slice(ClampStart(target));
 
     /// <summary>
     /// Removes all trailing white-space characters from the span.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.trimend?view=net-10.0#system-memoryextensions-trimend(system-span((system-char)))
-    public static Span<char> TrimEnd(this Span<char> target)
-        => target.Slice(0, ClampEnd(target, 0));
+    public static Span<char> TrimEnd(this Span<char> target) => target.Slice(0, ClampEnd(target, 0));
 
     static int ClampStart(ReadOnlySpan<char> target)
     {

@@ -207,11 +207,11 @@ static partial class ConvertPolyfill
     /// Converts the span, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-10.0#system-convert-fromhexstring(system-readonlyspan((system-char)))
-    public static byte[] FromHexString(ReadOnlySpan<char> chars)
+    public static byte[] FromHexString(ReadOnlySpan<char> chars) =>
 #if NET
-        => Convert.FromHexString(chars);
+        Convert.FromHexString(chars);
 #else
-        => ConvertPolyfill.FromHexString(chars.ToString());
+        ConvertPolyfill.FromHexString(chars.ToString());
 #endif
 #endif
 }
