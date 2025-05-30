@@ -33,7 +33,7 @@ static partial class Polyfill
             return true;
         }
 
-        return Encoding.UTF8.TryGetBytes(result, destination, out written);
+        return Encoding.UTF8.TryGetBytes(result.AsSpan(), destination, out written);
     }
 
     /// <summary>
