@@ -56,7 +56,7 @@ static partial class ConvertPolyfill
         for (int i = offset; i < end; i++)
         {
             var item = inArray[i];
-            builder.Append(item.ToString("x2"));
+            builder.Append(item.ToString(format));
         }
 
         return builder.ToString();
