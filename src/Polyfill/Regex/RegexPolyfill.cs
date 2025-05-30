@@ -87,7 +87,7 @@ public
 #if NET7_0_OR_GREATER
         Regex.EnumerateMatches(input, pattern);
 #else
-        new Regex(pattern, options).EnumerateMatches(input);
+        RegexCache.GetOrAdd(pattern, options).EnumerateMatches(input);
 #endif
 #endif
 }
