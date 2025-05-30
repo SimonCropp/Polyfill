@@ -1418,7 +1418,16 @@ If using the RuntimeInformation class or OSPlatform struct and consuming in a pr
                   Condition="$(TargetFrameworkIdentifier) == '.NETFramework'" />
 ```
 
-## Nullability
+## NullabilityInfo
+
+Enable by adding an MSBuild property `PolyNullability`
+
+```
+<PropertyGroup>
+  ...
+  <PolyNullability>true</PolyNullability>
+</PropertyGroup>
+```
 
 
 ### Example target class
@@ -1470,16 +1479,6 @@ public void Test()
 
 
 ### NullabilityInfoExtensions
-
-Enable by adding an MSBuild property `PolyNullability`
-
-```
-<PropertyGroup>
-  ...
-  <PolyNullability>true</PolyNullability>
-</PropertyGroup>
-```
-
 
 `NullabilityInfoExtensions` provides static and thread safe wrapper around `NullabilityInfoContext`. It adds three extension methods to each of ParameterInfo, PropertyInfo, EventInfo, and FieldInfo.
 

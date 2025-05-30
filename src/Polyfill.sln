@@ -63,6 +63,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeConsumeBclMemory", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeOnlyCompression", "ConsumeOnlyCompression\ConsumeOnlyCompression.csproj", "{E8E46E75-763A-4031-8545-E67DFB768D1E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeNoOptional", "ConsumeNoOptional\ConsumeNoOptional.csproj", "{AD562B55-4340-4AFC-8FDE-78F3C87A5435}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +157,10 @@ Global
 		{E8E46E75-763A-4031-8545-E67DFB768D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8E46E75-763A-4031-8545-E67DFB768D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8E46E75-763A-4031-8545-E67DFB768D1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD562B55-4340-4AFC-8FDE-78F3C87A5435}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD562B55-4340-4AFC-8FDE-78F3C87A5435}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD562B55-4340-4AFC-8FDE-78F3C87A5435}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD562B55-4340-4AFC-8FDE-78F3C87A5435}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
