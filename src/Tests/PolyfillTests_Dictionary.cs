@@ -117,7 +117,7 @@ partial class PolyfillTests
         var dictionary = new Dictionary<string, string?>();
 
         Assert.False(dictionary.Remove("non-existent key", out var value));
-        Assert.AreEqual(default, value);
+        Assert.IsNull(value);
     }
 
     [Test]
@@ -126,7 +126,7 @@ partial class PolyfillTests
         IDictionary<string, string?> dictionary = new Dictionary<string, string?>();
 
         Assert.False(dictionary.Remove("non-existent key", out var value));
-        Assert.AreEqual(default, value);
+        Assert.IsNull(value);
     }
 
     [Test]
