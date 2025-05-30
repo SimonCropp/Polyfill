@@ -85,7 +85,7 @@ public
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-10.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions)
     public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern, RegexOptions options) =>
 #if NET7_0_OR_GREATER
-        Regex.EnumerateMatches(input, pattern);
+        Regex.EnumerateMatches(input, pattern, options);
 #else
         new Regex(pattern, options).EnumerateMatches(input);
 #endif
