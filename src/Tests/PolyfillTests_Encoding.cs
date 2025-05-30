@@ -75,7 +75,8 @@ partial class PolyfillTests
         var encoding = Encoding.UTF8;
         var utf8Bytes = "Hello, World!"u8.ToArray();
         var byteSpan = new ReadOnlySpan<byte>(utf8Bytes);
-        var charArray = new char[5]; // Smaller than needed
+        // Smaller than needed
+        var charArray = new char[5];
         var charSpan = new Span<char>(charArray);
 
         // Act
