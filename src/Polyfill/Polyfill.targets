@@ -125,7 +125,7 @@ For example:
              Remove="$(MSBuildThisFileDirectory)..\**\Guard\*.cs" />
 
     <Compile Condition="'$(PolyNullability)' != 'true' "
-             Remove="$(MSBuildThisFileDirectory)..\**\NullabilityInfoExtensions.cs" />
+             Remove="$(MSBuildThisFileDirectory)..\**\Nullability\*.cs" />
 
     <Compile Update="@(Compile)">
       <Visible Condition="%(NuGetItemType) == 'Compile' and
