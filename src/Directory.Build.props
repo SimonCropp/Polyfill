@@ -15,6 +15,7 @@
     <ResolveAssemblyReferencesSilent>true</ResolveAssemblyReferencesSilent>
     <PolyNullability>true</PolyNullability>
     <PolyGuard>true</PolyGuard>
+    <PolyStringInterpolation>true</PolyStringInterpolation>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <IsAotCompatible
       Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))">true</IsAotCompatible>

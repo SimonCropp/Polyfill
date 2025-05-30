@@ -127,6 +127,9 @@ For example:
     <Compile Condition="'$(PolyNullability)' != 'true' "
              Remove="$(MSBuildThisFileDirectory)..\**\Nullability\*.cs" />
 
+    <Compile Condition="'$(PolyStringInterpolation)' != 'true' "
+             Remove="$(MSBuildThisFileDirectory)..\**\StringInterpolation\*.cs" />
+
     <Compile Update="@(Compile)">
       <Visible Condition="%(NuGetItemType) == 'Compile' and
                           %(NuGetPackageId) == 'Polyfill'">false</Visible>
