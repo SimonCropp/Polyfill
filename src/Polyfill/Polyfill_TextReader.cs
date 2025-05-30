@@ -11,24 +11,11 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
-#if FeatureValueTask && FeatureMemory && (NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0)
+#if FeatureValueTask && FeatureMemory && !NETCOREAPP3_0_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Asynchronously reads the characters from the current stream into a memory block.
     /// </summary>
-    /// <param name="buffer">
-    /// When this method returns, contains the specified memory block of characters replaced by the characters read
-    /// from the current source.
-    /// </param>
-    /// <param name="cancellationToken">
-    /// The token to monitor for cancellation requests. The default value is <see cref="CancellationToken.None"/>.
-    /// </param>
-    /// <returns>
-    /// A value task that represents the asynchronous read operation. The value of the type parameter of the value task
-    /// contains the number of characters that have been read, or 0 if at the end of the stream and no data was read.
-    /// The number will be less than or equal to the <paramref name="buffer"/> length, depending on whether the data is
-    /// available within the stream.
-    /// </returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readasync#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readasync?view=net-10.0#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)
     public static ValueTask<int> ReadAsync(
         this TextReader target,
         Memory<char> buffer,
@@ -51,10 +38,7 @@ static partial class Polyfill
     /// <summary>
     /// Reads all characters from the current position to the end of the stream asynchronously and returns them as one string.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-    /// <returns>A task that represents the asynchronous read operation. The value of the <c>TResult</c> parameter contains
-    /// a string with the characters from the current position to the end of the stream.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readtoendasync#system-io-textreader-readtoendasync(system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readtoendasync?view=net-10.0#system-io-textreader-readtoendasync(system-threading-cancellationtoken)
     public static Task<string> ReadToEndAsync(
         this TextReader target,
         CancellationToken cancellationToken)
@@ -68,10 +52,7 @@ static partial class Polyfill
     /// <summary>
     /// Reads a line of characters asynchronously and returns the data as a string.
     /// </summary>
-    /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-    /// <returns>A value task that represents the asynchronous read operation. The value of the <c>TResult</c>
-    /// parameter contains the next line from the text reader, or is <see langword="null" /> if all of the characters have been read.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readtoendasync#system-io-textreader-readlineasync(system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readtoendasync?view=net-10.0#system-io-textreader-readlineasync(system-threading-cancellationtoken)
     public static Task<string> ReadLineAsync(
         this TextReader target,
         CancellationToken cancellationToken)

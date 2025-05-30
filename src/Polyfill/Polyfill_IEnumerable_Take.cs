@@ -3,6 +3,8 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+#if !NET6_0_OR_GREATER
+
 namespace Polyfills;
 
 using System;
@@ -11,7 +13,6 @@ using System.Collections.Generic;
 
 static partial class Polyfill
 {
-#if !NET6_0_OR_GREATER
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool IsEmptyArray<TSource>(IEnumerable<TSource> source) =>
@@ -19,19 +20,14 @@ static partial class Polyfill
 
     static IEnumerable<TSource> TakeRangeFromEndIterator<TSource>(IEnumerable<TSource> source, bool isStartIndexFromEnd, int startIndex, bool isEndIndexFromEnd, int endIndex)
     {
-        // Attempt to extract the count of the source enumerator,
-        // in order to convert fromEnd indices to regular indices.
-        // Enumerable counts can change over time, so it is very
-        // important that this check happens at enumeration time;
-        // do not move it outside of the iterator method.
-        if (source.TryGetNonEnumeratedCount(out int count))
+        if (source.TryGetNonEnumeratedCount(out var count))
         {
             startIndex = CalculateStartIndex(isStartIndexFromEnd, startIndex, count);
             endIndex = CalculateEndIndex(isEndIndexFromEnd, endIndex, count);
 
             if (startIndex < endIndex)
             {
-                foreach (TSource element in TakeRangeIterator(source, startIndex, endIndex))
+                foreach (var element in TakeRangeIterator(source, startIndex, endIndex))
                 {
                     yield return element;
                 }
@@ -44,15 +40,14 @@ static partial class Polyfill
 
         if (isStartIndexFromEnd)
         {
-            // TakeLast compat: enumerator should be disposed before yielding the first element.
-            using (IEnumerator<TSource> e = source.GetEnumerator())
+            using (var e = source.GetEnumerator())
             {
                 if (!e.MoveNext())
                 {
                     yield break;
                 }
 
-                queue = new Queue<TSource>();
+                queue = new();
                 queue.Enqueue(e.Current);
                 count = 1;
 
@@ -90,8 +85,7 @@ static partial class Polyfill
         }
         else
         {
-            // SkipLast compat: the enumerator should be disposed at the end of the enumeration.
-            using IEnumerator<TSource> e = source.GetEnumerator();
+            using var e = source.GetEnumerator();
 
             count = 0;
             while (count < startIndex && e.MoveNext())
@@ -101,7 +95,7 @@ static partial class Polyfill
 
             if (count == startIndex)
             {
-                queue = new Queue<TSource>();
+                queue = new();
                 while (e.MoveNext())
                 {
                     if (queue.Count == endIndex)
@@ -114,10 +108,8 @@ static partial class Polyfill
 
                         break;
                     }
-                    else
-                    {
-                        queue.Enqueue(e.Current);
-                    }
+
+                    queue.Enqueue(e.Current);
                 }
             }
         }
@@ -131,9 +123,9 @@ static partial class Polyfill
 
     static IEnumerable<TSource> TakeRangeIterator<TSource>(IEnumerable<TSource> source, int startIndex, int endIndex)
     {
-        using IEnumerator<TSource> e = source.GetEnumerator();
+        using var e = source.GetEnumerator();
 
-        int index = 0;
+        var index = 0;
         while (index < startIndex && e.MoveNext())
         {
             ++index;
@@ -155,11 +147,7 @@ static partial class Polyfill
 
     //https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Take.cs
     /// <summary>Returns a specified range of contiguous elements from a sequence.</summary>
-    /// <typeparam name="TSource">The type of the elements of <paramref name="source" />.</typeparam>
-    /// <param name="source">The sequence to return elements from.</param>
-    /// <param name="range">The range of elements to return, which has start and end indexes either from the start or the end.</param>
-    /// <returns>An <see cref="IEnumerable{T}" /> that contains the specified <paramref name="range" /> of elements from the <paramref name="source" /> sequence.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.take#system-linq-enumerable-take-1(system-collections-generic-ienumerable((-0))-system-range)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.take?view=net-10.0#system-linq-enumerable-take-1(system-collections-generic-ienumerable((-0))-system-range)
     public static IEnumerable<TSource> Take<TSource>(
         this IEnumerable<TSource> target,
         Range range)
@@ -169,12 +157,12 @@ static partial class Polyfill
             return [];
         }
 
-        Index start = range.Start;
-        Index end = range.End;
-        bool isStartIndexFromEnd = start.IsFromEnd;
-        bool isEndIndexFromEnd = end.IsFromEnd;
-        int startIndex = start.Value;
-        int endIndex = end.Value;
+        var start = range.Start;
+        var end = range.End;
+        var isStartIndexFromEnd = start.IsFromEnd;
+        var isEndIndexFromEnd = end.IsFromEnd;
+        var startIndex = start.Value;
+        var endIndex = end.Value;
 
         if (isStartIndexFromEnd)
         {
@@ -191,16 +179,7 @@ static partial class Polyfill
         return TakeRangeFromEndIterator(target, isStartIndexFromEnd, startIndex, isEndIndexFromEnd, endIndex);
     }
 
-    static IEnumerable<TSource> TakeIterator<TSource>(IEnumerable<TSource> source, int count)
-    {
-        foreach (TSource element in source)
-        {
-            yield return element;
-            if (--count == 0) break;
-        }
-    }
-
-#endif
 #endif
 
 }
+#endif

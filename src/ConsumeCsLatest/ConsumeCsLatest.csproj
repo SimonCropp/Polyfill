@@ -12,8 +12,9 @@
     <PackageReference Include="System.Net.Http" Condition="$(TargetFramework.StartsWith('net4'))" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Condition="$(TargetFramework) == 'netstandard2.0' or $(TargetFramework) == 'netcoreapp2.0' or $(TargetFrameworkIdentifier) == '.NETFramework'" />
     <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Condition="$(TargetFramework.StartsWith('net4'))" />
+    <PackageReference Include="System.IO.Compression" Condition="$(TargetFrameworkIdentifier) == '.NETFramework'" />
     <Compile Include="..\Consume\*.cs" />
   </ItemGroup>
-  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
   <Import Project="$(SolutionDir)\TestIncludes.targets" />
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
 </Project>

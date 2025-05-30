@@ -29,7 +29,7 @@ using Diagnostics;
                 AttributeTargets.Delegate, Inherited = false)]
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.experimentalattribute
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.experimentalattribute?view=net-10.0
 #if PolyPublic
 public
 #endif
@@ -39,21 +39,18 @@ sealed class ExperimentalAttribute : Attribute
     ///  Initializes a new instance of the <see cref="ExperimentalAttribute"/> class, specifying the ID that the compiler will use
     ///  when reporting a use of the API the attribute applies to.
     /// </summary>
-    /// <param name="diagnosticId">The ID that the compiler will use when reporting a use of the API the attribute applies to.</param>
     public ExperimentalAttribute(string diagnosticId) =>
         DiagnosticId = diagnosticId;
 
     /// <summary>
     ///  Gets the ID that the compiler will use when reporting a use of the API the attribute applies to.
     /// </summary>
-    /// <value>The unique diagnostic ID.</value>
     public string DiagnosticId { get; }
 
     /// <summary>
     ///  Gets or sets the URL for corresponding documentation.
     ///  The API accepts a format string instead of an actual URL, creating a generic URL that includes the diagnostic ID.
     /// </summary>
-    /// <value>The format string that represents a URL to corresponding documentation.</value>
     public string? UrlFormat { get; set; }
 }
 

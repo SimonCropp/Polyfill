@@ -2,6 +2,7 @@
 
 #pragma warning disable
 
+#if NET6_0 || NET7_0
 namespace Polyfills;
 
 using System;
@@ -10,11 +11,10 @@ using System.ComponentModel;
 
 static partial class Polyfill
 {
-#if NET6_0 || NET7_0
     /// <summary>
     /// Deconstructs DateOnly by Year, Month, and Day.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.dateonly.deconstruct
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.dateonly.deconstruct?view=net-10.0
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct(this DateOnly target, out int year, out int month, out int day)
     {
@@ -22,6 +22,6 @@ static partial class Polyfill
         month = target.Month;
         day = target.Day;
     }
-#endif
-
 }
+
+#endif

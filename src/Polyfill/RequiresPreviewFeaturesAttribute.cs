@@ -25,7 +25,7 @@ using System.Diagnostics.CodeAnalysis;
     Inherited = false)]
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.versioning.requirespreviewfeaturesattribute
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.versioning.requirespreviewfeaturesattribute?view=net-10.0
 #if PolyPublic
 public
 #endif
@@ -42,7 +42,6 @@ sealed class RequiresPreviewFeaturesAttribute :
     /// <summary>
     /// Initializes a new instance of the <see cref="RequiresPreviewFeaturesAttribute"/> class with the specified message.
     /// </summary>
-    /// <param name="message">An optional message associated with this attribute instance.</param>
     public RequiresPreviewFeaturesAttribute(string? message) =>
         Message = message;
 

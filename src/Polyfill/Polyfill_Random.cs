@@ -14,7 +14,7 @@ static partial class Polyfill
     /// <summary>
     /// Fills the elements of a specified span with items chosen at random from the provided set of choices.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems#system-random-getitems-1(system-readonlyspan((-0))-system-span((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems?view=net-10.0#system-random-getitems-1(system-readonlyspan((-0))-system-span((-0)))
     public static void GetItems<T>(
         this Random target,
         ReadOnlySpan<T> choices,
@@ -25,7 +25,7 @@ static partial class Polyfill
             throw new ArgumentException("Choices cannot be empty.", nameof(choices));
         }
 
-        for (int i = 0; i < destination.Length; i++)
+        for (var i = 0; i < destination.Length; i++)
         {
             destination[i] = choices[target.Next(choices.Length)];
         }
@@ -34,7 +34,7 @@ static partial class Polyfill
     /// <summary>
     /// Creates an array populated with items chosen at random from the provided set of choices.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems#system-random-getitems-1(system-readonlyspan((-0))-system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems?view=net-10.0#system-random-getitems-1(system-readonlyspan((-0))-system-int32)
     public static T[] GetItems<T>(
         this Random target,
         ReadOnlySpan<T> choices,
@@ -45,8 +45,8 @@ static partial class Polyfill
             throw new ArgumentException("Choices cannot be empty.", nameof(choices));
         }
 
-        T[] result = new T[length];
-        for (int i = 0; i < length; i++)
+        var result = new T[length];
+        for (var i = 0; i < length; i++)
         {
             result[i] = choices[target.Next(choices.Length)];
         }
@@ -59,7 +59,7 @@ static partial class Polyfill
     /// <summary>
     /// Creates an array populated with items chosen at random from the provided set of choices.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems#system-random-getitems-1(-0()-system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems?view=net-10.0#system-random-getitems-1(-0()-system-int32)
     public static T[] GetItems<T>(
         this Random target,
         T[] choices,
@@ -70,7 +70,7 @@ static partial class Polyfill
             throw new ArgumentException("Choices cannot be null or empty.", nameof(choices));
         }
 
-        T[] result = new T[length];
+        var result = new T[length];
         for (int i = 0; i < length; i++)
         {
             result[i] = choices[target.Next(choices.Length)];
@@ -81,13 +81,12 @@ static partial class Polyfill
 
 #endif
 
-#if (NETSTANDARD || NETFRAMEWORK || NETCOREAPP2_0) && FeatureMemory
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER && FeatureMemory
 
     /// <summary>
     /// Fills the elements of a specified span of bytes with random numbers.
     /// </summary>
-    /// <param name="index">The array to be filled with random numbers.</param>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-10.0#system-random-nextbytes(system-span((system-byte)))
     public static void NextBytes(
         this Random target,
         Span<byte> buffer)
@@ -103,18 +102,16 @@ static partial class Polyfill
     /// <summary>
     /// Performs an in-place shuffle of an array.
     /// </summary>
-    /// <param name="index">The array to shuffle.</param>
-    /// <typeparam name="T">The type of array.</typeparam>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-10.0#system-random-nextbytes(system-span((system-byte)))
     public static void Shuffle<T>(
         this Random target,
         T[] values)
     {
-        int n = values.Length;
+        var n = values.Length;
 
-        for (int i = 0; i < n - 1; i++)
+        for (var i = 0; i < n - 1; i++)
         {
-            int j = target.Next(i, n);
+            var j = target.Next(i, n);
 
             if (j != i)
             {
@@ -129,22 +126,20 @@ static partial class Polyfill
     /// <summary>
     /// Performs an in-place shuffle of a span.
     /// </summary>
-    /// <param name="index">The span to shuffle.</param>
-    /// <typeparam name="T">The type of span.</typeparam>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes#system-random-nextbytes(system-span((system-byte)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-10.0#system-random-nextbytes(system-span((system-byte)))
     public static void Shuffle<T>(
         this Random target,
         Span<T> values)
     {
-        int n = values.Length;
+        var n = values.Length;
 
         for (int i = 0; i < n - 1; i++)
         {
-            int j = target.Next(i, n);
+            var j = target.Next(i, n);
 
             if (j != i)
             {
-                T temp = values[i];
+                var temp = values[i];
                 values[i] = values[j];
                 values[j] = temp;
             }

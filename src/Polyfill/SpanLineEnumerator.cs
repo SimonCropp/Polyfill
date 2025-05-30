@@ -10,14 +10,13 @@ namespace System.Text;
 
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
-using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Enumerates the lines of a <see cref="ReadOnlySpan{Char}"/>.
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.spanlineenumerator
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.spanlineenumerator?view=net-10.0
 #if PolyPublic
 public
 #endif
@@ -47,15 +46,10 @@ ref struct SpanLineEnumerator
     /// <summary>
     /// Advances the enumerator to the next line of the span.
     /// </summary>
-    /// <returns>
-    /// True if the enumerator successfully advanced to the next line; false if
-    /// the enumerator has advanced past the end of the span.
-    /// </returns>
     public bool MoveNext()
     {
         if (!isActive)
         {
-            // EOF previously reached or enumerator was never initialized
             return false;
         }
 
@@ -82,8 +76,6 @@ ref struct SpanLineEnumerator
             return true;
         }
 
-        // We've reached EOF, but we still need to return 'true' for this final
-        // iteration so that the caller can query the Current property once more.
         Current = remaining;
         remaining = default;
         isActive = false;

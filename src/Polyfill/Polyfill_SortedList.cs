@@ -12,9 +12,7 @@ static partial class Polyfill
     /// <summary>
     /// Gets the key corresponding to the specified index.
     /// </summary>
-    /// <param name="index">The zero-based index of the key within the entire <see cref="SortedList{TKey, TValue}"/>.</param>
-    /// <returns>The key corresponding to the specified index.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedlist-2.getkeyatindex
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedlist-2.getkeyatindex?view=net-10.0
     public static TKey GetKeyAtIndex<TKey, TValue>(
         this SortedList<TKey, TValue> target, int index) =>
         target.Keys[index];
@@ -22,9 +20,7 @@ static partial class Polyfill
     /// <summary>
     /// Gets the value corresponding to the specified index.
     /// </summary>
-    /// <param name="index">The zero-based index of the value within the entire <see cref="SortedList{TKey, TValue}"/>.</param>
-    /// <returns>The value corresponding to the specified index.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedlist-2.getvalueatindex
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.sortedlist-2.getvalueatindex?view=net-10.0
     public static TValue GetValueAtIndex<TKey, TValue>(
         this SortedList<TKey, TValue> target, int index) =>
         target.Values[index];

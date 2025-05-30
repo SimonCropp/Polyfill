@@ -13,10 +13,7 @@ static partial class Polyfill
     /// <summary>
     /// Copies the characters from a specified segment of this instance to a destination Char span.
     /// </summary>
-    /// <param name="sourceIndex">The starting position in this instance where characters will be copied from. The index is zero-based.</param>
-    /// <param name="destination">The writable span where characters will be copied.</param>
-    /// <param name="count">The number of characters to be copied.</param>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.copyto#system-text-stringbuilder-copyto(system-int32-system-span((system-char))-system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.copyto?view=net-10.0#system-text-stringbuilder-copyto(system-int32-system-span((system-char))-system-int32)
     public static void CopyTo(
         this StringBuilder target,
         int sourceIndex,

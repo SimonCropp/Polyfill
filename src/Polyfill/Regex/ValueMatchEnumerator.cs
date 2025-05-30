@@ -30,9 +30,6 @@ ref struct ValueMatchEnumerator
     /// <summary>
     /// Creates an instance of the <see cref="ValueMatchEnumerator"/> for the passed in <paramref name="regex"/> which iterates over <paramref name="input"/>.
     /// </summary>
-    /// <param name="regex">The <see cref="Regex"/> to use for finding matches.</param>
-    /// <param name="input">The input span to iterate over.</param>
-    /// <param name="startAt">The position where the engine should start looking for matches from.</param>
     internal ValueMatchEnumerator(Regex regex, ReadOnlySpan<char> input, int startAt)
     {
         matchCollection = regex.Matches(input.ToString(), startAt);
@@ -43,15 +40,11 @@ ref struct ValueMatchEnumerator
     /// <summary>
     /// Provides an enumerator that iterates through the matches in the input span.
     /// </summary>
-    /// <returns>A copy of this enumerator.</returns>
     public readonly ValueMatchEnumerator GetEnumerator() => this;
 
     /// <summary>
     /// Advances the enumerator to the next match in the span.
     /// </summary>
-    /// <returns>
-    /// <see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator cannot find additional matches.
-    /// </returns>
     public bool MoveNext()
     {
         if (index == matchCollection.Count)

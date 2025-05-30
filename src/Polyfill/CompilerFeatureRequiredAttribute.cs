@@ -7,7 +7,6 @@ namespace System.Runtime.CompilerServices;
 
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
-using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Indicates that compiler support for a particular feature is required for the location where this attribute is applied.
@@ -18,7 +17,7 @@ using Link = ComponentModel.DescriptionAttribute;
     validOn: AttributeTargets.All,
     AllowMultiple = true,
     Inherited = false)]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute?view=net-10.0
 #if PolyPublic
 public
 #endif
@@ -28,7 +27,6 @@ sealed class CompilerFeatureRequiredAttribute :
     /// <summary>
     /// Initialize a new instance of <see cref="CompilerFeatureRequiredAttribute"/>
     /// </summary>
-    /// <param name="featureName">The name of the required compiler feature.</param>
     public CompilerFeatureRequiredAttribute(string featureName) =>
         FeatureName = featureName;
 
@@ -55,5 +53,5 @@ sealed class CompilerFeatureRequiredAttribute :
 
 #else
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute))]
+[assembly: TypeForwardedTo(typeof(CompilerFeatureRequiredAttribute))]
 #endif

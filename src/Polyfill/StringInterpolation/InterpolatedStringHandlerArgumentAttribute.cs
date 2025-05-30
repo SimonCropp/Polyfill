@@ -7,7 +7,6 @@ namespace System.Runtime.CompilerServices;
 
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
-using Link = ComponentModel.DescriptionAttribute;
 
 /// <summary>
 /// Indicates which arguments to a method involving an interpolated string handler should be passed to that handler.
@@ -15,7 +14,7 @@ using Link = ComponentModel.DescriptionAttribute;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter)]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.interpolatedstringhandlerargumentattribute
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.interpolatedstringhandlerargumentattribute?view=net-10.0
 #if PolyPublic
 public
 #endif
@@ -25,13 +24,11 @@ sealed class InterpolatedStringHandlerArgumentAttribute :
     /// <summary>
     /// Initializes a new instance of the <see cref="InterpolatedStringHandlerArgumentAttribute"/> class.
     /// </summary>
-    /// <param name="argument">The name of the argument that should be passed to the handler.</param>
     public InterpolatedStringHandlerArgumentAttribute(string argument) => Arguments = [argument];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="InterpolatedStringHandlerArgumentAttribute"/> class.
     /// </summary>
-    /// <param name="arguments">The names of the arguments that should be passed to the handler.</param>
     public InterpolatedStringHandlerArgumentAttribute(params string[] arguments) => Arguments = arguments;
 
     /// <summary>Gets the names of the arguments that should be passed to the handler.</summary>
@@ -40,5 +37,5 @@ sealed class InterpolatedStringHandlerArgumentAttribute :
 
 #else
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.InterpolatedStringHandlerArgumentAttribute))]
+[assembly: TypeForwardedTo(typeof(InterpolatedStringHandlerArgumentAttribute))]
 #endif

@@ -10,6 +10,7 @@
     <PackageReference Include="System.ValueTuple" />
     <PackageReference Include="System.Threading.Tasks.Extensions" />
     <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation"/>
+    <PackageReference Include="System.IO.Compression" />
   </ItemGroup>
   
   <Target Name="SetPackageDependencies" BeforeTargets="GenerateNuspec">

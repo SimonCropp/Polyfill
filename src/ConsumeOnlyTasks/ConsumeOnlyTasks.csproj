@@ -7,6 +7,6 @@
   <ItemGroup>
     <PackageReference Include="System.Threading.Tasks.Extensions" />
   </ItemGroup>
-  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
   <Import Project="$(SolutionDir)\TestIncludes.targets" />
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
 </Project>

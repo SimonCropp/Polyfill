@@ -12,7 +12,7 @@ using Targets = AttributeTargets;
 /// <summary>
 /// Indicates the attributed type is to be used as an interpolated string handler.
 /// </summary>
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.interpolatedstringhandlerargumentattribute
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.interpolatedstringhandlerargumentattribute?view=net-10.0
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
@@ -27,5 +27,5 @@ sealed class InterpolatedStringHandlerAttribute :
 
 #else
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.InterpolatedStringHandlerAttribute))]
+[assembly: TypeForwardedTo(typeof(InterpolatedStringHandlerAttribute))]
 #endif

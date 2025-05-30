@@ -2,6 +2,8 @@
 
 #pragma warning disable
 
+#if !NETCOREAPP && !NETSTANDARD2_1_OR_GREATER
+
 namespace Polyfills;
 
 using System;
@@ -10,17 +12,16 @@ using System.ComponentModel;
 
 static partial class Polyfill
 {
-#if NETSTANDARD2_0 || NETFRAMEWORK
     /// <summary>
     /// Deconstructs the current <see cref="DictionaryEntry"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.dictionaryentry.deconstruct#system-collections-dictionaryentry-deconstruct(system-object@-system-object@)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.dictionaryentry.deconstruct?view=net-10.0#system-collections-dictionaryentry-deconstruct(system-object@-system-object@)
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct(this DictionaryEntry target, out object key, out object? value)
     {
         key = target.Key;
         value = target.Value;
     }
-#endif
-
 }
+
+#endif

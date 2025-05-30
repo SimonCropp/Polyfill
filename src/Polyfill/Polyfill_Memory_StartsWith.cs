@@ -18,9 +18,7 @@ static partial class Polyfill
     /// <summary>
     /// Determines whether the specified value appears at the start of the span.
     /// </summary>
-    /// <param name="target">The span to search.</param>
-    /// <param name="value">The value to compare.</param>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith#system-memoryextensions-endswith-1(system-readonlyspan((-0))-0)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith?view=net-10.0#system-memoryextensions-endswith-1(system-readonlyspan((-0))-0)
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool StartsWith<T>(this ReadOnlySpan<T> target, T value)
         where T : IEquatable<T>? =>
@@ -28,16 +26,12 @@ static partial class Polyfill
 
 #endif
 
-#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X
+#if !NETCOREAPP3_0_OR_GREATER
 
     /// <summary>
     /// Determines whether a read-only character span begins with a specified value when compared using a specified <see cref="StringComparison"/> value.
     /// </summary>
-    /// <param name="target">The source span.</param>
-    /// <param name="other">The sequence to compare to the beginning of the source span.</param>
-    /// <param name="comparison">An enumeration value that determines how span and value are compared.</param>
-    /// <returns><c>true</c> if value matches the beginning of span; otherwise, <c>false</c>.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith?view=net-10.0#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
     public static bool StartsWith(
         this ReadOnlySpan<char> target,
         string other,
@@ -47,10 +41,7 @@ static partial class Polyfill
     /// <summary>
     /// Determines whether a specified sequence appears at the start of a span.
     /// </summary>
-    /// <param name="target">The source span.</param>
-    /// <param name="other">The sequence to compare to the beginning of the source span.</param>
-    /// <returns><c>true</c> if value matches the beginning of span; otherwise, <c>false</c>.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith#system-memoryextensions-startswith-1(system-span((-0))-system-readonlyspan((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith?view=net-10.0#system-memoryextensions-startswith-1(system-span((-0))-system-readonlyspan((-0)))
     public static bool StartsWith(
         this Span<char> target,
         string other) =>

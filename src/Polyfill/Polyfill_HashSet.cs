@@ -8,14 +8,11 @@ using System.Diagnostics.CodeAnalysis;
 
 static partial class Polyfill
 {
-#if NET46X || NET47  || NET471 || NETSTANDARD2_0
+#if !NETCOREAPP && !NETSTANDARD2_1_OR_GREATER && !NET472_OR_GREATER
     /// <summary>
     ///  Searches the set for a given value and returns the equal value it finds, if any.
     /// </summary>
-    /// <param name="equalValue">The value to search for.</param>
-    /// <param name="actualValue">The value from the set that the search found, or the default value of T when the search yielded no match.</param>
-    /// <returns>A value indicating whether the search was successful.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetvalue
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetvalue?view=net-10.0
     public static bool TryGetValue<T>(
         this HashSet<T> target,
         T equalValue,
@@ -43,7 +40,7 @@ static partial class Polyfill
     /// <summary>
     /// Ensures that the capacity of this HashSet is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.ensurecapacity#system-collections-generic-hashset-1-ensurecapacity(system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.ensurecapacity?view=net-10.0#system-collections-generic-hashset-1-ensurecapacity(system-int32)
     public static void EnsureCapacity<T>(this HashSet<T> target, int capacity)
     {
     }
@@ -55,7 +52,7 @@ static partial class Polyfill
     /// <summary>
     /// Sets the capacity of a HashSet object to the specified number of entries, rounded up to a nearby, implementation-specific value.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trimexcess?#system-collections-generic-hashset-1-trimexcess(system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trimexcess?view=net-10.0#system-collections-generic-hashset-1-trimexcess(system-int32)
     public static void TrimExcess<T>(this HashSet<T> target, int capacity)
     {
     }

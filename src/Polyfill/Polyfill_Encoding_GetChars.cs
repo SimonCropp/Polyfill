@@ -12,21 +12,14 @@ using System.Text;
 
 static partial class Polyfill
 {
-#if NETCOREAPP2_0 || NETFRAMEWORK || NETSTANDARD2_0
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
     /// <summary>
     /// Decodes all the bytes in the specified read-only byte span into a character span.
     /// </summary>
-    /// <param name="chars">The character span receiving the decoded bytes.</param>
-    /// <returns>The actual number of characters written at the span indicated by the chars parameter.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getchars#system-text-encoding-getchars(system-readonlyspan((system-byte))-system-span((system-char)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getchars?view=net-10.0#system-text-encoding-getchars(system-readonlyspan((system-byte))-system-span((system-char)))
 #if AllowUnsafeBlocks
     public static unsafe int GetChars(this Encoding target, ReadOnlySpan<byte> bytes, Span<char> chars)
     {
-        if (target is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-
         fixed (byte* bytesPtr = bytes)
         fixed (char* charsPtr = chars)
         {
@@ -36,12 +29,7 @@ static partial class Polyfill
 #else
     public static int GetChars(this Encoding target, ReadOnlySpan<byte> bytes, Span<char> chars)
     {
-        if (target is null)
-        {
-            throw new ArgumentNullException(nameof(target));
-        }
-
-        char[] charArray = new char[bytes.Length];
+        var charArray = new char[bytes.Length];
         var array = bytes.ToArray();
         var count = target.GetChars(array, 0, bytes.Length, charArray, 0);
         new ReadOnlySpan<char>(charArray).CopyTo(chars);

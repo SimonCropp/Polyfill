@@ -11,23 +11,13 @@
     <PackageReference Include="NUnit3TestAdapter" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
+    <PackageReference Include="System.Memory" Condition="$(TargetFramework) != '.NETStandard' or $(TargetFrameworkIdentifier) == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" />
     <PackageReference Include="System.ValueTuple" Condition="$(TargetFramework.StartsWith('net46'))" />
     <PackageReference Include="System.Net.Http" Condition="$(TargetFramework.StartsWith('net4'))" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Condition="$(TargetFramework) == 'netstandard2.0' or $(TargetFramework) == 'netcoreapp2.0' or $(TargetFrameworkIdentifier) == '.NETFramework'" />
     <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Condition="$(TargetFramework.StartsWith('net4'))" />
+    <PackageReference Include="System.IO.Compression" Condition="$(TargetFrameworkIdentifier) == '.NETFramework'" />
   </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-    <PackageReference Include="System.Memory" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net472'">
-    <PackageReference Include="System.Memory" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
-    <PackageReference Include="System.Memory" />
-  </ItemGroup>
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-    <PackageReference Include="System.Memory" />
-  </ItemGroup>
-  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
   <Import Project="$(SolutionDir)\TestIncludes.targets" />
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
 </Project>

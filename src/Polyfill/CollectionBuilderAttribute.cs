@@ -8,20 +8,17 @@ namespace System.Runtime.CompilerServices;
 
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
-using Link = ComponentModel.DescriptionAttribute;
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface, Inherited = false)]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.collectionbuilderattribute
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.collectionbuilderattribute?view=net-10.0
 #if PolyPublic
 public
 #endif
 sealed class CollectionBuilderAttribute : Attribute
 {
     /// <summary>Initialize the attribute to refer to the <paramref name="methodName"/> method on the <paramref name="builderType"/> type.</summary>
-    /// <param name="builderType">The type of the builder to use to construct the collection.</param>
-    /// <param name="methodName">The name of the method on the builder to use to construct the collection.</param>
     public CollectionBuilderAttribute(Type builderType, string methodName)
     {
         BuilderType = builderType;
@@ -36,6 +33,6 @@ sealed class CollectionBuilderAttribute : Attribute
 }
 #else
 using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CollectionBuilderAttribute))]
+[assembly: TypeForwardedTo(typeof(CollectionBuilderAttribute))]
 #endif
 #endif

@@ -61,11 +61,11 @@ partial class PolyfillTests
         var charSpan = new Span<char>(charArray);
 
         // Act
-        var result = encoding.TryGetChars(byteSpan, charSpan, out var charsWritten);
+        var result = encoding.TryGetChars(byteSpan, charSpan, out var written);
 
         // Assert
         Assert.IsTrue(result);
-        Assert.AreEqual("Hello, World!", charSpan.Slice(0, charsWritten).ToString());
+        Assert.AreEqual("Hello, World!", charSpan.Slice(0, written).ToString());
     }
 
     [Test]
@@ -75,15 +75,16 @@ partial class PolyfillTests
         var encoding = Encoding.UTF8;
         var utf8Bytes = "Hello, World!"u8.ToArray();
         var byteSpan = new ReadOnlySpan<byte>(utf8Bytes);
-        var charArray = new char[5]; // Smaller than needed
+        // Smaller than needed
+        var charArray = new char[5];
         var charSpan = new Span<char>(charArray);
 
         // Act
-        var result = encoding.TryGetChars(byteSpan, charSpan, out var charsWritten);
+        var result = encoding.TryGetChars(byteSpan, charSpan, out var written);
 
         // Assert
         Assert.IsFalse(result);
-        Assert.AreEqual(0, charsWritten);
+        Assert.AreEqual(0, written);
     }
 #endif
 }

@@ -6,7 +6,6 @@
 namespace System.Diagnostics.CodeAnalysis;
 
 using Diagnostics;
-using Diagnostics.CodeAnalysis;
 
 /// <summary>
 /// [AttributeUsage(AttributeTargets.Property, Inherited = false)]
@@ -14,7 +13,7 @@ using Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Property, Inherited = false)]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.featureswitchdefinitionattribute
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.featureswitchdefinitionattribute?view=net-10.0
 #if PolyPublic
 public
 #endif
@@ -24,13 +23,7 @@ sealed class FeatureSwitchDefinitionAttribute : Attribute
     /// Initializes a new instance of the <see cref="FeatureSwitchDefinitionAttribute"/> class
     /// with the specified feature switch name.
     /// </summary>
-    /// <param name="switchName">
-    /// The name of the feature switch that provides the value for the specified property.
-    /// </param>
-    public FeatureSwitchDefinitionAttribute(string switchName)
-    {
-        SwitchName = switchName;
-    }
+    public FeatureSwitchDefinitionAttribute(string switchName) => SwitchName = switchName;
 
     /// <summary>
     /// The name of the feature switch that provides the value for the specified property.

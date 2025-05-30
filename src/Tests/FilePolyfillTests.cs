@@ -1,8 +1,8 @@
 ﻿[TestFixture]
 public class FilePolyfillTests
 {
-    private const string SourceFilePath = "source.txt";
-    private const string DestinationFilePath = "destination.txt";
+    const string SourceFilePath = "source.txt";
+    const string DestinationFilePath = "destination.txt";
     const string TestFilePath = "testfile.txt";
 
     [SetUp]

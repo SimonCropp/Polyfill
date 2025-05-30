@@ -2,7 +2,7 @@
 #pragma warning disable
 
 #if FeatureValueTuple && !RefsBclMemory
-#if NET46X || NET47X || NET48X || NETSTANDARD2_0 || NETCOREAPP2X
+#if !NETCOREAPP3_0_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
 
 namespace System;
 
@@ -32,7 +32,6 @@ record Range(Index Start, Index End)
     public static Range All => new(Index.Start, Index.End);
 
     /// <summary>Calculate the start offset and length of range object using a collection length.</summary>
-    /// <param name="length">The length of the collection that the range will be used with. length has to be a positive value.</param>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public (int Offset, int Length) GetOffsetAndLength(int length)
     {

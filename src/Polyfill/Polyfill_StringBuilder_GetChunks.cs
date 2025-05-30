@@ -63,7 +63,7 @@ static partial class Polyfill
     ///             { /* operation on span[i] */ }
     ///    }
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.getchunks
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.getchunks?view=net-10.0
     public static ChunkEnumerator GetChunks(this StringBuilder target) =>
         new(target);
 
@@ -75,16 +75,12 @@ static partial class Polyfill
     /// </summary>
     public struct ChunkEnumerator
     {
-        // The first Stringbuilder chunk (which is the end of the logical string)
         StringBuilder _firstChunk;
 
-        // The chunk that this enumerator is currently returning (Current).
         StringBuilder? _currentChunk;
 
-        // Only used for long string builders with many chunks (see constructor)
         ManyChunkInfo? _manyChunks;
 
-        // Only here to make foreach work
         /// <summary>
         /// Implement IEnumerable.GetEnumerator() to return  'this' as the IEnumerator
         /// </summary>
@@ -135,27 +131,20 @@ static partial class Polyfill
                     throw new InvalidOperationException("Enumeration operation cant happen");
                 }
 
-                return new ReadOnlyMemory<char>(GetChunkChars(_currentChunk), 0, GetChunkLength(_currentChunk));
+                return new(GetChunkChars(_currentChunk), 0, GetChunkLength(_currentChunk));
             }
         }
 
         internal ChunkEnumerator(StringBuilder builder)
         {
             _firstChunk = builder;
-            // MoveNext will find the last chunk if we do this.
             _currentChunk = null;
             _manyChunks = null;
 
-            // There is a performance-vs-allocation tradeoff.   Because the chunks
-            // are a linked list with each chunk pointing to its PREDECESSOR, walking
-            // the list FORWARD is not efficient.   If there are few chunks (< 8) we
-            // simply scan from the start each time, and tolerate the N*N behavior.
-            // However above this size, we allocate an array to hold reference to all
-            // the chunks and we can be efficient for large N.
             var chunkCount = ChunkCount(builder);
             if (8 < chunkCount)
             {
-                _manyChunks = new ManyChunkInfo(builder, chunkCount);
+                _manyChunks = new(builder, chunkCount);
             }
         }
 
@@ -176,7 +165,6 @@ static partial class Polyfill
         /// </summary>
         class ManyChunkInfo
         {
-            // These are in normal order (first chunk first)
             StringBuilder[] _chunks;
             int _chunkPos;
 

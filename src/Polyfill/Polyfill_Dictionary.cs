@@ -3,7 +3,6 @@
 
 namespace Polyfills;
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
@@ -14,11 +13,7 @@ static partial class Polyfill
     /// <summary>
     /// Returns a read-only <see cref="ReadOnlyDictionary{TKey,TValue}"/> wrapper for the current dictionary.
     /// </summary>
-    /// <typeparam name="TKey">The type of keys in the dictionary.</typeparam>
-    /// <typeparam name="TValue">The type of values in the dictionary.</typeparam>
-    /// <param name="dictionary">The dictionary to wrap.</param>
-    /// <returns>An object that acts as a read-only wrapper around the current <see cref="IDictionary{TKey, TValue}"/>.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly#system-collections-generic-collectionextensions-asreadonly-2(system-collections-generic-idictionary((-0-1)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly?view=net-10.0#system-collections-generic-collectionextensions-asreadonly-2(system-collections-generic-idictionary((-0-1)))
     public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> target)
         where TKey : notnull =>
         new(target);
@@ -29,10 +24,7 @@ static partial class Polyfill
     /// <summary>
     /// Attempts to add the specified key and value to the <see cref="IDictionary{TKey,TValue}"/>.
     /// </summary>
-    /// <param name="key">The key of the element to add.</param>
-    /// <param name="value">The value of the element to add. It can be <see langword="null"/>.</param>
-    /// <returns><c>true</c> if the key/value pair was added to the dictionary successfully; otherwise, <c>false</c>.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.tryadd
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.tryadd?view=net-10.0
     public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> target, TKey key, TValue value)
         where TKey : notnull
     {
@@ -45,21 +37,11 @@ static partial class Polyfill
         return false;
     }
 
-#endif
-
-#if NETFRAMEWORK || NETSTANDARD2_0
-
     /// <summary>
     /// Removes the value with the specified key from the <see cref="IDictionary{TKey,TValue}"/>, and copies the element
     /// to the value parameter.
     /// </summary>
-    /// <param name="target">A dictionary with keys of type TKey and values of type TValue.</param>
-    /// <param name="key">The key of the element to remove.</param>
-    /// <param name="value">The removed element.</param>
-    /// <typeparam name="TKey">The type of the keys in the dictionary.</typeparam>
-    /// <typeparam name="TValue">The type of the values in the dictionary.</typeparam>
-    /// <returns><code>true</code> if the element is successfully found and removed; otherwise, <code>false</code>.</returns>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.remove
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.remove?view=net-10.0
     public static bool Remove<TKey, TValue>(
         this IDictionary<TKey, TValue> target,
         TKey key,
@@ -72,12 +54,12 @@ static partial class Polyfill
 
 #endif
 
-#if NETCOREAPP2_0 || NETSTANDARD2_0 || NETFRAMEWORK
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
 
     /// <summary>
     /// Ensures that the capacity of this dictionary is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity?view=net-10.0
     public static void EnsureCapacity<TKey, TValue>(this Dictionary<TKey, TValue> target, int capacity)
     {
     }
@@ -85,7 +67,7 @@ static partial class Polyfill
     /// <summary>
     /// Sets the capacity of this dictionary to hold up a specified number of entries without any further expansion of its backing storage.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess#system-collections-generic-dictionary-2-trimexcess(system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-10.0#system-collections-generic-dictionary-2-trimexcess(system-int32)
     public static void TrimExcess<TKey, TValue>(this Dictionary<TKey, TValue> target, int capacity)
     {
     }
@@ -93,7 +75,7 @@ static partial class Polyfill
     /// <summary>
     /// Sets the capacity of this dictionary to what it would be if it had been originally initialized with all its entries.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity?view=net-10.0
     public static void TrimExcess<TKey, TValue>(this Dictionary<TKey, TValue> target)
     {
     }

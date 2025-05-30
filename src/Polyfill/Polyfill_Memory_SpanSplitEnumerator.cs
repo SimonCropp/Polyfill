@@ -16,7 +16,7 @@ static partial class Polyfill
     /// Enables enumerating each split within a <see cref="ReadOnlySpan{T}"/> that has been divided using one or more separators.
     /// </summary>
     //https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.cs
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.spansplitenumerator-1")]
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.spansplitenumerator-1?view=net-10.0
     public ref struct SpanSplitEnumerator<T>
         where T : IEquatable<T>
     {
@@ -50,11 +50,9 @@ static partial class Polyfill
         int _startNext = 0;
 
         /// <summary>Gets an enumerator that allows for iteration over the split span.</summary>
-        /// <returns>Returns a <see cref="SpanSplitEnumerator{T}"/> that can be used to iterate over the split span.</returns>
         public SpanSplitEnumerator<T> GetEnumerator() => this;
 
         /// <summary>Gets the current element of the enumeration.</summary>
-        /// <returns>Returns a <see cref="Range"/> instance that indicates the bounds of the current element withing the source span.</returns>
         public Range Current => new Range(_startCurrent, _endCurrent);
 
 #if NET8_0
@@ -107,10 +105,8 @@ static partial class Polyfill
         /// <summary>
         /// Advances the enumerator to the next element of the enumeration.
         /// </summary>
-        /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the enumeration.</returns>
         public bool MoveNext()
         {
-            // Search for the next separator index.
             int separatorIndex, separatorLength;
             switch (_splitMode)
             {
@@ -183,7 +179,6 @@ static partial class Polyfill
             {
                 _startNext = _endCurrent = _span.Length;
 
-                // Set _splitMode to None so that subsequent MoveNext calls will return false.
                 _splitMode = SpanSplitEnumeratorMode.None;
             }
 
