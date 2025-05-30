@@ -8,6 +8,6 @@
   <ItemGroup>
     <Compile Include="..\Consume\*.cs" />
   </ItemGroup>
-  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
   <Import Project="$(SolutionDir)\TestIncludes.targets" />
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
 </Project>
