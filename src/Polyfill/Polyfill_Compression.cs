@@ -27,14 +27,14 @@ static partial class Polyfill
     /// Archives a file by compressing it and adding it to the zip archive.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.createentryfromfileasync?view=net-10.0
-    public static Task<ZipArchiveEntry> CreateEntryFromFileAsync(this System.IO.Compression.ZipArchive target, string sourceFileName, string entryName, CancellationToken cancellationToken = default) =>
+    public static Task<ZipArchiveEntry> CreateEntryFromFileAsync(this ZipArchive target, string sourceFileName, string entryName, CancellationToken cancellationToken = default) =>
         Task.FromResult(target.CreateEntryFromFile(sourceFileName, entryName));
 
     /// <summary>
     /// Archives a file by compressing it and adding it to the zip archive.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.createentryfromfileasync?view=net-10.0
-    public static Task<ZipArchiveEntry> CreateEntryFromFileAsync(this System.IO.Compression.ZipArchive target, string sourceFileName, string entryName, CompressionLevel compressionLevel, CancellationToken cancellationToken = default) =>
+    public static Task<ZipArchiveEntry> CreateEntryFromFileAsync(this ZipArchive target, string sourceFileName, string entryName, CompressionLevel compressionLevel, CancellationToken cancellationToken = default) =>
         Task.FromResult(target.CreateEntryFromFile(sourceFileName, entryName, compressionLevel));
 
     /// <summary>

@@ -14,6 +14,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 		mdsnippets.json = mdsnippets.json
 		..\readme.md = ..\readme.md
+		Polyfill\Polyfill.nuspec = Polyfill\Polyfill.nuspec
+		Polyfill\Polyfill.targets = Polyfill\Polyfill.targets
+		TestIncludes.targets = TestIncludes.targets
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Polyfill", "Polyfill\Polyfill.csproj", "{698FB675-3480-4107-8CAE-51452C6138CE}"
@@ -62,6 +65,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeConsumeBclMemory", "ConsumeConsumeBclMemory\ConsumeConsumeBclMemory.csproj", "{E83A80D1-10E3-4CBE-942D-E671A04C93F7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeOnlyCompression", "ConsumeOnlyCompression\ConsumeOnlyCompression.csproj", "{E8E46E75-763A-4031-8545-E67DFB768D1E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeNoOptional", "ConsumeNoOptional\ConsumeNoOptional.csproj", "{AD562B55-4340-4AFC-8FDE-78F3C87A5435}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,6 +160,10 @@ Global
 		{E8E46E75-763A-4031-8545-E67DFB768D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8E46E75-763A-4031-8545-E67DFB768D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8E46E75-763A-4031-8545-E67DFB768D1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD562B55-4340-4AFC-8FDE-78F3C87A5435}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD562B55-4340-4AFC-8FDE-78F3C87A5435}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD562B55-4340-4AFC-8FDE-78F3C87A5435}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD562B55-4340-4AFC-8FDE-78F3C87A5435}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

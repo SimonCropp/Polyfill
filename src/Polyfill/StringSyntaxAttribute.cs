@@ -10,8 +10,7 @@ namespace System.Diagnostics.CodeAnalysis;
 using System.Diagnostics;
 using Targets = AttributeTargets;
 
-/// <summary>
-/// Specifies the syntax used in a string.</summary>
+/// <summary>Specifies the syntax used in a string.</summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
@@ -24,16 +23,14 @@ public
 sealed class StringSyntaxAttribute :
     Attribute
 {
-    /// <summary>
-    /// Initializes the <see cref="StringSyntaxAttribute"/> with the identifier of the syntax used.</summary>
+    /// <summary>Initializes the <see cref="StringSyntaxAttribute"/> with the identifier of the syntax used.</summary>
     public StringSyntaxAttribute(string syntax)
     {
         Syntax = syntax;
         Arguments = [];
     }
 
-    /// <summary>
-    /// Initializes the <see cref="StringSyntaxAttribute"/> with the identifier of the syntax used.</summary>
+    /// <summary>Initializes the <see cref="StringSyntaxAttribute"/> with the identifier of the syntax used.</summary>
     public StringSyntaxAttribute(string syntax, params object?[] arguments)
     {
         Syntax = syntax;

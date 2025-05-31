@@ -69,8 +69,10 @@ class Consume
         // type = typeof(TupleElementNamesAttribute);
         type = typeof(DebuggerNonUserCodeAttribute);
         type = typeof(UnscopedRefAttribute);
+#if !NoStringInterpolation
         type = typeof(InterpolatedStringHandlerArgumentAttribute);
         type = typeof(InterpolatedStringHandlerAttribute);
+#endif
         type = typeof(StringSyntaxAttribute);
         type = typeof(DynamicallyAccessedMembersAttribute);
         type = typeof(DynamicDependencyAttribute);
@@ -632,7 +634,8 @@ class Consume
         split = "a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
         var startsWith = "value".StartsWith('a');
     }
-    #if FeatureMemory
+
+    #if !NoStringInterpolation && FeatureMemory
     void DefaultInterpolatedStringHandler_Methods()
     {
         var handler = new DefaultInterpolatedStringHandler();
