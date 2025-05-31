@@ -98,7 +98,7 @@ struct AppendInterpolatedStringHandler
                 AppendFormattedWithTempSpace(value, 0, format);
             }
 #if NET6_0_OR_GREATER
-            esle if (fValue is ISpanFormattable)
+            else if (fValue is ISpanFormattable)
             {
                 AppendFormattedWithTempSpace(value, 0, format);
             }
