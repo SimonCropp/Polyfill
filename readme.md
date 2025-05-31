@@ -397,6 +397,15 @@ static class FileUtilUsage
 
 ### InterpolatedStringHandler
 
+Enable by adding an MSBuild property `PolyStringInterpolation`
+
+```
+<PropertyGroup>
+  ...
+  <PolyStringInterpolation>true</PolyStringInterpolation>
+</PropertyGroup>
+```
+
  * [AppendInterpolatedStringHandler](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendinterpolatedstringhandler)
  * [DefaultInterpolatedStringHandler](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.defaultinterpolatedstringhandler)
  * [InterpolatedStringHandlerAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.interpolatedstringhandlerattribute)

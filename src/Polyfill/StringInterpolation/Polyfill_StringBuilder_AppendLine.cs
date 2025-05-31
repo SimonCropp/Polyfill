@@ -34,7 +34,8 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendline?view=net-10.0#system-text-stringbuilder-appendline(system-text-stringbuilder-appendinterpolatedstringhandler@)
     public static StringBuilder AppendLine(
         StringBuilder target,
-        [InterpolatedStringHandlerArgument(nameof(target))] ref StringBuilder.AppendInterpolatedStringHandler handler) =>
+        [InterpolatedStringHandlerArgument(nameof(target))]
+        ref StringBuilder.AppendInterpolatedStringHandler handler) =>
         target.AppendLine(ref handler);
 
     /// <summary>Appends the specified interpolated string followed by the default line terminator to the end of the current StringBuilder object.</summary>
@@ -42,7 +43,8 @@ static partial class Polyfill
     public static StringBuilder AppendLine(
         StringBuilder target,
         IFormatProvider? provider,
-        [InterpolatedStringHandlerArgument(nameof(target), nameof(provider))] ref StringBuilder.AppendInterpolatedStringHandler handler) =>
+        [InterpolatedStringHandlerArgument(nameof(target), nameof(provider))]
+        ref StringBuilder.AppendInterpolatedStringHandler handler) =>
         target.AppendLine(provider, ref handler);
 #endif
 

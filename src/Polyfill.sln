@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\readme.md = ..\readme.md
 		Polyfill\Polyfill.nuspec = Polyfill\Polyfill.nuspec
 		Polyfill\Polyfill.targets = Polyfill\Polyfill.targets
+		TestIncludes.targets = TestIncludes.targets
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Polyfill", "Polyfill\Polyfill.csproj", "{698FB675-3480-4107-8CAE-51452C6138CE}"
