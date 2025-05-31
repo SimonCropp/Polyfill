@@ -58,7 +58,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiBuilderTests", "ApiBuild
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeOnlyValueTuple", "ConsumeOnlyValueTuple\ConsumeOnlyValueTuple.csproj", "{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoExtras", "NoExtras\NoExtras.csproj", "{4F482296-D4BF-4E56-AF23-351CCEF1B96E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoExtrasTests", "NoExtrasTests\NoExtrasTests.csproj", "{4F482296-D4BF-4E56-AF23-351CCEF1B96E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeBclMemory", "ConsumeBclMemory\ConsumeBclMemory.csproj", "{A89A3ACD-3DC8-4321-AEBC-05DAF0DEC9E5}"
 EndProject
