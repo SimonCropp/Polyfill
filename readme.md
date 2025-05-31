@@ -414,6 +414,9 @@ Enable by adding an MSBuild property `PolyStringInterpolation`
 
 References: [String Interpolation in C# 10 and .NET 6](https://devblogs.microsoft.com/dotnet/string-interpolation-in-c-10-and-net-6/), [Write a custom string interpolation handler](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/tutorials/interpolated-string-handler)
 
+> [!IMPORTANT]
+> In the below extension method list, the methods using `AppendInterpolatedStringHandler` parameter are not extensions because the compiler prefers to use the overload with `string` parameter instead.
+
 
 ### StringSyntaxAttribute
 
@@ -472,9 +475,6 @@ Reference: [Improvements in native code interop in .NET 5.0](https://devblogs.mi
 ## Extensions
 
 The class `Polyfill` includes the following extension methods:
-
-> [!IMPORTANT]
-> The methods using `AppendInterpolatedStringHandler` parameter are not extensions because the compiler prefers to use the overload with `string` parameter instead.
 
 
 ### Extension methods<!-- include: api_list.include.md -->
