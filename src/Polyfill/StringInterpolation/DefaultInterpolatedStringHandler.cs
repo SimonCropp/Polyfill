@@ -145,6 +145,7 @@ ref struct DefaultInterpolatedStringHandler
                 return;
             }
 
+#if NET6_0_OR_GREATER
             if (value is ISpanFormattable)
             {
                 int charsWritten;
@@ -156,7 +157,7 @@ ref struct DefaultInterpolatedStringHandler
                 _pos += charsWritten;
                 return;
             }
-
+#endif
             s = ((IFormattable) value).ToString(format: null, _provider);
         }
         else
@@ -195,6 +196,7 @@ ref struct DefaultInterpolatedStringHandler
                 return;
             }
 
+#if NET6_0_OR_GREATER
             if (value is ISpanFormattable)
             {
                 int charsWritten;
@@ -206,7 +208,7 @@ ref struct DefaultInterpolatedStringHandler
                 _pos += charsWritten;
                 return;
             }
-
+#endif
             s = ((IFormattable) value).ToString(format, _provider);
         }
         else
