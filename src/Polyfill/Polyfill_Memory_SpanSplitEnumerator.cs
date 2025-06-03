@@ -8,6 +8,8 @@ namespace Polyfills;
 using System;
 using System.Buffers;
 using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 static partial class Polyfill
@@ -17,59 +19,69 @@ static partial class Polyfill
     /// </summary>
     //https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.cs
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.spansplitenumerator-1?view=net-10.0
-    public ref struct SpanSplitEnumerator<T>
+    public ref struct SpanSplitEnumerator<T> : IEnumerator<Range>
         where T : IEquatable<T>
     {
         /// <summary>The input span being split.</summary>
-        readonly ReadOnlySpan<T> _span;
+        private readonly ReadOnlySpan<T> _source;
 
         /// <summary>A single separator to use when <see cref="_splitMode"/> is <see cref="SpanSplitEnumeratorMode.SingleElement"/>.</summary>
-        readonly T _separator = default!;
+        private readonly T _separator = default!;
 
         /// <summary>
         /// A separator span to use when <see cref="_splitMode"/> is <see cref="SpanSplitEnumeratorMode.Sequence"/> (in which case
         /// it's treated as a single separator) or <see cref="SpanSplitEnumeratorMode.Any"/> (in which case it's treated as a set of separators).
         /// </summary>
-        readonly ReadOnlySpan<T> _separatorBuffer;
+        private readonly ReadOnlySpan<T> _separatorBuffer;
 
 #if NET8_0
         /// <summary>A set of separators to use when <see cref="_splitMode"/> is <see cref="SpanSplitEnumeratorMode.SearchValues"/>.</summary>
-        readonly SearchValues<T> _searchValues = default!;
+        private readonly SearchValues<T> _searchValues = default!;
 #endif
 
         /// <summary>Mode that dictates how the instance was configured and how its fields should be used in <see cref="MoveNext"/>.</summary>
-        SpanSplitEnumeratorMode _splitMode;
+        private SpanSplitEnumeratorMode _splitMode;
 
-        /// <summary>The inclusive starting index in <see cref="_span"/> of the current range.</summary>
-        int _startCurrent = 0;
+        /// <summary>The inclusive starting index in <see cref="_source"/> of the current range.</summary>
+        private int _startCurrent = 0;
 
-        /// <summary>The exclusive ending index in <see cref="_span"/> of the current range.</summary>
-        int _endCurrent = 0;
+        /// <summary>The exclusive ending index in <see cref="_source"/> of the current range.</summary>
+        private int _endCurrent = 0;
 
-        /// <summary>The index in <see cref="_span"/> from which the next separator search should start.</summary>
-        int _startNext = 0;
+        /// <summary>The index in <see cref="_source"/> from which the next separator search should start.</summary>
+        private int _startNext = 0;
 
         /// <summary>Gets an enumerator that allows for iteration over the split span.</summary>
+        /// <returns>Returns a <see cref="SpanSplitEnumerator{T}"/> that can be used to iterate over the split span.</returns>
         public SpanSplitEnumerator<T> GetEnumerator() => this;
 
+        /// <summary>Gets the source span being enumerated.</summary>
+        /// <returns>Returns the <see cref="ReadOnlySpan{T}"/> that was provided when creating this enumerator.</returns>
+        public readonly ReadOnlySpan<T> Source => _source;
+
         /// <summary>Gets the current element of the enumeration.</summary>
+        /// <returns>Returns a <see cref="Range"/> instance that indicates the bounds of the current element withing the source span.</returns>
         public Range Current => new Range(_startCurrent, _endCurrent);
 
 #if NET8_0
         /// <summary>Initializes the enumerator for <see cref="SpanSplitEnumeratorMode.SearchValues"/>.</summary>
-        internal SpanSplitEnumerator(ReadOnlySpan<T> span, SearchValues<T> searchValues)
+        internal SpanSplitEnumerator(ReadOnlySpan<T> source, SearchValues<T> searchValues)
         {
-            _span = span;
+            _source = source;
             _splitMode = SpanSplitEnumeratorMode.SearchValues;
             _searchValues = searchValues;
         }
 #endif
 
         /// <summary>Initializes the enumerator for <see cref="SpanSplitEnumeratorMode.Any"/>.</summary>
-        internal SpanSplitEnumerator(ReadOnlySpan<T> span, ReadOnlySpan<T> separators)
+        /// <remarks>
+        /// If <paramref name="separators"/> is empty and <typeparamref name="T"/> is <see cref="char"/>, as an optimization
+        /// it will instead use <see cref="SpanSplitEnumeratorMode.SearchValues"/> with a cached <see cref="SearchValues{Char}"/>
+        /// for all whitespace characters.
+        /// </remarks>
+        internal SpanSplitEnumerator(ReadOnlySpan<T> source, ReadOnlySpan<T> separators)
         {
-            _span = span;
-
+            _source = source;
             if (typeof(T) == typeof(char) && separators.Length == 0)
             {
 #if NET8_0
@@ -87,17 +99,18 @@ static partial class Polyfill
         }
 
         /// <summary>Initializes the enumerator for <see cref="SpanSplitEnumeratorMode.Sequence"/> (or <see cref="SpanSplitEnumeratorMode.EmptySequence"/> if the separator is empty).</summary>
-        internal SpanSplitEnumerator(ReadOnlySpan<T> span, ReadOnlySpan<T> separator, bool treatAsSingleSeparator)
+        /// <remarks><paramref name="treatAsSingleSeparator"/> must be true.</remarks>
+        internal SpanSplitEnumerator(ReadOnlySpan<T> source, ReadOnlySpan<T> separator, bool treatAsSingleSeparator)
         {
-            _span = span;
+            _source = source;
             _separatorBuffer = separator;
             _splitMode = separator.Length == 0 ? SpanSplitEnumeratorMode.EmptySequence : SpanSplitEnumeratorMode.Sequence;
         }
 
         /// <summary>Initializes the enumerator for <see cref="SpanSplitEnumeratorMode.SingleElement"/>.</summary>
-        internal SpanSplitEnumerator(ReadOnlySpan<T> span, T separator)
+        internal SpanSplitEnumerator(ReadOnlySpan<T> source, T separator)
         {
-            _span = span;
+            _source = source;
             _separator = separator;
             _splitMode = SpanSplitEnumeratorMode.SingleElement;
         }
@@ -105,8 +118,10 @@ static partial class Polyfill
         /// <summary>
         /// Advances the enumerator to the next element of the enumeration.
         /// </summary>
+        /// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the enumeration.</returns>
         public bool MoveNext()
         {
+            // Search for the next separator index.
             int separatorIndex, separatorLength;
             switch (_splitMode)
             {
@@ -115,13 +130,13 @@ static partial class Polyfill
 
                 case SpanSplitEnumeratorMode.SingleElement:
                     separatorLength = 1;
-                    #if NETFRAMEWORK
+#if NETFRAMEWORK
                     if (_separator is null)
                     {
                         separatorIndex = -1;
-                        for (int i = _startNext; i < _span.Length; i++)
+                        for (int i = _startNext; i < _source.Length; i++)
                         {
-                            if (_span[i] == null)
+                            if (_source[i] == null)
                             {
                                 separatorIndex = i;
                                 break;
@@ -129,12 +144,13 @@ static partial class Polyfill
                         }
                         break;
                     }
-                    #endif
-                    separatorIndex = _span.Slice(_startNext)
+#endif
+                    separatorIndex = _source.Slice(_startNext)
                         .IndexOf(_separator);
                     break;
 
                 case SpanSplitEnumeratorMode.Any:
+
                     separatorLength = 1;
 #if !NETCOREAPP
                     //https://github.com/dotnet/coreclr/pull/25075
@@ -144,13 +160,12 @@ static partial class Polyfill
                         break;
                     }
 #endif
-                    separatorIndex = _span.Slice(_startNext)
+                    separatorIndex = _source.Slice(_startNext)
                         .IndexOfAny(_separatorBuffer);
                     break;
 
                 case SpanSplitEnumeratorMode.Sequence:
-                    separatorIndex = _span.Slice(_startNext)
-                        .IndexOf(_separatorBuffer);
+                    separatorIndex = _source.Slice(_startNext).IndexOf(_separatorBuffer);
                     separatorLength = _separatorBuffer.Length;
                     break;
 
@@ -158,13 +173,13 @@ static partial class Polyfill
                     separatorIndex = -1;
                     separatorLength = 1;
                     break;
+
 #if NET8_0
                 case SpanSplitEnumeratorMode.SearchValues:
-                    separatorIndex = _span.Slice(_startNext).IndexOfAny(_searchValues);
+                    separatorIndex = _source.Slice(_startNext).IndexOfAny(_searchValues);
                     separatorLength = 1;
                     break;
 #endif
-
                 default:
                     throw new Exception($"Invalid split mode: {_splitMode}");
             }
@@ -177,13 +192,26 @@ static partial class Polyfill
             }
             else
             {
-                _startNext = _endCurrent = _span.Length;
+                _startNext = _endCurrent = _source.Length;
 
+                // Set _splitMode to None so that subsequent MoveNext calls will return false.
                 _splitMode = SpanSplitEnumeratorMode.None;
             }
 
             return true;
         }
+
+        /// <inheritdoc />
+        object IEnumerator.Current => Current;
+
+        /// <inheritdoc />
+        void IEnumerator.Reset() => throw new NotSupportedException();
+
+        /// <inheritdoc />
+        void IDisposable.Dispose()
+        {
+        }
+
 
         const string whitespaces = "\t\n\v\f\r\u0020\u0085\u00a0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u2028\u2029\u202f\u205f\u3000";
 
@@ -194,6 +222,7 @@ static partial class Polyfill
         public static readonly T[] WhiteSpaceChars;
 
         static SpanSplitEnumerator()
+
         {
             if (typeof(T) == typeof(char))
             {
@@ -205,5 +234,4 @@ static partial class Polyfill
 #endif
     }
 }
-
 #endif
