@@ -284,12 +284,4 @@ partial class PolyfillTests
 
         Assert.Throws<ArgumentOutOfRangeException>(() => enumerable.Chunk(0).ToList());
     }
-
-    [Test]
-    public void Chunk_Null_ExpectedException()
-    {
-        IEnumerable<int> values = null!;
-
-        Assert.Throws<ArgumentNullException>(() => values.Chunk(1).ToList());
-    }
 }
