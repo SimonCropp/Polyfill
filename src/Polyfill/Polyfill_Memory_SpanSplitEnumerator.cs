@@ -129,13 +129,39 @@ static partial class Polyfill
                     return false;
 
                 case SpanSplitEnumeratorMode.SingleElement:
-                    separatorIndex = _source.Slice(_startNext).IndexOf(_separator);
                     separatorLength = 1;
+#if NETFRAMEWORK
+                    if (_separator is null)
+                    {
+                        separatorIndex = -1;
+                        for (int i = _startNext; i < _source.Length; i++)
+                        {
+                            if (_source[i] == null)
+                            {
+                                separatorIndex = i;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+#endif
+                    separatorIndex = _source.Slice(_startNext)
+                        .IndexOf(_separator);
                     break;
 
                 case SpanSplitEnumeratorMode.Any:
-                    separatorIndex = _source.Slice(_startNext).IndexOfAny(_separatorBuffer);
+
                     separatorLength = 1;
+#if !NETCOREAPP
+                    //https://github.com/dotnet/coreclr/pull/25075
+                    if (_separatorBuffer.Length == 0)
+                    {
+                        separatorIndex = -1;
+                        break;
+                    }
+#endif
+                    separatorIndex = _source.Slice(_startNext)
+                        .IndexOfAny(_separatorBuffer);
                     break;
 
                 case SpanSplitEnumeratorMode.Sequence:
