@@ -47,7 +47,8 @@ As a result, in the context of a project producing nuget package, that project s
 
 ## Nuget
 
-https://nuget.org/packages/Polyfill/
+ * https://nuget.org/packages/Polyfill/
+ * https://nuget.org/packages/PolyfillLib/ See [#PolyfillLib]
 
 
 ## SDK / LangVersion
@@ -69,7 +70,7 @@ This project uses features from the current stable SDK and C# language. As such 
 ```json
 {
   "sdk": {
-    "version": "9.0.202",
+    "version": "9.0.300",
     "rollForward": "latestFeature"
   }
 }
@@ -101,16 +102,27 @@ If Polyfill is being consumed in a solution that produce a library (and usually 
 If, however, `InternalsVisibleTo` is being used to expose APIs (for example to test projects), then the Polyfill nuget should be added only to the root library project.
 
 
+## PolyfillLib
+
+Polyfill is source only nuget designed to be consumed by public facing nuget packages. The benefit being no dependency and no chance for dependency conflicts.
+
+Internal facing systems (nugets and build pipelines) have less risk of having dependency conflicts. For example a company with an internal nuget feed used to produce apps. In these scenarios the extra cost of using a source only nuget may be considered less than ideal. ie the added assembly size and the increased build time. PolyfillLib is a standard nuget package containing assemblies for each target runtime. It is an alternative approach to using the Polyfill source only package.
+
+https://nuget.org/packages/PolyfillLib/
+
+
 ## Troubleshooting
 
 Make sure `DefineConstants` is not set from dotnet CLI, which would override important constants set by Polyfill.
 
 Instead of using `dotnet publish -p:DefineConstants=MY_CONSTANT`, set the constant indirectly in the project:
+
 ```xml
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <DefineConstants Condition="'$(MyConstant)' == 'true'">$(DefineConstants);MY_CONSTANT</DefineConstants>
 ```
+
 and use `dotnet publish -p:MyConstant=true`.
 
 

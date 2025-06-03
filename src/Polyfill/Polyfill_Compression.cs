@@ -43,6 +43,7 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttodirectory?view=net-10.0#system-io-compression-zipfileextensions-extracttodirectory(system-io-compression-ziparchive-system-string)
     public static Task ExtractToDirectoryAsync(this ZipArchive target, string destinationDirectoryName, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         target.ExtractToDirectory(destinationDirectoryName, false);
         return Task.CompletedTask;
     }
@@ -53,6 +54,7 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttodirectoryasync?view=net-10.0#system-io-compression-zipfileextensions-extracttodirectoryasync(system-io-compression-ziparchive-system-string-system-boolean-system-threading-cancellationtoken)
     public static Task ExtractToDirectoryAsync(this ZipArchive target, string destinationDirectoryName, bool overwriteFiles, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         target.ExtractToDirectory(destinationDirectoryName, overwriteFiles);
         return Task.CompletedTask;
     }
@@ -63,6 +65,7 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttofileasync?view=net-10.0#system-io-compression-zipfileextensions-extracttofileasync(system-io-compression-ziparchiveentry-system-string-system-threading-cancellationtoken)
     public static Task ExtractToFileAsync(this ZipArchiveEntry source, string destinationFileName, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         source.ExtractToFile(destinationFileName);
         return Task.CompletedTask;
     }
@@ -73,6 +76,7 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttofileasync?view=net-10.0#system-io-compression-zipfileextensions-extracttofileasync(system-io-compression-ziparchiveentry-system-string-system-boolean-system-threading-cancellationtoken)
     public static Task ExtractToFileAsync(this ZipArchiveEntry source, string destinationFileName, bool overwrite, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         source.ExtractToFile(destinationFileName, overwrite);
         return Task.CompletedTask;
     }
