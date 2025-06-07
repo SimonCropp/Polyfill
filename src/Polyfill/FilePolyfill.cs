@@ -137,7 +137,7 @@ static partial class FilePolyfill
             await writer.WriteLineAsync(content);
         }
 
-        await writer.FlushAsync();
+        await writer.FlushAsync(cancellationToken);
 #endif
     }
 
@@ -407,7 +407,7 @@ static partial class FilePolyfill
             await writer.WriteLineAsync(line).ConfigureAwait(false);
         }
 
-        await writer.FlushAsync().ConfigureAwait(false);
+        await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
 #endif
     }
 
@@ -452,7 +452,7 @@ static partial class FilePolyfill
             await writer.WriteAsync(contents).ConfigureAwait(false);
         }
 
-        await writer.FlushAsync().ConfigureAwait(false);
+        await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
 #else
         await File.WriteAllTextAsync(path, contents, encoding, cancellationToken);
 #endif
