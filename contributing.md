@@ -251,20 +251,19 @@ static partial class Polyfill
             return Task.CompletedTask;
         }
 
-        return WriteAsyncCore(value, cancellationToken);
-
-        async Task WriteAsyncCore(StringBuilder builder, CancellationToken cancel)
-        {
 #if FeatureValueTask && FeatureMemory
+        return WriteAsyncCore(target, value, cancellationToken);
+
+        static async Task WriteAsyncCore(TextWriter target, StringBuilder builder, CancellationToken cancel)
+        {
             foreach (var chunk in builder.GetChunks())
             {
                 await target.WriteAsync(chunk, cancel);
             }
-#else
-            await target.WriteAsync(builder.ToString())
-                .WaitAsync(cancellationToken);
-#endif
         }
+#else
+        return target.WriteAsync(value.ToString());
+#endif
     }
 #endif
 
@@ -361,7 +360,7 @@ static partial class Polyfill
 #endif
 }
 ```
-<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L188' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L187' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
