@@ -54,7 +54,7 @@ static class SHA512Polyfill
     public static ValueTask<byte[]> HashDataAsync(Stream source, CancellationToken cancellationToken = default)
     {
 #if NET7_0_OR_GREATER
-        return SHA512.HashDataAsync(source);
+        return SHA512.HashDataAsync(source, cancellationToken);
 #else
         using var hasher = SHA512.Create();
         return new(hasher.ComputeHash(source));
@@ -100,7 +100,7 @@ static class SHA512Polyfill
     public static ValueTask<int> HashDataAsync(Stream source, Memory<byte> destination, CancellationToken cancellationToken = default)
     {
 #if NET7_0_OR_GREATER
-        return SHA512.HashDataAsync(source, destination);
+        return SHA512.HashDataAsync(source, destination, cancellationToken);
 #else
         var hash = HashData(source);
         hash.CopyTo(destination);
