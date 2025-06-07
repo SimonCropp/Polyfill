@@ -170,7 +170,7 @@ static partial class Polyfill
 
             public bool MoveNext(ref StringBuilder? current)
             {
-                int pos = ++_chunkPos;
+                var pos = ++_chunkPos;
                 if (_chunks.Length <= pos)
                 {
                     return false;
