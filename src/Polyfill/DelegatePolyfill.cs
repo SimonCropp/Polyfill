@@ -5,9 +5,9 @@ namespace Polyfills;
 
 using System;
 using System.ComponentModel;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
@@ -24,8 +24,9 @@ static partial class DelegatePolyfill
     public static Delegate.InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate? target) where TDelegate : Delegate =>
         Delegate.EnumerateInvocationList(target);
 #else
-    public static InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate? target) where TDelegate : Delegate =>
-        new InvocationListEnumerator<TDelegate>(target);
+    public static InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate? target)
+        where TDelegate : Delegate =>
+        new(Unsafe.As<MulticastDelegate>(target));
 
     /// <summary>
     /// Provides an enumerator for the invocation list of a delegate.
@@ -39,7 +40,7 @@ static partial class DelegatePolyfill
         internal InvocationListEnumerator(Delegate target) =>
             delegates = target.GetInvocationList();
 
-        public TDelegate Current { get; private set; }
+        public TDelegate Current { get; private set; } = null!;
 
         public bool MoveNext()
         {
