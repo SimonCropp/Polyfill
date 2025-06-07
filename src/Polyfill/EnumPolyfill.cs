@@ -146,7 +146,7 @@ static class EnumPolyfill
         string result;
         if (format.Length == 0)
         {
-            result = value.ToString();
+            result = value.ToString()!;
         }
         else
         {
