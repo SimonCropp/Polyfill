@@ -26,7 +26,7 @@ static partial class DelegatePolyfill
 #else
     public static InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate? target)
         where TDelegate : Delegate =>
-        new(Unsafe.As<MulticastDelegate>(target));
+        new(target);
 
     /// <summary>
     /// Provides an enumerator for the invocation list of a delegate.
