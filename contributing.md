@@ -258,7 +258,7 @@ static partial class Polyfill
 #if FeatureValueTask && FeatureMemory
             foreach (var chunk in builder.GetChunks())
             {
-                await target.WriteAsync(chunk, cancel).ConfigureAwait(false);
+                await target.WriteAsync(chunk, cancel);
             }
 #else
             await target.WriteAsync(builder.ToString())

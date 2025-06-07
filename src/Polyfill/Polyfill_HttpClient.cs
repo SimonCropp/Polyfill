@@ -28,11 +28,11 @@ static partial class Polyfill
                 requestUri,
                 HttpCompletionOption.ResponseHeadersRead,
                 cancellationToken
-            ).ConfigureAwait(false);
+            );
 
             response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+            return await response.Content.ReadAsStreamAsync(cancellationToken);
         }
         catch (OperationCanceledException ex) when (
             ex.CancellationToken != cancellationToken &&
@@ -66,14 +66,12 @@ static partial class Polyfill
             using var response = await target.GetAsync(
                 requestUri,
                 HttpCompletionOption.ResponseHeadersRead,
-                cancellationToken)
-                .ConfigureAwait(false);
+                cancellationToken);
 
             response.EnsureSuccessStatusCode();
 
             return await response.Content
-                .ReadAsByteArrayAsync(cancellationToken)
-                .ConfigureAwait(false);
+                .ReadAsByteArrayAsync(cancellationToken);
         }
         catch (OperationCanceledException exception) when (
             exception.CancellationToken != cancellationToken &&
@@ -107,14 +105,12 @@ static partial class Polyfill
             using var response = await target.GetAsync(
                 requestUri,
                 HttpCompletionOption.ResponseHeadersRead,
-                cancellationToken)
-                .ConfigureAwait(false);
+                cancellationToken);
 
             response.EnsureSuccessStatusCode();
 
             return await response.Content
-                .ReadAsStringAsync(cancellationToken)
-                .ConfigureAwait(false);
+                .ReadAsStringAsync(cancellationToken);
         }
         catch (OperationCanceledException exception) when (
             exception.CancellationToken != cancellationToken &&

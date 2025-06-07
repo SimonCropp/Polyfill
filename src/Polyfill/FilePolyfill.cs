@@ -276,7 +276,7 @@ static partial class FilePolyfill
         while (!reader.EndOfStream)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var line = await reader.ReadLineAsync().ConfigureAwait(false);
+            var line = await reader.ReadLineAsync();
             if (line != null)
             {
                 lines.Add(line);
@@ -310,7 +310,7 @@ static partial class FilePolyfill
     {
         using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
         using var reader = new StreamReader(stream, encoding);
-        return await reader.ReadToEndAsync().ConfigureAwait(false);
+        return await reader.ReadToEndAsync();
     }
 #else
     public static Task<string> ReadAllTextAsync(string path, Encoding encoding, CancellationToken cancellationToken = default)
@@ -367,7 +367,7 @@ static partial class FilePolyfill
 #else
     {
         using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
-        await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
+        await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
     }
 #endif
 
@@ -410,10 +410,10 @@ static partial class FilePolyfill
         foreach (var line in contents)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            await writer.WriteLineAsync(line).ConfigureAwait(false);
+            await writer.WriteLineAsync(line);
         }
 
-        await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
+        await writer.FlushAsync(cancellationToken);
     }
 #endif
 
@@ -455,10 +455,10 @@ static partial class FilePolyfill
 
         if (contents != null)
         {
-            await writer.WriteAsync(contents).ConfigureAwait(false);
+            await writer.WriteAsync(contents);
         }
 
-        await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
+        await writer.FlushAsync(cancellationToken);
     }
 #else
         => File.WriteAllTextAsync(path, contents, encoding, cancellationToken);
