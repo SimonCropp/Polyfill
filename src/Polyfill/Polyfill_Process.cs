@@ -38,7 +38,7 @@ static partial class Polyfill
             throw;
         }
 
-        var tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var tcs = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         EventHandler handler = (_, _) => tcs.TrySetResult(null);
         target.Exited += handler;
