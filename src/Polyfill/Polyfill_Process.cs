@@ -49,7 +49,7 @@ static partial class Polyfill
             {
                 using (cancellationToken.UnsafeRegister(static (s, cancellationToken) => ((TaskCompletionSource<object>) s!).TrySetCanceled(cancellationToken), tcs))
                 {
-                    await tcs.Task.ConfigureAwait(false);
+                    await tcs.Task;
                 }
             }
         }
