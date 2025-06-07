@@ -21,7 +21,7 @@ partial class PolyfillTests
     {
     }
 
-    public static event EventHandler? EventForEnumerateInvocationList;
+    public event EventHandler? EventForEnumerateInvocationList;
 
     [Test]
     public void EnumerateInvocationList()
@@ -36,5 +36,18 @@ partial class PolyfillTests
         }
 
         Assert.AreEqual(1, count);
+    }
+
+    [Test]
+    public void NullEnumerateInvocationList()
+    {
+        var count = 0;
+
+        foreach (var item in DelegatePolyfill.EnumerateInvocationList<EventHandler>(null))
+        {
+            item(this, EventArgs.Empty);
+        }
+
+        Assert.AreEqual(0, count);
     }
 }
