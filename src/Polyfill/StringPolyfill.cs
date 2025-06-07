@@ -180,6 +180,11 @@ static partial class StringPolyfill
 
                     var value = values[index];
 
+                    if (value is null)
+                    {
+                        continue;
+                    }
+
                     value.CopyTo(span);
 
                     span = span.Slice(value.Length);
