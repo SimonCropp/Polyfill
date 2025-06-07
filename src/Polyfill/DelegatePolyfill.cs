@@ -44,7 +44,7 @@ static partial class DelegatePolyfill
 
         public bool MoveNext()
         {
-            int index = this.index + 1;
+            var index = this.index + 1;
             if (index == delegates.Length)
             {
                 return false;
