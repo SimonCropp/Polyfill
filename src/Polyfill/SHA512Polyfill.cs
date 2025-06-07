@@ -56,6 +56,7 @@ static class SHA512Polyfill
 #if NET7_0_OR_GREATER
         return SHA512.HashDataAsync(source, cancellationToken);
 #else
+        cancellationToken.ThrowIfCancellationRequested();
         using var hasher = SHA512.Create();
         return new(hasher.ComputeHash(source));
 #endif
@@ -102,6 +103,7 @@ static class SHA512Polyfill
 #if NET7_0_OR_GREATER
         return SHA512.HashDataAsync(source, destination, cancellationToken);
 #else
+        cancellationToken.ThrowIfCancellationRequested();
         var hash = HashData(source);
         hash.CopyTo(destination);
         return new(hash.Length);

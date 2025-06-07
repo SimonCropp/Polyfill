@@ -205,7 +205,7 @@ static partial class Polyfill
             return Task.FromCanceled(cancellationToken);
         }
 
-        return target.FlushAsync()
+        return target.FlushAsync(cancellationToken)
             .WaitAsync(cancellationToken);
     }
 
