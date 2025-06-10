@@ -53,7 +53,7 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except?view=net-10.0#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0))-system-collections-generic-iequalitycomparer((-0)))
     public static IEnumerable<TSource> Except<TSource>(
         this IEnumerable<TSource> target,
-        IEqualityComparer<TSource> comparer,
+        IEqualityComparer<TSource>? comparer,
         params TSource[] items) =>
         target.Except((IEnumerable<TSource>)items, comparer);
 
