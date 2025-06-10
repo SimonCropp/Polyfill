@@ -274,7 +274,7 @@ static partial class FilePolyfill
     {
         var lines = new List<string>();
         using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
-        using var reader = new StreamReader(stream);
+        using var reader = new StreamReader(stream, encoding);
 
         while (!reader.EndOfStream)
         {
