@@ -31,7 +31,7 @@ static partial class Polyfill
             return Task.FromCanceled(cancellationToken);
         }
 
-        return target.FlushAsync()
+        return target.FlushAsync(cancellationToken)
             .WaitAsync(cancellationToken);
     }
 
@@ -77,20 +77,19 @@ static partial class Polyfill
             return Task.CompletedTask;
         }
 
-        return WriteAsyncCore(value, cancellationToken);
-
-        async Task WriteAsyncCore(StringBuilder builder, CancellationToken cancel)
-        {
 #if FeatureValueTask && FeatureMemory
+        return WriteAsyncCore(target, value, cancellationToken);
+
+        static async Task WriteAsyncCore(TextWriter target, StringBuilder builder, CancellationToken cancel)
+        {
             foreach (var chunk in builder.GetChunks())
             {
-                await target.WriteAsync(chunk, cancel).ConfigureAwait(false);
+                await target.WriteAsync(chunk, cancel);
             }
-#else
-            await target.WriteAsync(builder.ToString())
-                .WaitAsync(cancellationToken);
-#endif
         }
+#else
+        return target.WriteAsync(value.ToString());
+#endif
     }
 #endif
 

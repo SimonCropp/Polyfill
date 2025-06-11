@@ -180,6 +180,11 @@ static partial class StringPolyfill
 
                     var value = values[index];
 
+                    if (value is null)
+                    {
+                        continue;
+                    }
+
                     value.CopyTo(span);
 
                     span = span.Slice(value.Length);
@@ -201,7 +206,7 @@ static partial class StringPolyfill
     public static string Join(char separator, string?[] value, int startIndex, int count) =>
 #if NETSTANDARD2_0 || NETFRAMEWORK
 #if AllowUnsafeBlocks && FeatureMemory
-        Join(separator, new ReadOnlySpan<string>(value, startIndex, count));
+        Join(separator, new ReadOnlySpan<string?>(value, startIndex, count));
 #else
         string.Join(new(separator, 1), value, startIndex, count);
 #endif

@@ -38,7 +38,7 @@ static partial class Polyfill
             throw;
         }
 
-        var tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var tcs = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         EventHandler handler = (_, _) => tcs.TrySetResult(null);
         target.Exited += handler;
@@ -49,7 +49,7 @@ static partial class Polyfill
             {
                 using (cancellationToken.UnsafeRegister(static (s, cancellationToken) => ((TaskCompletionSource<object>) s!).TrySetCanceled(cancellationToken), tcs))
                 {
-                    await tcs.Task.ConfigureAwait(false);
+                    await tcs.Task;
                 }
             }
         }

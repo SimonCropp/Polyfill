@@ -5,6 +5,7 @@
     <PolyGuard>false</PolyGuard>
     <PolyNullability>false</PolyNullability>
     <PolyStringInterpolation>false</PolyStringInterpolation>
+    <RootNamespace>NoExtras</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NUnit" />

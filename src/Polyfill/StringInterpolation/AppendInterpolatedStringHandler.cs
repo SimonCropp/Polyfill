@@ -63,10 +63,16 @@ struct AppendInterpolatedStringHandler
         }
         else if (value is IFormattable fValue)
         {
-            if (typeof(T).IsEnum || HasTryFormatExtension(typeof(T)) || fValue is ISpanFormattable)
+            if (typeof(T).IsEnum || HasTryFormatExtension(typeof(T)))
             {
                 AppendFormattedWithTempSpace(value, 0, format: null);
             }
+#if NET6_0_OR_GREATER
+            else if (fValue is ISpanFormattable)
+            {
+                AppendFormattedWithTempSpace(value, 0, format: null);
+            }
+#endif
             else
             {
                 _stringBuilder.Append(fValue.ToString(format: null, _provider));
@@ -87,10 +93,16 @@ struct AppendInterpolatedStringHandler
         }
         else if (value is IFormattable fValue)
         {
-            if (typeof(T).IsEnum || HasTryFormatExtension(typeof(T)) || fValue is ISpanFormattable)
+            if (typeof(T).IsEnum || HasTryFormatExtension(typeof(T)))
             {
                 AppendFormattedWithTempSpace(value, 0, format);
             }
+#if NET6_0_OR_GREATER
+            else if (fValue is ISpanFormattable)
+            {
+                AppendFormattedWithTempSpace(value, 0, format);
+            }
+#endif
             else
             {
                 _stringBuilder.Append(fValue.ToString(format, _provider));

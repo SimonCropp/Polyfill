@@ -58,7 +58,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiBuilderTests", "ApiBuild
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeOnlyValueTuple", "ConsumeOnlyValueTuple\ConsumeOnlyValueTuple.csproj", "{2FE1429A-68B0-4C71-B1ED-D371C72DAD0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoExtras", "NoExtras\NoExtras.csproj", "{4F482296-D4BF-4E56-AF23-351CCEF1B96E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoExtrasTests", "NoExtrasTests\NoExtrasTests.csproj", "{4F482296-D4BF-4E56-AF23-351CCEF1B96E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeBclMemory", "ConsumeBclMemory\ConsumeBclMemory.csproj", "{A89A3ACD-3DC8-4321-AEBC-05DAF0DEC9E5}"
 EndProject
@@ -67,6 +67,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeOnlyCompression", "ConsumeOnlyCompression\ConsumeOnlyCompression.csproj", "{E8E46E75-763A-4031-8545-E67DFB768D1E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeNoOptional", "ConsumeNoOptional\ConsumeNoOptional.csproj", "{AD562B55-4340-4AFC-8FDE-78F3C87A5435}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolyfillLib", "PolyfillLib\PolyfillLib.csproj", "{FD2DAEE4-7931-4A3B-93E5-2FC5C3AE8D4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -164,6 +166,10 @@ Global
 		{AD562B55-4340-4AFC-8FDE-78F3C87A5435}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD562B55-4340-4AFC-8FDE-78F3C87A5435}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD562B55-4340-4AFC-8FDE-78F3C87A5435}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD2DAEE4-7931-4A3B-93E5-2FC5C3AE8D4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD2DAEE4-7931-4A3B-93E5-2FC5C3AE8D4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD2DAEE4-7931-4A3B-93E5-2FC5C3AE8D4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD2DAEE4-7931-4A3B-93E5-2FC5C3AE8D4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
