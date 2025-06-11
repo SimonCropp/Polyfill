@@ -85,12 +85,15 @@ class Consume
 #endif
         //TODO:
         //type = typeof(AsyncMethodBuilderAttribute);
+#if !NET6_0 && !NET5_0
         type = typeof(ObsoletedOSPlatformAttribute);
-        type = typeof(SupportedOSPlatformAttribute);
         type = typeof(SupportedOSPlatformGuardAttribute);
+        type = typeof(UnsupportedOSPlatformGuardAttribute);
+#endif
+        type = typeof(OSPlatformAttribute);
+        type = typeof(SupportedOSPlatformAttribute);
         type = typeof(TargetPlatformAttribute);
         type = typeof(UnsupportedOSPlatformAttribute);
-        type = typeof(UnsupportedOSPlatformGuardAttribute);
         type = typeof(StackTraceHiddenAttribute);
         type = typeof(UnmanagedCallersOnlyAttribute);
         type = typeof(SuppressGCTransitionAttribute);
