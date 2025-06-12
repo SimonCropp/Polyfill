@@ -252,7 +252,6 @@ public class BuildApiTest
         return false;
     }
 
-
     static List<Identifier> identifiers;
 
     static List<string> sharedIdentifiers =
