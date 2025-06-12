@@ -6,15 +6,15 @@ partial class PolyfillTests
     public void HasSingleTarget()
     {
         EventForHasSingleTarget += Handler;
-        Assert.IsTrue(EventForHasSingleTarget.HasSingleTarget());
+        Assert.IsTrue(EventForHasSingleTarget.HasSingleTarget);
         EventForHasSingleTarget += Handler;
-        Assert.IsFalse(EventForHasSingleTarget.HasSingleTarget());
+        Assert.IsFalse(EventForHasSingleTarget.HasSingleTarget);
         var action = () =>
         {
         };
-        Assert.IsTrue(action.HasSingleTarget());
+        Assert.IsTrue(action.HasSingleTarget);
         action += action;
-        Assert.IsFalse(action.HasSingleTarget());
+        Assert.IsFalse(action.HasSingleTarget);
     }
 
     static void Handler(object? sender, EventArgs e)

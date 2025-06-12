@@ -6,17 +6,68 @@ namespace Polyfills;
 using System;
 using System.Collections.Concurrent;
 using System.Runtime.CompilerServices;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 static partial class Polyfill
 {
+#if !NET9_0_OR_GREATER
+    extension(Delegate)
+    {
+        /// <summary>
+        /// Gets an enumerator for the invocation targets of this delegate.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.enumerateinvocationlist?view=net-10.0
+        public static InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate? target)
+            where TDelegate : Delegate =>
+            new(target);
+    }
+
     /// <summary>
-    /// Gets a value that indicates whether the Delegate has a single invocation target.
+    /// Provides an enumerator for the invocation list of a delegate.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.hassingletarget?view=net-10.0
-    public static bool HasSingleTarget(this Delegate target) =>
-#if NET9_0_OR_GREATER
-        target.HasSingleTarget;
-#else
-        target.GetInvocationList().Length == 1;
+    public struct InvocationListEnumerator<TDelegate>
+        where TDelegate : Delegate
+    {
+        Delegate[]? delegates;
+        int index = -1;
+
+        internal InvocationListEnumerator(Delegate? target) =>
+            delegates = target?.GetInvocationList();
+
+        public TDelegate Current { get; private set; } = null!;
+
+        public bool MoveNext()
+        {
+            if (delegates == null)
+            {
+                return false;
+            }
+
+            var index = this.index + 1;
+            if (index == delegates.Length)
+            {
+                return false;
+            }
+
+            Current = (TDelegate) delegates[index];
+            this.index = index;
+            return true;
+        }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public InvocationListEnumerator<TDelegate> GetEnumerator() => this;
+    }
+
+    extension(Delegate target)
+    {
+        /// <summary>
+        /// Gets a value that indicates whether the Delegate has a single invocation target.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.hassingletarget?view=net-10.0
+        public bool HasSingleTarget => target.GetInvocationList().Length == 1;
+    }
 #endif
 }
