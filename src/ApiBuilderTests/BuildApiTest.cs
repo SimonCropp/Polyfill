@@ -156,8 +156,7 @@ public class BuildApiTest
         writer.WriteLine($"#### {name}");
         writer.WriteLine();
         foreach (var method in items
-                     .DistinctBy(Key)
-                     .Where(_ => _.IsPublic() && !_.IsConstructor()))
+                     .DistinctBy(Key))
         {
             count++;
             WriteSignature(method, writer);
