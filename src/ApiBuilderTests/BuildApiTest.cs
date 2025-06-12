@@ -98,8 +98,8 @@ public class BuildApiTest
         var types = new Dictionary<string, HashSet<MethodDeclarationSyntax>>();
         var methodComparer = EqualityComparer<MethodDeclarationSyntax>
             .Create(
-                (x, y) => BuildKey(x!) == BuildKey(y!),
-                _ => BuildKey(_).GetHashCode());
+                (x, y) => Key(x!) == Key(y!),
+                _ => Key(_).GetHashCode());
         foreach (var file in Directory.EnumerateFiles(polyfillDir, "*.cs", SearchOption.AllDirectories))
         {
             var code = File.ReadAllText(file);
@@ -194,19 +194,6 @@ public class BuildApiTest
         var parameters = BuildParameters(method);
         var typeArgs = BuildTypeArgs(method);
         return $"{method.Identifier.Text}{typeArgs}({parameters})";
-    }
-
-    static string BuildKey(MethodDeclarationSyntax method)
-    {
-        var parameters = string.Join(',', method.ParameterList.Parameters.Select(_ => _.Type!.ToString()));
-        var returnType = method.ReturnType.ToString();
-        var identifier = method.Identifier.Text;
-        if (method.TypeParameterList is null)
-        {
-            return $"{returnType}{identifier}({parameters})";
-        }
-
-        return $"{returnType}{identifier}<{string.Join(',', method.TypeParameterList.Parameters.Select(_ => _.Identifier.Text))}>({parameters})";
     }
 
     static string BuildTypeArgs(MethodDeclarationSyntax method)
