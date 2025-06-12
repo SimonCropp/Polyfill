@@ -17,7 +17,7 @@ public class BuildApiTest
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
         foreach (var grouping in PublicMethods(extensions)
-                     .GroupBy(_ => _.ParameterList.Parameters[0].Type!.ToString())
+                     .GroupBy(FindTypeMethodExtends)
                      .OrderBy(_ => _.Key))
         {
             WriteTypeMethods(grouping.Key, writer, ref count, grouping);
@@ -50,6 +50,41 @@ public class BuildApiTest
         var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
         File.Delete(countMd);
         File.WriteAllText(countMd, $"**API count: {count}**");
+    }
+
+    static string FindTypeMethodExtends(MethodDeclarationSyntax method)
+    {
+        var firstParameter = method.ParameterList.Parameters[0];
+        var key = firstParameter.Type!.ToString();
+        if (firstParameter.Modifiers.Any(_ => _.IsKind(SyntaxKind.ThisKeyword)))
+        {
+            //TODO: delete this path when all are C#14 extensions
+            return key;
+        }
+
+        // method is a MethodDeclarationSyntax
+        var returnType = method.ReturnType.ToString();
+        //TODO: handle this better
+        if (returnType == "StringBuilder")
+        {
+            return key;
+        }
+
+        var methodParent = (ClassDeclarationSyntax) method.Parent!;
+        var members = methodParent.Members;
+        var indexOf = members.IndexOf(method);
+        for (var i = indexOf; i >= 0; i--)
+        {
+            var member = members[i];
+            if (member is ConstructorDeclarationSyntax constructor)
+            {
+                var extensionParameter = constructor.ParameterList.Parameters[0];
+                key = extensionParameter.Type!.ToString();
+                return key;
+            }
+        }
+
+        throw new();
     }
 
     static IEnumerable<MethodDeclarationSyntax> PublicMethods(HashSet<MethodDeclarationSyntax> type) =>
@@ -223,6 +258,7 @@ public class BuildApiTest
             {
                 throw new($"Missing view: {reference}");
             }
+
             return true;
         }
 
