@@ -30,7 +30,7 @@ partial class PolyfillTests
 
         EventForEnumerateInvocationList += (_, _) => count++;
 
-        foreach (var item in DelegatePolyfill.EnumerateInvocationList(EventForEnumerateInvocationList))
+        foreach (var item in Delegate.EnumerateInvocationList(EventForEnumerateInvocationList))
         {
             item(this, EventArgs.Empty);
         }
@@ -43,7 +43,7 @@ partial class PolyfillTests
     {
         var count = 0;
 
-        foreach (var item in DelegatePolyfill.EnumerateInvocationList<EventHandler>(null))
+        foreach (var item in Delegate.EnumerateInvocationList<EventHandler>(null))
         {
             item(this, EventArgs.Empty);
         }

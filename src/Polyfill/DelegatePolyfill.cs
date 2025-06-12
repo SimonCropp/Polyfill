@@ -16,17 +16,17 @@ public
 #endif
 static partial class DelegatePolyfill
 {
-    /// <summary>
-    /// Gets an enumerator for the invocation targets of this delegate.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.enumerateinvocationlist?view=net-10.0
-#if NET9_0_OR_GREATER
-    public static Delegate.InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate? target) where TDelegate : Delegate =>
-        Delegate.EnumerateInvocationList(target);
-#else
-    public static InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate? target)
-        where TDelegate : Delegate =>
-        new(target);
+#if !NET9_0_OR_GREATER
+    extension(Delegate)
+    {
+        /// <summary>
+        /// Gets an enumerator for the invocation targets of this delegate.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.enumerateinvocationlist?view=net-10.0
+        public static InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate? target)
+            where TDelegate : Delegate =>
+            new(target);
+    }
 
     /// <summary>
     /// Provides an enumerator for the invocation list of a delegate.
