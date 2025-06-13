@@ -16,7 +16,8 @@ public class BuildApiTest
         var extensions = types.Single(_ => _.Key == "Polyfill").Value;
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
-        foreach (var grouping in PublicMethods(extensions)
+        foreach (var grouping in extensions
+                     .OrderBy(_ => _.Identifier.ToString())
                      .GroupBy(FindTypeMethodExtends)
                      .OrderBy(_ => _.Key))
         {
@@ -85,10 +86,6 @@ public class BuildApiTest
 
         throw new();
     }
-
-    static IEnumerable<MethodDeclarationSyntax> PublicMethods(HashSet<MethodDeclarationSyntax> type) =>
-        type
-            .OrderBy(_ => _.Identifier.ToString());
 
     static Dictionary<string, HashSet<MethodDeclarationSyntax>> ReadFiles()
     {
