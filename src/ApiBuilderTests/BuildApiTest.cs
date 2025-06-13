@@ -121,7 +121,7 @@ public class BuildApiTest
 
                     foreach (var method in type.PublicMethods())
                     {
-                        methods.Add(new(method));
+                        methods.Add(new(method, BuildKey(method)));
                     }
                 }
             }
@@ -189,6 +189,11 @@ public class BuildApiTest
     static string Key(Api api)
     {
         var method = api.Method;
+        return BuildKey(method);
+    }
+
+    private static string BuildKey(MethodDeclarationSyntax method)
+    {
         var parameters = BuildParameters(method);
         var typeArgs = BuildTypeArgs(method);
         return $"{method.Identifier.Text}{typeArgs}({parameters})";
@@ -586,7 +591,8 @@ public class BuildApiTest
         ];
 }
 
-class Api(MethodDeclarationSyntax method)
+class Api(MethodDeclarationSyntax method, string key)
 {
+    public string Key { get; } = key;
     public MethodDeclarationSyntax Method => method;
 }
