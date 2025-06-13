@@ -17,7 +17,7 @@ public class BuildApiTest
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
         foreach (var grouping in extensions
-                     .OrderBy(_ => _.Method.Identifier.ToString())
+                     .OrderBy(_ => _.Key)
                      .GroupBy(FindTypeMethodExtends)
                      .OrderBy(_ => _.Key))
         {
@@ -554,11 +554,9 @@ public class BuildApiTest
 
 class Api
 {
-    MethodDeclarationSyntax method;
-
     public Api(MethodDeclarationSyntax method)
     {
-        this.method = method;
+        this.Method = method;
         Key = BuildKey(method);
     }
 
@@ -596,5 +594,5 @@ class Api
         return string.Join(", ", parameters.Select(_ => _.Type!.ToString()));
     }
     public string Key { get; }
-    public MethodDeclarationSyntax Method => method;
+    public MethodDeclarationSyntax Method { get; }
 }
