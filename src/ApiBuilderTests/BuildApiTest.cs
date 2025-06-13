@@ -46,7 +46,6 @@ public class BuildApiTest
         WriteType(nameof(TaskCompletionSource), writer, ref count);
         WriteType(nameof(UnreachableException), writer, ref count);
 
-        count += types.Count(_ => _.Key.EndsWith("Attribute"));
         var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
         File.Delete(countMd);
         File.WriteAllText(countMd, $"**API count: {count}**");
