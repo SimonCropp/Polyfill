@@ -17,7 +17,7 @@ public class BuildApiTest
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
         foreach (var grouping in extensions
-                     .OrderBy(_ => _.Identifier.ToString())
+                     .OrderBy(_ => _.Method.Identifier.ToString())
                      .GroupBy(FindTypeMethodExtends)
                      .OrderBy(_ => _.Key))
         {
@@ -52,8 +52,9 @@ public class BuildApiTest
         File.WriteAllText(countMd, $"**API count: {count}**");
     }
 
-    static string FindTypeMethodExtends(MethodDeclarationSyntax method)
+    static string FindTypeMethodExtends(Api api)
     {
+        var method = api.Method;
         var firstParameter = method.ParameterList.Parameters[0];
         var key = firstParameter.Type!.ToString();
         if (firstParameter.Modifiers.Any(_ => _.IsKind(SyntaxKind.ThisKeyword)))
@@ -87,11 +88,11 @@ public class BuildApiTest
         throw new();
     }
 
-    static Dictionary<string, HashSet<MethodDeclarationSyntax>> ReadFiles()
+    static Dictionary<string, HashSet<Api>> ReadFiles()
     {
         var polyfillDir = Path.Combine(solutionDirectory, "Polyfill");
-        var types = new Dictionary<string, HashSet<MethodDeclarationSyntax>>();
-        var methodComparer = EqualityComparer<MethodDeclarationSyntax>
+        var types = new Dictionary<string, HashSet<Api>>();
+        var methodComparer = EqualityComparer<Api>
             .Create(
                 (x, y) => Key(x!) == Key(y!),
                 _ => Key(_).GetHashCode());
@@ -120,7 +121,7 @@ public class BuildApiTest
 
                     foreach (var method in type.PublicMethods())
                     {
-                        methods.Add(method);
+                        methods.Add(new(method));
                     }
                 }
             }
@@ -139,14 +140,14 @@ public class BuildApiTest
         count++;
     }
 
-    static void WriteHelper(Dictionary<string, HashSet<MethodDeclarationSyntax>> types, string name, StreamWriter writer, ref int count)
+    static void WriteHelper(Dictionary<string, HashSet<Api>> types, string name, StreamWriter writer, ref int count)
     {
         var methods = types[name];
 
         WriteTypeMethods(name, writer, ref count, methods.OrderBy(Key));
     }
 
-    static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<MethodDeclarationSyntax> items)
+    static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<Api> items)
     {
         writer.WriteLine($"#### {name}");
         writer.WriteLine();
@@ -161,9 +162,10 @@ public class BuildApiTest
         writer.WriteLine();
     }
 
-    static void WriteSignature(MethodDeclarationSyntax method, StreamWriter writer)
+    static void WriteSignature(Api api, StreamWriter writer)
     {
-        var signature = new StringBuilder($"{method.ReturnType} {Key(method)}");
+        var method = api.Method;
+        var signature = new StringBuilder($"{method.ReturnType} {Key(api)}");
 
         if (method.ConstraintClauses.Count > 0)
         {
@@ -184,8 +186,9 @@ public class BuildApiTest
         }
     }
 
-    static string Key(MethodDeclarationSyntax method)
+    static string Key(Api api)
     {
+        var method = api.Method;
         var parameters = BuildParameters(method);
         var typeArgs = BuildTypeArgs(method);
         return $"{method.Identifier.Text}{typeArgs}({parameters})";
@@ -581,4 +584,9 @@ public class BuildApiTest
                 ]
             }
         ];
+}
+
+class Api(MethodDeclarationSyntax method)
+{
+    public MethodDeclarationSyntax Method => method;
 }
