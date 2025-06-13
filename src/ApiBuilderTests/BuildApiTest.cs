@@ -38,7 +38,7 @@ public class BuildApiTest
                      .Where(_ => _.Key.EndsWith("Polyfill") &&
                                  _.Key != "Polyfill"))
         {
-            WriteTypeMethods(key, writer, ref count, value.OrderBy(Key));
+            WriteTypeMethods(key, writer, ref count, value.OrderBy(_=>_.Key));
         }
 
         WriteHelper(types, "Guard", writer, ref count);
@@ -94,8 +94,8 @@ public class BuildApiTest
         var types = new Dictionary<string, HashSet<Api>>();
         var methodComparer = EqualityComparer<Api>
             .Create(
-                (x, y) => Key(x!) == Key(y!),
-                _ => Key(_).GetHashCode());
+                (x, y) => x!.Key == y!.Key,
+                _ => _.Key.GetHashCode());
         foreach (var file in Directory.EnumerateFiles(polyfillDir, "*.cs", SearchOption.AllDirectories))
         {
             var code = File.ReadAllText(file);
@@ -121,7 +121,7 @@ public class BuildApiTest
 
                     foreach (var method in type.PublicMethods())
                     {
-                        methods.Add(new(method, BuildKey(method)));
+                        methods.Add(new(method));
                     }
                 }
             }
@@ -144,7 +144,7 @@ public class BuildApiTest
     {
         var methods = types[name];
 
-        WriteTypeMethods(name, writer, ref count, methods.OrderBy(Key));
+        WriteTypeMethods(name, writer, ref count, methods.OrderBy(_=>_.Key));
     }
 
     static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<Api> items)
@@ -152,7 +152,7 @@ public class BuildApiTest
         writer.WriteLine($"#### {name}");
         writer.WriteLine();
         foreach (var method in items
-                     .DistinctBy(Key))
+                     .DistinctBy(_=>_.Key))
         {
             count++;
             WriteSignature(method, writer);
@@ -165,7 +165,7 @@ public class BuildApiTest
     static void WriteSignature(Api api, StreamWriter writer)
     {
         var method = api.Method;
-        var signature = new StringBuilder($"{method.ReturnType} {Key(api)}");
+        var signature = new StringBuilder($"{method.ReturnType} {api.Key}");
 
         if (method.ConstraintClauses.Count > 0)
         {
@@ -186,45 +186,6 @@ public class BuildApiTest
         }
     }
 
-    static string Key(Api api)
-    {
-        var method = api.Method;
-        return BuildKey(method);
-    }
-
-    private static string BuildKey(MethodDeclarationSyntax method)
-    {
-        var parameters = BuildParameters(method);
-        var typeArgs = BuildTypeArgs(method);
-        return $"{method.Identifier.Text}{typeArgs}({parameters})";
-    }
-
-    static string BuildTypeArgs(MethodDeclarationSyntax method)
-    {
-        var types = method.TypeParameterList;
-        if (types == null || types.Parameters.Count == 0)
-        {
-            return string.Empty;
-        }
-
-        return $"<{string.Join(", ", types.Parameters.Select(_ => _.Identifier.Text))}>";
-    }
-
-    static string BuildParameters(MethodDeclarationSyntax method)
-    {
-        var parameters = method.ParameterList.Parameters.ToList();
-
-        if (parameters.Count > 0)
-        {
-            var last = parameters.Last();
-            if (last.IsCaller())
-            {
-                parameters.Remove(last);
-            }
-        }
-
-        return string.Join(", ", parameters.Select(_ => _.Type!.ToString()));
-    }
 
     static bool TryGetReference(MethodDeclarationSyntax method, [NotNullWhen(true)] out string? reference)
     {
@@ -591,8 +552,49 @@ public class BuildApiTest
         ];
 }
 
-class Api(MethodDeclarationSyntax method, string key)
+class Api
 {
-    public string Key { get; } = key;
+    MethodDeclarationSyntax method;
+
+    public Api(MethodDeclarationSyntax method)
+    {
+        this.method = method;
+        Key = BuildKey(method);
+    }
+
+    static string BuildKey(MethodDeclarationSyntax method)
+    {
+        var parameters = BuildParameters(method);
+        var typeArgs = BuildTypeArgs(method);
+        return $"{method.Identifier.Text}{typeArgs}({parameters})";
+    }
+
+    static string BuildTypeArgs(MethodDeclarationSyntax method)
+    {
+        var types = method.TypeParameterList;
+        if (types == null || types.Parameters.Count == 0)
+        {
+            return string.Empty;
+        }
+
+        return $"<{string.Join(", ", types.Parameters.Select(_ => _.Identifier.Text))}>";
+    }
+
+    static string BuildParameters(MethodDeclarationSyntax method)
+    {
+        var parameters = method.ParameterList.Parameters.ToList();
+
+        if (parameters.Count > 0)
+        {
+            var last = parameters.Last();
+            if (last.IsCaller())
+            {
+                parameters.Remove(last);
+            }
+        }
+
+        return string.Join(", ", parameters.Select(_ => _.Type!.ToString()));
+    }
+    public string Key { get; }
     public MethodDeclarationSyntax Method => method;
 }
