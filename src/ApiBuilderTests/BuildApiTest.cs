@@ -87,8 +87,7 @@ public class BuildApiTest
     }
 
     static IEnumerable<MethodDeclarationSyntax> PublicMethods(HashSet<MethodDeclarationSyntax> type) =>
-        type.Where(_ => _.IsPublic() &&
-                        !_.IsConstructor())
+        type
             .OrderBy(_ => _.Identifier.ToString());
 
     static Dictionary<string, HashSet<MethodDeclarationSyntax>> ReadFiles()
