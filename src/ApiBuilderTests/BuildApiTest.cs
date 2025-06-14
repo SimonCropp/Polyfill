@@ -13,16 +13,7 @@ public class BuildApiTest
         using var writer = File.CreateText(md);
         var count = 0;
 
-        var extensions = types.Single(_ => _.Id == "Polyfill");
-        writer.WriteLine("### Extension methods");
-        writer.WriteLine();
-        foreach (var grouping in extensions
-                     .Methods
-                     .GroupBy(FindTypeMethodExtends)
-                     .OrderBy(_ => _.Key))
-        {
-            WriteTypeMethods(grouping.Key, writer, ref count, grouping);
-        }
+        count = WriteExtensions(types, writer, count);
 
         count += CountAttributes(types);
         // Index and Range
@@ -39,6 +30,31 @@ public class BuildApiTest
         var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
         File.Delete(countMd);
         File.WriteAllText(countMd, $"**API count: {count}**");
+    }
+
+    static int WriteExtensions(List<Type> types, StreamWriter writer, int count)
+    {
+        var extensions = types.Single(_ => _.Id == "Polyfill");
+        writer.WriteLine("### Extension methods");
+        writer.WriteLine();
+        foreach (var grouping in extensions
+                     .Methods
+                     .GroupBy(FindTypeMethodExtends)
+                     .OrderBy(_ => _.Key))
+        {
+            writer.WriteLine($"#### {grouping.Key}");
+            writer.WriteLine();
+            foreach (var method in grouping)
+            {
+                count++;
+                WriteMethod(writer, method);
+            }
+
+            writer.WriteLine();
+            writer.WriteLine();
+        }
+
+        return count;
     }
 
     static int CountAttributes(List<Type> types) =>
@@ -153,14 +169,9 @@ public class BuildApiTest
     static void WriteHelper(List<Type> types, string name, StreamWriter writer, ref int count)
     {
         var type = types.Single(_=>_.Id == name);
-        WriteTypeMethods(type.Id, writer, ref count, type.Methods);
-    }
-
-    static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<MethodDeclarationSyntax> items)
-    {
-        writer.WriteLine($"#### {name}");
+        writer.WriteLine($"#### {type.Id}");
         writer.WriteLine();
-        foreach (var method in items)
+        foreach (var method in (IEnumerable<MethodDeclarationSyntax>) type.Methods)
         {
             count++;
             WriteMethod(writer, method);
