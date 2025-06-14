@@ -24,21 +24,11 @@ public class BuildApiTest
             WriteTypeMethods(grouping.Key, writer, ref count, grouping);
         }
 
-        writer.WriteLine("### Static helpers");
-        writer.WriteLine();
-
         count += CountAttributes(types);
         // Index and Range
         count++;
         //Nullability*
         count += 3;
-
-        foreach (var type in types
-                     .Where(_ => _.Id.EndsWith("Polyfill") &&
-                                 _.Id != "Polyfill"))
-        {
-            WriteTypeMethods(type.Id, writer, ref count, type.Methods);
-        }
 
         WriteHelper(types, "Guard", writer, ref count);
         WriteHelper(types, "Lock", writer, ref count);

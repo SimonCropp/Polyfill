@@ -12,9 +12,6 @@
         .OfType<TypeDeclarationSyntax>()
         .Where(_ => !_.IsNested());
 
-    public static bool IsStatic(this MethodDeclarationSyntax method) =>
-        method.Modifiers.Any(_ => _.IsKind(SyntaxKind.StaticKeyword));
-
     public static IEnumerable<MethodDeclarationSyntax> PublicMethods(this TypeDeclarationSyntax type) =>
         type
             .DescendantNodes()
