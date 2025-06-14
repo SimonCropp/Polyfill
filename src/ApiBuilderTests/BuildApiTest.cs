@@ -127,14 +127,15 @@ public class BuildApiTest
             }
         }
 
-        return types
-            .OrderBy(_ => _.Key)
-            .Select(_ =>
-                new Type(
-                    _.Key,
-                    _.Value.OrderBy(_ => _.Key())
-                        .ToList()))
-            .ToList();
+        var result = new List<Type>();
+        foreach (var pair in types.OrderBy(_ => _.Key))
+        {
+            var type = new Type(
+                pair.Key,
+                pair.Value.OrderBy(_ => _.Key()).ToList());
+            result.Add(type);
+        }
+        return result;
     }
 
     static IEnumerable<TypeDeclarationSyntax> ReadTypesFromFiles()
