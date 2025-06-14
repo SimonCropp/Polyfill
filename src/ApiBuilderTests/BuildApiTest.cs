@@ -6,8 +6,6 @@ public class BuildApiTest
     [Test]
     public void RunWithRoslyn()
     {
-        var types = ReadTypesFromFiles().ToList();
-        var readFiles = ReadFiles();
         var readFiles2 = ReadFiles2();
 
         var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
@@ -29,23 +27,22 @@ public class BuildApiTest
         writer.WriteLine("### Static helpers");
         writer.WriteLine();
 
-        count += CountAttributes(types);
+        count += CountAttributes(readFiles2);
         // Index and Range
         count++;
         //Nullability*
         count += 3;
 
-        foreach (var (key, value) in readFiles
-                     .OrderBy(_ => _.Key)
-                     .Where(_ => _.Key.EndsWith("Polyfill") &&
-                                 _.Key != "Polyfill"))
+        foreach (var type in readFiles2
+                     .Where(_ => _.Id.EndsWith("Polyfill") &&
+                                 _.Id != "Polyfill"))
         {
-            WriteTypeMethods(key, writer, ref count, value.OrderBy(_=>_.Key));
+            WriteTypeMethods(type.Id, writer, ref count, type.Methods);
         }
 
-        WriteHelper(readFiles, "Guard", writer, ref count);
-        WriteHelper(readFiles, "Lock", writer, ref count);
-        WriteHelper(readFiles, nameof(KeyValuePair), writer, ref count);
+        WriteHelper(readFiles2, "Guard", writer, ref count);
+        WriteHelper(readFiles2, "Lock", writer, ref count);
+        WriteHelper(readFiles2, nameof(KeyValuePair), writer, ref count);
         WriteType(nameof(TaskCompletionSource), writer, ref count);
         WriteType(nameof(UnreachableException), writer, ref count);
 
@@ -54,18 +51,11 @@ public class BuildApiTest
         File.WriteAllText(countMd, $"**API count: {count}**");
     }
 
-    static int CountAttributes(List<TypeDeclarationSyntax> types) =>
+    static int CountAttributes(List<Type> types) =>
         types
-            .Select(_ => _.Identifier.Text)
-            .Where(_ => _.EndsWith("Attribute"))
+            .Where(_ => _.Id.EndsWith("Attribute"))
             .Distinct()
             .Count();
-
-    static string FindTypeMethodExtends(Api api)
-    {
-        var method = api.Method;
-        return FindTypeMethodExtends(method);
-    }
 
     private static string FindTypeMethodExtends(MethodDeclarationSyntax method)
     {
@@ -108,39 +98,13 @@ public class BuildApiTest
         public List<MethodDeclarationSyntax> Methods { get; } = methods;
     }
 
-    static Dictionary<string, HashSet<Api>> ReadFiles()
-    {
-        var types = new Dictionary<string, HashSet<Api>>();
-        var methodComparer = EqualityComparer<Api>
-            .Create(
-                (x, y) => x!.Key == y!.Key,
-                _ => _.Key.GetHashCode());
-
-        foreach (var type in ReadTypesFromFiles())
-        {
-            var identifier = type.Identifier.Text;
-            if (!types.TryGetValue(identifier, out var methods))
-            {
-                methods = new(methodComparer);
-                types.Add(identifier, methods);
-            }
-
-            foreach (var method in type.PublicMethods())
-            {
-                methods.Add(new(method));
-            }
-        }
-
-        return types;
-    }
-
     static List<Type> ReadFiles2()
     {
-        var types = new Dictionary<string, HashSet<Api>>();
-        var methodComparer = EqualityComparer<Api>
+        var types = new Dictionary<string, HashSet<MethodDeclarationSyntax>>();
+        var methodComparer = EqualityComparer<MethodDeclarationSyntax>
             .Create(
-                (x, y) => x!.Key == y!.Key,
-                _ => _.Key.GetHashCode());
+                (x, y) => x!.Key() == y!.Key(),
+                _ => _.Key().GetHashCode());
 
         foreach (var type in ReadTypesFromFiles())
         {
@@ -153,7 +117,7 @@ public class BuildApiTest
 
             foreach (var method in type.PublicMethods())
             {
-                methods.Add(new(method));
+                methods.Add(method);
             }
         }
 
@@ -162,8 +126,7 @@ public class BuildApiTest
             .Select(_ =>
                 new Type(
                     _.Key,
-                    _.Value.OrderBy(_ => _.Key)
-                        .Select(_ => _.Method)
+                    _.Value.OrderBy(_ => _.Key())
                         .ToList()))
             .ToList();
     }
@@ -197,26 +160,12 @@ public class BuildApiTest
         count++;
     }
 
-    static void WriteHelper(Dictionary<string, HashSet<Api>> types, string name, StreamWriter writer, ref int count)
+    static void WriteHelper(List<Type> types, string name, StreamWriter writer, ref int count)
     {
-        var methods = types[name];
-
-        WriteTypeMethods(name, writer, ref count, methods.OrderBy(_=>_.Key));
+        var type = types.Single(_=>_.Id == name);
+        WriteTypeMethods(type.Id, writer, ref count, type.Methods);
     }
 
-    static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<Api> items)
-    {
-        writer.WriteLine($"#### {name}");
-        writer.WriteLine();
-        foreach (var method in items)
-        {
-            count++;
-            WriteMethod(writer, method.Method);
-        }
-
-        writer.WriteLine();
-        writer.WriteLine();
-    }
     static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<MethodDeclarationSyntax> items)
     {
         writer.WriteLine($"#### {name}");
@@ -242,7 +191,6 @@ public class BuildApiTest
             writer.WriteLine($" * `{method.DisplayString()}`");
         }
     }
-
 
     static List<Identifier> identifiers;
 
@@ -578,16 +526,4 @@ public class BuildApiTest
                 ]
             }
         ];
-}
-
-class Api
-{
-    public Api(MethodDeclarationSyntax method)
-    {
-        this.Method = method;
-        Key = method.Key();
-    }
-
-    public string Key { get; }
-    public MethodDeclarationSyntax Method { get; }
 }
