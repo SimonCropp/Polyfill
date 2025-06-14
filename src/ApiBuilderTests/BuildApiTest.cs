@@ -6,14 +6,14 @@ public class BuildApiTest
     [Test]
     public void RunWithRoslyn()
     {
-        var readFiles2 = ReadFiles2();
+        var types = ReadFiles();
 
         var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
         using var writer = File.CreateText(md);
         var count = 0;
 
-        var extensions = readFiles2.Single(_ => _.Id == "Polyfill");
+        var extensions = types.Single(_ => _.Id == "Polyfill");
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
         foreach (var grouping in extensions
@@ -27,22 +27,22 @@ public class BuildApiTest
         writer.WriteLine("### Static helpers");
         writer.WriteLine();
 
-        count += CountAttributes(readFiles2);
+        count += CountAttributes(types);
         // Index and Range
         count++;
         //Nullability*
         count += 3;
 
-        foreach (var type in readFiles2
+        foreach (var type in types
                      .Where(_ => _.Id.EndsWith("Polyfill") &&
                                  _.Id != "Polyfill"))
         {
             WriteTypeMethods(type.Id, writer, ref count, type.Methods);
         }
 
-        WriteHelper(readFiles2, "Guard", writer, ref count);
-        WriteHelper(readFiles2, "Lock", writer, ref count);
-        WriteHelper(readFiles2, nameof(KeyValuePair), writer, ref count);
+        WriteHelper(types, "Guard", writer, ref count);
+        WriteHelper(types, "Lock", writer, ref count);
+        WriteHelper(types, nameof(KeyValuePair), writer, ref count);
         WriteType(nameof(TaskCompletionSource), writer, ref count);
         WriteType(nameof(UnreachableException), writer, ref count);
 
@@ -98,7 +98,7 @@ public class BuildApiTest
         public List<MethodDeclarationSyntax> Methods { get; } = methods;
     }
 
-    static List<Type> ReadFiles2()
+    static List<Type> ReadFiles()
     {
         var types = new Dictionary<string, HashSet<MethodDeclarationSyntax>>();
         var methodComparer = EqualityComparer<MethodDeclarationSyntax>
