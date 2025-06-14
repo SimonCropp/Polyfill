@@ -98,32 +98,44 @@ public class BuildApiTest
         throw new();
     }
 
-    class Type(string id, List<MethodDeclarationSyntax> methods)
+    class Type(string id, List<MethodDeclarationSyntax> methods, List<PropertyDeclarationSyntax> properties)
     {
         public string Id { get; } = id;
         public List<MethodDeclarationSyntax> Methods { get; } = methods;
+        public List<PropertyDeclarationSyntax> Properties { get; } = properties;
     }
 
     static List<Type> ReadFiles()
     {
-        var types = new Dictionary<string, HashSet<MethodDeclarationSyntax>>();
+        var types = new Dictionary<string, (HashSet<MethodDeclarationSyntax> methods, HashSet<PropertyDeclarationSyntax> properties)>();
+
         var methodComparer = EqualityComparer<MethodDeclarationSyntax>
             .Create(
                 (x, y) => x!.Key() == y!.Key(),
                 _ => _.Key().GetHashCode());
 
+        var propertyComparer = EqualityComparer<PropertyDeclarationSyntax>
+            .Create(
+                (x, y) => x!.Identifier.ToString() == y!.Identifier.ToString(),
+                _ => _.Identifier.ToString().GetHashCode());
+
         foreach (var type in ReadTypesFromFiles())
         {
             var identifier = type.Identifier.Text;
-            if (!types.TryGetValue(identifier, out var methods))
+            if (!types.TryGetValue(identifier, out var members))
             {
-                methods = new(methodComparer);
-                types.Add(identifier, methods);
+                members = new(new(methodComparer), new(propertyComparer));
+                types.Add(identifier, members);
             }
 
             foreach (var method in type.PublicMethods())
             {
-                methods.Add(method);
+                members.methods.Add(method);
+            }
+
+            foreach (var property in type.PublicProperties())
+            {
+                members.properties.Add(property);
             }
         }
 
@@ -132,7 +144,8 @@ public class BuildApiTest
         {
             var type = new Type(
                 pair.Key,
-                pair.Value.OrderBy(_ => _.Key()).ToList());
+                pair.Value.methods.OrderBy(_ => _.Key()).ToList(),
+                pair.Value.properties.OrderBy(_ => _.Identifier.ToString()).ToList());
             result.Add(type);
         }
         return result;
