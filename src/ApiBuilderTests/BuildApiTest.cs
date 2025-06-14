@@ -8,17 +8,18 @@ public class BuildApiTest
     {
         var types = ReadTypesFromFiles().ToList();
         var readFiles = ReadFiles();
+        var readFiles2 = ReadFiles2();
 
         var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
         using var writer = File.CreateText(md);
         var count = 0;
 
-        var extensions = readFiles.Single(_ => _.Key == "Polyfill").Value;
+        var extensions = readFiles2.Single(_ => _.Id == "Polyfill");
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
         foreach (var grouping in extensions
-                     .OrderBy(_ => _.Key)
+                     .Methods
                      .GroupBy(FindTypeMethodExtends)
                      .OrderBy(_ => _.Key))
         {
@@ -63,6 +64,11 @@ public class BuildApiTest
     static string FindTypeMethodExtends(Api api)
     {
         var method = api.Method;
+        return FindTypeMethodExtends(method);
+    }
+
+    private static string FindTypeMethodExtends(MethodDeclarationSyntax method)
+    {
         var firstParameter = method.ParameterList.Parameters[0];
         var key = firstParameter.Type!.ToString();
         if (firstParameter.Modifiers.Any(_ => _.IsKind(SyntaxKind.ThisKeyword)))
@@ -96,6 +102,12 @@ public class BuildApiTest
         throw new();
     }
 
+    class Type(string id, List<MethodDeclarationSyntax> methods)
+    {
+        public string Id { get; } = id;
+        public List<MethodDeclarationSyntax> Methods { get; } = methods;
+    }
+
     static Dictionary<string, HashSet<Api>> ReadFiles()
     {
         var types = new Dictionary<string, HashSet<Api>>();
@@ -120,6 +132,40 @@ public class BuildApiTest
         }
 
         return types;
+    }
+
+    static List<Type> ReadFiles2()
+    {
+        var types = new Dictionary<string, HashSet<Api>>();
+        var methodComparer = EqualityComparer<Api>
+            .Create(
+                (x, y) => x!.Key == y!.Key,
+                _ => _.Key.GetHashCode());
+
+        foreach (var type in ReadTypesFromFiles())
+        {
+            var identifier = type.Identifier.Text;
+            if (!types.TryGetValue(identifier, out var methods))
+            {
+                methods = new(methodComparer);
+                types.Add(identifier, methods);
+            }
+
+            foreach (var method in type.PublicMethods())
+            {
+                methods.Add(new(method));
+            }
+        }
+
+        return types
+            .OrderBy(_ => _.Key)
+            .Select(_ =>
+                new Type(
+                    _.Key,
+                    _.Value.OrderBy(_ => _.Key)
+                        .Select(_ => _.Method)
+                        .ToList()))
+            .ToList();
     }
 
     static IEnumerable<TypeDeclarationSyntax> ReadTypesFromFiles()
@@ -162,21 +208,31 @@ public class BuildApiTest
     {
         writer.WriteLine($"#### {name}");
         writer.WriteLine();
-        foreach (var method in items
-                     .DistinctBy(_=>_.Key))
+        foreach (var method in items)
         {
             count++;
-            WriteSignature(method, writer);
+            WriteMethod(writer, method.Method);
+        }
+
+        writer.WriteLine();
+        writer.WriteLine();
+    }
+    static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<MethodDeclarationSyntax> items)
+    {
+        writer.WriteLine($"#### {name}");
+        writer.WriteLine();
+        foreach (var method in items)
+        {
+            count++;
+            WriteMethod(writer, method);
         }
 
         writer.WriteLine();
         writer.WriteLine();
     }
 
-    static void WriteSignature(Api api, StreamWriter writer)
+    static void WriteMethod(StreamWriter writer, MethodDeclarationSyntax method)
     {
-        var method = api.Method;
-
         if (method.TryGetReference(out var reference))
         {
             writer.WriteLine($" * `{method.DisplayString()}` [reference]({reference})");
@@ -186,7 +242,6 @@ public class BuildApiTest
             writer.WriteLine($" * `{method.DisplayString()}`");
         }
     }
-
 
 
     static List<Identifier> identifiers;
