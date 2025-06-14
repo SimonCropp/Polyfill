@@ -90,12 +90,33 @@ public class BuildApiTest
 
     static Dictionary<string, HashSet<Api>> ReadFiles()
     {
-        var polyfillDir = Path.Combine(solutionDirectory, "Polyfill");
         var types = new Dictionary<string, HashSet<Api>>();
         var methodComparer = EqualityComparer<Api>
             .Create(
                 (x, y) => x!.Key == y!.Key,
                 _ => _.Key.GetHashCode());
+
+        foreach (var type in ReadTypesFromFiles())
+        {
+            var identifier = type.Identifier.Text;
+            if (!types.TryGetValue(identifier, out var methods))
+            {
+                methods = new(methodComparer);
+                types.Add(identifier, methods);
+            }
+
+            foreach (var method in type.PublicMethods())
+            {
+                methods.Add(new(method));
+            }
+        }
+
+        return types;
+    }
+
+    static IEnumerable<TypeDeclarationSyntax> ReadTypesFromFiles()
+    {
+        var polyfillDir = Path.Combine(solutionDirectory, "Polyfill");
         foreach (var file in Directory.EnumerateFiles(polyfillDir, "*.cs", SearchOption.AllDirectories))
         {
             var code = File.ReadAllText(file);
@@ -107,24 +128,11 @@ public class BuildApiTest
 
                 foreach (var type in tree.GetTypes())
                 {
-                    var identifier = type.Identifier.Text;
-                    if (!types.TryGetValue(identifier, out var methods))
-                    {
-                        methods = new(methodComparer);
-                        types.Add(identifier, methods);
-                    }
-
-                    foreach (var method in type.PublicMethods())
-                    {
-                        methods.Add(new(method));
-                    }
+                    yield return type;
                 }
             }
         }
-
-        return types;
     }
-
     static void WriteType(string name, StreamWriter writer, ref int count)
     {
         writer.WriteLine(
