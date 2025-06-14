@@ -28,7 +28,7 @@ public class BuildApiTest
         writer.WriteLine("### Static helpers");
         writer.WriteLine();
 
-        count += types.Select(_=>_.Identifier.Text).Where(_ => _.EndsWith("Attribute")).Distinct().Count();
+        count += CountAttributes(types);
         // Index and Range
         count++;
         //Nullability*
@@ -52,6 +52,13 @@ public class BuildApiTest
         File.Delete(countMd);
         File.WriteAllText(countMd, $"**API count: {count}**");
     }
+
+    static int CountAttributes(List<TypeDeclarationSyntax> types) =>
+        types
+            .Select(_ => _.Identifier.Text)
+            .Where(_ => _.EndsWith("Attribute"))
+            .Distinct()
+            .Count();
 
     static string FindTypeMethodExtends(Api api)
     {
@@ -169,56 +176,18 @@ public class BuildApiTest
     static void WriteSignature(Api api, StreamWriter writer)
     {
         var method = api.Method;
-        var signature = new StringBuilder($"{method.ReturnType} {api.Key}");
 
-        if (method.ConstraintClauses.Count > 0)
+        if (method.TryGetReference(out var reference))
         {
-            foreach (var constraint in method.ConstraintClauses)
-            {
-                signature.Append($" where {constraint.Name} : ");
-                signature.Append(string.Join(", ", constraint.Constraints.Select(_ => _.ToString())));
-            }
-        }
-
-        if (TryGetReference(method, out var reference))
-        {
-            writer.WriteLine($" * `{signature}` [reference]({reference})");
+            writer.WriteLine($" * `{method.DisplayString()}` [reference]({reference})");
         }
         else
         {
-            writer.WriteLine($" * `{signature}`");
+            writer.WriteLine($" * `{method.DisplayString()}`");
         }
     }
 
 
-    static bool TryGetReference(MethodDeclarationSyntax method, [NotNullWhen(true)] out string? reference)
-    {
-        var syntaxTrivia = method.GetLeadingTrivia();
-        foreach (var trivia in syntaxTrivia)
-        {
-            if (!trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
-            {
-                continue;
-            }
-
-            var comment = trivia.ToString();
-            if (!comment.StartsWith("//Link: "))
-            {
-                continue;
-            }
-
-            reference = comment.Replace("//Link: ", string.Empty);
-            if (reference.Contains("learn.") && !reference.Contains("?view=net-10.0"))
-            {
-                throw new($"Missing view: {reference}");
-            }
-
-            return true;
-        }
-
-        reference = null;
-        return false;
-    }
 
     static List<Identifier> identifiers;
 
@@ -561,42 +530,9 @@ class Api
     public Api(MethodDeclarationSyntax method)
     {
         this.Method = method;
-        Key = BuildKey(method);
+        Key = method.Key();
     }
 
-    static string BuildKey(MethodDeclarationSyntax method)
-    {
-        var parameters = BuildParameters(method);
-        var typeArgs = BuildTypeArgs(method);
-        return $"{method.Identifier.Text}{typeArgs}({parameters})";
-    }
-
-    static string BuildTypeArgs(MethodDeclarationSyntax method)
-    {
-        var types = method.TypeParameterList;
-        if (types == null || types.Parameters.Count == 0)
-        {
-            return string.Empty;
-        }
-
-        return $"<{string.Join(", ", types.Parameters.Select(_ => _.Identifier.Text))}>";
-    }
-
-    static string BuildParameters(MethodDeclarationSyntax method)
-    {
-        var parameters = method.ParameterList.Parameters.ToList();
-
-        if (parameters.Count > 0)
-        {
-            var last = parameters.Last();
-            if (last.IsCaller())
-            {
-                parameters.Remove(last);
-            }
-        }
-
-        return string.Join(", ", parameters.Select(_ => _.Type!.ToString()));
-    }
     public string Key { get; }
     public MethodDeclarationSyntax Method { get; }
 }

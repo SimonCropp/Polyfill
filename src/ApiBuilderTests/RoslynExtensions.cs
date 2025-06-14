@@ -47,4 +47,54 @@
 
     public static string Value(this AttributeArgumentSyntax argument) =>
         argument.Expression.ToString();
+
+    public static string Key(this MethodDeclarationSyntax method)
+    {
+        var parameters = BuildParameters(method);
+        var typeArgs = BuildTypeArgs(method);
+
+        return $"{method.Identifier.Text}{typeArgs}({parameters})";
+    }
+    public static string DisplayString(this MethodDeclarationSyntax method)
+    {
+        var signature = new StringBuilder($"{method.ReturnType} {method.Key()}");
+
+        if (method.ConstraintClauses.Count > 0)
+        {
+            foreach (var constraint in method.ConstraintClauses)
+            {
+                signature.Append($" where {constraint.Name} : ");
+                signature.Append(string.Join(", ", constraint.Constraints.Select(_ => _.ToString())));
+            }
+        }
+
+        return signature.ToString();
+    }
+
+    static string BuildTypeArgs(MethodDeclarationSyntax method)
+    {
+        var types = method.TypeParameterList;
+        if (types == null || types.Parameters.Count == 0)
+        {
+            return string.Empty;
+        }
+
+        return $"<{string.Join(", ", types.Parameters.Select(_ => _.Identifier.Text))}>";
+    }
+
+    static string BuildParameters(MethodDeclarationSyntax method)
+    {
+        var parameters = method.ParameterList.Parameters.ToList();
+
+        if (parameters.Count > 0)
+        {
+            var last = parameters.Last();
+            if (last.IsCaller())
+            {
+                parameters.Remove(last);
+            }
+        }
+
+        return string.Join(", ", parameters.Select(_ => _.Type!.ToString()));
+    }
 }
