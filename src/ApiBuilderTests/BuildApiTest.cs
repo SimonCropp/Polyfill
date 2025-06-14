@@ -63,7 +63,7 @@ public class BuildApiTest
             .Distinct()
             .Count();
 
-    private static string FindTypeMethodExtends(MethodDeclarationSyntax method)
+    static string FindTypeMethodExtends(MethodDeclarationSyntax method)
     {
         var firstParameter = method.ParameterList.Parameters[0];
         var key = firstParameter.Type!.ToString();
