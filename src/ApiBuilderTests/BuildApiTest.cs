@@ -171,7 +171,7 @@ public class BuildApiTest
         var type = types.Single(_=>_.Id == name);
         writer.WriteLine($"#### {type.Id}");
         writer.WriteLine();
-        foreach (var method in (IEnumerable<MethodDeclarationSyntax>) type.Methods)
+        foreach (var method in type.Methods)
         {
             count++;
             WriteMethod(writer, method);
