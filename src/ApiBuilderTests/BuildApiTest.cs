@@ -51,12 +51,22 @@ public class BuildApiTest
         {
             writer.WriteLine($"#### {typeExtended}");
             writer.WriteLine();
+
             foreach (var method in methods)
             {
                 if (FindTypeMethodExtends(method) == typeExtended)
                 {
                     count++;
                     WriteMethod(writer, method);
+                }
+            }
+
+            foreach (var property in properties)
+            {
+                if (FindTypePropertyExtends(property) == typeExtended)
+                {
+                    count++;
+                    WriteProperty(writer, property);
                 }
             }
 
@@ -232,6 +242,18 @@ public class BuildApiTest
         else
         {
             writer.WriteLine($" * `{method.DisplayString()}`");
+        }
+    }
+
+    static void WriteProperty(StreamWriter writer, PropertyDeclarationSyntax method)
+    {
+        if (method.TryGetReference(out var reference))
+        {
+            writer.WriteLine($" * `{method.Identifier}` [reference]({reference})");
+        }
+        else
+        {
+            writer.WriteLine($" * `{method.Identifier}`");
         }
     }
 
