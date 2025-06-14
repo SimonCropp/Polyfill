@@ -6,14 +6,15 @@ public class BuildApiTest
     [Test]
     public void RunWithRoslyn()
     {
-        var types = ReadFiles();
+        var types = ReadTypesFromFiles().ToList();
+        var readFiles = ReadFiles();
 
         var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
         using var writer = File.CreateText(md);
         var count = 0;
 
-        var extensions = types.Single(_ => _.Key == "Polyfill").Value;
+        var extensions = readFiles.Single(_ => _.Key == "Polyfill").Value;
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
         foreach (var grouping in extensions
@@ -27,13 +28,13 @@ public class BuildApiTest
         writer.WriteLine("### Static helpers");
         writer.WriteLine();
 
-        count += types.Count(_ => _.Key.EndsWith("Attribute"));
+        count += types.Select(_=>_.Identifier.Text).Where(_ => _.EndsWith("Attribute")).Distinct().Count();
         // Index and Range
         count++;
         //Nullability*
         count += 3;
 
-        foreach (var (key, value) in types
+        foreach (var (key, value) in readFiles
                      .OrderBy(_ => _.Key)
                      .Where(_ => _.Key.EndsWith("Polyfill") &&
                                  _.Key != "Polyfill"))
@@ -41,9 +42,9 @@ public class BuildApiTest
             WriteTypeMethods(key, writer, ref count, value.OrderBy(_=>_.Key));
         }
 
-        WriteHelper(types, "Guard", writer, ref count);
-        WriteHelper(types, "Lock", writer, ref count);
-        WriteHelper(types, nameof(KeyValuePair), writer, ref count);
+        WriteHelper(readFiles, "Guard", writer, ref count);
+        WriteHelper(readFiles, "Lock", writer, ref count);
+        WriteHelper(readFiles, nameof(KeyValuePair), writer, ref count);
         WriteType(nameof(TaskCompletionSource), writer, ref count);
         WriteType(nameof(UnreachableException), writer, ref count);
 
