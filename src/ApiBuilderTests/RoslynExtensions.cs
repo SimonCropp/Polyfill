@@ -15,13 +15,20 @@
     public static bool IsStatic(this MethodDeclarationSyntax method) =>
         method.Modifiers.Any(_ => _.IsKind(SyntaxKind.StaticKeyword));
 
-    public static IEnumerable<MethodDeclarationSyntax> PublicMethods(this TypeDeclarationSyntax typeDeclaration) =>
-        typeDeclaration
+    public static IEnumerable<MethodDeclarationSyntax> PublicMethods(this TypeDeclarationSyntax type) =>
+        type
             .DescendantNodes()
             .OfType<MethodDeclarationSyntax>()
-            .Where(_ => _.Parent == typeDeclaration &&
+            .Where(_ => _.Parent == type &&
                         _.IsPublic() &&
                         !_.IsConstructor());
+
+    public static IEnumerable<PropertyDeclarationSyntax> PublicProperties(this TypeDeclarationSyntax type) =>
+        type
+            .DescendantNodes()
+            .OfType<PropertyDeclarationSyntax>()
+            .Where(_ => _.Parent == type &&
+                        _.IsPublic());
 
     public static bool IsConstructor(this MethodDeclarationSyntax method)
     {
