@@ -39,8 +39,8 @@ public class BuildApiTest
         writer.WriteLine();
 
         var properties = type.Properties;
-        var methods = type
-            .Methods;
+        var methods = type.Methods;
+
         var typesExtended = methods.Select(FindTypeMethodExtends)
             .Concat(properties.Select(FindTypePropertyExtends))
             .Distinct()
