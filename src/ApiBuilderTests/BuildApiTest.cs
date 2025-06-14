@@ -34,20 +34,30 @@ public class BuildApiTest
 
     static int WriteExtensions(List<Type> types, StreamWriter writer, int count)
     {
-        var extensions = types.Single(_ => _.Id == "Polyfill");
+        var type = types.Single(_ => _.Id == "Polyfill");
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
-        foreach (var grouping in extensions
-                     .Methods
-                     .GroupBy(FindTypeMethodExtends)
-                     .OrderBy(_ => _.Key))
+
+        var properties = type.Properties;
+        var methods = type
+            .Methods;
+        var typesExtended = methods.Select(FindTypeMethodExtends)
+            .Concat(properties.Select(FindTypePropertyExtends))
+            .Distinct()
+            .OrderBy(_ => _)
+            .ToList();
+
+        foreach (var typeExtended in typesExtended)
         {
-            writer.WriteLine($"#### {grouping.Key}");
+            writer.WriteLine($"#### {typeExtended}");
             writer.WriteLine();
-            foreach (var method in grouping)
+            foreach (var method in methods)
             {
-                count++;
-                WriteMethod(writer, method);
+                if (FindTypeMethodExtends(method) == typeExtended)
+                {
+                    count++;
+                    WriteMethod(writer, method);
+                }
             }
 
             writer.WriteLine();
@@ -92,6 +102,24 @@ public class BuildApiTest
                 var extensionParameter = constructor.ParameterList.Parameters[0];
                 key = extensionParameter.Type!.ToString();
                 return key;
+            }
+        }
+
+        throw new();
+    }
+
+    static string FindTypePropertyExtends(PropertyDeclarationSyntax method)
+    {
+        var methodParent = (ClassDeclarationSyntax) method.Parent!;
+        var members = methodParent.Members;
+        var indexOf = members.IndexOf(method);
+        for (var i = indexOf; i >= 0; i--)
+        {
+            var member = members[i];
+            if (member is ConstructorDeclarationSyntax constructor)
+            {
+                var extensionParameter = constructor.ParameterList.Parameters[0];
+                return extensionParameter.Type!.ToString();
             }
         }
 
