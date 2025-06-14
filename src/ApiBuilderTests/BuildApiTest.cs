@@ -104,13 +104,8 @@ public class BuildApiTest
                 var directives = directive.Directives.Concat(sharedIdentifiers).ToHashSet();
                 var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
                 var tree = CSharpSyntaxTree.ParseText(code, options);
-                var typeDeclarations = tree
-                    .GetRoot()
-                    .DescendantNodes()
-                    .OfType<TypeDeclarationSyntax>()
-                    .Where(_ => !_.IsNested());
 
-                foreach (var type in typeDeclarations)
+                foreach (var type in tree.GetTypes())
                 {
                     var identifier = type.Identifier.Text;
                     if (!types.TryGetValue(identifier, out var methods))

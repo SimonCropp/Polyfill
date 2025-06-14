@@ -6,6 +6,12 @@
     public static bool IsNested(this TypeDeclarationSyntax type) =>
         type.Parent is TypeDeclarationSyntax or ClassDeclarationSyntax;
 
+    public static IEnumerable<TypeDeclarationSyntax> GetTypes(this SyntaxTree tree) => tree
+        .GetRoot()
+        .DescendantNodes()
+        .OfType<TypeDeclarationSyntax>()
+        .Where(_ => !_.IsNested());
+
     public static bool IsStatic(this MethodDeclarationSyntax method) =>
         method.Modifiers.Any(_ => _.IsKind(SyntaxKind.StaticKeyword));
 
