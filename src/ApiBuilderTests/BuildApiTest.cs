@@ -4,6 +4,57 @@ public class BuildApiTest
     static string solutionDirectory = SolutionDirectoryFinder.Find();
 
     [Test]
+    public void Extends_MethodGenericNoParameters()
+    {
+        var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\MethodGenericNoParameters.cs");
+        var code = File.ReadAllText(codePath);
+        var tree = CSharpSyntaxTree.ParseText(code);
+        var method = tree.GetRoot().DescendantNodes()
+            .OfType<MethodDeclarationSyntax>()
+            .Single();
+        var type = FindTypeMethodExtends(method);
+        Assert.AreEqual("ConcurrentBag", type);
+    }
+    [Test]
+    public void Extends_MethodGenericAndGenericParameters()
+    {
+        var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\MethodGenericAndGenericParameters.cs");
+        var code = File.ReadAllText(codePath);
+        var tree = CSharpSyntaxTree.ParseText(code);
+        var method = tree.GetRoot().DescendantNodes()
+            .OfType<MethodDeclarationSyntax>()
+            .Single();
+        var type = FindTypeMethodExtends(method);
+        Assert.AreEqual("ConcurrentDictionary", type);
+    }
+
+    [Test]
+    public void Extends_PropertyExtension()
+    {
+        var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\PropertyExtension.cs");
+        var code = File.ReadAllText(codePath);
+        var tree = CSharpSyntaxTree.ParseText(code);
+        var property = tree.GetRoot().DescendantNodes()
+            .OfType<PropertyDeclarationSyntax>()
+            .Single();
+        var type = FindTypePropertyExtends(property);
+        Assert.AreEqual("IEnumerable", type);
+    }
+
+    [Test]
+    public void Extends_PropertyExtensionWithPrecedingMethod()
+    {
+        var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\PropertyExtensionWithPrecedingMethod.cs");
+        var code = File.ReadAllText(codePath);
+        var tree = CSharpSyntaxTree.ParseText(code);
+        var property = tree.GetRoot().DescendantNodes()
+            .OfType<PropertyDeclarationSyntax>()
+            .Single();
+        var type = FindTypePropertyExtends(property);
+        Assert.AreEqual("IEnumerable", type);
+    }
+
+    [Test]
     public void RunWithRoslyn()
     {
         var types = ReadFiles();
@@ -13,32 +64,13 @@ public class BuildApiTest
         using var writer = File.CreateText(md);
         var count = 0;
 
-        var extensions = types.Single(_ => _.Key == "Polyfill").Value;
-        writer.WriteLine("### Extension methods");
-        writer.WriteLine();
-        foreach (var grouping in PublicMethods(extensions)
-                     .GroupBy(_ => _.ParameterList.Parameters[0].Type!.ToString())
-                     .OrderBy(_ => _.Key))
-        {
-            WriteTypeMethods(grouping.Key, writer, ref count, grouping);
-        }
+        count = WriteExtensions(types, writer, count);
 
-        writer.WriteLine("### Static helpers");
-        writer.WriteLine();
-
-        count += types.Count(_ => _.Key.EndsWith("Attribute"));
+        count += CountAttributes(types);
         // Index and Range
         count++;
         //Nullability*
         count += 3;
-
-        foreach (var (key, value) in types
-                     .OrderBy(_ => _.Key)
-                     .Where(_ => _.Key.EndsWith("Polyfill") &&
-                                 _.Key != "Polyfill"))
-        {
-            WriteTypeMethods(key, writer, ref count, value.OrderBy(Key));
-        }
 
         WriteHelper(types, "Guard", writer, ref count);
         WriteHelper(types, "Lock", writer, ref count);
@@ -51,19 +83,208 @@ public class BuildApiTest
         File.WriteAllText(countMd, $"**API count: {count}**");
     }
 
-    static IEnumerable<MethodDeclarationSyntax> PublicMethods(HashSet<MethodDeclarationSyntax> type) =>
-        type.Where(_ => _.IsPublic() &&
-                        !_.IsConstructor())
-            .OrderBy(_ => _.Identifier.ToString());
-
-    static Dictionary<string, HashSet<MethodDeclarationSyntax>> ReadFiles()
+    static int WriteExtensions(List<Type> types, StreamWriter writer, int count)
     {
-        var polyfillDir = Path.Combine(solutionDirectory, "Polyfill");
-        var types = new Dictionary<string, HashSet<MethodDeclarationSyntax>>();
+        var type = types.Single(_ => _.Id == "Polyfill");
+        writer.WriteLine("### Extension methods");
+        writer.WriteLine();
+
+        var properties = type.Properties;
+        var methods = type.Methods;
+
+        var typesExtended = methods.Select(FindTypeMethodExtends)
+            .Concat(properties.Select(FindTypePropertyExtends))
+            .Distinct()
+            .OrderBy(_ => _)
+            .ToList();
+
+        foreach (var typeExtended in typesExtended)
+        {
+            writer.WriteLine($"#### {typeExtended}");
+            writer.WriteLine();
+
+            foreach (var method in methods)
+            {
+                if (FindTypeMethodExtends(method) == typeExtended)
+                {
+                    count++;
+                    WriteMethod(writer, method);
+                }
+            }
+
+            foreach (var property in properties)
+            {
+                if (FindTypePropertyExtends(property) == typeExtended)
+                {
+                    count++;
+                    WriteProperty(writer, property);
+                }
+            }
+
+            writer.WriteLine();
+            writer.WriteLine();
+        }
+
+        return count;
+    }
+
+    static int CountAttributes(List<Type> types) =>
+        types
+            .Where(_ => _.Id.EndsWith("Attribute"))
+            .Distinct()
+            .Count();
+
+    static string FindTypeMethodExtends(MethodDeclarationSyntax method)
+    {
+        if (method.ParameterList.Parameters.Count > 0)
+        {
+            var firstParameter = method.ParameterList.Parameters[0];
+            var key = firstParameter.Type!.ToString();
+            if (firstParameter.Modifiers.Any(_ => _.IsKind(SyntaxKind.ThisKeyword)))
+            {
+                //TODO: delete this path when all are C#14 extensions
+                return key;
+            }
+
+            // method is a MethodDeclarationSyntax
+            var returnType = method.ReturnType.ToString();
+            //TODO: handle this better
+            if (returnType == "StringBuilder")
+            {
+                return key;
+            }
+        }
+        var methodParent = (ClassDeclarationSyntax) method.Parent!;
+        var members = methodParent.Members;
+        var indexOf = members.IndexOf(method);
+
+        var extensionIndex = -1;
+        for (var i = indexOf; i >= 0; i--)
+        {
+            var member = members[i];
+            var s = member.ToString();
+            if (s.StartsWith("extension"))
+            {
+                extensionIndex = i;
+                break;
+            }
+        }
+
+        var memberDeclarationSyntaxes = members.Skip(extensionIndex).ToList();
+        foreach (var member in memberDeclarationSyntaxes)
+        {
+            if (member is FieldDeclarationSyntax fieldSyntax)
+            {
+                var variableDeclarationSyntax = fieldSyntax.Declaration;
+                var typeSyntax = (TupleTypeSyntax)variableDeclarationSyntax.Type;
+                var tupleElementSyntax = typeSyntax.Elements.First();
+                var genericNameSyntax = (GenericNameSyntax) tupleElementSyntax.Type;
+                return genericNameSyntax.Identifier.ToString();
+            }
+            if (member is ConstructorDeclarationSyntax constructor)
+            {
+                var extensionParameter = constructor.ParameterList.Parameters[0];
+                return extensionParameter.Type!.ToString();
+            }
+
+            if (member is IncompleteMemberSyntax incomplete)
+            {
+                var syntaxNodes = incomplete.ChildNodes().ToList();
+                if (syntaxNodes[0] is TupleTypeSyntax tupleTypeSyntax)
+                {
+                    var tupleElementSyntax = tupleTypeSyntax.Elements.First();
+                    var typeSyntax = (GenericNameSyntax) tupleElementSyntax.Type;
+                    return typeSyntax.Identifier.ToString();
+                }
+            }
+        }
+
+        throw new();
+    }
+
+    //TODO: respect generics on return type
+    static string FindTypePropertyExtends(PropertyDeclarationSyntax property)
+    {
+        var members =  property.Parent!.ChildNodes().ToList();;
+        var indexOf = members.IndexOf(property);
+        for (var i = indexOf; i >= 0; i--)
+        {
+            var member = members[i];
+            if (member is ConstructorDeclarationSyntax constructor)
+            {
+                var extensionParameter = constructor.ParameterList.Parameters[0];
+                return extensionParameter.Type!.ToString();
+            }
+
+            if (member is IncompleteMemberSyntax incomplete)
+            {
+                var syntaxNodes = incomplete.ChildNodes().ToList();
+                var tupleTypeSyntax = (TupleTypeSyntax) syntaxNodes[0];
+                var tupleElementSyntax = tupleTypeSyntax.Elements.First();
+                var typeSyntax = (GenericNameSyntax) tupleElementSyntax.Type;
+                return typeSyntax.Identifier.ToString();
+            }
+        }
+
+        throw new();
+    }
+
+    class Type(string id, List<MethodDeclarationSyntax> methods, List<PropertyDeclarationSyntax> properties)
+    {
+        public string Id { get; } = id;
+        public List<MethodDeclarationSyntax> Methods { get; } = methods;
+        public List<PropertyDeclarationSyntax> Properties { get; } = properties;
+    }
+
+    static List<Type> ReadFiles()
+    {
+        var types = new Dictionary<string, (HashSet<MethodDeclarationSyntax> methods, HashSet<PropertyDeclarationSyntax> properties)>();
+
         var methodComparer = EqualityComparer<MethodDeclarationSyntax>
             .Create(
-                (x, y) => BuildKey(x!) == BuildKey(y!),
-                _ => BuildKey(_).GetHashCode());
+                (x, y) => x!.Key() == y!.Key(),
+                _ => _.Key().GetHashCode());
+
+        var propertyComparer = EqualityComparer<PropertyDeclarationSyntax>
+            .Create(
+                (x, y) => x!.Identifier.ToString() == y!.Identifier.ToString(),
+                _ => _.Identifier.ToString().GetHashCode());
+
+        foreach (var type in ReadTypesFromFiles())
+        {
+            var identifier = type.Identifier.Text;
+            if (!types.TryGetValue(identifier, out var members))
+            {
+                members = new(new(methodComparer), new(propertyComparer));
+                types.Add(identifier, members);
+            }
+
+            foreach (var method in type.PublicMethods())
+            {
+                members.methods.Add(method);
+            }
+
+            foreach (var property in type.PublicProperties())
+            {
+                members.properties.Add(property);
+            }
+        }
+
+        var result = new List<Type>();
+        foreach (var pair in types.OrderBy(_ => _.Key))
+        {
+            var type = new Type(
+                pair.Key,
+                pair.Value.methods.OrderBy(_ => _.Key()).ToList(),
+                pair.Value.properties.OrderBy(_ => _.Identifier.ToString()).ToList());
+            result.Add(type);
+        }
+        return result;
+    }
+
+    static IEnumerable<TypeDeclarationSyntax> ReadTypesFromFiles()
+    {
+        var polyfillDir = Path.Combine(solutionDirectory, "Polyfill");
         foreach (var file in Directory.EnumerateFiles(polyfillDir, "*.cs", SearchOption.AllDirectories))
         {
             var code = File.ReadAllText(file);
@@ -72,32 +293,14 @@ public class BuildApiTest
                 var directives = directive.Directives.Concat(sharedIdentifiers).ToHashSet();
                 var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
                 var tree = CSharpSyntaxTree.ParseText(code, options);
-                var typeDeclarations = tree
-                    .GetRoot()
-                    .DescendantNodes()
-                    .OfType<TypeDeclarationSyntax>()
-                    .Where(_ => !_.IsNested());
 
-                foreach (var type in typeDeclarations)
+                foreach (var type in tree.GetTypes())
                 {
-                    var identifier = type.Identifier.Text;
-                    if (!types.TryGetValue(identifier, out var methods))
-                    {
-                        methods = new(methodComparer);
-                        types.Add(identifier, methods);
-                    }
-
-                    foreach (var method in type.PublicMethods())
-                    {
-                        methods.Add(method);
-                    }
+                    yield return type;
                 }
             }
         }
-
-        return types;
     }
-
     static void WriteType(string name, StreamWriter writer, ref int count)
     {
         writer.WriteLine(
@@ -108,126 +311,44 @@ public class BuildApiTest
         count++;
     }
 
-    static void WriteHelper(Dictionary<string, HashSet<MethodDeclarationSyntax>> types, string name, StreamWriter writer, ref int count)
+    static void WriteHelper(List<Type> types, string name, StreamWriter writer, ref int count)
     {
-        var methods = types[name];
-
-        WriteTypeMethods(name, writer, ref count, methods.OrderBy(Key));
-    }
-
-    static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<MethodDeclarationSyntax> items)
-    {
-        writer.WriteLine($"#### {name}");
+        var type = types.Single(_=>_.Id == name);
+        writer.WriteLine($"#### {type.Id}");
         writer.WriteLine();
-        foreach (var method in items
-                     .DistinctBy(Key))
+        foreach (var method in type.Methods)
         {
             count++;
-            WriteSignature(method, writer);
+            WriteMethod(writer, method);
         }
 
         writer.WriteLine();
         writer.WriteLine();
     }
 
-    static void WriteSignature(MethodDeclarationSyntax method, StreamWriter writer)
+    static void WriteMethod(StreamWriter writer, MethodDeclarationSyntax method)
     {
-        var signature = new StringBuilder($"{method.ReturnType} {Key(method)}");
-
-        if (method.ConstraintClauses.Count > 0)
+        if (method.TryGetReference(out var reference))
         {
-            foreach (var constraint in method.ConstraintClauses)
-            {
-                signature.Append($" where {constraint.Name} : ");
-                signature.Append(string.Join(", ", constraint.Constraints.Select(_ => _.ToString())));
-            }
-        }
-
-        if (TryGetReference(method, out var reference))
-        {
-            writer.WriteLine($" * `{signature}` [reference]({reference})");
+            writer.WriteLine($" * `{method.DisplayString()}` [reference]({reference})");
         }
         else
         {
-            writer.WriteLine($" * `{signature}`");
+            writer.WriteLine($" * `{method.DisplayString()}`");
         }
     }
 
-    static string Key(MethodDeclarationSyntax method)
+    static void WriteProperty(StreamWriter writer, PropertyDeclarationSyntax method)
     {
-        var parameters = BuildParameters(method);
-        var typeArgs = BuildTypeArgs(method);
-        return $"{method.Identifier.Text}{typeArgs}({parameters})";
-    }
-
-    static string BuildKey(MethodDeclarationSyntax method)
-    {
-        var parameters = string.Join(',', method.ParameterList.Parameters.Select(_ => _.Type!.ToString()));
-        var returnType = method.ReturnType.ToString();
-        var identifier = method.Identifier.Text;
-        if (method.TypeParameterList is null)
+        if (method.TryGetReference(out var reference))
         {
-            return $"{returnType}{identifier}({parameters})";
+            writer.WriteLine($" * `{method.Identifier}` [reference]({reference})");
         }
-
-        return $"{returnType}{identifier}<{string.Join(',', method.TypeParameterList.Parameters.Select(_ => _.Identifier.Text))}>({parameters})";
-    }
-
-    static string BuildTypeArgs(MethodDeclarationSyntax method)
-    {
-        var types = method.TypeParameterList;
-        if (types == null || types.Parameters.Count == 0)
+        else
         {
-            return string.Empty;
+            writer.WriteLine($" * `{method.Identifier}`");
         }
-
-        return $"<{string.Join(", ", types.Parameters.Select(_ => _.Identifier.Text))}>";
     }
-
-    static string BuildParameters(MethodDeclarationSyntax method)
-    {
-        var parameters = method.ParameterList.Parameters.ToList();
-
-        if (parameters.Count > 0)
-        {
-            var last = parameters.Last();
-            if (last.IsCaller())
-            {
-                parameters.Remove(last);
-            }
-        }
-
-        return string.Join(", ", parameters.Select(_ => _.Type!.ToString()));
-    }
-
-    static bool TryGetReference(MethodDeclarationSyntax method, [NotNullWhen(true)] out string? reference)
-    {
-        var syntaxTrivia = method.GetLeadingTrivia();
-        foreach (var trivia in syntaxTrivia)
-        {
-            if (!trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
-            {
-                continue;
-            }
-
-            var comment = trivia.ToString();
-            if (!comment.StartsWith("//Link: "))
-            {
-                continue;
-            }
-
-            reference = comment.Replace("//Link: ", string.Empty);
-            if (reference.Contains("learn.") && !reference.Contains("?view=net-10.0"))
-            {
-                throw new($"Missing view: {reference}");
-            }
-            return true;
-        }
-
-        reference = null;
-        return false;
-    }
-
 
     static List<Identifier> identifiers;
 
