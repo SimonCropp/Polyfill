@@ -111,20 +111,23 @@ public class BuildApiTest
 
     static string FindTypeMethodExtends(MethodDeclarationSyntax method)
     {
-        var firstParameter = method.ParameterList.Parameters[0];
-        var key = firstParameter.Type!.ToString();
-        if (firstParameter.Modifiers.Any(_ => _.IsKind(SyntaxKind.ThisKeyword)))
+        if (method.ParameterList.Parameters.Count > 0)
         {
-            //TODO: delete this path when all are C#14 extensions
-            return key;
-        }
+            var firstParameter = method.ParameterList.Parameters[0];
+            var key = firstParameter.Type!.ToString();
+            if (firstParameter.Modifiers.Any(_ => _.IsKind(SyntaxKind.ThisKeyword)))
+            {
+                //TODO: delete this path when all are C#14 extensions
+                return key;
+            }
 
-        // method is a MethodDeclarationSyntax
-        var returnType = method.ReturnType.ToString();
-        //TODO: handle this better
-        if (returnType == "StringBuilder")
-        {
-            return key;
+            // method is a MethodDeclarationSyntax
+            var returnType = method.ReturnType.ToString();
+            //TODO: handle this better
+            if (returnType == "StringBuilder")
+            {
+                return key;
+            }
         }
 
         var methodParent = (ClassDeclarationSyntax) method.Parent!;
@@ -136,8 +139,7 @@ public class BuildApiTest
             if (member is ConstructorDeclarationSyntax constructor)
             {
                 var extensionParameter = constructor.ParameterList.Parameters[0];
-                key = extensionParameter.Type!.ToString();
-                return key;
+                return extensionParameter.Type!.ToString();
             }
         }
 

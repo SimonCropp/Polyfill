@@ -20,7 +20,7 @@
 
 #### CancellationTokenSource
 
- * `Task CancelAsync(CancellationTokenSource)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancelasync?view=net-10.0)
+ * `Task CancelAsync()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancelasync?view=net-10.0)
 
 
 #### ConcurrentBag<T>
