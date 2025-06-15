@@ -10,26 +10,29 @@ using System.Collections.Concurrent;
 
 static partial class Polyfill
 {
-    /// <summary>
-    /// Adds a key/value pair to the <see cref="ConcurrentDictionary{TKey,TValue}"/>
-    /// if the key does not already exist.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentdictionary-2.getoradd?view=net-10.0#system-collections-concurrent-concurrentdictionary-2-getoradd-1(-0-system-func((-0-0-1))-0)
-    public static TValue GetOrAdd<TKey, TValue, TArg>(this ConcurrentDictionary<TKey, TValue> target, TKey key, Func<TKey, TArg, TValue> valueFactory, TArg factoryArgument)
+    extension<TKey, TValue>(ConcurrentDictionary<TKey, TValue> target)
         where TKey : notnull
     {
-        while (true)
+        /// <summary>
+        /// Adds a key/value pair to the <see cref="ConcurrentDictionary{TKey,TValue}"/>
+        /// if the key does not already exist.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentdictionary-2.getoradd?view=net-10.0#system-collections-concurrent-concurrentdictionary-2-getoradd-1(-0-system-func((-0-0-1))-0)
+        public TValue GetOrAdd<TArg>(TKey key, Func<TKey, TArg, TValue> valueFactory, TArg factoryArgument)
         {
-            TValue value;
-            if (target.TryGetValue(key, out value))
+            while (true)
             {
-                return value;
-            }
+                TValue value;
+                if (target.TryGetValue(key, out value))
+                {
+                    return value;
+                }
 
-            value = valueFactory(key, factoryArgument);
-            if (target.TryAdd(key, value))
-            {
-                return value;
+                value = valueFactory(key, factoryArgument);
+                if (target.TryAdd(key, value))
+                {
+                    return value;
+                }
             }
         }
     }
