@@ -4,17 +4,12 @@ public static class Extensions
 {
     extension<TSource>(IEnumerable<TSource> target)
     {
-        public IEnumerable<TSource> ExtensionMethod()
-        {
-            return [];
-        }
+        public IEnumerable<TSource> ExtensionMethod() => [];
     }
 }
 
 public class ExtensionsUsage
 {
-    void Foo()
-    {
+    void Foo() =>
         new List<string>().ExtensionMethod();
-    }
 }
