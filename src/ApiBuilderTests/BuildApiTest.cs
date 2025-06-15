@@ -4,16 +4,27 @@ public class BuildApiTest
     static string solutionDirectory = SolutionDirectoryFinder.Find();
 
     [Test]
-    public void FindTypePropertyExtendsTest()
+    public void PropertyExtensionTest()
     {
-        var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\PropertyExtensions.cs");
+        var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\PropertyExtension.cs");
         var code = File.ReadAllText(codePath);
         var tree = CSharpSyntaxTree.ParseText(code);
-        var root = tree.GetRoot();
-        var childNodes = root.ChildNodes().ToList();
-        var classDeclaration = (ClassDeclarationSyntax)childNodes[0];
-        var classNodes = classDeclaration.ChildNodes().ToList();
-        var property = (PropertyDeclarationSyntax)classNodes.Single(_ => _ is PropertyDeclarationSyntax);
+        var property = tree.GetRoot().DescendantNodes()
+            .OfType<PropertyDeclarationSyntax>()
+            .Single();
+        var type = FindTypePropertyExtends(property);
+        Assert.AreEqual("IEnumerable", type);
+    }
+
+    [Test]
+    public void PropertyExtensionWithPrecedingMethodTest()
+    {
+        var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\PropertyExtensionWithPrecedingMethod.cs");
+        var code = File.ReadAllText(codePath);
+        var tree = CSharpSyntaxTree.ParseText(code);
+        var property = tree.GetRoot().DescendantNodes()
+            .OfType<PropertyDeclarationSyntax>()
+            .Single();
         var type = FindTypePropertyExtends(property);
         Assert.AreEqual("IEnumerable", type);
     }
@@ -133,20 +144,25 @@ public class BuildApiTest
         throw new();
     }
 
-    static string FindTypePropertyExtends(PropertyDeclarationSyntax method)
+    static string FindTypePropertyExtends(PropertyDeclarationSyntax property)
     {
-        var methodParent = (ClassDeclarationSyntax) method.Parent!;
-        var members = methodParent.Members;
-        var indexOf = members.IndexOf(method);
+        var members =  property.Parent!.ChildNodes().ToList();;
+        var indexOf = members.IndexOf(property);
         for (var i = indexOf; i >= 0; i--)
         {
             var member = members[i];
-            if (member is IncompleteMemberSyntax constructor)
+            if (member is ConstructorDeclarationSyntax constructor)
             {
-                var syntaxNodes = constructor.ChildNodes().ToList();
-                var tupleTypeSyntax = (TupleTypeSyntax)syntaxNodes[0];
+                var extensionParameter = constructor.ParameterList.Parameters[0];
+                return extensionParameter.Type!.ToString();
+            }
+
+            if (member is IncompleteMemberSyntax incomplete)
+            {
+                var syntaxNodes = incomplete.ChildNodes().ToList();
+                var tupleTypeSyntax = (TupleTypeSyntax) syntaxNodes[0];
                 var tupleElementSyntax = tupleTypeSyntax.Elements.First();
-                var typeSyntax = (GenericNameSyntax)tupleElementSyntax.Type;
+                var typeSyntax = (GenericNameSyntax) tupleElementSyntax.Type;
                 return typeSyntax.Identifier.ToString();
             }
         }

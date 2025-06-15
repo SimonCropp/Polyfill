@@ -14,7 +14,7 @@
 
     public static IEnumerable<MethodDeclarationSyntax> PublicMethods(this TypeDeclarationSyntax type) =>
         type
-            .DescendantNodes()
+            .Members
             .OfType<MethodDeclarationSyntax>()
             .Where(_ => _.Parent == type &&
                         _.IsPublic() &&
@@ -22,10 +22,9 @@
 
     public static IEnumerable<PropertyDeclarationSyntax> PublicProperties(this TypeDeclarationSyntax type) =>
         type
-            .DescendantNodes()
+            .Members
             .OfType<PropertyDeclarationSyntax>()
-            .Where(_ => _.Parent == type &&
-                        _.IsPublic());
+            .Where(_ => _.IsPublic());
 
     public static bool IsConstructor(this MethodDeclarationSyntax method)
     {

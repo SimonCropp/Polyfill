@@ -1,4 +1,6 @@
-﻿public static class PropertyExtensions
+﻿
+namespace Polyfills;
+public static class PropertyExtension
 {
     extension<TSource>(IEnumerable<TSource> source)
     {
