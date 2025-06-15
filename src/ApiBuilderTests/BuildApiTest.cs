@@ -4,6 +4,21 @@ public class BuildApiTest
     static string solutionDirectory = SolutionDirectoryFinder.Find();
 
     [Test]
+    public void FindTypePropertyExtendsTest()
+    {
+        var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\PropertyExtensions.cs");
+        var code = File.ReadAllText(codePath);
+        var tree = CSharpSyntaxTree.ParseText(code);
+        var root = tree.GetRoot();
+        var childNodes = root.ChildNodes().ToList();
+        var classDeclaration = (ClassDeclarationSyntax)childNodes[0];
+        var classNodes = classDeclaration.ChildNodes().ToList();
+        var property = (PropertyDeclarationSyntax)classNodes.Single(_ => _ is PropertyDeclarationSyntax);
+        var type = FindTypePropertyExtends(property);
+        Assert.AreEqual("IEnumerable", type);
+    }
+
+    [Test]
     public void RunWithRoslyn()
     {
         var types = ReadFiles();
@@ -126,10 +141,13 @@ public class BuildApiTest
         for (var i = indexOf; i >= 0; i--)
         {
             var member = members[i];
-            if (member is ConstructorDeclarationSyntax constructor)
+            if (member is IncompleteMemberSyntax constructor)
             {
-                var extensionParameter = constructor.ParameterList.Parameters[0];
-                return extensionParameter.Type!.ToString();
+                var syntaxNodes = constructor.ChildNodes().ToList();
+                var tupleTypeSyntax = (TupleTypeSyntax)syntaxNodes[0];
+                var tupleElementSyntax = tupleTypeSyntax.Elements.First();
+                var typeSyntax = (GenericNameSyntax)tupleElementSyntax.Type;
+                return typeSyntax.Identifier.ToString();
             }
         }
 
