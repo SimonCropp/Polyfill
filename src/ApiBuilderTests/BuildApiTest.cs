@@ -4,7 +4,7 @@ public class BuildApiTest
     static string solutionDirectory = SolutionDirectoryFinder.Find();
 
     [Test]
-    public void MethodGenericNoParametersTest()
+    public void Extends_MethodGenericNoParameters()
     {
         var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\MethodGenericNoParameters.cs");
         var code = File.ReadAllText(codePath);
@@ -15,9 +15,21 @@ public class BuildApiTest
         var type = FindTypeMethodExtends(method);
         Assert.AreEqual("ConcurrentBag", type);
     }
+    [Test]
+    public void Extends_MethodGenericAndGenericParameters()
+    {
+        var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\MethodGenericAndGenericParameters.cs");
+        var code = File.ReadAllText(codePath);
+        var tree = CSharpSyntaxTree.ParseText(code);
+        var method = tree.GetRoot().DescendantNodes()
+            .OfType<MethodDeclarationSyntax>()
+            .Single();
+        var type = FindTypeMethodExtends(method);
+        Assert.AreEqual("ConcurrentDictionary", type);
+    }
 
     [Test]
-    public void PropertyExtensionTest()
+    public void Extends_PropertyExtension()
     {
         var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\PropertyExtension.cs");
         var code = File.ReadAllText(codePath);
@@ -30,7 +42,7 @@ public class BuildApiTest
     }
 
     [Test]
-    public void PropertyExtensionWithPrecedingMethodTest()
+    public void Extends_PropertyExtensionWithPrecedingMethod()
     {
         var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\PropertyExtensionWithPrecedingMethod.cs");
         var code = File.ReadAllText(codePath);
@@ -142,13 +154,33 @@ public class BuildApiTest
                 return key;
             }
         }
-
         var methodParent = (ClassDeclarationSyntax) method.Parent!;
         var members = methodParent.Members;
         var indexOf = members.IndexOf(method);
+
+        var extensionIndex = -1;
         for (var i = indexOf; i >= 0; i--)
         {
             var member = members[i];
+            var s = member.ToString();
+            if (s.StartsWith("extension"))
+            {
+                extensionIndex = i;
+                break;
+            }
+        }
+
+        var memberDeclarationSyntaxes = members.Skip(extensionIndex).ToList();
+        foreach (var member in memberDeclarationSyntaxes)
+        {
+            if (member is FieldDeclarationSyntax fieldSyntax)
+            {
+                var variableDeclarationSyntax = fieldSyntax.Declaration;
+                var typeSyntax = (TupleTypeSyntax)variableDeclarationSyntax.Type;
+                var tupleElementSyntax = typeSyntax.Elements.First();
+                var genericNameSyntax = (GenericNameSyntax) tupleElementSyntax.Type;
+                return genericNameSyntax.Identifier.ToString();
+            }
             if (member is ConstructorDeclarationSyntax constructor)
             {
                 var extensionParameter = constructor.ParameterList.Parameters[0];
@@ -158,10 +190,12 @@ public class BuildApiTest
             if (member is IncompleteMemberSyntax incomplete)
             {
                 var syntaxNodes = incomplete.ChildNodes().ToList();
-                var tupleTypeSyntax = (TupleTypeSyntax) syntaxNodes[0];
-                var tupleElementSyntax = tupleTypeSyntax.Elements.First();
-                var typeSyntax = (GenericNameSyntax) tupleElementSyntax.Type;
-                return typeSyntax.Identifier.ToString();
+                if (syntaxNodes[0] is TupleTypeSyntax tupleTypeSyntax)
+                {
+                    var tupleElementSyntax = tupleTypeSyntax.Elements.First();
+                    var typeSyntax = (GenericNameSyntax) tupleElementSyntax.Type;
+                    return typeSyntax.Identifier.ToString();
+                }
             }
         }
 
