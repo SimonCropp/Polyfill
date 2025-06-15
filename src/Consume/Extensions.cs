@@ -2,7 +2,7 @@
 
 public static class Extensions
 {
-    extension<TSource>(IEnumerable<TSource> source)
+    extension<TSource>(IEnumerable<TSource> target)
     {
         public IEnumerable<TSource> ExtensionMethod()
         {
