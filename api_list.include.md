@@ -23,9 +23,9 @@
  * `Task CancelAsync()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancelasync?view=net-10.0)
 
 
-#### ConcurrentBag<T>
+#### ConcurrentBag
 
- * `void Clear<T>(ConcurrentBag<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentbag-1.clear?view=net-10.0)
+ * `void Clear()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentbag-1.clear?view=net-10.0)
 
 
 #### ConcurrentDictionary<TKey, TValue>

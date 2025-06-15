@@ -4,6 +4,19 @@ public class BuildApiTest
     static string solutionDirectory = SolutionDirectoryFinder.Find();
 
     [Test]
+    public void MethodGenericNoParametersTest()
+    {
+        var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\MethodGenericNoParameters.cs");
+        var code = File.ReadAllText(codePath);
+        var tree = CSharpSyntaxTree.ParseText(code);
+        var method = tree.GetRoot().DescendantNodes()
+            .OfType<MethodDeclarationSyntax>()
+            .Single();
+        var type = FindTypeMethodExtends(method);
+        Assert.AreEqual("ConcurrentBag", type);
+    }
+
+    [Test]
     public void PropertyExtensionTest()
     {
         var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\PropertyExtension.cs");
@@ -141,11 +154,21 @@ public class BuildApiTest
                 var extensionParameter = constructor.ParameterList.Parameters[0];
                 return extensionParameter.Type!.ToString();
             }
+
+            if (member is IncompleteMemberSyntax incomplete)
+            {
+                var syntaxNodes = incomplete.ChildNodes().ToList();
+                var tupleTypeSyntax = (TupleTypeSyntax) syntaxNodes[0];
+                var tupleElementSyntax = tupleTypeSyntax.Elements.First();
+                var typeSyntax = (GenericNameSyntax) tupleElementSyntax.Type;
+                return typeSyntax.Identifier.ToString();
+            }
         }
 
         throw new();
     }
 
+    //TODO: respect generics on return type
     static string FindTypePropertyExtends(PropertyDeclarationSyntax property)
     {
         var members =  property.Parent!.ChildNodes().ToList();;

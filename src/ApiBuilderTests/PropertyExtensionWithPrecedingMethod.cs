@@ -1,5 +1,5 @@
-﻿
-namespace Polyfills;
+﻿namespace Polyfills;
+
 public static class PropertyExtensionWithPrecedingMethod
 {
     extension(Delegate)
@@ -12,6 +12,7 @@ public static class PropertyExtensionWithPrecedingMethod
             where TDelegate : Delegate =>
             false;
     }
+
     extension<TSource>(IEnumerable<TSource> source)
     {
         public bool HasSingleTarget => true;
