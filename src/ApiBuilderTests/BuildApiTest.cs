@@ -288,6 +288,7 @@ public class BuildApiTest
         foreach (var file in Directory.EnumerateFiles(polyfillDir, "*.cs", SearchOption.AllDirectories))
         {
             var code = File.ReadAllText(file);
+
             foreach (var directive in identifiers)
             {
                 var directives = directive.Directives.Concat(sharedIdentifiers).ToHashSet();

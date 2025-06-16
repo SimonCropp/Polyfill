@@ -33,11 +33,6 @@
  * `TValue GetOrAdd<TArg>(TKey, Func<TKey, TArg, TValue>, TArg)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentdictionary-2.getoradd?view=net-10.0#system-collections-concurrent-concurrentdictionary-2-getoradd-1(-0-system-func((-0-0-1))-0))
 
 
-#### ConcurrentQueue<T>
-
- * `void Clear<T>(ConcurrentQueue<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentqueue-1.clear?view=net-10.0)
-
-
 #### DateOnly
 
  * `void Deconstruct(DateOnly, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.dateonly.deconstruct?view=net-10.0)
