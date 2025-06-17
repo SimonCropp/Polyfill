@@ -38,20 +38,6 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat?view=net-10.0#system-timespan-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider)
-    public static bool TryFormat(this TimeSpan target, Span<byte> utf8Destination, out int bytesWritten, [StringSyntax(StringSyntaxAttribute.TimeSpanFormat)] ReadOnlySpan<char> format = default, IFormatProvider? formatProvider = null) =>
-        target.DoFormat(utf8Destination, out bytesWritten, format, formatProvider);
-
-    /// <summary>
-    /// Tries to format the value of the current instance into the provided span of characters.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryformat?view=net-10.0#system-guid-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char)))
-    public static bool TryFormat(this Guid target, Span<byte> utf8Destination, out int bytesWritten, [StringSyntax(StringSyntaxAttribute.GuidFormat)] ReadOnlySpan<char> format = default) =>
-        target.DoFormat(utf8Destination, out bytesWritten, format);
-
-    /// <summary>
-    /// Tries to format the value of the current instance into the provided span of characters.
-    /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryformat?view=net-10.0#system-sbyte-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider)
     public static bool TryFormat(this sbyte target, Span<byte> utf8Destination, out int bytesWritten, [StringSyntax(StringSyntaxAttribute.NumericFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default) =>
         target.DoFormat(utf8Destination, out bytesWritten, format, provider);
