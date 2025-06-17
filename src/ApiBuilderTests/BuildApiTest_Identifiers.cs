@@ -17,7 +17,10 @@ public partial class BuildApiTest
         "FeatureCompression"
     ];
 
-    static BuildApiTest() =>
+    static BuildApiTest()
+    {
+        solutionDirectory = SolutionDirectoryFinder.Find();
+        polyfillDir = Path.Combine(solutionDirectory, "Polyfill");
         identifiers =
         [
             new()
@@ -334,4 +337,5 @@ public partial class BuildApiTest
                 ]
             }
         ];
+    }
 }

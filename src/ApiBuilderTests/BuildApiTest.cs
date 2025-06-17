@@ -1,7 +1,8 @@
 [TestFixture]
 public partial class BuildApiTest
 {
-    static string solutionDirectory = SolutionDirectoryFinder.Find();
+    static readonly string polyfillDir;
+    static string solutionDirectory;
 
     [Test]
     public void RunWithRoslyn()
@@ -38,36 +39,27 @@ public partial class BuildApiTest
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
 
-        var properties = type.Properties;
-        var methods = type.Methods;
 
-        var typesExtended = methods.Select(FindTypeMethodExtends)
-            .Concat(properties.Select(FindTypePropertyExtends))
-            .Distinct()
-            .OrderBy(_ => _)
-            .ToList();
-
-        foreach (var typeExtended in typesExtended)
+        foreach (var file in Directory.EnumerateFiles(polyfillDir, "Polyfill_*.cs"))
         {
-            writer.WriteLine($"#### {typeExtended}");
+            var typeName = Path.GetFileNameWithoutExtension(file).Replace("Polyfill_","");
+            writer.WriteLine($"#### {typeName}");
             writer.WriteLine();
+            var code = File.ReadAllText(file);
 
-            foreach (var method in methods)
+            var types2 = GetTypesForCode(code).ToList();
+            var methods2 = types2.SelectMany(_=>_.PublicMethods()).DistinctBy(_=>_.Key()).ToList();
+            var properties2 = types2.SelectMany(_=>_.PublicProperties()).DistinctBy(_=>_.Identifier.Text).ToList();
+            foreach (var method in methods2)
             {
-                if (FindTypeMethodExtends(method) == typeExtended)
-                {
                     count++;
                     WriteMethod(writer, method);
-                }
             }
 
-            foreach (var property in properties)
+            foreach (var property in properties2)
             {
-                if (FindTypePropertyExtends(property) == typeExtended)
-                {
                     count++;
                     WriteProperty(writer, property);
-                }
             }
 
             writer.WriteLine();
@@ -233,24 +225,32 @@ public partial class BuildApiTest
 
     static IEnumerable<TypeDeclarationSyntax> ReadTypesFromFiles()
     {
-        var polyfillDir = Path.Combine(solutionDirectory, "Polyfill");
         foreach (var file in Directory.EnumerateFiles(polyfillDir, "*.cs", SearchOption.AllDirectories))
         {
             var code = File.ReadAllText(file);
 
-            foreach (var directive in identifiers)
+            foreach (var typeDeclarationSyntax in GetTypesForCode(code))
             {
-                var directives = directive.Directives.Concat(sharedIdentifiers).ToHashSet();
-                var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
-                var tree = CSharpSyntaxTree.ParseText(code, options);
-
-                foreach (var type in tree.GetTypes())
-                {
-                    yield return type;
-                }
+                yield return typeDeclarationSyntax;
             }
         }
     }
+
+    static IEnumerable<TypeDeclarationSyntax> GetTypesForCode(string code)
+    {
+        foreach (var directive in identifiers)
+        {
+            var directives = directive.Directives.Concat(sharedIdentifiers).ToHashSet();
+            var options = CSharpParseOptions.Default.WithPreprocessorSymbols(directives);
+            var tree = CSharpSyntaxTree.ParseText(code, options);
+
+            foreach (var type in tree.GetTypes())
+            {
+                yield return type;
+            }
+        }
+    }
+
     static void WriteType(string name, StreamWriter writer, ref int count)
     {
         writer.WriteLine(

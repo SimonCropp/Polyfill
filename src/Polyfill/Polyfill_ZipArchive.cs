@@ -15,41 +15,6 @@ static partial class Polyfill
 {
 #if !NET10_0_OR_GREATER
 
-    extension(ZipArchiveEntry target)
-    {
-        /// <summary>
-        /// Opens the entry from the zip archive.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.openasync?view=net-10.0
-        public Task<Stream> OpenAsync(CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            return Task.FromResult(target.Open());
-        }
-
-        /// <summary>
-        /// Extracts an entry in the zip archive to a file.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttofileasync?view=net-10.0#system-io-compression-zipfileextensions-extracttofileasync(system-io-compression-ziparchiveentry-system-string-system-threading-cancellationtoken)
-        public Task ExtractToFileAsync(string destinationFileName, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            target.ExtractToFile(destinationFileName);
-            return Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// Extracts an entry in the zip archive to a file.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttofileasync?view=net-10.0#system-io-compression-zipfileextensions-extracttofileasync(system-io-compression-ziparchiveentry-system-string-system-boolean-system-threading-cancellationtoken)
-        public Task ExtractToFileAsync(string destinationFileName, bool overwrite, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            target.ExtractToFile(destinationFileName, overwrite);
-            return Task.CompletedTask;
-        }
-    }
-
     extension(ZipArchive target)
     {
         /// <summary>
