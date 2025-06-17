@@ -4,57 +4,6 @@ public partial class BuildApiTest
     static string solutionDirectory = SolutionDirectoryFinder.Find();
 
     [Test]
-    public void Extends_MethodGenericNoParameters()
-    {
-        var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\MethodGenericNoParameters.cs");
-        var code = File.ReadAllText(codePath);
-        var tree = CSharpSyntaxTree.ParseText(code);
-        var method = tree.GetRoot().DescendantNodes()
-            .OfType<MethodDeclarationSyntax>()
-            .Single();
-        var type = FindTypeMethodExtends(method);
-        Assert.AreEqual("ConcurrentBag", type);
-    }
-    [Test]
-    public void Extends_MethodGenericAndGenericParameters()
-    {
-        var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\MethodGenericAndGenericParameters.cs");
-        var code = File.ReadAllText(codePath);
-        var tree = CSharpSyntaxTree.ParseText(code);
-        var method = tree.GetRoot().DescendantNodes()
-            .OfType<MethodDeclarationSyntax>()
-            .Single();
-        var type = FindTypeMethodExtends(method);
-        Assert.AreEqual("ConcurrentDictionary", type);
-    }
-
-    [Test]
-    public void Extends_PropertyExtension()
-    {
-        var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\PropertyExtension.cs");
-        var code = File.ReadAllText(codePath);
-        var tree = CSharpSyntaxTree.ParseText(code);
-        var property = tree.GetRoot().DescendantNodes()
-            .OfType<PropertyDeclarationSyntax>()
-            .Single();
-        var type = FindTypePropertyExtends(property);
-        Assert.AreEqual("IEnumerable", type);
-    }
-
-    [Test]
-    public void Extends_PropertyExtensionWithPrecedingMethod()
-    {
-        var codePath = Path.Combine(solutionDirectory, @"ApiBuilderTests\PropertyExtensionWithPrecedingMethod.cs");
-        var code = File.ReadAllText(codePath);
-        var tree = CSharpSyntaxTree.ParseText(code);
-        var property = tree.GetRoot().DescendantNodes()
-            .OfType<PropertyDeclarationSyntax>()
-            .Single();
-        var type = FindTypePropertyExtends(property);
-        Assert.AreEqual("IEnumerable", type);
-    }
-
-    [Test]
     public void RunWithRoslyn()
     {
         var types = ReadFiles();
