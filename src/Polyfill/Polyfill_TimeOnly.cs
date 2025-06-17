@@ -5,6 +5,7 @@ namespace Polyfills;
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 static partial class Polyfill
 {
@@ -61,5 +62,13 @@ static partial class Polyfill
         hour = target.Hour;
         minute = target.Minute;
     }
+#endif
+#if FeatureMemory && (NET6_0 || NET7_0)
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.tryformat?view=net-10.0#system-timeonly-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider)
+    public static bool TryFormat(this TimeOnly target, Span<byte> utf8Destination, out int bytesWritten, [StringSyntax(StringSyntaxAttribute.TimeOnlyFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default) =>
+        target.DoFormat(utf8Destination, out bytesWritten, format, provider);
 #endif
 }
