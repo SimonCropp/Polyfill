@@ -14,7 +14,7 @@ public partial class BuildApiTest
         using var writer = File.CreateText(md);
         var count = 0;
 
-        count = WriteExtensions(types, writer, count);
+        count = WriteExtensions(writer, count);
 
         count += CountAttributes(types);
         // Index and Range
@@ -33,30 +33,28 @@ public partial class BuildApiTest
         File.WriteAllText(countMd, $"**API count: {count}**");
     }
 
-    static int WriteExtensions(List<Type> types, StreamWriter writer, int count)
+    static int WriteExtensions(StreamWriter writer, int count)
     {
-        var type = types.Single(_ => _.Id == "Polyfill");
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
 
-
         foreach (var file in Directory.EnumerateFiles(polyfillDir, "Polyfill_*.cs"))
         {
-            var typeName = Path.GetFileNameWithoutExtension(file).Replace("Polyfill_","");
+            var typeName = Path.GetFileNameWithoutExtension(file).Split('_')[1];
             writer.WriteLine($"#### {typeName}");
             writer.WriteLine();
             var code = File.ReadAllText(file);
 
-            var types2 = GetTypesForCode(code).ToList();
-            var methods2 = types2.SelectMany(_=>_.PublicMethods()).DistinctBy(_=>_.Key()).ToList();
-            var properties2 = types2.SelectMany(_=>_.PublicProperties()).DistinctBy(_=>_.Identifier.Text).ToList();
-            foreach (var method in methods2)
+            var types = GetTypesForCode(code).ToList();
+            var methods = types.SelectMany(_=>_.PublicMethods()).DistinctBy(_=>_.Key()).ToList();
+            var properties = types.SelectMany(_=>_.PublicProperties()).DistinctBy(_=>_.Identifier.Text).ToList();
+            foreach (var method in methods)
             {
-                    count++;
-                    WriteMethod(writer, method);
+                count++;
+                WriteMethod(writer, method);
             }
 
-            foreach (var property in properties2)
+            foreach (var property in properties)
             {
                     count++;
                     WriteProperty(writer, property);
@@ -74,101 +72,6 @@ public partial class BuildApiTest
             .Where(_ => _.Id.EndsWith("Attribute"))
             .Distinct()
             .Count();
-
-    static string FindTypeMethodExtends(MethodDeclarationSyntax method)
-    {
-        if (method.ParameterList.Parameters.Count > 0)
-        {
-            var firstParameter = method.ParameterList.Parameters[0];
-            var key = firstParameter.Type!.ToString();
-            if (firstParameter.Modifiers.Any(_ => _.IsKind(SyntaxKind.ThisKeyword)))
-            {
-                //TODO: delete this path when all are C#14 extensions
-                return key;
-            }
-
-            // method is a MethodDeclarationSyntax
-            var returnType = method.ReturnType.ToString();
-            //TODO: handle this better
-            if (returnType == "StringBuilder")
-            {
-                return key;
-            }
-        }
-        var methodParent = (ClassDeclarationSyntax) method.Parent!;
-        var members = methodParent.Members;
-        var indexOf = members.IndexOf(method);
-
-        var extensionIndex = -1;
-        for (var i = indexOf; i >= 0; i--)
-        {
-            var member = members[i];
-            var s = member.ToString();
-            if (s.StartsWith("extension"))
-            {
-                extensionIndex = i;
-                break;
-            }
-        }
-
-        var memberDeclarationSyntaxes = members.Skip(extensionIndex).ToList();
-        foreach (var member in memberDeclarationSyntaxes)
-        {
-            if (member is FieldDeclarationSyntax fieldSyntax)
-            {
-                var variableDeclarationSyntax = fieldSyntax.Declaration;
-                var typeSyntax = (TupleTypeSyntax)variableDeclarationSyntax.Type;
-                var tupleElementSyntax = typeSyntax.Elements.First();
-                var genericNameSyntax = (GenericNameSyntax) tupleElementSyntax.Type;
-                return genericNameSyntax.Identifier.ToString();
-            }
-            if (member is ConstructorDeclarationSyntax constructor)
-            {
-                var extensionParameter = constructor.ParameterList.Parameters[0];
-                return extensionParameter.Type!.ToString();
-            }
-
-            if (member is IncompleteMemberSyntax incomplete)
-            {
-                var syntaxNodes = incomplete.ChildNodes().ToList();
-                if (syntaxNodes[0] is TupleTypeSyntax tupleTypeSyntax)
-                {
-                    var tupleElementSyntax = tupleTypeSyntax.Elements.First();
-                    var typeSyntax = (GenericNameSyntax) tupleElementSyntax.Type;
-                    return typeSyntax.Identifier.ToString();
-                }
-            }
-        }
-
-        throw new();
-    }
-
-    //TODO: respect generics on return type
-    static string FindTypePropertyExtends(PropertyDeclarationSyntax property)
-    {
-        var members =  property.Parent!.ChildNodes().ToList();;
-        var indexOf = members.IndexOf(property);
-        for (var i = indexOf; i >= 0; i--)
-        {
-            var member = members[i];
-            if (member is ConstructorDeclarationSyntax constructor)
-            {
-                var extensionParameter = constructor.ParameterList.Parameters[0];
-                return extensionParameter.Type!.ToString();
-            }
-
-            if (member is IncompleteMemberSyntax incomplete)
-            {
-                var syntaxNodes = incomplete.ChildNodes().ToList();
-                var tupleTypeSyntax = (TupleTypeSyntax) syntaxNodes[0];
-                var tupleElementSyntax = tupleTypeSyntax.Elements.First();
-                var typeSyntax = (GenericNameSyntax) tupleElementSyntax.Type;
-                return typeSyntax.Identifier.ToString();
-            }
-        }
-
-        throw new();
-    }
 
     class Type(string id, List<MethodDeclarationSyntax> methods, List<PropertyDeclarationSyntax> properties)
     {
