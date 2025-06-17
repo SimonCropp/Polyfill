@@ -20,5 +20,14 @@ static partial class Polyfill
         target.DoFormat(utf8Destination, out bytesWritten, format);
 
 #endif
+#if !NETCOREAPP3_0_OR_GREATER
+
+    /// <summary>
+    /// Tries to format the value of the current instance into the provided span of characters.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryformat?view=net-10.0#system-guid-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char)))
+    public static bool TryFormat(this Guid target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.GuidFormat)] ReadOnlySpan<char> format = default) =>
+        target.DoFormat(destination, out charsWritten, format, null);
+#endif
 }
 #endif
