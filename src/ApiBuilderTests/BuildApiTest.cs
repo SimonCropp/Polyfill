@@ -112,8 +112,7 @@ public class BuildApiTest
     {
         writer.WriteLine($"#### {name}");
         writer.WriteLine();
-        foreach (var method in items
-                     .DistinctBy(Key))
+        foreach (var method in items)
         {
             count++;
             WriteSignature(method, writer);
