@@ -1,7 +1,14 @@
 [TestFixture]
 public class BuildApiTest
 {
-    static string solutionDirectory = SolutionDirectoryFinder.Find();
+    static string solutionDirectory;
+    static string polyfillDir;
+
+    static BuildApiTest()
+    {
+        solutionDirectory = SolutionDirectoryFinder.Find();
+        polyfillDir = Path.Combine(solutionDirectory, "Polyfill");
+    }
 
     [Test]
     public void RunWithRoslyn()
@@ -58,7 +65,6 @@ public class BuildApiTest
 
     static Dictionary<string, HashSet<MethodDeclarationSyntax>> ReadFiles()
     {
-        var polyfillDir = Path.Combine(solutionDirectory, "Polyfill");
         var types = new Dictionary<string, HashSet<MethodDeclarationSyntax>>();
         var methodComparer = EqualityComparer<MethodDeclarationSyntax>
             .Create(
