@@ -9,6 +9,9 @@
     public static bool IsStatic(this MethodDeclarationSyntax method) =>
         method.Modifiers.Any(_ => _.IsKind(SyntaxKind.StaticKeyword));
 
+    public static bool IsThis(this ParameterSyntax parameter) =>
+        parameter.Modifiers.Any(_ => _.IsKind(SyntaxKind.ThisKeyword));
+
     public static IEnumerable<MethodDeclarationSyntax> PublicMethods(this TypeDeclarationSyntax typeDeclaration) =>
         typeDeclaration
             .DescendantNodes()

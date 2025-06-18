@@ -125,7 +125,7 @@ public class BuildApiTest
 
     static void WriteSignature(MethodDeclarationSyntax method, StreamWriter writer)
     {
-        var signature = new StringBuilder($"{method.ReturnType} {Key(method)}");
+        var signature = new StringBuilder($"{method.ReturnType} {method.Identifier.Text}{BuildTypeArgs(method)}({BuildParameters(method, true)})");
 
         if (method.ConstraintClauses.Count > 0)
         {
@@ -146,12 +146,8 @@ public class BuildApiTest
         }
     }
 
-    static string Key(MethodDeclarationSyntax method)
-    {
-        var parameters = BuildParameters(method);
-        var typeArgs = BuildTypeArgs(method);
-        return $"{method.Identifier.Text}{typeArgs}({parameters})";
-    }
+    static string Key(MethodDeclarationSyntax method) =>
+        $"{method.Identifier.Text}{BuildTypeArgs(method)}({BuildParameters(method, false)})";
 
     static string BuildTypeArgs(MethodDeclarationSyntax method)
     {
@@ -164,9 +160,20 @@ public class BuildApiTest
         return $"<{string.Join(", ", types.Parameters.Select(_ => _.Identifier.Text))}>";
     }
 
-    static string BuildParameters(MethodDeclarationSyntax method)
+    static string BuildParameters(MethodDeclarationSyntax method, bool skipThisModified)
     {
-        var parameters = method.ParameterList.Parameters.ToList();
+        List<ParameterSyntax> parameters;
+        if (skipThisModified)
+        {
+            parameters = method.ParameterList
+                .Parameters
+                .Where(_ => !_.IsThis()).ToList();
+        }
+        else
+        {
+            parameters = method.ParameterList
+                .Parameters.ToList();
+        }
 
         if (parameters.Count > 0)
         {
