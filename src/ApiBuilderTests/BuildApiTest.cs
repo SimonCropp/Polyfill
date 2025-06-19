@@ -20,7 +20,7 @@ public class BuildApiTest
         using var writer = File.CreateText(md);
         var count = 0;
 
-        var extensions = types.Single(_ => _.Key == "Polyfill").Value;
+        var extensions = types["Polyfill"];
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
         foreach (var grouping in PublicMethods(extensions)
@@ -40,17 +40,17 @@ public class BuildApiTest
             WriteTypeMethods(key, writer, ref count, value);
         }
 
-        count += types.Count(_ => _.Key.EndsWith("Attribute"));
-        // Index and Range
-        count++;
-        //Nullability*
-        count += 3;
-
         WriteHelper(types, "Guard", writer, ref count);
         WriteHelper(types, "Lock", writer, ref count);
         WriteHelper(types, nameof(KeyValuePair), writer, ref count);
         WriteType(nameof(TaskCompletionSource), writer, ref count);
         WriteType(nameof(UnreachableException), writer, ref count);
+
+        count += types.Count(_ => _.Key.EndsWith("Attribute"));
+        // Index and Range
+        count++;
+        //Nullability*
+        count += 3;
 
         var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
         File.Delete(countMd);
