@@ -1,44 +1,44 @@
 ﻿public static class RoslynExtensions
 {
-    public static bool IsPublic(this MemberDeclarationSyntax member) =>
+    public static bool IsPublic(this Member member) =>
         member.Modifiers.Any(_ => _.ValueText == "public");
 
-    public static bool IsNested(this TypeDeclarationSyntax type) =>
-        type.Parent is TypeDeclarationSyntax or ClassDeclarationSyntax;
+    public static bool IsNested(this Type type) =>
+        type.Parent is Type or Class;
 
-    public static bool IsStatic(this MethodDeclarationSyntax method) =>
+    public static bool IsStatic(this Method method) =>
         method.Modifiers.Any(_ => _.IsKind(SyntaxKind.StaticKeyword));
 
-    public static bool IsThis(this ParameterSyntax parameter) =>
+    public static bool IsThis(this Parameter parameter) =>
         parameter.Modifiers.Any(_ => _.IsKind(SyntaxKind.ThisKeyword));
 
-    public static IEnumerable<MethodDeclarationSyntax> PublicMethods(this TypeDeclarationSyntax typeDeclaration) =>
-        typeDeclaration
+    public static IEnumerable<Method> PublicMethods(this Type type) =>
+        type
             .DescendantNodes()
-            .OfType<MethodDeclarationSyntax>()
-            .Where(_ => _.Parent == typeDeclaration &&
+            .OfType<Method>()
+            .Where(_ => _.Parent == type &&
                         _.IsPublic() &&
                         !_.IsConstructor());
 
-    public static bool IsConstructor(this MethodDeclarationSyntax method)
+    public static bool IsConstructor(this Method method)
     {
-        if (method.Parent is TypeDeclarationSyntax typeDeclaration)
+        if (method.Parent is Type type)
         {
-            return method.Identifier.Text == typeDeclaration.Identifier.Text;
+            return method.Identifier.Text == type.Identifier.Text;
         }
 
         return false;
     }
 
-    public static bool IsCaller(this ParameterSyntax parameter) =>
+    public static bool IsCaller(this Parameter parameter) =>
         parameter.Attributes()
             .Any(_ => _.Name.ToString().StartsWith("Caller"));
 
-    public static IEnumerable<AttributeSyntax> Attributes(this MethodDeclarationSyntax method) =>
+    public static IEnumerable<AttributeSyntax> Attributes(this Method method) =>
         method.AttributeLists
             .SelectMany(_ => _.Attributes);
 
-    public static IEnumerable<AttributeSyntax> Attributes(this ParameterSyntax method) =>
+    public static IEnumerable<AttributeSyntax> Attributes(this Parameter method) =>
         method.AttributeLists
             .SelectMany(_ => _.Attributes);
 

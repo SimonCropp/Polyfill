@@ -1,6 +1,6 @@
 public class Identifiers
 {
-    public static IEnumerable<TypeDeclarationSyntax> ReadTypesForFile(string file)
+    public static IEnumerable<Type> ReadTypesForFile(string file)
     {
         var code = File.ReadAllText(file);
         foreach (var directive in identifiers)
@@ -11,7 +11,7 @@ public class Identifiers
             var typeDeclarations = tree
                 .GetRoot()
                 .DescendantNodes()
-                .OfType<TypeDeclarationSyntax>()
+                .OfType<Type>()
                 .Where(_ => !_.IsNested());
 
             foreach (var type in typeDeclarations)

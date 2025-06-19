@@ -58,15 +58,15 @@ public class BuildApiTest
         File.WriteAllText(countMd, $"**API count: {count}**");
     }
 
-    static IEnumerable<MethodDeclarationSyntax> PublicMethods(HashSet<MethodDeclarationSyntax> type) =>
+    static IEnumerable<Method> PublicMethods(HashSet<Method> type) =>
         type.Where(_ => _.IsPublic() &&
                         !_.IsConstructor())
             .OrderBy(_ => _.Identifier.ToString());
 
-    static Dictionary<string, HashSet<MethodDeclarationSyntax>> ReadFiles()
+    static Dictionary<string, HashSet<Method>> ReadFiles()
     {
-        var types = new Dictionary<string, HashSet<MethodDeclarationSyntax>>();
-        var methodComparer = EqualityComparer<MethodDeclarationSyntax>
+        var types = new Dictionary<string, HashSet<Method>>();
+        var methodComparer = EqualityComparer<Method>
             .Create(
                 (x, y) => Key(x!) == Key(y!),
                 _ => Key(_).GetHashCode());
@@ -101,14 +101,14 @@ public class BuildApiTest
         count++;
     }
 
-    static void WriteHelper(Dictionary<string, HashSet<MethodDeclarationSyntax>> types, string name, StreamWriter writer, ref int count)
+    static void WriteHelper(Dictionary<string, HashSet<Method>> types, string name, StreamWriter writer, ref int count)
     {
         var methods = types[name];
 
         WriteTypeMethods(name, writer, ref count, methods.OrderBy(Key));
     }
 
-    static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<MethodDeclarationSyntax> items)
+    static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<Method> items)
     {
         writer.WriteLine($"#### {name}");
         writer.WriteLine();
@@ -122,7 +122,7 @@ public class BuildApiTest
         writer.WriteLine();
     }
 
-    static void WriteSignature(MethodDeclarationSyntax method, StreamWriter writer)
+    static void WriteSignature(Method method, StreamWriter writer)
     {
         var signature = new StringBuilder($"{method.ReturnType} {method.Identifier.Text}{BuildTypeArgs(method)}({BuildParameters(method, true)})");
 
@@ -145,10 +145,10 @@ public class BuildApiTest
         }
     }
 
-    static string Key(MethodDeclarationSyntax method) =>
+    static string Key(Method method) =>
         $"{method.Identifier.Text}{BuildTypeArgs(method)}({BuildParameters(method, false)})";
 
-    static string BuildTypeArgs(MethodDeclarationSyntax method)
+    static string BuildTypeArgs(Method method)
     {
         var types = method.TypeParameterList;
         if (types == null || types.Parameters.Count == 0)
@@ -159,7 +159,7 @@ public class BuildApiTest
         return $"<{string.Join(", ", types.Parameters.Select(_ => _.Identifier.Text))}>";
     }
 
-    static string BuildParameters(MethodDeclarationSyntax method, bool skipThisModified)
+    static string BuildParameters(Method method, bool skipThisModified)
     {
         List<ParameterSyntax> parameters;
         if (skipThisModified)
