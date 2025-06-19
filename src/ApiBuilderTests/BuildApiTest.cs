@@ -40,9 +40,9 @@ public class BuildApiTest
             WriteTypeMethods(key, writer, ref count, value);
         }
 
-        WriteHelper(types, "Guard", writer, ref count);
-        WriteHelper(types, "Lock", writer, ref count);
-        WriteHelper(types, nameof(KeyValuePair), writer, ref count);
+        WriteHelper("Guard*", writer, ref count);
+        WriteHelper("Lock", writer, ref count);
+        WriteHelper(nameof(KeyValuePair), writer, ref count);
         WriteType(nameof(TaskCompletionSource), writer, ref count);
         WriteType(nameof(UnreachableException), writer, ref count);
 
@@ -90,6 +90,25 @@ public class BuildApiTest
         return types;
     }
 
+    static List<Method> ReadMethodsForFiles(string pattern)
+    {
+        var types = Directory.EnumerateFiles(polyfillDir, $"{pattern}.cs", SearchOption.AllDirectories)
+            .SelectMany(Identifiers.ReadTypesForFile)
+            .ToList();
+
+        var distinctTypes = types.DistinctBy(_ => _.Identifier.Text).ToList();
+        if (distinctTypes.Count > 1)
+        {
+            throw new(string.Join(", ", distinctTypes));
+        }
+
+        return types
+            .SelectMany(_ => _.PublicMethods())
+            .DistinctBy(Key)
+            .OrderBy(Key)
+            .ToList();
+    }
+
     static void WriteType(string name, StreamWriter writer, ref int count)
     {
         writer.WriteLine(
@@ -100,12 +119,8 @@ public class BuildApiTest
         count++;
     }
 
-    static void WriteHelper(Dictionary<string, HashSet<Method>> types, string name, StreamWriter writer, ref int count)
-    {
-        var methods = types[name];
-
-        WriteTypeMethods(name, writer, ref count, methods.OrderBy(Key));
-    }
+    static void WriteHelper(string name, StreamWriter writer, ref int count) =>
+        WriteTypeMethods(name.Trim('*'), writer, ref count, ReadMethodsForFiles(name));
 
     static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<Method> methods)
     {
