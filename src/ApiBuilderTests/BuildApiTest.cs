@@ -32,20 +32,19 @@ public class BuildApiTest
 
         writer.WriteLine("### Static helpers");
         writer.WriteLine();
+        foreach (var (key, value) in types
+                     .OrderBy(_ => _.Key)
+                     .Where(_ => _.Key.EndsWith("Polyfill") &&
+                                 _.Key != "Polyfill"))
+        {
+            WriteTypeMethods(key, writer, ref count, value);
+        }
 
         count += types.Count(_ => _.Key.EndsWith("Attribute"));
         // Index and Range
         count++;
         //Nullability*
         count += 3;
-
-        foreach (var (key, value) in types
-                     .OrderBy(_ => _.Key)
-                     .Where(_ => _.Key.EndsWith("Polyfill") &&
-                                 _.Key != "Polyfill"))
-        {
-            WriteTypeMethods(key, writer, ref count, value.OrderBy(Key));
-        }
 
         WriteHelper(types, "Guard", writer, ref count);
         WriteHelper(types, "Lock", writer, ref count);
@@ -108,11 +107,11 @@ public class BuildApiTest
         WriteTypeMethods(name, writer, ref count, methods.OrderBy(Key));
     }
 
-    static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<Method> items)
+    static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<Method> methods)
     {
         writer.WriteLine($"#### {name}");
         writer.WriteLine();
-        foreach (var method in items)
+        foreach (var method in methods.OrderBy(Key))
         {
             count++;
             WriteSignature(method, writer);
