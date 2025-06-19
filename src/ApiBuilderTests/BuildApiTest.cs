@@ -161,7 +161,7 @@ public class BuildApiTest
 
     static string BuildParameters(Method method, bool skipThisModified)
     {
-        List<ParameterSyntax> parameters;
+        List<Parameter> parameters;
         if (skipThisModified)
         {
             parameters = method.ParameterList
