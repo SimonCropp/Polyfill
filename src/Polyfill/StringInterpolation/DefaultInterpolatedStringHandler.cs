@@ -446,12 +446,6 @@ ref struct DefaultInterpolatedStringHandler
     }
 }
 
-[ExcludeFromCodeCoverage]
-static file class SR
-{
-    public const string Argument_MinMaxValue = "'{0}' cannot be greater than {1}.";
-}
-
 #else
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.DefaultInterpolatedStringHandler))]
