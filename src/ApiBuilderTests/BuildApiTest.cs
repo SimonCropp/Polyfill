@@ -46,7 +46,7 @@ public class BuildApiTest
         WriteType(nameof(TaskCompletionSource), writer, ref count);
         WriteType(nameof(UnreachableException), writer, ref count);
 
-        count += Directory.EnumerateFiles(polyfillDir,"*Attribute.cs",SearchOption.AllDirectories).Count();
+        count += Directory.EnumerateFiles(polyfillDir, "*Attribute.cs", SearchOption.AllDirectories).Count();
         // Index and Range
         count++;
         //Nullability*
