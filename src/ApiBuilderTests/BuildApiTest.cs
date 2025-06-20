@@ -17,11 +17,34 @@ public class BuildApiTest
         File.Delete(md);
         using var writer = File.CreateText(md);
         var count = 0;
-        var polyfillFiles = Directory.EnumerateFiles(polyfillDir, "*Polyfill*.cs", SearchOption.AllDirectories).ToList();
-        var instanceExtensions = polyfillFiles
+        count = WriteExtensions(writer, count);
+
+        WriteHelper("Guard*", writer, ref count);
+        WriteHelper("Lock", writer, ref count);
+        WriteHelper(nameof(KeyValuePair), writer, ref count);
+        WriteType(nameof(TaskCompletionSource), writer, ref count);
+        WriteType(nameof(UnreachableException), writer, ref count);
+
+        count += Directory.EnumerateFiles(polyfillDir, "*Attribute.cs", SearchOption.AllDirectories).Count();
+        // Index and Range
+        count++;
+        //Nullability*
+        count += 3;
+
+        var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
+        File.Delete(countMd);
+        File.WriteAllText(countMd, $"**API count: {count}**");
+    }
+
+    static int WriteExtensions(StreamWriter writer, int count)
+    {
+        var files = Directory.EnumerateFiles(polyfillDir, "*Polyfill*.cs", SearchOption.AllDirectories).ToList();
+
+        var instanceExtensions = files
             .Where(_ => Path.GetFileNameWithoutExtension(_).StartsWith("Polyfill_"))
             .ToList();
-        var staticExtensions = polyfillFiles
+
+        var staticExtensions = files
             .Where(_ =>
             {
                 var name = Path.GetFileNameWithoutExtension(_);
@@ -29,9 +52,15 @@ public class BuildApiTest
                        name != "Polyfill";
             })
             .ToList();
+
         var instanceExtensionMethods = ReadMethodsForFiles(instanceExtensions);
+
+        var instanceTypeNames = instanceExtensionMethods
+            .Select(_=>_.ParameterList.Parameters[0].Type!.ToString()).Distinct();
+
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
+
         foreach (var grouping in instanceExtensionMethods
                      .GroupBy(_ => _.ParameterList.Parameters[0].Type!.ToString())
                      .OrderBy(_ => _.Key))
@@ -51,21 +80,7 @@ public class BuildApiTest
             WriteTypeMethods(key, writer, ref count, value);
         }
 
-        WriteHelper("Guard*", writer, ref count);
-        WriteHelper("Lock", writer, ref count);
-        WriteHelper(nameof(KeyValuePair), writer, ref count);
-        WriteType(nameof(TaskCompletionSource), writer, ref count);
-        WriteType(nameof(UnreachableException), writer, ref count);
-
-        count += Directory.EnumerateFiles(polyfillDir, "*Attribute.cs", SearchOption.AllDirectories).Count();
-        // Index and Range
-        count++;
-        //Nullability*
-        count += 3;
-
-        var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
-        File.Delete(countMd);
-        File.WriteAllText(countMd, $"**API count: {count}**");
+        return count;
     }
 
     static IEnumerable<Method> PublicMethods(HashSet<Method> type) =>
