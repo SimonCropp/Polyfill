@@ -13,22 +13,33 @@ public class BuildApiTest
     [Test]
     public void RunWithRoslyn()
     {
-        var types = ReadFiles();
-
         var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
         using var writer = File.CreateText(md);
         var count = 0;
-
-        var extensions = types["Polyfill"];
+        var polyfillFiles = Directory.EnumerateFiles(polyfillDir, "*Polyfill*.cs", SearchOption.AllDirectories).ToList();
+        var instanceExtensions = polyfillFiles
+            .Where(_ => Path.GetFileNameWithoutExtension(_).StartsWith("Polyfill_"))
+            .ToList();
+        var staticExtensions = polyfillFiles
+            .Where(_ =>
+            {
+                var name = Path.GetFileNameWithoutExtension(_);
+                return name.EndsWith("Polyfill") &&
+                       name != "Polyfill";
+            })
+            .ToList();
+        var instanceExtensionMethods = ReadMethodsForFiles(instanceExtensions);
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
-        foreach (var grouping in PublicMethods(extensions)
+        foreach (var grouping in instanceExtensionMethods
                      .GroupBy(_ => _.ParameterList.Parameters[0].Type!.ToString())
                      .OrderBy(_ => _.Key))
         {
             WriteTypeMethods(grouping.Key, writer, ref count, grouping);
         }
+
+        var types = ReadFiles();
 
         writer.WriteLine("### Static helpers");
         writer.WriteLine();
@@ -92,7 +103,13 @@ public class BuildApiTest
 
     static List<Method> ReadMethodsForFiles(string pattern)
     {
-        var types = Directory.EnumerateFiles(polyfillDir, $"{pattern}.cs", SearchOption.AllDirectories)
+        var files = Directory.EnumerateFiles(polyfillDir, $"{pattern}.cs", SearchOption.AllDirectories);
+        return ReadMethodsForFiles(files);
+    }
+
+    private static List<Method> ReadMethodsForFiles(IEnumerable<string> files)
+    {
+        var types = files
             .SelectMany(Identifiers.ReadTypesForFile)
             .ToList();
 
