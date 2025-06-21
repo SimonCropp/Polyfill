@@ -204,6 +204,20 @@ public class BuildApiTest
         }
     }
 
+    static void WriteSignature(Property method, StreamWriter writer)
+    {
+        var signature = new StringBuilder(method.Identifier.Text);
+
+        if (method.TryGetReference(out var reference))
+        {
+            writer.WriteLine($" * `{signature}` [reference]({reference})");
+        }
+        else
+        {
+            writer.WriteLine($" * `{signature}`");
+        }
+    }
+
     static string Key(Method method) =>
         $"{method.Identifier.Text}{BuildTypeArgs(method)}({BuildParameters(method, false)})";
 
