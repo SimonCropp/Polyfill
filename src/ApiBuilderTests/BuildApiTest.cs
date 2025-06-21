@@ -55,29 +55,25 @@ public class BuildApiTest
 
         var instanceExtensionMethods = ReadMethodsForFiles(instanceExtensions);
 
-        var instanceTypeNames = instanceExtensionMethods
+        var typeNames = instanceExtensionMethods
             .Select(FirstParameterType)
             .Distinct();
 
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
 
-        foreach (var name in instanceTypeNames.Order())
+        foreach (var name in typeNames.Order())
         {
             var methods = instanceExtensionMethods.Where(_ => FirstParameterType(_) == name);
             WriteTypeMethods(name, writer, ref count, methods);
         }
 
-        var types = ReadFiles();
-
         writer.WriteLine("### Static helpers");
         writer.WriteLine();
-        foreach (var (key, value) in types
-                     .OrderBy(_ => _.Key)
-                     .Where(_ => _.Key.EndsWith("Polyfill") &&
-                                 _.Key != "Polyfill"))
+        foreach (var staticExtension in staticExtensions.OrderBy(Path.GetFileNameWithoutExtension))
         {
-            WriteTypeMethods(key, writer, ref count, value);
+            var methods = ReadMethodsForFiles([staticExtension]);
+            WriteTypeMethods(Path.GetFileNameWithoutExtension(staticExtension), writer, ref count, methods);
         }
 
         return count;
@@ -85,39 +81,6 @@ public class BuildApiTest
 
     static string FirstParameterType(Method _) =>
         _.ParameterList.Parameters[0].Type!.ToString();
-
-    static IEnumerable<Method> PublicMethods(HashSet<Method> type) =>
-        type.Where(_ => _.IsPublic() &&
-                        !_.IsConstructor())
-            .OrderBy(_ => _.Identifier.ToString());
-
-    static Dictionary<string, HashSet<Method>> ReadFiles()
-    {
-        var types = new Dictionary<string, HashSet<Method>>();
-        var methodComparer = EqualityComparer<Method>
-            .Create(
-                (x, y) => Key(x!) == Key(y!),
-                _ => Key(_).GetHashCode());
-        foreach (var file in Directory.EnumerateFiles(polyfillDir, "*.cs", SearchOption.AllDirectories))
-        {
-            foreach (var type in Identifiers.ReadTypesForFile(file))
-            {
-                var identifier = type.Identifier.Text;
-                if (!types.TryGetValue(identifier, out var methods))
-                {
-                    methods = new(methodComparer);
-                    types.Add(identifier, methods);
-                }
-
-                foreach (var method in type.PublicMethods())
-                {
-                    methods.Add(method);
-                }
-            }
-        }
-
-        return types;
-    }
 
     static List<Method> ReadMethodsForFiles(string pattern)
     {
