@@ -40,11 +40,11 @@ public class BuildApiTest
     {
         var files = Directory.EnumerateFiles(polyfillDir, "*Polyfill*.cs", SearchOption.AllDirectories).ToList();
 
-        var instanceExtensions = files
+        var instanceFiles = files
             .Where(_ => Path.GetFileNameWithoutExtension(_).StartsWith("Polyfill_"))
             .ToList();
 
-        var staticExtensions = files
+        var staticFiles = files
             .Where(_ =>
             {
                 var name = Path.GetFileNameWithoutExtension(_);
@@ -53,9 +53,9 @@ public class BuildApiTest
             })
             .ToList();
 
-        var instanceExtensionMethods = ReadMethodsForFiles(instanceExtensions);
+        var instanceMethods = ReadMethodsForFiles(instanceFiles);
 
-        var typeNames = instanceExtensionMethods
+        var typeNames = instanceMethods
             .Select(FirstParameterType)
             .Distinct();
 
@@ -64,13 +64,20 @@ public class BuildApiTest
 
         foreach (var name in typeNames.Order())
         {
-            var methods = instanceExtensionMethods.Where(_ => FirstParameterType(_) == name);
+            var methods = instanceMethods.Where(_ => FirstParameterType(_) == name);
             WriteTypeMethods(name, writer, ref count, methods);
         }
 
+
+        var staticTypeNames = staticFiles
+            .Select(Path.GetFileNameWithoutExtension)
+            .Select(_ => _.TrimEnd("Polyfill").ToString())
+            .ToList();
+
+
         writer.WriteLine("### Static helpers");
         writer.WriteLine();
-        foreach (var staticExtension in staticExtensions.OrderBy(Path.GetFileNameWithoutExtension))
+        foreach (var staticExtension in staticFiles.OrderBy(Path.GetFileNameWithoutExtension))
         {
             var methods = ReadMethodsForFiles([staticExtension]);
             WriteTypeMethods(Path.GetFileNameWithoutExtension(staticExtension), writer, ref count, methods);
