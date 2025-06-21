@@ -15,15 +15,16 @@ public
 #endif
 static class DateTimePolyfill
 {
-    /// <summary>
-    /// Tries to parse a string into a value.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparse?view=net-10.0#system-datetime-tryparse(system-string-system-iformatprovider-system-datetime@)
-    public static bool TryParse(string? target, IFormatProvider? provider, out DateTime result) =>
-#if NET7_0_OR_GREATER
-        DateTime.TryParse(target, provider, out result);
-#else
-        DateTime.TryParse(target, provider, DateTimeStyles.None, out result);
+#if !NET7_0_OR_GREATER
+    extension(DateTime)
+    {
+        /// <summary>
+        /// Tries to parse a string into a value.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparse?view=net-10.0#system-datetime-tryparse(system-string-system-iformatprovider-system-datetime@)
+        public static bool TryParse(string? target, IFormatProvider? provider, out DateTime result) =>
+            DateTime.TryParse(target, provider, DateTimeStyles.None, out result);
+    }
 #endif
 
 #if FeatureMemory
