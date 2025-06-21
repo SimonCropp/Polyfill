@@ -104,9 +104,9 @@ public class BuildApiTest
         ["string"] = "String"
     };
 
-    static string FirstParameterType(Method _)
+    static string FirstParameterType(Method method)
     {
-        var type = _.ParameterList.Parameters[0].Type!.ToString();
+        var type = method.ParameterList.Parameters[0].Type!.ToString();
         return LangwordToType.GetValueOrDefault(type, type);
     }
 
