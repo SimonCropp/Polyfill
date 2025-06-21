@@ -85,7 +85,8 @@ public class BuildApiTest
 
         return count;
     }
-    private static readonly Dictionary<string, string> LangwordToType = new()
+
+    static Dictionary<string, string> langwordToType = new()
     {
         ["bool"] = "Boolean",
         ["byte"] = "Byte",
@@ -107,7 +108,7 @@ public class BuildApiTest
     static string FirstParameterType(Method method)
     {
         var type = method.ParameterList.Parameters[0].Type!.ToString();
-        return LangwordToType.GetValueOrDefault(type, type);
+        return langwordToType.GetValueOrDefault(type, type);
     }
 
     static List<Method> ReadMethodsForFiles(string pattern)
