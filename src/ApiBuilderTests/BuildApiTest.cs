@@ -55,32 +55,50 @@ public class BuildApiTest
 
         var instanceMethods = ReadMethodsForFiles(instanceFiles);
 
-        var typeNames = instanceMethods
-            .Select(FirstParameterType)
-            .Distinct();
+        var instanceTypeNames = instanceMethods
+            .Select(FirstParameterType);
+
+       var staticTypeNames = staticFiles
+            .Select(Path.GetFileNameWithoutExtension)
+            .Select(_ => _.TrimEnd("Polyfill").ToString());
+
+        var typeNames = instanceTypeNames.Concat(staticTypeNames)
+            .Distinct()
+            .ToList();
 
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
 
         foreach (var name in typeNames.Order())
         {
-            var methods = instanceMethods.Where(_ => FirstParameterType(_) == name);
-            WriteTypeMethods(name, writer, ref count, methods);
-        }
+            var instanceMethodsForType = instanceMethods
+                .Where(_ => FirstParameterType(_) == name)
+                .ToList();
+            writer.WriteLine($"#### {name}");
+            writer.WriteLine();
+            if (instanceMethodsForType.Count != 0)
+            {
+                foreach (var method in instanceMethodsForType.OrderBy(Key))
+                {
+                    count++;
+                    WriteSignature(method, writer);
+                }
+            }
 
+            var staticExtension = staticFiles
+                .SingleOrDefault(_ => Path.GetFileNameWithoutExtension(_).TrimEnd("Polyfill").ToString() == name);
+            if (staticExtension != null)
+            {
+                var methods = ReadMethodsForFiles([staticExtension]);
+                foreach (var method in methods.OrderBy(Key))
+                {
+                    count++;
+                    WriteSignature(method, writer);
+                }
+            }
 
-        var staticTypeNames = staticFiles
-            .Select(Path.GetFileNameWithoutExtension)
-            .Select(_ => _.TrimEnd("Polyfill").ToString())
-            .ToList();
-
-
-        writer.WriteLine("### Static helpers");
-        writer.WriteLine();
-        foreach (var staticExtension in staticFiles.OrderBy(Path.GetFileNameWithoutExtension))
-        {
-            var methods = ReadMethodsForFiles([staticExtension]);
-            WriteTypeMethods(Path.GetFileNameWithoutExtension(staticExtension), writer, ref count, methods);
+            writer.WriteLine();
+            writer.WriteLine();
         }
 
         return count;
