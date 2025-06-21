@@ -4,8 +4,6 @@
 namespace Polyfills;
 
 using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 static partial class Polyfill
@@ -39,18 +37,14 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparse?view=net-10.0#system-datetime-tryparse(system-readonlyspan((system-char))-system-datetime@)
         public static bool TryParse(ReadOnlySpan<char> target, out DateTime result) =>
             DateTime.TryParse(target.ToString(), null, DateTimeStyles.None, out result);
-#endif
 
-#if !(NETSTANDARD2_1 || NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER)
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparse?view=net-10.0#system-datetime-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetime@)
         public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, DateTimeStyles styles, out DateTime result) =>
             DateTime.TryParse(target.ToString(), provider, styles, out result);
-#endif
 
-#if !(NETSTANDARD2_1 || NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER)
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>
