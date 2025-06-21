@@ -58,7 +58,7 @@ public class BuildApiTest
         var instanceTypeNames = instanceMethods
             .Select(FirstParameterType);
 
-       var staticTypeNames = staticFiles
+        var staticTypeNames = staticFiles
             .Select(Path.GetFileNameWithoutExtension)
             .Select(_ => _.TrimEnd("Polyfill").ToString());
 
@@ -89,11 +89,16 @@ public class BuildApiTest
                 .SingleOrDefault(_ => Path.GetFileNameWithoutExtension(_).TrimEnd("Polyfill").ToString() == name);
             if (staticExtension != null)
             {
-                var methods = ReadMethodsForFiles([staticExtension]);
-                foreach (var method in methods.OrderBy(Key))
+                foreach (var method in ReadMethodsForFiles([staticExtension]).OrderBy(Key))
                 {
                     count++;
                     WriteSignature(method, writer);
+                }
+
+                foreach (var property in ReadPropertiesForFiles([staticExtension]))
+                {
+                    count++;
+                    WriteSignature(property, writer);
                 }
             }
 
@@ -151,6 +156,31 @@ public class BuildApiTest
             .SelectMany(_ => _.PublicMethods())
             .DistinctBy(Key)
             .OrderBy(Key)
+            .ToList();
+    }
+
+    static List<Property> ReadPropertiesForFiles(string pattern)
+    {
+        var files = Directory.EnumerateFiles(polyfillDir, $"{pattern}.cs", SearchOption.AllDirectories);
+        return ReadPropertiesForFiles(files);
+    }
+
+    static List<Property> ReadPropertiesForFiles(IEnumerable<string> files)
+    {
+        var types = files
+            .SelectMany(Identifiers.ReadTypesForFile)
+            .ToList();
+
+        var distinctTypes = types.DistinctBy(_ => _.Identifier.Text).ToList();
+        if (distinctTypes.Count > 1)
+        {
+            throw new(string.Join(", ", distinctTypes));
+        }
+
+        return types
+            .SelectMany(_ => _.PublicProperties())
+            .DistinctBy(_ => _.Identifier.Text)
+            .OrderBy(_ => _.Identifier.Text)
             .ToList();
     }
 

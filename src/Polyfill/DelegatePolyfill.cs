@@ -65,4 +65,14 @@ static partial class DelegatePolyfill
     }
 #endif
 
+#if !NET9_0_OR_GREATER
+    extension(Delegate target)
+    {
+        /// <summary>
+        /// Gets a value that indicates whether the Delegate has a single invocation target.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.hassingletarget?view=net-10.0
+        public bool HasSingleTarget => target.GetInvocationList().Length == 1;
+    }
+#endif
 }
