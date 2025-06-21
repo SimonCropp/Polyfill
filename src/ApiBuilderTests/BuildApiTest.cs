@@ -85,9 +85,30 @@ public class BuildApiTest
 
         return count;
     }
+    private static readonly Dictionary<string, string> LangwordToType = new()
+    {
+        ["bool"] = "Boolean",
+        ["byte"] = "Byte",
+        ["sbyte"] = "SByte",
+        ["char"] = "Char",
+        ["decimal"] = "Decimal",
+        ["double"] = "Double",
+        ["float"] = "Single",
+        ["int"] = "Int32",
+        ["uint"] = "UInt32",
+        ["long"] = "Int64",
+        ["ulong"] = "UInt64",
+        ["object"] = "Object",
+        ["short"] = "Int16",
+        ["ushort"] = "UInt16",
+        ["string"] = "String"
+    };
 
-    static string FirstParameterType(Method _) =>
-        _.ParameterList.Parameters[0].Type!.ToString();
+    static string FirstParameterType(Method _)
+    {
+        var type = _.ParameterList.Parameters[0].Type!.ToString();
+        return LangwordToType.GetValueOrDefault(type, type);
+    }
 
     static List<Method> ReadMethodsForFiles(string pattern)
     {
