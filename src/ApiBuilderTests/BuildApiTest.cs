@@ -264,17 +264,16 @@ public class BuildApiTest
 
     static string BuildParameters(Method method, bool skipThisModified)
     {
-        List<Parameter> parameters;
+        var parameters = method
+            .ParameterList
+            .Parameters
+            .ToList();
+
         if (skipThisModified)
         {
-            parameters = method.ParameterList
-                .Parameters
-                .Where(_ => !_.IsThis()).ToList();
-        }
-        else
-        {
-            parameters = method.ParameterList
-                .Parameters.ToList();
+            parameters = parameters
+                .Where(_ => !_.IsThis())
+                .ToList();
         }
 
         if (parameters.Count > 0)
