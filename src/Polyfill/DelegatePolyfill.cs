@@ -9,12 +9,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyPublic
-public
-#endif
-static partial class DelegatePolyfill
+static partial class Polyfill
 {
     /// <summary>
     /// Gets an enumerator for the invocation targets of this delegate.
