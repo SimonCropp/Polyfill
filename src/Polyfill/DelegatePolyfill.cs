@@ -20,13 +20,7 @@ static partial class DelegatePolyfill
     /// Gets an enumerator for the invocation targets of this delegate.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.enumerateinvocationlist?view=net-10.0
-#if NET9_0_OR_GREATER
-    public static Delegate.InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate? target) where TDelegate : Delegate =>
-        Delegate.EnumerateInvocationList(target);
-#else
-    public static InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate? target)
-        where TDelegate : Delegate =>
-        new(target);
+#if !NET9_0_OR_GREATER
 
     /// <summary>
     /// Provides an enumerator for the invocation list of a delegate.
@@ -63,9 +57,18 @@ static partial class DelegatePolyfill
         [EditorBrowsable(EditorBrowsableState.Never)]
         public InvocationListEnumerator<TDelegate> GetEnumerator() => this;
     }
-#endif
 
-#if !NET9_0_OR_GREATER
+    extension(Delegate)
+    {
+        /// <summary>
+        /// Gets an enumerator for the invocation targets of this delegate.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.enumerateinvocationlist?view=net-10.0
+        public static InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate? target)
+            where TDelegate : Delegate =>
+            new(target);
+    }
+
     extension(Delegate target)
     {
         /// <summary>
