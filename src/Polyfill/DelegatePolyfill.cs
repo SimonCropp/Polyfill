@@ -11,10 +11,6 @@ using System.Runtime.CompilerServices;
 
 static partial class Polyfill
 {
-    /// <summary>
-    /// Gets an enumerator for the invocation targets of this delegate.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.enumerateinvocationlist?view=net-10.0
 #if !NET9_0_OR_GREATER
 
     /// <summary>
