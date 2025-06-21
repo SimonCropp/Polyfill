@@ -56,13 +56,14 @@ public class BuildApiTest
         var instanceExtensionMethods = ReadMethodsForFiles(instanceExtensions);
 
         var instanceTypeNames = instanceExtensionMethods
-            .Select(_=>_.ParameterList.Parameters[0].Type!.ToString()).Distinct();
+            .Select(FirstParameterType)
+            .Distinct();
 
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
 
         foreach (var grouping in instanceExtensionMethods
-                     .GroupBy(_ => _.ParameterList.Parameters[0].Type!.ToString())
+                     .GroupBy(FirstParameterType)
                      .OrderBy(_ => _.Key))
         {
             WriteTypeMethods(grouping.Key, writer, ref count, grouping);
@@ -82,6 +83,9 @@ public class BuildApiTest
 
         return count;
     }
+
+    static string FirstParameterType(Method _) =>
+        _.ParameterList.Parameters[0].Type!.ToString();
 
     static IEnumerable<Method> PublicMethods(HashSet<Method> type) =>
         type.Where(_ => _.IsPublic() &&
