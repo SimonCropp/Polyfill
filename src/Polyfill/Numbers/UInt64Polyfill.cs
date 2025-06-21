@@ -14,7 +14,7 @@ using System.Text;
 #if PolyPublic
 public
 #endif
-static class ULongPolyfill
+static class UInt64Polyfill
 {
     /// <summary>
     /// Tries to parse a string into a value.
