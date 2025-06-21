@@ -62,11 +62,10 @@ public class BuildApiTest
         writer.WriteLine("### Extension methods");
         writer.WriteLine();
 
-        foreach (var grouping in instanceExtensionMethods
-                     .GroupBy(FirstParameterType)
-                     .OrderBy(_ => _.Key))
+        foreach (var name in instanceTypeNames.Order())
         {
-            WriteTypeMethods(grouping.Key, writer, ref count, grouping);
+            var methods = instanceExtensionMethods.Where(_ => FirstParameterType(_) == name);
+            WriteTypeMethods(name, writer, ref count, methods);
         }
 
         var types = ReadFiles();
