@@ -14,7 +14,7 @@ using ValueMatchEnumerator = System.Text.RegularExpressions.ValueMatchEnumerator
 #endif
 #endif
 
-static class RegexPolyfill
+static partial class Polyfill
 {
     extension(Regex)
     {
