@@ -550,14 +550,14 @@ class Consume
 
     void SByte_Methods()
     {
-        SBytePolyfill.TryParse("1", null, out _);
+        sbyte.TryParse("1", null, out _);
 #if FeatureMemory
-        SBytePolyfill.TryParse("1"u8, null, out _);
-        SBytePolyfill.TryParse(['1'], out _);
-        SBytePolyfill.TryParse(['1'], null, out _);
-        SBytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        SBytePolyfill.TryParse("1"u8, out _);
-        SBytePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        sbyte.TryParse("1"u8, null, out _);
+        sbyte.TryParse(['1'], out _);
+        sbyte.TryParse(['1'], null, out _);
+        sbyte.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        sbyte.TryParse("1"u8, out _);
+        sbyte.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 
