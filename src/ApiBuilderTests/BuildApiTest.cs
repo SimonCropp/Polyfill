@@ -146,7 +146,7 @@ public class BuildApiTest
             .SelectMany(Identifiers.ReadTypesForFile)
             .ToList();
 
-        var distinctTypes = types.DistinctBy(_ => _.Identifier.Text).ToList();
+        var distinctTypes = types.Select(_ => _.Identifier.Text).Distinct().ToList();
         if (distinctTypes.Count > 1)
         {
             throw new(string.Join(", ", distinctTypes));
