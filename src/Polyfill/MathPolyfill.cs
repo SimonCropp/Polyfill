@@ -11,6 +11,7 @@ static partial class Polyfill
     extension(Math)
     {
 #if !NET6_0_OR_GREATER
+
         /// <summary>
         /// Returns value clamped to the inclusive range of min and max.
         /// </summary>
@@ -335,6 +336,7 @@ static partial class Polyfill
 
             return value;
         }
+
 #endif
     }
 }

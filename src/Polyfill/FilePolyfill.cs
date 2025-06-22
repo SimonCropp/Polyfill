@@ -16,6 +16,7 @@ static partial class Polyfill
     extension(File)
     {
 #if !NET9_0_OR_GREATER
+
         /// <summary>
         /// Appends the specified byte array to the end of the file at the given path.
         /// If the file doesn't exist, this method creates a new file. If the operation is canceled, the task will return in a canceled state.
@@ -37,12 +38,13 @@ static partial class Polyfill
             using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
             await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
         }
+
 #endif
 
-
-
 #if FeatureMemory
+
 #if !NET9_0_OR_GREATER
+
         /// <summary>
         /// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file using the specified encoding, and then closes the file.
         /// </summary>
@@ -112,7 +114,9 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendallbytesasync?view=net-10.0#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)
         public static Task AppendAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default) =>
             AppendAllBytesAsync(path, bytes.ToArray(), cancellationToken);
+
 #endif
+
 #endif
 
         /// <summary>
@@ -143,8 +147,8 @@ static partial class Polyfill
 #endif
         }
 
-
 #if !NETCOREAPP && !NETSTANDARD2_1
+
         /// <summary>
         /// Asynchronously creates a new file, writes the specified byte array to the file, and then closes the file. If the target file already exists, it is truncated and overwritten.
         /// </summary>
@@ -205,9 +209,11 @@ static partial class Polyfill
 
             await writer.FlushAsync(cancellationToken);
         }
+
 #endif
 
 #if NETFRAMEWORK || NETSTANDARD2_0
+
         /// <summary>
         /// Asynchronously creates a new file, writes the specified string to the file using the specified encoding, and then closes the file. If the target file already exists, it is truncated and overwritten.
         /// </summary>
@@ -325,6 +331,7 @@ static partial class Polyfill
             using var reader = new StreamReader(stream, encoding);
             return await reader.ReadToEndAsync(cancellationToken);
         }
+
 #endif
 
         //TODO: re add NETSTANDARD via https://www.nuget.org/packages/Microsoft.Bcl.AsyncInterfaces#dependencies-body-tab
@@ -355,7 +362,9 @@ static partial class Polyfill
                 }
             }
         }
+
 #endif
+
 #endif
 
     }

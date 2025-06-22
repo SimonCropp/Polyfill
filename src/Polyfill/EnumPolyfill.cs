@@ -11,6 +11,7 @@ static partial class Polyfill
     extension(Enum)
     {
 #if !NET
+
         /// <summary>
         /// Retrieves an array of the values of the constants in a specified enumeration type.
         /// </summary>
@@ -38,9 +39,11 @@ static partial class Polyfill
         public static string[] GetNames<TEnum>()
             where TEnum : struct, Enum =>
             Enum.GetNames(typeof(TEnum));
+
 #endif
 
 #if NETFRAMEWORK || NETSTANDARD
+
         /// <summary>
         /// Converts the string representation of the name or numeric value of one or more enumerated constants specified by TEnum to an equivalent enumerated object.
         /// </summary>
@@ -56,6 +59,7 @@ static partial class Polyfill
         public static TEnum Parse<TEnum>(string value, bool ignoreCase)
             where TEnum : struct, Enum =>
             (TEnum) Enum.Parse(typeof(TEnum), value, ignoreCase);
+
 #endif
 
 #if FeatureMemory
@@ -93,9 +97,11 @@ static partial class Polyfill
         public static bool TryParse<TEnum>(ReadOnlySpan<char> value, bool ignoreCase, out TEnum result)
             where TEnum : struct, Enum =>
             Enum.TryParse<TEnum>(value.ToString(), ignoreCase, out result);
+
 #endif
 
 #if !NET8_0_OR_GREATER
+
         /// <summary>
         /// Tries to format the value of the enumerated type instance into the provided span of characters.
         /// </summary>
@@ -126,6 +132,7 @@ static partial class Polyfill
             result.CopyTo(destination);
             return true;
         }
+
 #endif
 #endif
     }
