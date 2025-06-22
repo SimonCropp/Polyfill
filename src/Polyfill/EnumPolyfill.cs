@@ -5,8 +5,15 @@ namespace Polyfills;
 
 using System;
 using System.Runtime.CompilerServices;
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics;
 
-static partial class Polyfill
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
+#if PolyPublic
+public
+#endif
+static class EnumPolyfill
 {
     extension(Enum)
     {
