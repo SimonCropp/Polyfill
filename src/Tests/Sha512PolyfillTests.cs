@@ -60,7 +60,7 @@ public class Sha512PolyfillTests
         stream.Position = 0;
         Memory<byte> destination = new byte[expected.Length];
 
-        var length = await SHA512Polyfill.HashDataAsync(stream, destination);
+        var length = await SHA512.HashDataAsync(stream, destination);
         Assert.AreEqual(expected.Length, length);
         Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Span));
     }
@@ -124,7 +124,7 @@ public class Sha512PolyfillTests
     {
         Span<byte> destination = stackalloc byte[expected.Length];
 
-        var result = SHA512Polyfill.TryHashData(data, destination, out var bytesWritten);
+        var result = SHA512.TryHashData(data, destination, out var bytesWritten);
 
         Assert.IsTrue(result);
         Assert.AreEqual(expected.Length, bytesWritten);
@@ -136,7 +136,7 @@ public class Sha512PolyfillTests
     {
         Span<byte> destination = stackalloc byte[expected.Length - 1];
 
-        var result = SHA512Polyfill.TryHashData(data, destination, out var bytesWritten);
+        var result = SHA512.TryHashData(data, destination, out var bytesWritten);
 
         Assert.IsFalse(result);
         Assert.AreEqual(0, bytesWritten);
