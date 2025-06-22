@@ -9,7 +9,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 
-static partial class Polyfill
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
+#if PolyPublic
+public
+#endif
+static partial class UInt64Polyfill
 {
     extension(ulong)
     {
