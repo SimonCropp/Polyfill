@@ -18,65 +18,71 @@ public
 #endif
 static class SHA512Polyfill
 {
-    /// <summary>
-    /// Computes the hash of data using the SHA-512 algorithm.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-10.0#system-security-cryptography-sha512-hashdata(system-byte())
-    public static byte[] HashData(byte[] source)
+    extension(SHA512)
     {
-#if NET
-        return SHA512.HashData(source);
-#else
-        using var hasher = SHA512.Create();
-        return hasher.ComputeHash(source);
-#endif
-    }
+#if !NET
 
-    /// <summary>
-    /// Computes the hash of a stream using the SHA-512 algorithm.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-10.0?system-security-cryptography-sha512-hashdata(system-io-stream)
-    public static byte[] HashData(Stream source)
-    {
-#if NET7_0_OR_GREATER
-        return SHA512.HashData(source);
-#else
-        using var hasher = SHA512.Create();
-        return hasher.ComputeHash(source);
-#endif
-    }
+        /// <summary>
+        /// Computes the hash of data using the SHA-512 algorithm.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-10.0#system-security-cryptography-sha512-hashdata(system-byte())
+        public static byte[] HashData(byte[] source)
+        {
+            using var hasher = SHA512.Create();
+            return hasher.ComputeHash(source);
+        }
 
-#if FeatureValueTask
-    /// <summary>
-    /// Asynchronously computes the hash of a stream using the SHA-512 algorithm.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdataasync?view=net-10.0?system-security-cryptography-sha512-hashdataasync(system-io-stream-system-threading-cancellationtoken)
-    public static ValueTask<byte[]> HashDataAsync(Stream source, CancellationToken cancellationToken = default)
-    {
-#if NET7_0_OR_GREATER
-        return SHA512.HashDataAsync(source, cancellationToken);
-#else
-        cancellationToken.ThrowIfCancellationRequested();
-        using var hasher = SHA512.Create();
-        return new(hasher.ComputeHash(source));
 #endif
-    }
+
+#if !NET7_0_OR_GREATER
+
+        /// <summary>
+        /// Computes the hash of a stream using the SHA-512 algorithm.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-10.0?system-security-cryptography-sha512-hashdata(system-io-stream)
+        public static byte[] HashData(Stream source)
+        {
+            using var hasher = SHA512.Create();
+            return hasher.ComputeHash(source);
+        }
+
+#endif
+
+#if FeatureValueTask && !NET7_0_OR_GREATER
+
+        /// <summary>
+        /// Asynchronously computes the hash of a stream using the SHA-512 algorithm.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdataasync?view=net-10.0?system-security-cryptography-sha512-hashdataasync(system-io-stream-system-threading-cancellationtoken)
+        public static ValueTask<byte[]> HashDataAsync(Stream source, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            using var hasher = SHA512.Create();
+            return new(hasher.ComputeHash(source));
+        }
+
 #endif
 
 #if FeatureMemory
-    /// <summary>
-    /// Computes the hash of a stream using the SHA-512 algorithm.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-10.0?system-security-cryptography-sha512-hashdata(system-readonlyspan((system-byte)))
-    public static byte[] HashData(ReadOnlySpan<byte> source)
-    {
-#if NET
-        return SHA512.HashData(source);
-#else
-        using var hasher = SHA512.Create();
-        return hasher.ComputeHash(source.ToArray());
+
+#if !NET
+
+        /// <summary>
+        /// Computes the hash of a stream using the SHA-512 algorithm.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-10.0?system-security-cryptography-sha512-hashdata(system-readonlyspan((system-byte)))
+        public static byte[] HashData(ReadOnlySpan<byte> source)
+        {
+            using var hasher = SHA512.Create();
+            return hasher.ComputeHash(source.ToArray());
+        }
+
+#endif
+
 #endif
     }
+
+#if FeatureMemory
 
     /// <summary>
     /// Computes the hash of a stream using the SHA-512 algorithm.

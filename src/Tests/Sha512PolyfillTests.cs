@@ -1,4 +1,7 @@
 ﻿// ReSharper disable ReplaceSliceWithRangeIndexer
+
+using System.Security.Cryptography;
+
 #pragma warning disable IDE0057
 
 [TestFixture]
@@ -10,7 +13,7 @@ public class Sha512PolyfillTests
     [Test]
     public void HashData_ByteArray_ReturnsCorrectHash()
     {
-        var actualHash = SHA512Polyfill.HashData(data);
+        var actualHash = SHA512.HashData(data);
         Assert.AreEqual(expected, actualHash);
     }
 
@@ -21,7 +24,7 @@ public class Sha512PolyfillTests
 
         stream.Position = 0;
 
-        var actualHash = SHA512Polyfill.HashData(stream);
+        var actualHash = SHA512.HashData(stream);
         Assert.AreEqual(expected, actualHash);
     }
 
@@ -33,7 +36,7 @@ public class Sha512PolyfillTests
 
         stream.Position = 0;
 
-        var actualHash = await SHA512Polyfill.HashDataAsync(stream);
+        var actualHash = await SHA512.HashDataAsync(stream);
         Assert.AreEqual(expected, actualHash);
     }
 #endif
@@ -44,7 +47,7 @@ public class Sha512PolyfillTests
     {
         ReadOnlySpan<byte> span = data;
 
-        var actualHash = SHA512Polyfill.HashData(span);
+        var actualHash = SHA512.HashData(span);
         Assert.AreEqual(expected, actualHash);
     }
 
