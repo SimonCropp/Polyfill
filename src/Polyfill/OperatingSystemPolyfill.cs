@@ -19,7 +19,16 @@ public
 #endif
 static class OperatingSystemPolyfill
 {
-    #if !NET
+    static bool IsOsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0) =>
+        Environment.OSVersion.Version >= new Version(major, minor, build, revision);
+
+#if !NET
+
+    static Version? windowsVersion;
+    static Version? freeBsdVersion;
+    static Version? androidVersion;
+    static bool? isAndroid;
+    static Version? macOSVersion;
 
     static string RunProcess(string name, string arguments)
     {
@@ -103,10 +112,6 @@ static class OperatingSystemPolyfill
 #endif
     }
 
-#if !NET
-    static Version? windowsVersion;
-#endif
-
     /// <summary>
     /// Indicates whether the current application is running on macOS.
     /// </summary>
@@ -156,10 +161,6 @@ static class OperatingSystemPolyfill
         return macOSVersion >= new Version(major, minor, build);
 #endif
     }
-
-#if !NET
-    static Version? macOSVersion;
-#endif
 
     /// <summary>
     /// Check for the Mac Catalyst version (iOS version as presented in Apple documentation) with a ≤ version comparison. Used to guard APIs that were added in the given Mac Catalyst release.
@@ -224,10 +225,6 @@ static class OperatingSystemPolyfill
         return freeBsdVersion >= new Version(major, minor, build, revision);
 #endif
     }
-
-#if !NET
-    static Version? freeBsdVersion;
-#endif
 
     /// <summary>
     /// Indicates whether the current application is running on iOS or MacCatalyst.
@@ -309,10 +306,6 @@ static class OperatingSystemPolyfill
 #endif
     }
 
-#if !NET
-    static bool? isAndroid;
-#endif
-
     /// <summary>
     /// Checks if the Android version (returned by the Linux command uname) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified version.
     /// </summary>
@@ -338,10 +331,6 @@ static class OperatingSystemPolyfill
         return androidVersion >= new Version(major, minor, build, revision);
 #endif
     }
-
-#if !NET
-    static Version? androidVersion;
-#endif
 
     /// <summary>
     /// Indicates whether the current application is running on watchOS.
@@ -388,9 +377,6 @@ static class OperatingSystemPolyfill
 #else
         RuntimeInformation.FrameworkDescription.Contains(".NET WebAssembly");
 #endif
-
-    static bool IsOsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0) =>
-        Environment.OSVersion.Version >= new Version(major, minor, build, revision);
 }
 
 #endif
