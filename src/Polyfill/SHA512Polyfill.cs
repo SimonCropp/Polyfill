@@ -79,25 +79,26 @@ static class SHA512Polyfill
 
 #endif
 
+#if !NET7_0_OR_GREATER
+
+        /// <summary>
+        /// Computes the hash of a stream using the SHA-512 algorithm.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-10.0?system-security-cryptography-sha512-hashdata(system-io-stream-system-span((system-byte)))
+        public static int HashData(Stream source, Span<byte> destination)
+        {
+            var hash = HashData(source);
+            hash.CopyTo(destination);
+            return hash.Length;
+        }
+
+#endif
+
 #endif
     }
 
 #if FeatureMemory
 
-    /// <summary>
-    /// Computes the hash of a stream using the SHA-512 algorithm.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-10.0?system-security-cryptography-sha512-hashdata(system-io-stream-system-span((system-byte)))
-    public static int HashData(Stream source, Span<byte> destination)
-    {
-#if NET7_0_OR_GREATER
-        return SHA512.HashData(source, destination);
-#else
-        var hash = HashData(source);
-        hash.CopyTo(destination);
-        return hash.Length;
-#endif
-    }
 
 #if FeatureValueTask
     /// <summary>
