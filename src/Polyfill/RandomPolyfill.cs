@@ -9,15 +9,6 @@ using System.Threading;
 #if !NET6_0_OR_GREATER
 static partial class Polyfill
 {
-    extension(Random)
-    {
-        /// <summary>
-        /// Provides a thread-safe Random instance that may be used concurrently from any thread.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.shared?view=net-10.0
-        public static Random Shared => threadSafeRandom;
-    }
-
     static ThreadSafeRandom threadSafeRandom = new ThreadSafeRandom();
 
     class ThreadSafeRandom : Random
@@ -59,6 +50,15 @@ static partial class Polyfill
             lock (locker)
                 return base.Sample();
         }
+    }
+
+    extension(Random)
+    {
+        /// <summary>
+        /// Provides a thread-safe Random instance that may be used concurrently from any thread.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.shared?view=net-10.0
+        public static Random Shared => threadSafeRandom;
     }
 }
 #endif
