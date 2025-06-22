@@ -7,9 +7,16 @@ using System.Threading.Tasks;
 using System.Threading;
 using System;
 using System.IO;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 
-static partial class Polyfill
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
+#if PolyPublic
+public
+#endif
+static class SHA256Polyfill
 {
     extension(SHA256)
     {
