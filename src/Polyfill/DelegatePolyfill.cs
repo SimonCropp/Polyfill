@@ -66,5 +66,6 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.hassingletarget?view=net-10.0
         public bool HasSingleTarget => target.GetInvocationList().Length == 1;
     }
+    
 #endif
 }
