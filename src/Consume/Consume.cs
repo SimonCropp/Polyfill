@@ -715,40 +715,40 @@ class Consume
 
     void UInt_Methods()
     {
-        UInt32Polyfill.TryParse("1", null, out _);
+        uint.TryParse("1", null, out _);
 #if FeatureMemory
-        UInt32Polyfill.TryParse("1"u8, null, out _);
-        UInt32Polyfill.TryParse(['1'], out _);
-        UInt32Polyfill.TryParse(['1'], null, out _);
-        UInt32Polyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        UInt32Polyfill.TryParse("1"u8, out _);
-        UInt32Polyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        uint.TryParse("1"u8, null, out _);
+        uint.TryParse(['1'], out _);
+        uint.TryParse(['1'], null, out _);
+        uint.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        uint.TryParse("1"u8, out _);
+        uint.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 
     void ULong_Methods()
     {
-        UInt64Polyfill.TryParse("1", null, out _);
+        ulong.TryParse("1", null, out _);
 #if FeatureMemory
-        UInt64Polyfill.TryParse("1"u8, null, out _);
-        UInt64Polyfill.TryParse(['1'], out _);
-        UInt64Polyfill.TryParse(['1'], null, out _);
-        UInt64Polyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        UInt64Polyfill.TryParse("1"u8, out _);
-        UInt64Polyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        ulong.TryParse("1"u8, null, out _);
+        ulong.TryParse(['1'], out _);
+        ulong.TryParse(['1'], null, out _);
+        ulong.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        ulong.TryParse("1"u8, out _);
+        ulong.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 
     void UShort_Methods()
     {
-        UInt16Polyfill.TryParse("1", null, out _);
+        ushort.TryParse("1", null, out _);
 #if FeatureMemory
-        UInt16Polyfill.TryParse("1"u8, null, out _);
-        UInt16Polyfill.TryParse(['1'], out _);
-        UInt16Polyfill.TryParse(['1'], null, out _);
-        UInt16Polyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        UInt16Polyfill.TryParse("1"u8, out _);
-        UInt16Polyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        ushort.TryParse("1"u8, null, out _);
+        ushort.TryParse(['1'], out _);
+        ushort.TryParse(['1'], null, out _);
+        ushort.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        ushort.TryParse("1"u8, out _);
+        ushort.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 
