@@ -4,6 +4,8 @@
 namespace Polyfills;
 
 using System;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 #if FeatureMemory
@@ -14,7 +16,12 @@ using ValueMatchEnumerator = System.Text.RegularExpressions.ValueMatchEnumerator
 #endif
 #endif
 
-static partial class Polyfill
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
+#if PolyPublic
+public
+#endif
+static partial class RegexPolyfill
 {
     extension(Regex)
     {
