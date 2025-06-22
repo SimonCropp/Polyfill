@@ -65,7 +65,7 @@ partial class PolyfillTests
     [Test]
     public void IsOperatingSystemAndroid()
     {
-        bool actual = OperatingSystemPolyfill.IsAndroid();
+        bool actual = OperatingSystem.IsAndroid();
         bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("Android"));
 
         Assert.AreEqual(expected, actual);

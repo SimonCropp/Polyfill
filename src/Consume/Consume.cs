@@ -444,20 +444,20 @@ class Consume
         var isWindows11 = OperatingSystem.IsWindowsVersionAtLeast(10,0,22000);
 
         var isMacOS = OperatingSystem.IsMacOS();
-        var isMacOsSonoma = OperatingSystemPolyfill.IsMacOSVersionAtLeast(14);
+        var isMacOsSonoma = OperatingSystem.IsMacOSVersionAtLeast(14);
         var isMacCatalyst = OperatingSystem.IsMacCatalyst();
         var isMacCatalyst17 = OperatingSystem.IsMacCatalystVersionAtLeast(17);
 
         var isLinux = OperatingSystem.IsLinux();
 
         var isFreeBSD = OperatingSystem.IsFreeBSD();
-        var isFreeBSD14 = OperatingSystemPolyfill.IsFreeBSDVersionAtLeast(14, 0);
+        var isFreeBSD14 = OperatingSystem.IsFreeBSDVersionAtLeast(14, 0);
 
         var isIOS = OperatingSystem.IsIOS();
         var isIOS18 = OperatingSystem.IsIOSVersionAtLeast(18);
 
-        var isAndroid = OperatingSystemPolyfill.IsAndroid();
-        var isAndroid13 = OperatingSystemPolyfill.IsAndroidVersionAtLeast(13);
+        var isAndroid = OperatingSystem.IsAndroid();
+        var isAndroid13 = OperatingSystem.IsAndroidVersionAtLeast(13);
 
         var isTvOS = OperatingSystem.IsTvOS();
         var isTvOS17 = OperatingSystem.IsTvOSVersionAtLeast(17);

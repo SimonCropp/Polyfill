@@ -22,148 +22,6 @@ static class OperatingSystemPolyfill
     static bool IsOsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0) =>
         Environment.OSVersion.Version >= new Version(major, minor, build, revision);
 
-#if !NET
-
-    static Version? windowsVersion;
-    static Version? freeBsdVersion;
-    static Version? androidVersion;
-    static bool? isAndroid;
-    static Version? macOSVersion;
-
-    static string RunProcess(string name, string arguments)
-    {
-        using var process = new Process()
-        {
-            StartInfo = new()
-            {
-                FileName = name,
-                Arguments = arguments,
-                RedirectStandardInput = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            }
-        };
-        process.Start();
-        process.WaitForExit();
-
-        return process.StandardOutput.ReadToEnd();
-    }
-#endif
-
-
-    /// <summary>
-    /// Checks if the macOS version (returned by libobjc.get_operatingSystemVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified macOS version.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.ismacosversionatleast?view=net-10.0
-    public static bool IsMacOSVersionAtLeast(int major, int minor = 0, int build = 0)
-    {
-#if NET
-        return OperatingSystem.IsMacOSVersionAtLeast(major, minor, build);
-#else
-        if (!IsMacOS())
-        {
-            return false;
-        }
-
-        if (macOSVersion == null)
-        {
-            var versionString = RunProcess("/usr/bin/sw_vers", "")
-                .Replace("ProductVersion:", string.Empty)
-                .Replace(" ", string.Empty);
-
-            macOSVersion = Version.Parse(versionString.Split(Environment.NewLine.ToCharArray())[0]);
-        }
-
-        return macOSVersion >= new Version(major, minor, build);
-#endif
-    }
-
-    /// <summary>
-    /// Checks if the FreeBSD version (returned by the Linux command uname) is greater than or equal to the specified version.
-    /// This method can be used to guard APIs that were added in the specified version.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isfreebsdversionatleast?view=net-10.0
-    public static bool IsFreeBSDVersionAtLeast(int major, int minor, int build = 0, int revision = 0)
-    {
-#if NET
-        return OperatingSystem.IsFreeBSDVersionAtLeast(major, minor, build, revision);
-#else
-        if (!IsFreeBSD())
-        {
-            return false;
-        }
-
-        if (freeBsdVersion == null)
-        {
-            var versionString = Environment.OSVersion.VersionString
-                .Replace("Unix", string.Empty)
-                .Replace("FreeBSD", string.Empty)
-                .Replace("-release", string.Empty)
-                .Replace(" ", string.Empty);
-
-            freeBsdVersion = Version.Parse(versionString);
-        }
-
-        return freeBsdVersion >= new Version(major, minor, build, revision);
-#endif
-    }
-
-    /// <summary>
-    /// Indicates whether the current application is running on Android.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isandroid?view=net-10.0
-    public static bool IsAndroid()
-    {
-#if NET
-        return OperatingSystem.IsAndroid();
-#else
-        if (!isAndroid.HasValue)
-        {
-            try
-            {
-                isAndroid = RunProcess("uname", "-o")
-                    .Replace(" ", string.Empty)
-                    .ToLower()
-                    .Equals("android");
-            }
-            catch
-            {
-                isAndroid = false;
-            }
-        }
-
-        return isAndroid.Value;
-#endif
-    }
-
-    /// <summary>
-    /// Checks if the Android version (returned by the Linux command uname) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified version.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isandroidversionatleast?view=net-10.0
-    public static bool IsAndroidVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
-    {
-#if NET
-        return OperatingSystem.IsAndroidVersionAtLeast(major, minor, build, revision);
-#else
-        if (!IsAndroid())
-        {
-            return false;
-        }
-
-        if (androidVersion == null)
-        {
-            var result = RunProcess("getprop", "ro.build.version.release")
-                .Replace(" ", string.Empty);
-
-            androidVersion = Version.Parse(result);
-        }
-
-        return androidVersion >= new Version(major, minor, build, revision);
-#endif
-    }
-
     extension(OperatingSystem)
     {
 #if !NET8_0_OR_GREATER
@@ -200,26 +58,40 @@ static class OperatingSystemPolyfill
 #if !NET
 
         /// <summary>
+        /// Checks if the macOS version (returned by libobjc.get_operatingSystemVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified macOS version.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.ismacosversionatleast?view=net-10.0
+        public static bool IsMacOSVersionAtLeast(int major, int minor = 0, int build = 0) =>
+            OperatingSystemCache.IsMacOSVersionAtLeast(major, minor, build);
+
+        /// <summary>
+        /// Checks if the FreeBSD version (returned by the Linux command uname) is greater than or equal to the specified version.
+        /// This method can be used to guard APIs that were added in the specified version.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isfreebsdversionatleast?view=net-10.0
+        public static bool IsFreeBSDVersionAtLeast(int major, int minor, int build = 0, int revision = 0) =>
+            OperatingSystemCache.IsFreeBSDVersionAtLeast(major, minor, build, revision);
+
+        /// <summary>
+        /// Indicates whether the current application is running on Android.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isandroid?view=net-10.0
+        public static bool IsAndroid() =>
+            OperatingSystemCache.IsAndroid();
+
+        /// <summary>
+        /// Checks if the Android version (returned by the Linux command uname) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified version.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isandroidversionatleast?view=net-10.0
+        public static bool IsAndroidVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0) =>
+            OperatingSystemCache.IsAndroidVersionAtLeast(major, minor, build, revision);
+
+        /// <summary>
         /// Checks if the Windows version (returned by RtlGetVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified Windows version.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.iswindowsversionatleast?view=net-10.0
-        public static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
-        {
-            if (!IsWindows())
-            {
-                return false;
-            }
-
-            if (windowsVersion == null)
-            {
-                var input = RuntimeInformation.OSDescription
-                    .Replace("Microsoft Windows", string.Empty)
-                    .Replace(" ", string.Empty);
-                windowsVersion = Version.Parse(input);
-            }
-
-            return windowsVersion >= new Version(major, minor, build, revision);
-        }
+        public static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0) =>
+            OperatingSystemCache.IsWindowsVersionAtLeast(major, minor, build, revision);
 
        /// <summary>
         /// Indicates whether the current application is running on the specified platform.
