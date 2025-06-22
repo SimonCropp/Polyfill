@@ -85,7 +85,7 @@ public class Sha512PolyfillTests
     {
         Span<byte> destination = stackalloc byte[expected.Length + 1];
 
-        var length = SHA512Polyfill.HashData(data, destination);
+        var length = SHA512.HashData(data, destination);
 
         Assert.AreEqual(expected.Length, length);
         Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)));
@@ -113,12 +113,11 @@ public class Sha512PolyfillTests
         var exception = Assert.Throws<ArgumentException>(() =>
         {
             Span<byte> destination = stackalloc byte[expected.Length - 1];
-            SHA512Polyfill.HashData(data, destination);
+            SHA512.HashData(data, destination);
         });
 
         Assert.True(exception!.Message.StartsWith("Destination is too short."));
     }
-
 
     [Test]
     public void TryHashData_ValidInput_ReturnsTrueAndCorrectHash()
