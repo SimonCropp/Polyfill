@@ -4,10 +4,16 @@
 namespace Polyfills;
 
 using System;
+using System.Diagnostics;
 using System.Threading;
+using System.Diagnostics.CodeAnalysis;
 
-#if !NET6_0_OR_GREATER
-static partial class Polyfill
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
+#if PolyPublic
+public
+#endif
+static partial class RandomPolyfill
 {
     static ThreadSafeRandom threadSafeRandom = new ThreadSafeRandom();
 
