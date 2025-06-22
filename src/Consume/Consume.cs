@@ -384,14 +384,14 @@ class Consume
 
     void Int_Methods()
     {
-        Int32Polyfill.TryParse("1", null, out _);
+        int.TryParse("1", null, out _);
 #if FeatureMemory
-        Int32Polyfill.TryParse("1"u8, null, out _);
-        Int32Polyfill.TryParse(['1'], out _);
-        Int32Polyfill.TryParse(['1'], null, out _);
-        Int32Polyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        Int32Polyfill.TryParse("1"u8, out _);
-        Int32Polyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        int.TryParse("1"u8, null, out _);
+        int.TryParse(['1'], out _);
+        int.TryParse(['1'], null, out _);
+        int.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        int.TryParse("1"u8, out _);
+        int.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 

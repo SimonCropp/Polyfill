@@ -8,25 +8,25 @@ public class Int32PolyfillTest
     [Test]
     public void TryParse()
     {
-        Assert.True(Int32Polyfill.TryParse("1"u8, null, out var value));
+        Assert.True(int.TryParse("1"u8, null, out var value));
         Assert.AreEqual(1, value);
 
-        Assert.True(Int32Polyfill.TryParse(['1'], out value));
+        Assert.True(int.TryParse(['1'], out value));
         Assert.AreEqual(1, value);
 
-        Assert.True(Int32Polyfill.TryParse(['1'], null, out value));
+        Assert.True(int.TryParse(['1'], null, out value));
         Assert.AreEqual(1, value);
 
-        Assert.True(Int32Polyfill.TryParse("1", null, out value));
+        Assert.True(int.TryParse("1", null, out value));
         Assert.AreEqual(1, value);
 
-        Assert.True(Int32Polyfill.TryParse("1"u8, NumberStyles.Integer, null, out value));
+        Assert.True(int.TryParse("1"u8, NumberStyles.Integer, null, out value));
         Assert.AreEqual(1, value);
 
-        Assert.True(Int32Polyfill.TryParse("1"u8, out value));
+        Assert.True(int.TryParse("1"u8, out value));
         Assert.AreEqual(1, value);
 
-        Assert.True(Int32Polyfill.TryParse(['1'], NumberStyles.Integer, null, out value));
+        Assert.True(int.TryParse(['1'], NumberStyles.Integer, null, out value));
         Assert.AreEqual(1, value);
     }
 }
