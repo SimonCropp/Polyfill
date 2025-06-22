@@ -437,36 +437,36 @@ class Consume
     #if FeatureRuntimeInformation
     void OperatingSystem_Methods()
     {
-        var isOSPlatform = OperatingSystemPolyfill.IsOSPlatform("windows");
-        var isOSPlatformWindows10 = OperatingSystemPolyfill.IsOSPlatformVersionAtLeast("windows", 10, 0, 10240);
+        var isOSPlatform = OperatingSystem.IsOSPlatform("windows");
+        var isOSPlatformWindows10 = OperatingSystem.IsOSPlatformVersionAtLeast("windows", 10, 0, 10240);
 
-        var isWindows = OperatingSystemPolyfill.IsWindows();
-        var isWindows11 = OperatingSystemPolyfill.IsWindowsVersionAtLeast(10,0,22000);
+        var isWindows = OperatingSystem.IsWindows();
+        var isWindows11 = OperatingSystem.IsWindowsVersionAtLeast(10,0,22000);
 
-        var isMacOS = OperatingSystemPolyfill.IsMacOS();
+        var isMacOS = OperatingSystem.IsMacOS();
         var isMacOsSonoma = OperatingSystemPolyfill.IsMacOSVersionAtLeast(14);
-        var isMacCatalyst = OperatingSystemPolyfill.IsMacCatalyst();
-        var isMacCatalyst17 = OperatingSystemPolyfill.IsMacCatalystVersionAtLeast(17);
+        var isMacCatalyst = OperatingSystem.IsMacCatalyst();
+        var isMacCatalyst17 = OperatingSystem.IsMacCatalystVersionAtLeast(17);
 
-        var isLinux = OperatingSystemPolyfill.IsLinux();
+        var isLinux = OperatingSystem.IsLinux();
 
-        var isFreeBSD = OperatingSystemPolyfill.IsFreeBSD();
+        var isFreeBSD = OperatingSystem.IsFreeBSD();
         var isFreeBSD14 = OperatingSystemPolyfill.IsFreeBSDVersionAtLeast(14, 0);
 
-        var isIOS = OperatingSystemPolyfill.IsIOS();
-        var isIOS18 = OperatingSystemPolyfill.IsIOSVersionAtLeast(18);
+        var isIOS = OperatingSystem.IsIOS();
+        var isIOS18 = OperatingSystem.IsIOSVersionAtLeast(18);
 
         var isAndroid = OperatingSystemPolyfill.IsAndroid();
         var isAndroid13 = OperatingSystemPolyfill.IsAndroidVersionAtLeast(13);
 
-        var isTvOS = OperatingSystemPolyfill.IsTvOS();
-        var isTvOS17 = OperatingSystemPolyfill.IsTvOSVersionAtLeast(17);
+        var isTvOS = OperatingSystem.IsTvOS();
+        var isTvOS17 = OperatingSystem.IsTvOSVersionAtLeast(17);
 
-        var isWatchOS = OperatingSystemPolyfill.IsWatchOS();
-        var isWatchOS11 = OperatingSystemPolyfill.IsWatchOSVersionAtLeast(11);
+        var isWatchOS = OperatingSystem.IsWatchOS();
+        var isWatchOS11 = OperatingSystem.IsWatchOSVersionAtLeast(11);
 
-        var isWasi = OperatingSystemPolyfill.IsWasi();
-        var isBrowser = OperatingSystemPolyfill.IsBrowser();
+        var isWasi = OperatingSystem.IsWasi();
+        var isBrowser = OperatingSystem.IsBrowser();
     }
 #endif
 

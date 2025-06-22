@@ -11,6 +11,7 @@ static partial class Polyfill
     extension(Guid)
     {
 #if !NET7_0_OR_GREATER
+
         /// <summary>
         /// Tries to parse a string into a value.
         /// </summary>
@@ -80,32 +81,34 @@ static partial class Polyfill
 
 #if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
 
-    /// <summary>
-    /// Converts span of characters representing the GUID to the equivalent Guid structure, provided that the string is in the specified format.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparseexact?view=net-10.0#system-guid-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-guid@)
-    public static bool TryParseExact(ReadOnlySpan<char> target, ReadOnlySpan<char> format, out Guid result) =>
-        Guid.TryParseExact(target.ToString(), format.ToString(), out result);
+        /// <summary>
+        /// Converts span of characters representing the GUID to the equivalent Guid structure, provided that the string is in the specified format.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparseexact?view=net-10.0#system-guid-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-guid@)
+        public static bool TryParseExact(ReadOnlySpan<char> target, ReadOnlySpan<char> format, out Guid result) =>
+            Guid.TryParseExact(target.ToString(), format.ToString(), out result);
 
 #endif
 
 #if !NET7_0_OR_GREATER
-    /// <summary>
-    /// Tries to parse a span of UTF-8 characters into a value.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-10.0#system-guid-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-guid@)
-    public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out Guid result) =>
-        Guid.TryParse(target.ToString(), out result);
+
+        /// <summary>
+        /// Tries to parse a span of UTF-8 characters into a value.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-10.0#system-guid-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-guid@)
+        public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out Guid result) =>
+            Guid.TryParse(target.ToString(), out result);
+
 #endif
 
 #if !(NETSTANDARD2_1 || NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER)
 
-    /// <summary>
-    /// Tries to parse a span of UTF-8 characters into a value.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-10.0#system-guid-tryparse(system-readonlyspan((system-char))-system-guid@)
-    public static bool TryParse(ReadOnlySpan<char> target, out Guid result) =>
-        Guid.TryParse(target.ToString(), out result);
+        /// <summary>
+        /// Tries to parse a span of UTF-8 characters into a value.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-10.0#system-guid-tryparse(system-readonlyspan((system-char))-system-guid@)
+        public static bool TryParse(ReadOnlySpan<char> target, out Guid result) =>
+            Guid.TryParse(target.ToString(), out result);
 
 #endif
 

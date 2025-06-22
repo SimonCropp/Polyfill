@@ -17,7 +17,7 @@ partial class PolyfillTests
     [Test]
     public void IsOperatingSystemWindows()
     {
-        bool actual = OperatingSystemPolyfill.IsWindows();
+        bool actual = OperatingSystem.IsWindows();
         bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
 
         Assert.AreEqual(expected, actual);
@@ -26,7 +26,7 @@ partial class PolyfillTests
     [Test]
     public void IsOperatingSystemLinux()
     {
-        bool actual = OperatingSystemPolyfill.IsLinux();
+        bool actual = OperatingSystem.IsLinux();
         bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
         Assert.AreEqual(expected, actual);
@@ -35,7 +35,7 @@ partial class PolyfillTests
     [Test]
     public void IsOperatingSystemMacOS()
     {
-        bool actual = OperatingSystemPolyfill.IsMacOS();
+        bool actual = OperatingSystem.IsMacOS();
         bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 
         Assert.AreEqual(expected, actual);
@@ -45,7 +45,7 @@ partial class PolyfillTests
     [Test]
     public void IsOperatingSystemFreeBSD()
     {
-        bool actual = OperatingSystemPolyfill.IsFreeBSD();
+        bool actual = OperatingSystem.IsFreeBSD();
         bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.FreeBSD);
 
         Assert.AreEqual(expected, actual);
@@ -56,7 +56,7 @@ partial class PolyfillTests
     [Test]
     public void IsOperatingSystemIOS()
     {
-        bool actual = OperatingSystemPolyfill.IsIOS();
+        bool actual = OperatingSystem.IsIOS();
         bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("IOS"));
 
         Assert.AreEqual(expected, actual);
@@ -74,7 +74,7 @@ partial class PolyfillTests
     [Test]
     public void IsOperatingSystemTvOS()
     {
-        bool actual = OperatingSystemPolyfill.IsTvOS();
+        bool actual = OperatingSystem.IsTvOS();
         bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("tvOS"));
 
         Assert.AreEqual(expected, actual);
@@ -83,7 +83,7 @@ partial class PolyfillTests
     [Test]
     public void IsOperatingSystemWatchOS()
     {
-        bool actual = OperatingSystemPolyfill.IsWatchOS();
+        bool actual = OperatingSystem.IsWatchOS();
         bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("watchOS"));
 
         Assert.AreEqual(expected, actual);
@@ -92,7 +92,7 @@ partial class PolyfillTests
     [Test]
     public void IsOperatingSystemBrowser()
     {
-        bool actual = OperatingSystemPolyfill.IsBrowser();
+        bool actual = OperatingSystem.IsBrowser();
         bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("Browser"));
 
         Assert.AreEqual(expected, actual);
@@ -101,7 +101,7 @@ partial class PolyfillTests
     [Test]
     public void IsOperatingSystemWasi()
     {
-        bool actual = OperatingSystemPolyfill.IsWasi();
+        bool actual = OperatingSystem.IsWasi();
         bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("wasi"));
 
         Assert.AreEqual(expected, actual);
