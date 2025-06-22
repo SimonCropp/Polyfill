@@ -199,29 +199,27 @@ static partial class StringPolyfill
     }
 #endif
 
-    /// <summary>
-    /// Concatenates the specified elements of a string array, using the specified separator between each element.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-10.0#system-string-join(system-char-system-string()-system-int32-system-int32)
-    public static string Join(char separator, string?[] value, int startIndex, int count) =>
+    extension(string)
+    {
 #if NETSTANDARD2_0 || NETFRAMEWORK
+
+        /// <summary>
+        /// Concatenates the specified elements of a string array, using the specified separator between each element.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-10.0#system-string-join(system-char-system-string()-system-int32-system-int32)
+        public static string Join(char separator, string?[] value, int startIndex, int count) =>
 #if AllowUnsafeBlocks && FeatureMemory
-        Join(separator, new ReadOnlySpan<string?>(value, startIndex, count));
+            Join(separator, new ReadOnlySpan<string?>(value, startIndex, count));
 #else
-        string.Join(new(separator, 1), value, startIndex, count);
-#endif
-#else
-        string.Join(separator, value, startIndex, count);
+            string.Join(new(separator, 1), value, startIndex, count);
 #endif
 
-    /// <summary>
-    /// Concatenates the specified elements of a string array, using the specified separator between each element.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-10.0#system-string-join-1(system-char-system-collections-generic-ienumerable((-0)))
-    public static string Join<T>(char separator, IEnumerable<T> values) =>
-#if NETSTANDARD2_0 || NETFRAMEWORK
-        string.Join(new(separator, 1), values);
-#else
-        string.Join(separator, values);
+        /// <summary>
+        /// Concatenates the specified elements of a string array, using the specified separator between each element.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-10.0#system-string-join-1(system-char-system-collections-generic-ienumerable((-0)))
+        public static string Join<T>(char separator, IEnumerable<T> values) =>
+            string.Join(separator, values);
 #endif
+    }
 }
