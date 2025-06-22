@@ -29,6 +29,12 @@ static class BytePolyfill
         public static bool TryParse(string? target, IFormatProvider? provider, out byte result) =>
             byte.TryParse(target, NumberStyles.Integer, provider, out result);
 
+#endif
+
+#if FeatureMemory
+
+#if !NET7_0_OR_GREATER
+
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>
@@ -37,8 +43,6 @@ static class BytePolyfill
             byte.TryParse(target.ToString(), NumberStyles.Integer, provider, out result);
 
 #endif
-
-#if FeatureMemory
 
 #if !NET8_0_OR_GREATER
 

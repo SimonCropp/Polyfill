@@ -33,17 +33,6 @@ static class SHA256Polyfill
             return hasher.ComputeHash(source);
         }
 
-        /// <summary>
-        /// Computes the hash of a stream using the SHA-256 algorithm.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.hashdata?view=net-10.0?system-security-cryptography-sha256-hashdata(system-io-stream-system-span((system-byte)))
-        public static int HashData(Stream source, Span<byte> destination)
-        {
-            var hash = HashData(source);
-            hash.CopyTo(destination);
-            return hash.Length;
-        }
-
 #endif
 
 #if FeatureValueTask && !NET7_0_OR_GREATER
@@ -59,6 +48,22 @@ static class SHA256Polyfill
 #endif
 
 #if FeatureMemory
+
+#if !NET7_0_OR_GREATER
+
+        /// <summary>
+        /// Computes the hash of a stream using the SHA-256 algorithm.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.hashdata?view=net-10.0?system-security-cryptography-sha256-hashdata(system-io-stream-system-span((system-byte)))
+        public static int HashData(Stream source, Span<byte> destination)
+        {
+            var hash = HashData(source);
+            hash.CopyTo(destination);
+            return hash.Length;
+        }
+
+#endif
+
 #if !NET
 
         /// <summary>
