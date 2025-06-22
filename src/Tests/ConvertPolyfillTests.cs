@@ -5,7 +5,7 @@ public class ConvertPolyfillTests
     public void ToHexString_ValidInput()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        var result = ConvertPolyfill.ToHexString(input, 0, input.Length);
+        var result = Convert.ToHexString(input, 0, input.Length);
         Assert.AreEqual("0FA35C", result);
         result = ConvertPolyfill.ToHexString(input);
         Assert.AreEqual("0FA35C", result);
@@ -19,7 +19,7 @@ public class ConvertPolyfillTests
     public void ToHexString_OffsetAndLength()
     {
         byte[] input = [0x0F, 0xA3, 0x5C, 0x7E];
-        var result = ConvertPolyfill.ToHexString(input, 1, 2);
+        var result = Convert.ToHexString(input, 1, 2);
         Assert.AreEqual("A35C", result);
     }
 
@@ -27,28 +27,28 @@ public class ConvertPolyfillTests
     public void ToHexString_NegativeLength_ThrowsException()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        Assert.Throws<ArgumentOutOfRangeException>(() => ConvertPolyfill.ToHexString(input, 0, -1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Convert.ToHexString(input, 0, -1));
     }
 
     [Test]
     public void ToHexString_NegativeOffset_ThrowsException()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        Assert.Throws<ArgumentOutOfRangeException>(() => ConvertPolyfill.ToHexString(input, -1, 2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Convert.ToHexString(input, -1, 2));
     }
 
     [Test]
     public void ToHexString_OffsetPlusLengthExceedsArray_ThrowsException()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        Assert.Throws<ArgumentOutOfRangeException>(() => ConvertPolyfill.ToHexString(input, 2, 2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Convert.ToHexString(input, 2, 2));
     }
 
     [Test]
     public void ToHexStringLower_ValidInput()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        var result = ConvertPolyfill.ToHexString(input, 0, input.Length);
+        var result = Convert.ToHexString(input, 0, input.Length);
         Assert.AreEqual("0FA35C", result);
         result = ConvertPolyfill.ToHexStringLower(input);
         Assert.AreEqual("0fa35c", result);
@@ -62,7 +62,7 @@ public class ConvertPolyfillTests
     public void ToHexStringLower_OffsetAndLength()
     {
         byte[] input = [0x0F, 0xA3, 0x5C, 0x7E];
-        var result = ConvertPolyfill.ToHexStringLower(input, 1, 2);
+        var result = Convert.ToHexStringLower(input, 1, 2);
         Assert.AreEqual("a35c", result);
     }
 
@@ -70,21 +70,21 @@ public class ConvertPolyfillTests
     public void ToHexStringLower_NegativeLength_ThrowsException()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        Assert.Throws<ArgumentOutOfRangeException>(() => ConvertPolyfill.ToHexStringLower(input, 0, -1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Convert.ToHexStringLower(input, 0, -1));
     }
 
     [Test]
     public void ToHexStringLower_NegativeOffset_ThrowsException()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        Assert.Throws<ArgumentOutOfRangeException>(() => ConvertPolyfill.ToHexStringLower(input, -1, 2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Convert.ToHexStringLower(input, -1, 2));
     }
 
     [Test]
     public void ToHexStringLower_OffsetPlusLengthExceedsArray_ThrowsException()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        Assert.Throws<ArgumentOutOfRangeException>(() => ConvertPolyfill.ToHexStringLower(input, 2, 2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Convert.ToHexStringLower(input, 2, 2));
     }
 
 #if FeatureMemory
