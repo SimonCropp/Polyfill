@@ -1,7 +1,3 @@
-// ReSharper disable PartialTypeWithSinglePart
-
-using System.Globalization;
-
 [TestFixture]
 public class DoublePolyfillTest
 {

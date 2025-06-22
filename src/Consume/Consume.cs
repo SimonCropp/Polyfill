@@ -418,14 +418,14 @@ class Consume
 
     void Long_Methods()
     {
-        Int64Polyfill.TryParse("1", null, out _);
+        long.TryParse("1", null, out _);
 #if FeatureMemory
-        Int64Polyfill.TryParse("1"u8, null, out _);
-        Int64Polyfill.TryParse(['1'], out _);
-        Int64Polyfill.TryParse(['1'], null, out _);
-        Int64Polyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        Int64Polyfill.TryParse("1"u8, out _);
-        Int64Polyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        long.TryParse("1"u8, null, out _);
+        long.TryParse(['1'], out _);
+        long.TryParse(['1'], null, out _);
+        long.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        long.TryParse("1"u8, out _);
+        long.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 
