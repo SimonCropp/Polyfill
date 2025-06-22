@@ -83,10 +83,74 @@ static partial class ConvertPolyfill
         }
 #endif
 
+#if FeatureMemory
+
+#if !NET
+    /// <summary>
+    /// Converts the span, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-10.0#system-convert-fromhexstring(system-readonlyspan((system-char)))
+    public static byte[] FromHexString(ReadOnlySpan<char> chars) =>
+        ConvertPolyfill.FromHexString(chars.ToString());
+
+    /// <summary>
+    /// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring?view=net-10.0#system-convert-tohexstring(system-readonlyspan((system-byte)))
+    public static string ToHexString(ReadOnlySpan<byte> bytes) =>
+        ConvertPolyfill.ToHexString(bytes.ToArray());
+#endif
+
+#if !NET9_0_OR_GREATER
+    /// <summary>
+    /// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower?view=net-10.0#system-convert-tohexstringlower(system-readonlyspan((system-byte)))
+    public static string ToHexStringLower(ReadOnlySpan<byte> bytes) =>
+        ConvertPolyfill.ToHexStringLower(bytes.ToArray());
+
+    /// <summary>
+    /// Converts a span of 8-bit unsigned integers to its equivalent span representation that is encoded with uppercase hex characters.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstring?view=net-10.0
+    public static bool TryToHexString(ReadOnlySpan<byte> source, Span<char> destination, out int charsWritten)
+    {
+        if (source.Length > destination.Length / 2)
+        {
+            charsWritten = 0;
+            return false;
+        }
+
+        var hexString = Convert.ToHexString(source);
+        hexString.CopyTo(destination);
+        charsWritten = hexString.Length;
+        return true;
     }
 
+    /// <summary>
+    /// Converts a span of 8-bit unsigned integers to its equivalent span representation that is encoded with lowercase hex characters.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstringlower?view=net-10.0
+    public static bool TryToHexStringLower(ReadOnlySpan<byte> source, Span<char> destination, out int charsWritten)
+    {
+        if (source.Length > destination.Length / 2)
+        {
+            charsWritten = 0;
+            return false;
+        }
+
+        var hexString = Convert.ToHexStringLower(source);
+        hexString.CopyTo(destination);
+        charsWritten = hexString.Length;
+        return true;
+    }
+#endif
+
+#endif
+    }
 
 #if !NET || !NET9_0_OR_GREATER
+
     static string ToHexString(byte[] inArray, int offset, int length, string format)
     {
         if (length < 0)
@@ -107,86 +171,6 @@ static partial class ConvertPolyfill
 
         return builder.ToString();
     }
-#endif
-
-
-#if FeatureMemory
-    /// <summary>
-    /// Converts the span, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-10.0#system-convert-fromhexstring(system-readonlyspan((system-char)))
-    public static byte[] FromHexString(ReadOnlySpan<char> chars) =>
-#if NET
-        Convert.FromHexString(chars);
-#else
-        ConvertPolyfill.FromHexString(chars.ToString());
-#endif
-
-    /// <summary>
-    /// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring?view=net-10.0#system-convert-tohexstring(system-readonlyspan((system-byte)))
-    public static string ToHexString(ReadOnlySpan<byte> bytes) =>
-#if NET
-        Convert.ToHexString(bytes);
-#else
-        ConvertPolyfill.ToHexString(bytes.ToArray());
-#endif
-
-    /// <summary>
-    /// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower?view=net-10.0#system-convert-tohexstringlower(system-readonlyspan((system-byte)))
-    public static string ToHexStringLower(ReadOnlySpan<byte> bytes) =>
-#if NET9_0_OR_GREATER
-        Convert.ToHexStringLower(bytes);
-#else
-        ConvertPolyfill.ToHexStringLower(bytes.ToArray());
-#endif
-
-    /// <summary>
-    /// Converts a span of 8-bit unsigned integers to its equivalent span representation that is encoded with uppercase hex characters.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstring?view=net-10.0
-    public static bool TryToHexString(ReadOnlySpan<byte> source, Span<char> destination, out int charsWritten)
-#if NET9_0_OR_GREATER
-        => Convert.TryToHexString(source, destination, out charsWritten);
-#else
-    {
-        if (source.Length > destination.Length / 2)
-        {
-            charsWritten = 0;
-            return false;
-        }
-
-        var hexString = ConvertPolyfill.ToHexString(source);
-        hexString.CopyTo(destination);
-        charsWritten = hexString.Length;
-        return true;
-    }
-#endif
-
-    /// <summary>
-    /// Converts a span of 8-bit unsigned integers to its equivalent span representation that is encoded with lowercase hex characters.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstringlower?view=net-10.0
-    public static bool TryToHexStringLower(ReadOnlySpan<byte> source, Span<char> destination, out int charsWritten)
-#if NET9_0_OR_GREATER
-        => Convert.TryToHexStringLower(source, destination, out charsWritten);
-#else
-    {
-        if (source.Length > destination.Length / 2)
-        {
-            charsWritten = 0;
-            return false;
-        }
-
-        var hexString = ConvertPolyfill.ToHexStringLower(source);
-        hexString.CopyTo(destination);
-        charsWritten = hexString.Length;
-        return true;
-    }
-#endif
 
 #endif
 
