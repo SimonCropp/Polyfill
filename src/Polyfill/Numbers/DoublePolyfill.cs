@@ -14,7 +14,7 @@ using System.Text;
 #if PolyPublic
 public
 #endif
-static partial class DoublePolyfill
+static class DoublePolyfill
 {
     extension(double)
     {

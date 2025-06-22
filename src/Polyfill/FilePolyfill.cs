@@ -18,7 +18,7 @@ using System.Runtime.CompilerServices;
 #if PolyPublic
 public
 #endif
-static partial class FilePolyfill
+static class FilePolyfill
 {
     extension(File)
     {

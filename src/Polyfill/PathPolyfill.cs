@@ -13,7 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-static partial class PathPolyfill
+static class PathPolyfill
 {
     extension(Path)
     {

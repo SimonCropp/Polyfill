@@ -14,7 +14,7 @@ using System.Text;
 #if PolyPublic
 public
 #endif
-static partial class SBytePolyfill
+static class SBytePolyfill
 {
     extension(sbyte)
     {

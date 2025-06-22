@@ -14,7 +14,7 @@ using System.Runtime.CompilerServices;
 #if PolyPublic
 public
 #endif
-static partial class DelegatePolyfill
+static class DelegatePolyfill
 {
 #if !NET9_0_OR_GREATER
 
