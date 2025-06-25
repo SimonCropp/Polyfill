@@ -1,4 +1,6 @@
-﻿[TestFixture]
+﻿using System.Security.Cryptography;
+
+[TestFixture]
 public class RandomNumberGeneratorPolyfillTests
 {
     [Test]
@@ -8,7 +10,7 @@ public class RandomNumberGeneratorPolyfillTests
         var max = 10;
         for (var i = 0; i < 100; i++)
         {
-            var value = RandomNumberGeneratorPolyfill.GetInt32(min, max);
+            var value = RandomNumberGenerator.GetInt32(min, max);
             Assert.That(value, Is.GreaterThanOrEqualTo(min).And.LessThan(max));
         }
     }
@@ -16,8 +18,8 @@ public class RandomNumberGeneratorPolyfillTests
     [Test]
     public void GetInt32_Range_Invalid_Throws()
     {
-        Assert.Throws<ArgumentException>(() => RandomNumberGeneratorPolyfill.GetInt32(10, 5));
-        Assert.Throws<ArgumentException>(() => RandomNumberGeneratorPolyfill.GetInt32(5, 5));
+        Assert.Throws<ArgumentException>(() => RandomNumberGenerator.GetInt32(10, 5));
+        Assert.Throws<ArgumentException>(() => RandomNumberGenerator.GetInt32(5, 5));
     }
 
     [Test]
@@ -26,7 +28,7 @@ public class RandomNumberGeneratorPolyfillTests
         var max = 10;
         for (var i = 0; i < 100; i++)
         {
-            var value = RandomNumberGeneratorPolyfill.GetInt32(max);
+            var value = RandomNumberGenerator.GetInt32(max);
             Assert.That(value, Is.GreaterThanOrEqualTo(0).And.LessThan(max));
         }
     }
@@ -34,28 +36,28 @@ public class RandomNumberGeneratorPolyfillTests
     [Test]
     public void GetInt32_Exclusive_Invalid_Throws()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => RandomNumberGeneratorPolyfill.GetInt32(0));
-        Assert.Throws<ArgumentOutOfRangeException>(() => RandomNumberGeneratorPolyfill.GetInt32(-1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => RandomNumberGenerator.GetInt32(0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => RandomNumberGenerator.GetInt32(-1));
     }
 
     [Test]
     public void GetBytes_ReturnsArrayOfCorrectLength()
     {
-        var bytes = RandomNumberGeneratorPolyfill.GetBytes(16);
+        var bytes = RandomNumberGenerator.GetBytes(16);
         Assert.That(bytes.Length, Is.EqualTo(16));
         Assert.That(bytes, Is.Not.All.EqualTo(0));
     }
 
     [Test]
     public void GetBytes_Invalid_Throws() =>
-        Assert.Throws<ArgumentOutOfRangeException>(() => RandomNumberGeneratorPolyfill.GetBytes(-1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => RandomNumberGenerator.GetBytes(-1));
 
 #if FeatureMemory
     [Test]
     public void Fill_FillsSpan()
     {
         Span<byte> data = new byte[8];
-        RandomNumberGeneratorPolyfill.Fill(data);
+        RandomNumberGenerator.Fill(data);
         Assert.That(data.ToArray(), Has.Some.Not.EqualTo(0));
     }
 
@@ -63,7 +65,7 @@ public class RandomNumberGeneratorPolyfillTests
     public void GetHexString_Span_FillsWithHex()
     {
         Span<char> chars = new char[8];
-        RandomNumberGeneratorPolyfill.GetHexString(chars, lowercase: true);
+        RandomNumberGenerator.GetHexString(chars, lowercase: true);
         Assert.That(chars.ToArray(), Is.All.Matches<char>(c => "0123456789abcdef".Contains(c)));
     }
 #endif
@@ -71,12 +73,12 @@ public class RandomNumberGeneratorPolyfillTests
     [Test]
     public void GetHexString_StringLength_Valid()
     {
-        var hex = RandomNumberGeneratorPolyfill.GetHexString(12, lowercase: false);
+        var hex = RandomNumberGenerator.GetHexString(12, lowercase: false);
         Assert.That(hex.Length, Is.EqualTo(12));
         Assert.That(hex, Is.All.Matches<char>(c => "0123456789ABCDEF".Contains(c)));
     }
 
     [Test]
     public void GetHexString_StringLength_Invalid_Throws() =>
-        Assert.Throws<ArgumentOutOfRangeException>(() => RandomNumberGeneratorPolyfill.GetHexString(-1));
+        Assert.Throws<ArgumentOutOfRangeException>(() => RandomNumberGenerator.GetHexString(-1));
 }

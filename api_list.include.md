@@ -478,6 +478,20 @@
  * `Shared` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.shared?view=net-10.0)
 
 
+#### RandomNumberGenerator
+
+ * `void Fill(Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.fill?view=net-10.0)
+ * `byte[] GetBytes(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes?view=net-10.0#system-security-cryptography-randomnumbergenerator-getbytes(system-int32))
+ * `string GetHexString(int, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.gethexstring?view=net-10.0#system-security-cryptography-randomnumbergenerator-gethexstring(system-int32-system-boolean))
+ * `void GetHexString(Span<char>, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getstring?view=net-10.0)
+ * `int GetInt32(int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32?view=net-10.0#system-security-cryptography-randomnumbergenerator-getint32(system-int32-system-int32))
+ * `int GetInt32(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32?view=net-10.0#system-security-cryptography-randomnumbergenerator-getint32(system-int32))
+ * `T[] GetItems<T>(ReadOnlySpan<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems?view=net-10.0#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-int32))
+ * `void GetItems<T>(ReadOnlySpan<T>, Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems?view=net-10.0#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-span((-0))))
+ * `string GetString(ReadOnlySpan<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getstring?view=net-10.0)
+ * `void Shuffle<T>(Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.shuffle?view=net-10.0)
+
+
 #### ReadOnlySpan<char>
 
  * `bool EndsWith(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith?view=net-10.0#system-memoryextensions-endswith-1(system-readonlyspan((-0))-system-readonlyspan((-0))))

@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 562**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 572**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -967,6 +967,20 @@ The class `Polyfill` includes the following extension methods:
  * `void Shuffle<T>(Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-10.0#system-random-nextbytes(system-span((system-byte))))
  * `void Shuffle<T>(T[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-10.0#system-random-nextbytes(system-span((system-byte))))
  * `Shared` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.shared?view=net-10.0)
+
+
+#### RandomNumberGenerator
+
+ * `void Fill(Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.fill?view=net-10.0)
+ * `byte[] GetBytes(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes?view=net-10.0#system-security-cryptography-randomnumbergenerator-getbytes(system-int32))
+ * `string GetHexString(int, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.gethexstring?view=net-10.0#system-security-cryptography-randomnumbergenerator-gethexstring(system-int32-system-boolean))
+ * `void GetHexString(Span<char>, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getstring?view=net-10.0)
+ * `int GetInt32(int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32?view=net-10.0#system-security-cryptography-randomnumbergenerator-getint32(system-int32-system-int32))
+ * `int GetInt32(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32?view=net-10.0#system-security-cryptography-randomnumbergenerator-getint32(system-int32))
+ * `T[] GetItems<T>(ReadOnlySpan<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems?view=net-10.0#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-int32))
+ * `void GetItems<T>(ReadOnlySpan<T>, Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems?view=net-10.0#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-span((-0))))
+ * `string GetString(ReadOnlySpan<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getstring?view=net-10.0)
+ * `void Shuffle<T>(Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.shuffle?view=net-10.0)
 
 
 #### ReadOnlySpan<char>
