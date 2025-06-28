@@ -112,5 +112,5 @@ partial class PolyfillTests
     }
 
     static string? ReverseString(string? s) =>
-        s is null ? null : string.Join("", s.Reverse());
+        s is null ? null : string.Concat(s.Reverse());
 }
