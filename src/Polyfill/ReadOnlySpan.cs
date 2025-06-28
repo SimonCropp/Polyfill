@@ -228,7 +228,7 @@ namespace System
         }
 
         /// <summary>Gets an enumerator for this span.</summary>
-        public Enumerator GetEnumerator() => new Enumerator(this);
+        public Enumerator GetEnumerator() => new(this);
 
         /// <summary>Enumerates the elements of a <see cref="ReadOnlySpan{T}"/>.</summary>
         public ref struct Enumerator : IEnumerator<T>
