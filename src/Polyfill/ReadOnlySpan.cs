@@ -294,22 +294,14 @@ namespace System
             return ref ret;
         }
 
+        /**
         /// <summary>
         /// Copies the contents of this read-only span into destination span. If the source
         /// and destinations overlap, this method behaves as if the original values in
         /// a temporary location before the destination is overwritten.
         /// </summary>
-        /// <param name="destination">The span to copy items into.</param>
-        /// <exception cref="ArgumentException">
-        /// Thrown when the destination Span is shorter than the source Span.
-        /// </exception>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void CopyTo(Span<T> destination)
         {
-            // Using "if (!TryCopyTo(...))" results in two branches: one for the length
-            // check, and one for the result of TryCopyTo. Since these checks are equivalent,
-            // we can optimize by performing the check once ourselves then calling Memmove directly.
-
             if ((uint)_length <= (uint)destination.Length)
             {
                 Buffer.Memmove(ref destination._reference, ref _reference, (uint)_length);
@@ -319,15 +311,11 @@ namespace System
                 ThrowHelper.ThrowArgumentException_DestinationTooShort();
             }
         }
-
         /// <summary>
         /// Copies the contents of this read-only span into destination span. If the source
         /// and destinations overlap, this method behaves as if the original values in
         /// a temporary location before the destination is overwritten.
         /// </summary>
-        /// <returns>If the destination span is shorter than the source span, this method
-        /// return false and no data is written to the destination.</returns>
-        /// <param name="destination">The span to copy items into.</param>
         public bool TryCopyTo(Span<T> destination)
         {
             bool retVal = false;
@@ -338,7 +326,7 @@ namespace System
             }
             return retVal;
         }
-
+        **/
         /// <summary>
         /// Returns true if left and right point at the same memory and have the same length.  Note that
         /// this does *not* check to see if the *contents* are equal.
