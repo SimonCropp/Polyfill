@@ -370,26 +370,26 @@ namespace System
         /// Forms a slice out of the given read-only span, beginning at 'start'.
         /// </summary>
         /// <param name="start">The zero-based index at which to begin this slice.</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown when the specified <paramref name="start"/> index is not in range (&lt;0 or &gt;Length).
-        /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ReadOnlySpan<T> Slice(int start)
         {
-            if ((uint)start > (uint)_length)
-                ThrowHelper.ThrowArgumentOutOfRangeException();
+            if (_reference == null)
+            {
+                throw new ArgumentOutOfRangeException(nameof(start));
+            }
 
-            return new ReadOnlySpan<T>(ref Unsafe.Add(ref _reference, (nint)(uint)start /* force zero-extension */), _length - start);
+            var segment = _reference.Value;
+            if ((uint) start > (uint) segment.Count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(start));
+            }
+
+            return new(segment.Array!, segment.Offset + start, segment.Count - start);
         }
 
         /// <summary>
         /// Forms a slice out of the given read-only span, beginning at 'start', of given length
         /// </summary>
-        /// <param name="start">The zero-based index at which to begin this slice.</param>
-        /// <param name="length">The desired length for the slice (exclusive).</param>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown when the specified <paramref name="start"/> or end index is not in range (&lt;0 or &gt;Length).
-        /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ReadOnlySpan<T> Slice(int start, int length)
         {
