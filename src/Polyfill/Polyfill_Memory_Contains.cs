@@ -30,9 +30,7 @@ static partial class Polyfill
     /// Indicates whether a specified value is found in a read-only span. Values are compared using IEquatable{T}.Equals(T).
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-10.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)
-    public static bool Contains<T>(
-        this ReadOnlySpan<T> target,
-        T value)
+    public static bool Contains<T>(this ReadOnlySpan<T> target, T value)
         where T : IEquatable<T>
     {
         for (var index = 0; index < target.Length; index++)
@@ -50,9 +48,7 @@ static partial class Polyfill
     /// Indicates whether a specified value is found in a only span. Values are compared using IEquatable{T}.Equals(T).
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-10.0#system-memoryextensions-contains-1(system-span((-0))-0)
-    public static bool Contains<T>(
-        this Span<T> target,
-        T value)
+    public static bool Contains<T>(this Span<T> target, T value)
         where T : IEquatable<T>
     {
         for (var index = 0; index < target.Length; index++)
