@@ -224,7 +224,15 @@ namespace System
         /// <remarks>This method uses a covariant cast, producing a read-only span that shares the same memory as the source. The relationships expressed in the type constraints ensure that the cast is a safe operation.</remarks>
         public static ReadOnlySpan<T> CastUp<TDerived>(ReadOnlySpan<TDerived> items) where TDerived : class?, T
         {
-            return new ReadOnlySpan<T>(ref Unsafe.As<TDerived, T>(ref items._reference), items.Length);
+            if (items._reference == null)
+            {
+                return default;
+            }
+
+            // Cast the underlying array to T[] and create a new ArraySegment<T>
+            T[] array = items._reference.Value.Array!;
+            var segment = new ArraySegment<T>(array, items._reference.Value.Offset, items._reference.Value.Count);
+            return new(segment.Array, segment.Offset, segment.Count);
         }
 
         /// <summary>Gets an enumerator for this span.</summary>
