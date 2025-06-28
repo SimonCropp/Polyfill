@@ -343,9 +343,21 @@ namespace System
         /// Returns true if left and right point at the same memory and have the same length.  Note that
         /// this does *not* check to see if the *contents* are equal.
         /// </summary>
-        public static bool operator ==(ReadOnlySpan<T> left, ReadOnlySpan<T> right) =>
-            left._length == right._length &&
-            Unsafe.AreSame(ref left._reference, ref right._reference);
+        public static bool operator ==(ReadOnlySpan<T> left, ReadOnlySpan<T> right)
+        {
+            if (left._length != right._length)
+                return false;
+
+            if (left._reference == null && right._reference == null)
+                return true;
+
+            if (left._reference == null || right._reference == null)
+                return false;
+
+            var l = left._reference.Value;
+            var r = right._reference.Value;
+            return ReferenceEquals(l.Array, r.Array) && l.Offset == r.Offset && l.Count == r.Count;
+        }
 
         /// <summary>
         /// For <see cref="ReadOnlySpan{Char}"/>, returns a new instance of string that represents the characters pointed to by the span.
