@@ -6,6 +6,8 @@
 namespace Polyfills;
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 
 static partial class Polyfill
@@ -52,5 +54,66 @@ static partial class Polyfill
         Array.Copy(target.Array, target.Offset, destination, destinationIndex, target.Count);
     }
 
+    /// <summary>
+    /// Copies the contents of this instance into the specified destination array of the same type T, starting at the specified destination index.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.getenumerator?view=net-9.0
+    public static ArraySegmentEnumerator<T> GetEnumerator<T>(this ArraySegment<T> target) =>
+        new(target);
+
+    public struct ArraySegmentEnumerator<T> : IEnumerator<T>
+    {
+        readonly T[]? _array;
+        readonly int _start;
+        readonly int _end;
+        int _current;
+
+        internal ArraySegmentEnumerator(ArraySegment<T> arraySegment)
+        {
+            _array = arraySegment.Array;
+            _start = arraySegment.Offset;
+            // cache Offset + Count, since it's a little slow
+            _end = arraySegment.Offset + arraySegment.Count;
+            _current = arraySegment.Offset - 1;
+        }
+
+        public bool MoveNext()
+        {
+            if (_current < _end)
+            {
+                _current++;
+                return _current < _end;
+            }
+
+            return false;
+        }
+
+        public T Current
+        {
+            get
+            {
+                if (_current < _start)
+                {
+                    throw new InvalidOperationException("EnumNotStarted");
+                }
+
+                if (_current >= _end)
+                {
+                    throw new InvalidOperationException("EnumEnded");
+                }
+
+                return _array![_current];
+            }
+        }
+
+        object? IEnumerator.Current => Current;
+
+        void IEnumerator.Reset() =>
+            _current = _start - 1;
+
+        public void Dispose()
+        {
+        }
+    }
 #endif
 }
