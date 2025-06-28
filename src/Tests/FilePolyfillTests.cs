@@ -1,4 +1,5 @@
 ﻿[TestFixture]
+[Parallelizable(ParallelScope.None)]
 public class FilePolyfillTests
 {
     const string SourceFilePath = "source.txt";
