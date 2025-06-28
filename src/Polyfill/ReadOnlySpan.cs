@@ -355,9 +355,15 @@ namespace System
         {
             if (typeof(T) == typeof(char))
             {
-                return new string(new ReadOnlySpan<char>(ref Unsafe.As<T, char>(ref _reference), _length));
+                if (_reference?.Array is not char[] arr)
+                {
+                    return string.Empty;
+                }
+
+                return new(arr, _reference.Value.Offset, _reference.Value.Count);
             }
-            return $"System.ReadOnlySpan<{typeof(T).Name}>[{_length}]";
+
+            return $"System.ReadOnlySpan<{typeof(T).Name}>[{Length}]";
         }
 
         /// <summary>
