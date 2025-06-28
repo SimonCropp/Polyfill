@@ -1,15 +1,11 @@
-﻿#if !FeatureMemory
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
+
+#if !FeatureMemory && !NETCOREAPP2_0_OR_GREATER
 
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.Marshalling;
-using System.Runtime.Versioning;
-
 using EditorBrowsableAttribute = System.ComponentModel.EditorBrowsableAttribute;
 using EditorBrowsableState = System.ComponentModel.EditorBrowsableState;
 
@@ -21,11 +17,6 @@ namespace System
     /// ReadOnlySpan represents a contiguous region of arbitrary memory. Unlike arrays, it can point to either managed
     /// or native memory, or to memory allocated on the stack. It is type-safe and memory-safe.
     /// </summary>
-    [DebuggerTypeProxy(typeof(SpanDebugView<>))]
-    [DebuggerDisplay("{ToString(),raw}")]
-    [NonVersionable]
-    [NativeMarshalling(typeof(ReadOnlySpanMarshaller<,>))]
-    [Intrinsic]
     public readonly ref struct ReadOnlySpan<T>
     {
         internal readonly ArraySegment<T>? _reference;
@@ -35,18 +26,16 @@ namespace System
         /// <summary>
         /// Creates a new read-only span over the entirety of the target array.
         /// </summary>
-        /// <param name="array">The target array.</param>
-        /// <remarks>Returns default when <paramref name="array"/> is null.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ReadOnlySpan(T[]? array)
         {
             if (array == null)
             {
                 this = default;
-                return; // returns default
+                return;
             }
 
-            _reference = ref MemoryMarshal.GetArrayDataReference(array);
+            _reference = new ArraySegment<T>(array);
             _length = array.Length;
         }
 
@@ -54,80 +43,62 @@ namespace System
         /// Creates a new read-only span over the portion of the target array beginning
         /// at 'start' index and ending at 'end' index (exclusive).
         /// </summary>
-        /// <param name="array">The target array.</param>
-        /// <param name="start">The zero-based index at which to begin the read-only span.</param>
-        /// <param name="length">The number of items in the read-only span.</param>
-        /// <remarks>Returns default when <paramref name="array"/> is null.</remarks>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown when the specified <paramref name="start"/> or end index is not in the range (&lt;0 or &gt;Length).
-        /// </exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ReadOnlySpan(T[]? array, int start, int length)
         {
             if (array == null)
             {
                 if (start != 0 || length != 0)
-                    ThrowHelper.ThrowArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException();
                 this = default;
                 return; // returns default
             }
-#if TARGET_64BIT
             // See comment in Span<T>.Slice for how this works.
             if ((ulong)(uint)start + (ulong)(uint)length > (ulong)(uint)array.Length)
-                ThrowHelper.ThrowArgumentOutOfRangeException();
-#else
-            if ((uint)start > (uint)array.Length || (uint)length > (uint)(array.Length - start))
-                ThrowHelper.ThrowArgumentOutOfRangeException();
-#endif
+                throw new ArgumentOutOfRangeException();
 
-            _reference = ref Unsafe.Add(ref MemoryMarshal.GetArrayDataReference(array), (nint)(uint)start /* force zero-extension */);
+            _reference = new ArraySegment<T>(array, start, length);
             _length = length;
         }
 
+
+#if AllowUnsafeBlocks
         /// <summary>
         /// Creates a new read-only span over the target unmanaged buffer.  Clearly this
         /// is quite dangerous, because we are creating arbitrarily typed T's
         /// out of a void*-typed block of memory.  And the length is not checked.
         /// But if this creation is correct, then all subsequent uses are correct.
         /// </summary>
-        /// <param name="pointer">An unmanaged pointer to memory.</param>
-        /// <param name="length">The number of <typeparamref name="T"/> elements the memory contains.</param>
-        /// <exception cref="ArgumentException">
-        /// Thrown when <typeparamref name="T"/> is reference type or contains pointers and hence cannot be stored in unmanaged memory.
-        /// </exception>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// Thrown when the specified <paramref name="length"/> is negative.
-        /// </exception>
         [CLSCompliant(false)]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public unsafe ReadOnlySpan(void* pointer, int length)
         {
-            if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
-                ThrowHelper.ThrowInvalidTypeWithPointersNotSupported(typeof(T));
+            //TODO:
+            //if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+            //    ThrowHelper.ThrowInvalidTypeWithPointersNotSupported(typeof(T));
             if (length < 0)
-                ThrowHelper.ThrowArgumentOutOfRangeException();
-
-            _reference = ref *(T*)pointer;
+                throw new ArgumentOutOfRangeException();
+            var array = new T[length];
+            Runtime.InteropServices.Marshal.Copy(
+                new(pointer),
+                (array as int[])!,
+                0,
+                length
+            );
+            _reference = new ArraySegment<T>(array);
             _length = length;
         }
+#endif
 
         /// <summary>Creates a new <see cref="ReadOnlySpan{T}"/> of length 1 around the specified reference.</summary>
         /// <param name="reference">A reference to data.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ReadOnlySpan(ref readonly T reference)
         {
-            _reference = ref Unsafe.AsRef(in reference);
+            var array = new T[1];
+            array[0] = reference;
+            _reference = new ArraySegment<T>(array);
             _length = 1;
-        }
-
-        // Constructor for internal use only. It is not safe to expose publicly, and is instead exposed via the unsafe MemoryMarshal.CreateReadOnlySpan.
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal ReadOnlySpan(ref T reference, int length)
-        {
-            Debug.Assert(length >= 0);
-
-            _reference = ref reference;
-            _length = length;
         }
 
         /// <summary>
@@ -140,36 +111,25 @@ namespace System
         /// </exception>
         public ref readonly T this[int index]
         {
-            [Intrinsic]
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            [NonVersionable]
             get
             {
                 if ((uint)index >= (uint)_length)
-                    ThrowHelper.ThrowIndexOutOfRangeException();
-                return ref Unsafe.Add(ref _reference, (nint)(uint)index /* force zero-extension */);
+                    throw new IndexOutOfRangeException();
+                return ref _reference!.Value.Array![index];
             }
         }
 
         /// <summary>
         /// The number of items in the read-only span.
         /// </summary>
-        public int Length
-        {
-            [Intrinsic]
-            [NonVersionable]
-            get => _length;
-        }
+        public int Length => _length;
 
         /// <summary>
         /// Gets a value indicating whether this <see cref="ReadOnlySpan{T}"/> is empty.
         /// </summary>
         /// <value><see langword="true"/> if this span is empty; otherwise, <see langword="false"/>.</value>
-        public bool IsEmpty
-        {
-            [NonVersionable]
-            get => _length == 0;
-        }
+        public bool IsEmpty => _length == 0;
 
         /// <summary>
         /// Returns false if left and right point at the same memory and have the same length.  Note that
@@ -186,7 +146,7 @@ namespace System
         [Obsolete("Equals() on ReadOnlySpan will always throw an exception. Use the equality operator instead.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override bool Equals(object? obj) =>
-            throw new NotSupportedException(SR.NotSupported_CannotCallEqualsOnSpan);
+            throw new NotSupportedException("CannotCallEqualsOnSpan");
 
         /// <summary>
         /// This method is not supported as spans cannot be boxed.
@@ -197,18 +157,18 @@ namespace System
         [Obsolete("GetHashCode() on ReadOnlySpan will always throw an exception.")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override int GetHashCode() =>
-            throw new NotSupportedException(SR.NotSupported_CannotCallGetHashCodeOnSpan);
+            throw new NotSupportedException("CannotCallGetHashCodeOnSpan");
 
         /// <summary>
         /// Defines an implicit conversion of an array to a <see cref="ReadOnlySpan{T}"/>
         /// </summary>
-        public static implicit operator ReadOnlySpan<T>(T[]? array) => new ReadOnlySpan<T>(array);
+        public static implicit operator ReadOnlySpan<T>(T[]? array) => new(array);
 
         /// <summary>
         /// Defines an implicit conversion of a <see cref="ArraySegment{T}"/> to a <see cref="ReadOnlySpan{T}"/>
         /// </summary>
         public static implicit operator ReadOnlySpan<T>(ArraySegment<T> segment)
-            => new ReadOnlySpan<T>(segment.Array, segment.Offset, segment.Count);
+            => new(segment.Array, segment.Offset, segment.Count);
 
         /// <summary>
         /// Returns a 0-length read-only span whose base is the null pointer.
@@ -289,6 +249,7 @@ namespace System
             void IDisposable.Dispose() { }
         }
 
+        /**
         /// <summary>
         /// Returns a reference to the 0th element of the Span. If the Span is empty, returns null reference.
         /// It can be used for pinning and is required to support the use of span within a fixed statement.
@@ -302,7 +263,6 @@ namespace System
             return ref ret;
         }
 
-        /**
         /// <summary>
         /// Copies the contents of this read-only span into destination span. If the source
         /// and destinations overlap, this method behaves as if the original values in
