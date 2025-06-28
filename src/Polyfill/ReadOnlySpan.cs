@@ -1,4 +1,5 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+﻿#if !FeatureMemory
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections;
@@ -27,8 +28,7 @@ namespace System
     [Intrinsic]
     public readonly ref struct ReadOnlySpan<T>
     {
-        /// <summary>A byref or a native ptr.</summary>
-        internal readonly ref T _reference;
+        internal readonly ArraySegment<T>? _reference;
         /// <summary>The number of elements this ReadOnlySpan contains.</summary>
         private readonly int _length;
 
@@ -406,12 +406,16 @@ namespace System
         /// </summary>
         public T[] ToArray()
         {
-            if (_length == 0)
-                return Array.Empty<T>();
+            if (_reference == null)
+            {
+                return [];
+            }
 
             var destination = new T[_length];
-            Buffer.Memmove(ref MemoryMarshal.GetArrayDataReference(destination), ref _reference, (uint)_length);
+            _reference.Value.CopyTo(destination, 0);
             return destination;
         }
     }
 }
+
+#endif
