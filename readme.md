@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 572**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 576**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -490,6 +490,14 @@ The class `Polyfill` includes the following extension methods:
 
 
 ### Extension methods<!-- include: api_list.include.md -->
+
+#### ArraySegment<T>
+
+ * `void CopyTo<T>(ArraySegment<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.copyto?view=net-10.0#system-arraysegment-1-copyto(-0()))
+ * `void CopyTo<T>(T[], int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.copyto?view=net-10.0#system-arraysegment-1-copyto(-0()-system-int32))
+ * `void CopyTo<T>(T[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.copyto?view=net-10.0#system-arraysegment-1-copyto(-0()))
+ * `ArraySegmentEnumerator<T> GetEnumerator<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.getenumerator?view=net-10.0)
+
 
 #### Boolean
 
