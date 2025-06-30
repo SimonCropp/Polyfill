@@ -499,7 +499,7 @@ partial class PolyfillTests
     [Test]
     public void TryFormatDate()
     {
-        var value = new DateOnly(2001, 10, 1);
+        var value = new Date(2001, 10, 1);
         Span<char> buffer = stackalloc char[16];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.True(result);
@@ -510,7 +510,7 @@ partial class PolyfillTests
     [Test]
     public void TryFormatDateSmaller()
     {
-        var value = new DateOnly(2001, 10, 1);
+        var value = new Date(2001, 10, 1);
         Span<char> buffer = stackalloc char[20];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.True(result);
@@ -521,7 +521,7 @@ partial class PolyfillTests
     [Test]
     public void TryFormatDateLarger()
     {
-        var value = new DateOnly(2001, 10, 1);
+        var value = new Date(2001, 10, 1);
         Span<char> buffer = stackalloc char[15];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.False(result);
@@ -532,7 +532,7 @@ partial class PolyfillTests
     [Test]
     public void TryFormatTime()
     {
-        var value = new TimeOnly(10, 1);
+        var value = new Time(10, 1);
         Span<char> buffer = stackalloc char[8];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.True(result);
@@ -543,7 +543,7 @@ partial class PolyfillTests
     [Test]
     public void TryFormatTimeSmaller()
     {
-        var value = new TimeOnly(10, 1);
+        var value = new Time(10, 1);
         Span<char> buffer = stackalloc char[10];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.True(result);
@@ -554,7 +554,7 @@ partial class PolyfillTests
     [Test]
     public void TryFormatTimeLarger()
     {
-        var value = new TimeOnly(10, 1);
+        var value = new Time(10, 1);
         Span<char> buffer = stackalloc char[7];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.False(result);
