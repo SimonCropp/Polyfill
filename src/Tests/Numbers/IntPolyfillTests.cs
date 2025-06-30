@@ -1,9 +1,5 @@
-// ReSharper disable PartialTypeWithSinglePart
-
-using System.Globalization;
-
 [TestFixture]
-partial class IntPolyfillTest
+public class IntPolyfillTest
 {
     [Test]
     public void TryParse()

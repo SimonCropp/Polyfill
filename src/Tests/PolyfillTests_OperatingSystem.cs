@@ -8,7 +8,6 @@ using OSPlatform = System.Runtime.InteropServices.OSPlatform;
 // ReSharper disable SuggestVarOrType_BuiltInTypes
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeObjectCreationWhenTypeEvident
-// ReSharper disable PartialTypeWithSinglePart
 
 [SuppressMessage("Style", "IDE0007:Use implicit type")]
 partial class PolyfillTests

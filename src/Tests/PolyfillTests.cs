@@ -1,5 +1,3 @@
-// ReSharper disable PartialTypeWithSinglePart
-
 [TestFixture]
 [DebuggerNonUserCode]
-partial class PolyfillTests;
+public partial class PolyfillTests;

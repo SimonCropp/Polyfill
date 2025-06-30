@@ -1,7 +1,5 @@
-// ReSharper disable PartialTypeWithSinglePart
-
 [TestFixture]
-partial class StringPolyfillTest
+public class StringPolyfillTest
 {
     [Test]
     public void Join()

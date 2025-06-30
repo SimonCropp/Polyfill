@@ -1,5 +1,3 @@
-using System.Globalization;
-
 partial class PolyfillTests
 {
     [Test]

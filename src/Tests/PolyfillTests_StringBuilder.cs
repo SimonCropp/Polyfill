@@ -1,5 +1,3 @@
-// ReSharper disable PartialTypeWithSinglePart
-
 partial class PolyfillTests
 {
     [Test]
