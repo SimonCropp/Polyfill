@@ -114,6 +114,21 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-10.0#system-string-split(system-char-system-int32-system-stringsplitoptions)
     public static string[] Split(this string target, char separator, int count, StringSplitOptions options = StringSplitOptions.None) =>
         target.Split([separator], count, options);
+
+
+    /// <summary>
+    /// Splits a string into substrings that are based on the provided string separator.
+    /// </summary>
+    /// Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-10.0#system-string-split(system-string-system-stringsplitoptions)
+    public static string[] Split(this string target, string separator, StringSplitOptions options = StringSplitOptions.None) =>
+        target.Split([separator], options);
+
+    /// <summary>
+    /// Splits a string into a maximum number of substrings based on a specified delimiting string and, optionally, options.
+    /// </summary>
+    /// Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-10.0#system-string-split(system-string-system-int32-system-stringsplitoptions)
+    public static string[] Split(this string target, string separator, int count, StringSplitOptions options = StringSplitOptions.None) =>
+        target.Split([separator], count, options);
 #endif
 
 #if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
