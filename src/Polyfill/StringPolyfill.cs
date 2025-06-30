@@ -206,7 +206,7 @@ static class StringPolyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-10.0#system-string-join-1(system-char-system-collections-generic-ienumerable((-0)))
         public static string Join<T>(char separator, IEnumerable<T> values) =>
-            string.Join(separator, values);
+            string.Join(new(separator, 1), values);
 #endif
     }
 }
