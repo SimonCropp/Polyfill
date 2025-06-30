@@ -499,7 +499,7 @@ partial class PolyfillTests
     [Test]
     public void TryFormatTime_ToByteSpan()
     {
-        var value = new TimeOnly(10, 1);
+        var value = new Time(10, 1);
         Span<byte> buffer = stackalloc byte[8];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.True(result);
@@ -510,7 +510,7 @@ partial class PolyfillTests
     [Test]
     public void TryFormatTimeSmaller_ToByteSpan()
     {
-        var value = new TimeOnly(10, 1);
+        var value = new Time(10, 1);
         Span<byte> buffer = stackalloc byte[10];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.True(result);
@@ -521,7 +521,7 @@ partial class PolyfillTests
     [Test]
     public void TryFormatTimeLarger_ToByteSpan()
     {
-        var value = new TimeOnly(10, 1);
+        var value = new Time(10, 1);
         Span<byte> buffer = stackalloc byte[7];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.False(result);

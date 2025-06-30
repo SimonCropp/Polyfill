@@ -1,3 +1,4 @@
+// ReSharper disable CollectionNeverUpdated.Local
 partial class PolyfillTests
 {
     [Test]

@@ -22,7 +22,7 @@ partial class PolyfillTests
     public async Task TaskCompletionSource_SetCanceled_WithCancellationToken()
     {
         var completionSource = new TaskCompletionSource<int>();
-        var tokenSource = new CancellationTokenSource();
+        var tokenSource = new CancelSource();
 
         // Simulate some background work that will cancel the task
         Task.Run(async () =>
