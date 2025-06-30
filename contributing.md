@@ -401,7 +401,7 @@ partial class PolyfillTests
     {
         using var stream = new MemoryStream("line1\nline2"u8.ToArray());
         using var reader = new StreamReader(stream);
-        var read = await reader.ReadLineAsync(CancellationToken.None);
+        var read = await reader.ReadLineAsync(Cancel.None);
         Assert.AreEqual("line1", read);
     }
 }
