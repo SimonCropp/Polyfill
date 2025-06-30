@@ -10,6 +10,6 @@ public class StringPolyfillTest
         Assert.AreEqual("bac", string.Join('a', new object[] {"b", "c"}));
         Assert.AreEqual("baac", string.Join('a', new object?[] {"b", null, "c"}));
         // ReSharper disable once RedundantCast
-        Assert.AreEqual("bac", StringPolyfill.Join('a', (IEnumerable<string>) new List<string>{"b", "c"}));
+        Assert.AreEqual("bac", string.Join('a', (IEnumerable<string>) new List<string>{"b", "c"}));
     }
 }
