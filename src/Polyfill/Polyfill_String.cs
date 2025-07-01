@@ -98,7 +98,6 @@ static partial class Polyfill
         return target[lastPos] == value;
     }
 
-
     /// <summary>
     /// Splits a string into substrings based on a specified delimiting character and, optionally, options.
     /// </summary>
@@ -114,7 +113,6 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-10.0#system-string-split(system-char-system-int32-system-stringsplitoptions)
     public static string[] Split(this string target, char separator, int count, StringSplitOptions options = StringSplitOptions.None) =>
         target.Split([separator], count, options);
-
 
     /// <summary>
     /// Splits a string into substrings that are based on the provided string separator.
