@@ -633,9 +633,13 @@ class Consume
     {
         var contains = "a b".Contains(' ');
         var endsWith = "value".EndsWith('a');
-        var split = "a b".Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        split = "a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
+
+        var splitChar = "a b".Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        splitChar = "a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
         var startsWith = "value".StartsWith('a');
+
+        var splitString = "a b".Split(" ", StringSplitOptions.RemoveEmptyEntries);
+        splitString = "a b".Split(" ", 2, StringSplitOptions.RemoveEmptyEntries);
     }
 
     #if !NoStringInterpolation && FeatureMemory
