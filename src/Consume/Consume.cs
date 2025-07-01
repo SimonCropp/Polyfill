@@ -194,14 +194,14 @@ class Consume
 
     void Byte_Methods()
     {
-        BytePolyfill.TryParse("1", null, out _);
+        Byte.TryParse("1", null, out _);
 #if FeatureMemory
-        BytePolyfill.TryParse("1"u8, null, out _);
-        BytePolyfill.TryParse(['1'], out _);
-        BytePolyfill.TryParse(['1'], null, out _);
-        BytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        BytePolyfill.TryParse("1"u8, out _);
-        BytePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        Byte.TryParse("1"u8, null, out _);
+        Byte.TryParse(['1'], out _);
+        Byte.TryParse(['1'], null, out _);
+        Byte.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        Byte.TryParse("1"u8, out _);
+        Byte.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 
@@ -300,14 +300,14 @@ class Consume
 
     void Double_Methods()
     {
-        DoublePolyfill.TryParse("1", null, out _);
+        double.TryParse("1", null, out _);
 #if FeatureMemory
-        DoublePolyfill.TryParse("1"u8, null, out _);
-        DoublePolyfill.TryParse(['1'], out _);
-        DoublePolyfill.TryParse(['1'], null, out _);
-        DoublePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        DoublePolyfill.TryParse("1"u8, out _);
-        DoublePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        double.TryParse("1"u8, null, out _);
+        double.TryParse(['1'], out _);
+        double.TryParse(['1'], null, out _);
+        double.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        double.TryParse("1"u8, out _);
+        double.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 
@@ -384,14 +384,14 @@ class Consume
 
     void Int_Methods()
     {
-        IntPolyfill.TryParse("1", null, out _);
+        int.TryParse("1", null, out _);
 #if FeatureMemory
-        IntPolyfill.TryParse("1"u8, null, out _);
-        IntPolyfill.TryParse(['1'], out _);
-        IntPolyfill.TryParse(['1'], null, out _);
-        IntPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        IntPolyfill.TryParse("1"u8, out _);
-        IntPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        int.TryParse("1"u8, null, out _);
+        int.TryParse(['1'], out _);
+        int.TryParse(['1'], null, out _);
+        int.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        int.TryParse("1"u8, out _);
+        int.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 
@@ -418,14 +418,14 @@ class Consume
 
     void Long_Methods()
     {
-        LongPolyfill.TryParse("1", null, out _);
+        long.TryParse("1", null, out _);
 #if FeatureMemory
-        LongPolyfill.TryParse("1"u8, null, out _);
-        LongPolyfill.TryParse(['1'], out _);
-        LongPolyfill.TryParse(['1'], null, out _);
-        LongPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        LongPolyfill.TryParse("1"u8, out _);
-        LongPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        long.TryParse("1"u8, null, out _);
+        long.TryParse(['1'], out _);
+        long.TryParse(['1'], null, out _);
+        long.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        long.TryParse("1"u8, out _);
+        long.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 
@@ -437,36 +437,36 @@ class Consume
     #if FeatureRuntimeInformation
     void OperatingSystem_Methods()
     {
-        var isOSPlatform = OperatingSystemPolyfill.IsOSPlatform("windows");
-        var isOSPlatformWindows10 = OperatingSystemPolyfill.IsOSPlatformVersionAtLeast("windows", 10, 0, 10240);
+        var isOSPlatform = OperatingSystem.IsOSPlatform("windows");
+        var isOSPlatformWindows10 = OperatingSystem.IsOSPlatformVersionAtLeast("windows", 10, 0, 10240);
 
-        var isWindows = OperatingSystemPolyfill.IsWindows();
-        var isWindows11 = OperatingSystemPolyfill.IsWindowsVersionAtLeast(10,0,22000);
+        var isWindows = OperatingSystem.IsWindows();
+        var isWindows11 = OperatingSystem.IsWindowsVersionAtLeast(10,0,22000);
 
-        var isMacOS = OperatingSystemPolyfill.IsMacOS();
-        var isMacOsSonoma = OperatingSystemPolyfill.IsMacOSVersionAtLeast(14);
-        var isMacCatalyst = OperatingSystemPolyfill.IsMacCatalyst();
-        var isMacCatalyst17 = OperatingSystemPolyfill.IsMacCatalystVersionAtLeast(17);
+        var isMacOS = OperatingSystem.IsMacOS();
+        var isMacOsSonoma = OperatingSystem.IsMacOSVersionAtLeast(14);
+        var isMacCatalyst = OperatingSystem.IsMacCatalyst();
+        var isMacCatalyst17 = OperatingSystem.IsMacCatalystVersionAtLeast(17);
 
-        var isLinux = OperatingSystemPolyfill.IsLinux();
+        var isLinux = OperatingSystem.IsLinux();
 
-        var isFreeBSD = OperatingSystemPolyfill.IsFreeBSD();
-        var isFreeBSD14 = OperatingSystemPolyfill.IsFreeBSDVersionAtLeast(14, 0);
+        var isFreeBSD = OperatingSystem.IsFreeBSD();
+        var isFreeBSD14 = OperatingSystem.IsFreeBSDVersionAtLeast(14, 0);
 
-        var isIOS = OperatingSystemPolyfill.IsIOS();
-        var isIOS18 = OperatingSystemPolyfill.IsIOSVersionAtLeast(18);
+        var isIOS = OperatingSystem.IsIOS();
+        var isIOS18 = OperatingSystem.IsIOSVersionAtLeast(18);
 
-        var isAndroid = OperatingSystemPolyfill.IsAndroid();
-        var isAndroid13 = OperatingSystemPolyfill.IsAndroidVersionAtLeast(13);
+        var isAndroid = OperatingSystem.IsAndroid();
+        var isAndroid13 = OperatingSystem.IsAndroidVersionAtLeast(13);
 
-        var isTvOS = OperatingSystemPolyfill.IsTvOS();
-        var isTvOS17 = OperatingSystemPolyfill.IsTvOSVersionAtLeast(17);
+        var isTvOS = OperatingSystem.IsTvOS();
+        var isTvOS17 = OperatingSystem.IsTvOSVersionAtLeast(17);
 
-        var isWatchOS = OperatingSystemPolyfill.IsWatchOS();
-        var isWatchOS11 = OperatingSystemPolyfill.IsWatchOSVersionAtLeast(11);
+        var isWatchOS = OperatingSystem.IsWatchOS();
+        var isWatchOS11 = OperatingSystem.IsWatchOSVersionAtLeast(11);
 
-        var isWasi = OperatingSystemPolyfill.IsWasi();
-        var isBrowser = OperatingSystemPolyfill.IsBrowser();
+        var isWasi = OperatingSystem.IsWasi();
+        var isBrowser = OperatingSystem.IsBrowser();
     }
 #endif
 
@@ -550,27 +550,27 @@ class Consume
 
     void SByte_Methods()
     {
-        SBytePolyfill.TryParse("1", null, out _);
+        sbyte.TryParse("1", null, out _);
 #if FeatureMemory
-        SBytePolyfill.TryParse("1"u8, null, out _);
-        SBytePolyfill.TryParse(['1'], out _);
-        SBytePolyfill.TryParse(['1'], null, out _);
-        SBytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        SBytePolyfill.TryParse("1"u8, out _);
-        SBytePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        sbyte.TryParse("1"u8, null, out _);
+        sbyte.TryParse(['1'], out _);
+        sbyte.TryParse(['1'], null, out _);
+        sbyte.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        sbyte.TryParse("1"u8, out _);
+        sbyte.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 
     void Short_Methods()
     {
-        ShortPolyfill.TryParse("1", null, out _);
+        short.TryParse("1", null, out _);
 #if FeatureMemory
-        ShortPolyfill.TryParse("1"u8, null, out _);
-        ShortPolyfill.TryParse(['1'], out _);
-        ShortPolyfill.TryParse(['1'], null, out _);
-        ShortPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        ShortPolyfill.TryParse("1"u8, out _);
-        ShortPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        short.TryParse("1"u8, null, out _);
+        short.TryParse(['1'], out _);
+        short.TryParse(['1'], null, out _);
+        short.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        short.TryParse("1"u8, out _);
+        short.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 
@@ -719,40 +719,40 @@ class Consume
 
     void UInt_Methods()
     {
-        UIntPolyfill.TryParse("1", null, out _);
+        uint.TryParse("1", null, out _);
 #if FeatureMemory
-        UIntPolyfill.TryParse("1"u8, null, out _);
-        UIntPolyfill.TryParse(['1'], out _);
-        UIntPolyfill.TryParse(['1'], null, out _);
-        UIntPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        UIntPolyfill.TryParse("1"u8, out _);
-        UIntPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        uint.TryParse("1"u8, null, out _);
+        uint.TryParse(['1'], out _);
+        uint.TryParse(['1'], null, out _);
+        uint.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        uint.TryParse("1"u8, out _);
+        uint.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 
     void ULong_Methods()
     {
-        ULongPolyfill.TryParse("1", null, out _);
+        ulong.TryParse("1", null, out _);
 #if FeatureMemory
-        ULongPolyfill.TryParse("1"u8, null, out _);
-        ULongPolyfill.TryParse(['1'], out _);
-        ULongPolyfill.TryParse(['1'], null, out _);
-        ULongPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        ULongPolyfill.TryParse("1"u8, out _);
-        ULongPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        ulong.TryParse("1"u8, null, out _);
+        ulong.TryParse(['1'], out _);
+        ulong.TryParse(['1'], null, out _);
+        ulong.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        ulong.TryParse("1"u8, out _);
+        ulong.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 
     void UShort_Methods()
     {
-        UShortPolyfill.TryParse("1", null, out _);
+        ushort.TryParse("1", null, out _);
 #if FeatureMemory
-        UShortPolyfill.TryParse("1"u8, null, out _);
-        UShortPolyfill.TryParse(['1'], out _);
-        UShortPolyfill.TryParse(['1'], null, out _);
-        UShortPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        UShortPolyfill.TryParse("1"u8, out _);
-        UShortPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        ushort.TryParse("1"u8, null, out _);
+        ushort.TryParse(['1'], out _);
+        ushort.TryParse(['1'], null, out _);
+        ushort.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        ushort.TryParse("1"u8, out _);
+        ushort.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 

@@ -28,9 +28,9 @@ public class FilePolyfillTests
     {
         var data = "Hello, World!"u8.ToArray();
         // ReSharper disable once MethodHasAsyncOverload
-        FilePolyfill.AppendAllBytes(TestFilePath, data);
+        File.AppendAllBytes(TestFilePath, data);
 
-        var result = await FilePolyfill.ReadAllBytesAsync(TestFilePath);
+        var result = await File.ReadAllBytesAsync(TestFilePath);
         Assert.AreEqual(data, result);
     }
 
@@ -38,9 +38,9 @@ public class FilePolyfillTests
     public async Task AppendAllBytesAsync()
     {
         var data = "Hello, Async World!"u8.ToArray();
-        await FilePolyfill.AppendAllBytesAsync(TestFilePath, data);
+        await File.AppendAllBytesAsync(TestFilePath, data);
 
-        var result = await FilePolyfill.ReadAllBytesAsync(TestFilePath);
+        var result = await File.ReadAllBytesAsync(TestFilePath);
         Assert.AreEqual(data, result);
     }
 #endif
@@ -49,9 +49,9 @@ public class FilePolyfillTests
     public async Task AppendAllTextAsync()
     {
         var content = "Hello, Async Text!";
-        await FilePolyfill.AppendAllTextAsync(TestFilePath, content, Encoding.UTF8);
+        await File.AppendAllTextAsync(TestFilePath, content, Encoding.UTF8);
 
-        var result = await FilePolyfill.ReadAllTextAsync(TestFilePath);
+        var result = await File.ReadAllTextAsync(TestFilePath);
         Assert.AreEqual(content, result);
     }
 
@@ -60,9 +60,9 @@ public class FilePolyfillTests
     public async Task WriteAllBytesAsync()
     {
         var data = "Hello, Write Bytes!"u8.ToArray();
-        await FilePolyfill.WriteAllBytesAsync(TestFilePath, data);
+        await File.WriteAllBytesAsync(TestFilePath, data);
 
-        var result = await FilePolyfill.ReadAllBytesAsync(TestFilePath);
+        var result = await File.ReadAllBytesAsync(TestFilePath);
         Assert.AreEqual(data, result);
     }
 #endif
@@ -71,9 +71,9 @@ public class FilePolyfillTests
     public async Task WriteAllTextAsync()
     {
         var content = "Hello, Write Text!";
-        await FilePolyfill.WriteAllTextAsync(TestFilePath, content, Encoding.UTF8);
+        await File.WriteAllTextAsync(TestFilePath, content, Encoding.UTF8);
 
-        var result = await FilePolyfill.ReadAllTextAsync(TestFilePath);
+        var result = await File.ReadAllTextAsync(TestFilePath);
         Assert.AreEqual(content, result);
     }
 
@@ -85,7 +85,7 @@ public class FilePolyfillTests
         File.WriteAllText(SourceFilePath, content);
 
         // Act
-        FilePolyfill.Move(SourceFilePath, DestinationFilePath, overwrite: true);
+        File.Move(SourceFilePath, DestinationFilePath, overwrite: true);
 
         // Assert
         Assert.IsFalse(File.Exists(SourceFilePath), "Source file should no longer exist.");
@@ -104,7 +104,7 @@ public class FilePolyfillTests
         File.WriteAllText(DestinationFilePath, destinationContent);
 
         // Act
-        FilePolyfill.Move(SourceFilePath, DestinationFilePath, overwrite: true);
+        File.Move(SourceFilePath, DestinationFilePath, overwrite: true);
 
         // Assert
         Assert.IsFalse(File.Exists(SourceFilePath), "Source file should no longer exist.");
@@ -124,6 +124,6 @@ public class FilePolyfillTests
 
         // Act & Assert
         Assert.Throws<IOException>(() =>
-            FilePolyfill.Move(SourceFilePath, DestinationFilePath, overwrite: false));
+            File.Move(SourceFilePath, DestinationFilePath, overwrite: false));
     }
 }

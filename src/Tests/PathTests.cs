@@ -4,26 +4,26 @@ public class PathTests
 #if FeatureMemory
     [Test]
     public void GetDirectoryName() =>
-        Assert.AreEqual("dir", PathPolyfill.GetDirectoryName("dir/file.txt".AsSpan()).ToString());
+        Assert.AreEqual("dir", Path.GetDirectoryName("dir/file.txt".AsSpan()).ToString());
 
     [Test]
     public void GetFileName() =>
-        Assert.AreEqual("file.txt", PathPolyfill.GetFileName("dir/file.txt".AsSpan()).ToString());
+        Assert.AreEqual("file.txt", Path.GetFileName("dir/file.txt".AsSpan()).ToString());
 
     [Test]
     public void GetFileNameWithoutExtension() =>
-        Assert.AreEqual("file", PathPolyfill.GetFileNameWithoutExtension("dir/file.txt".AsSpan()).ToString());
+        Assert.AreEqual("file", Path.GetFileNameWithoutExtension("dir/file.txt".AsSpan()).ToString());
 
     [Test]
     public void HasExtension()
     {
-        Assert.True(PathPolyfill.HasExtension("file.txt".AsSpan()));
-        Assert.False(PathPolyfill.HasExtension("file".AsSpan()));
+        Assert.True(Path.HasExtension("file.txt".AsSpan()));
+        Assert.False(Path.HasExtension("file".AsSpan()));
     }
 
     [Test]
     public void GetExtension() =>
-        Assert.AreEqual(".txt", PathPolyfill.GetExtension("file.txt".AsSpan()).ToString());
+        Assert.AreEqual(".txt", Path.GetExtension("file.txt".AsSpan()).ToString());
 
     [Test]
     public void Combine()
@@ -35,7 +35,7 @@ public class PathTests
             "file.txt"
         ];
 
-        var result = PathPolyfill.Combine(paths);
+        var result = Path.Combine(paths);
 
         Assert.AreEqual("folder1\\folder2\\file.txt", result.Replace('/','\\'));
     }
@@ -45,19 +45,19 @@ public class PathTests
     public void EndsInDirectorySeparator()
     {
         #if FeatureMemory
-        Assert.False(PathPolyfill.EndsInDirectorySeparator("file.txt".AsSpan()));
-        Assert.True(PathPolyfill.EndsInDirectorySeparator("path/".AsSpan()));
+        Assert.False(Path.EndsInDirectorySeparator("file.txt".AsSpan()));
+        Assert.True(Path.EndsInDirectorySeparator("path/".AsSpan()));
         #endif
-        Assert.False(PathPolyfill.EndsInDirectorySeparator("file.txt"));
-        Assert.True(PathPolyfill.EndsInDirectorySeparator("path/"));
+        Assert.False(Path.EndsInDirectorySeparator("file.txt"));
+        Assert.True(Path.EndsInDirectorySeparator("path/"));
     }
 
     [Test]
     public void Exists()
     {
-        Assert.False(PathPolyfill.Exists(null));
-        Assert.False(PathPolyfill.Exists(""));
-        Assert.False(PathPolyfill.Exists("file.txt"));
-        Assert.True(PathPolyfill.Exists(Environment.CurrentDirectory));
+        Assert.False(Path.Exists(null));
+        Assert.False(Path.Exists(""));
+        Assert.False(Path.Exists("file.txt"));
+        Assert.True(Path.Exists(Environment.CurrentDirectory));
     }
 }
