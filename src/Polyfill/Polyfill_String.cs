@@ -98,10 +98,9 @@ static partial class Polyfill
         return target[lastPos] == value;
     }
 
+
     /// <summary>
-    /// Splits a string into a maximum number of substrings based on a specified delimiting character and, optionally,
-    /// options. Splits a string into a maximum number of substrings based on the provided character separator,
-    /// optionally omitting empty substrings from the result.
+    /// Splits a string into substrings based on a specified delimiting character and, optionally, options.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-10.0#system-string-split(system-char-system-stringsplitoptions)
     public static string[] Split(this string target, char separator, StringSplitOptions options = StringSplitOptions.None) =>
@@ -114,6 +113,21 @@ static partial class Polyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-10.0#system-string-split(system-char-system-int32-system-stringsplitoptions)
     public static string[] Split(this string target, char separator, int count, StringSplitOptions options = StringSplitOptions.None) =>
+        target.Split([separator], count, options);
+
+
+    /// <summary>
+    /// Splits a string into substrings that are based on the provided string separator.
+    /// </summary>
+    /// Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-10.0#system-string-split(system-string-system-stringsplitoptions)
+    public static string[] Split(this string target, string separator, StringSplitOptions options = StringSplitOptions.None) =>
+        target.Split([separator], options);
+
+    /// <summary>
+    /// Splits a string into a maximum number of substrings based on a specified delimiting string and, optionally, options.
+    /// </summary>
+    /// Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-10.0#system-string-split(system-string-system-int32-system-stringsplitoptions)
+    public static string[] Split(this string target, string separator, int count, StringSplitOptions options = StringSplitOptions.None) =>
         target.Split([separator], count, options);
 #endif
 

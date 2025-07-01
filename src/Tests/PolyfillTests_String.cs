@@ -56,6 +56,9 @@ partial class PolyfillTests
     {
         Assert.AreEqual(new []{"a","b"}, "a b".Split(' ', StringSplitOptions.RemoveEmptyEntries));
         Assert.AreEqual(new []{"a","b"}, "a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries));
+
+        Assert.AreEqual(new []{"a","b"}, "a b".Split(" ", StringSplitOptions.RemoveEmptyEntries));
+        Assert.AreEqual(new []{"a","b"}, "a b".Split(" ", 2, StringSplitOptions.RemoveEmptyEntries));
     }
 
     [Test]
