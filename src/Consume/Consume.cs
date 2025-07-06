@@ -135,8 +135,6 @@ class Consume
     {
     }
 
-#if LangVersion13
-
     public static void ParamCollection(params List<string> collection)
     {
     }
@@ -155,8 +153,6 @@ class Consume
     void Method(object x)
     {
     }
-
-#endif
 
 #if FeatureMemory
 
