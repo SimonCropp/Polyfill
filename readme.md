@@ -1,4 +1,4 @@
-# <img src="/src/icon.png" height="30px"> Polyfill
+# <img src="/src/icon.png" height="30px" width="30px"> Polyfill
 
 [![Build status](https://ci.appveyor.com/api/projects/status/s6eqqg4ipeovebgd?svg=true)](https://ci.appveyor.com/project/SimonCropp/Polyfill)
 [![Polyfill NuGet Status](https://img.shields.io/nuget/v/Polyfill.svg)](https://www.nuget.org/packages/Polyfill/)
