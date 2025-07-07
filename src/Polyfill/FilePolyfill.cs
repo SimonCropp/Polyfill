@@ -539,11 +539,11 @@ static partial class FilePolyfill
     /// <param name="unixFileMode"></param>
     [System.Runtime.Versioning.UnsupportedOSPlatform("windows")]
     public static void SetUnixFileMode(string path, UnixFileMode unixFileMode) =>
-//#if NET7_0_OR_GREATER
+#if NET7_0_OR_GREATER
        // File.SetUnixFileMode(path, unixFileMode);
-//#else
+#else
         SetUnixFileModeFallback(path, unixFileMode);
-//#endif
+#endif
 
     [System.Runtime.Versioning.UnsupportedOSPlatform("windows")]
     private static void SetUnixFileModeFallback(string path, UnixFileMode unixFileMode)
