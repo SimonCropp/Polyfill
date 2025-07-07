@@ -233,6 +233,7 @@ static partial class FilePolyfill
     /// </summary>
     /// <param name="path">The path to the file.</param>
     /// <returns>The UnixFileMode of the file handle.</returns>
+    /// Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.getunixfilemode?view=net-10.0#system-io-file-getunixfilemode(system-string)
     [System.Runtime.Versioning.UnsupportedOSPlatform("windows")]
     public static UnixFileMode GetUnixFileMode(string path) =>
 #if NET7_0_OR_GREATER
@@ -535,12 +536,13 @@ static partial class FilePolyfill
     /// <summary>
     ///Sets the specified UnixFileMode of the file on the specified pat
     /// </summary>
-    /// <param name="path"></param>
-    /// <param name="unixFileMode"></param>
+    /// <param name="path">The path to the file.</param>
+    /// <param name="unixFileMode">The Unix file mode.</param>
+    /// Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.setunixfilemode?view=net-10.0#system-io-file-setunixfilemode(system-string-system-io-unixfilemode)
     [System.Runtime.Versioning.UnsupportedOSPlatform("windows")]
     public static void SetUnixFileMode(string path, UnixFileMode unixFileMode) =>
 #if NET7_0_OR_GREATER
-       // File.SetUnixFileMode(path, unixFileMode);
+        File.SetUnixFileMode(path, unixFileMode);
 #else
         SetUnixFileModeFallback(path, unixFileMode);
 #endif
