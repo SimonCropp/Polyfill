@@ -533,6 +533,110 @@ static partial class FilePolyfill
 #endif
 
     /// <summary>
+    ///Sets the specified UnixFileMode of the file on the specified pat
+    /// </summary>
+    /// <param name="path"></param>
+    /// <param name="unixFileMode"></param>
+    [System.Runtime.Versioning.UnsupportedOSPlatform("windows")]
+    public static void SetUnixFileMode(string path, UnixFileMode unixFileMode) =>
+//#if NET7_0_OR_GREATER
+       // File.SetUnixFileMode(path, unixFileMode);
+//#else
+        SetUnixFileModeFallback(path, unixFileMode);
+//#endif
+
+    [System.Runtime.Versioning.UnsupportedOSPlatform("windows")]
+    private static void SetUnixFileModeFallback(string path, UnixFileMode unixFileMode)
+    {
+#if FeatureRuntimeInformation
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            throw new PlatformNotSupportedException();
+#else
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                throw new PlatformNotSupportedException();
+#endif
+        if (string.IsNullOrEmpty(path))
+            throw new ArgumentException("path is a zero-length string, or contains one or more invalid characters. You can query for invalid characters by using the GetInvalidPathChars() method.");
+
+        int[] octal = new int[4]{0, 0 , 0 , 0};
+
+        string[] fileModeStrings = unixFileMode.ToString()
+            .Replace("UnixFileMode.", "").Split(' ');
+
+        foreach (var fileModeString in fileModeStrings)
+        {
+            switch (fileModeString.ToLower())
+            {
+                //The digits are set to 0 by default, so we don't need to do anything.
+                case "none":
+                    break;
+                case "userread":
+                    octal[1] = octal[1] + 4;
+                    break;
+                case "userwrite":
+                    octal[1] = octal[1] + 2;
+                    break;
+                case "userexecute":
+                    octal[1] = octal[1] + 1;
+                    break;
+                case "groupread":
+                    octal[2] = octal[2] + 4;
+                    break;
+                case "groupwrite":
+                    octal[2] = octal[2] + 2;
+                    break;
+                case "groupexecute":
+                    octal[2] = octal[2] + 1;
+                    break;
+                case "otherread":
+                    octal[3] = octal[3] + 4;
+                    break;
+                case "otherwrite":
+                    octal[3] = octal[3] + 2;
+                    break;
+                case "otherexecute":
+                    octal[3] = octal[3] + 1;
+                    break;
+                case "setuser":
+                    octal[0] = octal[0] + 2;
+                    break;
+                case "stickybit":
+                    octal[0] = octal[0] + 1;
+                    break;
+                case "setgroup":
+                    octal[0] = octal[0] + 4;
+                    break;
+                default:
+                    throw new Exception("Invalid notation detected");
+            }
+        }
+
+            ProcessStartInfo startInfo = new ProcessStartInfo()
+            {
+                FileName = "chmod",
+                Arguments = $"{string.Join("", octal)} {Path.GetFullPath(path)}",
+                RedirectStandardOutput = true,
+                RedirectStandardInput = false,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+            };
+
+            Process process = new Process { StartInfo = startInfo };
+
+            try
+            {
+                process.Start();
+                process.WaitForExit();
+            }
+            catch (Exception exception)
+            {
+                throw;
+            }
+
+            process.Dispose();
+    }
+
+    /// <summary>
     /// Asynchronously creates a new file, writes the specified byte array to the file, and then closes the file. If the target file already exists, it is truncated and overwritten.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writeallbytesasync?view=net-10.0#system-io-file-writeallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)
