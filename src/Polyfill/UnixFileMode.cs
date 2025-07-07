@@ -7,11 +7,8 @@ namespace System.IO;
 ///
 /// This enumeration supports a bitwise combination of its member values.
 /// </summary>
-#if PolyPublic
-public
-#endif
 [Flags]
-enum UnixFileMode
+public enum UnixFileMode
 {
     /// <summary>
     /// No permissions
