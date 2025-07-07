@@ -170,6 +170,23 @@ static class StringPolyfill
             string.Join(separator, values.ToArray());
 #endif
 
+
+#if !NETCOREAPP3_0_OR_GREATER
+        /// <summary>
+        /// Returns the hash code for the provided read-only character span.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-10.0#system-string-gethashcode(system-readonlyspan((system-char)))
+        public static int GetHashCode(ReadOnlySpan<char> value) =>
+            value.ToString().GetHashCode();
+
+        /// <summary>
+        /// Returns the hash code for the provided read-only character span using the specified rules.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-10.0#system-string-gethashcode(system-readonlyspan((system-char))-system-stringcomparison)
+        public static int GetHashCode(ReadOnlySpan<char> value,StringComparison comparisonType) =>
+            value.ToString().GetHashCode(comparisonType);
+#endif
+
 #if NETSTANDARD2_0 || NETFRAMEWORK
 
         /// <summary>
