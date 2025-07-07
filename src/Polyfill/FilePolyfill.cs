@@ -245,9 +245,13 @@ static partial class FilePolyfill
         [System.Runtime.Versioning.UnsupportedOSPlatform("windows")]
         private static UnixFileMode GetUnixFileModeFallback(string path)
         {
+#if FeatureRuntimeInformation
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 throw new PlatformNotSupportedException();
-
+#else
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                throw new PlatformNotSupportedException();
+#endif
             if (string.IsNullOrEmpty(path))
                 throw new ArgumentException("path is a zero-length string, or contains one or more invalid characters. You can query for invalid characters by using the GetInvalidPathChars() method.");
 
