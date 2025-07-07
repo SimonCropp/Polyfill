@@ -265,10 +265,7 @@ static partial class FilePolyfill
                     CreateNoWindow = true,
                 };
 
-                Process process = new Process
-                {
-                    StartInfo = startInfo
-                };
+                Process process = new Process { StartInfo = startInfo };
 
                 try
                 {
