@@ -305,28 +305,28 @@ static partial class FilePolyfill
                 switch (output[1])
                 {
                     case '0':
-                        mode = mode & UnixFileMode.None;
+                        mode = mode | UnixFileMode.None;
                         break;
                     case '1':
-                        mode = mode & UnixFileMode.UserExecute;
+                        mode = mode | UnixFileMode.UserExecute;
                         break;
                     case '2':
-                        mode = mode & UnixFileMode.UserWrite;
+                        mode = mode | UnixFileMode.UserWrite;
                         break;
                     case '3':
-                        mode = mode & UnixFileMode.UserExecute & UnixFileMode.UserWrite;
+                        mode = mode | UnixFileMode.UserExecute | UnixFileMode.UserWrite;
                         break;
                     case '4':
-                        mode = mode & UnixFileMode.UserRead;
+                        mode = mode | UnixFileMode.UserRead;
                         break;
                     case '5':
-                        mode = mode & UnixFileMode.UserRead & UnixFileMode.UserExecute;
+                        mode = mode | UnixFileMode.UserRead | UnixFileMode.UserExecute;
                         break;
                     case '6':
-                        mode = mode & UnixFileMode.UserRead & UnixFileMode.UserWrite;
+                        mode = mode | UnixFileMode.UserRead | UnixFileMode.UserWrite;
                         break;
                     case '7':
-                        mode = mode & UnixFileMode.UserRead & UnixFileMode.UserWrite & UnixFileMode.UserExecute;
+                        mode = mode | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute;
                         break;
                     default:
                         throw new Exception("Invalid octal notation detected");
@@ -336,28 +336,28 @@ static partial class FilePolyfill
                 switch (output[2])
                 {
                     case '0':
-                        mode = mode & UnixFileMode.None;
+                        mode = mode | UnixFileMode.None;
                         break;
                     case '1':
-                        mode = mode & UnixFileMode.GroupExecute;
+                        mode = mode | UnixFileMode.GroupExecute;
                         break;
                     case '2':
-                        mode = mode & UnixFileMode.GroupWrite;
+                        mode = mode | UnixFileMode.GroupWrite;
                         break;
                     case '3':
-                        mode = mode & UnixFileMode.GroupExecute & UnixFileMode.GroupWrite;
+                        mode = mode | UnixFileMode.GroupExecute | UnixFileMode.GroupWrite;
                         break;
                     case '4':
-                        mode = mode & UnixFileMode.GroupRead;
+                        mode = mode | UnixFileMode.GroupRead;
                         break;
                     case '5':
-                        mode = mode & UnixFileMode.GroupRead & UnixFileMode.GroupExecute;
+                        mode = mode | UnixFileMode.GroupRead | UnixFileMode.GroupExecute;
                         break;
                     case '6':
-                        mode = mode & UnixFileMode.GroupRead & UnixFileMode.GroupWrite;
+                        mode = mode | UnixFileMode.GroupRead | UnixFileMode.GroupWrite;
                         break;
                     case '7':
-                        mode = mode & UnixFileMode.GroupRead & UnixFileMode.GroupWrite & UnixFileMode.GroupExecute;
+                        mode = mode | UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute;
                         break;
                     default:
                         throw new Exception("Invalid octal notation detected");
@@ -367,28 +367,28 @@ static partial class FilePolyfill
                 switch (output[3])
                 {
                     case '0':
-                        mode = mode & UnixFileMode.None;
+                        mode = mode | UnixFileMode.None;
                         break;
                     case '1':
-                        mode = mode & UnixFileMode.OtherExecute;
+                        mode = mode | UnixFileMode.OtherExecute;
                         break;
                     case '2':
-                        mode = mode & UnixFileMode.OtherWrite;
+                        mode = mode | UnixFileMode.OtherWrite;
                         break;
                     case '3':
-                        mode = mode & UnixFileMode.OtherExecute & UnixFileMode.OtherWrite;
+                        mode = mode | UnixFileMode.OtherExecute | UnixFileMode.OtherWrite;
                         break;
                     case '4':
-                        mode = mode & UnixFileMode.OtherRead;
+                        mode = mode | UnixFileMode.OtherRead;
                         break;
                     case '5':
-                        mode = mode & UnixFileMode.OtherRead & UnixFileMode.OtherExecute;
+                        mode = mode | UnixFileMode.OtherRead | UnixFileMode.OtherExecute;
                         break;
                     case '6':
-                        mode = mode & UnixFileMode.OtherRead & UnixFileMode.OtherWrite;
+                        mode = mode | UnixFileMode.OtherRead | UnixFileMode.OtherWrite;
                         break;
                     case '7':
-                        mode = mode & UnixFileMode.OtherRead & UnixFileMode.OtherWrite & UnixFileMode.OtherExecute;
+                        mode = mode | UnixFileMode.OtherRead | UnixFileMode.OtherWrite | UnixFileMode.OtherExecute;
                         break;
                     default:
                         throw new Exception("Invalid octal notation detected");
@@ -561,7 +561,10 @@ static partial class FilePolyfill
         int[] octal = new int[4]{0, 0 , 0 , 0};
 
         string[] fileModeStrings = unixFileMode.ToString()
-            .Replace("UnixFileMode.", "").Split(' ');
+            .Replace("UnixFileMode.", "")
+            .Replace(",", string.Empty)
+            .Replace(Environment.NewLine, string.Empty)
+            .Split(' ');
 
         foreach (var fileModeString in fileModeStrings)
         {
