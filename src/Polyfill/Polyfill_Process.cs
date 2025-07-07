@@ -5,6 +5,7 @@ namespace Polyfills;
 
 using System;
 using System.Diagnostics;
+using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,6 +18,9 @@ static partial class Polyfill
     /// Maps to <see cref="Process.Kill"/>.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.kill?view=net-10.0#system-diagnostics-process-kill(system-boolean)
+    [SupportedOSPlatform("maccatalyst")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
     public static void Kill(this Process target, bool entireProcessTree) =>
         target.Kill();
 
