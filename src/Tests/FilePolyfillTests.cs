@@ -1,4 +1,7 @@
-﻿[TestFixture]
+﻿using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
+
+[TestFixture]
 [Parallelizable(ParallelScope.None)]
 public class FilePolyfillTests
 {
@@ -53,6 +56,24 @@ public class FilePolyfillTests
 
         var result = await FilePolyfill.ReadAllTextAsync(TestFilePath);
         Assert.AreEqual(content, result);
+    }
+
+    [UnsupportedOSPlatform("windows")]
+    [Test]
+    public void GetUnixFileModeTest()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            return;
+
+        //var expected = UnixFileMode.OtherRead & UnixFileMode.GroupWrite & UnixFileMode.UserWrite &
+                      // UnixFileMode.UserRead;
+
+        var sourceContent = "Test content";
+        File.WriteAllText(TestFilePath, sourceContent);
+
+        var result = FilePolyfill.GetUnixFileMode(TestFilePath);
+
+        Assert.AreEqual(436, (int)result);
     }
 
 #if FeatureMemory
