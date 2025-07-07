@@ -74,6 +74,25 @@ public class FilePolyfillTests
         var result = FilePolyfill.GetUnixFileMode(TestFilePath);
 
         Assert.AreEqual(436, (int)result);
+
+    [UnsupportedOSPlatform("windows")]
+    [Test]
+    public void SetUnixFileModeTest()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            return;
+
+        var sourceContent = "Test content";
+        File.WriteAllText(TestFilePath, sourceContent);
+
+        var expected = UnixFileMode.UserWrite | UnixFileMode.UserRead;
+
+        FilePolyfill.SetUnixFileMode(TestFilePath,
+            expected);
+
+        var result = FilePolyfill.GetUnixFileMode(TestFilePath);
+
+        Assert.AreEqual(expected, result);
     }
 
 #if FeatureMemory
