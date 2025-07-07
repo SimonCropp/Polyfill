@@ -470,6 +470,7 @@ class Consume
     {
         var process = new Process();
         await process.WaitForExitAsync();
+        process.Kill(true);
     }
 
     void Random_Methods()
