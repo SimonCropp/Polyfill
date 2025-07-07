@@ -5,6 +5,7 @@ namespace Polyfills;
 
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 static partial class Polyfill
@@ -28,6 +29,48 @@ static partial class Polyfill
     }
 #endif
 #if !NET7_0_OR_GREATER
+#if FeatureValueTask
+    /// <summary>
+    /// Asynchronously reads count number of bytes from the current stream, advances the position within the stream, and monitors cancellation requests.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync?view=net-10.0#system-io-stream-readexactlyasync(system-byte()-system-int32-system-int32-system-threading-cancellationtoken)
+    public static async ValueTask ReadExactly(this Stream target, byte[] buffer, int offset, int count, CancellationToken cancellationToken = default)
+    {
+        if (buffer is null)
+        {
+            throw new ArgumentNullException(nameof(buffer));
+        }
+
+        if (offset < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(offset), "NeedNonNegNum");
+        }
+
+        if ((uint) count > buffer.Length - offset)
+        {
+            throw new ArgumentOutOfRangeException(nameof(count), "InvalidOffLen");
+        }
+
+        int totalRead = 0;
+        while (totalRead < count)
+        {
+            int read = await target.ReadAsync(buffer, offset + totalRead, count - totalRead, cancellationToken);
+
+            if (read == 0)
+            {
+                if (true)
+                {
+                    throw new EndOfStreamException();
+                }
+
+                return;
+            }
+
+            totalRead += read;
+        }
+    }
+#endif
+
     /// <summary>
     /// Reads count number of bytes from the current stream and advances the position within the stream.
     /// </summary>
@@ -110,6 +153,50 @@ static partial class Polyfill
 
         return totalRead;
     }
+#if FeatureValueTask
+    /// <summary>
+    /// Asynchronously reads bytes from the current stream, advances the position within the stream until the buffer is filled, and monitors cancellation requests
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readatleastasync?view=net-10.0
+    public static async ValueTask ReadExactlyAsync(this Stream target, Memory<byte> buffer, CancellationToken cancellationToken = default) =>
+        await target.ReadAtLeastAsync(buffer, buffer.Length, true, cancellationToken);
 
+    /// <summary>
+    /// Asynchronously reads at least a minimum number of bytes from the current stream, advances the position within the stream by the number of bytes read, and monitors cancellation requests.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readatleastasync?view=net-10.0
+    public static async ValueTask<int> ReadAtLeastAsync(this Stream target, Memory<byte> buffer, int minimumBytes, bool throwOnEndOfStream = true, CancellationToken cancellationToken = default)
+    {
+        if (minimumBytes < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(minimumBytes), "NeedNonNegNum");
+        }
+
+        if (buffer.Length < minimumBytes)
+        {
+            throw new ArgumentOutOfRangeException(nameof(minimumBytes), "NotGreaterThanBufferLength");
+        }
+
+        int totalRead = 0;
+        while (totalRead < minimumBytes)
+        {
+            int read = await target.ReadAsync(buffer.Slice(totalRead), cancellationToken).ConfigureAwait(false);
+            if (read == 0)
+            {
+                if (throwOnEndOfStream)
+                {
+                    throw new EndOfStreamException();
+                }
+
+                return totalRead;
+            }
+
+            totalRead += read;
+        }
+
+        return totalRead;
+    }
+
+#endif
 #endif
 }
