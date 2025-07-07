@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 577**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 578**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -779,6 +779,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### Process
 
+ * `void Kill(bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.kill?view=net-10.0#system-diagnostics-process-kill(system-boolean))
  * `Task WaitForExitAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitasync?view=net-10.0)
 
 
