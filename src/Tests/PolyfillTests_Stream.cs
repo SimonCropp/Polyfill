@@ -72,6 +72,7 @@ partial class PolyfillTests
 
         Assert.AreEqual(data, buffer);
     }
+
     [Test]
     public async Task ReadExactlyAsync_ReadsExactBytes()
     {
@@ -94,6 +95,7 @@ partial class PolyfillTests
 
         Assert.AreEqual(new byte[] {0, 0, 10, 20, 30, 40, 50, 0, 0, 0}, buffer);
     }
+
     [Test]
     public async Task ReadExactlyAsync_WithOffsetAndCount_ReadsCorrectBytes()
     {
@@ -194,7 +196,7 @@ partial class PolyfillTests
     [Test]
     public void ReadAtLeast_ReadsMinimumBytes()
     {
-        var data = new byte[] { 1, 2, 3, 4, 5 };
+        var data = new byte[] {1, 2, 3, 4, 5};
         using var stream = new MemoryStream(data);
         var buffer = new byte[5];
 
@@ -203,10 +205,11 @@ partial class PolyfillTests
         Assert.AreEqual(5, read);
         Assert.IsTrue(buffer.AsSpan().SequenceEqual(data));
     }
+
     [Test]
     public async Task ReadAtLeastAsync_ReadsMinimumBytes()
     {
-        var data = new byte[] { 1, 2, 3, 4, 5 };
+        var data = new byte[] {1, 2, 3, 4, 5};
         using var stream = new MemoryStream(data);
         var buffer = new byte[5];
 
@@ -219,7 +222,7 @@ partial class PolyfillTests
     [Test]
     public void ReadAtLeast_ReadsPartialAndReturnsTotalRead()
     {
-        var data = new byte[] { 1, 2, 3 };
+        var data = new byte[] {1, 2, 3};
         using var stream = new MemoryStream(data);
         var buffer = new byte[5];
 
@@ -232,7 +235,7 @@ partial class PolyfillTests
     [Test]
     public async Task ReadAtLeastAsync_ReadsPartialAndReturnsTotalRead()
     {
-        var data = new byte[] { 1, 2, 3 };
+        var data = new byte[] {1, 2, 3};
         using var stream = new MemoryStream(data);
         var buffer = new byte[5];
 
@@ -245,7 +248,7 @@ partial class PolyfillTests
     [Test]
     public void ReadAtLeast_ThrowsOnEndOfStream_WhenThrowOnEndOfStreamTrue()
     {
-        var data = new byte[] { 1, 2, 3 };
+        var data = new byte[] {1, 2, 3};
         using var stream = new MemoryStream(data);
         var buffer = new byte[5];
 
