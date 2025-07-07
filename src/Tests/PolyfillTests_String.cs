@@ -3,8 +3,14 @@ partial class PolyfillTests
     [Test]
     public void GetHashCodeStringComparison()
     {
-        var hash = "value".GetHashCode(StringComparison.Ordinal);
-        Assert.AreNotEqual(0, hash);
+        var hash1 = "value".GetHashCode(StringComparison.Ordinal);
+        Assert.AreNotEqual(0, hash1);
+
+        var hash2 = string.GetHashCode("value".AsSpan());
+        Assert.AreNotEqual(0, hash2);
+
+        var hash3 = string.GetHashCode("value".AsSpan(), StringComparison.Ordinal);
+        Assert.AreNotEqual(0, hash3);
     }
 
     [Test]
