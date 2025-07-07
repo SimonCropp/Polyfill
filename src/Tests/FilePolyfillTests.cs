@@ -65,15 +65,16 @@ public class FilePolyfillTests
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             return;
 
-        //var expected = UnixFileMode.OtherRead & UnixFileMode.GroupWrite & UnixFileMode.UserWrite &
-                      // UnixFileMode.UserRead;
+        var expected = UnixFileMode.OtherRead | UnixFileMode.GroupWrite | UnixFileMode.GroupRead |
+                       UnixFileMode.UserWrite | UnixFileMode.UserRead;
 
         var sourceContent = "Test content";
         File.WriteAllText(TestFilePath, sourceContent);
 
         var result = FilePolyfill.GetUnixFileMode(TestFilePath);
 
-        Assert.AreEqual(436, (int)result);
+        Assert.AreEqual(expected, result);
+    }
 
     [UnsupportedOSPlatform("windows")]
     [Test]
