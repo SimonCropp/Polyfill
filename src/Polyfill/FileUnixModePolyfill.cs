@@ -24,11 +24,9 @@ static partial class FilePolyfill
         File.GetUnixFileMode(path);
 #else
         GetUnixFileModeFallback(path);
-#endif
 
-#if !NET7_0_OR_GREATER
     [UnsupportedOSPlatform("windows")]
-    private static UnixFileMode GetUnixFileModeFallback(string path)
+    static UnixFileMode GetUnixFileModeFallback(string path)
     {
 #if FeatureRuntimeInformation
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
