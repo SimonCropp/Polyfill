@@ -192,7 +192,6 @@ static partial class FilePolyfill
         File.SetUnixFileMode(path, unixFileMode);
 #else
         SetUnixFileModeFallback(path, unixFileMode);
-#endif
 
     [UnsupportedOSPlatform("windows")]
     static void SetUnixFileModeFallback(string path, UnixFileMode unixFileMode)
@@ -288,4 +287,5 @@ static partial class FilePolyfill
         using var process = Process.Start(startInfo);
         process.WaitForExit();
     }
+#endif
 }
