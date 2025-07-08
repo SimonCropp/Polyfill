@@ -313,6 +313,19 @@ class Consume
         var (key, value) = entry;
     }
 
+    void File_Methods()
+    {
+        const string TestFilePath = "testfile.txt";
+
+        var sourceContent = "Test content";
+        File.WriteAllText(TestFilePath, sourceContent);
+
+        var fileMode = FilePolyfill.GetUnixFileMode(TestFilePath);
+
+        // Use the | bitwise OR operator to combine multiple file modes
+        FilePolyfill.SetUnixFileMode(TestFilePath, UnixFileMode.OtherRead | UnixFileMode.OtherWrite);
+    }
+
     void HashSet_Methods()
     {
         var set = new HashSet<string> { "value" };
