@@ -158,18 +158,6 @@ static class StringPolyfill
 #endif
         }
 #endif
-#endif
-
-
-#if NET9_0_OR_GREATER
-        /// <summary>
-        /// Concatenates the string representations of a span of objects, using the specified separator between each member.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-10.0#system-string-join(system-string-system-readonlyspan((system-object)))
-        public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
-            string.Join(separator, values.ToArray());
-#endif
-
 
 #if !NETCOREAPP3_0_OR_GREATER
         /// <summary>
@@ -185,6 +173,16 @@ static class StringPolyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-10.0#system-string-gethashcode(system-readonlyspan((system-char))-system-stringcomparison)
         public static int GetHashCode(ReadOnlySpan<char> value,StringComparison comparisonType) =>
             value.ToString().GetHashCode(comparisonType);
+#endif
+#endif
+
+#if NET9_0_OR_GREATER
+        /// <summary>
+        /// Concatenates the string representations of a span of objects, using the specified separator between each member.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-10.0#system-string-join(system-string-system-readonlyspan((system-object)))
+        public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
+            string.Join(separator, values.ToArray());
 #endif
 
 #if NETSTANDARD2_0 || NETFRAMEWORK

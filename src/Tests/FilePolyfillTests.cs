@@ -72,7 +72,7 @@ public class FilePolyfillTests
         var sourceContent = "Test content";
         File.WriteAllText(TestFilePath, sourceContent);
 
-        var result = FilePolyfill.GetUnixFileMode(TestFilePath);
+        var result = File.GetUnixFileMode(TestFilePath);
 
         Assert.AreEqual(expected, result);
     }
@@ -91,10 +91,9 @@ public class FilePolyfillTests
 
         var expected = UnixFileMode.UserWrite | UnixFileMode.UserRead;
 
-        FilePolyfill.SetUnixFileMode(TestFilePath,
-            expected);
+        File.SetUnixFileMode(TestFilePath, expected);
 
-        var result = FilePolyfill.GetUnixFileMode(TestFilePath);
+        var result = File.GetUnixFileMode(TestFilePath);
 
         Assert.AreEqual(expected, result);
     }

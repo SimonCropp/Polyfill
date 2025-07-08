@@ -321,10 +321,10 @@ class Consume
         var sourceContent = "Test content";
         File.WriteAllText(TestFilePath, sourceContent);
 
-        var fileMode = FilePolyfill.GetUnixFileMode(TestFilePath);
+        var fileMode = File.GetUnixFileMode(TestFilePath);
 
         // Use the | bitwise OR operator to combine multiple file modes
-        FilePolyfill.SetUnixFileMode(TestFilePath, UnixFileMode.OtherRead | UnixFileMode.OtherWrite);
+        File.SetUnixFileMode(TestFilePath, UnixFileMode.OtherRead | UnixFileMode.OtherWrite);
     }
 
     void HashSet_Methods()
