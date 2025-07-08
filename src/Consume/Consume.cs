@@ -39,6 +39,7 @@ using MemoryStream = System.IO.MemoryStream;
 // ReSharper disable MethodHasAsyncOverload
 
 #pragma warning disable CS4014
+#pragma warning disable CA1416
 
 class Consume
 {
@@ -311,6 +312,19 @@ class Consume
     {
         var entry = new DictionaryEntry("key", "value");
         var (key, value) = entry;
+    }
+
+    void File_Methods()
+    {
+        const string TestFilePath = "testfile.txt";
+
+        var sourceContent = "Test content";
+        File.WriteAllText(TestFilePath, sourceContent);
+
+        var fileMode = FilePolyfill.GetUnixFileMode(TestFilePath);
+
+        // Use the | bitwise OR operator to combine multiple file modes
+        FilePolyfill.SetUnixFileMode(TestFilePath, UnixFileMode.OtherRead | UnixFileMode.OtherWrite);
     }
 
     void HashSet_Methods()
