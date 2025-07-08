@@ -277,7 +277,7 @@ static partial class FilePolyfill
         var startInfo = new ProcessStartInfo()
         {
             FileName = "chmod",
-            Arguments = $"{string.Join("", octal)} {Path.GetFullPath(path)}",
+            Arguments = $"{string.Concat(octal)} {Path.GetFullPath(path)}",
             RedirectStandardOutput = true,
             RedirectStandardInput = false,
             UseShellExecute = false,
