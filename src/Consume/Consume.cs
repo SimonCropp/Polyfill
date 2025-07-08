@@ -39,6 +39,7 @@ using MemoryStream = System.IO.MemoryStream;
 // ReSharper disable MethodHasAsyncOverload
 
 #pragma warning disable CS4014
+#pragma warning disable CA1416
 
 class Consume
 {
