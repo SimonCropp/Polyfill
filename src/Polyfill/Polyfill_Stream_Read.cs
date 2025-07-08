@@ -34,7 +34,7 @@ static partial class Polyfill
     /// Asynchronously reads count number of bytes from the current stream, advances the position within the stream, and monitors cancellation requests.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync?view=net-10.0#system-io-stream-readexactlyasync(system-byte()-system-int32-system-int32-system-threading-cancellationtoken)
-    public static async ValueTask ReadExactly(this Stream target, byte[] buffer, int offset, int count, CancellationToken cancellationToken = default)
+    public static async ValueTask ReadExactlyAsync(this Stream target, byte[] buffer, int offset, int count, CancellationToken cancellationToken = default)
     {
         if (buffer is null)
         {
@@ -153,6 +153,7 @@ static partial class Polyfill
 
         return totalRead;
     }
+
 #if FeatureValueTask
     /// <summary>
     /// Asynchronously reads bytes from the current stream, advances the position within the stream until the buffer is filled, and monitors cancellation requests

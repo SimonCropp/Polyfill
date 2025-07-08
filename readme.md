@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 580**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 587**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -891,7 +891,14 @@ The class `Polyfill` includes the following extension methods:
 
  * `Task CopyToAsync(Stream, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.copytoasync?view=net-10.0#system-io-stream-copytoasync(system-io-stream-system-threading-cancellationtoken))
  * `ValueTask DisposeAsync()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.disposeasync?view=net-10.0)
+ * `int Read(Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.read?view=net-10.0#system-io-stream-read(system-span((system-byte))))
  * `ValueTask<int> ReadAsync(Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync?view=net-10.0#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken))
+ * `int ReadAtLeast(Span<byte>, int, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readatleast?view=net-10.0)
+ * `ValueTask<int> ReadAtLeastAsync(Memory<byte>, int, bool, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readatleastasync?view=net-10.0)
+ * `void ReadExactly(byte[], int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactly?view=net-10.0#system-io-stream-readexactly(system-byte()-system-int32-system-int32))
+ * `void ReadExactly(Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactly?view=net-10.0#system-io-stream-readexactly(system-span((system-byte))))
+ * `ValueTask ReadExactlyAsync(byte[], int, int, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync?view=net-10.0#system-io-stream-readexactlyasync(system-byte()-system-int32-system-int32-system-threading-cancellationtoken))
+ * `ValueTask ReadExactlyAsync(Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readatleastasync?view=net-10.0)
  * `ValueTask WriteAsync(ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync?view=net-10.0#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
 
 
