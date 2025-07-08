@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
-#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1
+#if (!NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1) && FeatureMemory
     /// <summary>
     /// Reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.
     /// </summary>
@@ -19,7 +19,7 @@ static partial class Polyfill
     {
         byte[] sharedBuffer = new byte[buffer.Length];
         int numRead = target.Read(sharedBuffer, 0, buffer.Length);
-        if ((uint) numRead > (uint) buffer.Length)
+        if ((uint)numRead > (uint)buffer.Length)
         {
             throw new IOException("StreamTooLong");
         }
@@ -28,6 +28,7 @@ static partial class Polyfill
         return numRead;
     }
 #endif
+
 #if !NET7_0_OR_GREATER
 #if FeatureValueTask
     /// <summary>
@@ -46,7 +47,7 @@ static partial class Polyfill
             throw new ArgumentOutOfRangeException(nameof(offset), "NeedNonNegNum");
         }
 
-        if ((uint) count > buffer.Length - offset)
+        if ((uint)count > buffer.Length - offset)
         {
             throw new ArgumentOutOfRangeException(nameof(count), "InvalidOffLen");
         }
@@ -87,7 +88,7 @@ static partial class Polyfill
             throw new ArgumentOutOfRangeException(nameof(offset), "NeedNonNegNum");
         }
 
-        if ((uint) count > buffer.Length - offset)
+        if ((uint)count > buffer.Length - offset)
         {
             throw new ArgumentOutOfRangeException(nameof(count), "InvalidOffLen");
         }
@@ -111,6 +112,7 @@ static partial class Polyfill
         }
     }
 
+#if FeatureMemory
     /// <summary>
     /// Reads bytes from the current stream and advances the position within the stream until the buffer is filled.
     /// </summary>
@@ -198,6 +200,7 @@ static partial class Polyfill
         return totalRead;
     }
 
+#endif
 #endif
 #endif
 }
