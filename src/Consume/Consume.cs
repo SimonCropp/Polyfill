@@ -313,18 +313,12 @@ class Consume
         var (key, value) = entry;
     }
 
-    void File_WriteAllText()
+    void File_Methods()
     {
         const string TestFilePath = "testfile.txt";
 
         var sourceContent = "Test content";
         File.WriteAllText(TestFilePath, sourceContent);
-    }
-
-    [UnsupportedOSPlatform("windows")]
-    void File_GetUnixFileMode()
-    {
-        const string TestFilePath = "testfile.txt";
 
         var fileMode = FilePolyfill.GetUnixFileMode(TestFilePath);
 
