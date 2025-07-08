@@ -17,7 +17,7 @@ static partial class FilePolyfill
     /// </summary>
     /// <param name="path">The path to the file.</param>
     /// <returns>The UnixFileMode of the file handle.</returns>
-    /// Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.getunixfilemode?view=net-10.0#system-io-file-getunixfilemode(system-string)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.getunixfilemode?view=net-10.0#system-io-file-getunixfilemode(system-string)
     [UnsupportedOSPlatform("windows")]
     public static UnixFileMode GetUnixFileMode(string path) =>
 #if NET7_0_OR_GREATER
@@ -179,20 +179,20 @@ static partial class FilePolyfill
 #endif
 
     /// <summary>
-    ///Sets the specified UnixFileMode of the file on the specified pat
+    /// Sets the specified UnixFileMode of the file on the specified pat
     /// </summary>
     /// <param name="path">The path to the file.</param>
     /// <param name="unixFileMode">The Unix file mode.</param>
-    /// Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.setunixfilemode?view=net-10.0#system-io-file-setunixfilemode(system-string-system-io-unixfilemode)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.setunixfilemode?view=net-10.0#system-io-file-setunixfilemode(system-string-system-io-unixfilemode)
     [UnsupportedOSPlatform("windows")]
-    public static void SetUnixFileMode(string path, UnixFileMode unixFileMode) =>
+    public static void SetUnixFileMode(string path, UnixFileMode mode) =>
 #if NET7_0_OR_GREATER
-        File.SetUnixFileMode(path, unixFileMode);
+        File.SetUnixFileMode(path, mode);
 #else
-        SetUnixFileModeFallback(path, unixFileMode);
+        SetUnixFileModeFallback(path, mode);
 
     [UnsupportedOSPlatform("windows")]
-    static void SetUnixFileModeFallback(string path, UnixFileMode unixFileMode)
+    static void SetUnixFileModeFallback(string path, UnixFileMode mode)
     {
 #if FeatureRuntimeInformation
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -218,7 +218,7 @@ static partial class FilePolyfill
             0
         };
 
-        string[] fileModeStrings = unixFileMode.ToString()
+        string[] fileModeStrings = mode.ToString()
             .Replace("UnixFileMode.", "")
             .Replace(",", string.Empty)
             .Replace(Environment.NewLine, string.Empty)
