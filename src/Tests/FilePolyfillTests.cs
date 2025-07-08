@@ -1,4 +1,7 @@
-﻿[TestFixture]
+﻿using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
+
+[TestFixture]
 [Parallelizable(ParallelScope.None)]
 public class FilePolyfillTests
 {
@@ -53,6 +56,47 @@ public class FilePolyfillTests
 
         var result = await File.ReadAllTextAsync(TestFilePath);
         Assert.AreEqual(content, result);
+    }
+
+    [UnsupportedOSPlatform("windows")]
+    [Test]
+    public void GetUnixFileModeTest()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
+
+        var expected = UnixFileMode.OtherRead | UnixFileMode.GroupRead | UnixFileMode.UserWrite | UnixFileMode.UserRead;
+
+        var sourceContent = "Test content";
+        File.WriteAllText(TestFilePath, sourceContent);
+
+        var result = FilePolyfill.GetUnixFileMode(TestFilePath);
+
+        Assert.AreEqual(expected, result);
+    }
+
+    [UnsupportedOSPlatform("windows")]
+    [Test]
+    public void SetUnixFileModeTest()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
+
+        var sourceContent = "Test content";
+        File.WriteAllText(TestFilePath, sourceContent);
+
+        var expected = UnixFileMode.UserWrite | UnixFileMode.UserRead;
+
+        FilePolyfill.SetUnixFileMode(TestFilePath,
+            expected);
+
+        var result = FilePolyfill.GetUnixFileMode(TestFilePath);
+
+        Assert.AreEqual(expected, result);
     }
 
 #if FeatureMemory
