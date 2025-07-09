@@ -273,7 +273,11 @@ static partial class FilePolyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readallbytesasync?view=net-10.0
         public static async Task<byte[]> ReadAllBytesAsync(string path, CancellationToken cancellationToken = default)
         {
+            #if NETCOREAPP2_0_OR_GREATER || NETSTANDARD
             var options = FileOptions.Asynchronous | (OperatingSystem.IsWindows() ? FileOptions.SequentialScan : FileOptions.None);
+            #else
+            var options = FileOptions.Asynchronous | FileOptions.SequentialScan;
+            #endif
             using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, options);
             var length = (int) stream.Length;
             var bytes = new byte[length];
