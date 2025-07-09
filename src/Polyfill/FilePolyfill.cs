@@ -273,7 +273,8 @@ static partial class FilePolyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readallbytesasync?view=net-10.0
         public static async Task<byte[]> ReadAllBytesAsync(string path, CancellationToken cancellationToken = default)
         {
-            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
+            var options = FileOptions.Asynchronous | (OperatingSystem.IsWindows() ? FileOptions.SequentialScan : FileOptions.None);
+            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, options);
             var length = (int) stream.Length;
             var bytes = new byte[length];
             var bytesRead = 0;
@@ -305,8 +306,7 @@ static partial class FilePolyfill
         public static async Task<string[]> ReadAllLinesAsync(string path, Encoding encoding, CancellationToken cancellationToken = default)
         {
             var lines = new List<string>();
-            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
-            using var reader = new StreamReader(stream, encoding);
+            using var reader = AsyncStreamReader(path, encoding);
 
             while (!reader.EndOfStream)
             {
@@ -334,11 +334,15 @@ static partial class FilePolyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readalltextasync?view=net-10.0#system-io-file-readalltextasync(system-string-system-text-encoding-system-threading-cancellationtoken)
         public static async Task<string> ReadAllTextAsync(string path, Encoding encoding, CancellationToken cancellationToken = default)
         {
-            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
-            using var reader = new StreamReader(stream, encoding);
+            using var reader = AsyncStreamReader(path, encoding);
             return await reader.ReadToEndAsync(cancellationToken);
         }
 
+        static StreamReader AsyncStreamReader(string path, Encoding encoding)
+        {
+            var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.Asynchronous | FileOptions.SequentialScan);
+            return new StreamReader(stream, encoding, detectEncodingFromByteOrderMarks: true);
+        }
 #endif
 
         //TODO: re add NETSTANDARD via https://www.nuget.org/packages/Microsoft.Bcl.AsyncInterfaces#dependencies-body-tab
