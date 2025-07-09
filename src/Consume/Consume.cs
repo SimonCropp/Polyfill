@@ -774,12 +774,15 @@ class Consume
 #endif
     }
 
-    void XDocument_Methods()
+    async Task XDocument_Methods()
     {
         var document = new XDocument();
         document.SaveAsync(new XmlTextWriter(null!), CancellationToken.None);
         document.SaveAsync(new StringWriter(), SaveOptions.None, CancellationToken.None);
         document.SaveAsync(new MemoryStream(), SaveOptions.None, CancellationToken.None);
+        await XDocument.LoadAsync((Stream)null!, LoadOptions.None, CancellationToken.None);
+        await XDocument.LoadAsync((TextReader)null!, LoadOptions.None, CancellationToken.None);
+        await XDocument.LoadAsync((XmlReader)null!, LoadOptions.None, CancellationToken.None);
     }
 
 #if FeatureCompression

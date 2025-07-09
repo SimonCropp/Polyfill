@@ -25,10 +25,12 @@ public class XElementPolyfillTests
     public async Task LoadAsync_XmlReader_ReturnsXElement()
     {
         using var stringReader = new StringReader(XmlContent);
-        using var xmlReader = XmlReader.Create(stringReader, new()
-        {
-            Async = true
-        });
+        using var xmlReader = XmlReader.Create(
+            stringReader,
+            new()
+            {
+                Async = true
+            });
         var result = await XElement.LoadAsync(xmlReader, LoadOptions.None, Cancel.None);
         Assert.AreEqual("root", result.Name.LocalName);
         Assert.AreEqual("value", result.Element("child")?.Value);
