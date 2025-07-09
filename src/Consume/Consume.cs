@@ -785,6 +785,14 @@ class Consume
         await XDocument.LoadAsync((XmlReader)null!, LoadOptions.None, CancellationToken.None);
     }
 
+    void XElement_Methods()
+    {
+        XElement element = null!;
+        element.SaveAsync(new XmlTextWriter(null!), CancellationToken.None);
+        element.SaveAsync(new StringWriter(), SaveOptions.None, CancellationToken.None);
+        element.SaveAsync(new MemoryStream(), SaveOptions.None, CancellationToken.None);
+    }
+
 #if FeatureCompression
     void ZipArchiveEntry_Methods(ZipArchive zip, ZipArchiveEntry entry)
     {
