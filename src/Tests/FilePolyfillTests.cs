@@ -49,6 +49,45 @@ public class FilePolyfillTests
 #endif
 
     [Test]
+    public async Task ReadAllLinesAsync_ReadsAllLines()
+    {
+        var lines = new[] {"Line1", "Line2", "Line3"};
+        File.WriteAllLines(TestFilePath, lines);
+
+        var result = await File.ReadAllLinesAsync(TestFilePath);
+
+        Assert.AreEqual(lines, result);
+    }
+
+    [Test]
+    public void ReadAllLinesAsync_ThrowsIfFileNotFound()
+    {
+        var nonExistent = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        Assert.ThrowsAsync<FileNotFoundException>(async () =>
+            await File.ReadAllLinesAsync(nonExistent));
+    }
+
+    [Test]
+    public async Task ReadAllLinesAsync_ThrowsIfCancelled()
+    {
+        File.WriteAllText(TestFilePath, "abc");
+        var cancelSource = new CancelSource();
+        cancelSource.Cancel();
+        Exception? exception = null;
+        try
+        {
+            await File.ReadAllLinesAsync(TestFilePath, cancelSource.Token);
+        }
+        catch (Exception e)
+        {
+            exception = e;
+        }
+
+        Assert.IsNotNull(exception);
+        Assert.IsTrue(exception is OperationCanceledException or TaskCanceledException);
+    }
+
+    [Test]
     public async Task AppendAllTextAsync()
     {
         var content = "Hello, Async Text!";

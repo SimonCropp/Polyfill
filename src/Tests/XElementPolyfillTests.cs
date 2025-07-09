@@ -53,5 +53,6 @@ public class XElementPolyfillTests
         }
 
         Assert.IsNotNull(exception);
+        Assert.IsTrue(exception is OperationCanceledException or TaskCanceledException);
     }
 }
