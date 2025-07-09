@@ -191,14 +191,14 @@ class Consume
 
     void Byte_Methods()
     {
-        Byte.TryParse("1", null, out _);
+        byte.TryParse("1", null, out _);
 #if FeatureMemory
-        Byte.TryParse("1"u8, null, out _);
-        Byte.TryParse(['1'], out _);
-        Byte.TryParse(['1'], null, out _);
-        Byte.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        Byte.TryParse("1"u8, out _);
-        Byte.TryParse(['1'], NumberStyles.Integer, null, out _);
+        byte.TryParse("1"u8, null, out _);
+        byte.TryParse(['1'], out _);
+        byte.TryParse(['1'], null, out _);
+        byte.TryParse("1"u8, NumberStyles.Integer, null, out _);
+        byte.TryParse("1"u8, out _);
+        byte.TryParse(['1'], NumberStyles.Integer, null, out _);
 #endif
     }
 
