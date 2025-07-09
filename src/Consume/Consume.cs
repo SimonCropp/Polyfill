@@ -767,9 +767,8 @@ class Consume
 #endif
     }
 
-    async Task XDocument_Methods()
+    async Task XDocument_Methods(XDocument document)
     {
-        var document = new XDocument();
         document.SaveAsync(new XmlTextWriter(null!), CancellationToken.None);
         document.SaveAsync(new StringWriter(), SaveOptions.None, CancellationToken.None);
         document.SaveAsync(new MemoryStream(), SaveOptions.None, CancellationToken.None);
@@ -778,9 +777,8 @@ class Consume
         await XDocument.LoadAsync((XmlReader)null!, LoadOptions.None, CancellationToken.None);
     }
 
-    void XElement_Methods()
+    async Task XElement_Methods(XElement element)
     {
-        XElement element = null!;
         element.SaveAsync(new XmlTextWriter(null!), CancellationToken.None);
         element.SaveAsync(new StringWriter(), SaveOptions.None, CancellationToken.None);
         element.SaveAsync(new MemoryStream(), SaveOptions.None, CancellationToken.None);
