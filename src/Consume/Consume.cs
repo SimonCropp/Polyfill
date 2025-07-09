@@ -693,13 +693,6 @@ class Consume
         new Task<int>(func).WaitAsync(TimeSpan.Zero, CancellationToken.None);
     }
 
-    async Task XElement_Methods()
-    {
-        await XElement.LoadAsync((Stream)null!, LoadOptions.None, CancellationToken.None);
-        await XElement.LoadAsync((TextReader)null!, LoadOptions.None, CancellationToken.None);
-        await XElement.LoadAsync((XmlReader)null!, LoadOptions.None, CancellationToken.None);
-    }
-
     void TaskCompletionSource_NonGeneric_Methods()
     {
         var tcs = new TaskCompletionSource();
@@ -791,6 +784,9 @@ class Consume
         element.SaveAsync(new XmlTextWriter(null!), CancellationToken.None);
         element.SaveAsync(new StringWriter(), SaveOptions.None, CancellationToken.None);
         element.SaveAsync(new MemoryStream(), SaveOptions.None, CancellationToken.None);
+        await XElement.LoadAsync((Stream)null!, LoadOptions.None, CancellationToken.None);
+        await XElement.LoadAsync((TextReader)null!, LoadOptions.None, CancellationToken.None);
+        await XElement.LoadAsync((XmlReader)null!, LoadOptions.None, CancellationToken.None);
     }
 
 #if FeatureCompression
