@@ -130,6 +130,6 @@ static partial class Polyfill
         Uri requestUri,
         CancellationToken cancellationToken = default) =>
         target.GetStringAsync(requestUri.ToString(), cancellationToken);
-}
 #endif
+}
 #endif
