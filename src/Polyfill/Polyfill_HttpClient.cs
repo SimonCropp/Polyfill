@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
+#if !NET5_0_OR_GREATER
     /// <summary>
     /// Send a GET request to the specified Uri and return the response body as a stream in an asynchronous operation.
     /// </summary>
@@ -130,4 +131,5 @@ static partial class Polyfill
         CancellationToken cancellationToken = default) =>
         target.GetStringAsync(requestUri.ToString(), cancellationToken);
 }
+#endif
 #endif
