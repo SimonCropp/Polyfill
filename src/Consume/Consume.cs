@@ -346,6 +346,7 @@ class Consume
         new HttpClient().GetStringAsync("", CancellationToken.None);
         new HttpClient().GetStringAsync(new Uri(""), CancellationToken.None);
     }
+#endif
 
     void HttpContent_Methods()
     {
@@ -353,7 +354,6 @@ class Consume
         new ByteArrayContent([]).ReadAsByteArrayAsync(CancellationToken.None);
         new ByteArrayContent([]).ReadAsStringAsync(CancellationToken.None);
     }
-#endif
 
     void IDictionary_Methods()
     {
