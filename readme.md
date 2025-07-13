@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 587**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 590**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -1036,6 +1036,13 @@ The class `Polyfill` includes the following extension methods:
  * `Task SaveAsync(Stream, SaveOptions, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync?view=net-10.0#system-xml-linq-xdocument-saveasync(system-io-stream-system-xml-linq-saveoptions-system-threading-cancellationtoken))
  * `Task SaveAsync(TextWriter, SaveOptions, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync?view=net-10.0#system-xml-linq-xdocument-saveasync(system-io-textwriter-system-xml-linq-saveoptions-system-threading-cancellationtoken))
  * `Task SaveAsync(XmlWriter, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync?view=net-10.0#system-xml-linq-xdocument-saveasync(system-xml-xmlwriter-system-threading-cancellationtoken))
+
+
+#### XElement
+
+ * `Task SaveAsync(Stream, SaveOptions, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xelement.saveasync?view=net-10.0#system-xml-linq-xelement-saveasync(system-io-stream-system-xml-linq-saveoptions-system-threading-cancellationtoken))
+ * `Task SaveAsync(TextWriter, SaveOptions, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xelement.saveasync?view=net-10.0#system-xml-linq-xelement-saveasync(system-io-textwriter-system-xml-linq-saveoptions-system-threading-cancellationtoken))
+ * `Task SaveAsync(XmlWriter, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xelement.saveasync?view=net-10.0#system-xml-linq-xelement-saveasync(system-xml-xmlwriter-system-threading-cancellationtoken))
 
 
 #### ZipArchive
