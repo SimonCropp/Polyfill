@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
+#if !NET5_0_OR_GREATER
     /// <summary>
     /// Serializes the HTTP content and returns a stream that represents the content.
     /// </summary>
@@ -48,4 +49,5 @@ static partial class Polyfill
         return target.ReadAsStringAsync()
             .WaitAsync(cancellationToken);
     }
+#endif
 }
