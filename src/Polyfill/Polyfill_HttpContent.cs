@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
+#if FeatureHttp
 static partial class Polyfill
 {
 #if !NET5_0_OR_GREATER
@@ -51,3 +52,4 @@ static partial class Polyfill
     }
 #endif
 }
+#endif
