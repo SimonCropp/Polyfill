@@ -112,7 +112,7 @@ For example:
       <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp3.0'">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
       <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.2'">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
       <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.1'">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
-      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.0'">$(DefineConstants);FeatureValueTuple;FeatureRuntimeInformation;FeatureCompression</DefineConstants>
+      <DefineConstants Condition="'$(LowerFramework)'=='netcoreapp2.0'">$(DefineConstants);FeatureValueTuple;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net47'))">$(DefineConstants);FeatureValueTuple</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net48'))">$(DefineConstants);FeatureValueTuple;FeatureRuntimeInformation</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.1'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureCompression</DefineConstants>
