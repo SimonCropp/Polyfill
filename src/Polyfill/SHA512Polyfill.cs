@@ -78,7 +78,7 @@ static class SHA512Polyfill
         }
 
         /// <summary>
-        /// Attempts to compute the hash of data using the SHA-256 algorithm.
+        /// Attempts to compute the hash of data using the SHA-512 algorithm.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.tryhashdata?view=net-10.0
         public static bool TryHashData(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)

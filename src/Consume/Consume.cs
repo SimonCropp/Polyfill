@@ -158,46 +158,46 @@ class Consume
 
     void SHA256Usage()
     {
-        SHA256Polyfill.HashData((byte[])null!);
-        SHA256Polyfill.HashData((Stream)null!);
+        SHA256.HashData((byte[])null!);
+        SHA256.HashData((Stream)null!);
 #if FeatureValueTask
-        SHA256Polyfill.HashDataAsync(null!, CancellationToken.None);
+        SHA256.HashDataAsync(null!, CancellationToken.None);
 #endif
 #if FeatureMemory
         Span<byte> span = default;
         ReadOnlySpan<byte> readOnlySpan = default;
         Memory<byte> memory = default;
 
-        SHA256Polyfill.HashData((Stream)null!, span);
-        SHA256Polyfill.HashData(readOnlySpan);
-        SHA256Polyfill.HashData(readOnlySpan, span);
-        SHA256Polyfill.TryHashData(readOnlySpan, span, out _);
+        SHA256.HashData((Stream)null!, span);
+        SHA256.HashData(readOnlySpan);
+        SHA256.HashData(readOnlySpan, span);
+        SHA256.TryHashData(readOnlySpan, span, out _);
 #if FeatureValueTask
-        SHA256Polyfill.HashDataAsync(null!, memory);
-        SHA256Polyfill.HashDataAsync(null!, memory, CancellationToken.None);
+        SHA256.HashDataAsync(null!, memory);
+        SHA256.HashDataAsync(null!, memory, CancellationToken.None);
 #endif
 #endif
     }
 
     void SHA512Usage()
     {
-        SHA512Polyfill.HashData((byte[])null!);
-        SHA512Polyfill.HashData((Stream)null!);
+        SHA512.HashData((byte[])null!);
+        SHA512.HashData((Stream)null!);
 #if FeatureValueTask
-        SHA512Polyfill.HashDataAsync(null!, CancellationToken.None);
+        SHA512.HashDataAsync(null!, CancellationToken.None);
 #endif
 #if FeatureMemory
         Span<byte> span = default;
         ReadOnlySpan<byte> readOnlySpan = default;
         Memory<byte> memory = default;
 
-        SHA512Polyfill.HashData((Stream)null!, span);
-        SHA512Polyfill.HashData(readOnlySpan);
-        SHA512Polyfill.HashData(readOnlySpan, span);
-        SHA512Polyfill.TryHashData(readOnlySpan, span, out _);
+        SHA512.HashData((Stream)null!, span);
+        SHA512.HashData(readOnlySpan);
+        SHA512.HashData(readOnlySpan, span);
+        SHA512.TryHashData(readOnlySpan, span, out _);
 #if FeatureValueTask
-        SHA512Polyfill.HashDataAsync(null!, memory);
-        SHA512Polyfill.HashDataAsync(null!, memory, CancellationToken.None);
+        SHA512.HashDataAsync(null!, memory);
+        SHA512.HashDataAsync(null!, memory, CancellationToken.None);
 #endif
 #endif
     }

@@ -20,6 +20,19 @@ static class SHA256Polyfill
 {
     extension(SHA256)
     {
+#if !NET
+
+        /// <summary>
+        /// Computes the hash of data using the SHA-256 algorithm.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.hashdata?view=net-10.0#system-security-cryptography-sha256-hashdata(system-byte())
+        public static byte[] HashData(byte[] source)
+        {
+            using var hasher = SHA256.Create();
+            return hasher.ComputeHash(source);
+        }
+
+#endif
 
 #if !NET7_0_OR_GREATER
 
@@ -95,16 +108,6 @@ static class SHA256Polyfill
 #endif
 
 #if !NET
-
-        /// <summary>
-        /// Computes the hash of data using the SHA-256 algorithm.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.hashdata?view=net-10.0#system-security-cryptography-sha256-hashdata(system-byte())
-        public static byte[] HashData(byte[] source)
-        {
-            using var hasher = SHA256.Create();
-            return hasher.ComputeHash(source);
-        }
 
         /// <summary>
         /// Computes the hash of a stream using the SHA-256 algorithm.
