@@ -29,6 +29,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -153,6 +154,52 @@ class Consume
     [OverloadResolutionPriority(3)]
     void Method(object x)
     {
+    }
+
+    void SHA256Usage()
+    {
+        SHA256Polyfill.HashData((byte[])null!);
+        SHA256Polyfill.HashData((Stream)null!);
+#if FeatureValueTask
+        SHA256Polyfill.HashDataAsync(null!, CancellationToken.None);
+#endif
+#if FeatureMemory
+        Span<byte> span = default;
+        ReadOnlySpan<byte> readOnlySpan = default;
+        Memory<byte> memory = default;
+
+        SHA256Polyfill.HashData((Stream)null!, span);
+        SHA256Polyfill.HashData(readOnlySpan);
+        SHA256Polyfill.HashData(readOnlySpan, span);
+        SHA256Polyfill.TryHashData(readOnlySpan, span, out _);
+#if FeatureValueTask
+        SHA256Polyfill.HashDataAsync(null!, memory);
+        SHA256Polyfill.HashDataAsync(null!, memory, CancellationToken.None);
+#endif
+#endif
+    }
+
+    void SHA512Usage()
+    {
+        SHA512Polyfill.HashData((byte[])null!);
+        SHA512Polyfill.HashData((Stream)null!);
+#if FeatureValueTask
+        SHA512Polyfill.HashDataAsync(null!, CancellationToken.None);
+#endif
+#if FeatureMemory
+        Span<byte> span = default;
+        ReadOnlySpan<byte> readOnlySpan = default;
+        Memory<byte> memory = default;
+
+        SHA512Polyfill.HashData((Stream)null!, span);
+        SHA512Polyfill.HashData(readOnlySpan);
+        SHA512Polyfill.HashData(readOnlySpan, span);
+        SHA512Polyfill.TryHashData(readOnlySpan, span, out _);
+#if FeatureValueTask
+        SHA512Polyfill.HashDataAsync(null!, memory);
+        SHA512Polyfill.HashDataAsync(null!, memory, CancellationToken.None);
+#endif
+#endif
     }
 
 #if FeatureMemory
