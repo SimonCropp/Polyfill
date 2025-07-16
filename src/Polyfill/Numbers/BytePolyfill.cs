@@ -82,7 +82,7 @@ static class BytePolyfill
         /// Converts the span representation of a number in a specified style and culture-specific format to its byte equivalent. A return value indicates whether the conversion succeeded.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse?view=net-10.0#system-byte-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-byte@)
-        public static bool TryParse(ReadOnlySpan<char> target, NumberStyles style, IFormatProvider? provider, out byte result) =>
+        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out byte result) =>
             byte.TryParse(target.ToString(), style, provider, out result);
 
 #endif
