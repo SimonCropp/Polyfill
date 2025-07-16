@@ -117,8 +117,8 @@ static class GuidPolyfill
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-10.0#system-guid-tryparse(system-readonlyspan((system-char))-system-guid@)
-        public static bool TryParse(ReadOnlySpan<char> utf8Text, out Guid result) =>
-            Guid.TryParse(utf8Text.ToString(), out result);
+        public static bool TryParse(ReadOnlySpan<char> input, out Guid result) =>
+            Guid.TryParse(input.ToString(), out result);
 
 #endif
 #if !NET10_0_OR_GREATER
