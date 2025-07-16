@@ -160,7 +160,7 @@ class Consume
     {
         var guid = Guid.CreateVersion7();
         guid = Guid.CreateVersion7(timestamp: DateTimeOffset.UtcNow);
-        var result = Guid.TryParse(target: "", provider: null, result: out guid);
+        var result = Guid.TryParse(s: "", provider: null, result: out guid);
 #if FeatureMemory
         ReadOnlySpan<byte> byteSpan = default;
         result = Guid.TryParse(utf8Text: byteSpan, result: out guid);
@@ -168,7 +168,7 @@ class Consume
 
         Span<char> charSpan = default;
         result = Guid.TryParse(input: charSpan, result: out guid);
-        result = Guid.TryParse(target: charSpan, provider: null, result: out guid);
+        result = Guid.TryParse(s: charSpan, provider: null, result: out guid);
         result = Guid.TryParseExact(input: charSpan, format: charSpan, result: out guid);
 
 #endif

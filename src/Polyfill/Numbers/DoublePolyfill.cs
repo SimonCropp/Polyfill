@@ -24,8 +24,8 @@ static class DoublePolyfill
         /// Tries to parse a string into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-10.0#system-double-tryparse(system-string-system-iformatprovider-system-double@)
-        public static bool TryParse(string? target, IFormatProvider? provider, out double result) =>
-            double.TryParse(target, NumberStyles.Float, provider, out result);
+        public static bool TryParse(string? s, IFormatProvider? provider, out double result) =>
+            double.TryParse(s, NumberStyles.Float, provider, out result);
 
 #endif
 
@@ -36,22 +36,22 @@ static class DoublePolyfill
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-10.0#system-double-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-double@)
-        public static bool TryParse(ReadOnlySpan<byte> target, IFormatProvider? provider, out double result) =>
-            double.TryParse(Encoding.UTF8.GetString(target), NumberStyles.Float, provider, out result);
+        public static bool TryParse(ReadOnlySpan<byte> s, IFormatProvider? provider, out double result) =>
+            double.TryParse(Encoding.UTF8.GetString(s), NumberStyles.Float, provider, out result);
 
         /// <summary>
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-10.0#system-double-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-double@)
-        public static bool TryParse(ReadOnlySpan<byte> target, NumberStyles style, IFormatProvider? provider, out double result) =>
-            double.TryParse(Encoding.UTF8.GetString(target), style, provider, out result);
+        public static bool TryParse(ReadOnlySpan<byte> s, NumberStyles style, IFormatProvider? provider, out double result) =>
+            double.TryParse(Encoding.UTF8.GetString(s), style, provider, out result);
 
         /// <summary>
         /// Tries to convert a UTF-8 character span containing the string representation of a number to its double-precision floating-point number equivalent..
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-10.0#system-double-tryparse(system-readonlyspan((system-byte))-system-double@)
-        public static bool TryParse(ReadOnlySpan<byte> target, out double result) =>
-            double.TryParse(Encoding.UTF8.GetString(target), NumberStyles.Float, null, out result);
+        public static bool TryParse(ReadOnlySpan<byte> s, out double result) =>
+            double.TryParse(Encoding.UTF8.GetString(s), NumberStyles.Float, null, out result);
 
 #endif
 
@@ -61,15 +61,15 @@ static class DoublePolyfill
         /// Converts the span representation of a number in a specified style and culture-specific format to its double-precision floating-point number equivalent. A return value indicates whether the conversion succeeded or failed.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-10.0#system-double-tryparse(system-readonlyspan((system-char))-system-double@)
-        public static bool TryParse(ReadOnlySpan<char> target, out double result) =>
-            double.TryParse(target.ToString(), out result);
+        public static bool TryParse(ReadOnlySpan<char> s, out double result) =>
+            double.TryParse(s.ToString(), out result);
 
         /// <summary>
         /// Converts the string representation of a number in a specified style and culture-specific format to its double-precision floating-point number equivalent. A return value indicates whether the conversion succeeded or failed.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-10.0#system-double-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-double@)
-        public static bool TryParse(ReadOnlySpan<char> target, NumberStyles style, IFormatProvider? provider, out double result) =>
-            double.TryParse(target.ToString(), style, provider, out result);
+        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out double result) =>
+            double.TryParse(s.ToString(), style, provider, out result);
 
 #endif
 
@@ -79,8 +79,8 @@ static class DoublePolyfill
         /// Tries to parse a span of characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-10.0#system-double-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-double@)
-        public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out double result) =>
-            double.TryParse(target.ToString(), NumberStyles.Float, provider, out result);
+        public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out double result) =>
+            double.TryParse(s.ToString(), NumberStyles.Float, provider, out result);
 
 #endif
 

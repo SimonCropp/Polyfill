@@ -24,8 +24,8 @@ static partial class UInt32Polyfill
         /// Tries to parse a string into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-string-system-iformatprovider-system-uint32@)
-        public static bool TryParse(string? target, IFormatProvider? provider, out uint result) =>
-            uint.TryParse(target, NumberStyles.Integer, provider, out result);
+        public static bool TryParse(string? s, IFormatProvider? provider, out uint result) =>
+            uint.TryParse(s, NumberStyles.Integer, provider, out result);
 
 #endif
 
@@ -37,22 +37,22 @@ static partial class UInt32Polyfill
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint32@)
-        public static bool TryParse(ReadOnlySpan<byte> target, IFormatProvider? provider, out uint result) =>
-            uint.TryParse(Encoding.UTF8.GetString(target), NumberStyles.Integer, provider, out result);
+        public static bool TryParse(ReadOnlySpan<byte> s, IFormatProvider? provider, out uint result) =>
+            uint.TryParse(Encoding.UTF8.GetString(s), NumberStyles.Integer, provider, out result);
 
         /// <summary>
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uint32@)
-        public static bool TryParse(ReadOnlySpan<byte> target, NumberStyles style, IFormatProvider? provider, out uint result) =>
-            uint.TryParse(Encoding.UTF8.GetString(target), style, provider, out result);
+        public static bool TryParse(ReadOnlySpan<byte> s, NumberStyles style, IFormatProvider? provider, out uint result) =>
+            uint.TryParse(Encoding.UTF8.GetString(s), style, provider, out result);
 
         /// <summary>
         /// Tries to convert a UTF-8 character span containing the string representation of a number to its uint equivalent.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint32@)
-        public static bool TryParse(ReadOnlySpan<byte> target, out uint result) =>
-            uint.TryParse(Encoding.UTF8.GetString(target), NumberStyles.Integer, null, out result);
+        public static bool TryParse(ReadOnlySpan<byte> s, out uint result) =>
+            uint.TryParse(Encoding.UTF8.GetString(s), NumberStyles.Integer, null, out result);
 
 #endif
 
@@ -62,15 +62,15 @@ static partial class UInt32Polyfill
         /// Converts the span representation of a number in a specified style and culture-specific format to its uint equivalent. A return value indicates whether the conversion succeeded.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-readonlyspan((system-char))-system-uint32@)
-        public static bool TryParse(ReadOnlySpan<char> target, out uint result) =>
-            uint.TryParse(target.ToString(), out result);
+        public static bool TryParse(ReadOnlySpan<char> s, out uint result) =>
+            uint.TryParse(s.ToString(), out result);
 
         /// <summary>
         /// Converts the span representation of a number in a specified style and culture-specific format to its uint equivalent. A return value indicates whether the conversion succeeded.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint32@)
-        public static bool TryParse(ReadOnlySpan<char> target, NumberStyles style, IFormatProvider? provider, out uint result) =>
-            uint.TryParse(target.ToString(), style, provider, out result);
+        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out uint result) =>
+            uint.TryParse(s.ToString(), style, provider, out result);
 
 #endif
 
@@ -80,8 +80,8 @@ static partial class UInt32Polyfill
         /// Tries to parse a span of characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint32@)
-        public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out uint result) =>
-            uint.TryParse(target.ToString(), NumberStyles.Integer, provider, out result);
+        public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out uint result) =>
+            uint.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
 
 #endif
 
