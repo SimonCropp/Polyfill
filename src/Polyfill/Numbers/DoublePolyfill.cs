@@ -50,8 +50,8 @@ static class DoublePolyfill
         /// Tries to convert a UTF-8 character span containing the string representation of a number to its double-precision floating-point number equivalent..
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-10.0#system-double-tryparse(system-readonlyspan((system-byte))-system-double@)
-        public static bool TryParse(ReadOnlySpan<byte> s, out double result) =>
-            double.TryParse(Encoding.UTF8.GetString(s), NumberStyles.Float, null, out result);
+        public static bool TryParse(ReadOnlySpan<byte> utf8Text, out double result) =>
+            double.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Float, null, out result);
 
 #endif
 

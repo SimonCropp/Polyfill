@@ -51,8 +51,8 @@ static partial class UInt64Polyfill
         /// Tries to convert a UTF-8 character span containing the string representation of a number to its ulong equivalent.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-10.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint64@)
-        public static bool TryParse(ReadOnlySpan<byte> s, out ulong result) =>
-            ulong.TryParse(Encoding.UTF8.GetString(s), NumberStyles.Integer, null, out result);
+        public static bool TryParse(ReadOnlySpan<byte> utf8Text, out ulong result) =>
+            ulong.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, null, out result);
 
 #endif
 
