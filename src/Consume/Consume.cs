@@ -337,21 +337,21 @@ class Consume
     }
 
 #if FeatureHttp
-    void HttpClient_Methods()
+    void HttpClient_Methods( HttpClient target)
     {
-        new HttpClient().GetStreamAsync("", CancellationToken.None);
-        new HttpClient().GetStreamAsync(new Uri(""), CancellationToken.None);
-        new HttpClient().GetByteArrayAsync("", CancellationToken.None);
-        new HttpClient().GetByteArrayAsync(new Uri(""), CancellationToken.None);
-        new HttpClient().GetStringAsync("", CancellationToken.None);
-        new HttpClient().GetStringAsync(new Uri(""), CancellationToken.None);
+        target.GetStreamAsync("", CancellationToken.None);
+        target.GetStreamAsync(new Uri(""), CancellationToken.None);
+        target.GetByteArrayAsync("", CancellationToken.None);
+        target.GetByteArrayAsync(new Uri(""), CancellationToken.None);
+        target.GetStringAsync("", CancellationToken.None);
+        target.GetStringAsync(new Uri(""), CancellationToken.None);
     }
 
-    void HttpContent_Methods()
+    void HttpContent_Methods(ByteArrayContent target)
     {
-        new ByteArrayContent([]).ReadAsStreamAsync(CancellationToken.None);
-        new ByteArrayContent([]).ReadAsByteArrayAsync(CancellationToken.None);
-        new ByteArrayContent([]).ReadAsStringAsync(CancellationToken.None);
+        target.ReadAsStreamAsync(CancellationToken.None);
+        target.ReadAsByteArrayAsync(CancellationToken.None);
+        target.ReadAsStringAsync(CancellationToken.None);
     }
 #endif
 
