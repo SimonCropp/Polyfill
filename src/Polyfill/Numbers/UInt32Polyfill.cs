@@ -37,15 +37,15 @@ static partial class UInt32Polyfill
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint32@)
-        public static bool TryParse(ReadOnlySpan<byte> s, IFormatProvider? provider, out uint result) =>
-            uint.TryParse(Encoding.UTF8.GetString(s), NumberStyles.Integer, provider, out result);
+        public static bool TryParse(ReadOnlySpan<byte> utf8Text, IFormatProvider? provider, out uint result) =>
+            uint.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, provider, out result);
 
         /// <summary>
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-10.0#system-uint32-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uint32@)
-        public static bool TryParse(ReadOnlySpan<byte> s, NumberStyles style, IFormatProvider? provider, out uint result) =>
-            uint.TryParse(Encoding.UTF8.GetString(s), style, provider, out result);
+        public static bool TryParse(ReadOnlySpan<byte> utf8Text, NumberStyles style, IFormatProvider? provider, out uint result) =>
+            uint.TryParse(Encoding.UTF8.GetString(utf8Text), style, provider, out result);
 
         /// <summary>
         /// Tries to convert a UTF-8 character span containing the string representation of a number to its uint equivalent.

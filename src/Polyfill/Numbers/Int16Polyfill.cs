@@ -36,15 +36,15 @@ static partial class Int16Polyfill
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int16.tryparse?view=net-10.0#system-int16-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-int16@)
-        public static bool TryParse(ReadOnlySpan<byte> s, IFormatProvider? provider, out short result) =>
-            short.TryParse(Encoding.UTF8.GetString(s), NumberStyles.Integer, provider, out result);
+        public static bool TryParse(ReadOnlySpan<byte> utf8Text, IFormatProvider? provider, out short result) =>
+            short.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, provider, out result);
 
         /// <summary>
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int16.tryparse?view=net-10.0#system-int16-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-int16@)
-        public static bool TryParse(ReadOnlySpan<byte> s, NumberStyles style, IFormatProvider? provider, out short result) =>
-            short.TryParse(Encoding.UTF8.GetString(s), style, provider, out result);
+        public static bool TryParse(ReadOnlySpan<byte> utf8Text, NumberStyles style, IFormatProvider? provider, out short result) =>
+            short.TryParse(Encoding.UTF8.GetString(utf8Text), style, provider, out result);
 
         /// <summary>
         /// Tries to convert a UTF-8 character span containing the string representation of a number to its short equivalent.
