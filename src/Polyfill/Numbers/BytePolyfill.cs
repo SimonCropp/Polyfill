@@ -83,7 +83,7 @@ static class BytePolyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse?view=net-10.0#system-byte-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-byte@)
         public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out byte result) =>
-            byte.TryParse(target.ToString(), style, provider, out result);
+            byte.TryParse(s.ToString(), style, provider, out result);
 
 #endif
 #endif
