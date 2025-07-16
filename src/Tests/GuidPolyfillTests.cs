@@ -30,6 +30,41 @@ public class GuidPolyfillTests
     }
 
     [Test]
+    public void TryParse_ReturnsTrue_ForValidUtf8Bytes()
+    {
+        var guid = Guid.NewGuid();
+        var utf8Bytes = Encoding.UTF8.GetBytes(guid.ToString());
+        var result = Guid.TryParse(utf8Bytes, out var parsed);
+        Assert.IsTrue(result);
+        Assert.AreEqual(guid, parsed);
+    }
+
+    [Test]
+    public void Parse_ReturnsGuid_ForValidUtf8Bytes()
+    {
+        var guid = Guid.NewGuid();
+        var utf8Bytes = Encoding.UTF8.GetBytes(guid.ToString());
+        var parsed = Guid.Parse(utf8Bytes);
+        Assert.AreEqual(guid, parsed);
+    }
+
+    [Test]
+    public void Parse_ThrowsFormatException_ForInvalidUtf8Bytes()
+    {
+        var utf8Bytes = "not-a-guid"u8.ToArray();
+        Assert.Throws<FormatException>(() => Guid.Parse(utf8Bytes));
+    }
+
+    [Test]
+    public void TryParse_ReturnsFalse_ForInvalidUtf8Bytes()
+    {
+        var utf8Bytes = "not-a-guid"u8.ToArray();
+        var result = Guid.TryParse(utf8Bytes, out var parsed);
+        Assert.IsFalse(result);
+        Assert.AreEqual(Guid.Empty, parsed);
+    }
+
+    [Test]
     public void TryParse_Span_ReturnsFalse_ForInvalidGuid()
     {
         var span = "invalid".AsSpan();
