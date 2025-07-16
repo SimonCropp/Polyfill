@@ -163,8 +163,9 @@ class Consume
         var result = Guid.TryParse("", null, out guid);
 #if FeatureMemory
         Span<char> span = default;
-        result = Guid.TryParse(span, null, out var parsed);
-        result = Guid.TryParseExact(span, span, out parsed);
+        result = Guid.TryParse(span, out guid);
+        result = Guid.TryParse(span, null, out guid);
+        result = Guid.TryParseExact(span, span, out guid);
 #endif
     }
 
