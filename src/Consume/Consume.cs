@@ -256,13 +256,13 @@ class Consume
 
     void Byte_Methods()
     {
-        byte.TryParse(target: "1", provider: null, result: out _);
+        byte.TryParse(s: "1", provider: null, result: out _);
 #if FeatureMemory
-        byte.TryParse(target: "1"u8, provider: null, result: out _);
+        byte.TryParse(utf8Text: "1"u8, provider: null, result: out _);
         byte.TryParse(s: ['1'], result: out _);
-        byte.TryParse(target: ['1'], provider: null, result: out _);
-        byte.TryParse(target: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
-        byte.TryParse(target: "1"u8, result: out _);
+        byte.TryParse(s: ['1'], provider: null, result: out _);
+        byte.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
+        byte.TryParse(utf8Text: "1"u8, result: out _);
         byte.TryParse(s: ['1'], style: NumberStyles.Integer, provider: null, result: out _);
 #endif
     }
