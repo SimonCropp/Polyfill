@@ -160,7 +160,7 @@ class Consume
     {
         var guid = Guid.CreateVersion7();
         guid = Guid.CreateVersion7(DateTimeOffset.UtcNow);
-        var result = Guid.TryParse("not-a-guid", null, out guid);
+        var result = Guid.TryParse("", null, out guid);
 #if FeatureMemory
         Span<char> span = default;
         result = Guid.TryParse(span, null, out var parsed);
