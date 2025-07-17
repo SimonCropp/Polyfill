@@ -189,9 +189,9 @@ partial class PolyfillTests
     [Test]
     public void Zip3()
     {
-        var numbers = new List<int> { 1 };
-        var words = new List<string> { "one" };
-        var letters = new List<string> { "a" };
+        var numbers = new List<int> {1};
+        var words = new List<string> {"one"};
+        var letters = new List<string> {"a"};
 
         var result = numbers.Zip(words, letters).Single();
 
@@ -204,7 +204,7 @@ partial class PolyfillTests
     public void ElementAtIndex()
     {
 #pragma warning disable IDE0028
-        IEnumerable<int> list = new List<int> { 1, 2 };
+        IEnumerable<int> list = new List<int> {1, 2};
 #pragma warning restore IDE0028
 
         // ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
@@ -244,8 +244,8 @@ partial class PolyfillTests
     [Test]
     public void Zip2()
     {
-        var numbers = new List<int> { 1 };
-        var words = new List<string> { "one" };
+        var numbers = new List<int> {1};
+        var words = new List<string> {"one"};
 
         var result = numbers.Zip(words).Single();
 
@@ -260,10 +260,10 @@ partial class PolyfillTests
 
         var chunks = enumerable.Chunk(3).ToList();
 
-        Assert.AreEqual(new[] { 1, 2, 3 }, chunks[0]);
-        Assert.AreEqual(new[] { 4, 5, 6 }, chunks[1]);
-        Assert.AreEqual(new[] { 7, 8, 9 }, chunks[2]);
-        Assert.AreEqual(new[] { 10, 11 }, chunks[3]);
+        Assert.AreEqual(new[] {1, 2, 3}, chunks[0]);
+        Assert.AreEqual(new[] {4, 5, 6}, chunks[1]);
+        Assert.AreEqual(new[] {7, 8, 9}, chunks[2]);
+        Assert.AreEqual(new[] {10, 11}, chunks[3]);
     }
 
     [Test]
@@ -273,8 +273,8 @@ partial class PolyfillTests
 
         var chunks = enumerable.Chunk(8).ToList();
 
-        Assert.AreEqual(new[] { 1, 2, 3, 4, 5, 6, 7, 8 }, chunks[0]);
-        Assert.AreEqual(new[] { 9, 10, 11 }, chunks[1]);
+        Assert.AreEqual(new[] {1, 2, 3, 4, 5, 6, 7, 8}, chunks[0]);
+        Assert.AreEqual(new[] {9, 10, 11}, chunks[1]);
     }
 
     [Test]
