@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 600**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 602**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -663,6 +663,12 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryFormat<TEnum>(TEnum, Span<char>, int, ReadOnlySpan<char>) where TEnum : struct, Enum` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryformat?view=net-10.0)
  * `bool TryParse<TEnum>(ReadOnlySpan<char>, bool, TEnum) where TEnum : struct, Enum` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryparse?view=net-10.0#system-enum-tryparse-1(system-readonlyspan((system-char))-system-boolean-0@))
  * `bool TryParse<TEnum>(ReadOnlySpan<char>, TEnum) where TEnum : struct, Enum` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryparse?view=net-10.0#system-enum-tryparse-1(system-readonlyspan((system-char))-0@))
+
+
+#### Enumerable
+
+ * `IEnumerable<T> InfiniteSequence<T>(T, T) where T : IAdditionOperators<T, T, T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.infinitesequence?view=net-10.0)
+ * `IEnumerable<T> Sequence<T>(T, T, T) where T : INumber<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.sequence?view=net-10.0)
 
 
 #### Environment

@@ -174,6 +174,12 @@
  * `bool TryParse<TEnum>(ReadOnlySpan<char>, TEnum) where TEnum : struct, Enum` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryparse?view=net-10.0#system-enum-tryparse-1(system-readonlyspan((system-char))-0@))
 
 
+#### Enumerable
+
+ * `IEnumerable<T> InfiniteSequence<T>(T, T) where T : IAdditionOperators<T, T, T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.infinitesequence?view=net-10.0)
+ * `IEnumerable<T> Sequence<T>(T, T, T) where T : INumber<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.sequence?view=net-10.0)
+
+
 #### Environment
 
  * `ProcessId` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.environment.processid?view=net-10.0#system-environment-processid)
