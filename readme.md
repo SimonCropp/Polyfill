@@ -48,7 +48,7 @@ As a result, in the context of a project producing nuget package, that project s
 ## Nuget
 
  * https://nuget.org/packages/Polyfill/
- * https://nuget.org/packages/PolyfillLib/ See [#PolyfillLib]
+ * https://nuget.org/packages/PolyfillLib/ (See [PolyfillLib](#polyfilllib))
 
 
 ## SDK / LangVersion
