@@ -26,8 +26,8 @@ static class GuidPolyfill
         /// Tries to parse a string into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-10.0#system-guid-tryparse(system-string-system-iformatprovider-system-guid@)
-        public static bool TryParse(string? target, IFormatProvider? provider, out Guid result) =>
-            Guid.TryParse(target, out result);
+        public static bool TryParse(string? s, IFormatProvider? provider, out Guid result) =>
+            Guid.TryParse(s, out result);
 
 #endif
 
@@ -95,8 +95,8 @@ static class GuidPolyfill
         /// Converts span of characters representing the GUID to the equivalent Guid structure, provided that the string is in the specified format.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparseexact?view=net-10.0#system-guid-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-guid@)
-        public static bool TryParseExact(ReadOnlySpan<char> target, ReadOnlySpan<char> format, out Guid result) =>
-            Guid.TryParseExact(target.ToString(), format.ToString(), out result);
+        public static bool TryParseExact(ReadOnlySpan<char> input, ReadOnlySpan<char> format, out Guid result) =>
+            Guid.TryParseExact(input.ToString(), format.ToString(), out result);
 
 #endif
 
@@ -106,8 +106,8 @@ static class GuidPolyfill
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-10.0#system-guid-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-guid@)
-        public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out Guid result) =>
-            Guid.TryParse(target.ToString(), out result);
+        public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out Guid result) =>
+            Guid.TryParse(s.ToString(), out result);
 
 #endif
 
@@ -117,8 +117,8 @@ static class GuidPolyfill
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-10.0#system-guid-tryparse(system-readonlyspan((system-char))-system-guid@)
-        public static bool TryParse(ReadOnlySpan<char> target, out Guid result) =>
-            Guid.TryParse(target.ToString(), out result);
+        public static bool TryParse(ReadOnlySpan<char> input, out Guid result) =>
+            Guid.TryParse(input.ToString(), out result);
 
 #endif
 #if !NET10_0_OR_GREATER
