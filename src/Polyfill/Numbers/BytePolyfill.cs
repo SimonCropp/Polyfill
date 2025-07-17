@@ -26,8 +26,8 @@ static class BytePolyfill
         /// Tries to parse a string into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse?view=net-10.0#system-byte-tryparse(system-string-system-iformatprovider-system-byte@)
-        public static bool TryParse(string? target, IFormatProvider? provider, out byte result) =>
-            byte.TryParse(target, NumberStyles.Integer, provider, out result);
+        public static bool TryParse(string? s, IFormatProvider? provider, out byte result) =>
+            byte.TryParse(s, NumberStyles.Integer, provider, out result);
 
 #endif
 
@@ -39,8 +39,8 @@ static class BytePolyfill
         /// Tries to parse a span of characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse?view=net-10.0#system-byte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-byte@)
-        public static bool TryParse(ReadOnlySpan<char> target, IFormatProvider? provider, out byte result) =>
-            byte.TryParse(target.ToString(), NumberStyles.Integer, provider, out result);
+        public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out byte result) =>
+            byte.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
 
 #endif
 
@@ -50,22 +50,22 @@ static class BytePolyfill
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse?view=net-10.0#system-byte-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-byte@)
-        public static bool TryParse(ReadOnlySpan<byte> target, IFormatProvider? provider, out byte result) =>
-            byte.TryParse(Encoding.UTF8.GetString(target), NumberStyles.Integer, provider, out result);
+        public static bool TryParse(ReadOnlySpan<byte> utf8Text, IFormatProvider? provider, out byte result) =>
+            byte.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, provider, out result);
 
         /// <summary>
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse?view=net-10.0#system-byte-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-byte@)
-        public static bool TryParse(ReadOnlySpan<byte> target, NumberStyles style, IFormatProvider? provider, out byte result) =>
-            byte.TryParse(Encoding.UTF8.GetString(target), style, provider, out result);
+        public static bool TryParse(ReadOnlySpan<byte> utf8Text, NumberStyles style, IFormatProvider? provider, out byte result) =>
+            byte.TryParse(Encoding.UTF8.GetString(utf8Text), style, provider, out result);
 
         /// <summary>
         /// Tries to convert a UTF-8 character span containing the string representation of a number to its byte equivalent.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse?view=net-10.0#system-byte-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-byte@)
-        public static bool TryParse(ReadOnlySpan<byte> target, out byte result) =>
-            byte.TryParse(Encoding.UTF8.GetString(target), NumberStyles.Integer, null, out result);
+        public static bool TryParse(ReadOnlySpan<byte> utf8Text, out byte result) =>
+            byte.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, null, out result);
 
 #endif
 
@@ -75,8 +75,8 @@ static class BytePolyfill
         /// Converts the span representation of a number in a specified style and culture-specific format to its byte equivalent. A return value indicates whether the conversion succeeded.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse?view=net-10.0#system-byte-tryparse(system-readonlyspan((system-char))-system-byte@)
-        public static bool TryParse(ReadOnlySpan<char> target, out byte result) =>
-            byte.TryParse(target.ToString(), out result);
+        public static bool TryParse(ReadOnlySpan<char> s, out byte result) =>
+            byte.TryParse(s.ToString(), out result);
 
         /// <summary>
         /// Converts the span representation of a number in a specified style and culture-specific format to its byte equivalent. A return value indicates whether the conversion succeeded.
