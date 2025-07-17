@@ -1,5 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+// ReSharper disable MethodHasAsyncOverload
 
 [TestFixture]
 [Parallelizable(ParallelScope.None)]

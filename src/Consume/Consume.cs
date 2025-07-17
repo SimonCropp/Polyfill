@@ -38,6 +38,7 @@ using System.Xml;
 using System.Xml.Linq;
 using MemoryStream = System.IO.MemoryStream;
 // ReSharper disable MethodHasAsyncOverload
+// ReSharper disable RedundantCast
 
 #pragma warning disable CS4014
 #pragma warning disable CA1416
