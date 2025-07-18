@@ -24,31 +24,15 @@ The package targets `netstandard2.0` and is designed to support the following ru
 [![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSourceSupport)
 
 
-## TargetFrameworks
-
-Some polyfills are implemented in a way that will not always have the equivalent performance to the actual implementations.
-
-For example the polyfill for `StringBuilder.Append(ReadOnlySpan<char>)` on netcore2 is:
-
-```
-public StringBuilder Append(ReadOnlySpan<char> value)
-    => target.Append(value.ToString());
-```
-
-Which will result in a string allocation.
-
-As Polyfill is implemented as a source only nuget, the implementation for each polyfill is compiled into the IL of the consuming assembly. As a side-effect that implementation will continue to be used even if that assembly is executed in a runtime that has a more efficient implementation available.
-
-As a result, in the context of a project producing nuget package, that project should target all frameworks from the lowest TargetFramework up to and including the current framework. This way the most performant implementation will be used for each runtime. Take the following examples:
-
- * If a nuget's minimum target is net6, then the resulting TargetFrameworks should also include net7.0 and net8.0
- * If a nuget's minimum target is net471, then the resulting TargetFrameworks should also include net472 and net48"
-
-
 ## Nuget
 
  * https://nuget.org/packages/Polyfill/
- * https://nuget.org/packages/PolyfillLib/ (See [PolyfillLib](#polyfilllib))
+ * https://nuget.org/packages/PolyfillLib/ (See [PolyfillLib](polyfill-lib.md))
+
+
+## TargetFrameworks
+
+It is recommended that projects that consume Polyfill multi-target all TFMs that the project is expected to be consumed in. See [Polyfill and TargetFrameworks][target-frameworks.md]
 
 
 ## SDK / LangVersion
@@ -77,38 +61,9 @@ This project uses features from the current stable SDK and C# language. As such 
 ```
 
 
-## Consuming and type visibility
-
-The default type visibility for all polyfills is `internal`. This means it can be consumed in multiple projects and types will not conflict.
-
-
-### Consuming in an app
-
-If Polyfill is being consumed in a solution that produce an app, then it is recommended to use the Polyfill nuget only in the root "app project" and enable `PolyPublic`.
-
-```xml
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <PolyPublic>true</PolyPublic>
-```
-
-Then all consuming projects, like tests, will not need to use the Polyfill nuget.
-
-
-### Consuming in a library
-
-If Polyfill is being consumed in a solution that produce a library (and usually a nuget), then the Polyfill nuget can be added to all projects.
-
-If, however, `InternalsVisibleTo` is being used to expose APIs (for example to test projects), then the Polyfill nuget should be added only to the root library project.
-
-
 ## PolyfillLib
 
-Polyfill is source only nuget designed to be consumed by public facing nuget packages. The benefit being no dependency and no chance for dependency conflicts.
-
-Internal facing systems (nugets and build pipelines) have less risk of having dependency conflicts. For example a company with an internal nuget feed used to produce apps. In these scenarios the extra cost of using a source only nuget may be considered less than ideal. ie the added assembly size and the increased build time. PolyfillLib is a standard nuget package containing assemblies for each target runtime. It is an alternative approach to using the Polyfill source only package.
-
-https://nuget.org/packages/PolyfillLib/
+To consume Polyfill as a library (instead of a source-only package) see [PolyfillLib](polyfill-lib.md))
 
 
 ## Troubleshooting
