@@ -25,6 +25,6 @@ If, however, `InternalsVisibleTo` is being used to expose APIs (for example to t
 
 ## See also
 
- * [PolyfillLib](polyfill-lib.md))
- * [Polyfill and TargetFrameworks](target-frameworks.md))
+ * [PolyfillLib](polyfill-lib.md)
+ * [Polyfill and TargetFrameworks](target-frameworks.md)
 

@@ -8,5 +8,5 @@ https://nuget.org/packages/PolyfillLib/
 
 ## See also
 
- * [Consuming and type visibility](consuming.md))
- * [Polyfill and TargetFrameworks](target-frameworks.md))
+ * [Consuming and type visibility](consuming.md)
+ * [Polyfill and TargetFrameworks](target-frameworks.md)
