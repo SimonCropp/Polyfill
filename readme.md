@@ -32,7 +32,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
 
 ## TargetFrameworks
 
-It is recommended that projects that consume Polyfill multi-target all TFMs that the project is expected to be consumed in. See [Polyfill and TargetFrameworks][target-frameworks.md]
+It is recommended that projects that consume Polyfill multi-target all TFMs that the project is expected to be consumed in. See [Polyfill and TargetFrameworks](target-frameworks.md)
 
 
 ## SDK / LangVersion
