@@ -3,6 +3,8 @@
 
 #nullable enable
 
+#if !NET8_0_OR_GREATER
+
 namespace Polyfills;
 
 using System;
@@ -89,3 +91,4 @@ static class BytePolyfill
 #endif
     }
 }
+#endif
