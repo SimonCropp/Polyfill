@@ -61,7 +61,7 @@ The time taken to load and JIT code is proportional to the amount of IL in that 
 
 ## MSbuild Warning
 
-At build time, if a project is detected to no properly multi target, then a warning is recorded.
+At build time, if a project is detected to not properly multi target, then a warning is recorded.
 
 
 ### Missing multi-target detection
