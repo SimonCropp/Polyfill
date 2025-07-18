@@ -36,6 +36,7 @@
                             $(LowerFramework.StartsWith('netcoreapp3'))">
     <DefineConstants>$(DefineConstants);NETCOREAPPX</DefineConstants>
   </PropertyGroup>
+  <!-- begin-snippet: MaxNetRequired -->
   <PropertyGroup>
     <MaxNetRequired>false</MaxNetRequired>
     <MaxNetRequired
@@ -49,7 +50,6 @@
                  AND
                  !$(LowerFramework.Contains('net8'))"
       >true</MaxNetRequired>
-
     <MaxNetClassicRequired>false</MaxNetClassicRequired>
     <MaxNetClassicRequired
       Condition="(
@@ -62,6 +62,8 @@
                  !$(LowerFrameworks.Contains('net48'))"
       >true</MaxNetClassicRequired>
   </PropertyGroup>
+  <!-- end-snippet -->
+  <!-- begin-snippet: PolyfillValidateNugetTargets -->
   <Target
       Name="PolyfillValidateNugetTargets"
       AfterTargets="AfterBuild"
@@ -76,6 +78,7 @@ For example:
         HelpLink="https://github.com/SimonCropp/Polyfill#targetframeworks"
         Condition="$(MaxNetRequired)" />
   </Target>
+  <!-- end-snippet -->
 
   <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets">
     <PropertyGroup>
