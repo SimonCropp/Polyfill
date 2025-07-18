@@ -178,7 +178,7 @@ static class StringPolyfill
 #endif
 #endif
 
-#if NET9_0_OR_GREATER
+#if !NET9_0_OR_GREATER
         /// <summary>
         /// Concatenates the string representations of a span of objects, using the specified separator between each member.
         /// </summary>
