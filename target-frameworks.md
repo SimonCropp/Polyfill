@@ -58,5 +58,5 @@ The time taken to load and JIT code is proportional to the amount of IL in that 
 
 ## See also
 
- * [PolyfillLib](polyfill-lib.md))
- * [Consuming and type visibility](consuming.md))
+ * [PolyfillLib](polyfill-lib.md)
+ * [Consuming and type visibility](consuming.md)
