@@ -18,6 +18,9 @@ using Diagnostics;
 /// </summary>
 [DebuggerNonUserCode]
 [ExcludeFromCodeCoverage]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 //Link: https://learn.microsoft.com/en-us/dotnet/api/system.reflection.nullabilityinfo
 #if PolyPublic
 public
@@ -59,6 +62,9 @@ sealed class NullabilityInfo
 /// <summary>
 /// An enum that represents nullability state
 /// </summary>
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif

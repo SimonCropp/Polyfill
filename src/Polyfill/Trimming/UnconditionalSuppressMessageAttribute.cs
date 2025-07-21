@@ -17,6 +17,9 @@ namespace System.Diagnostics.CodeAnalysis;
     validOn: AttributeTargets.All,
     Inherited = false,
     AllowMultiple = true)]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.unconditionalsuppressmessageattribute?view=net-10.0
 #if PolyPublic
 public

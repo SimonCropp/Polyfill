@@ -16,6 +16,9 @@ using System.Threading;
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 // https://github.com/dotnet/runtime/blob/main/src/libraries/System.Text.RegularExpressions/src/System/Text/RegularExpressions/Regex.Cache.cs
 /// <summary>Cache used to store Regex instances used by the static methods on Regex.</summary>
 internal sealed class RegexCache
