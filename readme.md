@@ -63,7 +63,7 @@ This project uses features from the current stable SDK and C# language. As such 
 
 ## PolyfillLib
 
-To consume Polyfill as a library (instead of a source-only package) see [PolyfillLib](polyfill-lib.md))
+To consume Polyfill as a library (instead of a source-only package) see [PolyfillLib](polyfill-lib.md)
 
 
 ## Troubleshooting
