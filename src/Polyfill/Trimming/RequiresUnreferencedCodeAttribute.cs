@@ -20,6 +20,9 @@ using Targets = AttributeTargets;
              Targets.Constructor |
              Targets.Class,
     Inherited = false)]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.requiresunreferencedcodeattribute
 #if PolyPublic
 public

@@ -17,6 +17,9 @@
   <PropertyGroup Condition="$(PolyPublic) == 'true' ">
     <DefineConstants>$(DefineConstants);PolyPublic</DefineConstants>
   </PropertyGroup>
+  <PropertyGroup Condition="$(PolyUseEmbeddedAttribute) == 'true' ">
+    <DefineConstants>$(DefineConstants);PolyUseEmbeddedAttribute</DefineConstants>
+  </PropertyGroup>
   <PropertyGroup Condition="$(LowerFramework.StartsWith('netcoreapp2'))">
     <DefineConstants>$(DefineConstants);NETCOREAPP2X</DefineConstants>
   </PropertyGroup>

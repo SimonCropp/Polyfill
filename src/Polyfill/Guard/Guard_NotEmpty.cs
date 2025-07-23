@@ -9,10 +9,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif
-
 static partial class Guard
 {
     public static void NotEmpty(string? value, [CallerArgumentExpression("value")] string argumentName = "")

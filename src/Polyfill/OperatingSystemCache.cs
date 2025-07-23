@@ -13,6 +13,9 @@ using System.Runtime.Versioning;
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 static class OperatingSystemCache
 {
     static Version? windowsVersion;

@@ -12,6 +12,9 @@ namespace System.Diagnostics.CodeAnalysis;
 /// bitwise combination of its member values.
 /// </summary>
 [Flags]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif

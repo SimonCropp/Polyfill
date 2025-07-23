@@ -30,6 +30,9 @@ using Targets = AttributeTargets;
              Targets.Struct,
     AllowMultiple = true,
     Inherited = false)]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif
