@@ -61,7 +61,7 @@ static partial class Polyfill
     }
 
     /// <summary>
-    /// Sets the capacity to the actual number of elements in the List<T>, if that number is less than a threshold value.
+    /// Sets the capacity to the actual number of elements in the <see cref="List{T}"/>, if that number is less than a threshold value.
     /// </summary>
     //Link:https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.trimexcess?view=net-10.0
     public static void TrimExcess<T>(this List<T> target)
