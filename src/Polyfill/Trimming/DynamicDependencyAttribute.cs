@@ -34,7 +34,7 @@ sealed class DynamicDependencyAttribute :
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DynamicDependencyAttribute"/> class
-    /// with the specified signature of a member on a <see cref="System.Type"/>.
+    /// with the specified signature of a member on a <see cref="Type"/>.
     /// </summary>
     public DynamicDependencyAttribute(string memberSignature, Type type)
     {
@@ -55,7 +55,7 @@ sealed class DynamicDependencyAttribute :
 
     /// <summary>
     /// Initializes a new instance of the <see cref="DynamicDependencyAttribute"/> class
-    /// with the specified types of members on a <see cref="System.Type"/>.
+    /// with the specified types of members on a <see cref="Type"/>.
     /// </summary>
     public DynamicDependencyAttribute(DynamicallyAccessedMemberTypes memberTypes, Type type)
     {
@@ -86,7 +86,7 @@ sealed class DynamicDependencyAttribute :
     public DynamicallyAccessedMemberTypes MemberTypes { get; }
 
     /// <summary>
-    /// Gets the <see cref="System.Type"/> containing the specified member.
+    /// Gets the <see cref="Type"/> containing the specified member.
     /// </summary>
     public Type? Type { get; }
 
