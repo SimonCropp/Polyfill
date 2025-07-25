@@ -1,8 +1,8 @@
 ﻿public static class LinkReader
 {
-    public static bool TryGetReference(this Method method, [NotNullWhen(true)] out string? reference)
+    public static bool TryGetReference(this Member member, [NotNullWhen(true)] out string? reference)
     {
-        var syntaxTrivia = method.GetLeadingTrivia();
+        var syntaxTrivia = member.GetLeadingTrivia();
         foreach (var trivia in syntaxTrivia)
         {
             if (!trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
