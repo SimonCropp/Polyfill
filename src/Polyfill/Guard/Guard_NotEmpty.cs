@@ -9,9 +9,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-#if PolyUseEmbeddedAttribute
-[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
-#endif
 #if PolyPublic
 public
 #endif

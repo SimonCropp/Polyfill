@@ -121,6 +121,9 @@ For example:
       <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.1'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureCompression</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.0'))">$(DefineConstants);FeatureValueTuple;FeatureRuntimeInformation;FeatureCompression</DefineConstants>
     </PropertyGroup>
+  
+    <!-- The whole point of EmbeddedAttribute is to avoid the exposing the internal polyfilled APIs to consuming projects via IVT. -->
+    <Error Text="PolyPublic and PolyUseEmbeddedAttribute shouldn't be used together." Condition="'$(PolyPublic)' == 'true' AND '$(PolyUseEmbeddedAttribute)' == 'true'" />
   </Target>
   <ItemGroup>
 

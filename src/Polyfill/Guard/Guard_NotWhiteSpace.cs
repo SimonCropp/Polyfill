@@ -6,9 +6,6 @@ namespace Polyfills;
 using System.Runtime.CompilerServices;
 using System;
 
-#if PolyUseEmbeddedAttribute
-[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
-#endif
 #if PolyPublic
 public
 #endif
