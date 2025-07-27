@@ -2,6 +2,11 @@
 #pragma warning disable
 
 #if PolyUseEmbeddedAttribute
+
+#if PolyPublic
+#error PolyPublic should not be used with PolyUseEmbeddedAttribute.
+#endif
+
 namespace Microsoft.CodeAnalysis
 {
     internal sealed partial class EmbeddedAttribute : global::System.Attribute
