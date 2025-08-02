@@ -7,8 +7,9 @@ namespace Polyfills;
 
 using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
+using System.Threading;
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
@@ -19,45 +20,22 @@ static partial class RandomPolyfill
 {
     static ThreadSafeRandom threadSafeRandom = new ThreadSafeRandom();
 
-    class ThreadSafeRandom : Random
+    sealed class ThreadSafeRandom : Random
     {
-        Lock locker = new();
+        [ThreadStatic]
+        static Random? random;
 
-        public override int Next()
-        {
-            lock (locker)
-                return base.Next();
-        }
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        static Random Create() => random = new Random();
 
-        public override int Next(int maxValue)
-        {
-            lock (locker)
-                return base.Next(maxValue);
-        }
+        static Random LocalRandom => random ?? Create();
 
-        public override int Next(int minValue, int maxValue)
-        {
-            lock (locker)
-                return base.Next(minValue, maxValue);
-        }
-
-        public override void NextBytes(byte[] buffer)
-        {
-            lock (locker)
-                base.NextBytes(buffer);
-        }
-
-        public override double NextDouble()
-        {
-            lock (locker)
-                return base.NextDouble();
-        }
-
-        protected override double Sample()
-        {
-            lock (locker)
-                return base.Sample();
-        }
+        public override int Next() => LocalRandom.Next();
+        public override int Next(int maxValue) => LocalRandom.Next(maxValue);
+        public override int Next(int minValue, int maxValue) => LocalRandom.Next(minValue, maxValue);
+        public override void NextBytes(byte[] buffer) => LocalRandom.NextBytes(buffer);
+        public override double NextDouble() => LocalRandom.NextDouble();
+        protected override double Sample() => throw new NotSupportedException();
     }
 
     extension(Random)
