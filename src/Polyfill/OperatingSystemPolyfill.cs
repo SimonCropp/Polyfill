@@ -6,18 +6,10 @@
 namespace Polyfills;
 
 using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-
-#if PolyPublic
-public
-#endif
-static class OperatingSystemPolyfill
+static partial class Polyfill
 {
     static bool IsOsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0) =>
         Environment.OSVersion.Version >= new Version(major, minor, build, revision);

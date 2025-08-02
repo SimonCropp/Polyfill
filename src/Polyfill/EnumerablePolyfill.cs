@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Linq;
 
-static class EnumerablePolyfill
+static partial class Polyfill
 {
     extension(Enumerable)
     {

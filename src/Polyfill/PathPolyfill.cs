@@ -7,15 +7,8 @@ namespace Polyfills;
 
 using System;
 using System.IO;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyPublic
-public
-#endif
-static class PathPolyfill
+static partial class Polyfill
 {
     extension(Path)
     {

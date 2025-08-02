@@ -7,15 +7,8 @@ namespace Polyfills;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyPublic
-public
-#endif
-static class StringPolyfill
+static partial class Polyfill
 {
     extension(string)
     {
