@@ -29,12 +29,12 @@ static partial class RandomPolyfill
     sealed class ThreadSafeRandom : Random
     {
         [ThreadStatic]
-        private static Random? random;
+        static Random? random;
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static Random Create() => random = new Random();
+        static Random Create() => random = new Random();
 
-        private static Random LocalRandom => random ?? Create();
+        static Random LocalRandom => random ?? Create();
 
         public override int Next() => LocalRandom.Next();
         public override int Next(int maxValue) => LocalRandom.Next(maxValue);
