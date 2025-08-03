@@ -6,16 +6,9 @@
 namespace Polyfills;
 
 using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyPublic
-public
-#endif
-static class DateTimePolyfill
+static partial class Polyfill
 {
     extension(DateTime)
     {
