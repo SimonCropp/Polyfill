@@ -7,16 +7,9 @@ namespace Polyfills;
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyPublic
-public
-#endif
-static class DelegatePolyfill
+static partial class Polyfill
 {
 #if !NET9_0_OR_GREATER
 

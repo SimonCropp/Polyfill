@@ -9,16 +9,9 @@ using System.Threading.Tasks;
 using System.Threading;
 using System;
 using System.IO;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyPublic
-public
-#endif
-static class SHA512Polyfill
+static partial class Polyfill
 {
     extension(SHA512)
     {

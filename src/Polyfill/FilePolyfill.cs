@@ -9,17 +9,10 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using System.Diagnostics;
 using System.Threading;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyPublic
-public
-#endif
-static partial class FilePolyfill
+static partial class Polyfill
 {
     extension(File)
     {

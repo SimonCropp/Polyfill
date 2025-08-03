@@ -11,7 +11,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
-static partial class FilePolyfill
+static partial class Polyfill
 {
     extension(File)
     {

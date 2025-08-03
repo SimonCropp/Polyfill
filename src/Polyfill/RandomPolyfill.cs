@@ -6,17 +6,10 @@
 namespace Polyfills;
 
 using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyPublic
-public
-#endif
-static partial class RandomPolyfill
+static partial class Polyfill
 {
     static ThreadSafeRandom threadSafeRandom = new ThreadSafeRandom();
 

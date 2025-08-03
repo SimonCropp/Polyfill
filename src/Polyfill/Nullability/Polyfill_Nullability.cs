@@ -8,12 +8,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Reflection;
 
-/// <summary>
-/// Static and thread safe wrapper around NullabilityInfoContext.
-/// </summary>
-#if PolyPublic
-public
-#endif
 static partial class Polyfill
 {
     static ConcurrentDictionary<ParameterInfo, NullabilityInfo> parameters = [];
