@@ -26,8 +26,8 @@ static partial class UInt16Polyfill
         /// Tries to parse a string into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryparse?view=net-10.0#system-uint16-tryparse(system-string-system-iformatprovider-system-uint16@)
-        public static bool TryParse(string? target, IFormatProvider? provider, out ushort result) =>
-            ushort.TryParse(target, NumberStyles.Integer, provider, out result);
+        public static bool TryParse(string? s, IFormatProvider? provider, out ushort result) =>
+            ushort.TryParse(s, NumberStyles.Integer, provider, out result);
 
 #endif
 

@@ -26,8 +26,8 @@ static partial class Int32Polyfill
         /// Tries to parse a string into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse?view=net-10.0#system-int32-tryparse(system-string-system-iformatprovider-system-int32@)
-        public static bool TryParse(string? target, IFormatProvider? provider, out int result) =>
-            int.TryParse(target, NumberStyles.Integer, provider, out result);
+        public static bool TryParse(string? s, IFormatProvider? provider, out int result) =>
+            int.TryParse(s, NumberStyles.Integer, provider, out result);
 
 #endif
 
