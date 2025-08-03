@@ -19,8 +19,8 @@ static partial class Polyfill
         /// Tries to parse a string into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryparse?view=net-10.0#system-sbyte-tryparse(system-string-system-iformatprovider-system-sbyte@)
-        public static bool TryParse(string? target, IFormatProvider? provider, out sbyte result) =>
-            sbyte.TryParse(target, NumberStyles.Integer, provider, out result);
+        public static bool TryParse(string? s, IFormatProvider? provider, out sbyte result) =>
+            sbyte.TryParse(s, NumberStyles.Integer, provider, out result);
 
 #endif
 

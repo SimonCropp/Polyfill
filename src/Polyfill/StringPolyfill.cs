@@ -171,7 +171,7 @@ static partial class Polyfill
 #endif
 #endif
 
-#if !NET9_0_OR_GREATER
+#if !NET9_0_OR_GREATER && FeatureMemory
         /// <summary>
         /// Concatenates the string representations of a span of objects, using the specified separator between each member.
         /// </summary>
