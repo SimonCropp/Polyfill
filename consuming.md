@@ -2,6 +2,11 @@
 
 The default type visibility for all polyfills is `internal`. This means it can be consumed in multiple projects and types will not conflict.
 
+## Recommended consuming pattern
+
+The recommended general way to consume polyfill is to use the source package (`Polyfill`, not `PolyfillLib`), with all types being `internal` (default). As many projects use `InternalsVisibleTo`, this can result in conflicts. To resolve this, specify `<PolyUseEmbeddedAttribute>true</PolyUseEmbeddedAttribute>` under a `PropertyGroup`. That way, every project will have its "embedded" version of the types of Polyfill. Simply put, "embedded" means that even if `InternalsVisibleTo` is used, the "embedded" types are still not visible to the other assemblies.
+
+Alternatively, and depending on your specific scenario, below states other ways to consume Polyfill.
 
 ## Consuming in an app
 
@@ -27,4 +32,3 @@ If, however, `InternalsVisibleTo` is being used to expose APIs (for example to t
 
  * [PolyfillLib](polyfill-lib.md)
  * [Polyfill and TargetFrameworks](target-frameworks.md)
-

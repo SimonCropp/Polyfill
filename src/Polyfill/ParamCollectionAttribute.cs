@@ -14,6 +14,9 @@ using Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter, Inherited = true, AllowMultiple = false)]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 //Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.paramcollectionattribute?view=net-10.0
 #if PolyPublic
 public

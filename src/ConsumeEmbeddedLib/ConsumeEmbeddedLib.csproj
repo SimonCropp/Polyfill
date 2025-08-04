@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <!--
+      TODO: move back to 14  
+      <LangVersion>14.0</LangVersion>
+    -->
+    <LangVersion>preview</LangVersion>
+
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PolyUseEmbeddedAttribute>true</PolyUseEmbeddedAttribute>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Threading.Tasks.Extensions" />
+    <PackageReference Include="System.Memory" />
+    <Compile Include="..\Consume\*.cs" />
+    <InternalsVisibleTo Include="EmbeddedTests" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\TestIncludes.targets" />
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
+</Project>
