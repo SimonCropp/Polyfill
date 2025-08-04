@@ -29,7 +29,7 @@ partial class PolyfillTests
     {
         var span = "a55a".AsSpan();
         var found = false;
-        foreach (var match in RegexPolyfill.EnumerateMatches(span, @"\d+"))
+        foreach (var match in Regex.EnumerateMatches(span, @"\d+"))
         {
             found = true;
             Assert.AreEqual(1, match.Index);

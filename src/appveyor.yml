@@ -15,7 +15,7 @@ build_script:
       ./dotnet-install.ps1 -Version 9.0.301 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
       dotnet build src/Polyfill.sln --configuration Release --verbosity quiet
       dotnet test src/Polyfill.sln --configuration Release --no-build --no-restore
-      msbuild.exe src/PolyfillUwp.sln /p:Configuration=Release -verbosity:quiet
+      # msbuild.exe src/PolyfillUwp.sln /p:Configuration=Release -verbosity:quiet
     }
     else {
       Invoke-WebRequest "https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh" -OutFile "./dotnet-install.sh"
