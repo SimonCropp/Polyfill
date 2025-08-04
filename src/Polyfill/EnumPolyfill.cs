@@ -7,18 +7,8 @@ namespace Polyfills;
 
 using System;
 using System.Runtime.CompilerServices;
-using System.Diagnostics.CodeAnalysis;
-using System.Diagnostics;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyUseEmbeddedAttribute
-[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
-#endif
-#if PolyPublic
-public
-#endif
-static class EnumPolyfill
+static partial class Polyfill
 {
     extension(Enum)
     {

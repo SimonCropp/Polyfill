@@ -9,10 +9,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Linq;
 
-#if PolyUseEmbeddedAttribute
-[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
-#endif
-static class EnumerablePolyfill
+static partial class Polyfill
 {
     extension(Enumerable)
     {

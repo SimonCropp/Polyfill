@@ -11,16 +11,9 @@ using System.Threading.Tasks;
 using System.Xml;
 using System;
 using System.IO;
-using System.Diagnostics;
 using System.Xml.Linq;
-using System.Diagnostics.CodeAnalysis;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyPublic
-public
-#endif
-static partial class XElementPolyfill
+static partial class Polyfill
 {
     extension(XElement)
     {

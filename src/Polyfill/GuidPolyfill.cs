@@ -9,19 +9,9 @@ namespace Polyfills;
 
 using System.Text;
 using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyUseEmbeddedAttribute
-[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
-#endif
-#if PolyPublic
-public
-#endif
-static class GuidPolyfill
+static partial class Polyfill
 {
     extension(Guid)
     {

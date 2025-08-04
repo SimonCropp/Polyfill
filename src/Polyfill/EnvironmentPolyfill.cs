@@ -7,17 +7,8 @@ namespace Polyfills;
 
 using System;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyUseEmbeddedAttribute
-[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
-#endif
-#if PolyPublic
-public
-#endif
-static partial class EnvironmentPolyfill
+static partial class Polyfill
 {
     static int processId;
 

@@ -6,20 +6,10 @@
 namespace Polyfills;
 
 using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyUseEmbeddedAttribute
-[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
-#endif
-#if PolyPublic
-public
-#endif
-static partial class UInt32Polyfill
+static partial class Polyfill
 {
     extension(uint)
     {

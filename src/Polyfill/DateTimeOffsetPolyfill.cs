@@ -8,19 +8,9 @@
 namespace Polyfills;
 
 using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyUseEmbeddedAttribute
-[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
-#endif
-#if PolyPublic
-public
-#endif
-static class DateTimeOffsetPolyfill
+static partial class Polyfill
 {
     extension(DateTimeOffset)
     {

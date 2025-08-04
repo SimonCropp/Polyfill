@@ -7,15 +7,8 @@ namespace Polyfills;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyPublic
-public
-#endif
-static class StringPolyfill
+static partial class Polyfill
 {
     extension(string)
     {
@@ -178,7 +171,7 @@ static class StringPolyfill
 #endif
 #endif
 
-#if !NET9_0_OR_GREATER
+#if !NET9_0_OR_GREATER && FeatureMemory
         /// <summary>
         /// Concatenates the string representations of a span of objects, using the specified separator between each member.
         /// </summary>
