@@ -17,12 +17,7 @@ using ValueMatchEnumerator = System.Text.RegularExpressions.ValueMatchEnumerator
 #endif
 #endif
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyPublic
-public
-#endif
-static partial class RegexPolyfill
+static partial class Polyfill
 {
     extension(Regex)
     {
