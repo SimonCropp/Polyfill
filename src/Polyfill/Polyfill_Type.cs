@@ -111,7 +111,7 @@ static partial class Polyfill
     /// Searches for the MemberInfo on the current Type that matches the specified MemberInfo.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmemberwithsamemetadatadefinitionas?view=net-10.0
-    internal static MemberInfo GetMemberWithSameMetadataDefinitionAs(
+    public static MemberInfo GetMemberWithSameMetadataDefinitionAs(
         this Type type,
         MemberInfo member)
     {
