@@ -7,4 +7,5 @@
     <Compile Include="..\Consume\*.cs" />
     <ProjectReference Include="..\PolyfillLib\PolyfillLib.csproj" />
   </ItemGroup>
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
 </Project>
