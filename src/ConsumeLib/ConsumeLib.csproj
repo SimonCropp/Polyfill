@@ -6,5 +6,6 @@
   <ItemGroup>
     <Compile Include="..\Consume\*.cs" />
     <ProjectReference Include="..\PolyfillLib\PolyfillLib.csproj" />
+    <PackageReference Include="Microsoft.Bcl.Memory" />
   </ItemGroup>
 </Project>
