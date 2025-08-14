@@ -8,4 +8,5 @@
     <ProjectReference Include="..\PolyfillLib\PolyfillLib.csproj" />
     <PackageReference Include="Microsoft.Bcl.Memory" />
   </ItemGroup>
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
 </Project>
