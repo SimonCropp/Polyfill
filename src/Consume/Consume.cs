@@ -431,6 +431,7 @@ class Consume
         var take = enumerable.Take(1..3);
 #endif
         var takeLast = enumerable.TakeLast(3);
+        var unionBy = enumerable.UnionBy(["c"], _ => _, comparer: default);
     }
 
     void IList_Methods()
