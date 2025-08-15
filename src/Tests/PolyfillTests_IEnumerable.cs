@@ -349,6 +349,8 @@ partial class PolyfillTests
         Assert.Throws<ArgumentOutOfRangeException>(() =>
             Enumerable.Sequence(1, 5, -1).ToList());
 
+#endif
+
     [Test]
     public void IEnumerableUnionBy()
     {
