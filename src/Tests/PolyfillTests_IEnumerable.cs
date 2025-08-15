@@ -348,5 +348,30 @@ partial class PolyfillTests
     public void Sequence_Throws_WhenStepNegativeAndEndGreaterThanStart() =>
         Assert.Throws<ArgumentOutOfRangeException>(() =>
             Enumerable.Sequence(1, 5, -1).ToList());
-#endif
+
+    [Test]
+    public void IEnumerableUnionBy()
+    {
+        IEnumerable<string> firstList = ["banana" /*6*/, "apple" /*5*/, "cherry" /*5*/];
+        IEnumerable<string> secondList = ["banana" /*6*/, "apple2" /*6*/, "cherry" /*5*/, "strawberry" /*10*/];
+
+        var result = firstList.UnionBy(secondList, _ => _.Length).ToList();
+        Assert.IsTrue(result.SequenceEqual(["banana", "apple", "strawberry"]));
+    }
+
+    [Test]
+    public void IEnumerableUnionByWithComparer()
+    {
+        IEnumerable<string> firstList = ["banana" /*ba*/, "apple" /*ap*/];
+        IEnumerable<string> secondList = ["banana" /*ba*/, "Apple2" /*Ap*/];
+
+        var result = firstList.UnionBy(secondList, _ => _[0..1], comparer: StringComparer.OrdinalIgnoreCase).ToList();
+        Assert.IsTrue(result.SequenceEqual(["banana", "apple"]));
+
+        result = firstList.UnionBy(secondList, _ => _[0..1], comparer: null).ToList();
+        Assert.IsTrue(result.SequenceEqual(["banana", "apple", "Apple2"]));
+
+        result = firstList.UnionBy(secondList, _ => _[0..1], comparer: StringComparer.Ordinal).ToList();
+        Assert.IsTrue(result.SequenceEqual(["banana", "apple", "Apple2"]));
+    }
 }
