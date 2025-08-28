@@ -1,3 +1,4 @@
+// ReSharper disable RedundantExplicitParamsArrayCreation
 [TestFixture]
 public class StringPolyfillTest
 {
