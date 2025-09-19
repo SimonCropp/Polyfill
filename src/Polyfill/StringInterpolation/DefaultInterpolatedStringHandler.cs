@@ -136,7 +136,7 @@ ref struct DefaultInterpolatedStringHandler
             if (typeof(T).IsEnum)
             {
                 int charsWritten;
-                while (!EnumPolyfill.TryFormatUnconstrained(value, _chars.Slice(_pos), out charsWritten))
+                while (!Enum.TryFormatUnconstrained(value, _chars.Slice(_pos), out charsWritten))
                 {
                     Grow();
                 }
@@ -187,7 +187,7 @@ ref struct DefaultInterpolatedStringHandler
             if (typeof(T).IsEnum)
             {
                 int charsWritten;
-                while (!EnumPolyfill.TryFormatUnconstrained(value, _chars.Slice(_pos), out charsWritten, formatSpan))
+                while (!Enum.TryFormatUnconstrained(value, _chars.Slice(_pos), out charsWritten, formatSpan))
                 {
                     Grow();
                 }
@@ -431,7 +431,7 @@ ref struct DefaultInterpolatedStringHandler
     void GrowCore(uint requiredMinCapacity)
     {
         uint newCapacity = Math.Max(requiredMinCapacity, Math.Min((uint) _chars.Length * 2, StringMaxLength));
-        int arraySize = (int) MathPolyfill.Clamp(newCapacity, MinimumArrayPoolLength, int.MaxValue);
+        int arraySize = (int) Math.Clamp(newCapacity, MinimumArrayPoolLength, int.MaxValue);
 
         char[] newArray = ArrayPool<char>.Shared.Rent(arraySize);
         _chars.Slice(0, _pos).CopyTo(newArray);

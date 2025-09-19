@@ -1,6 +1,3 @@
-using System.Xml;
-using System.Xml.Linq;
-
 partial class PolyfillTests
 {
     [Test]
