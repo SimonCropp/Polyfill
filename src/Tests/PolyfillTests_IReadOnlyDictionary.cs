@@ -3,13 +3,30 @@ partial class PolyfillTests
     [Test]
     public void IReadOnlyDictionaryGetValueOrDefault()
     {
-        var dictionary = new Dictionary<string,string?>
+        var dictionary = new Dictionary<string, string?>
         {
-            {"key", "value"}
+            {
+                "key", "value"
+            }
         };
 
         Assert.AreEqual("value", dictionary.GetValueOrDefault("key"));
         Assert.AreEqual(null, dictionary.GetValueOrDefault("key1"));
-        Assert.AreEqual("value1", dictionary.GetValueOrDefault("key1","value1"));
+        Assert.AreEqual("value1", dictionary.GetValueOrDefault("key1", "value1"));
+    }
+
+    [Test]
+    public void IReadOnlyDictionaryGetValueOrDefault_NonNullValue()
+    {
+        var dictionary = new Dictionary<string, string>
+        {
+            {
+                "key", "value"
+            }
+        };
+
+        Assert.AreEqual("value", dictionary.GetValueOrDefault("key"));
+        Assert.AreEqual(null, dictionary.GetValueOrDefault("key1"));
+        Assert.AreEqual("value1", dictionary.GetValueOrDefault("key1", "value1"));
     }
 }
