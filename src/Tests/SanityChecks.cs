@@ -87,6 +87,7 @@ public class SanityChecks
                 name == "RefSafetyRulesAttribute" ||
                 name == "ParamCollectionAttribute" ||
                 name == "NativeIntegerAttribute" ||
+                name == "ExtensionMarkerAttribute" ||
                 name == "FileUtil")
             {
                 continue;
