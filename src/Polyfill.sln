@@ -74,6 +74,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeEmbeddedLib", "Consu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmbeddedTests", "EmbeddedTests\EmbeddedTests.csproj", "{93103F43-3299-4994-923A-80D1FD275E9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeLib", "ConsumeLib\ConsumeLib.csproj", "{FD473139-ACDA-4795-A829-31DA3B883063}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -394,6 +396,10 @@ Global
 		{93103F43-3299-4994-923A-80D1FD275E9D}.Release|x64.Build.0 = Release|Any CPU
 		{93103F43-3299-4994-923A-80D1FD275E9D}.Release|x86.ActiveCfg = Release|Any CPU
 		{93103F43-3299-4994-923A-80D1FD275E9D}.Release|x86.Build.0 = Release|Any CPU
+		{FD473139-ACDA-4795-A829-31DA3B883063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD473139-ACDA-4795-A829-31DA3B883063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD473139-ACDA-4795-A829-31DA3B883063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD473139-ACDA-4795-A829-31DA3B883063}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

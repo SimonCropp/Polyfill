@@ -4,6 +4,7 @@
     "projects": [
       "ApiBuilderTests\\ApiBuilderTests.csproj",
       "Consume\\Consume.csproj",
+      "PolyfillLib\\PolyfillLib.csproj",
       "Polyfill\\Polyfill.csproj",
       "TargetFrameworkUsage\\TargetFrameworkUsage.csproj",
       "Tests\\Tests.csproj"
