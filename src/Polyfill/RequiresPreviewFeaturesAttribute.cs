@@ -23,6 +23,9 @@ using System.Diagnostics.CodeAnalysis;
                 AttributeTargets.Field |
                 AttributeTargets.Event,
     Inherited = false)]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 //Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.versioning.requirespreviewfeaturesattribute?view=net-10.0
