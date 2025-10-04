@@ -17,6 +17,9 @@ using Targets = AttributeTargets;
     validOn: Targets.Parameter |
              Targets.Field |
              Targets.Property)]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif
