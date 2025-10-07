@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-
 static partial class Guard
 {
     public static void NotEmpty(string? value, [CallerArgumentExpression("value")] string argumentName = "")

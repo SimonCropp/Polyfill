@@ -22,6 +22,9 @@ using Diagnostics.CodeAnalysis;
 /// </summary>
 [DebuggerNonUserCode]
 [ExcludeFromCodeCoverage]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif
