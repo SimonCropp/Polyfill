@@ -1,6 +1,6 @@
 ﻿{
   "solution": {
-    "path": "Polyfill.sln",
+    "path": "Polyfill.slnx",
     "projects": [
       "ApiBuilderTests\\ApiBuilderTests.csproj",
       "Consume\\Consume.csproj",
