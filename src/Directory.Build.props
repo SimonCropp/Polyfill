@@ -21,5 +21,7 @@
     <Nullable>enable</Nullable>
     <IsAotCompatible
       Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))">true</IsAotCompatible>
+    <!-- Work around https://github.com/dotnet/sdk/issues/51265#issuecomment-3407578810 -->
+    <RestoreEnablePackagePruning>false</RestoreEnablePackagePruning>
   </PropertyGroup>
 </Project>
