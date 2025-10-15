@@ -1,5 +1,6 @@
 <Project>
   <PropertyGroup>
+    <PrepareForBuildDependsOn>$(PrepareForBuildDependsOn);PreparePolyfill</PrepareForBuildDependsOn>
     <LowerFramework>$(TargetFramework.ToLower())</LowerFramework>
     <LowerFrameworks>$(TargetFrameworks.ToLower())</LowerFrameworks>
   </PropertyGroup>
@@ -81,10 +82,9 @@ For example:
         Condition="$(MaxNetRequired)" />
   </Target>
   <!-- end-snippet -->
-  <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets" AfterTargets="AfterResolveReferences">
+
+  <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets">
     <PropertyGroup>
-      <DefineConstants
-        Condition="@(Reference->AnyHaveMetadataValue('Identity', 'System.ValueTuple'))">$(DefineConstants);FeatureValueTuple</DefineConstants>
       <DefineConstants
         Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.ValueTuple'))">$(DefineConstants);FeatureValueTuple</DefineConstants>
 
@@ -124,6 +124,7 @@ For example:
       <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.1'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureCompression</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.0'))">$(DefineConstants);FeatureValueTuple;FeatureRuntimeInformation;FeatureCompression</DefineConstants>
     </PropertyGroup>
+  
     <!-- The whole point of EmbeddedAttribute is to avoid the exposing the internal polyfilled APIs to consuming projects via IVT. -->
     <Error Text="PolyPublic and PolyUseEmbeddedAttribute shouldn't be used together." Condition="'$(PolyPublic)' == 'true' AND '$(PolyUseEmbeddedAttribute)' == 'true'" />
   </Target>
