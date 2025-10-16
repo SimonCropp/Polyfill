@@ -15,7 +15,7 @@
         var currentDirectory = Directory.GetParent(sourceFile)!.FullName;
         do
         {
-            if (Directory.GetFiles(currentDirectory, "*.sln").Length > 0)
+            if (Directory.GetFiles(currentDirectory, "*.slnx").Length > 0)
             {
                 path = currentDirectory;
                 return true;

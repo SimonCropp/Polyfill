@@ -242,4 +242,126 @@ public class GuardTests
             () => Guard.NotNullOrWhiteSpace(string.Empty));
         Guard.NotNullOrWhiteSpace("value");
     }
+
+    [Test]
+    public void NotEqual_WhenValuesAreDifferent_DoesNotThrow()
+    {
+        Assert.DoesNotThrow(() => Guard.NotEqual(5, 10));
+        Assert.DoesNotThrow(() => Guard.NotEqual("hello", "world"));
+        Assert.DoesNotThrow(() => Guard.NotEqual(DateTime.Now, DateTime.MinValue));
+    }
+
+    [Test]
+    public void NotEqual_WhenValuesAreEqual_ThrowsArgumentOutOfRangeException()
+    {
+        const int value = 42;
+        const int other = 42;
+
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Guard.NotEqual(value, other))!;
+
+        Assert.That(exception.ParamName, Is.EqualTo("value"));
+        Assert.That(exception.Message, Does.Contain("must not be equal to"));
+        Assert.That(exception.Message, Does.Contain("'42'"));
+    }
+
+    [Test]
+    public void NotEqual_WhenStringsAreEqual_ThrowsArgumentOutOfRangeException()
+    {
+        const string value = "test";
+        const string other = "test";
+
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Guard.NotEqual(value, other))!;
+
+        Assert.That(exception.ParamName, Is.EqualTo("value"));
+        Assert.That(exception.Message, Does.Contain("'test'"));
+    }
+
+    [Test]
+    public void NotEqual_WhenBothNull_ThrowsArgumentOutOfRangeException()
+    {
+        string? value = null;
+        string? other = null;
+
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Guard.NotEqual(value, other))!;
+
+        Assert.That(exception.ParamName, Is.EqualTo("value"));
+        Assert.That(exception.Message, Does.Contain("'null'"));
+    }
+
+    [Test]
+    public void NotEqual_WhenOneIsNull_DoesNotThrow()
+    {
+        // Arrange & Act & Assert
+        Assert.DoesNotThrow(() => Guard.NotEqual("value", null));
+        Assert.DoesNotThrow(() => Guard.NotEqual(null, "value"));
+    }
+
+    [Test]
+    public void NotEqual_WithCustomType_WhenEqual_ThrowsArgumentOutOfRangeException()
+    {
+        var value = new Person("John", 30);
+        var other = new Person("John", 30);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => Guard.NotEqual(value, other));
+    }
+
+    [Test]
+    public void NotEqual_WithCustomType_WhenDifferent_DoesNotThrow()
+    {
+        var value = new Person("John", 30);
+        var other = new Person("Jane", 25);
+
+        Assert.DoesNotThrow(() => Guard.NotEqual(value, other));
+    }
+
+    [Test]
+    public void NotEqual_WithNullableValueType_WhenBothHaveSameValue_ThrowsArgumentOutOfRangeException()
+    {
+        int? value = 42;
+        int? other = 42;
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => Guard.NotEqual(value, other));
+    }
+
+    [Test]
+    public void NotEqual_WithNullableValueType_WhenBothNull_ThrowsArgumentOutOfRangeException()
+    {
+        int? value = null;
+        int? other = null;
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => Guard.NotEqual(value, other));
+    }
+
+    [Test]
+    public void NotEqual_WithNullableValueType_WhenDifferent_DoesNotThrow()
+    {
+        Assert.DoesNotThrow(() => Guard.NotEqual((int?)42, (int?)10));
+        Assert.DoesNotThrow(() => Guard.NotEqual((int?)42, null));
+        Assert.DoesNotThrow(() => Guard.NotEqual(null, (int?)42));
+    }
+
+    [Test]
+    public void NotEqual_PreservesParameterName_WhenUsingCallerArgumentExpression()
+    {
+        var myVariable = 100;
+        var otherValue = 100;
+
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Guard.NotEqual(myVariable, otherValue))!;
+
+        Assert.That(exception.ParamName, Is.EqualTo("myVariable"));
+    }
+
+    [TestCase(0, 1)]
+    [TestCase(-5, 5)]
+    [TestCase(int.MaxValue, int.MinValue)]
+    public void NotEqual_WithDifferentIntegers_DoesNotThrow(int value, int other) =>
+        Assert.DoesNotThrow(() => Guard.NotEqual(value, other));
+
+    [TestCase(5, 5)]
+    [TestCase(0, 0)]
+    [TestCase(-10, -10)]
+    public void NotEqual_WithEqualIntegers_ThrowsArgumentOutOfRangeException(int value, int other) =>
+        Assert.Throws<ArgumentOutOfRangeException>(() => Guard.NotEqual(value, other));
+
+    private record Person(string Name, int Age) : IEquatable<Person>;
 }
