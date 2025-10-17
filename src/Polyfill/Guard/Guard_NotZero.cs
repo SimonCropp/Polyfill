@@ -38,7 +38,7 @@ static partial class Guard
     {
         if (value.CompareTo(default(T)) == 0)
         {
-            ThrowNegative(value, name);
+            ThrowZero(value, name);
         }
 
         return value;
