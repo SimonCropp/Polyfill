@@ -32,30 +32,18 @@ public class GuardTests
     [Test]
     public void NotNull()
     {
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNull(nullArray));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNull(nullString));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNull(nullObject));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNull(nullList));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNull(nullICollection));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNull(nullIList));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNull(nullIReadOnlyList));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNull(nullIReadOnlyCollection));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNull(nullEnumerable));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNull(nullDictionary));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNull(nullIDictionary));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNull(nullIReadOnlyDictionary));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNull(nullArray));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNull(nullString));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNull(nullObject));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNull(nullList));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNull(nullICollection));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNull(nullIList));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNull(nullIReadOnlyList));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNull(nullIReadOnlyCollection));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNull(nullEnumerable));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNull(nullDictionary));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNull(nullIDictionary));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNull(nullIReadOnlyDictionary));
         Guard.NotNull(nonEmptyArray);
         Guard.NotNull(nonEmptyEnumerable);
         Guard.NotNull("value");
@@ -66,59 +54,33 @@ public class GuardTests
     public void NotNullOrEmpty()
     {
 #if FeatureMemory
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrEmpty(Memory<char>.Empty));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty((Memory<char>?) null));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty((ReadOnlyMemory<char>?) null));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrEmpty(ReadOnlyMemory<char>.Empty));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrEmpty(Memory<char>.Empty));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrEmpty((Memory<char>?) null));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrEmpty((ReadOnlyMemory<char>?) null));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrEmpty(ReadOnlyMemory<char>.Empty));
 #endif
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrEmpty(emptyString));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrEmpty(emptyList));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrEmpty(emptyIList));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrEmpty(emptyICollection));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrEmpty(emptyIReadOnlyList));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrEmpty(emptyIReadOnlyCollection));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrEmpty(emptyArray));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrEmpty(emptyEnumerable));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrEmpty(emptyDictionary));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrEmpty(emptyIDictionary));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrEmpty(emptyIReadOnlyDictionary));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty(nullString));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty(nullList));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty(nullIList));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty(nullICollection));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty(nullIReadOnlyList));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty(nullIReadOnlyCollection));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty(nullArray));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty(nullEnumerable));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty(nullDictionary));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty(nullIDictionary));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrEmpty(nullIReadOnlyDictionary));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrEmpty(emptyString));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrEmpty(emptyList));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrEmpty(emptyIList));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrEmpty(emptyICollection));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrEmpty(emptyIReadOnlyList));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrEmpty(emptyIReadOnlyCollection));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrEmpty(emptyArray));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrEmpty(emptyEnumerable));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrEmpty(emptyDictionary));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrEmpty(emptyIDictionary));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrEmpty(emptyIReadOnlyDictionary));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrEmpty(nullString));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrEmpty(nullList));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrEmpty(nullIList));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrEmpty(nullICollection));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrEmpty(nullIReadOnlyList));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrEmpty(nullIReadOnlyCollection));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrEmpty(nullArray));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrEmpty(nullEnumerable));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrEmpty(nullDictionary));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrEmpty(nullIDictionary));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrEmpty(nullIReadOnlyDictionary));
         Guard.NotNullOrEmpty(nonEmptyArray);
         Guard.NotNullOrEmpty(nonEmptyEnumerable);
         Guard.NotNullOrEmpty("value");
@@ -128,20 +90,13 @@ public class GuardTests
     [Test]
     public void NotEmpty()
     {
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotEmpty(emptyString));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotEmpty(emptyList));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotEmpty(emptyIList));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotEmpty(emptyICollection));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotEmpty(emptyIReadOnlyList));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotEmpty(emptyIReadOnlyCollection));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotEmpty(emptyArray));
+        Assert.Throws<ArgumentException>(() => Guard.NotEmpty(emptyString));
+        Assert.Throws<ArgumentException>(() => Guard.NotEmpty(emptyList));
+        Assert.Throws<ArgumentException>(() => Guard.NotEmpty(emptyIList));
+        Assert.Throws<ArgumentException>(() => Guard.NotEmpty(emptyICollection));
+        Assert.Throws<ArgumentException>(() => Guard.NotEmpty(emptyIReadOnlyList));
+        Assert.Throws<ArgumentException>(() => Guard.NotEmpty(emptyIReadOnlyCollection));
+        Assert.Throws<ArgumentException>(() => Guard.NotEmpty(emptyArray));
 #if FeatureMemory
         Span<char> buffer = [];
         var spanCaught = false;
@@ -155,21 +110,14 @@ public class GuardTests
         }
 
         Assert.True(spanCaught);
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotEmpty(Memory<char>.Empty));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotEmpty(Span<char>.Empty));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotEmpty(ReadOnlyMemory<char>.Empty));
+        Assert.Throws<ArgumentException>(() => Guard.NotEmpty(Memory<char>.Empty));
+        Assert.Throws<ArgumentException>(() => Guard.NotEmpty(Span<char>.Empty));
+        Assert.Throws<ArgumentException>(() => Guard.NotEmpty(ReadOnlyMemory<char>.Empty));
 #endif
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotEmpty(emptyEnumerable));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotEmpty(emptyDictionary));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotEmpty(emptyIDictionary));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotEmpty(emptyIReadOnlyDictionary));
+        Assert.Throws<ArgumentException>(() => Guard.NotEmpty(emptyEnumerable));
+        Assert.Throws<ArgumentException>(() => Guard.NotEmpty(emptyDictionary));
+        Assert.Throws<ArgumentException>(() => Guard.NotEmpty(emptyIDictionary));
+        Assert.Throws<ArgumentException>(() => Guard.NotEmpty(emptyIReadOnlyDictionary));
         Guard.NotEmpty(nullString);
         Guard.NotEmpty(nullList);
         Guard.NotEmpty(nullIList);
@@ -189,10 +137,8 @@ public class GuardTests
     [Test]
     public void NotWhiteSpace()
     {
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotWhiteSpace(" \t"));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotWhiteSpace(string.Empty));
+        Assert.Throws<ArgumentException>(() => Guard.NotWhiteSpace(" \t"));
+        Assert.Throws<ArgumentException>(() => Guard.NotWhiteSpace(string.Empty));
 #if FeatureMemory
         Span<char> buffer = [];
         var spanCaught = false;
@@ -206,12 +152,9 @@ public class GuardTests
         }
 
         Assert.True(spanCaught);
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotWhiteSpace(Memory<char>.Empty));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotWhiteSpace(Span<char>.Empty));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotWhiteSpace(ReadOnlyMemory<char>.Empty));
+        Assert.Throws<ArgumentException>(() => Guard.NotWhiteSpace(Memory<char>.Empty));
+        Assert.Throws<ArgumentException>(() => Guard.NotWhiteSpace(Span<char>.Empty));
+        Assert.Throws<ArgumentException>(() => Guard.NotWhiteSpace(ReadOnlyMemory<char>.Empty));
         Guard.NotWhiteSpace((Memory<char>?) null!);
         Guard.NotWhiteSpace((ReadOnlyMemory<char>?) null!);
 #endif
@@ -224,22 +167,16 @@ public class GuardTests
     public void NotNullOrWhiteSpace()
     {
 #if FeatureMemory
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrWhiteSpace(Memory<char>.Empty));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrWhiteSpace((Memory<char>?) null));
-        Assert.Throws<ArgumentNullException>(
-            () => Guard.NotNullOrWhiteSpace((ReadOnlyMemory<char>?) null));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrWhiteSpace(ReadOnlyMemory<char>.Empty));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrWhiteSpace(Memory<char>.Empty));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrWhiteSpace((Memory<char>?) null));
+        Assert.Throws<ArgumentNullException>(() => Guard.NotNullOrWhiteSpace((ReadOnlyMemory<char>?) null));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrWhiteSpace(ReadOnlyMemory<char>.Empty));
 #endif
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrWhiteSpace(" \t"));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrWhiteSpace(" \t"));
         Assert.Throws<ArgumentNullException>(
             // ReSharper disable once RedundantCast
             () => Guard.NotNullOrWhiteSpace((string) null!));
-        Assert.Throws<ArgumentException>(
-            () => Guard.NotNullOrWhiteSpace(string.Empty));
+        Assert.Throws<ArgumentException>(() => Guard.NotNullOrWhiteSpace(string.Empty));
         Guard.NotNullOrWhiteSpace("value");
     }
 
@@ -336,8 +273,8 @@ public class GuardTests
     public void NotEqual_WithNullableValueType_WhenDifferent_DoesNotThrow()
     {
         Guard.NotEqual<int?>(42, 10);
-        Guard.NotEqual((int?)42, null);
-        Guard.NotEqual(null, (int?)42);
+        Guard.NotEqual((int?) 42, null);
+        Guard.NotEqual(null, (int?) 42);
     }
 
     [Test]
@@ -364,4 +301,31 @@ public class GuardTests
         Assert.Throws<ArgumentOutOfRangeException>(() => Guard.NotEqual(value, other));
 
     private record Person(string Name, int Age) : IEquatable<Person>;
+
+    #if NET10_0_OR_GREATER
+    public class User
+    {
+        int age;
+        string email;
+        decimal accountBalance;
+        string username;
+
+        public User(
+            string username,
+            string email,
+            int age,
+            decimal accountBalance)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(username);
+            ArgumentNullException.ThrowIfNull(email);
+
+            ArgumentOutOfRangeException.ThrowIfNegative(age);
+            ArgumentOutOfRangeException.ThrowIfNegative(accountBalance);
+            this.username = username;
+            this.age = age;
+            this.email = email;
+            this.accountBalance = accountBalance;
+        }
+    }
+#endif
 }
