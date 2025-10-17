@@ -17,6 +17,9 @@ using Diagnostics.CodeAnalysis;
     validOn: AttributeTargets.All,
     AllowMultiple = true,
     Inherited = false)]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 //Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.compilerfeaturerequiredattribute?view=net-10.0
 #if PolyPublic
 public

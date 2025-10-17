@@ -38,6 +38,7 @@ using System.Xml;
 using System.Xml.Linq;
 using MemoryStream = System.IO.MemoryStream;
 // ReSharper disable MethodHasAsyncOverload
+// ReSharper disable RedundantCast
 
 #pragma warning disable CS4014
 #pragma warning disable CA1416
@@ -156,48 +157,66 @@ class Consume
     {
     }
 
+    void GuidUsage()
+    {
+        var guid = Guid.CreateVersion7();
+        guid = Guid.CreateVersion7(timestamp: DateTimeOffset.UtcNow);
+        var result = Guid.TryParse(s: "", provider: null, result: out guid);
+#if FeatureMemory
+        ReadOnlySpan<byte> byteSpan = default;
+        result = Guid.TryParse(utf8Text: byteSpan, result: out guid);
+        guid = Guid.Parse(utf8Text: byteSpan);
+
+        Span<char> charSpan = default;
+        result = Guid.TryParse(input: charSpan, result: out guid);
+        result = Guid.TryParse(s: charSpan, provider: null, result: out guid);
+        result = Guid.TryParseExact(input: charSpan, format: charSpan, result: out guid);
+
+#endif
+    }
+
     void SHA256Usage()
     {
-        SHA256Polyfill.HashData((byte[])null!);
-        SHA256Polyfill.HashData((Stream)null!);
+        SHA256.HashData(source: (byte[]) null!);
+        SHA256.HashData(source: (Stream) null!);
 #if FeatureValueTask
-        SHA256Polyfill.HashDataAsync(null!, CancellationToken.None);
+        SHA256.HashDataAsync(source: null!, cancellationToken: CancellationToken.None);
 #endif
 #if FeatureMemory
         Span<byte> span = default;
         ReadOnlySpan<byte> readOnlySpan = default;
         Memory<byte> memory = default;
 
-        SHA256Polyfill.HashData((Stream)null!, span);
-        SHA256Polyfill.HashData(readOnlySpan);
-        SHA256Polyfill.HashData(readOnlySpan, span);
-        SHA256Polyfill.TryHashData(readOnlySpan, span, out _);
+        SHA256.HashData(source: (Stream) null!, destination: span);
+        SHA256.HashData(source: readOnlySpan);
+        SHA256.HashData(source: readOnlySpan, destination: span);
+        SHA256.TryHashData(source: readOnlySpan, destination: span, bytesWritten: out _);
 #if FeatureValueTask
-        SHA256Polyfill.HashDataAsync(null!, memory);
-        SHA256Polyfill.HashDataAsync(null!, memory, CancellationToken.None);
+        SHA256.HashDataAsync(source: null!, destination: memory);
+        SHA256.HashDataAsync(source: null!, destination: memory, cancellationToken: CancellationToken.None);
 #endif
 #endif
     }
 
     void SHA512Usage()
     {
-        SHA512Polyfill.HashData((byte[])null!);
-        SHA512Polyfill.HashData((Stream)null!);
+        SHA512.HashData(source: (byte[]) null!);
+        SHA512.HashData(source: (Stream) null!);
 #if FeatureValueTask
-        SHA512Polyfill.HashDataAsync(null!, CancellationToken.None);
+        SHA512.HashDataAsync(source: null!, cancellationToken: CancellationToken.None);
 #endif
 #if FeatureMemory
         Span<byte> span = default;
         ReadOnlySpan<byte> readOnlySpan = default;
         Memory<byte> memory = default;
 
-        SHA512Polyfill.HashData((Stream)null!, span);
-        SHA512Polyfill.HashData(readOnlySpan);
-        SHA512Polyfill.HashData(readOnlySpan, span);
-        SHA512Polyfill.TryHashData(readOnlySpan, span, out _);
+        SHA512.HashData((Stream) null!, destination: span);
+        SHA512.HashData(source: readOnlySpan);
+        SHA512.HashData(source: readOnlySpan, destination: span);
+        SHA512.TryHashData(source: readOnlySpan, destination: span, bytesWritten: out _);
 #if FeatureValueTask
-        SHA512Polyfill.HashDataAsync(null!, memory);
-        SHA512Polyfill.HashDataAsync(null!, memory, CancellationToken.None);
+        SHA512.HashDataAsync(source: null!, destination: memory);
+        SHA512.HashDataAsync(source: null!, destination: memory, cancellationToken: CancellationToken.None);
 #endif
 #endif
     }
@@ -213,7 +232,7 @@ class Consume
     class MyCollection(ReadOnlySpan<int> initValues)
     {
         int[] values = initValues.ToArray();
-        public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>)values).GetEnumerator();
+        public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>) values).GetEnumerator();
 
         public static MyCollection Create(ReadOnlySpan<int> values) => new(values);
     }
@@ -238,14 +257,14 @@ class Consume
 
     void Byte_Methods()
     {
-        BytePolyfill.TryParse("1", null, out _);
+        byte.TryParse(s: "1", provider: null, result: out _);
 #if FeatureMemory
-        BytePolyfill.TryParse("1"u8, null, out _);
-        BytePolyfill.TryParse(['1'], out _);
-        BytePolyfill.TryParse(['1'], null, out _);
-        BytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        BytePolyfill.TryParse("1"u8, out _);
-        BytePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        byte.TryParse(utf8Text: "1"u8, provider: null, result: out _);
+        byte.TryParse(s: ['1'], result: out _);
+        byte.TryParse(s: ['1'], provider: null, result: out _);
+        byte.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
+        byte.TryParse(utf8Text: "1"u8, result: out _);
+        byte.TryParse(s: ['1'], style: NumberStyles.Integer, provider: null, result: out _);
 #endif
     }
 
@@ -253,8 +272,12 @@ class Consume
     {
         var source = new CancellationTokenSource();
         var token = source.Token;
-        token.UnsafeRegister(_ => { }, null);
-        token.UnsafeRegister((_, _) => { }, null);
+        token.UnsafeRegister(_ =>
+        {
+        }, null);
+        token.UnsafeRegister((_, _) =>
+        {
+        }, null);
     }
 
     async Task CancellationTokenSource_Methods()
@@ -319,7 +342,7 @@ class Consume
 
     void Dictionary_Methods()
     {
-        var dictionary = new Dictionary<string, string?> { { "key", "value" } };
+        var dictionary = new Dictionary<string, string?> {{"key", "value"}};
         dictionary.GetValueOrDefault("key");
         dictionary.GetValueOrDefault("key", "default");
         dictionary.TryAdd("key", "value");
@@ -344,14 +367,14 @@ class Consume
 
     void Double_Methods()
     {
-        DoublePolyfill.TryParse("1", null, out _);
+        double.TryParse(s: "1", provider: null, result: out _);
 #if FeatureMemory
-        DoublePolyfill.TryParse("1"u8, null, out _);
-        DoublePolyfill.TryParse(['1'], out _);
-        DoublePolyfill.TryParse(['1'], null, out _);
-        DoublePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        DoublePolyfill.TryParse("1"u8, out _);
-        DoublePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        double.TryParse(utf8Text: "1"u8, provider: null, result: out _);
+        double.TryParse(s: ['1'], result: out _);
+        double.TryParse(s: ['1'], provider: null, result: out _);
+        double.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
+        double.TryParse(utf8Text: "1"u8, result: out _);
+        double.TryParse(s: ['1'], style: NumberStyles.Integer, provider: null, result: out _);
 #endif
     }
 
@@ -368,15 +391,15 @@ class Consume
         var sourceContent = "Test content";
         File.WriteAllText(TestFilePath, sourceContent);
 
-        var fileMode = FilePolyfill.GetUnixFileMode(TestFilePath);
+        var fileMode = File.GetUnixFileMode(TestFilePath);
 
         // Use the | bitwise OR operator to combine multiple file modes
-        FilePolyfill.SetUnixFileMode(TestFilePath, UnixFileMode.OtherRead | UnixFileMode.OtherWrite);
+        File.SetUnixFileMode(TestFilePath, UnixFileMode.OtherRead | UnixFileMode.OtherWrite);
     }
 
     void HashSet_Methods()
     {
-        var set = new HashSet<string> { "value" };
+        var set = new HashSet<string> {"value"};
         var found = set.TryGetValue("value", out var result);
         set.EnsureCapacity(1);
         set.TrimExcess(1);
@@ -384,7 +407,7 @@ class Consume
     }
 
 #if FeatureHttp
-    void HttpClient_Methods( HttpClient target)
+    void HttpClient_Methods(HttpClient target)
     {
         target.GetStreamAsync("", CancellationToken.None);
         target.GetStreamAsync(new Uri(""), CancellationToken.None);
@@ -442,14 +465,14 @@ class Consume
 
     void Int_Methods()
     {
-        IntPolyfill.TryParse("1", null, out _);
+        int.TryParse(s: "1", provider: null, result: out _);
 #if FeatureMemory
-        IntPolyfill.TryParse("1"u8, null, out _);
-        IntPolyfill.TryParse(['1'], out _);
-        IntPolyfill.TryParse(['1'], null, out _);
-        IntPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        IntPolyfill.TryParse("1"u8, out _);
-        IntPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        int.TryParse(utf8Text: "1"u8, provider: null, result: out _);
+        int.TryParse(s: ['1'], result: out _);
+        int.TryParse(s: ['1'], provider: null, result: out _);
+        int.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
+        int.TryParse(utf8Text: "1"u8, result: out _);
+        int.TryParse(s: ['1'], style: NumberStyles.Integer, provider: null, result: out _);
 #endif
     }
 
@@ -476,14 +499,14 @@ class Consume
 
     void Long_Methods()
     {
-        LongPolyfill.TryParse("1", null, out _);
+        long.TryParse(s: "1", provider: null, result: out _);
 #if FeatureMemory
-        LongPolyfill.TryParse("1"u8, null, out _);
-        LongPolyfill.TryParse(['1'], out _);
-        LongPolyfill.TryParse(['1'], null, out _);
-        LongPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        LongPolyfill.TryParse("1"u8, out _);
-        LongPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        long.TryParse(utf8Text: "1"u8, provider: null, result: out _);
+        long.TryParse(s: ['1'], result: out _);
+        long.TryParse(s: ['1'], provider: null, result: out _);
+        long.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
+        long.TryParse(utf8Text: "1"u8, result: out _);
+        long.TryParse(s: ['1'], style: NumberStyles.Integer, provider: null, result: out _);
 #endif
     }
 
@@ -492,39 +515,39 @@ class Consume
         var result = info.HasSameMetadataDefinitionAs(info);
     }
 
-    #if FeatureRuntimeInformation
+#if FeatureRuntimeInformation
     void OperatingSystem_Methods()
     {
-        var isOSPlatform = OperatingSystemPolyfill.IsOSPlatform("windows");
-        var isOSPlatformWindows10 = OperatingSystemPolyfill.IsOSPlatformVersionAtLeast("windows", 10, 0, 10240);
+        var isOSPlatform = OperatingSystem.IsOSPlatform("windows");
+        var isOSPlatformWindows10 = OperatingSystem.IsOSPlatformVersionAtLeast("windows", 10, 0, 10240);
 
-        var isWindows = OperatingSystemPolyfill.IsWindows();
-        var isWindows11 = OperatingSystemPolyfill.IsWindowsVersionAtLeast(10,0,22000);
+        var isWindows = OperatingSystem.IsWindows();
+        var isWindows11 = OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000);
 
-        var isMacOS = OperatingSystemPolyfill.IsMacOS();
-        var isMacOsSonoma = OperatingSystemPolyfill.IsMacOSVersionAtLeast(14);
-        var isMacCatalyst = OperatingSystemPolyfill.IsMacCatalyst();
-        var isMacCatalyst17 = OperatingSystemPolyfill.IsMacCatalystVersionAtLeast(17);
+        var isMacOS = OperatingSystem.IsMacOS();
+        var isMacOsSonoma = OperatingSystem.IsMacOSVersionAtLeast(14);
+        var isMacCatalyst = OperatingSystem.IsMacCatalyst();
+        var isMacCatalyst17 = OperatingSystem.IsMacCatalystVersionAtLeast(17);
 
-        var isLinux = OperatingSystemPolyfill.IsLinux();
+        var isLinux = OperatingSystem.IsLinux();
 
-        var isFreeBSD = OperatingSystemPolyfill.IsFreeBSD();
-        var isFreeBSD14 = OperatingSystemPolyfill.IsFreeBSDVersionAtLeast(14, 0);
+        var isFreeBSD = OperatingSystem.IsFreeBSD();
+        var isFreeBSD14 = OperatingSystem.IsFreeBSDVersionAtLeast(14, 0);
 
-        var isIOS = OperatingSystemPolyfill.IsIOS();
-        var isIOS18 = OperatingSystemPolyfill.IsIOSVersionAtLeast(18);
+        var isIOS = OperatingSystem.IsIOS();
+        var isIOS18 = OperatingSystem.IsIOSVersionAtLeast(18);
 
-        var isAndroid = OperatingSystemPolyfill.IsAndroid();
-        var isAndroid13 = OperatingSystemPolyfill.IsAndroidVersionAtLeast(13);
+        var isAndroid = OperatingSystem.IsAndroid();
+        var isAndroid13 = OperatingSystem.IsAndroidVersionAtLeast(13);
 
-        var isTvOS = OperatingSystemPolyfill.IsTvOS();
-        var isTvOS17 = OperatingSystemPolyfill.IsTvOSVersionAtLeast(17);
+        var isTvOS = OperatingSystem.IsTvOS();
+        var isTvOS17 = OperatingSystem.IsTvOSVersionAtLeast(17);
 
-        var isWatchOS = OperatingSystemPolyfill.IsWatchOS();
-        var isWatchOS11 = OperatingSystemPolyfill.IsWatchOSVersionAtLeast(11);
+        var isWatchOS = OperatingSystem.IsWatchOS();
+        var isWatchOS11 = OperatingSystem.IsWatchOSVersionAtLeast(11);
 
-        var isWasi = OperatingSystemPolyfill.IsWasi();
-        var isBrowser = OperatingSystemPolyfill.IsBrowser();
+        var isWasi = OperatingSystem.IsWasi();
+        var isBrowser = OperatingSystem.IsBrowser();
     }
 #endif
 
@@ -609,27 +632,27 @@ class Consume
 
     void SByte_Methods()
     {
-        SBytePolyfill.TryParse("1", null, out _);
+        sbyte.TryParse(s: "1", provider: null, result: out _);
 #if FeatureMemory
-        SBytePolyfill.TryParse("1"u8, null, out _);
-        SBytePolyfill.TryParse(['1'], out _);
-        SBytePolyfill.TryParse(['1'], null, out _);
-        SBytePolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        SBytePolyfill.TryParse("1"u8, out _);
-        SBytePolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        sbyte.TryParse("1"u8, provider: null, result: out _);
+        sbyte.TryParse(s: ['1'], result: out _);
+        sbyte.TryParse(s: ['1'], provider: null, result: out _);
+        sbyte.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
+        sbyte.TryParse(utf8Text: "1"u8, result: out _);
+        sbyte.TryParse(s: ['1'], style: NumberStyles.Integer, provider: null, result: out _);
 #endif
     }
 
     void Short_Methods()
     {
-        ShortPolyfill.TryParse("1", null, out _);
+        short.TryParse(s: "1", provider: null, result: out _);
 #if FeatureMemory
-        ShortPolyfill.TryParse("1"u8, null, out _);
-        ShortPolyfill.TryParse(['1'], out _);
-        ShortPolyfill.TryParse(['1'], null, out _);
-        ShortPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        ShortPolyfill.TryParse("1"u8, out _);
-        ShortPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        short.TryParse(utf8Text: "1"u8, provider: null, result: out _);
+        short.TryParse(s: ['1'], result: out _);
+        short.TryParse(s: ['1'], provider: null, result: out _);
+        short.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
+        short.TryParse(utf8Text: "1"u8, result: out _);
+        short.TryParse(s: ['1'], style: NumberStyles.Integer, provider: null, result: out _);
 #endif
     }
 
@@ -663,7 +686,7 @@ class Consume
 
     async Task Stream_Methods()
     {
-        var input = new byte[] { 1, 2 };
+        var input = new byte[] {1, 2};
         using var stream = new MemoryStream(input);
         var result = new byte[2];
 #if FeatureMemory
@@ -671,9 +694,9 @@ class Consume
         var read = await stream.ReadAsync(memory);
 #endif
         await stream.CopyToAsync(stream);
-        #if FeatureValueTask
+#if FeatureValueTask
         await stream.DisposeAsync();
-        #endif
+#endif
     }
 
     async Task StreamReader_Methods()
@@ -701,14 +724,14 @@ class Consume
         splitString = "a b".Split(" ", 2, StringSplitOptions.RemoveEmptyEntries);
     }
 
-    #if !NoStringInterpolation && FeatureMemory
+#if !NoStringInterpolation && FeatureMemory
     void DefaultInterpolatedStringHandler_Methods()
     {
         var handler = new DefaultInterpolatedStringHandler();
         handler.AppendLiteral("value");
         handler.Clear();
     }
-    #endif
+#endif
 
     void StringBuilder_Methods()
     {
@@ -778,57 +801,61 @@ class Consume
 
     void UInt_Methods()
     {
-        UIntPolyfill.TryParse("1", null, out _);
+        uint.TryParse(s: "1", provider: null, result: out _);
 #if FeatureMemory
-        UIntPolyfill.TryParse("1"u8, null, out _);
-        UIntPolyfill.TryParse(['1'], out _);
-        UIntPolyfill.TryParse(['1'], null, out _);
-        UIntPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        UIntPolyfill.TryParse("1"u8, out _);
-        UIntPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        uint.TryParse(utf8Text: "1"u8, provider: null, result: out _);
+        uint.TryParse(s: ['1'], result: out _);
+        uint.TryParse(s: ['1'], provider: null, result: out _);
+        uint.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
+        uint.TryParse(utf8Text: "1"u8, result: out _);
+        uint.TryParse(s: ['1'], style: NumberStyles.Integer, provider: null, result: out _);
 #endif
     }
 
     void ULong_Methods()
     {
-        ULongPolyfill.TryParse("1", null, out _);
+        ulong.TryParse(s: "1", provider: null, result: out _);
 #if FeatureMemory
-        ULongPolyfill.TryParse("1"u8, null, out _);
-        ULongPolyfill.TryParse(['1'], out _);
-        ULongPolyfill.TryParse(['1'], null, out _);
-        ULongPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        ULongPolyfill.TryParse("1"u8, out _);
-        ULongPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        ulong.TryParse(utf8Text: "1"u8, provider: null, result: out _);
+        ulong.TryParse(s: ['1'], result: out _);
+        ulong.TryParse(s: ['1'], provider: null, result: out _);
+        ulong.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
+        ulong.TryParse(utf8Text: "1"u8, result: out _);
+        ulong.TryParse(s: ['1'], style: NumberStyles.Integer, provider: null, result: out _);
 #endif
     }
 
     void UShort_Methods()
     {
-        UShortPolyfill.TryParse("1", null, out _);
+        ushort.TryParse(s: "1", provider: null, result: out _);
 #if FeatureMemory
-        UShortPolyfill.TryParse("1"u8, null, out _);
-        UShortPolyfill.TryParse(['1'], out _);
-        UShortPolyfill.TryParse(['1'], null, out _);
-        UShortPolyfill.TryParse("1"u8, NumberStyles.Integer, null, out _);
-        UShortPolyfill.TryParse("1"u8, out _);
-        UShortPolyfill.TryParse(['1'], NumberStyles.Integer, null, out _);
+        ushort.TryParse(utf8Text: "1"u8, provider: null, result: out _);
+        ushort.TryParse(s: ['1'], result: out _);
+        ushort.TryParse(s: ['1'], provider: null, result: out _);
+        ushort.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, null, result: out _);
+        ushort.TryParse(utf8Text: "1"u8, result: out _);
+        ushort.TryParse(s: ['1'], style: NumberStyles.Integer, null, result: out _);
 #endif
     }
 
-    void XDocument_Methods()
+    async Task XDocument_Methods(XDocument document)
     {
-        var document = new XDocument();
         document.SaveAsync(new XmlTextWriter(null!), CancellationToken.None);
         document.SaveAsync(new StringWriter(), SaveOptions.None, CancellationToken.None);
         document.SaveAsync(new MemoryStream(), SaveOptions.None, CancellationToken.None);
+        await XDocument.LoadAsync((Stream) null!, LoadOptions.None, CancellationToken.None);
+        await XDocument.LoadAsync((TextReader) null!, LoadOptions.None, CancellationToken.None);
+        await XDocument.LoadAsync((XmlReader) null!, LoadOptions.None, CancellationToken.None);
     }
 
-    void XElement_Methods()
+    async Task XElement_Methods(XElement element)
     {
-        XElement element = null!;
         element.SaveAsync(new XmlTextWriter(null!), CancellationToken.None);
         element.SaveAsync(new StringWriter(), SaveOptions.None, CancellationToken.None);
         element.SaveAsync(new MemoryStream(), SaveOptions.None, CancellationToken.None);
+        await XElement.LoadAsync((Stream) null!, LoadOptions.None, CancellationToken.None);
+        await XElement.LoadAsync((TextReader) null!, LoadOptions.None, CancellationToken.None);
+        await XElement.LoadAsync((XmlReader) null!, LoadOptions.None, CancellationToken.None);
     }
 
 #if FeatureCompression

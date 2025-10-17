@@ -17,6 +17,9 @@ using System.Diagnostics.CodeAnalysis;
 /// <seealso href="https://source.dot.net/#System.Private.CoreLib/src/libraries/System.Private.CoreLib/src/System/Diagnostics/UnreachableException.cs"/>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif

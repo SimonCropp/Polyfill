@@ -12,116 +12,132 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-
 static partial class Guard
 {
-    public static void NotEmpty(string? value, [CallerArgumentExpression("value")] string argumentName = "")
+    [return: NotNullIfNotNull(nameof(value))]
+    public static string? NotEmpty(string? value, [CallerArgumentExpression("value")] string name = "")
     {
         if (value is null)
         {
-            return;
+            return value;
         }
 
 #if NET7_0_OR_GREATER
-        ArgumentException.ThrowIfNullOrEmpty(value, argumentName);
+        ArgumentException.ThrowIfNullOrEmpty(value, name);
 #else
         if (value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
 #endif
+        return value;
     }
 
 #if FeatureMemory
 
-    public static void NotEmpty<T>(ReadOnlySpan<T> value, [CallerArgumentExpression("value")] string argumentName = "")
+    public static ReadOnlySpan<T> NotEmpty<T>(ReadOnlySpan<T> value, [CallerArgumentExpression("value")] string name = "")
     {
         if (value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
+
+        return value;
     }
 
-    public static void NotEmpty<T>(Span<T> value, [CallerArgumentExpression("value")] string argumentName = "")
+    public static Span<T> NotEmpty<T>(Span<T> value, [CallerArgumentExpression("value")] string name = "")
     {
         if (value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
+
+        return value;
     }
 
-    public static void NotEmpty<T>(Memory<T>? value, [CallerArgumentExpression("value")] string argumentName = "")
+    [return: NotNullIfNotNull(nameof(value))]
+    public static Memory<T>? NotEmpty<T>(Memory<T>? value, [CallerArgumentExpression("value")] string name = "")
     {
         if (value is null)
         {
-            return;
+            return value;
         }
 
         if (value.Value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
+
+        return value;
     }
 
-    public static void NotEmpty<T>(Memory<T> value, [CallerArgumentExpression("value")] string argumentName = "")
+    public static Memory<T> NotEmpty<T>(Memory<T> value, [CallerArgumentExpression("value")] string name = "")
     {
         if (value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
+
+        return value;
     }
 
-    public static void NotEmpty<T>(ReadOnlyMemory<T>? value, [CallerArgumentExpression("value")] string argumentName = "")
+    [return: NotNullIfNotNull(nameof(value))]
+    public static ReadOnlyMemory<T>? NotEmpty<T>(ReadOnlyMemory<T>? value, [CallerArgumentExpression("value")] string name = "")
     {
         if (value is null)
         {
-            return;
+            return value;
         }
 
         if (value.Value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
+
+        return value;
     }
 
-    public static void NotEmpty<T>(ReadOnlyMemory<T> value, [CallerArgumentExpression("value")] string argumentName = "")
+    public static ReadOnlyMemory<T> NotEmpty<T>(ReadOnlyMemory<T> value, [CallerArgumentExpression("value")] string name = "")
     {
         if (value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
+
+        return value;
     }
 
 #endif
 
-    public static void NotEmpty<T>(
-        [NotNull] T? value,
-        [CallerArgumentExpression("value")] string argumentName = "")
+    [return: NotNullIfNotNull(nameof(value))]
+    public static T? NotEmpty<T>(
+        T? value,
+        [CallerArgumentExpression("value")] string name = "")
         where T : IEnumerable
     {
         if (value is null)
         {
-            return;
+            return value;
         }
 
         if (value is ICollection<T> {Count: 0})
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
 
         if (value is ICollection {Count: 0})
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
 
         if (value is IReadOnlyCollection<T> {Count: 0})
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
 
         if (value is T[] {Length: 0})
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
 
         var enumerator = value.GetEnumerator();
@@ -129,7 +145,7 @@ static partial class Guard
         {
             if (!enumerator.MoveNext())
             {
-                throw new ArgumentException("Argument cannot be empty.", argumentName);
+                throw new ArgumentException("Argument cannot be empty.", name);
             }
         }
         finally
@@ -139,5 +155,7 @@ static partial class Guard
                 disposable.Dispose();
             }
         }
+
+        return value;
     }
 }

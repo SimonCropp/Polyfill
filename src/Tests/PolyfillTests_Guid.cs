@@ -5,7 +5,7 @@ partial class PolyfillTests
     [Test]
     public void GuidCreate7()
     {
-        var guid = GuidPolyfill.CreateVersion7();
+        var guid = Guid.CreateVersion7();
         Assert.IsTrue(guidV7Regex.IsMatch(guid.ToString()));
     }
 }

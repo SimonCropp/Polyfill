@@ -20,6 +20,9 @@ using Targets = AttributeTargets;
              Targets.Constructor |
              Targets.Class,
     Inherited = false)]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.requiresunreferencedcodeattribute
 #if PolyPublic
 public
@@ -32,6 +35,11 @@ sealed class RequiresUnreferencedCodeAttribute :
     /// </summary>
     public RequiresUnreferencedCodeAttribute(string message) =>
         Message = message;
+
+    /// <summary>
+    /// When set to true, indicates that the annotation should not apply to static members.
+    /// </summary>
+    public bool ExcludeStatics { get; set; }
 
     /// <summary>
     /// Gets a message that contains information about the usage of unreferenced code.

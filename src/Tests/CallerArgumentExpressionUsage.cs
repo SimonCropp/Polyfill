@@ -2,11 +2,11 @@
 
 static class FileUtil
 {
-    public static void FileExists(string path, [CallerArgumentExpression("path")] string argumentName = "")
+    public static void FileExists(string path, [CallerArgumentExpression("path")] string name = "")
     {
         if (!File.Exists(path))
         {
-            throw new ArgumentException($"File not found. Path: {path}", argumentName);
+            throw new ArgumentException($"File not found. Path: {path}", name);
         }
     }
 }
