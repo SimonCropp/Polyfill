@@ -318,7 +318,6 @@ public class GuardTests
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(username);
             ArgumentNullException.ThrowIfNull(email);
-
             ArgumentOutOfRangeException.ThrowIfNegative(age);
             ArgumentOutOfRangeException.ThrowIfNegative(accountBalance);
             this.username = username;
