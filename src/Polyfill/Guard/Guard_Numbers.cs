@@ -18,10 +18,6 @@ public
 static partial class Guard
 {
     [DoesNotReturn]
-    static void ThrowZero<T>(T value, string? paramName) =>
-        throw new ArgumentOutOfRangeException(paramName, value, string.Format("{0} ('{1}') must be a non-zero value.", paramName, value));
-
-    [DoesNotReturn]
     static void ThrowNegativeOrZero<T>(T value, string? paramName) =>
         throw new ArgumentOutOfRangeException(paramName, value, string.Format("{0} ('{1}') must be a non-negative and non-zero value.", paramName, value));
 
@@ -48,16 +44,6 @@ static partial class Guard
     [DoesNotReturn]
     static void ThrowNotEqual<T>(T value, T other, string? paramName) =>
         throw new ArgumentOutOfRangeException(paramName, value, string.Format("{0} ('{1}') must be equal to '{2}'.", paramName, (object?) value ?? "null", (object?) other ?? "null"));
-
-    /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
-    /// <param name="value">The argument to validate as non-zero.</param>
-    /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
-    public static void ThrowIfZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-        where T : INumberBase<T>
-    {
-        if (T.IsZero(value))
-            ThrowZero(value, paramName);
-    }
 
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is negative or zero.</summary>
     /// <param name="value">The argument to validate as non-zero or non-negative.</param>
