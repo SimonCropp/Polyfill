@@ -246,9 +246,9 @@ public class GuardTests
     [Test]
     public void NotEqual_WhenValuesAreDifferent_DoesNotThrow()
     {
-        Assert.DoesNotThrow(() => Guard.NotEqual(5, 10));
-        Assert.DoesNotThrow(() => Guard.NotEqual("hello", "world"));
-        Assert.DoesNotThrow(() => Guard.NotEqual(DateTime.Now, DateTime.MinValue));
+        Guard.NotEqual(5, 10);
+        Guard.NotEqual("hello", "world");
+        Guard.NotEqual(DateTime.Now, DateTime.MinValue);
     }
 
     [Test]
@@ -292,8 +292,8 @@ public class GuardTests
     public void NotEqual_WhenOneIsNull_DoesNotThrow()
     {
         // Arrange & Act & Assert
-        Assert.DoesNotThrow(() => Guard.NotEqual("value", null));
-        Assert.DoesNotThrow(() => Guard.NotEqual(null, "value"));
+        Guard.NotEqual("value", null);
+        Guard.NotEqual(null, "value");
     }
 
     [Test]
@@ -311,7 +311,7 @@ public class GuardTests
         var value = new Person("John", 30);
         var other = new Person("Jane", 25);
 
-        Assert.DoesNotThrow(() => Guard.NotEqual(value, other));
+        Guard.NotEqual(value, other);
     }
 
     [Test]
@@ -335,9 +335,9 @@ public class GuardTests
     [Test]
     public void NotEqual_WithNullableValueType_WhenDifferent_DoesNotThrow()
     {
-        Assert.DoesNotThrow(() => Guard.NotEqual<int?>(42, 10));
-        Assert.DoesNotThrow(() => Guard.NotEqual((int?)42, null));
-        Assert.DoesNotThrow(() => Guard.NotEqual(null, (int?)42));
+        Guard.NotEqual<int?>(42, 10);
+        Guard.NotEqual((int?)42, null);
+        Guard.NotEqual(null, (int?)42);
     }
 
     [Test]
@@ -355,7 +355,7 @@ public class GuardTests
     [TestCase(-5, 5)]
     [TestCase(int.MaxValue, int.MinValue)]
     public void NotEqual_WithDifferentIntegers_DoesNotThrow(int value, int other) =>
-        Assert.DoesNotThrow(() => Guard.NotEqual(value, other));
+        Guard.NotEqual(value, other);
 
     [TestCase(5, 5)]
     [TestCase(0, 0)]
