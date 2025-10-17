@@ -863,6 +863,7 @@
  * `void NotEmpty<T>(ReadOnlySpan<T>)`
  * `void NotEmpty<T>(Span<T>)`
  * `void NotEmpty<T>(T?) where T : IEnumerable`
+ * `void NotEqual<T>(T, T)`
  * `string NotNull(string?)`
  * `T NotNull<T>(T?) where T : class`
  * `Memory<char> NotNullOrEmpty(Memory<char>?)`
