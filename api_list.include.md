@@ -854,6 +854,7 @@
 #### Guard
 
  * `void DirectoryExists(string)`
+ * `T Equal<T>(T, T)`
  * `void FileExists(string)`
  * `string? NotEmpty(string?)`
  * `Memory<T>? NotEmpty<T>(Memory<T>?)`
@@ -864,6 +865,12 @@
  * `Span<T> NotEmpty<T>(Span<T>)`
  * `T? NotEmpty<T>(T?) where T : IEnumerable`
  * `T NotEqual<T>(T, T)`
+ * `T NotGreaterThan<T>(T, T) where T : IComparable<T>`
+ * `T NotGreaterThanOrEqual<T>(T, T) where T : IComparable<T>`
+ * `T NotLessThan<T>(T, T) where T : IComparable<T>`
+ * `T NotLessThanOrEqual<T>(T, T) where T : IComparable<T>`
+ * `T NotNegative<T>(T) where T : struct, IComparable<T>`
+ * `T NotNegativeOrZero<T>(T) where T : struct, IComparable<T>`
  * `string NotNull(string?)`
  * `T NotNull<T>(T?) where T : class`
  * `Memory<char> NotNullOrEmpty(Memory<char>?)`
@@ -878,6 +885,7 @@
  * `ReadOnlySpan<char> NotWhiteSpace(ReadOnlySpan<char>)`
  * `Span<char> NotWhiteSpace(Span<char>)`
  * `string? NotWhiteSpace(string?)`
+ * `T NotZero<T>(T) where T : struct, IComparable<T>`
 
 
 #### Lock

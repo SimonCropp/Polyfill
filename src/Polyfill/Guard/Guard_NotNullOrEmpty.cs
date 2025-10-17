@@ -16,20 +16,20 @@ static partial class Guard
 {
     public static string NotNullOrEmpty(
         [NotNull] string? value,
-        [CallerArgumentExpression("value")] string argumentName = "")
+        [CallerArgumentExpression("value")] string name = "")
     {
 #if NET7_0_OR_GREATER
-        ArgumentException.ThrowIfNullOrEmpty(value, argumentName);
+        ArgumentException.ThrowIfNullOrEmpty(value, name);
         return value;
 #else
         if (value is null)
         {
-            throw new ArgumentNullException(argumentName);
+            throw new ArgumentNullException(name);
         }
 
         if (value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
 
         return value;
@@ -38,12 +38,12 @@ static partial class Guard
 
     public static T NotNullOrEmpty<T>(
         [NotNull] T? value,
-        [CallerArgumentExpression("value")] string argumentName = "")
+        [CallerArgumentExpression("value")] string name = "")
         where T : IEnumerable
     {
         if (value is null)
         {
-            throw new ArgumentNullException(argumentName);
+            throw new ArgumentNullException(name);
         }
 
         NotEmpty(value);
@@ -55,7 +55,7 @@ static partial class Guard
 #if FeatureMemory
     public static Memory<char> NotNullOrEmpty(
         [NotNull] Memory<char>? value,
-        [CallerArgumentExpression("value")] string argumentName = "")
+        [CallerArgumentExpression("value")] string name = "")
     {
         if (value == null)
         {
@@ -64,7 +64,7 @@ static partial class Guard
 
         if (value.Value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
 
         foreach (var ch in value.Value.Span)
@@ -75,21 +75,21 @@ static partial class Guard
             }
         }
 
-        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+        throw new ArgumentException("Argument cannot be whitespace.", name);
     }
 
     public static ReadOnlyMemory<char> NotNullOrEmpty(
         [NotNull] ReadOnlyMemory<char>? value,
-        [CallerArgumentExpression("value")] string argumentName = "")
+        [CallerArgumentExpression("value")] string name = "")
     {
         if (value == null)
         {
-            throw new ArgumentNullException(argumentName);
+            throw new ArgumentNullException(name);
         }
 
         if (value.Value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
 
         foreach (var ch in value.Value.Span)

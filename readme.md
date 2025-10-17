@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 608**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 616**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -340,11 +340,11 @@ Reference: [CallerArgumentExpression](https://learn.microsoft.com/en-us/dotnet/c
 ```cs
 static class FileUtil
 {
-    public static void FileExists(string path, [CallerArgumentExpression("path")] string argumentName = "")
+    public static void FileExists(string path, [CallerArgumentExpression("path")] string name = "")
     {
         if (!File.Exists(path))
         {
-            throw new ArgumentException($"File not found. Path: {path}", argumentName);
+            throw new ArgumentException($"File not found. Path: {path}", name);
         }
     }
 }
@@ -1300,6 +1300,7 @@ The class `Polyfill` includes the following extension methods:
 #### Guard
 
  * `void DirectoryExists(string)`
+ * `T Equal<T>(T, T)`
  * `void FileExists(string)`
  * `string? NotEmpty(string?)`
  * `Memory<T>? NotEmpty<T>(Memory<T>?)`
@@ -1310,6 +1311,12 @@ The class `Polyfill` includes the following extension methods:
  * `Span<T> NotEmpty<T>(Span<T>)`
  * `T? NotEmpty<T>(T?) where T : IEnumerable`
  * `T NotEqual<T>(T, T)`
+ * `T NotGreaterThan<T>(T, T) where T : IComparable<T>`
+ * `T NotGreaterThanOrEqual<T>(T, T) where T : IComparable<T>`
+ * `T NotLessThan<T>(T, T) where T : IComparable<T>`
+ * `T NotLessThanOrEqual<T>(T, T) where T : IComparable<T>`
+ * `T NotNegative<T>(T) where T : struct, IComparable<T>`
+ * `T NotNegativeOrZero<T>(T) where T : struct, IComparable<T>`
  * `string NotNull(string?)`
  * `T NotNull<T>(T?) where T : class`
  * `Memory<char> NotNullOrEmpty(Memory<char>?)`
@@ -1324,6 +1331,7 @@ The class `Polyfill` includes the following extension methods:
  * `ReadOnlySpan<char> NotWhiteSpace(ReadOnlySpan<char>)`
  * `Span<char> NotWhiteSpace(Span<char>)`
  * `string? NotWhiteSpace(string?)`
+ * `T NotZero<T>(T) where T : struct, IComparable<T>`
 
 
 #### Lock
