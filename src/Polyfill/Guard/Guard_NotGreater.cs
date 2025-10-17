@@ -17,18 +17,18 @@ public
 
 static partial class Guard
 {
-    [DoesNotReturn]
-    static void ThrowGreater<T>(T value, T other, string? paramName) =>
-        throw new ArgumentOutOfRangeException(paramName, value, string.Format("{0} ('{1}') must be less than or equal to '{2}'.", paramName, value, other));
-
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than <paramref name="other"/>.</summary>
     /// <param name="value">The argument to validate as less or equal than <paramref name="other"/>.</param>
     /// <param name="other">The value to compare with <paramref name="value"/>.</param>
     /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
-    public static void ThrowIfGreaterThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+    public static T NotGreaterThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
         where T : IComparable<T>
     {
         if (value.CompareTo(other) > 0)
-            ThrowGreater(value, other, paramName);
+        {
+            throw new ArgumentOutOfRangeException(paramName, value, string.Format("{0} ('{1}') must be less than or equal to '{2}'.", paramName, value, other));
+        }
+
+        return value;
     }
 }

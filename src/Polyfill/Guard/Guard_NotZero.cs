@@ -24,10 +24,14 @@ static partial class Guard
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
     /// <param name="value">The argument to validate as non-zero.</param>
     /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
-    public static void ThrowIfZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+    public static T NotZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
         where T : INumberBase<T>
     {
         if (T.IsZero(value))
+        {
             ThrowZero(value, paramName);
+        }
+
+        return value;
     }
 }

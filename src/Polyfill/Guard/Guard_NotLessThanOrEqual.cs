@@ -25,10 +25,14 @@ static partial class Guard
     /// <param name="value">The argument to validate as greater than than <paramref name="other"/>.</param>
     /// <param name="other">The value to compare with <paramref name="value"/>.</param>
     /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
-    public static void ThrowIfLessThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+    public static T NotLessThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
         where T : IComparable<T>
     {
         if (value.CompareTo(other) <= 0)
+        {
             ThrowLessEqual(value, other, paramName);
+        }
+
+        return value;
     }
 }
