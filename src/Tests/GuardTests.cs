@@ -335,7 +335,7 @@ public class GuardTests
     [Test]
     public void NotEqual_WithNullableValueType_WhenDifferent_DoesNotThrow()
     {
-        Assert.DoesNotThrow(() => Guard.NotEqual((int?)42, (int?)10));
+        Assert.DoesNotThrow(() => Guard.NotEqual<int?>(42, 10));
         Assert.DoesNotThrow(() => Guard.NotEqual((int?)42, null));
         Assert.DoesNotThrow(() => Guard.NotEqual(null, (int?)42));
     }
