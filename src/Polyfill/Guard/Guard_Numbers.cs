@@ -18,10 +18,6 @@ public
 static partial class Guard
 {
     [DoesNotReturn]
-    static void ThrowGreaterEqual<T>(T value, T other, string? paramName) =>
-        throw new ArgumentOutOfRangeException(paramName, value, string.Format("{0} ('{1}') must be less than '{2}'.", paramName, value, other));
-
-    [DoesNotReturn]
     static void ThrowLess<T>(T value, T other, string? paramName) =>
         throw new ArgumentOutOfRangeException(paramName, value, string.Format("{0} ('{1}') must be greater than or equal to '{2}'.", paramName, value, other));
 
@@ -55,17 +51,6 @@ static partial class Guard
     {
         if (!EqualityComparer<T>.Default.Equals(value, other))
             ThrowNotEqual(value, other, paramName);
-    }
-
-    /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than or equal <paramref name="other"/>.</summary>
-    /// <param name="value">The argument to validate as less than <paramref name="other"/>.</param>
-    /// <param name="other">The value to compare with <paramref name="value"/>.</param>
-    /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
-    public static void ThrowIfGreaterThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-        where T : IComparable<T>
-    {
-        if (value.CompareTo(other) >= 0)
-            ThrowGreaterEqual(value, other, paramName);
     }
 
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than <paramref name="other"/>.</summary>
