@@ -71,6 +71,16 @@ static partial class Guard
         return value;
     }
 
+    public static Memory<T> NotEmpty<T>(Memory<T> value, [CallerArgumentExpression("value")] string argumentName = "")
+    {
+        if (value.Length == 0)
+        {
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
+        }
+
+        return value;
+    }
+
     [return: NotNullIfNotNull(nameof(value))]
     public static ReadOnlyMemory<T>? NotEmpty<T>(ReadOnlyMemory<T>? value, [CallerArgumentExpression("value")] string argumentName = "")
     {
@@ -83,6 +93,17 @@ static partial class Guard
         {
             throw new ArgumentException("Argument cannot be empty.", argumentName);
         }
+
+        return value;
+    }
+
+    public static ReadOnlyMemory<T> NotEmpty<T>(ReadOnlyMemory<T> value, [CallerArgumentExpression("value")] string argumentName = "")
+    {
+        if (value.Length == 0)
+        {
+            throw new ArgumentException("Argument cannot be empty.", argumentName);
+        }
+
         return value;
     }
 

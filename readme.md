@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 606**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 608**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -1301,14 +1301,15 @@ The class `Polyfill` includes the following extension methods:
 
  * `void DirectoryExists(string)`
  * `void FileExists(string)`
- * `void NotEmpty(string?)`
- * `void NotEmpty<T>(Memory<T>?)`
- * `void NotEmpty<T>(Memory<T>)`
- * `void NotEmpty<T>(ReadOnlyMemory<T>?)`
- * `void NotEmpty<T>(ReadOnlyMemory<T>)`
- * `void NotEmpty<T>(ReadOnlySpan<T>)`
- * `void NotEmpty<T>(Span<T>)`
- * `void NotEmpty<T>(T?) where T : IEnumerable`
+ * `string? NotEmpty(string?)`
+ * `Memory<T>? NotEmpty<T>(Memory<T>?)`
+ * `Memory<T> NotEmpty<T>(Memory<T>)`
+ * `ReadOnlyMemory<T>? NotEmpty<T>(ReadOnlyMemory<T>?)`
+ * `ReadOnlyMemory<T> NotEmpty<T>(ReadOnlyMemory<T>)`
+ * `ReadOnlySpan<T> NotEmpty<T>(ReadOnlySpan<T>)`
+ * `Span<T> NotEmpty<T>(Span<T>)`
+ * `T? NotEmpty<T>(T?) where T : IEnumerable`
+ * `T NotEqual<T>(T, T)`
  * `string NotNull(string?)`
  * `T NotNull<T>(T?) where T : class`
  * `Memory<char> NotNullOrEmpty(Memory<char>?)`
@@ -1318,11 +1319,11 @@ The class `Polyfill` includes the following extension methods:
  * `Memory<char> NotNullOrWhiteSpace(Memory<char>?)`
  * `ReadOnlyMemory<char> NotNullOrWhiteSpace(ReadOnlyMemory<char>?)`
  * `string NotNullOrWhiteSpace(string?)`
- * `void NotWhiteSpace(Memory<char>?)`
- * `void NotWhiteSpace(ReadOnlyMemory<char>?)`
- * `void NotWhiteSpace(ReadOnlySpan<char>)`
- * `void NotWhiteSpace(Span<char>)`
- * `void NotWhiteSpace(string?)`
+ * `Memory<char>? NotWhiteSpace(Memory<char>?)`
+ * `ReadOnlyMemory<char>? NotWhiteSpace(ReadOnlyMemory<char>?)`
+ * `ReadOnlySpan<char> NotWhiteSpace(ReadOnlySpan<char>)`
+ * `Span<char> NotWhiteSpace(Span<char>)`
+ * `string? NotWhiteSpace(string?)`
 
 
 #### Lock
