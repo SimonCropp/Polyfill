@@ -20,14 +20,14 @@ static partial class Guard
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is not equal to <paramref name="other"/>.</summary>
     /// <param name="value">The argument to validate as equal to <paramref name="other"/>.</param>
     /// <param name="other">The value to compare with <paramref name="value"/>.</param>
-    /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
-    public static T Equal<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+    /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
+    public static T Equal<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? name = null)
     {
-        if (!EqualityComparer<T>.Default.Equals(value, other))
+        if (EqualityComparer<T>.Default.Equals(value, other))
         {
-            throw new ArgumentOutOfRangeException(paramName, value, string.Format("{0} ('{1}') must be equal to '{2}'.", paramName, (object?) value ?? "null", (object?) other ?? "null"));
+            return value;
         }
 
-        return value;
+        throw new ArgumentOutOfRangeException(name, value, $"{name} ('{(object?) value ?? "null"}') must be equal to '{(object?) other ?? "null"}'.");
     }
 }

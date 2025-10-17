@@ -7,8 +7,6 @@ namespace Polyfills;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 #if PolyPublic
@@ -17,22 +15,18 @@ public
 
 static partial class Guard
 {
-    [DoesNotReturn]
-    static void ThrowLess<T>(T value, T other, string? paramName) =>
-        throw new ArgumentOutOfRangeException(paramName, value, string.Format("{0} ('{1}') must be greater than or equal to '{2}'.", paramName, value, other));
-
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than <paramref name="other"/>.</summary>
     /// <param name="value">The argument to validate as greater than or equal than <paramref name="other"/>.</param>
     /// <param name="other">The value to compare with <paramref name="value"/>.</param>
-    /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
-    public static T NotLessThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+    /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
+    public static T NotLessThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? name = null)
         where T : IComparable<T>
     {
-        if (value.CompareTo(other) < 0)
+        if (value.CompareTo(other) >= 0)
         {
-            ThrowLess(value, other, paramName);
+            return value;
         }
 
-        return value;
+        throw new ArgumentOutOfRangeException(name, value, $"{name} ('{value}') must be greater than or equal to '{other}'.");
     }
 }

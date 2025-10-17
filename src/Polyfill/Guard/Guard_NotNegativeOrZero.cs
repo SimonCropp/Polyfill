@@ -7,8 +7,6 @@ namespace Polyfills;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 #if PolyPublic
@@ -18,20 +16,32 @@ public
 static partial class Guard
 {
     [DoesNotReturn]
-    static void ThrowNegativeOrZero<T>(T value, string? paramName) =>
-        throw new ArgumentOutOfRangeException(paramName, value, string.Format("{0} ('{1}') must be a non-negative and non-zero value.", paramName, value));
+    static void ThrowNegativeOrZero<T>(T value, string? name) =>
+        throw new ArgumentOutOfRangeException(name, value, $"{name} ('{value}') must be a non-negative and non-zero value.");
 
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is negative or zero.</summary>
     /// <param name="value">The argument to validate as non-zero or non-negative.</param>
-    /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
-    public static void NotNegativeOrZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+    /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
+    public static T NotNegativeOrZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? name = null)
+#if NET7_0_OR_GREATER
         where T : INumberBase<T>
     {
         if (T.IsNegative(value) || T.IsZero(value))
         {
-            ThrowNegativeOrZero(value, paramName);
+            ThrowNegativeOrZero(value, name);
         }
 
         return value;
     }
+#else
+        where T : struct, IComparable<T>
+    {
+        if (value.CompareTo(default(T)) <= 0)
+        {
+            ThrowNegativeOrZero(value, name);
+        }
+
+        return value;
+    }
+#endif
 }

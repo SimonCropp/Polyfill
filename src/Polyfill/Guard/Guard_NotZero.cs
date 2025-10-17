@@ -7,8 +7,6 @@ namespace Polyfills;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 #if PolyPublic
@@ -18,20 +16,32 @@ public
 static partial class Guard
 {
     [DoesNotReturn]
-    static void ThrowZero<T>(T value, string? paramName) =>
-        throw new ArgumentOutOfRangeException(paramName, value, string.Format("{0} ('{1}') must be a non-zero value.", paramName, value));
+    static void ThrowZero<T>(T value, string? name) =>
+        throw new ArgumentOutOfRangeException(name, value, $"{name} ('{value}') must be a non-zero value.");
 
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
     /// <param name="value">The argument to validate as non-zero.</param>
-    /// <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
-    public static T NotZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+    /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
+    public static T NotZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? name = null)
+#if NET7_0_OR_GREATER
         where T : INumberBase<T>
     {
         if (T.IsZero(value))
         {
-            ThrowZero(value, paramName);
+            ThrowZero(value, name);
         }
 
         return value;
     }
+#else
+        where T : struct, IComparable<T>
+    {
+        if (value.CompareTo(default(T)) == 0)
+        {
+            ThrowNegative(value, name);
+        }
+
+        return value;
+    }
+#endif
 }
