@@ -18,7 +18,7 @@ static partial class Guard
     [return: NotNullIfNotNull(nameof(value))]
     public static string? NotWhiteSpace(
         string? value,
-        [CallerArgumentExpression("value")] string argumentName = "")
+        [CallerArgumentExpression("value")] string name = "")
     {
         if (value == null)
         {
@@ -26,13 +26,13 @@ static partial class Guard
         }
 
 #if NET8_0_OR_GREATER
-        ArgumentException.ThrowIfNullOrWhiteSpace(value, argumentName);
+        ArgumentException.ThrowIfNullOrWhiteSpace(value, name);
         return value;
 #else
 
         if (value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
 
         foreach (var ch in value)
@@ -43,18 +43,18 @@ static partial class Guard
             }
         }
 
-        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+        throw new ArgumentException("Argument cannot be whitespace.", name);
 #endif
     }
 #if FeatureMemory
 
     public static ReadOnlySpan<char> NotWhiteSpace(
         ReadOnlySpan<char> value,
-        [CallerArgumentExpression("value")] string argumentName = "")
+        [CallerArgumentExpression("value")] string name = "")
     {
         if (value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
 
         foreach (var ch in value)
@@ -65,13 +65,13 @@ static partial class Guard
             }
         }
 
-        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+        throw new ArgumentException("Argument cannot be whitespace.", name);
     }
 
     [return: NotNullIfNotNull(nameof(value))]
     public static Memory<char>? NotWhiteSpace(
         Memory<char>? value,
-        [CallerArgumentExpression("value")] string argumentName = "")
+        [CallerArgumentExpression("value")] string name = "")
     {
         if (value == null)
         {
@@ -80,7 +80,7 @@ static partial class Guard
 
         if (value.Value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
 
         foreach (var ch in value.Value.Span)
@@ -91,13 +91,13 @@ static partial class Guard
             }
         }
 
-        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+        throw new ArgumentException("Argument cannot be whitespace.", name);
     }
 
     [return: NotNullIfNotNull(nameof(value))]
     public static ReadOnlyMemory<char>? NotWhiteSpace(
         ReadOnlyMemory<char>? value,
-        [CallerArgumentExpression("value")] string argumentName = "")
+        [CallerArgumentExpression("value")] string name = "")
     {
         if (value == null)
         {
@@ -106,7 +106,7 @@ static partial class Guard
 
         if (value.Value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
 
         foreach (var ch in value.Value.Span)
@@ -117,16 +117,16 @@ static partial class Guard
             }
         }
 
-        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+        throw new ArgumentException("Argument cannot be whitespace.", name);
     }
 
     public static Span<char> NotWhiteSpace(
         Span<char> value,
-        [CallerArgumentExpression("value")] string argumentName = "")
+        [CallerArgumentExpression("value")] string name = "")
     {
         if (value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
 
         foreach (var ch in value)
@@ -137,7 +137,7 @@ static partial class Guard
             }
         }
 
-        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+        throw new ArgumentException("Argument cannot be whitespace.", name);
     }
 #endif
 }

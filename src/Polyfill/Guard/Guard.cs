@@ -22,21 +22,21 @@ public
 #endif
 static partial class Guard
 {
-    public static void FileExists(string path, [CallerArgumentExpression("path")] string argumentName = "")
+    public static void FileExists(string path, [CallerArgumentExpression("path")] string name = "")
     {
-        NotNullOrEmpty(path, argumentName);
+        NotNullOrEmpty(path, name);
         if (!File.Exists(path))
         {
-            throw new ArgumentException($"File not found. Path: {path}", argumentName);
+            throw new ArgumentException($"File not found. Path: {path}", name);
         }
     }
 
-    public static void DirectoryExists(string path, [CallerArgumentExpression("path")] string argumentName = "")
+    public static void DirectoryExists(string path, [CallerArgumentExpression("path")] string name = "")
     {
-        NotNullOrEmpty(path, argumentName);
+        NotNullOrEmpty(path, name);
         if (!Directory.Exists(path))
         {
-            throw new ArgumentException($"Directory not found. Path: {path}", argumentName);
+            throw new ArgumentException($"Directory not found. Path: {path}", name);
         }
     }
 }
