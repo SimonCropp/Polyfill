@@ -91,7 +91,7 @@ static partial class Guard
             }
         }
 
-        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+        throw new ArgumentException("Argument cannot be whitespace.", name);
     }
 #endif
 }

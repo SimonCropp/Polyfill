@@ -59,7 +59,7 @@ static partial class Guard
     {
         if (value == null)
         {
-            throw new ArgumentNullException(argumentName);
+            throw new ArgumentNullException(name);
         }
 
         if (value.Value.Length == 0)
@@ -100,7 +100,7 @@ static partial class Guard
             }
         }
 
-        throw new ArgumentException("Argument cannot be whitespace.", argumentName);
+        throw new ArgumentException("Argument cannot be whitespace.", name);
     }
 #endif
 }

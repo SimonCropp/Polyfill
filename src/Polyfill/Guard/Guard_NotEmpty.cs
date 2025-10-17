@@ -101,7 +101,7 @@ static partial class Guard
     {
         if (value.Length == 0)
         {
-            throw new ArgumentException("Argument cannot be empty.", argumentName);
+            throw new ArgumentException("Argument cannot be empty.", name);
         }
 
         return value;
