@@ -310,11 +310,7 @@ public class GuardTests
         decimal accountBalance;
         string username;
 
-        public User(
-            string username,
-            string email,
-            int age,
-            decimal accountBalance)
+        public User(string username, string email, int age, decimal accountBalance)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(username);
             ArgumentNullException.ThrowIfNull(email);
