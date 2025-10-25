@@ -18,9 +18,7 @@
     <File Path="Polyfill/Polyfill.targets" />
     <File Path="TestIncludes.targets" />
   </Folder>
-  <Project Path="ApiBuilderTests/ApiBuilderTests.csproj">
-    <Build Solution="Release|Any CPU" Project="false" />
-  </Project>
+  <Project Path="ApiBuilderTests/ApiBuilderTests.csproj" />
   <Project Path="Consume/Consume.csproj" />
   <Project Path="ConsumeBclMemory/ConsumeBclMemory.csproj" />
   <Project Path="ConsumeClassicReferences/ConsumeClassicReferences.csproj" />
@@ -31,14 +29,7 @@
   <Project Path="ConsumeCsLatestMajor/ConsumeCsLatestMajor.csproj" />
   <Project Path="ConsumeEmbeddedLib/ConsumeEmbeddedLib.csproj" />
   <Project Path="ConsumeIndirect/ConsumeIndirect.csproj" />
-  <Project Path="ConsumeLib/ConsumeLib.csproj">
-    <BuildType Solution="*|x64" Project="?" />
-    <BuildType Solution="*|x86" Project="?" />
-    <Platform Solution="*|x64" Project="?" />
-    <Platform Solution="*|x86" Project="?" />
-    <Build Solution="*|x64" Project="false" />
-    <Build Solution="*|x86" Project="false" />
-  </Project>
+  <Project Path="ConsumeLib/ConsumeLib.csproj" />
   <Project Path="ConsumeNoOptional/ConsumeNoOptional.csproj" />
   <Project Path="ConsumeNoRefs/ConsumeNoRefs.csproj" />
   <Project Path="ConsumeOnlyCompression/ConsumeOnlyCompression.csproj" />
@@ -51,9 +42,7 @@
   <Project Path="Polyfill/Polyfill.csproj" />
   <Project Path="PolyfillLib/PolyfillLib.csproj" />
   <Project Path="PublicTests/PublicTests.csproj" />
-  <Project Path="TargetFrameworkUsage/TargetFrameworkUsage.csproj">
-    <Build Solution="Release|Any CPU" Project="false" />
-  </Project>
+  <Project Path="TargetFrameworkUsage/TargetFrameworkUsage.csproj" />
   <Project Path="Tests/Tests.csproj">
     <BuildDependency Project="Consume/Consume.csproj" />
   </Project>
