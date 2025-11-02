@@ -60,7 +60,7 @@ public class BuildApiTest
 
         var staticTypeNames = staticFiles
             .Select(Path.GetFileNameWithoutExtension)
-            .Select(_ => _.TrimEnd("Polyfill").ToString());
+            .Select(_ => _![..^8].ToString());
 
         var typeNames = instanceTypeNames.Concat(staticTypeNames)
             .Distinct()
@@ -86,7 +86,7 @@ public class BuildApiTest
             }
 
             var staticExtension = staticFiles
-                .SingleOrDefault(_ => Path.GetFileNameWithoutExtension(_).TrimEnd("Polyfill").ToString() == name);
+                .SingleOrDefault(_ => Path.GetFileNameWithoutExtension(_)[..^8].ToString() == name);
             if (staticExtension != null)
             {
                 foreach (var method in ReadMethodsForFiles([staticExtension]).OrderBy(Key))
