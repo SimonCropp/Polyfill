@@ -24,7 +24,6 @@ static partial class XDocumentPolyfill
 {
     extension(XDocument)
     {
-
         /// <summary>
         /// Asynchronously creates a new XDocument and initializes its underlying XML tree using the specified stream, optionally preserving white space.
         /// </summary>
