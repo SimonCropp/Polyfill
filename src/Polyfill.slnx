@@ -18,7 +18,9 @@
     <File Path="Polyfill/Polyfill.targets" />
     <File Path="TestIncludes.targets" />
   </Folder>
-  <Project Path="ApiBuilderTests/ApiBuilderTests.csproj" />
+  <Project Path="ApiBuilderTests/ApiBuilderTests.csproj">
+    <Build Solution="Release|Any CPU" Project="false" />
+  </Project>
   <Project Path="Consume/Consume.csproj" />
   <Project Path="ConsumeBclMemory/ConsumeBclMemory.csproj" />
   <Project Path="ConsumeClassicReferences/ConsumeClassicReferences.csproj" />
