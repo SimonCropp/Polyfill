@@ -12,7 +12,7 @@ build_script:
       Invoke-WebRequest "https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.ps1" -OutFile "./dotnet-install.ps1"
       ./dotnet-install.ps1 -JSonFile src/global.json -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
       ./dotnet-install.ps1 -Version 5.0.408 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
-      ./dotnet-install.ps1 -Version 9.0.301 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
+      ./dotnet-install.ps1 -Version 9.0.306 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
       dotnet build src/Polyfill.slnx --configuration Release --verbosity quiet
       dotnet test src/Polyfill.slnx --configuration Release --no-build --no-restore
       # msbuild.exe src/PolyfillUwp.slnx /p:Configuration=Release -verbosity:quiet
