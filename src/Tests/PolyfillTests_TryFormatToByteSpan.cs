@@ -466,7 +466,7 @@ partial class PolyfillTests
     [Test]
     public void TryFormatDate_ToByteSpan()
     {
-        var value = new DateOnly(2001, 10, 1);
+        var value = new Date(2001, 10, 1);
         Span<byte> buffer = stackalloc byte[16];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.True(result);
@@ -477,7 +477,7 @@ partial class PolyfillTests
     [Test]
     public void TryFormatDateSmaller_ToByteSpan()
     {
-        var value = new DateOnly(2001, 10, 1);
+        var value = new Date(2001, 10, 1);
         Span<byte> buffer = stackalloc byte[20];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.True(result);
