@@ -13,6 +13,25 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task Task_WaitAsync_With_Cancellation_Timeout()
+    {
+        var tokenSource = new CancelSource(TimeSpan.FromMilliseconds(100));
+        var stopwatch = Stopwatch.StartNew();
+        try
+        {
+            await Task.Delay(200)
+                .WaitAsync(tokenSource.Token);
+        }
+        catch (TaskCanceledException exception)
+        {
+            stopwatch.Stop();
+            Assert.True(exception.CancellationToken == tokenSource.Token);
+        }
+
+        Assert.AreEqual(100, stopwatch.ElapsedMilliseconds, 50);
+    }
+
+    [Test]
     public void Task_WaitAsync_InvalidTimeout_Throws()
     {
         foreach (var timeout in new[] { TimeSpan.FromMilliseconds(-2), TimeSpan.MaxValue, TimeSpan.MinValue })

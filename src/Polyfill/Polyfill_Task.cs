@@ -38,7 +38,8 @@ static partial class Polyfill
             throw new ArgumentOutOfRangeException(nameof(timeout));
         }
 
-        if (target.IsCompleted || (!cancellationToken.CanBeCanceled && timeout == Timeout.InfiniteTimeSpan))
+        if (target.IsCompleted ||
+            (!cancellationToken.CanBeCanceled && timeout == Timeout.InfiniteTimeSpan))
         {
             return target;
         }
@@ -53,23 +54,64 @@ static partial class Polyfill
             return Task.FromException(new TimeoutException());
         }
 
-        var delayTask = Task.Delay(timeout, cancellationToken);
+        return WaitAsyncCore(target, timeout, cancellationToken);
+    }
 
-        Func<Task<Task>, Task> continueFunc = completedTask =>
+    static async Task WaitAsyncCore(Task task, TimeSpan timeout, CancellationToken cancelToken)
+    {
+        using var timeoutCancelSource = CreateTimeoutCancelSource(timeout, cancelToken, out var combinedToken);
+        var cancelSource = new TaskCompletionSource<bool>();
+
+        // Register for cancellation/timeout
+        using (combinedToken.Register(() => cancelSource.TrySetCanceled(combinedToken), useSynchronizationContext: false))
         {
-            if (cancellationToken.IsCancellationRequested)
+            var completedTask = await Task.WhenAny(task, cancelSource.Task).ConfigureAwait(false);
+
+            if (completedTask == task)
             {
-                throw new TaskCanceledException();
-            }
-            else if (completedTask.Result == delayTask)
-            {
-                throw new TimeoutException($"Execution did not complete within the time allotted {milliseconds} ms");
+                // Original task completed - propagate result/exception
+                await task.ConfigureAwait(false);
+                return;
             }
 
-            return target;
-        };
+            // Check if it was a timeout or cancellation
+            if (timeoutCancelSource != null &&
+                timeoutCancelSource.IsCancellationRequested &&
+                !cancelToken.IsCancellationRequested)
+            {
+                throw new TimeoutException();
+            }
 
-        return Task.WhenAny(target, delayTask).ContinueWith(continueFunc, TaskContinuationOptions.OnlyOnRanToCompletion);
+            // Propagate cancellation
+            await cancelSource.Task.ConfigureAwait(false);
+        }
+    }
+
+    static CancellationTokenSource CreateTimeoutCancelSource(
+        TimeSpan timeout,
+        CancellationToken cancelToken,
+        out CancellationToken combinedToken)
+    {
+        if (timeout == Timeout.InfiniteTimeSpan)
+        {
+            // No timeout - just use the provided cancellation token
+            combinedToken = cancelToken;
+            return null;
+        }
+
+        if (!cancelToken.CanBeCanceled)
+        {
+            // Only timeout matters
+            var cancelSource = new CancellationTokenSource(timeout);
+            combinedToken = cancelSource.Token;
+            return cancelSource;
+        }
+
+        // Both timeout and cancellation token matter - combine them
+        var timeoutCancelSource = CancellationTokenSource.CreateLinkedTokenSource(cancelToken);
+        timeoutCancelSource.CancelAfter(timeout);
+        combinedToken = timeoutCancelSource.Token;
+        return timeoutCancelSource;
     }
 
     /// <summary>
