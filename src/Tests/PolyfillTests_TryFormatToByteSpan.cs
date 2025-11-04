@@ -488,7 +488,7 @@ partial class PolyfillTests
     [Test]
     public void TryFormatDateLarger_ToByteSpan()
     {
-        var value = new DateOnly(2001, 10, 1);
+        var value = new Date(2001, 10, 1);
         Span<byte> buffer = stackalloc byte[15];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
         Assert.False(result);
