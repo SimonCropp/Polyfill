@@ -19,8 +19,7 @@ static partial class Polyfill
 
 #if !NET9_0_OR_GREATER && !NETFRAMEWORK && !NETSTANDARD2_0 && !NETCOREAPP2_0
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod?view=net-10.0#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-type())
-    [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)]
-    public static MethodInfo? GetMethod(this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types)
+    public static MethodInfo? GetMethod([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types)
     {
 #if NETFRAMEWORK || NETSTANDARD || NETCOREAPP
         return target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);
