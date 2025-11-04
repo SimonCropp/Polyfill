@@ -65,12 +65,12 @@ static partial class Polyfill
         // Register for cancellation/timeout
         using (combinedToken.Register(() => cancelSource.TrySetCanceled(combinedToken), useSynchronizationContext: false))
         {
-            var completedTask = await Task.WhenAny(task, cancelSource.Task).ConfigureAwait(false);
+            var completedTask = await Task.WhenAny(task, cancelSource.Task);
 
             if (completedTask == task)
             {
                 // Original task completed - propagate result/exception
-                await task.ConfigureAwait(false);
+                await task;
                 return;
             }
 
@@ -83,7 +83,7 @@ static partial class Polyfill
             }
 
             // Propagate cancellation
-            await cancelSource.Task.ConfigureAwait(false);
+            await cancelSource.Task;
         }
     }
 
