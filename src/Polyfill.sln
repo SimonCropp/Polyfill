@@ -72,6 +72,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolyfillLib", "PolyfillLib\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeLib", "ConsumeLib\ConsumeLib.csproj", "{FD473139-ACDA-4795-A829-31DA3B883063}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsumeTrimmed", "ConsumeTrimmed\ConsumeTrimmed.csproj", "{4BC31EB7-4545-4C96-B6B7-B94131BDD426}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -176,6 +178,10 @@ Global
 		{FD473139-ACDA-4795-A829-31DA3B883063}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD473139-ACDA-4795-A829-31DA3B883063}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD473139-ACDA-4795-A829-31DA3B883063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BC31EB7-4545-4C96-B6B7-B94131BDD426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BC31EB7-4545-4C96-B6B7-B94131BDD426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BC31EB7-4545-4C96-B6B7-B94131BDD426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BC31EB7-4545-4C96-B6B7-B94131BDD426}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
