@@ -14,6 +14,7 @@ build_script:
       ./dotnet-install.ps1 -Version 5.0.408 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
       ./dotnet-install.ps1 -Version 9.0.301 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
       dotnet build src/Polyfill.sln --configuration Release --verbosity quiet
+      dotnet build src/PolyfillTrimmed.slnf --target PublishAll --configuration Release
       dotnet test src/Polyfill.sln --configuration Release --no-build --no-restore
       msbuild.exe src/PolyfillUwp.sln /p:Configuration=Release -verbosity:quiet
     }
@@ -28,6 +29,7 @@ build_script:
         sudo ./dotnet-install.sh --jsonfile src/global.json --architecture x64 --install-dir '/usr/share/dotnet'
       }
       dotnet build src/Polyfill.sln --configuration Release --verbosity quiet
+      dotnet build src/PolyfillTrimmed.slnf --target PublishAll --configuration Release
       dotnet test src/Polyfill.sln --configuration Release --no-build --no-restore
     }
 
