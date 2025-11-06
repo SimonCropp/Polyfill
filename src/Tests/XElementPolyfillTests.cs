@@ -40,8 +40,8 @@ public class XElementPolyfillTests
     public async Task LoadAsync_Stream_CancellationRequested_Throws()
     {
         using var stream = new MemoryStream(Encoding.UTF8.GetBytes(XmlContent));
-        var tokenSource = new CancelSource();
-        tokenSource.Cancel();
+        var cancelSource = new CancelSource();
+        await cancelSource.CancelAsync();
         Exception? exception = null;
         try
         {
