@@ -45,7 +45,7 @@ public class XElementPolyfillTests
         Exception? exception = null;
         try
         {
-            await XElement.LoadAsync(stream, LoadOptions.None, tokenSource.Token);
+            await XElement.LoadAsync(stream, LoadOptions.None, cancelSource.Token);
         }
         catch (Exception e)
         {
