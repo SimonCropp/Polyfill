@@ -38,6 +38,7 @@
   <Project Path="ConsumeOnlyMemory/ConsumeOnlyMemory.csproj" />
   <Project Path="ConsumeOnlyTasks/ConsumeOnlyTasks.csproj" />
   <Project Path="ConsumeOnlyValueTuple/ConsumeOnlyValueTuple.csproj" />
+  <Project Path="ConsumeTrimmed\ConsumeTrimmed.csproj" />
   <Project Path="EmbeddedTests/EmbeddedTests.csproj" />
   <Project Path="NoExtrasTests/NoExtrasTests.csproj" />
   <Project Path="NoRefsTests/NoRefsTests.csproj" />
