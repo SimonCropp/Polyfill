@@ -1490,11 +1490,11 @@ Enable by adding an MSBuild property `PolyGuard`
 </PropertyGroup>
 ```
 
-`Guard` is designed to be a an alternative to the `ArgumentException.ThrowIf*` APIs added in net7.
+`Guard` is designed to be a an alternative to the `Argument*Exception.ThrowIf*` APIs added in net7.
 
- * `ArgumentException.ThrowIfNullOrEmpty` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentexception.throwifnullorempty)
- * `ArgumentException.ThrowIfNullOrWhiteSpace` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentexception.throwifnullorwhitespace)
- * `ArgumentNullException.ThrowIfNull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentnullexception.throwifnull)
+ * `ArgumentException.ThrowIf*` [reference](https://learn.microsoft.com/en-us/dotnet/api/?view=net-10.0&term=ArgumentException.ThrowIf)
+ * `ArgumentNullException.ThrowIf*` [reference](https://learn.microsoft.com/en-us/dotnet/api/?view=net-10.0&term=ArgumentNullException.ThrowIf)
+ * `ArgumentOutOfRangeException.ThrowIf*` [reference](https://learn.microsoft.com/en-us/dotnet/api/?view=net-10.0&term=ArgumentOutOfRangeException.ThrowIf)
 
 With the equivalent Guard APIs:
 
