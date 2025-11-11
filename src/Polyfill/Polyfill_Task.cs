@@ -27,49 +27,43 @@ static partial class Polyfill
 
     /// <summary>Gets a <see cref="Task"/> that will complete when this <see cref="Task"/> completes, when the specified timeout expires, or when the specified <see cref="CancellationToken"/> has cancellation requested.</summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-10.0#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)
-    public static Task WaitAsync(
+    public static async Task WaitAsync(
         this Task target,
         TimeSpan timeout,
         CancellationToken cancellationToken)
     {
-        var milliseconds = (long) timeout.TotalMilliseconds;
+        var milliseconds = (long)timeout.TotalMilliseconds;
         if (milliseconds is < -1 or > MaxSupportedTimeout)
         {
             throw new ArgumentOutOfRangeException(nameof(timeout));
         }
 
-        if (target.IsCompleted || (!cancellationToken.CanBeCanceled && timeout == Timeout.InfiniteTimeSpan))
-        {
-            return target;
-        }
-
-        if (cancellationToken.IsCancellationRequested)
-        {
-            return Task.FromCanceled(cancellationToken);
-        }
-
-        if (timeout == TimeSpan.Zero)
-        {
-            return Task.FromException(new TimeoutException());
-        }
-
-        var delayTask = Task.Delay(timeout, cancellationToken);
-
-        Func<Task<Task>, Task> continueFunc = completedTask =>
+        if (!target.IsCompleted)
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                throw new TaskCanceledException();
+                await Task.FromCanceled(cancellationToken);
             }
-            else if (completedTask.Result == delayTask)
+
+            using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+            cts.CancelAfter(timeout);
+
+            var cancellationTask = new TaskCompletionSource<bool>();
+            using var _ = cts.Token.Register(tcs => ((TaskCompletionSource<bool>)tcs!).TrySetResult(true), cancellationTask);
+            await Task.WhenAny(target, cancellationTask.Task).ConfigureAwait(false);
+
+            if (!target.IsCompleted)
             {
-                throw new TimeoutException($"Execution did not complete within the time allotted {milliseconds} ms");
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    await Task.FromCanceled(cancellationToken);
+                }
+
+                throw new TimeoutException();
             }
+        }
 
-            return target;
-        };
-
-        return Task.WhenAny(target, delayTask).ContinueWith(continueFunc, TaskContinuationOptions.OnlyOnRanToCompletion);
+        await target.ConfigureAwait(false);
     }
 
     /// <summary>
