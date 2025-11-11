@@ -55,24 +55,26 @@ static partial class Polyfill
             throw new TimeoutException();
         }
 
-        using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        cts.CancelAfter(timeout);
+        using CancellationTokenSource cancelSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        cancelSource.CancelAfter(timeout);
 
-        var cancellationTask = new TaskCompletionSource<bool>();
-        using var _ = cts.Token.Register(tcs => ((TaskCompletionSource<bool>)tcs!).TrySetResult(true), cancellationTask);
-        await Task.WhenAny(target, cancellationTask.Task).ConfigureAwait(false);
-
-        if (!target.IsCompleted)
+        var cancelTask = new TaskCompletionSource<bool>();
+        using (cancelSource.Token.Register(tcs => ((TaskCompletionSource<bool>)tcs!).TrySetResult(true), cancelTask))
         {
-            if (cancellationToken.IsCancellationRequested)
+            await Task.WhenAny(target, cancelTask.Task).ConfigureAwait(false);
+
+            if (!target.IsCompleted)
             {
-                await Task.FromCanceled(cancellationToken);
+                if (cancellationToken.IsCancellationRequested)
+                {
+                    await Task.FromCanceled(cancellationToken);
+                }
+
+                throw new TimeoutException();
             }
 
-            throw new TimeoutException();
+            await target.ConfigureAwait(false);
         }
-
-        await target.ConfigureAwait(false);
     }
 
     /// <summary>
