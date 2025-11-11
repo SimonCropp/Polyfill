@@ -1479,30 +1479,30 @@ public void Test()
    * Throws an exception if state is `NullabilityState.Unknown`.
 
 
-## Guard
+## Ensure
 
-Enable by adding an MSBuild property `PolyGuard`
+Enable by adding an MSBuild property `PolyEnsure`
 
 ```
 <PropertyGroup>
   ...
-  <PolyGuard>true</PolyGuard>
+  <PolyEnsure>true</PolyEnsure>
 </PropertyGroup>
 ```
 
-`Guard` is designed to be a an alternative to the `Argument*Exception.ThrowIf*` APIs added in net7.
+`Ensure` is designed to be a an alternative to the `Argument*Exception.ThrowIf*` APIs added in net7.
 
  * `ArgumentException.ThrowIf*` [reference](https://learn.microsoft.com/en-us/dotnet/api/?view=net-10.0&term=ArgumentException.ThrowIf)
  * `ArgumentNullException.ThrowIf*` [reference](https://learn.microsoft.com/en-us/dotnet/api/?view=net-10.0&term=ArgumentNullException.ThrowIf)
  * `ArgumentOutOfRangeException.ThrowIf*` [reference](https://learn.microsoft.com/en-us/dotnet/api/?view=net-10.0&term=ArgumentOutOfRangeException.ThrowIf)
 
-With the equivalent Guard APIs:
+With the equivalent Ensure APIs:
 
- * `Guard.NotNullOrEmpty`
- * `Guard.NotNullOrWhiteSpace`
- * `Guard.NotNull`
+ * `Ensure.NotNullOrEmpty`
+ * `Ensure.NotNullOrWhiteSpace`
+ * `Ensure.NotNull`
 
-`Polyfills.Guard` provides the following APIs:
+`Polyfills.Ensure` provides the following APIs:
 
 
 #### Guard<!-- include: api_guard. path: /api_guard.include.md -->

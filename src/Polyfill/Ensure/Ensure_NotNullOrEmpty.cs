@@ -5,23 +5,24 @@ namespace Polyfills;
 
 using System.Runtime.CompilerServices;
 using System;
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 
 #if PolyPublic
 public
 #endif
 
-static partial class Guard
+static partial class Ensure
 {
-    public static string NotNullOrWhiteSpace(
+    public static string NotNullOrEmpty(
         [NotNull] string? value,
         [CallerArgumentExpression("value")] string name = "")
     {
-#if NET8_0_OR_GREATER
-        ArgumentException.ThrowIfNullOrWhiteSpace(value, name);
+#if NET7_0_OR_GREATER
+        ArgumentException.ThrowIfNullOrEmpty(value, name);
         return value;
 #else
-        if (value == null)
+        if (value is null)
         {
             throw new ArgumentNullException(name);
         }
@@ -31,20 +32,28 @@ static partial class Guard
             throw new ArgumentException("Argument cannot be empty.", name);
         }
 
-        foreach (var ch in value)
-        {
-            if (!char.IsWhiteSpace(ch))
-            {
-                return value;
-            }
-        }
-
-        throw new ArgumentException("Argument cannot be whitespace.", name);
+        return value;
 #endif
     }
 
+    public static T NotNullOrEmpty<T>(
+        [NotNull] T? value,
+        [CallerArgumentExpression("value")] string name = "")
+        where T : IEnumerable
+    {
+        if (value is null)
+        {
+            throw new ArgumentNullException(name);
+        }
+
+        NotEmpty(value);
+
+        return value;
+    }
+
+
 #if FeatureMemory
-    public static Memory<char> NotNullOrWhiteSpace(
+    public static Memory<char> NotNullOrEmpty(
         [NotNull] Memory<char>? value,
         [CallerArgumentExpression("value")] string name = "")
     {
@@ -69,7 +78,7 @@ static partial class Guard
         throw new ArgumentException("Argument cannot be whitespace.", name);
     }
 
-    public static ReadOnlyMemory<char> NotNullOrWhiteSpace(
+    public static ReadOnlyMemory<char> NotNullOrEmpty(
         [NotNull] ReadOnlyMemory<char>? value,
         [CallerArgumentExpression("value")] string name = "")
     {

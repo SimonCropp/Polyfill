@@ -15,7 +15,7 @@
     <SuppressTfmSupportBuildErrors>true</SuppressTfmSupportBuildErrors>
     <ResolveAssemblyReferencesSilent>true</ResolveAssemblyReferencesSilent>
     <PolyNullability>true</PolyNullability>
-    <PolyGuard>true</PolyGuard>
+    <PolyEnsure>true</PolyEnsure>
     <PolyStringInterpolation>true</PolyStringInterpolation>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Nullable>enable</Nullable>

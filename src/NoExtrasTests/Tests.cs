@@ -2,8 +2,8 @@
 public class Tests
 {
     [Test]
-    public void NoGuard() =>
-        Assert.IsNull(GetType().Assembly.GetType("Polyfills.Guard"));
+    public void NoEnsure() =>
+        Assert.IsNull(GetType().Assembly.GetType("Polyfills.Ensure"));
 
     [Test]
     public void NoNullExtensions()

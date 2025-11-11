@@ -13,7 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 public
 #endif
 
-static partial class Guard
+static partial class Ensure
 {
     [DoesNotReturn]
     static void ThrowNegative<T>(T value, string? name) =>

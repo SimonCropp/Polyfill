@@ -13,7 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 public
 #endif
 
-static partial class Guard
+static partial class Ensure
 {
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than <paramref name="other"/>.</summary>
     /// <param name="value">The argument to validate as greater than or equal than <paramref name="other"/>.</param>

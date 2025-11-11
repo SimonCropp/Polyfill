@@ -13,7 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-static partial class Guard
+static partial class Ensure
 {
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is equal to <paramref name="other"/>.</summary>
     /// <param name="value">The argument to validate as not equal to <paramref name="other"/>.</param>
