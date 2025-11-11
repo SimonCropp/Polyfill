@@ -38,6 +38,30 @@ static partial class Polyfill
             throw new ArgumentOutOfRangeException(nameof(timeout));
         }
 
+        if (target.IsCompleted ||
+            (!cancellationToken.CanBeCanceled && timeout == Timeout.InfiniteTimeSpan))
+        {
+            await target.ConfigureAwait(false);
+            return;
+        }
+
+        if (cancellationToken.IsCancellationRequested)
+        {
+            await Task.FromCanceled(cancellationToken);
+        }
+
+        if (timeout == TimeSpan.Zero)
+        {
+            throw new TimeoutException();
+        }
+
+        using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        cts.CancelAfter(timeout);
+
+        var cancellationTask = new TaskCompletionSource<bool>();
+        using var _ = cts.Token.Register(tcs => ((TaskCompletionSource<bool>)tcs!).TrySetResult(true), cancellationTask);
+        await Task.WhenAny(target, cancellationTask.Task).ConfigureAwait(false);
+
         if (!target.IsCompleted)
         {
             if (cancellationToken.IsCancellationRequested)
@@ -45,22 +69,7 @@ static partial class Polyfill
                 await Task.FromCanceled(cancellationToken);
             }
 
-            using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-            cts.CancelAfter(timeout);
-
-            var cancellationTask = new TaskCompletionSource<bool>();
-            using var _ = cts.Token.Register(tcs => ((TaskCompletionSource<bool>)tcs!).TrySetResult(true), cancellationTask);
-            await Task.WhenAny(target, cancellationTask.Task).ConfigureAwait(false);
-
-            if (!target.IsCompleted)
-            {
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    await Task.FromCanceled(cancellationToken);
-                }
-
-                throw new TimeoutException();
-            }
+            throw new TimeoutException();
         }
 
         await target.ConfigureAwait(false);
