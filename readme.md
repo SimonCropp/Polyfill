@@ -1298,7 +1298,7 @@ The class `Polyfill` includes the following extension methods:
  * `ExternalAttributes` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.externalattributes?view=net-10.0)
 
 
-#### Guard
+#### Ensure
 
  * `void DirectoryExists(string)`
  * `T Equal<T>(T, T)`
