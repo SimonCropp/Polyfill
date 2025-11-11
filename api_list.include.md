@@ -857,6 +857,7 @@
  * `void DirectoryExists(string)`
  * `T Equal<T>(T, T)`
  * `void FileExists(string)`
+ * `void NoDuplicates<T>(IEnumerable<T>)`
  * `string? NotEmpty(string?)`
  * `Memory<T>? NotEmpty<T>(Memory<T>?)`
  * `Memory<T> NotEmpty<T>(Memory<T>)`
