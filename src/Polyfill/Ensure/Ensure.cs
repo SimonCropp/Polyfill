@@ -20,7 +20,7 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-static partial class Guard
+static partial class Ensure
 {
     public static void FileExists(string path, [CallerArgumentExpression("path")] string name = "")
     {

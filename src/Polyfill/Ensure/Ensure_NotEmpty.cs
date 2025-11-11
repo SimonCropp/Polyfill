@@ -12,7 +12,7 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-static partial class Guard
+static partial class Ensure
 {
     [return: NotNullIfNotNull(nameof(value))]
     public static string? NotEmpty(string? value, [CallerArgumentExpression("value")] string name = "")

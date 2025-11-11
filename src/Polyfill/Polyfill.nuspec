@@ -17,8 +17,8 @@
     <file src="../icon.png" target="icon.png" />
     <file src="*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/"/>
-    <file src="Guard\*.cs"
-          target="contentFiles/cs/netstandard2.0/Polyfill/Guard"/>
+    <file src="Ensure\*.cs"
+          target="contentFiles/cs/netstandard2.0/Polyfill/Ensure"/>
     <file src="Nullable\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/Nullable"/>
     <file src="Nullability\*.cs"

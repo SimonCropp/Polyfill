@@ -19,7 +19,7 @@ public class BuildApiTest
         var count = 0;
         count = WriteExtensions(writer, count);
 
-        WriteHelper("Guard*", writer, ref count);
+        WriteHelper("Ensure*", writer, ref count);
         WriteHelper("Lock", writer, ref count);
         WriteHelper(nameof(KeyValuePair), writer, ref count);
         WriteType(nameof(TaskCompletionSource), writer, ref count);

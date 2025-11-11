@@ -10,7 +10,7 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-static partial class Guard
+static partial class Ensure
 {
     public static T NotNull<T>(
         [NotNull] T? argument,
