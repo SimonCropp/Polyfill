@@ -13,6 +13,9 @@ using Runtime.CompilerServices;
 /// <summary>Represent a range has start and end indexes.</summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif

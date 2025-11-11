@@ -23,6 +23,9 @@ using Targets = AttributeTargets;
              Targets.Property,
     AllowMultiple = true,
     Inherited = false)]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif

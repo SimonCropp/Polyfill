@@ -11,6 +11,9 @@ using System.Diagnostics.CodeAnalysis;
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 // Provides the Create factory method for KeyValuePair<TKey, TValue>.
 // https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair?view=net-10.0
 #if PolyPublic

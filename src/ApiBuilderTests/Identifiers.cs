@@ -27,7 +27,7 @@ public class Identifiers
     [
         "FeatureMemory",
         "FeatureRuntimeInformation",
-        "PolyGuard",
+        "PolyEnsure",
         "PolyPublic",
         "FeatureHttp",
         "PolyNullability",

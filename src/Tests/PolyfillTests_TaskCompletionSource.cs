@@ -22,13 +22,13 @@ partial class PolyfillTests
     public async Task TaskCompletionSource_SetCanceled_WithCancellationToken()
     {
         var completionSource = new TaskCompletionSource<int>();
-        var tokenSource = new CancelSource();
+        var cancelSource = new CancelSource();
 
         // Simulate some background work that will cancel the task
         Task.Run(async () =>
         {
             await Task.Delay(20); // Simulate a delay
-            completionSource.SetCanceled(tokenSource.Token);
+            completionSource.SetCanceled(cancelSource.Token);
         });
 
         try

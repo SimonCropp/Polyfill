@@ -13,6 +13,9 @@ namespace System.IO;
 /// This enumeration supports a bitwise combination of its member values.
 /// </summary>
 [Flags]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif

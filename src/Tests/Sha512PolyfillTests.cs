@@ -1,4 +1,7 @@
 ﻿// ReSharper disable ReplaceSliceWithRangeIndexer
+
+using System.Security.Cryptography;
+
 #pragma warning disable IDE0057
 
 [TestFixture]
@@ -10,7 +13,7 @@ public class Sha512PolyfillTests
     [Test]
     public void HashData_ByteArray_ReturnsCorrectHash()
     {
-        var actualHash = SHA512Polyfill.HashData(data);
+        var actualHash = SHA512.HashData(data);
         Assert.AreEqual(expected, actualHash);
     }
 
@@ -21,7 +24,7 @@ public class Sha512PolyfillTests
 
         stream.Position = 0;
 
-        var actualHash = SHA512Polyfill.HashData(stream);
+        var actualHash = SHA512.HashData(stream);
         Assert.AreEqual(expected, actualHash);
     }
 
@@ -33,7 +36,7 @@ public class Sha512PolyfillTests
 
         stream.Position = 0;
 
-        var actualHash = await SHA512Polyfill.HashDataAsync(stream);
+        var actualHash = await SHA512.HashDataAsync(stream);
         Assert.AreEqual(expected, actualHash);
     }
 #endif
@@ -44,7 +47,7 @@ public class Sha512PolyfillTests
     {
         ReadOnlySpan<byte> span = data;
 
-        var actualHash = SHA512Polyfill.HashData(span);
+        var actualHash = SHA512.HashData(span);
         Assert.AreEqual(expected, actualHash);
     }
 
@@ -57,7 +60,7 @@ public class Sha512PolyfillTests
         stream.Position = 0;
         Memory<byte> destination = new byte[expected.Length];
 
-        var length = await SHA512Polyfill.HashDataAsync(stream, destination);
+        var length = await SHA512.HashDataAsync(stream, destination);
         Assert.AreEqual(expected.Length, length);
         Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Span));
     }
@@ -71,7 +74,7 @@ public class Sha512PolyfillTests
 
         stream.Position = 0;
 
-        var length = SHA512Polyfill.HashData(stream, destination);
+        var length = SHA512.HashData(stream, destination);
 
         Assert.AreEqual(expected.Length, length);
         Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)));
@@ -82,7 +85,7 @@ public class Sha512PolyfillTests
     {
         Span<byte> destination = stackalloc byte[expected.Length + 1];
 
-        var length = SHA512Polyfill.HashData(data, destination);
+        var length = SHA512.HashData(data, destination);
 
         Assert.AreEqual(expected.Length, length);
         Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)));
@@ -98,7 +101,7 @@ public class Sha512PolyfillTests
         var exception = Assert.Throws<ArgumentException>(() =>
         {
             Span<byte> destination = stackalloc byte[expected.Length - 1];
-            SHA512Polyfill.HashData(stream, destination);
+            SHA512.HashData(stream, destination);
         });
 
         Assert.True(exception!.Message.StartsWith("Destination is too short."));
@@ -110,19 +113,18 @@ public class Sha512PolyfillTests
         var exception = Assert.Throws<ArgumentException>(() =>
         {
             Span<byte> destination = stackalloc byte[expected.Length - 1];
-            SHA512Polyfill.HashData(data, destination);
+            SHA512.HashData(data, destination);
         });
 
         Assert.True(exception!.Message.StartsWith("Destination is too short."));
     }
-
 
     [Test]
     public void TryHashData_ValidInput_ReturnsTrueAndCorrectHash()
     {
         Span<byte> destination = stackalloc byte[expected.Length];
 
-        var result = SHA512Polyfill.TryHashData(data, destination, out var bytesWritten);
+        var result = SHA512.TryHashData(data, destination, out var bytesWritten);
 
         Assert.IsTrue(result);
         Assert.AreEqual(expected.Length, bytesWritten);
@@ -134,7 +136,7 @@ public class Sha512PolyfillTests
     {
         Span<byte> destination = stackalloc byte[expected.Length - 1];
 
-        var result = SHA512Polyfill.TryHashData(data, destination, out var bytesWritten);
+        var result = SHA512.TryHashData(data, destination, out var bytesWritten);
 
         Assert.IsFalse(result);
         Assert.AreEqual(0, bytesWritten);

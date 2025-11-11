@@ -20,6 +20,9 @@ using Targets = AttributeTargets;
              Targets.Constructor |
              Targets.Class,
     Inherited = false)]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif
@@ -32,6 +35,11 @@ sealed class RequiresDynamicCodeAttribute :
     /// </summary>
     public RequiresDynamicCodeAttribute(string message) =>
         Message = message;
+
+    /// <summary>
+    /// When set to true, indicates that the annotation should not apply to static members.
+    /// </summary>
+    public bool ExcludeStatics { get; set; }
 
     /// <summary>
     /// Gets a message that contains information about the usage of dynamic code.

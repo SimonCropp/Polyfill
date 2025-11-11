@@ -189,9 +189,9 @@ partial class PolyfillTests
     [Test]
     public void Zip3()
     {
-        var numbers = new List<int> { 1 };
-        var words = new List<string> { "one" };
-        var letters = new List<string> { "a" };
+        var numbers = new List<int> {1};
+        var words = new List<string> {"one"};
+        var letters = new List<string> {"a"};
 
         var result = numbers.Zip(words, letters).Single();
 
@@ -204,7 +204,7 @@ partial class PolyfillTests
     public void ElementAtIndex()
     {
 #pragma warning disable IDE0028
-        IEnumerable<int> list = new List<int> { 1, 2 };
+        IEnumerable<int> list = new List<int> {1, 2};
 #pragma warning restore IDE0028
 
         // ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
@@ -244,8 +244,8 @@ partial class PolyfillTests
     [Test]
     public void Zip2()
     {
-        var numbers = new List<int> { 1 };
-        var words = new List<string> { "one" };
+        var numbers = new List<int> {1};
+        var words = new List<string> {"one"};
 
         var result = numbers.Zip(words).Single();
 
@@ -260,10 +260,10 @@ partial class PolyfillTests
 
         var chunks = enumerable.Chunk(3).ToList();
 
-        Assert.AreEqual(new[] { 1, 2, 3 }, chunks[0]);
-        Assert.AreEqual(new[] { 4, 5, 6 }, chunks[1]);
-        Assert.AreEqual(new[] { 7, 8, 9 }, chunks[2]);
-        Assert.AreEqual(new[] { 10, 11 }, chunks[3]);
+        Assert.AreEqual(new[] {1, 2, 3}, chunks[0]);
+        Assert.AreEqual(new[] {4, 5, 6}, chunks[1]);
+        Assert.AreEqual(new[] {7, 8, 9}, chunks[2]);
+        Assert.AreEqual(new[] {10, 11}, chunks[3]);
     }
 
     [Test]
@@ -273,8 +273,8 @@ partial class PolyfillTests
 
         var chunks = enumerable.Chunk(8).ToList();
 
-        Assert.AreEqual(new[] { 1, 2, 3, 4, 5, 6, 7, 8 }, chunks[0]);
-        Assert.AreEqual(new[] { 9, 10, 11 }, chunks[1]);
+        Assert.AreEqual(new[] {1, 2, 3, 4, 5, 6, 7, 8}, chunks[0]);
+        Assert.AreEqual(new[] {9, 10, 11}, chunks[1]);
     }
 
     [Test]
@@ -284,6 +284,72 @@ partial class PolyfillTests
 
         Assert.Throws<ArgumentOutOfRangeException>(() => enumerable.Chunk(0).ToList());
     }
+
+#if NET7_0_OR_GREATER
+    [Test]
+    public void InfiniteSequence_StartsAtGivenValue()
+    {
+        var start = 10;
+        var step = 2;
+        var sequence = Enumerable.InfiniteSequence(start, step)
+            .Take(5)
+            .ToList();
+        Assert.AreEqual(start, sequence[0]);
+    }
+
+    [Test]
+    public void InfiniteSequence_IncrementsByStep()
+    {
+        var start = 1;
+        var step = 3;
+        var sequence = Enumerable.InfiniteSequence(start, step)
+            .Take(4)
+            .ToList();
+        Assert.AreEqual(new[] {1, 4, 7, 10}, sequence);
+    }
+
+    [Test]
+    public void InfiniteSequence_IsInfinite()
+    {
+        var start = 0;
+        var step = 1;
+        var sequence = Enumerable.InfiniteSequence(start, step);
+        // Only take first 100 elements to avoid infinite loop
+        Assert.AreEqual(100, sequence.Take(100).Count());
+    }
+
+    [Test]
+    public void Sequence_Increments_FromStartToEndInclusive()
+    {
+        var result = Enumerable.Sequence(1, 5, 1).ToList();
+        Assert.AreEqual(new[] {1, 2, 3, 4, 5}, result);
+    }
+
+    [Test]
+    public void Sequence_Decrements_FromStartToEndInclusive()
+    {
+        var result = Enumerable.Sequence(5, 1, -1).ToList();
+        Assert.AreEqual(new[] {5, 4, 3, 2, 1}, result);
+    }
+
+    [Test]
+    public void Sequence_SingleValue_WhenStartEqualsEnd()
+    {
+        var result = Enumerable.Sequence(3, 3, 1).ToList();
+        Assert.AreEqual(new[] {3}, result);
+    }
+
+    [Test]
+    public void Sequence_Throws_WhenStepPositiveAndEndLessThanStart() =>
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            Enumerable.Sequence(5, 1, 1).ToList());
+
+    [Test]
+    public void Sequence_Throws_WhenStepNegativeAndEndGreaterThanStart() =>
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+            Enumerable.Sequence(1, 5, -1).ToList());
+
+#endif
 
     [Test]
     public void IEnumerableUnionBy()

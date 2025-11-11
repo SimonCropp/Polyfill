@@ -1,4 +1,7 @@
 ﻿// ReSharper disable ReplaceSliceWithRangeIndexer
+
+using System.Security.Cryptography;
+
 #pragma warning disable IDE0057
 
 [TestFixture]
@@ -10,7 +13,7 @@ public class Sha256PolyfillTests
     [Test]
     public void HashData_ByteArray_ReturnsCorrectHash()
     {
-        var actualHash = SHA256Polyfill.HashData(data);
+        var actualHash = SHA256.HashData(data);
         Assert.AreEqual(expected, actualHash);
     }
 
@@ -21,7 +24,7 @@ public class Sha256PolyfillTests
 
         stream.Position = 0;
 
-        var actualHash = SHA256Polyfill.HashData(stream);
+        var actualHash = SHA256.HashData(stream);
         Assert.AreEqual(expected, actualHash);
     }
 
@@ -33,7 +36,7 @@ public class Sha256PolyfillTests
 
         stream.Position = 0;
 
-        var actualHash = await SHA256Polyfill.HashDataAsync(stream);
+        var actualHash = await SHA256.HashDataAsync(stream);
         Assert.AreEqual(expected, actualHash);
     }
 #endif
@@ -44,7 +47,7 @@ public class Sha256PolyfillTests
     {
         ReadOnlySpan<byte> span = data;
 
-        var actualHash = SHA256Polyfill.HashData(span);
+        var actualHash = SHA256.HashData(span);
         Assert.AreEqual(expected, actualHash);
     }
 
@@ -57,7 +60,7 @@ public class Sha256PolyfillTests
         stream.Position = 0;
         Memory<byte> destination = new byte[expected.Length];
 
-        var length = await SHA256Polyfill.HashDataAsync(stream, destination);
+        var length = await SHA256.HashDataAsync(stream, destination);
         Assert.AreEqual(expected.Length, length);
         Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Span));
     }
@@ -71,7 +74,7 @@ public class Sha256PolyfillTests
 
         stream.Position = 0;
 
-        var length = SHA256Polyfill.HashData(stream, destination);
+        var length = SHA256.HashData(stream, destination);
 
         Assert.AreEqual(expected.Length, length);
         Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)));
@@ -82,7 +85,7 @@ public class Sha256PolyfillTests
     {
         Span<byte> destination = stackalloc byte[expected.Length + 1];
 
-        var length = SHA256Polyfill.HashData(data, destination);
+        var length = SHA256.HashData(data, destination);
 
         Assert.AreEqual(expected.Length, length);
         Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)));
@@ -98,7 +101,7 @@ public class Sha256PolyfillTests
         var exception = Assert.Throws<ArgumentException>(() =>
         {
             Span<byte> destination = stackalloc byte[expected.Length - 1];
-            SHA256Polyfill.HashData(stream, destination);
+            SHA256.HashData(stream, destination);
         });
 
         Assert.True(exception!.Message.StartsWith("Destination is too short."));
@@ -110,7 +113,7 @@ public class Sha256PolyfillTests
         var exception = Assert.Throws<ArgumentException>(() =>
         {
             Span<byte> destination = stackalloc byte[expected.Length - 1];
-            SHA256Polyfill.HashData(data, destination);
+            SHA256.HashData(data, destination);
         });
 
         Assert.True(exception!.Message.StartsWith("Destination is too short."));
@@ -122,7 +125,7 @@ public class Sha256PolyfillTests
     {
         Span<byte> destination = stackalloc byte[expected.Length];
 
-        var result = SHA256Polyfill.TryHashData(data, destination, out var written);
+        var result = SHA256.TryHashData(data, destination, out var written);
 
         Assert.IsTrue(result);
         Assert.AreEqual(expected.Length, written);
@@ -134,7 +137,7 @@ public class Sha256PolyfillTests
     {
         Span<byte> destination = stackalloc byte[expected.Length - 1];
 
-        var result = SHA256Polyfill.TryHashData(data, destination, out var written);
+        var result = SHA256.TryHashData(data, destination, out var written);
 
         Assert.IsFalse(result);
         Assert.AreEqual(0, written);

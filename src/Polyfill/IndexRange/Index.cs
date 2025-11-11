@@ -13,6 +13,9 @@ using Runtime.CompilerServices;
 /// <summary>Represent a type can be used to index a collection either from the start or the end.</summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif

@@ -36,7 +36,7 @@ partial class PolyfillTests
     [Test]
     public void GetChunks()
     {
-        var builder = new StringBuilder("a",1);
+        var builder = new StringBuilder("a", 1);
         builder.Append("bb");
         var list = new List<string>();
         foreach (var chunk in builder.GetChunks())
@@ -98,15 +98,15 @@ partial class PolyfillTests
         string?[] span = ["value1", "value2"];
         builder.AppendJoin(",", span);
         Assert();
-        builder.AppendJoin(",", new object[]{"value1", "value2"});
+        builder.AppendJoin(",", new object[] {"value1", "value2"});
         Assert();
         builder.AppendJoin(',', span);
         Assert();
-        builder.AppendJoin(',', new object[]{"value1", "value2"});
+        builder.AppendJoin(',', new object[] {"value1", "value2"});
         Assert();
-        builder.AppendJoin(",", new object[]{"value1", "value2"}.Select(_=>_));
+        builder.AppendJoin(",", new object[] {"value1", "value2"}.Select(_ => _));
         Assert();
-        builder.AppendJoin(',', new object[]{"value1", "value2"}.Select(_=>_));
+        builder.AppendJoin(',', new object[] {"value1", "value2"}.Select(_ => _));
         Assert();
         // ReSharper disable once RedundantExplicitParamsArrayCreation
         builder.AppendJoin<string>(',', ["value1", "value2"]);

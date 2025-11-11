@@ -20,6 +20,13 @@
                         _.IsPublic() &&
                         !_.IsConstructor());
 
+    public static IEnumerable<Property> PublicProperties(this Type type) =>
+        type
+            .DescendantNodes()
+            .OfType<Property>()
+            .Where(_ => _.Parent == type &&
+                        _.IsPublic());
+
     public static bool IsConstructor(this Method method)
     {
         if (method.Parent is Type type)

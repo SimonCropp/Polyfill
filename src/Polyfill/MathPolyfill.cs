@@ -4,391 +4,339 @@
 namespace Polyfills;
 
 using System;
-using System.Runtime.CompilerServices;
-using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyPublic
-public
-#endif
-static class MathPolyfill
+static partial class Polyfill
 {
-    /// <summary>
-    /// Returns value clamped to the inclusive range of min and max.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float Clamp(float value, float min, float max)
+    extension(Math)
     {
 #if !NET6_0_OR_GREATER
-        if (min > max)
+
+        /// <summary>
+        /// Returns value clamped to the inclusive range of min and max.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static float Clamp(float value, float min, float max)
         {
-            throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            if (min > max)
+            {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
         }
 
-        if (value < min)
+        /// <summary>
+        /// Returns value clamped to the inclusive range of min and max.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static nuint Clamp(nuint value, nuint min, nuint max)
         {
-            return min;
+            if (min > max)
+            {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
         }
 
-        if (value > max)
+        /// <summary>
+        /// Returns value clamped to the inclusive range of min and max.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong Clamp(ulong value, ulong min, ulong max)
         {
-            return max;
+            if (min > max)
+            {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
         }
 
-        return value;
-#else
-        return Math.Clamp(value, min, max);
-#endif
-    }
-
-    /// <summary>
-    /// Returns value clamped to the inclusive range of min and max.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static nuint Clamp(nuint value, nuint min, nuint max)
-    {
-#if !NET6_0_OR_GREATER
-        if (min > max)
+        /// <summary>
+        /// Returns value clamped to the inclusive range of min and max.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint Clamp(uint value, uint min, uint max)
         {
-            throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            if (min > max)
+            {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
         }
 
-        if (value < min)
+        /// <summary>
+        /// Returns value clamped to the inclusive range of min and max.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ushort Clamp(ushort value, ushort min, ushort max)
         {
-            return min;
+            if (min > max)
+            {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
         }
 
-        if (value > max)
+        /// <summary>
+        /// Returns value clamped to the inclusive range of min and max.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static sbyte Clamp(sbyte value, sbyte min, sbyte max)
         {
-            return max;
+            if (min > max)
+            {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
         }
 
-        return value;
-#else
-        return Math.Clamp(value, min, max);
-#endif
-    }
-
-    /// <summary>
-    /// Returns value clamped to the inclusive range of min and max.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ulong Clamp(ulong value, ulong min, ulong max)
-    {
-#if !NET6_0_OR_GREATER
-        if (min > max)
+        /// <summary>
+        /// Returns value clamped to the inclusive range of min and max.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Clamp(int value, int min, int max)
         {
-            throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            if (min > max)
+            {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
         }
 
-        if (value < min)
+        /// <summary>
+        /// Returns value clamped to the inclusive range of min and max.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static long Clamp(long value, long min, long max)
         {
-            return min;
+            if (min > max)
+            {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
         }
 
-        if (value > max)
+        /// <summary>
+        /// Returns value clamped to the inclusive range of min and max.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static short Clamp(short value, short min, short max)
         {
-            return max;
+            if (min > max)
+            {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
         }
 
-        return value;
-#else
-        return Math.Clamp(value, min, max);
-#endif
-    }
-
-    /// <summary>
-    /// Returns value clamped to the inclusive range of min and max.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static uint Clamp(uint value, uint min, uint max)
-    {
-#if !NET6_0_OR_GREATER
-        if (min > max)
+        /// <summary>
+        /// Returns value clamped to the inclusive range of min and max.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double Clamp(double value, double min, double max)
         {
-            throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            if (min > max)
+            {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
         }
 
-        if (value < min)
+        /// <summary>
+        /// Returns value clamped to the inclusive range of min and max.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static decimal Clamp(decimal value, decimal min, decimal max)
         {
-            return min;
+            if (min > max)
+            {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
         }
 
-        if (value > max)
+        /// <summary>
+        /// Returns value clamped to the inclusive range of min and max.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static byte Clamp(byte value, byte min, byte max)
         {
-            return max;
+            if (min > max)
+            {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
         }
 
-        return value;
-#else
-        return Math.Clamp(value, min, max);
-#endif
-    }
-
-    /// <summary>
-    /// Returns value clamped to the inclusive range of min and max.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ushort Clamp(ushort value, ushort min, ushort max)
-    {
-#if !NET6_0_OR_GREATER
-        if (min > max)
+        /// <summary>
+        /// Returns value clamped to the inclusive range of min and max.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static nint Clamp(nint value, nint min, nint max)
         {
-            throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            if (min > max)
+            {
+                throw new ArgumentException($"'{min}' cannot be greater than {max}.");
+            }
+
+            if (value < min)
+            {
+                return min;
+            }
+
+            if (value > max)
+            {
+                return max;
+            }
+
+            return value;
         }
 
-        if (value < min)
-        {
-            return min;
-        }
-
-        if (value > max)
-        {
-            return max;
-        }
-
-        return value;
-#else
-        return Math.Clamp(value, min, max);
-#endif
-    }
-
-    /// <summary>
-    /// Returns value clamped to the inclusive range of min and max.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static sbyte Clamp(sbyte value, sbyte min, sbyte max)
-    {
-#if !NET6_0_OR_GREATER
-        if (min > max)
-        {
-            throw new ArgumentException($"'{min}' cannot be greater than {max}.");
-        }
-
-        if (value < min)
-        {
-            return min;
-        }
-
-        if (value > max)
-        {
-            return max;
-        }
-
-        return value;
-#else
-        return Math.Clamp(value, min, max);
-#endif
-    }
-
-    /// <summary>
-    /// Returns value clamped to the inclusive range of min and max.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Clamp(int value, int min, int max)
-    {
-#if !NET6_0_OR_GREATER
-        if (min > max)
-        {
-            throw new ArgumentException($"'{min}' cannot be greater than {max}.");
-        }
-
-        if (value < min)
-        {
-            return min;
-        }
-
-        if (value > max)
-        {
-            return max;
-        }
-
-        return value;
-#else
-        return Math.Clamp(value, min, max);
-#endif
-    }
-
-    /// <summary>
-    /// Returns value clamped to the inclusive range of min and max.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static long Clamp(long value, long min, long max)
-    {
-#if !NET6_0_OR_GREATER
-        if (min > max)
-        {
-            throw new ArgumentException($"'{min}' cannot be greater than {max}.");
-        }
-
-        if (value < min)
-        {
-            return min;
-        }
-
-        if (value > max)
-        {
-            return max;
-        }
-
-        return value;
-#else
-        return Math.Clamp(value, min, max);
-#endif
-    }
-
-    /// <summary>
-    /// Returns value clamped to the inclusive range of min and max.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static short Clamp(short value, short min, short max)
-    {
-#if !NET6_0_OR_GREATER
-        if (min > max)
-        {
-            throw new ArgumentException($"'{min}' cannot be greater than {max}.");
-        }
-
-        if (value < min)
-        {
-            return min;
-        }
-
-        if (value > max)
-        {
-            return max;
-        }
-
-        return value;
-#else
-        return Math.Clamp(value, min, max);
-#endif
-    }
-
-    /// <summary>
-    /// Returns value clamped to the inclusive range of min and max.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double Clamp(double value, double min, double max)
-    {
-#if !NET6_0_OR_GREATER
-        if (min > max)
-        {
-            throw new ArgumentException($"'{min}' cannot be greater than {max}.");
-        }
-
-        if (value < min)
-        {
-            return min;
-        }
-
-        if (value > max)
-        {
-            return max;
-        }
-
-        return value;
-#else
-        return Math.Clamp(value, min, max);
-#endif
-    }
-
-    /// <summary>
-    /// Returns value clamped to the inclusive range of min and max.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static decimal Clamp(decimal value, decimal min, decimal max)
-    {
-#if !NET6_0_OR_GREATER
-        if (min > max)
-        {
-            throw new ArgumentException($"'{min}' cannot be greater than {max}.");
-        }
-
-        if (value < min)
-        {
-            return min;
-        }
-
-        if (value > max)
-        {
-            return max;
-        }
-
-        return value;
-#else
-        return Math.Clamp(value, min, max);
-#endif
-    }
-
-    /// <summary>
-    /// Returns value clamped to the inclusive range of min and max.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static byte Clamp(byte value, byte min, byte max)
-    {
-#if !NET6_0_OR_GREATER
-        if (min > max)
-        {
-            throw new ArgumentException($"'{min}' cannot be greater than {max}.");
-        }
-
-        if (value < min)
-        {
-            return min;
-        }
-
-        if (value > max)
-        {
-            return max;
-        }
-
-        return value;
-#else
-        return Math.Clamp(value, min, max);
-#endif
-    }
-
-    /// <summary>
-    /// Returns value clamped to the inclusive range of min and max.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static nint Clamp(nint value, nint min, nint max)
-    {
-#if !NET6_0_OR_GREATER
-        if (min > max)
-        {
-            throw new ArgumentException($"'{min}' cannot be greater than {max}.");
-        }
-
-        if (value < min)
-        {
-            return min;
-        }
-
-        if (value > max)
-        {
-            return max;
-        }
-
-        return value;
-#else
-        return Math.Clamp(value, min, max);
 #endif
     }
 }

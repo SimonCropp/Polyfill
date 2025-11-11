@@ -1,6 +1,6 @@
 ﻿{
   "solution": {
-    "path": "Polyfill.sln",
+    "path": "Polyfill.slnx",
     "projects": [
       "ConsumeTrimmed\\ConsumeTrimmed.csproj"
     ]

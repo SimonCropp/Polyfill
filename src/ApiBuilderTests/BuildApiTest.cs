@@ -13,40 +13,19 @@ public class BuildApiTest
     [Test]
     public void RunWithRoslyn()
     {
-        var types = ReadFiles();
-
         var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
         using var writer = File.CreateText(md);
         var count = 0;
+        count = WriteExtensions(writer, count);
 
-        var extensions = types["Polyfill"];
-        writer.WriteLine("### Extension methods");
-        writer.WriteLine();
-        foreach (var grouping in PublicMethods(extensions)
-                     .GroupBy(_ => _.ParameterList.Parameters[0].Type!.ToString())
-                     .OrderBy(_ => _.Key))
-        {
-            WriteTypeMethods(grouping.Key, writer, ref count, grouping);
-        }
-
-        writer.WriteLine("### Static helpers");
-        writer.WriteLine();
-        foreach (var (key, value) in types
-                     .OrderBy(_ => _.Key)
-                     .Where(_ => _.Key.EndsWith("Polyfill") &&
-                                 _.Key != "Polyfill"))
-        {
-            WriteTypeMethods(key, writer, ref count, value);
-        }
-
-        WriteHelper(types, "Guard", writer, ref count);
-        WriteHelper(types, "Lock", writer, ref count);
-        WriteHelper(types, nameof(KeyValuePair), writer, ref count);
+        WriteHelper("Ensure*", writer, ref count);
+        WriteHelper("Lock", writer, ref count);
+        WriteHelper(nameof(KeyValuePair), writer, ref count);
         WriteType(nameof(TaskCompletionSource), writer, ref count);
         WriteType(nameof(UnreachableException), writer, ref count);
 
-        count += types.Count(_ => _.Key.EndsWith("Attribute"));
+        count += Directory.EnumerateFiles(polyfillDir, "*Attribute.cs", SearchOption.AllDirectories).Count();
         // Index and Range
         count++;
         //Nullability*
@@ -57,37 +36,152 @@ public class BuildApiTest
         File.WriteAllText(countMd, $"**API count: {count}**");
     }
 
-    static IEnumerable<Method> PublicMethods(HashSet<Method> type) =>
-        type.Where(_ => _.IsPublic() &&
-                        !_.IsConstructor())
-            .OrderBy(_ => _.Identifier.ToString());
-
-    static Dictionary<string, HashSet<Method>> ReadFiles()
+    static int WriteExtensions(StreamWriter writer, int count)
     {
-        var types = new Dictionary<string, HashSet<Method>>();
-        var methodComparer = EqualityComparer<Method>
-            .Create(
-                (x, y) => Key(x!) == Key(y!),
-                _ => Key(_).GetHashCode());
-        foreach (var file in Directory.EnumerateFiles(polyfillDir, "*.cs", SearchOption.AllDirectories))
-        {
-            foreach (var type in Identifiers.ReadTypesForFile(file))
-            {
-                var identifier = type.Identifier.Text;
-                if (!types.TryGetValue(identifier, out var methods))
-                {
-                    methods = new(methodComparer);
-                    types.Add(identifier, methods);
-                }
+        var files = Directory.EnumerateFiles(polyfillDir, "*Polyfill*.cs", SearchOption.AllDirectories).ToList();
 
-                foreach (var method in type.PublicMethods())
+        var instanceFiles = files
+            .Where(_ => Path.GetFileNameWithoutExtension(_).StartsWith("Polyfill_"))
+            .ToList();
+
+        var staticFiles = files
+            .Where(_ =>
+            {
+                var name = Path.GetFileNameWithoutExtension(_);
+                return name.EndsWith("Polyfill") &&
+                       name != "Polyfill";
+            })
+            .ToList();
+
+        var instanceMethods = ReadMethodsForFiles(instanceFiles);
+
+        var instanceTypeNames = instanceMethods
+            .Select(FirstParameterType);
+
+        var staticTypeNames = staticFiles
+            .Select(Path.GetFileNameWithoutExtension)
+            .Select(_ => _![..^8].ToString());
+
+        var typeNames = instanceTypeNames.Concat(staticTypeNames)
+            .Distinct()
+            .ToList();
+
+        writer.WriteLine("### Extension methods");
+        writer.WriteLine();
+
+        foreach (var name in typeNames.Order())
+        {
+            var instanceMethodsForType = instanceMethods
+                .Where(_ => FirstParameterType(_) == name)
+                .ToList();
+            writer.WriteLine($"#### {name}");
+            writer.WriteLine();
+            if (instanceMethodsForType.Count != 0)
+            {
+                foreach (var method in instanceMethodsForType.OrderBy(Key))
                 {
-                    methods.Add(method);
+                    count++;
+                    WriteSignature(method, writer);
                 }
             }
+
+            var staticExtension = staticFiles
+                .SingleOrDefault(_ => Path.GetFileNameWithoutExtension(_)[..^8].ToString() == name);
+            if (staticExtension != null)
+            {
+                foreach (var method in ReadMethodsForFiles([staticExtension]).OrderBy(Key))
+                {
+                    count++;
+                    WriteSignature(method, writer);
+                }
+
+                foreach (var property in ReadPropertiesForFiles([staticExtension]))
+                {
+                    count++;
+                    WriteSignature(property, writer);
+                }
+            }
+
+            writer.WriteLine();
+            writer.WriteLine();
         }
 
-        return types;
+        return count;
+    }
+
+    static Dictionary<string, string> langwordToType = new()
+    {
+        ["bool"] = "Boolean",
+        ["byte"] = "Byte",
+        ["sbyte"] = "SByte",
+        ["char"] = "Char",
+        ["decimal"] = "Decimal",
+        ["double"] = "Double",
+        ["float"] = "Single",
+        ["int"] = "Int32",
+        ["uint"] = "UInt32",
+        ["long"] = "Int64",
+        ["ulong"] = "UInt64",
+        ["object"] = "Object",
+        ["short"] = "Int16",
+        ["ushort"] = "UInt16",
+        ["string"] = "String"
+    };
+
+    static string FirstParameterType(Method method)
+    {
+        var type = method.ParameterList.Parameters[0].Type!.ToString();
+        return langwordToType.GetValueOrDefault(type, type);
+    }
+
+    static List<Method> ReadMethodsForFiles(string pattern)
+    {
+        var files = Directory.EnumerateFiles(polyfillDir, $"{pattern}.cs", SearchOption.AllDirectories);
+        return ReadMethodsForFiles(files);
+    }
+
+    private static List<Method> ReadMethodsForFiles(IEnumerable<string> files)
+    {
+        var types = files
+            .SelectMany(Identifiers.ReadTypesForFile)
+            .ToList();
+
+        var distinctTypes = types.Select(_ => _.Identifier.Text).Distinct().ToList();
+        if (distinctTypes.Count > 1)
+        {
+            throw new(string.Join(", ", distinctTypes));
+        }
+
+        return types
+            .SelectMany(_ => _.PublicMethods())
+            .DistinctBy(Key)
+            .OrderBy(Key)
+            .ToList();
+    }
+
+    static List<Property> ReadPropertiesForFiles(string pattern)
+    {
+        var files = Directory.EnumerateFiles(polyfillDir, $"{pattern}.cs", SearchOption.AllDirectories);
+        return ReadPropertiesForFiles(files);
+    }
+
+    static List<Property> ReadPropertiesForFiles(IEnumerable<string> files)
+    {
+        var types = files
+            .SelectMany(Identifiers.ReadTypesForFile)
+            .ToList();
+
+        var distinctTypes = types.DistinctBy(_ => _.Identifier.Text).ToList();
+        if (distinctTypes.Count > 1)
+        {
+            throw new(string.Join(", ", distinctTypes));
+        }
+
+        return types
+            .SelectMany(_ => _.PublicProperties())
+            .DistinctBy(_ => _.Identifier.Text)
+            .OrderBy(_ => _.Identifier.Text)
+            .ToList();
     }
 
     static void WriteType(string name, StreamWriter writer, ref int count)
@@ -100,12 +194,8 @@ public class BuildApiTest
         count++;
     }
 
-    static void WriteHelper(Dictionary<string, HashSet<Method>> types, string name, StreamWriter writer, ref int count)
-    {
-        var methods = types[name];
-
-        WriteTypeMethods(name, writer, ref count, methods.OrderBy(Key));
-    }
+    static void WriteHelper(string name, StreamWriter writer, ref int count) =>
+        WriteTypeMethods(name.Trim('*'), writer, ref count, ReadMethodsForFiles(name));
 
     static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<Method> methods)
     {
@@ -144,6 +234,20 @@ public class BuildApiTest
         }
     }
 
+    static void WriteSignature(Property method, StreamWriter writer)
+    {
+        var signature = new StringBuilder(method.Identifier.Text);
+
+        if (method.TryGetReference(out var reference))
+        {
+            writer.WriteLine($" * `{signature}` [reference]({reference})");
+        }
+        else
+        {
+            writer.WriteLine($" * `{signature}`");
+        }
+    }
+
     static string Key(Method method) =>
         $"{method.Identifier.Text}{BuildTypeArgs(method)}({BuildParameters(method, false)})";
 
@@ -160,17 +264,16 @@ public class BuildApiTest
 
     static string BuildParameters(Method method, bool skipThisModified)
     {
-        List<Parameter> parameters;
+        var parameters = method
+            .ParameterList
+            .Parameters
+            .ToList();
+
         if (skipThisModified)
         {
-            parameters = method.ParameterList
-                .Parameters
-                .Where(_ => !_.IsThis()).ToList();
-        }
-        else
-        {
-            parameters = method.ParameterList
-                .Parameters.ToList();
+            parameters = parameters
+                .Where(_ => !_.IsThis())
+                .ToList();
         }
 
         if (parameters.Count > 0)

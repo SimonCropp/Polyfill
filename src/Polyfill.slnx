@@ -1,0 +1,53 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path="../.gitignore" />
+    <File Path="../readme.md" />
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path="appveyor.yml" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+    <File Path="mdsnippets.json" />
+    <File Path="Polyfill/Polyfill.nuspec" />
+    <File Path="Polyfill/Polyfill.targets" />
+    <File Path="TestIncludes.targets" />
+  </Folder>
+  <Project Path="ApiBuilderTests/ApiBuilderTests.csproj">
+    <Build Solution="Release|Any CPU" Project="false" />
+  </Project>
+  <Project Path="Consume/Consume.csproj" />
+  <Project Path="ConsumeBclMemory/ConsumeBclMemory.csproj" />
+  <Project Path="ConsumeClassicReferences/ConsumeClassicReferences.csproj" />
+  <Project Path="ConsumeConsumeBclMemory/ConsumeConsumeBclMemory.csproj" />
+  <Project Path="ConsumeCs14/ConsumeCs14.csproj" />
+  <Project Path="ConsumeCsDefault/ConsumeCsDefault.csproj" />
+  <Project Path="ConsumeCsLatest/ConsumeCsLatest.csproj" />
+  <Project Path="ConsumeCsLatestMajor/ConsumeCsLatestMajor.csproj" />
+  <Project Path="ConsumeEmbeddedLib/ConsumeEmbeddedLib.csproj" />
+  <Project Path="ConsumeIndirect/ConsumeIndirect.csproj" />
+  <Project Path="ConsumeLib/ConsumeLib.csproj" />
+  <Project Path="ConsumeNoOptional/ConsumeNoOptional.csproj" />
+  <Project Path="ConsumeNoRefs/ConsumeNoRefs.csproj" />
+  <Project Path="ConsumeOnlyCompression/ConsumeOnlyCompression.csproj" />
+  <Project Path="ConsumeOnlyMemory/ConsumeOnlyMemory.csproj" />
+  <Project Path="ConsumeOnlyTasks/ConsumeOnlyTasks.csproj" />
+  <Project Path="ConsumeOnlyValueTuple/ConsumeOnlyValueTuple.csproj" />
+  <Project Path="ConsumeTrimmed\ConsumeTrimmed.csproj" />
+  <Project Path="EmbeddedTests/EmbeddedTests.csproj" />
+  <Project Path="NoExtrasTests/NoExtrasTests.csproj" />
+  <Project Path="NoRefsTests/NoRefsTests.csproj" />
+  <Project Path="Polyfill/Polyfill.csproj" />
+  <Project Path="PolyfillLib/PolyfillLib.csproj" />
+  <Project Path="PublicTests/PublicTests.csproj" />
+  <Project Path="TargetFrameworkUsage/TargetFrameworkUsage.csproj" />
+  <Project Path="Tests/Tests.csproj">
+    <BuildDependency Project="Consume/Consume.csproj" />
+  </Project>
+  <Project Path="UnsafeTests/UnsafeTests.csproj" />
+</Solution>
