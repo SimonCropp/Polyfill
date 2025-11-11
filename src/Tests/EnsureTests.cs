@@ -300,7 +300,7 @@ public class EnsureTests
     public void NotEqual_WithEqualIntegers_ThrowsArgumentOutOfRangeException(int value, int other) =>
         Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotEqual(value, other));
 
-    private record Person(string Name, int Age) : IEquatable<Person>;
+    private record Person(string Name, int Age);
 
     #if NET10_0_OR_GREATER
     public class User
@@ -323,4 +323,105 @@ public class EnsureTests
         }
     }
 #endif
+    [Test]
+    public void NoDuplicates_WithUniqueValues_DoesNotThrow()
+    {
+        var values = new[] { 1, 2, 3, 4, 5 };
+
+        Assert.DoesNotThrow(() => Ensure.NoDuplicates(values));
+    }
+
+    [Test]
+    public void NoDuplicates_WithEmptyCollection_DoesNotThrow()
+    {
+        var values = Array.Empty<int>();
+
+        Assert.DoesNotThrow(() => Ensure.NoDuplicates(values));
+    }
+
+    [Test]
+    public void NoDuplicates_WithSingleItem_DoesNotThrow()
+    {
+        var values = new[] { 42 };
+
+        Assert.DoesNotThrow(() => Ensure.NoDuplicates(values));
+    }
+
+    [Test]
+    public void NoDuplicates_WithDuplicates_ThrowsArgumentException()
+    {
+        var values = new[] { 1, 2, 3, 2, 4 };
+
+        var exception = Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(values))!;
+
+        Assert.That(exception.ParamName, Is.EqualTo("values"));
+    }
+
+    [Test]
+    public void NoDuplicates_WithDuplicates_MessageIncludesDuplicateValue()
+    {
+        var values = new[] { 1, 2, 3, 2, 4 };
+
+        var exception = Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(values))!;
+
+        Assert.That(exception.Message, Does.Contain("Duplicate value: 2"));
+    }
+
+    [Test]
+    public void NoDuplicates_WithStringDuplicates_ThrowsWithCorrectValue()
+    {
+        var values = new[] { "apple", "banana", "cherry", "banana" };
+
+        var exception = Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(values))!;
+
+        Assert.That(exception.Message, Does.Contain("Duplicate value: banana"));
+    }
+
+    [Test]
+    public void NoDuplicates_WithConsecutiveDuplicates_ThrowsOnFirstDuplicate()
+    {
+        var values = new[] { 1, 2, 2, 3, 3 };
+
+        var exception = Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(values))!;
+
+        Assert.That(exception.Message, Does.Contain("Duplicate value: 2"));
+    }
+
+    [Test]
+    public void NoDuplicates_CapturesParameterName_UsingCallerArgumentExpression()
+    {
+        var myCollection = new[] { 1, 2, 3, 2 };
+
+        var exception = Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(myCollection))!;
+
+        Assert.That(exception.ParamName, Is.EqualTo("myCollection"));
+    }
+
+    [Test]
+    public void NoDuplicates_WithReferenceTypeDuplicates_ThrowsCorrectly()
+    {
+        var person1 = new Person("John",20);
+        var person2 = new Person("Jane",20);
+        var values = new[] { person1, person2, person1 };
+
+        var exception = Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(values))!;
+
+        Assert.That(exception.Message, Does.Contain($"Duplicate value: {person1}"));
+    }
+
+    [TestCase(new[] { 1, 1 })]
+    [TestCase(new[] { 5, 5, 5 })]
+    [TestCase(new[] { 1, 2, 1 })]
+    public void NoDuplicates_WithVariousDuplicatePatterns_Throws(int[] values) =>
+        Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(values));
+
+    [Test]
+    public void NoDuplicates_WithNullValues_HandlesCorrectly()
+    {
+        var values = new string?[] { "a", null, "b", null };
+
+        var exception = Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(values))!;
+
+        Assert.That(exception.Message, Does.Contain("Duplicate value:"));
+    }
 }

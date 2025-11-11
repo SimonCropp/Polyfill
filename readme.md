@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 617**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 618**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -1298,11 +1298,12 @@ The class `Polyfill` includes the following extension methods:
  * `ExternalAttributes` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.externalattributes?view=net-10.0)
 
 
-#### Guard
+#### Ensure
 
  * `void DirectoryExists(string)`
  * `T Equal<T>(T, T)`
  * `void FileExists(string)`
+ * `void NoDuplicates<T>(IEnumerable<T>)`
  * `string? NotEmpty(string?)`
  * `Memory<T>? NotEmpty<T>(Memory<T>?)`
  * `Memory<T> NotEmpty<T>(Memory<T>)`
