@@ -1,4 +1,4 @@
-﻿[TestFixture]
+[TestFixture]
 public class PathTests
 {
 #if FeatureMemory
