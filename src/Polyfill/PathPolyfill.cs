@@ -99,7 +99,7 @@ static partial class Polyfill
         public static string TrimEndingDirectorySeparator(string path)
         {
             if (EndsInDirectorySeparator(path) &&
-                !Path.IsPathRooted(path))
+                !IsRoot(path))
             {
                 return path!.Substring(0, path.Length - 1);
             }
@@ -107,6 +107,8 @@ static partial class Polyfill
             return path;
         }
 #endif
+        static bool IsRoot(string path) =>
+            Path.IsPathRooted(path) && Path.GetDirectoryName(path) == null;
 
         static bool IsDirectorySeparator(char c) =>
             c == Path.DirectorySeparatorChar ||
