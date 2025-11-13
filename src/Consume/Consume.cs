@@ -364,6 +364,54 @@ class Consume
         var held = locker.IsHeldByCurrentThread;
         locker.Enter();
     }
+#if NET10_0_OR_GREATER
+
+    #region ArgumentExceptionUsage
+
+    void ArgumentExceptionExample(Order order, Customer customer, string customerId, string email, decimal discountPercentage, int quantity)
+    {
+        ArgumentNullException.ThrowIfNull(order);
+        ArgumentNullException.ThrowIfNull(customer);
+        ArgumentException.ThrowIfNullOrWhiteSpace(customerId);
+        ArgumentException.ThrowIfNullOrWhiteSpace(email);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(discountPercentage, 100m);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(quantity);
+        this.order = order;
+        this.customer = customer;
+        this.customerId = customerId;
+        this.email = email;
+        this.discountPercentage = discountPercentage;
+        this.quantity = quantity;
+    }
+
+    #endregion
+
+    #region EnsureUsage
+
+    void EnsureExample(Order order, Customer customer, string customerId, string email, decimal discountPercentage, int quantity)
+    {
+        this.order = Ensure.NotNull(order);
+        this.customer = Ensure.NotNull(customer);
+        this.customerId = Ensure.NotNullOrWhiteSpace(customerId);
+        this.email = Ensure.NotNullOrWhiteSpace(email);
+        this.discountPercentage = Ensure.NotGreaterThan(discountPercentage, 100m);
+        this.quantity = Ensure.NotNegativeOrZero(quantity);
+    }
+
+    #endregion
+
+    decimal discountPercentage;
+    int quantity;
+    string email = null!;
+    string customerId = null!;
+    Customer customer = null!;
+    Order order = null!;
+
+    class Customer;
+
+    class Order;
+
+#endif
 
     void Double_Methods()
     {

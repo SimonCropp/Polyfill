@@ -1503,6 +1503,62 @@ With the equivalent Ensure APIs:
  * `Ensure.NotNullOrWhiteSpace`
  * `Ensure.NotNull`
 
+
+### Justification
+
+ * `Argument*Exception` are overly verbose
+ * `Argument*Exception` do not provide "check return value value semantics"
+
+
+### Comparison
+
+
+#### `Argument*Exception` example
+
+<!-- snippet: ArgumentExceptionUsage -->
+<a id='snippet-ArgumentExceptionUsage'></a>
+```cs
+void ArgumentExceptionExample(Order order, Customer customer, string customerId, string email, decimal discountPercentage, int quantity)
+{
+    ArgumentNullException.ThrowIfNull(order);
+    ArgumentNullException.ThrowIfNull(customer);
+    ArgumentException.ThrowIfNullOrWhiteSpace(customerId);
+    ArgumentException.ThrowIfNullOrWhiteSpace(email);
+    ArgumentOutOfRangeException.ThrowIfGreaterThan(discountPercentage, 100m);
+    ArgumentOutOfRangeException.ThrowIfNegativeOrZero(quantity);
+    this.order = order;
+    this.customer = customer;
+    this.customerId = customerId;
+    this.email = email;
+    this.discountPercentage = discountPercentage;
+    this.quantity = quantity;
+}
+```
+<sup><a href='/src/Consume/Consume.cs#L369-L387' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+#### `Ensure` example
+
+<!-- snippet: EnsureUsage -->
+<a id='snippet-EnsureUsage'></a>
+```cs
+void EnsureExample(Order order, Customer customer, string customerId, string email, decimal discountPercentage, int quantity)
+{
+    this.order = Ensure.NotNull(order);
+    this.customer = Ensure.NotNull(customer);
+    this.customerId = Ensure.NotNullOrWhiteSpace(customerId);
+    this.email = Ensure.NotNullOrWhiteSpace(email);
+    this.discountPercentage = Ensure.NotGreaterThan(discountPercentage, 100m);
+    this.quantity = Ensure.NotNegativeOrZero(quantity);
+}
+```
+<sup><a href='/src/Consume/Consume.cs#L389-L401' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
+### APIs
+
 `Polyfills.Ensure` provides the following APIs:
 
 
