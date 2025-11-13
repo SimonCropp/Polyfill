@@ -44,4 +44,17 @@ static partial class Ensure
         return value;
     }
 #endif
+
+#if !NET7_0_OR_GREATER
+
+    public static nint NotNegativeOrZero(nint value, [CallerArgumentExpression(nameof(value))] string? name = null)
+    {
+        if (value <= (nint)0)
+        {
+            ThrowNegativeOrZero(value, name);
+        }
+
+        return value;
+    }
+#endif
 }
