@@ -323,6 +323,69 @@ public class EnsureTests
         }
     }
 #endif
+
+    [Test]
+    public void NotNegativeOrZero_WithPositive_DoesNotThrow()
+    {
+        // ReSharper disable once SuggestVarOrType_BuiltInTypes
+        nint positiveNint = 3;
+        // ReSharper disable once SuggestVarOrType_BuiltInTypes
+        var positiveInt = 1;
+        var positiveDouble = 1.0;
+
+        Assert.DoesNotThrow(() => Ensure.NotNegativeOrZero(positiveNint));
+        Assert.DoesNotThrow(() => Ensure.NotNegativeOrZero(positiveInt));
+        Assert.DoesNotThrow(() => Ensure.NotNegativeOrZero(positiveDouble));
+    }
+
+    [Test]
+    public void NotNegativeOrZero_WithNegativeOrZero_ThrowsNegativeOrZero()
+    {
+        // ReSharper disable once SuggestVarOrType_BuiltInTypes
+        nint minusOneNint = -1;
+        // ReSharper disable once SuggestVarOrType_BuiltInTypes
+        nint zeroNint = 0;
+        // ReSharper disable once SuggestVarOrType_BuiltInTypes
+        var minusOneInt = -1;
+        var zeroInt = 0;
+        var zeroDouble = 0.0;
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(minusOneNint));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(zeroNint));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(zeroInt));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(minusOneNint));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(minusOneInt));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(zeroDouble));
+    }
+
+    [Test]
+    public void NotNegative_WithNegative_ThrowsNegative()
+    {
+        // ReSharper disable once SuggestVarOrType_BuiltInTypes
+        nint minusOneNint = -1;
+        // ReSharper disable once SuggestVarOrType_BuiltInTypes
+        var minusOneInt = -1;
+        var minusTwoDouble = -2.0;
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegative(minusOneNint));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegative(minusOneInt));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegative(minusTwoDouble));
+    }
+
+    [Test]
+    public void NotNegative_WithPositive_DoesNotThrow()
+    {
+        // ReSharper disable once SuggestVarOrType_BuiltInTypes
+        nint positiveNint = 3;
+        // ReSharper disable once SuggestVarOrType_BuiltInTypes
+        var positiveInt = 1;
+        var positiveDouble = 0.0;
+
+        Assert.DoesNotThrow(() => Ensure.NotNegative(positiveNint));
+        Assert.DoesNotThrow(() => Ensure.NotNegative(positiveInt));
+        Assert.DoesNotThrow(() => Ensure.NotNegative(positiveDouble));
+    }
+
     [Test]
     public void NoDuplicates_WithUniqueValues_DoesNotThrow()
     {

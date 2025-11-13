@@ -44,4 +44,19 @@ static partial class Ensure
         return value;
     }
 #endif
+
+    #if !NET7_0_OR_GREATER
+    /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is negative.</summary>
+    /// <param name="value">The argument to validate as non-negative.</param>
+    /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
+    public static nint NotNegative(nint value, [CallerArgumentExpression(nameof(value))] string? name = null)
+    {
+        if (value < (nint)0)
+        {
+            ThrowNegative(value, name);
+        }
+
+        return value;
+    }
+    #endif
 }
