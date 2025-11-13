@@ -1,4 +1,4 @@
-#### Guard
+#### Ensure
 
  * `void DirectoryExists(String)`
  * `void FileExists(String)`

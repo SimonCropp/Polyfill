@@ -1506,7 +1506,7 @@ With the equivalent Ensure APIs:
 `Polyfills.Ensure` provides the following APIs:
 
 
-#### Guard<!-- include: api_guard. path: /api_guard.include.md -->
+#### Ensure<!-- include: api_ensure. path: /api_ensure.include.md -->
 
  * `void DirectoryExists(String)`
  * `void FileExists(String)`
