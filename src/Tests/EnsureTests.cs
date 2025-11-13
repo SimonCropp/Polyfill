@@ -325,20 +325,6 @@ public class EnsureTests
 #endif
 
     [Test]
-    public void NotNegative_WithNegative_ThrowsNegative()
-    {
-        // ReSharper disable once SuggestVarOrType_BuiltInTypes
-        nint minusOneNint = -1;
-        // ReSharper disable once SuggestVarOrType_BuiltInTypes
-        var minusOneInt = -1;
-        var minusTwoDouble = -2.0;
-
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegative(minusOneNint));
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegative(minusOneInt));
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegative(minusTwoDouble));
-    }
-
-    [Test]
     public void NotNegativeOrZero_WithPositive_DoesNotThrow()
     {
         // ReSharper disable once SuggestVarOrType_BuiltInTypes
@@ -347,9 +333,9 @@ public class EnsureTests
         var positiveInt = 1;
         var positiveDouble = 0.0;
 
-        Assert.DoesNotThrow(() => Ensure.NotNegative(positiveNint));
-        Assert.DoesNotThrow(() => Ensure.NotNegative(positiveInt));
-        Assert.DoesNotThrow(() => Ensure.NotNegative(positiveDouble));
+        Assert.DoesNotThrow(() => Ensure.NotNegativeOrZero(positiveNint));
+        Assert.DoesNotThrow(() => Ensure.NotNegativeOrZero(positiveInt));
+        Assert.DoesNotThrow(() => Ensure.NotNegativeOrZero(positiveDouble));
     }
 
     [Test]
@@ -370,6 +356,20 @@ public class EnsureTests
         Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(minusOneNint));
         Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(minusOneInt));
         Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(zeroDouble));
+    }
+
+    [Test]
+    public void NotNegative_WithNegative_ThrowsNegative()
+    {
+        // ReSharper disable once SuggestVarOrType_BuiltInTypes
+        nint minusOneNint = -1;
+        // ReSharper disable once SuggestVarOrType_BuiltInTypes
+        var minusOneInt = -1;
+        var minusTwoDouble = -2.0;
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegative(minusOneNint));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegative(minusOneInt));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegative(minusTwoDouble));
     }
 
     [Test]
