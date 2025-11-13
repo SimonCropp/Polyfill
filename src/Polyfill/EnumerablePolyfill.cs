@@ -14,7 +14,7 @@ static partial class Polyfill
     extension(Enumerable)
     {
         /// <summary>
-        ///
+        /// Generates an infinite sequence that begins with <paramref name="start"/> and yields additional values each incremented by <paramref name="step"/>.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.infinitesequence?view=net-10.0
         public static IEnumerable<T> InfiniteSequence<T>(T start, T step)
@@ -28,7 +28,7 @@ static partial class Polyfill
         }
 
         /// <summary>
-        ///
+        /// Generates a sequence that begins with <paramref name="start"/> and yields additional values each incremented by <paramref name="step"/> until <paramref name="endInclusive"/> is reached.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.sequence?view=net-10.0
         public static IEnumerable<T> Sequence<T>(T start, T endInclusive, T step)
