@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 618**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 620**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -1317,7 +1317,9 @@ The class `Polyfill` includes the following extension methods:
  * `T NotGreaterThanOrEqual<T>(T, T) where T : IComparable<T>`
  * `T NotLessThan<T>(T, T) where T : IComparable<T>`
  * `T NotLessThanOrEqual<T>(T, T) where T : IComparable<T>`
+ * `nint NotNegative(nint)`
  * `T NotNegative<T>(T) where T : struct, IComparable<T>`
+ * `nint NotNegativeOrZero(nint)`
  * `T NotNegativeOrZero<T>(T) where T : struct, IComparable<T>`
  * `string NotNull(string?)`
  * `T NotNull<T>(T?) where T : class`

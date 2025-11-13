@@ -871,7 +871,9 @@
  * `T NotGreaterThanOrEqual<T>(T, T) where T : IComparable<T>`
  * `T NotLessThan<T>(T, T) where T : IComparable<T>`
  * `T NotLessThanOrEqual<T>(T, T) where T : IComparable<T>`
+ * `nint NotNegative(nint)`
  * `T NotNegative<T>(T) where T : struct, IComparable<T>`
+ * `nint NotNegativeOrZero(nint)`
  * `T NotNegativeOrZero<T>(T) where T : struct, IComparable<T>`
  * `string NotNull(string?)`
  * `T NotNull<T>(T?) where T : class`

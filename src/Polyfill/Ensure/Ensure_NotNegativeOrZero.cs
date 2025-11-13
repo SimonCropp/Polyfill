@@ -51,7 +51,7 @@ static partial class Ensure
     /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
     public static nint NotNegativeOrZero(nint value, [CallerArgumentExpression(nameof(value))] string? name = null)
     {
-        if (value <= (nint)0)
+        if (value <= (nint) 0)
         {
             ThrowNegativeOrZero(value, name);
         }
