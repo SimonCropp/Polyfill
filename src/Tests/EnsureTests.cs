@@ -331,7 +331,7 @@ public class EnsureTests
         nint positiveNint = 3;
         // ReSharper disable once SuggestVarOrType_BuiltInTypes
         var positiveInt = 1;
-        var positiveDouble = 0.0;
+        var positiveDouble = 1.0;
 
         Assert.DoesNotThrow(() => Ensure.NotNegativeOrZero(positiveNint));
         Assert.DoesNotThrow(() => Ensure.NotNegativeOrZero(positiveInt));
