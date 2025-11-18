@@ -1335,7 +1335,7 @@ The class `Polyfill` includes the following extension methods:
  * `ReadOnlySpan<char> NotWhiteSpace(ReadOnlySpan<char>)`
  * `Span<char> NotWhiteSpace(Span<char>)`
  * `string? NotWhiteSpace(string?)`
- * `T NotZero<T>(T) where T : struct, IComparable<T>`
+ * `T NotZero<T>(T) where T : struct, IEquatable<T>`
 
 
 #### Lock
@@ -1592,6 +1592,18 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
  * `void NotWhiteSpace(Span<Char>)`
 
 <!-- endInclude -->
+
+
+## ArgumentException
+
+Enable `Argument*Exception` polufills by adding an MSBuild property `PolyArgumentExceptions`
+
+```
+<PropertyGroup>
+  ...
+  <PolyArgumentExceptions>true</PolyArgumentExceptions>
+</PropertyGroup>
+```
 
 
 ## Alternatives

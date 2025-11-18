@@ -889,7 +889,7 @@
  * `ReadOnlySpan<char> NotWhiteSpace(ReadOnlySpan<char>)`
  * `Span<char> NotWhiteSpace(Span<char>)`
  * `string? NotWhiteSpace(string?)`
- * `T NotZero<T>(T) where T : struct, IComparable<T>`
+ * `T NotZero<T>(T) where T : struct, IEquatable<T>`
 
 
 #### Lock
