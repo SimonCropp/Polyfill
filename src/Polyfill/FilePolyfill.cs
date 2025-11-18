@@ -123,7 +123,7 @@ static partial class Polyfill
         /// <summary>
         /// Moves a specified file to a new location, providing the options to specify a new file name and to replace the destination file if it already exists.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.move?system-io-file-move(system-string-system-string-system-boolean)?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.move?view=net-10.0#system-io-file-move(system-string-system-string-system-boolean)
         public static void Move(string sourceFileName, string destFileName, bool overwrite)
         {
             sourceFileName = Path.GetFullPath(sourceFileName);
