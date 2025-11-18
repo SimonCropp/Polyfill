@@ -28,6 +28,7 @@ public class Identifiers
         "FeatureMemory",
         "FeatureRuntimeInformation",
         "PolyEnsure",
+        "PolyArgumentExceptions",
         "PolyPublic",
         "FeatureHttp",
         "PolyNullability",

@@ -136,6 +136,9 @@ For example:
     <Compile Condition="'$(PolyEnsure)' != 'true' "
              Remove="$(MSBuildThisFileDirectory)..\**\Ensure\*.cs" />
 
+    <Compile Condition="'$(PolyArgumentExceptions)' != 'true' "
+             Remove="$(MSBuildThisFileDirectory)..\**\ArgumentExceptions\*.cs" />
+
     <Compile Condition="'$(PolyNullability)' != 'true' "
              Remove="$(MSBuildThisFileDirectory)..\**\Nullability\*.cs" />
 

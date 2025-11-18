@@ -5,6 +5,7 @@
 namespace Polyfills;
 
 using System.Numerics;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -16,8 +17,8 @@ public
 static partial class Ensure
 {
     [DoesNotReturn]
-    static void ThrowZero<T>(T value, string? name) =>
-        throw new ArgumentOutOfRangeException(name, value, $"{name} ('{value}') must be a non-zero value.");
+    static void ThrowZero(string? name) =>
+        throw new ArgumentOutOfRangeException(name, $"{name} must be a non-zero value.");
 
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
     /// <param name="value">The argument to validate as non-zero.</param>
@@ -28,17 +29,17 @@ static partial class Ensure
     {
         if (T.IsZero(value))
         {
-            ThrowZero(value, name);
+            ThrowZero(name);
         }
 
         return value;
     }
 #else
-        where T : struct, IComparable<T>
+        where T : struct, IEquatable<T>
     {
-        if (value.CompareTo(default(T)) == 0)
+        if (value.Equals(default(T)))
         {
-            ThrowZero(value, name);
+            ThrowZero(name);
         }
 
         return value;

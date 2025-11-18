@@ -3,8 +3,12 @@
 
 namespace Polyfills;
 
+using System.Diagnostics.CodeAnalysis;
+using System;
+
 static partial class Polyfill
 {
+    [DoesNotReturn]
     static void ThrowNoElementsException() =>
-        throw new System.InvalidOperationException("Sequence contains no elements");
+        throw new InvalidOperationException("Sequence contains no elements");
 }

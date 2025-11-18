@@ -3,6 +3,7 @@
     <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
     <TargetFramework>net10.0</TargetFramework>
     <PolyEnsure>false</PolyEnsure>
+    <PolyArgumentExceptions>false</PolyArgumentExceptions>
     <PolyNullability>false</PolyNullability>
     <PolyStringInterpolation>false</PolyStringInterpolation>
     <RootNamespace>NoExtras</RootNamespace>

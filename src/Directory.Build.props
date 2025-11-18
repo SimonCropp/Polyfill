@@ -16,6 +16,7 @@
     <ResolveAssemblyReferencesSilent>true</ResolveAssemblyReferencesSilent>
     <PolyNullability>true</PolyNullability>
     <PolyEnsure>true</PolyEnsure>
+    <PolyArgumentExceptions>true</PolyArgumentExceptions>
     <PolyStringInterpolation>true</PolyStringInterpolation>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Nullable>enable</Nullable>

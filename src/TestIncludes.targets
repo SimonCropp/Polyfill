@@ -6,6 +6,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Polyfill\Ensure\*.cs">
       <Link>Pollyfill\Ensure\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Polyfill\ArgumentExceptions\*.cs">
+      <Link>Pollyfill\ArgumentExceptions\%(RecursiveDir)%(Filename).cs</Link>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Polyfill\Nullable\*.cs">
       <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>

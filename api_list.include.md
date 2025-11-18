@@ -1,5 +1,32 @@
 ### Extension methods
 
+#### ArgumentException
+
+ * `void ThrowIfNullOrEmpty(string?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentexception.throwifnullorempty?view=net-10.0#system-argumentexception-throwifnullorempty(system-string-system-string))
+ * `void ThrowIfNullOrWhiteSpace(string?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentexception.throwifnullorwhitespace?view=net-10.0#system-argumentexception-throwifnullorwhitespace(system-string-system-string))
+
+
+#### ArgumentNullException
+
+ * `void ThrowIfNull(object?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentnullexception.throwifnull?view=net-10.0#system-argumentnullexception-throwifnull(system-object-system-string))
+ * `void ThrowIfNull(void*)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentnullexception.throwifnull?view=net-10.0#system-argumentnullexception-throwifnull(system-void*-system-string))
+
+
+#### ArgumentOutOfRangeException
+
+ * `void ThrowIfEqual<T>(T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifequal?view=net-10.0#system-argumentoutofrangeexception-throwifequal-1(-0-0-system-string))
+ * `void ThrowIfGreaterThan<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthan?view=net-10.0#system-argumentoutofrangeexception-throwifgreaterthan-1(-0-0-system-string))
+ * `void ThrowIfGreaterThanOrEqual<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthanorequal?view=net-10.0#system-argumentoutofrangeexception-throwifgreaterthanorequal-1(-0-0-system-string))
+ * `void ThrowIfLessThan<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthan?view=net-10.0#system-argumentoutofrangeexception-throwiflessthan-1(-0-0-system-string))
+ * `void ThrowIfLessThanOrEqual<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthanorequal?view=net-10.0#system-argumentoutofrangeexception-throwiflessthanorequal-1(-0-0-system-string))
+ * `void ThrowIfNegative(nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegative?view=net-10.0#system-argumentoutofrangeexception-throwifnegative-1(-0-system-string))
+ * `void ThrowIfNegative<T>(T) where T : struct, IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegative?view=net-10.0#system-argumentoutofrangeexception-throwifnegative-1(-0-system-string))
+ * `void ThrowIfNegativeOrZero(nint)`
+ * `void ThrowIfNegativeOrZero<T>(T) where T : struct, IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegativeorzero?view=net-10.0#system-argumentoutofrangeexception-throwifnegativeorzero-1(-0-system-string))
+ * `void ThrowIfNotEqual<T>(T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnotequal?view=net-10.0#system-argumentoutofrangeexception-throwifnotequal-1(-0-0-system-string))
+ * `void ThrowIfZero<T>(T) where T : struct, IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifzero?view=net-10.0#system-argumentoutofrangeexception-throwifzero-1(-0-system-string))
+
+
 #### ArraySegment<T>
 
  * `void CopyTo<T>(ArraySegment<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.copyto?view=net-10.0#system-arraysegment-1-copyto(-0()))
@@ -889,7 +916,7 @@
  * `ReadOnlySpan<char> NotWhiteSpace(ReadOnlySpan<char>)`
  * `Span<char> NotWhiteSpace(Span<char>)`
  * `string? NotWhiteSpace(string?)`
- * `T NotZero<T>(T) where T : struct, IComparable<T>`
+ * `T NotZero<T>(T) where T : struct, IEquatable<T>`
 
 
 #### Lock
