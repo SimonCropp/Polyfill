@@ -1623,7 +1623,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
 
 ## ArgumentException
 
-Enable `Argument*Exception` polufills by adding an MSBuild property `PolyArgumentExceptions`
+Enable `Argument*Exception` polyfills by adding an MSBuild property `PolyArgumentExceptions`
 
 ```
 <PropertyGroup>
