@@ -27,7 +27,7 @@ public class BuildApiTest
 
         count += Directory.EnumerateFiles(polyfillDir, "*Attribute.cs", SearchOption.AllDirectories).Count();
         // Index and Range
-        count++;
+        count+=2;
         //Nullability*
         count += 3;
 
