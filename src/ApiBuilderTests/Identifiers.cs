@@ -34,7 +34,6 @@ public class Identifiers
         "PolyNullability",
         "AllowUnsafeBlocks",
         "FeatureValueTask",
-        "LangVersion13",
         "FeatureValueTuple",
         "FeatureCompression"
     ];

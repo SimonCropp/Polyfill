@@ -647,11 +647,9 @@ class Consume
 #if FeatureValueTuple
         var split = readOnlySpan.Split('a');
         split = readOnlySpan.Split("a".AsSpan());
-#if LangVersion13
         // ReSharper disable once RedundantExplicitParamsArrayCreation
         split = readOnlySpan.SplitAny(['a']);
         split = readOnlySpan.SplitAny("a".AsSpan());
-#endif
 #endif
     }
 
