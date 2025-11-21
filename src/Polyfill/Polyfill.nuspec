@@ -17,6 +17,8 @@
     <file src="../icon.png" target="icon.png" />
     <file src="*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/"/>
+    <file src="ArgumentExceptions\*.cs"
+          target="contentFiles/cs/netstandard2.0/Polyfill/ArgumentExceptions"/>
     <file src="Ensure\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/Ensure"/>
     <file src="Nullable\*.cs"
