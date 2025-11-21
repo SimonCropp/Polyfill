@@ -39,10 +39,13 @@ using System.Xml.Linq;
 using MemoryStream = System.IO.MemoryStream;
 // ReSharper disable MethodHasAsyncOverload
 // ReSharper disable RedundantCast
+#pragma warning disable CS0414 // Field is assigned but its value is never used
+#pragma warning disable CS0169 // Field is never used
 
 #pragma warning disable CS4014
 #pragma warning disable CA1416
 
+[SuppressMessage("Performance", "CA1823:Avoid unused private fields")]
 class Consume
 {
     Consume()
@@ -364,7 +367,8 @@ class Consume
         var held = locker.IsHeldByCurrentThread;
         locker.Enter();
     }
-#if NET10_0_OR_GREATER
+
+    #if PolyArgumentExceptions
 
     #region ArgumentExceptionUsage
 
@@ -386,6 +390,10 @@ class Consume
 
     #endregion
 
+    #endif
+
+    #if PolyEnsure
+
     #region EnsureUsage
 
     void EnsureExample(Order order, Customer customer, string customerId, string email, decimal discountPercentage, int quantity)
@@ -400,6 +408,8 @@ class Consume
 
     #endregion
 
+    #endif
+
     decimal discountPercentage;
     int quantity;
     string email = null!;
@@ -410,8 +420,6 @@ class Consume
     class Customer;
 
     class Order;
-
-#endif
 
     void Double_Methods()
     {
