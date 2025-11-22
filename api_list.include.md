@@ -704,6 +704,7 @@
  * `string[] Split(string, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-10.0#system-string-split(system-string-system-stringsplitoptions))
  * `bool StartsWith(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-10.0#system-string-startswith(system-char))
  * `bool TryCopyTo(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.trycopyto?view=net-10.0)
+ * `string Create<TState>(int, TState, System.Buffers.SpanAction<char, TState>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.create?view=net-10.0#system-string-create-1(system-int32-0-system-buffers-spanaction((system-char-0))))
  * `int GetHashCode(ReadOnlySpan<char>, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-10.0#system-string-gethashcode(system-readonlyspan((system-char))-system-stringcomparison))
  * `int GetHashCode(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-10.0#system-string-gethashcode(system-readonlyspan((system-char))))
  * `string Join(char, object?[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-10.0#system-string-join(system-char-system-object()))

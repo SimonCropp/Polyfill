@@ -13,4 +13,13 @@ public class StringPolyfillTest
         // ReSharper disable once RedundantCast
         Assert.AreEqual("bac", string.Join('a', (IEnumerable<string>) new List<string>{"b", "c"}));
     }
+
+    [Test]
+    public void Create() => Assert.AreEqual("abcde", string.Create(5, 'a', (span, state) =>
+    {
+        for (var i = 0; i < span.Length; i++)
+        {
+            span[i] = state++;
+        }
+    }));
 }
