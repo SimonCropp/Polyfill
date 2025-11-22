@@ -19,6 +19,6 @@
     <PackageVersion Include="System.Runtime" Version="4.3.1" />
     <PackageVersion Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
     <PackageVersion Include="System.IO.Compression" Version="4.3.0" />
-    <PackageVersion Include="Microsoft.Sbom.Targets" Version="4.1.4" />>
+    <PackageVersion Include="Microsoft.Sbom.Targets" Version="4.1.4" />
   </ItemGroup>
 </Project>
