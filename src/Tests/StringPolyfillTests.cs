@@ -1,5 +1,7 @@
 // ReSharper disable RedundantExplicitParamsArrayCreation
+// ReSharper disable ReplaceSliceWithRangeIndexer
 [TestFixture]
+[SuppressMessage("Style", "IDE0057:Use range operator")]
 public class StringPolyfillTest
 {
     [Test]
@@ -72,7 +74,7 @@ public class StringPolyfillTest
             {
                 s.first.AsSpan().CopyTo(span);
                 span[5] = ' ';
-                s.second.AsSpan()[..4].CopyTo(span[6..]);
+                s.second.AsSpan().Slice(0, 4).CopyTo(span.Slice(6));
             });
 
         Assert.That(result, Is.EqualTo("Hello Worl"));
@@ -149,20 +151,20 @@ public class StringPolyfillTest
 
                 // Write ID
                 var idStr = s.Id.ToString();
-                idStr.AsSpan().CopyTo(span[pos..]);
+                idStr.AsSpan().CopyTo(span.Slice(pos));
                 pos += idStr.Length;
 
                 span[pos++] = '-';
 
                 // Write Name
-                s.Name.AsSpan().CopyTo(span[pos..]);
+                s.Name.AsSpan().CopyTo(span.Slice(pos));
                 pos += s.Name.Length;
 
                 span[pos++] = '-';
 
                 // Write IsActive
                 var activeStr = s.IsActive ? "True" : "False";
-                activeStr.AsSpan().CopyTo(span[pos..]);
+                activeStr.AsSpan().CopyTo(span.Slice(pos));
             });
 
         Assert.That(result, Is.EqualTo("123-Test-True\0\0\0\0\0\0\0"));

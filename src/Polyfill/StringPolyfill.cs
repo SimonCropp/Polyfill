@@ -7,7 +7,6 @@
 namespace Polyfills;
 
 using System;
-using System.Buffers;
 using System.Collections.Generic;
 
 static partial class Polyfill
@@ -252,7 +251,8 @@ static partial class Polyfill
 
             return str;
 #else
-            var chars = ArrayPool<char>.Shared.Rent(length);
+            var pool = System.Buffers.ArrayPool<char>.Shared;
+            var chars = pool.Rent(length);
 
             try
             {
@@ -266,7 +266,7 @@ static partial class Polyfill
             }
             finally
             {
-                ArrayPool<char>.Shared.Return(chars);
+                pool.Return(chars);
             }
 #endif
         }

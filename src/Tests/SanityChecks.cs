@@ -88,6 +88,8 @@ public class SanityChecks
                 name == "ParamCollectionAttribute" ||
                 name == "NativeIntegerAttribute" ||
                 name == "ExtensionMarkerAttribute" ||
+                name == "ReadOnlySpanAction`2" ||
+                name == "SpanAction`2" ||
                 name == "FileUtil")
             {
                 continue;
