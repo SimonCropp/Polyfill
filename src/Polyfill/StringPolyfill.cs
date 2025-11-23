@@ -227,6 +227,16 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.create?view=net-10.0#system-string-create-1(system-int32-0-system-buffers-spanaction((system-char-0)))
         public static string Create<TState>(int length, TState state, System.Buffers.SpanAction<char, TState> action)
         {
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(length));
+            }
+
+            if (length == 0)
+            {
+                return string.Empty;
+            }
+
 #if AllowUnsafeBlocks
             var str = new string('\0', length);
 
