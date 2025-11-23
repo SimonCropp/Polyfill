@@ -7,6 +7,7 @@
 namespace Polyfills;
 
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 
 static partial class Polyfill
@@ -219,6 +220,7 @@ static partial class Polyfill
         public static string Join<T>(char separator, IEnumerable<T> values) =>
             string.Join(new(separator, 1), values);
 #endif
+
 #if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2X
 #if FeatureMemory
         /// <summary>
@@ -250,17 +252,21 @@ static partial class Polyfill
 
             return str;
 #else
-            var chars = System.Buffers.ArrayPool<char>.Shared.Rent(length);
+            var chars = ArrayPool<char>.Shared.Rent(length);
 
             try
             {
-                action(chars.AsSpan(0, length), state);
+                var span = chars.AsSpan(0, length);
+                // IMPORTANT: Clear the span to avoid garbage data from pooled buffer
+                // ArrayPool doesn't clear buffers for performance
+                span.Clear();
+                action(span, state);
 
                 return new string(chars, 0, length);
             }
             finally
             {
-                System.Buffers.ArrayPool<char>.Shared.Return(chars);
+                ArrayPool<char>.Shared.Return(chars);
             }
 #endif
         }
