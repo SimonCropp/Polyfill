@@ -148,6 +148,17 @@ public class FilePolyfillTests
         var result = await File.ReadAllBytesAsync(TestFilePath);
         Assert.AreEqual(data, result);
     }
+
+    [Test]
+    public async Task WriteAllBytesAsyncMemory()
+    {
+        ReadOnlyMemory<byte> data = "Hello, Write Bytes!"u8.ToArray();
+        await File.WriteAllBytesAsync(TestFilePath, data);
+
+        var result = await File.ReadAllTextAsync(TestFilePath);
+        Assert.AreEqual("Hello, Write Bytes!", result);
+    }
+
 #endif
 
     [Test]
