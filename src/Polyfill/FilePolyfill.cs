@@ -89,8 +89,11 @@ static partial class Polyfill
         /// Asynchronously creates a new file, writes the specified byte array to the file, and then closes the file. If the target file already exists, it is truncated and overwritten.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendallbytesasync?view=net-10.0#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)
-        public static Task WriteAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default) =>
-            WriteAllBytesAsync(path, bytes.ToArray(), cancellationToken);
+        public static async Task WriteAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
+        {
+            using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
+            await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken);
+        }
 
         /// <summary>
         /// Creates a new file, writes the specified string to the file, and then closes the file.
