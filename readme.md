@@ -1527,7 +1527,7 @@ Enable by adding an MSBuild property `PolyEnsure`
 </PropertyGroup>
 ```
 
-`Ensure` is designed to be a an alternative to the `Argument*Exception.ThrowIf*` APIs added in net7.
+`Ensure` is designed to be an alternative to the `Argument*Exception.ThrowIf*` APIs added in net7.
 
  * `ArgumentException.ThrowIf*` [reference](https://learn.microsoft.com/en-us/dotnet/api/?view=net-10.0&term=ArgumentException.ThrowIf)
  * `ArgumentNullException.ThrowIf*` [reference](https://learn.microsoft.com/en-us/dotnet/api/?view=net-10.0&term=ArgumentNullException.ThrowIf)
