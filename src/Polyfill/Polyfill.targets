@@ -121,13 +121,15 @@ For example:
     <!-- The whole point of EmbeddedAttribute is to avoid the exposing the internal polyfilled APIs to consuming projects via IVT. -->
     <Error Text="PolyPublic and PolyUseEmbeddedAttribute shouldn't be used together." Condition="'$(PolyPublic)' == 'true' AND '$(PolyUseEmbeddedAttribute)' == 'true'" />
 
-
-    <Error Text="PolyGuard has been renamed to PolyEnsure. Replace &lt;PolyGuard&gt;true&lt;/PolyGuard&gt; with &lt;PolyEnsure&gt;true&lt;/PolyEnsure&gt;." Condition="'$(PolyGuard)' == 'true'" />
+    <Error Text="PolyGuard has been renamed to PolyEnsure. Replace &lt;PolyGuard&gt;true&lt;/PolyGuard&gt; with &lt;PolyEnsure&gt;true&lt;/PolyEnsure&gt;." Condition="'$(PolyGuard)' == 'true' AND '$(PolyEnsure)' != 'true'" />
   </Target>
   <ItemGroup>
 
     <Compile Condition="'$(PolyEnsure)' != 'true' "
              Remove="$(MSBuildThisFileDirectory)..\**\Ensure\*.cs" />
+
+    <Compile Condition="'$(PolyGuard)' != 'true' "
+             Remove="$(MSBuildThisFileDirectory)..\**\Guard\*.cs" />
 
     <Compile Condition="'$(PolyArgumentExceptions)' != 'true' "
              Remove="$(MSBuildThisFileDirectory)..\**\ArgumentExceptions\*.cs" />

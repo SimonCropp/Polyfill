@@ -21,6 +21,8 @@
           target="contentFiles/cs/netstandard2.0/Polyfill/ArgumentExceptions"/>
     <file src="Ensure\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/Ensure"/>
+    <file src="Guard\*.cs"
+          target="contentFiles/cs/netstandard2.0/Polyfill/Guard"/>
     <file src="Nullable\*.cs"
           target="contentFiles/cs/netstandard2.0/Polyfill/Nullable"/>
     <file src="Nullability\*.cs"
