@@ -849,6 +849,11 @@
  * `bool TryParse(string?, IFormatProvider?, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-10.0#system-uint64-tryparse(system-string-system-iformatprovider-system-uint64@))
 
 
+#### ValueTask
+
+ * `CompletedTask` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask.completedtask?view=net-10.0)
+
+
 #### XDocument
 
  * `Task SaveAsync(Stream, SaveOptions, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync?view=net-10.0#system-xml-linq-xdocument-saveasync(system-io-stream-system-xml-linq-saveoptions-system-threading-cancellationtoken))
