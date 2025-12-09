@@ -117,6 +117,9 @@ class Consume
 #endif
 
         var (year, month, day) = DateTime.Now;
+#if FeatureValueTask
+        var completed = ValueTask.CompletedTask;
+#endif
     }
 
 #if FeatureValueTuple
