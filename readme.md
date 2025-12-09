@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 643**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 644**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -1293,6 +1293,11 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryParse(ReadOnlySpan<char>, NumberStyles, IFormatProvider?, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-10.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint64@))
  * `bool TryParse(ReadOnlySpan<char>, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-10.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-uint64@))
  * `bool TryParse(string?, IFormatProvider?, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-10.0#system-uint64-tryparse(system-string-system-iformatprovider-system-uint64@))
+
+
+#### ValueTask
+
+ * `CompletedTask` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask.completedtask?view=net-10.0)
 
 
 #### XDocument

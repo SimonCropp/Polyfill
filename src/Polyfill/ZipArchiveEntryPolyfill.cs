@@ -7,15 +7,8 @@ namespace Polyfills;
 
 using System.IO.Compression;
 using System;
-using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 
-[ExcludeFromCodeCoverage]
-[DebuggerNonUserCode]
-#if PolyPublic
-public
-#endif
-static partial class ZipArchiveEntryPolyfill
+static partial class Polyfill
 {
     extension(ZipArchiveEntry target)
     {
