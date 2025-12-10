@@ -8,7 +8,7 @@
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
     <SignAssembly>false</SignAssembly>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
-    <LangVersion>preview</LangVersion>
+    <LangVersion>14.0</LangVersion>
     <ImplicitUsings>false</ImplicitUsings>
     <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
