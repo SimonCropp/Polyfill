@@ -10,7 +10,14 @@ using System.Threading;
 using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
+#if PolyPublic
+public
+#endif
 static class SHA256Polyfill
 {
     extension(SHA256)
