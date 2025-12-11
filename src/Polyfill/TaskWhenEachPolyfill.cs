@@ -30,8 +30,7 @@ static partial class Polyfill
                 throw new ArgumentNullException(nameof(tasks));
             }
 
-            var taskList = new List<Task>(tasks);
-            var remaining = new HashSet<Task>(taskList);
+            var remaining = new List<Task>(tasks);
 
             if (remaining.Count == 0)
             {
@@ -40,6 +39,7 @@ static partial class Polyfill
 
             while (remaining.Count > 0)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 var completed = await Task.WhenAny(remaining).ConfigureAwait(false);
                 remaining.Remove(completed);
                 yield return completed;
@@ -62,8 +62,7 @@ static partial class Polyfill
                 throw new ArgumentNullException(nameof(tasks));
             }
 
-            var taskList = new List<Task<TResult>>(tasks);
-            var remaining = new HashSet<Task<TResult>>(taskList);
+            var remaining = new List<Task<TResult>>(tasks);
 
             if (remaining.Count == 0)
             {
@@ -72,6 +71,7 @@ static partial class Polyfill
 
             while (remaining.Count > 0)
             {
+                cancellationToken.ThrowIfCancellationRequested();
                 var completed = await Task.WhenAny(remaining).ConfigureAwait(false);
                 remaining.Remove(completed);
                 yield return completed;

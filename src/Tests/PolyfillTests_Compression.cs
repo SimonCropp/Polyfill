@@ -85,5 +85,266 @@ partial class PolyfillTests
             Directory.Delete(tempDir, true);
         }
     }
+
+#if !NET10_0_OR_GREATER
+
+    [Test]
+    public async Task ZipFile_ExtractToDirectoryAsync_ExtractsAllEntries()
+    {
+        // Arrange
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+
+        try
+        {
+            // Create a test archive
+            using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create))
+            {
+                var entry = archive.CreateEntry("test.txt");
+                using var writer = new StreamWriter(entry.Open());
+                writer.Write("async content");
+            }
+
+            // Act
+            await ZipFile.ExtractToDirectoryAsync(tempArchive, tempDir);
+
+            // Assert
+            var filePath = Path.Combine(tempDir, "test.txt");
+            Assert.True(File.Exists(filePath));
+            Assert.AreEqual("async content", File.ReadAllText(filePath));
+        }
+        finally
+        {
+            if (File.Exists(tempArchive))
+                File.Delete(tempArchive);
+            if (Directory.Exists(tempDir))
+                Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Test]
+    public async Task ZipFile_ExtractToDirectoryAsync_WithOverwrite_OverwritesFiles()
+    {
+        // Arrange
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        Directory.CreateDirectory(tempDir);
+        var filePath = Path.Combine(tempDir, "test.txt");
+        File.WriteAllText(filePath, "old content");
+
+        try
+        {
+            // Create a test archive
+            using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create))
+            {
+                var entry = archive.CreateEntry("test.txt");
+                using var writer = new StreamWriter(entry.Open());
+                writer.Write("new content");
+            }
+
+            // Act
+            await ZipFile.ExtractToDirectoryAsync(tempArchive, tempDir, overwriteFiles: true);
+
+            // Assert
+            Assert.AreEqual("new content", File.ReadAllText(filePath));
+        }
+        finally
+        {
+            if (File.Exists(tempArchive))
+                File.Delete(tempArchive);
+            if (Directory.Exists(tempDir))
+                Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Test]
+    public async Task ZipFile_ExtractToDirectoryAsync_WithEncoding_ExtractsCorrectly()
+    {
+        // Arrange
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+
+        try
+        {
+            // Create a test archive
+            using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create, Encoding.UTF8))
+            {
+                var entry = archive.CreateEntry("test.txt");
+                using var writer = new StreamWriter(entry.Open());
+                writer.Write("encoded content");
+            }
+
+            // Act
+            await ZipFile.ExtractToDirectoryAsync(tempArchive, tempDir, Encoding.UTF8);
+
+            // Assert
+            var filePath = Path.Combine(tempDir, "test.txt");
+            Assert.True(File.Exists(filePath));
+            Assert.AreEqual("encoded content", File.ReadAllText(filePath));
+        }
+        finally
+        {
+            if (File.Exists(tempArchive))
+                File.Delete(tempArchive);
+            if (Directory.Exists(tempDir))
+                Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Test]
+    public async Task ZipFile_ExtractToDirectoryAsync_WithCancellation_CanBeCancelled()
+    {
+        // Arrange
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        var cancelSource = new CancelSource();
+
+        try
+        {
+            // Create a test archive
+            using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create))
+            {
+                var entry = archive.CreateEntry("test.txt");
+                using var writer = new StreamWriter(entry.Open());
+                writer.Write("content");
+            }
+
+            cancelSource.Cancel();
+
+            // Act & Assert
+            Assert.ThrowsAsync<TaskCanceledException>(async () =>
+                await ZipFile.ExtractToDirectoryAsync(tempArchive, tempDir, cancelSource.Token));
+        }
+        finally
+        {
+            if (File.Exists(tempArchive))
+                File.Delete(tempArchive);
+            if (Directory.Exists(tempDir))
+                Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Test]
+    public async Task ZipFile_CreateFromDirectoryAsync_CreatesArchive()
+    {
+        // Arrange
+        var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        Directory.CreateDirectory(tempDir);
+        File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
+
+        try
+        {
+            // Act
+            await ZipFile.CreateFromDirectoryAsync(tempDir, tempArchive);
+
+            // Assert
+            Assert.True(File.Exists(tempArchive));
+            using var archive = ZipFile.OpenRead(tempArchive);
+            Assert.AreEqual(1, archive.Entries.Count);
+            Assert.AreEqual("test.txt", archive.Entries[0].Name);
+        }
+        finally
+        {
+            if (File.Exists(tempArchive))
+                File.Delete(tempArchive);
+            if (Directory.Exists(tempDir))
+                Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Test]
+    public async Task ZipFile_CreateFromDirectoryAsync_WithCompressionLevel_CreatesArchive()
+    {
+        // Arrange
+        var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        Directory.CreateDirectory(tempDir);
+        File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
+
+        try
+        {
+            // Act
+            await ZipFile.CreateFromDirectoryAsync(
+                tempDir,
+                tempArchive,
+                CompressionLevel.Fastest,
+                includeBaseDirectory: false);
+
+            // Assert
+            Assert.True(File.Exists(tempArchive));
+            using var archive = ZipFile.OpenRead(tempArchive);
+            Assert.AreEqual(1, archive.Entries.Count);
+        }
+        finally
+        {
+            if (File.Exists(tempArchive))
+                File.Delete(tempArchive);
+            if (Directory.Exists(tempDir))
+                Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Test]
+    public async Task ZipFile_CreateFromDirectoryAsync_WithEncoding_CreatesArchive()
+    {
+        // Arrange
+        var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        Directory.CreateDirectory(tempDir);
+        File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
+
+        try
+        {
+            // Act
+            await ZipFile.CreateFromDirectoryAsync(
+                tempDir,
+                tempArchive,
+                CompressionLevel.Optimal,
+                includeBaseDirectory: false,
+                Encoding.UTF8);
+
+            // Assert
+            Assert.True(File.Exists(tempArchive));
+            using var archive = ZipFile.OpenRead(tempArchive);
+            Assert.AreEqual(1, archive.Entries.Count);
+        }
+        finally
+        {
+            if (File.Exists(tempArchive))
+                File.Delete(tempArchive);
+            if (Directory.Exists(tempDir))
+                Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Test]
+    public async Task ZipFile_CreateFromDirectoryAsync_WithCancellation_CanBeCancelled()
+    {
+        // Arrange
+        var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        Directory.CreateDirectory(tempDir);
+        File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
+        var cancelSource = new CancelSource();
+
+        try
+        {
+            cancelSource.Cancel();
+
+            // Act & Assert
+            Assert.ThrowsAsync<TaskCanceledException>(async () =>
+                await ZipFile.CreateFromDirectoryAsync(tempDir, tempArchive, cancelSource.Token));
+        }
+        finally
+        {
+            if (File.Exists(tempArchive))
+                File.Delete(tempArchive);
+            if (Directory.Exists(tempDir))
+                Directory.Delete(tempDir, true);
+        }
+    }
+
+#endif
 }
 #endif

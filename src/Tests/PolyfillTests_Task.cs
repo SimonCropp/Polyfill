@@ -606,6 +606,249 @@ partial class PolyfillTests
 
     #endregion
 
+#if !NET9_0_OR_GREATER && (NET5_0_OR_GREATER || NETCOREAPP3_0_OR_GREATER)
+
+    #region WhenEach Tests
+
+    [Test]
+    public async Task WhenEach_NonGeneric_CompletesInOrder()
+    {
+        // Arrange
+        var tcs1 = new TaskCompletionSource();
+        var tcs2 = new TaskCompletionSource();
+        var tcs3 = new TaskCompletionSource();
+        var tasks = new[] { tcs1.Task, tcs2.Task, tcs3.Task };
+        var completed = new List<int>();
+
+        // Act
+        var whenEachTask = Task.Run(async () =>
+        {
+            var index = 0;
+            await foreach (var task in Task.WhenEach(tasks))
+            {
+                completed.Add(index++);
+            }
+        });
+
+        // Complete in specific order
+        tcs2.SetResult();
+        await Task.Delay(10);
+        tcs1.SetResult();
+        await Task.Delay(10);
+        tcs3.SetResult();
+        await whenEachTask;
+
+        // Assert - verify we got all tasks
+        Assert.AreEqual(3, completed.Count);
+    }
+
+    [Test]
+    public async Task WhenEach_Generic_CompletesInOrder()
+    {
+        // Arrange
+        var tcs1 = new TaskCompletionSource<int>();
+        var tcs2 = new TaskCompletionSource<int>();
+        var tcs3 = new TaskCompletionSource<int>();
+        var tasks = new[] { tcs1.Task, tcs2.Task, tcs3.Task };
+        var results = new List<int>();
+
+        // Act
+        var whenEachTask = Task.Run(async () =>
+        {
+            await foreach (var task in Task.WhenEach(tasks))
+            {
+                results.Add(await task);
+            }
+        });
+
+        // Complete in specific order with different values
+        tcs2.SetResult(2);
+        await Task.Delay(10);
+        tcs1.SetResult(1);
+        await Task.Delay(10);
+        tcs3.SetResult(3);
+        await whenEachTask;
+
+        // Assert - verify we got all results
+        Assert.AreEqual(3, results.Count);
+        Assert.Contains(1, results);
+        Assert.Contains(2, results);
+        Assert.Contains(3, results);
+    }
+
+    [Test]
+    public async Task WhenEach_NonGeneric_EmptyCollection_CompletesImmediately()
+    {
+        // Arrange
+        var tasks = Array.Empty<Task>();
+        var count = 0;
+
+        // Act
+        await foreach (var task in Task.WhenEach(tasks))
+        {
+            count++;
+        }
+
+        // Assert
+        Assert.AreEqual(0, count);
+    }
+
+    [Test]
+    public async Task WhenEach_Generic_EmptyCollection_CompletesImmediately()
+    {
+        // Arrange
+        var tasks = Array.Empty<Task<int>>();
+        var count = 0;
+
+        // Act
+        await foreach (var task in Task.WhenEach(tasks))
+        {
+            count++;
+        }
+
+        // Assert
+        Assert.AreEqual(0, count);
+    }
+
+    [Test]
+    public void WhenEach_NonGeneric_NullTasks_ThrowsArgumentNullException()
+    {
+        // Act & Assert
+        Assert.ThrowsAsync<ArgumentNullException>(async () =>
+        {
+            await foreach (var task in Task.WhenEach((IEnumerable<Task>)null!))
+            {
+            }
+        });
+    }
+
+    [Test]
+    public void WhenEach_Generic_NullTasks_ThrowsArgumentNullException()
+    {
+        // Act & Assert
+        Assert.ThrowsAsync<ArgumentNullException>(async () =>
+        {
+            await foreach (var task in Task.WhenEach((IEnumerable<Task<int>>)null!))
+            {
+            }
+        });
+    }
+
+    [Test]
+    public async Task WhenEach_NonGeneric_WithCancellation_StopsIterating()
+    {
+        // Arrange
+        var tcs1 = new TaskCompletionSource();
+        var tcs2 = new TaskCompletionSource();
+        var tcs3 = new TaskCompletionSource();
+        var tasks = new[] { tcs1.Task, tcs2.Task, tcs3.Task };
+        var cancelSource = new CancelSource();
+        var count = 0;
+
+        // Act
+        var whenEachTask = Task.Run(async () =>
+        {
+            await foreach (var task in Task.WhenEach(tasks, cancelSource.Token))
+            {
+                count++;
+                if (count == 1)
+                {
+                    cancelSource.Cancel();
+                }
+            }
+        });
+
+        tcs1.SetResult();
+        await Task.Delay(10);
+        tcs2.SetResult();
+        await Task.Delay(10);
+        tcs3.SetResult();
+
+        // Assert
+        Assert.ThrowsAsync<OperationCanceledException>(() => whenEachTask);
+    }
+
+    [Test]
+    public async Task WhenEach_Generic_WithFaultedTask_PropagatesException()
+    {
+        // Arrange
+        var tcs1 = new TaskCompletionSource<int>();
+        var tcs2 = new TaskCompletionSource<int>();
+        var tasks = new[] { tcs1.Task, tcs2.Task };
+        var results = new List<Task<int>>();
+
+        // Act
+        var whenEachTask = Task.Run(async () =>
+        {
+            await foreach (var task in Task.WhenEach(tasks))
+            {
+                results.Add(task);
+            }
+        });
+
+        tcs1.SetResult(1);
+        await Task.Delay(10);
+        tcs2.SetException(new InvalidOperationException("Test exception"));
+        await whenEachTask;
+
+        // Assert - WhenEach completes, but the task itself is faulted
+        Assert.AreEqual(2, results.Count);
+        Assert.DoesNotThrowAsync(() => results[0]);
+        Assert.ThrowsAsync<InvalidOperationException>(() => results[1]);
+    }
+
+    [Test]
+    public async Task WhenEach_NonGeneric_AlreadyCompletedTasks_YieldsAll()
+    {
+        // Arrange
+        var tasks = new[]
+        {
+            Task.CompletedTask,
+            Task.CompletedTask,
+            Task.CompletedTask
+        };
+        var count = 0;
+
+        // Act
+        await foreach (var task in Task.WhenEach(tasks))
+        {
+            count++;
+            Assert.True(task.IsCompleted);
+        }
+
+        // Assert
+        Assert.AreEqual(3, count);
+    }
+
+    [Test]
+    public async Task WhenEach_Generic_AlreadyCompletedTasks_YieldsAll()
+    {
+        // Arrange
+        var tasks = new[]
+        {
+            Task.FromResult(1),
+            Task.FromResult(2),
+            Task.FromResult(3)
+        };
+        var results = new List<int>();
+
+        // Act
+        await foreach (var task in Task.WhenEach(tasks))
+        {
+            results.Add(await task);
+        }
+
+        // Assert
+        Assert.AreEqual(3, results.Count);
+        Assert.Contains(1, results);
+        Assert.Contains(2, results);
+        Assert.Contains(3, results);
+    }
+
+    #endregion
+
+#endif
+
     #region Helper Methods
 
     private async Task<T> GetValueAfterDelayAsync<T>(T value, int delayMs)
