@@ -82,36 +82,36 @@ static partial class Polyfill
 
         // Helper method to handle overwriteFiles polyfill for pre-.NET 8.0
         static void ExtractToDirectoryPolyfill(
-            string sourceArchiveFileName,
-            string destinationDirectoryName,
-            bool overwriteFiles)
+            string sourceArchiveFile,
+            string destinationDirectory,
+            bool overwrite)
         {
 #if NET8_0_OR_GREATER
-            ZipFile.ExtractToDirectory(sourceArchiveFileName, destinationDirectoryName, overwriteFiles);
+            ZipFile.ExtractToDirectory(sourceArchiveFile, destinationDirectory, overwrite);
 #else
-            if (overwriteFiles && Directory.Exists(destinationDirectoryName))
+            if (overwrite && Directory.Exists(destinationDirectory))
             {
-                Directory.Delete(destinationDirectoryName, true);
+                Directory.Delete(destinationDirectory, true);
             }
-            ZipFile.ExtractToDirectory(sourceArchiveFileName, destinationDirectoryName);
+            ZipFile.ExtractToDirectory(sourceArchiveFile, destinationDirectory);
 #endif
         }
 
         // Helper method to handle overwriteFiles polyfill for pre-.NET 8.0 with encoding
         static void ExtractToDirectoryPolyfill(
-            string sourceArchiveFileName,
-            string destinationDirectoryName,
-            Encoding entryNameEncoding,
-            bool overwriteFiles)
+            string sourceArchiveFile,
+            string destinationDirectory,
+            Encoding encoding,
+            bool overwrite)
         {
 #if NET8_0_OR_GREATER
-            ZipFile.ExtractToDirectory(sourceArchiveFileName, destinationDirectoryName, entryNameEncoding, overwriteFiles);
+            ZipFile.ExtractToDirectory(sourceArchiveFile, destinationDirectory, encoding, overwrite);
 #else
-            if (overwriteFiles && Directory.Exists(destinationDirectoryName))
+            if (overwrite && Directory.Exists(destinationDirectory))
             {
-                Directory.Delete(destinationDirectoryName, true);
+                Directory.Delete(destinationDirectory, true);
             }
-            ZipFile.ExtractToDirectory(sourceArchiveFileName, destinationDirectoryName, entryNameEncoding);
+            ZipFile.ExtractToDirectory(sourceArchiveFile, destinationDirectory, encoding);
 #endif
         }
 
