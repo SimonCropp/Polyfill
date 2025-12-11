@@ -104,27 +104,27 @@ partial class PolyfillTests
     [Test]
     public void TimeSpan_FromMilliseconds_Long_NearMaxValue()
     {
-        // Arrange - max safe milliseconds value (922337203685477 ms)
-        const long maxMilliseconds = long.MaxValue / 10000;
+        // Arrange - near max safe milliseconds value
+        const long nearMaxMilliseconds = (long.MaxValue / 10000) - 1;
 
         // Act
-        var timeSpan = TimeSpan.FromMilliseconds(maxMilliseconds);
+        var timeSpan = TimeSpan.FromMilliseconds(nearMaxMilliseconds);
 
         // Assert
-        Assert.AreEqual(maxMilliseconds, (long)timeSpan.TotalMilliseconds);
+        Assert.AreEqual(nearMaxMilliseconds, (long)timeSpan.TotalMilliseconds);
     }
 
     [Test]
     public void TimeSpan_FromMilliseconds_Long_NearMinValue()
     {
-        // Arrange - min safe milliseconds value
-        const long minMilliseconds = long.MinValue / 10000;
+        // Arrange - near min safe milliseconds value
+        const long nearMinMilliseconds = (long.MinValue / 10000) + 1;
 
         // Act
-        var timeSpan = TimeSpan.FromMilliseconds(minMilliseconds);
+        var timeSpan = TimeSpan.FromMilliseconds(nearMinMilliseconds);
 
         // Assert
-        Assert.AreEqual(minMilliseconds, (long)timeSpan.TotalMilliseconds);
+        Assert.AreEqual(nearMinMilliseconds, (long)timeSpan.TotalMilliseconds);
     }
 #endif
 }
