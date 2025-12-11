@@ -39,6 +39,7 @@ using System.Xml.Linq;
 using MemoryStream = System.IO.MemoryStream;
 // ReSharper disable MethodHasAsyncOverload
 // ReSharper disable RedundantCast
+// ReSharper disable NotAccessedField.Local
 #pragma warning disable CS0414 // Field is assigned but its value is never used
 #pragma warning disable CS0169 // Field is never used
 

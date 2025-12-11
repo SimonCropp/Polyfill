@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 644**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 646**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -706,6 +706,8 @@ The class `Polyfill` includes the following extension methods:
 
 #### FileUnixMode
 
+ * `UnixFileMode GetUnixFileMode(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.getunixfilemode?view=net-10.0#system-io-file-getunixfilemode(system-string))
+ * `void SetUnixFileMode(string, UnixFileMode)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.setunixfilemode?view=net-10.0#system-io-file-setunixfilemode(system-string-system-io-unixfilemode))
 
 
 #### Guid
