@@ -86,8 +86,6 @@ partial class PolyfillTests
         }
     }
 
-#if !NET10_0_OR_GREATER
-
     [Test]
     public async Task ZipFile_ExtractToDirectoryAsync_ExtractsAllEntries()
     {
@@ -211,9 +209,9 @@ partial class PolyfillTests
 
             cancelSource.Cancel();
 
-            // Act & Assert
-            Assert.ThrowsAsync<TaskCanceledException>(async () =>
-                await ZipFile.ExtractToDirectoryAsync(tempArchive, tempDir, cancelSource.Token));
+            // Act & Assert - Polyfill throws TaskCanceledException, native .NET 10+ throws OperationCanceledException
+            Assert.That(async () => await ZipFile.ExtractToDirectoryAsync(tempArchive, tempDir, cancelSource.Token),
+                Throws.InstanceOf<OperationCanceledException>());
         }
         finally
         {
@@ -332,8 +330,8 @@ partial class PolyfillTests
         {
             cancelSource.Cancel();
 
-            // Act & Assert
-            Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            // Act & Assert - Polyfill throws TaskCanceledException, native .NET 10+ throws OperationCanceledException
+            Assert.ThrowsAsync<OperationCanceledException>(async () =>
                 await ZipFile.CreateFromDirectoryAsync(tempDir, tempArchive, cancelSource.Token));
         }
         finally
@@ -344,7 +342,5 @@ partial class PolyfillTests
                 Directory.Delete(tempDir, true);
         }
     }
-
-#endif
 }
 #endif

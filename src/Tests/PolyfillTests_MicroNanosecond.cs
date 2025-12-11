@@ -34,7 +34,6 @@ partial class PolyfillTests
     }
 #endif
 
-#if !NET10_0_OR_GREATER
     [Test]
     public void TimeSpan_FromMilliseconds_Long_CreatesCorrectTimeSpan()
     {
@@ -87,8 +86,12 @@ partial class PolyfillTests
         // Arrange - value that would overflow
         var tooLarge = long.MaxValue;
 
-        // Act & Assert
+        // Act & Assert - Native .NET 10+ throws ArgumentOutOfRangeException, polyfill throws OverflowException
+#if NET10_0_OR_GREATER
+        Assert.Throws<ArgumentOutOfRangeException>(() => TimeSpan.FromMilliseconds(tooLarge));
+#else
         Assert.Throws<OverflowException>(() => TimeSpan.FromMilliseconds(tooLarge));
+#endif
     }
 
     [Test]
@@ -97,8 +100,12 @@ partial class PolyfillTests
         // Arrange - value that would overflow
         var tooSmall = long.MinValue;
 
-        // Act & Assert
+        // Act & Assert - Native .NET 10+ throws ArgumentOutOfRangeException, polyfill throws OverflowException
+#if NET10_0_OR_GREATER
+        Assert.Throws<ArgumentOutOfRangeException>(() => TimeSpan.FromMilliseconds(tooSmall));
+#else
         Assert.Throws<OverflowException>(() => TimeSpan.FromMilliseconds(tooSmall));
+#endif
     }
 
     [Test]
@@ -126,5 +133,4 @@ partial class PolyfillTests
         // Assert
         Assert.AreEqual(nearMinMilliseconds, (long)timeSpan.TotalMilliseconds);
     }
-#endif
 }

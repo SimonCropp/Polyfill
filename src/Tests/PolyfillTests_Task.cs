@@ -606,7 +606,7 @@ partial class PolyfillTests
 
     #endregion
 
-#if !NET9_0_OR_GREATER && (NET5_0_OR_GREATER || NETCOREAPP3_0_OR_GREATER)
+#if NET5_0_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 
     #region WhenEach Tests
 
@@ -714,26 +714,32 @@ partial class PolyfillTests
     public void WhenEach_NonGeneric_NullTasks_ThrowsArgumentNullException()
     {
         // Act & Assert
+#pragma warning disable IDE0022
         Assert.ThrowsAsync<ArgumentNullException>(async () =>
         {
             await foreach (var task in Task.WhenEach((IEnumerable<Task>)null!))
             {
             }
         });
+#pragma warning restore IDE0022
     }
 
     [Test]
     public void WhenEach_Generic_NullTasks_ThrowsArgumentNullException()
     {
         // Act & Assert
+#pragma warning disable IDE0022
         Assert.ThrowsAsync<ArgumentNullException>(async () =>
         {
             await foreach (var task in Task.WhenEach((IEnumerable<Task<int>>)null!))
             {
             }
         });
+#pragma warning restore IDE0022
     }
 
+#if !NET9_0_OR_GREATER
+    // CancellationToken overload only exists in polyfill, not in native .NET 9+ implementation
     [Test]
     public async Task WhenEach_NonGeneric_WithCancellation_StopsIterating()
     {
@@ -767,6 +773,7 @@ partial class PolyfillTests
         // Assert
         Assert.ThrowsAsync<OperationCanceledException>(() => whenEachTask);
     }
+#endif
 
     [Test]
     public async Task WhenEach_Generic_WithFaultedTask_PropagatesException()
