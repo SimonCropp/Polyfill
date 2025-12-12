@@ -1,4 +1,3 @@
-[TestFixture]
 public class BuildApiTest
 {
     static string solutionDirectory;
@@ -11,7 +10,7 @@ public class BuildApiTest
     }
 
     [Test]
-    public void RunWithRoslyn()
+    public Task RunWithRoslyn()
     {
         var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
@@ -34,6 +33,7 @@ public class BuildApiTest
         var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
         File.Delete(countMd);
         File.WriteAllText(countMd, $"**API count: {count}**");
+        return Task.CompletedTask;
     }
 
     static int WriteExtensions(StreamWriter writer, int count)

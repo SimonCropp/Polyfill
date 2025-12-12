@@ -8,8 +8,7 @@
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" Pinned="true" />
     <!-- keep at 17.14.1 -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" Pinned="true" />
-    <PackageVersion Include="NUnit" Version="3.14.0" Pinned="true" />
-    <PackageVersion Include="NUnit3TestAdapter" Version="5.0.0" Pinned="true" />
+    <PackageVersion Include="TUnit" Version="1.5.48" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.163" />
     <PackageVersion Include="Microsoft.Bcl.Memory" Version="10.0.1" />
     <PackageVersion Include="System.Memory" Version="4.6.3" />

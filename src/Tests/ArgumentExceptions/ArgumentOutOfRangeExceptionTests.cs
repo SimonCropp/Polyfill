@@ -1,253 +1,257 @@
 // ReSharper disable ObjectCreationAsStatement
-[TestFixture]
 public class ArgumentOutOfRangeExceptionTests
 {
     #region ThrowIfZero Tests
 
     [Test]
-    public void ThrowIfZero_WithZeroInt_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfZero_WithZeroInt_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var zero = 0;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfZero(zero))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfZero(zero)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("zero"));
+        await Assert.That(ex!.ParamName).IsEqualTo("zero");
     }
 
     [Test]
-    public void ThrowIfZero_WithZeroLong_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfZero_WithZeroLong_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var zero = 0L;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfZero(zero))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfZero(zero)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("zero"));
+        await Assert.That(ex!.ParamName).IsEqualTo("zero");
     }
 
     [Test]
-    public void ThrowIfZero_WithZeroDecimal_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfZero_WithZeroDecimal_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var zero = 0m;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfZero(zero))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfZero(zero)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("zero"));
+        await Assert.That(ex!.ParamName).IsEqualTo("zero");
     }
 
     [Test]
-    public void ThrowIfZero_WithZeroDouble_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfZero_WithZeroDouble_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var zero = 0.0;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfZero(zero))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfZero(zero)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("zero"));
+        await Assert.That(ex!.ParamName).IsEqualTo("zero");
     }
 
     [Test]
-    public void ThrowIfZero_WithPositiveInt_DoesNotThrow()
+    public async Task ThrowIfZero_WithPositiveInt_DoesNotThrow()
     {
         // Arrange
         var positive = 42;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfZero(positive));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfZero(positive)).ThrowsNothing();
     }
 
     [Test]
-    public void ThrowIfZero_WithNegativeInt_DoesNotThrow()
+    public async Task ThrowIfZero_WithNegativeInt_DoesNotThrow()
     {
         // Arrange
         var negative = -42;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfZero(negative));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfZero(negative)).ThrowsNothing();
     }
 
-    [TestCase(1)]
-    [TestCase(100)]
-    [TestCase(-1)]
-    [TestCase(-100)]
-    [TestCase(int.MaxValue)]
-    [TestCase(int.MinValue)]
-    public void ThrowIfZero_WithNonZeroInt_DoesNotThrow(int value) =>
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfZero(value));
+    [Test]
+    [Arguments(1)]
+    [Arguments(100)]
+    [Arguments(-1)]
+    [Arguments(-100)]
+    [Arguments(int.MaxValue)]
+    [Arguments(int.MinValue)]
+    public async Task ThrowIfZero_WithNonZeroInt_DoesNotThrow(int value) =>
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfZero(value)).ThrowsNothing();
 
     #endregion
 
     #region ThrowIfNegative Tests
 
     [Test]
-    public void ThrowIfNegative_WithNegativeInt_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfNegative_WithNegativeInt_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var negative = -1;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegative(negative))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegative(negative)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("negative"));
-        Assert.That(ex.ActualValue, Is.EqualTo(-1));
-        Assert.That(ex.Message, Does.Contain("non-negative"));
+        await Assert.That(ex!.ParamName).IsEqualTo("negative");
+        await Assert.That(ex!.ActualValue).IsEqualTo(-1);
+        await Assert.That(ex!.Message).Contains("non-negative");
     }
 
     [Test]
-    public void ThrowIfNegative_WithNegativeDecimal_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfNegative_WithNegativeDecimal_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var negative = -10.5m;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegative(negative))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegative(negative)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("negative"));
-        Assert.That(ex.ActualValue, Is.EqualTo(-10.5m));
+        await Assert.That(ex!.ParamName).IsEqualTo("negative");
+        await Assert.That(ex!.ActualValue).IsEqualTo(-10.5m);
     }
 
     [Test]
-    public void ThrowIfNegative_WithZero_DoesNotThrow()
+    public async Task ThrowIfNegative_WithZero_DoesNotThrow()
     {
         // Arrange
         var zero = 0;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfNegative(zero));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegative(zero)).ThrowsNothing();
     }
 
     [Test]
-    public void ThrowIfNegative_WithPositiveInt_DoesNotThrow()
+    public async Task ThrowIfNegative_WithPositiveInt_DoesNotThrow()
     {
         // Arrange
         var positive = 42;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfNegative(positive));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegative(positive)).ThrowsNothing();
     }
 
-    [TestCase(-1)]
-    [TestCase(-100)]
-    [TestCase(-1000)]
-    [TestCase(int.MinValue)]
-    public void ThrowIfNegative_WithNegativeValues_Throws(int value)
+    [Test]
+    [Arguments(-1)]
+    [Arguments(-100)]
+    [Arguments(-1000)]
+    [Arguments(int.MinValue)]
+    public async Task ThrowIfNegative_WithNegativeValues_Throws(int value)
     {
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegative(value))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegative(value)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ActualValue, Is.EqualTo(value));
+        await Assert.That(ex!.ActualValue).IsEqualTo(value);
     }
 
-    [TestCase(0)]
-    [TestCase(1)]
-    [TestCase(100)]
-    [TestCase(1000)]
-    [TestCase(int.MaxValue)]
-    public void ThrowIfNegative_WithNonNegativeValues_DoesNotThrow(int value) =>
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(100)]
+    [Arguments(1000)]
+    [Arguments(int.MaxValue)]
+    public async Task ThrowIfNegative_WithNonNegativeValues_DoesNotThrow(int value) =>
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfNegative(value));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegative(value)).ThrowsNothing();
 
     #endregion
 
     #region ThrowIfNegativeOrZero Tests
 
     [Test]
-    public void ThrowIfNegativeOrZero_WithZero_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfNegativeOrZero_WithZero_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var zero = 0;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(zero))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(zero)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("zero"));
-        Assert.That(ex.ActualValue, Is.EqualTo(0));
-        Assert.That(ex.Message, Does.Contain("non-zero"));
+        await Assert.That(ex!.ParamName).IsEqualTo("zero");
+        await Assert.That(ex!.ActualValue).IsEqualTo(0);
+        await Assert.That(ex!.Message).Contains("non-zero");
     }
 
     [Test]
-    public void ThrowIfNegativeOrZero_WithNegative_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfNegativeOrZero_WithNegative_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var negative = -5;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(negative))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(negative)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("negative"));
-        Assert.That(ex.ActualValue, Is.EqualTo(-5));
+        await Assert.That(ex!.ParamName).IsEqualTo("negative");
+        await Assert.That(ex!.ActualValue).IsEqualTo(-5);
     }
 
     [Test]
-    public void ThrowIfNegativeOrZero_WithZeroDecimal_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfNegativeOrZero_WithZeroDecimal_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var zero = 0.0m;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(zero))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(zero)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ActualValue, Is.EqualTo(0.0m));
+        await Assert.That(ex!.ActualValue).IsEqualTo(0.0m);
     }
 
     [Test]
-    public void ThrowIfNegativeOrZero_WithPositive_DoesNotThrow()
+    public async Task ThrowIfNegativeOrZero_WithPositive_DoesNotThrow()
     {
         // Arrange
         var positive = 1;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(positive));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(positive)).ThrowsNothing();
     }
-
-    [TestCase(-1000)]
-    [TestCase(-100)]
-    [TestCase(-1)]
-    [TestCase(0)]
-    [TestCase(int.MinValue)]
-    public void ThrowIfNegativeOrZero_WithInvalidValues_Throws(int value)
-    {
-        // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(value))!;
-
-        Assert.That(ex.ActualValue, Is.EqualTo(value));
-    }
-
-    [TestCase(1)]
-    [TestCase(10)]
-    [TestCase(100)]
-    [TestCase(1000)]
-    [TestCase(int.MaxValue)]
-    public void ThrowIfNegativeOrZero_WithValidValues_DoesNotThrow(int value) =>
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(value));
 
     [Test]
-    public void ThrowIfNegativeOrZero_WithDecimal_ValidatesCorrectly()
+    [Arguments(-1000)]
+    [Arguments(-100)]
+    [Arguments(-1)]
+    [Arguments(0)]
+    [Arguments(int.MinValue)]
+    public async Task ThrowIfNegativeOrZero_WithInvalidValues_Throws(int value)
+    {
+        // Act & Assert
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(value)).Throws<ArgumentOutOfRangeException>();
+
+        await Assert.That(ex!.ActualValue).IsEqualTo(value);
+    }
+
+    [Test]
+    [Arguments(1)]
+    [Arguments(10)]
+    [Arguments(100)]
+    [Arguments(1000)]
+    [Arguments(int.MaxValue)]
+    public async Task ThrowIfNegativeOrZero_WithValidValues_DoesNotThrow(int value) =>
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(value)).ThrowsNothing();
+
+    [Test]
+    public async Task ThrowIfNegativeOrZero_WithDecimal_ValidatesCorrectly()
     {
         // Arrange
         var negative = -0.001m;
@@ -255,12 +259,12 @@ public class ArgumentOutOfRangeExceptionTests
         var positive = 0.001m;
 
         // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(negative));
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(zero));
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(positive));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(negative)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(zero)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegativeOrZero(positive)).ThrowsNothing();
     }
 
     #endregion
@@ -268,310 +272,318 @@ public class ArgumentOutOfRangeExceptionTests
     #region ThrowIfGreaterThan Tests
 
     [Test]
-    public void ThrowIfGreaterThan_WhenValueIsGreater_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfGreaterThan_WhenValueIsGreater_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var value = 10;
         var threshold = 5;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, threshold))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("value"));
-        Assert.That(ex.ActualValue, Is.EqualTo(10));
-        Assert.That(ex.Message, Does.Contain("less than or equal to"));
+        await Assert.That(ex!.ParamName).IsEqualTo("value");
+        await Assert.That(ex!.ActualValue).IsEqualTo(10);
+        await Assert.That(ex!.Message).Contains("less than or equal to");
     }
 
     [Test]
-    public void ThrowIfGreaterThan_WhenValueIsEqual_DoesNotThrow()
+    public async Task ThrowIfGreaterThan_WhenValueIsEqual_DoesNotThrow()
     {
         // Arrange
         var value = 5;
         var threshold = 5;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, threshold));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, threshold)).ThrowsNothing();
     }
 
     [Test]
-    public void ThrowIfGreaterThan_WhenValueIsLess_DoesNotThrow()
+    public async Task ThrowIfGreaterThan_WhenValueIsLess_DoesNotThrow()
     {
         // Arrange
         var value = 3;
         var threshold = 5;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, threshold));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, threshold)).ThrowsNothing();
     }
 
     [Test]
-    public void ThrowIfGreaterThan_WithDecimal_ValidatesCorrectly()
+    public async Task ThrowIfGreaterThan_WithDecimal_ValidatesCorrectly()
     {
         // Arrange
         var discount = 105.5m;
         var maxDiscount = 100m;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(discount, maxDiscount))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(discount, maxDiscount)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ActualValue, Is.EqualTo(105.5m));
+        await Assert.That(ex!.ActualValue).IsEqualTo(105.5m);
     }
 
     [Test]
-    public void ThrowIfGreaterThan_WithString_ValidatesCorrectly()
+    public async Task ThrowIfGreaterThan_WithString_ValidatesCorrectly()
     {
         // Arrange
         var value = "zebra";
         var threshold = "apple";
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, threshold))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ActualValue, Is.EqualTo("zebra"));
+        await Assert.That(ex!.ActualValue).IsEqualTo("zebra");
     }
 
-    [TestCase(101, 100)]
-    [TestCase(1000, 999)]
-    [TestCase(int.MaxValue, 0)]
-    public void ThrowIfGreaterThan_WithValuesGreaterThanThreshold_Throws(int value, int threshold) =>
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, threshold));
+    [Test]
+    [Arguments(101, 100)]
+    [Arguments(1000, 999)]
+    [Arguments(int.MaxValue, 0)]
+    public async Task ThrowIfGreaterThan_WithValuesGreaterThanThreshold_Throws(int value, int threshold) =>
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
-    [TestCase(100, 100)]
-    [TestCase(99, 100)]
-    [TestCase(0, 100)]
-    [TestCase(int.MinValue, 0)]
-    public void ThrowIfGreaterThan_WithValuesNotGreaterThanThreshold_DoesNotThrow(int value, int threshold) =>
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, threshold));
+    [Test]
+    [Arguments(100, 100)]
+    [Arguments(99, 100)]
+    [Arguments(0, 100)]
+    [Arguments(int.MinValue, 0)]
+    public async Task ThrowIfGreaterThan_WithValuesNotGreaterThanThreshold_DoesNotThrow(int value, int threshold) =>
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(value, threshold)).ThrowsNothing();
 
     #endregion
 
     #region ThrowIfGreaterThanOrEqual Tests
 
     [Test]
-    public void ThrowIfGreaterThanOrEqual_WhenValueIsGreater_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfGreaterThanOrEqual_WhenValueIsGreater_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var value = 10;
         var threshold = 5;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(value, threshold))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("value"));
-        Assert.That(ex.ActualValue, Is.EqualTo(10));
-        Assert.That(ex.Message, Does.Contain("less than"));
+        await Assert.That(ex!.ParamName).IsEqualTo("value");
+        await Assert.That(ex!.ActualValue).IsEqualTo(10);
+        await Assert.That(ex!.Message).Contains("less than");
     }
 
     [Test]
-    public void ThrowIfGreaterThanOrEqual_WhenValueIsEqual_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfGreaterThanOrEqual_WhenValueIsEqual_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var value = 5;
         var threshold = 5;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(value, threshold))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ActualValue, Is.EqualTo(5));
+        await Assert.That(ex!.ActualValue).IsEqualTo(5);
     }
 
     [Test]
-    public void ThrowIfGreaterThanOrEqual_WhenValueIsLess_DoesNotThrow()
+    public async Task ThrowIfGreaterThanOrEqual_WhenValueIsLess_DoesNotThrow()
     {
         // Arrange
         var value = 3;
         var threshold = 5;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(value, threshold));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(value, threshold)).ThrowsNothing();
     }
 
-    [TestCase(100, 100)]
-    [TestCase(101, 100)]
-    [TestCase(1000, 999)]
-    [TestCase(int.MaxValue, 0)]
-    public void ThrowIfGreaterThanOrEqual_WithInvalidValues_Throws(int value, int threshold) =>
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(value, threshold));
+    [Test]
+    [Arguments(100, 100)]
+    [Arguments(101, 100)]
+    [Arguments(1000, 999)]
+    [Arguments(int.MaxValue, 0)]
+    public async Task ThrowIfGreaterThanOrEqual_WithInvalidValues_Throws(int value, int threshold) =>
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
-    [TestCase(99, 100)]
-    [TestCase(0, 100)]
-    [TestCase(int.MinValue, 0)]
-    public void ThrowIfGreaterThanOrEqual_WithValidValues_DoesNotThrow(int value, int threshold) =>
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(value, threshold));
+    [Test]
+    [Arguments(99, 100)]
+    [Arguments(0, 100)]
+    [Arguments(int.MinValue, 0)]
+    public async Task ThrowIfGreaterThanOrEqual_WithValidValues_DoesNotThrow(int value, int threshold) =>
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(value, threshold)).ThrowsNothing();
 
     #endregion
 
     #region ThrowIfLessThan Tests
 
     [Test]
-    public void ThrowIfLessThan_WhenValueIsLess_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfLessThan_WhenValueIsLess_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var value = 3;
         var threshold = 5;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThan(value, threshold))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfLessThan(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("value"));
-        Assert.That(ex.ActualValue, Is.EqualTo(3));
-        Assert.That(ex.Message, Does.Contain("greater than or equal to"));
+        await Assert.That(ex!.ParamName).IsEqualTo("value");
+        await Assert.That(ex!.ActualValue).IsEqualTo(3);
+        await Assert.That(ex!.Message).Contains("greater than or equal to");
     }
 
     [Test]
-    public void ThrowIfLessThan_WhenValueIsEqual_DoesNotThrow()
+    public async Task ThrowIfLessThan_WhenValueIsEqual_DoesNotThrow()
     {
         // Arrange
         var value = 5;
         var threshold = 5;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThan(value, threshold));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfLessThan(value, threshold)).ThrowsNothing();
     }
 
     [Test]
-    public void ThrowIfLessThan_WhenValueIsGreater_DoesNotThrow()
+    public async Task ThrowIfLessThan_WhenValueIsGreater_DoesNotThrow()
     {
         // Arrange
         var value = 10;
         var threshold = 5;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThan(value, threshold));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfLessThan(value, threshold)).ThrowsNothing();
     }
 
     [Test]
-    public void ThrowIfLessThan_WithDecimal_ValidatesCorrectly()
+    public async Task ThrowIfLessThan_WithDecimal_ValidatesCorrectly()
     {
         // Arrange
         var price = 0.50m;
         var minPrice = 1.00m;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThan(price, minPrice))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfLessThan(price, minPrice)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ActualValue, Is.EqualTo(0.50m));
+        await Assert.That(ex!.ActualValue).IsEqualTo(0.50m);
     }
 
-    [TestCase(0, 1)]
-    [TestCase(99, 100)]
-    [TestCase(-100, 0)]
-    [TestCase(int.MinValue, 0)]
-    public void ThrowIfLessThan_WithValuesLessThanThreshold_Throws(int value, int threshold) =>
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThan(value, threshold));
+    [Test]
+    [Arguments(0, 1)]
+    [Arguments(99, 100)]
+    [Arguments(-100, 0)]
+    [Arguments(int.MinValue, 0)]
+    public async Task ThrowIfLessThan_WithValuesLessThanThreshold_Throws(int value, int threshold) =>
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfLessThan(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
-    [TestCase(100, 100)]
-    [TestCase(101, 100)]
-    [TestCase(1000, 999)]
-    [TestCase(int.MaxValue, 0)]
-    public void ThrowIfLessThan_WithValuesNotLessThanThreshold_DoesNotThrow(int value, int threshold) =>
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThan(value, threshold));
+    [Test]
+    [Arguments(100, 100)]
+    [Arguments(101, 100)]
+    [Arguments(1000, 999)]
+    [Arguments(int.MaxValue, 0)]
+    public async Task ThrowIfLessThan_WithValuesNotLessThanThreshold_DoesNotThrow(int value, int threshold) =>
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfLessThan(value, threshold)).ThrowsNothing();
 
     #endregion
     #region ThrowIfLessThanOrEqual Tests
 
     [Test]
-    public void ThrowIfLessThanOrEqual_WhenValueIsLess_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfLessThanOrEqual_WhenValueIsLess_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var value = 3;
         var threshold = 5;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(value, threshold))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("value"));
-        Assert.That(ex.ActualValue, Is.EqualTo(3));
-        Assert.That(ex.Message, Does.Contain("greater than"));
+        await Assert.That(ex!.ParamName).IsEqualTo("value");
+        await Assert.That(ex!.ActualValue).IsEqualTo(3);
+        await Assert.That(ex!.Message).Contains("greater than");
     }
 
     [Test]
-    public void ThrowIfLessThanOrEqual_WhenValueIsEqual_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfLessThanOrEqual_WhenValueIsEqual_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var value = 5;
         var threshold = 5;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(value, threshold))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ActualValue, Is.EqualTo(5));
+        await Assert.That(ex!.ActualValue).IsEqualTo(5);
     }
 
     [Test]
-    public void ThrowIfLessThanOrEqual_WhenValueIsGreater_DoesNotThrow()
+    public async Task ThrowIfLessThanOrEqual_WhenValueIsGreater_DoesNotThrow()
     {
         // Arrange
         var value = 10;
         var threshold = 5;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(value, threshold));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(value, threshold)).ThrowsNothing();
     }
 
     [Test]
-    public void ThrowIfLessThanOrEqual_WithDecimal_ValidatesCorrectly()
+    public async Task ThrowIfLessThanOrEqual_WithDecimal_ValidatesCorrectly()
     {
         // Arrange
         var maxStock = 100m;
         var minStock = 100m;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(maxStock, minStock))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(maxStock, minStock)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ActualValue, Is.EqualTo(100m));
+        await Assert.That(ex!.ActualValue).IsEqualTo(100m);
     }
 
-    [TestCase(0, 1)]
-    [TestCase(100, 100)]
-    [TestCase(99, 100)]
-    [TestCase(-100, 0)]
-    [TestCase(int.MinValue, 0)]
-    public void ThrowIfLessThanOrEqual_WithInvalidValues_Throws(int value, int threshold) =>
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(value, threshold));
-
-    [TestCase(101, 100)]
-    [TestCase(1000, 999)]
-    [TestCase(int.MaxValue, 0)]
-    public void ThrowIfLessThanOrEqual_WithValidValues_DoesNotThrow(int value, int threshold) =>
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(value, threshold));
+    [Test]
+    [Arguments(0, 1)]
+    [Arguments(100, 100)]
+    [Arguments(99, 100)]
+    [Arguments(-100, 0)]
+    [Arguments(int.MinValue, 0)]
+    public async Task ThrowIfLessThanOrEqual_WithInvalidValues_Throws(int value, int threshold) =>
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
     [Test]
-    public void ThrowIfLessThanOrEqual_EnsuresMinLessThanMax()
+    [Arguments(101, 100)]
+    [Arguments(1000, 999)]
+    [Arguments(int.MaxValue, 0)]
+    public async Task ThrowIfLessThanOrEqual_WithValidValues_DoesNotThrow(int value, int threshold) =>
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(value, threshold)).ThrowsNothing();
+
+    [Test]
+    public async Task ThrowIfLessThanOrEqual_EnsuresMinLessThanMax()
     {
         // Arrange - This pattern ensures max > min
         var minValue = 10;
         var maxValue = 5; // Invalid: max should be > min
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(maxValue, minValue));
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(maxValue, minValue)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex, Is.Not.Null);
+        await Assert.That(ex).IsNotNull();
     }
 
     #endregion
@@ -579,106 +591,108 @@ public class ArgumentOutOfRangeExceptionTests
     #region ThrowIfEqual Tests
 
     [Test]
-    public void ThrowIfEqual_WhenValuesAreEqual_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfEqual_WhenValuesAreEqual_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var value = 42;
         var other = 42;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfEqual(value, other))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfEqual(value, other)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("value"));
-        Assert.That(ex.ActualValue, Is.EqualTo(42));
-        Assert.That(ex.Message, Does.Contain("must not be equal"));
+        await Assert.That(ex!.ParamName).IsEqualTo("value");
+        await Assert.That(ex!.ActualValue).IsEqualTo(42);
+        await Assert.That(ex!.Message).Contains("must not be equal");
     }
 
     [Test]
-    public void ThrowIfEqual_WhenValuesAreDifferent_DoesNotThrow()
+    public async Task ThrowIfEqual_WhenValuesAreDifferent_DoesNotThrow()
     {
         // Arrange
         var value = 42;
         var other = 43;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfEqual(value, other));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfEqual(value, other)).ThrowsNothing();
     }
 
     [Test]
-    public void ThrowIfEqual_WithZeroValues_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfEqual_WithZeroValues_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var port = 0;
         var reservedPort = 0;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfEqual(port, reservedPort))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfEqual(port, reservedPort)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ActualValue, Is.EqualTo(0));
+        await Assert.That(ex!.ActualValue).IsEqualTo(0);
     }
 
     [Test]
-    public void ThrowIfEqual_WithStrings_ValidatesCorrectly()
+    public async Task ThrowIfEqual_WithStrings_ValidatesCorrectly()
     {
         // Arrange
         var value = "test";
         var other = "test";
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfEqual(value, other))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfEqual(value, other)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ActualValue, Is.EqualTo("test"));
+        await Assert.That(ex!.ActualValue).IsEqualTo("test");
     }
 
     [Test]
-    public void ThrowIfEqual_WithDifferentStrings_DoesNotThrow()
+    public async Task ThrowIfEqual_WithDifferentStrings_DoesNotThrow()
     {
         // Arrange
         var value = "test1";
         var other = "test2";
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfEqual(value, other));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfEqual(value, other)).ThrowsNothing();
     }
 
     [Test]
-    public void ThrowIfEqual_WithDecimal_ValidatesCorrectly()
+    public async Task ThrowIfEqual_WithDecimal_ValidatesCorrectly()
     {
         // Arrange
         var value = 3.14m;
         var other = 3.14m;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfEqual(value, other))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfEqual(value, other)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ActualValue, Is.EqualTo(3.14m));
+        await Assert.That(ex!.ActualValue).IsEqualTo(3.14m);
     }
 
-    [TestCase(0, 0)]
-    [TestCase(100, 100)]
-    [TestCase(-42, -42)]
-    [TestCase(int.MaxValue, int.MaxValue)]
-    [TestCase(int.MinValue, int.MinValue)]
-    public void ThrowIfEqual_WithEqualValues_Throws(int value, int other) =>
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfEqual(value, other));
-
-    [TestCase(0, 1)]
-    [TestCase(100, 101)]
-    [TestCase(-42, 42)]
-    [TestCase(int.MaxValue, int.MinValue)]
-    public void ThrowIfEqual_WithDifferentValues_DoesNotThrow(int value, int other) =>
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfEqual(value, other));
+    [Test]
+    [Arguments(0, 0)]
+    [Arguments(100, 100)]
+    [Arguments(-42, -42)]
+    [Arguments(int.MaxValue, int.MaxValue)]
+    [Arguments(int.MinValue, int.MinValue)]
+    public async Task ThrowIfEqual_WithEqualValues_Throws(int value, int other) =>
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfEqual(value, other)).Throws<ArgumentOutOfRangeException>();
 
     [Test]
-    public void ThrowIfEqual_WithCustomType_ValidatesCorrectly()
+    [Arguments(0, 1)]
+    [Arguments(100, 101)]
+    [Arguments(-42, 42)]
+    [Arguments(int.MaxValue, int.MinValue)]
+    public async Task ThrowIfEqual_WithDifferentValues_DoesNotThrow(int value, int other) =>
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfEqual(value, other)).ThrowsNothing();
+
+    [Test]
+    public async Task ThrowIfEqual_WithCustomType_ValidatesCorrectly()
     {
         // Arrange
         var obj1 = new TestEquatable(42);
@@ -686,11 +700,11 @@ public class ArgumentOutOfRangeExceptionTests
         var obj3 = new TestEquatable(43);
 
         // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfEqual(obj1, obj2));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfEqual(obj1, obj2)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfEqual(obj1, obj3));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfEqual(obj1, obj3)).ThrowsNothing();
     }
 
     #endregion
@@ -698,92 +712,94 @@ public class ArgumentOutOfRangeExceptionTests
     #region ThrowIfNotEqual Tests
 
     [Test]
-    public void ThrowIfNotEqual_WhenValuesDiffer_ThrowsArgumentOutOfRangeException()
+    public async Task ThrowIfNotEqual_WhenValuesDiffer_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var value = 42;
         var expected = 100;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNotEqual(value, expected))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value, expected)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("value"));
-        Assert.That(ex.ActualValue, Is.EqualTo(42));
-        Assert.That(ex.Message, Does.Contain("must be equal"));
+        await Assert.That(ex!.ParamName).IsEqualTo("value");
+        await Assert.That(ex!.ActualValue).IsEqualTo(42);
+        await Assert.That(ex!.Message).Contains("must be equal");
     }
 
     [Test]
-    public void ThrowIfNotEqual_WhenValuesAreEqual_DoesNotThrow()
+    public async Task ThrowIfNotEqual_WhenValuesAreEqual_DoesNotThrow()
     {
         // Arrange
         var value = 200;
         var expected = 200;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfNotEqual(value, expected));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value, expected)).ThrowsNothing();
     }
 
     [Test]
-    public void ThrowIfNotEqual_WithStatusCode_ValidatesCorrectly()
+    public async Task ThrowIfNotEqual_WithStatusCode_ValidatesCorrectly()
     {
         // Arrange
         var statusCode = 404;
         var expectedCode = 200;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNotEqual(statusCode, expectedCode))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNotEqual(statusCode, expectedCode)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ActualValue, Is.EqualTo(404));
+        await Assert.That(ex!.ActualValue).IsEqualTo(404);
     }
 
     [Test]
-    public void ThrowIfNotEqual_WithStrings_ValidatesCorrectly()
+    public async Task ThrowIfNotEqual_WithStrings_ValidatesCorrectly()
     {
         // Arrange
         var value = "actual";
         var expected = "expected";
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNotEqual(value, expected))!;
+        var ex = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value, expected)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(ex.ActualValue, Is.EqualTo("actual"));
+        await Assert.That(ex!.ActualValue).IsEqualTo("actual");
     }
 
     [Test]
-    public void ThrowIfNotEqual_WithSameStrings_DoesNotThrow()
+    public async Task ThrowIfNotEqual_WithSameStrings_DoesNotThrow()
     {
         // Arrange
         var value = "test";
         var expected = "test";
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfNotEqual(value, expected));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value, expected)).ThrowsNothing();
     }
 
-    [TestCase(0, 1)]
-    [TestCase(100, 200)]
-    [TestCase(-42, 42)]
-    [TestCase(int.MaxValue, int.MinValue)]
-    public void ThrowIfNotEqual_WithDifferentValues_Throws(int value, int expected) =>
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNotEqual(value, expected));
-
-    [TestCase(0, 0)]
-    [TestCase(100, 100)]
-    [TestCase(-42, -42)]
-    [TestCase(int.MaxValue, int.MaxValue)]
-    [TestCase(int.MinValue, int.MinValue)]
-    public void ThrowIfNotEqual_WithEqualValues_DoesNotThrow(int value, int expected) =>
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfNotEqual(value, expected));
+    [Test]
+    [Arguments(0, 1)]
+    [Arguments(100, 200)]
+    [Arguments(-42, 42)]
+    [Arguments(int.MaxValue, int.MinValue)]
+    public async Task ThrowIfNotEqual_WithDifferentValues_Throws(int value, int expected) =>
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value, expected)).Throws<ArgumentOutOfRangeException>();
 
     [Test]
-    public void ThrowIfNotEqual_WithCustomType_ValidatesCorrectly()
+    [Arguments(0, 0)]
+    [Arguments(100, 100)]
+    [Arguments(-42, -42)]
+    [Arguments(int.MaxValue, int.MaxValue)]
+    [Arguments(int.MinValue, int.MinValue)]
+    public async Task ThrowIfNotEqual_WithEqualValues_DoesNotThrow(int value, int expected) =>
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNotEqual(value, expected)).ThrowsNothing();
+
+    [Test]
+    public async Task ThrowIfNotEqual_WithCustomType_ValidatesCorrectly()
     {
         // Arrange
         var obj1 = new TestEquatable(42);
@@ -791,11 +807,11 @@ public class ArgumentOutOfRangeExceptionTests
         var obj3 = new TestEquatable(43);
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentOutOfRangeException.ThrowIfNotEqual(obj1, obj2));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNotEqual(obj1, obj2)).ThrowsNothing();
 
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNotEqual(obj1, obj3));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNotEqual(obj1, obj3)).Throws<ArgumentOutOfRangeException>();
     }
 
     #endregion
@@ -803,83 +819,83 @@ public class ArgumentOutOfRangeExceptionTests
     #region Integration Tests
 
     [Test]
-    public void MultipleValidations_InConstructor_WorkCorrectly()
+    public async Task MultipleValidations_InConstructor_WorkCorrectly()
     {
         // Test valid values
-        Assert.DoesNotThrow(() =>
-            new TestProduct("PROD-001", 29.99m, 100, 10, 500));
+        await Assert.That(() =>
+            new TestProduct("PROD-001", 29.99m, 100, 10, 500)).ThrowsNothing();
 
         // Test null SKU
-        Assert.Throws<ArgumentNullException>(() =>
-            new TestProduct(null!, 29.99m, 100, 10, 500));
+        await Assert.That(() =>
+            new TestProduct(null!, 29.99m, 100, 10, 500)).Throws<ArgumentNullException>();
 
         // Test negative price
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            new TestProduct("PROD-001", -10m, 100, 10, 500));
+        await Assert.That(() =>
+            new TestProduct("PROD-001", -10m, 100, 10, 500)).Throws<ArgumentOutOfRangeException>();
 
         // Test zero price
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            new TestProduct("PROD-001", 0m, 100, 10, 500));
+        await Assert.That(() =>
+            new TestProduct("PROD-001", 0m, 100, 10, 500)).Throws<ArgumentOutOfRangeException>();
 
         // Test negative stock
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            new TestProduct("PROD-001", 29.99m, -5, 10, 500));
+        await Assert.That(() =>
+            new TestProduct("PROD-001", 29.99m, -5, 10, 500)).Throws<ArgumentOutOfRangeException>();
 
         // Test stock below minimum
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            new TestProduct("PROD-001", 29.99m, 5, 10, 500));
+        await Assert.That(() =>
+            new TestProduct("PROD-001", 29.99m, 5, 10, 500)).Throws<ArgumentOutOfRangeException>();
 
         // Test stock above maximum
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            new TestProduct("PROD-001", 29.99m, 600, 10, 500));
+        await Assert.That(() =>
+            new TestProduct("PROD-001", 29.99m, 600, 10, 500)).Throws<ArgumentOutOfRangeException>();
 
         // Test max less than or equal to min
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            new TestProduct("PROD-001", 29.99m, 100, 500, 500));
+        await Assert.That(() =>
+            new TestProduct("PROD-001", 29.99m, 100, 500, 500)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void CallerArgumentExpression_CapturesCorrectNames()
+    public async Task CallerArgumentExpression_CapturesCorrectNames()
     {
         // Test that parameter names are captured correctly
         var negativeValue = -1;
-        var ex1 = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegative(negativeValue))!;
-        Assert.That(ex1.ParamName, Is.EqualTo("negativeValue"));
+        var ex1 = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegative(negativeValue)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(ex1!.ParamName).IsEqualTo("negativeValue");
 
         var greaterValue = 100;
-        var ex2 = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfGreaterThan(greaterValue, 50))!;
-        Assert.That(ex2.ParamName, Is.EqualTo("greaterValue"));
+        var ex2 = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfGreaterThan(greaterValue, 50)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(ex2!.ParamName).IsEqualTo("greaterValue");
 
         var equalValue = 42;
-        var ex3 = Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfEqual(equalValue, 42))!;
-        Assert.That(ex3.ParamName, Is.EqualTo("equalValue"));
+        var ex3 = await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfEqual(equalValue, 42)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(ex3!.ParamName).IsEqualTo("equalValue");
     }
 
     [Test]
-    public void AllMethods_WithDifferentNumericTypes_WorkCorrectly()
+    public async Task AllMethods_WithDifferentNumericTypes_WorkCorrectly()
     {
         // int
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegative(-1));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegative(-1)).Throws<ArgumentOutOfRangeException>();
 
         // long
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegative(-1L));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegative(-1L)).Throws<ArgumentOutOfRangeException>();
 
         // decimal
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegative(-1.0m));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegative(-1.0m)).Throws<ArgumentOutOfRangeException>();
 
         // double
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegative(-1.0));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegative(-1.0)).Throws<ArgumentOutOfRangeException>();
 
         // float
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            ArgumentOutOfRangeException.ThrowIfNegative(-1.0f));
+        await Assert.That(() =>
+            ArgumentOutOfRangeException.ThrowIfNegative(-1.0f)).Throws<ArgumentOutOfRangeException>();
     }
 
     #endregion

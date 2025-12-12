@@ -1,25 +1,26 @@
-﻿#pragma warning disable IL2026
+#pragma warning disable IL2026
 
-[TestFixture]
 public class SanityChecks
 {
     [Test]
-    public void NoPublicTypes()
+    public async Task NoPublicTypes()
     {
         var visibleTypes = typeof(SanityChecks).Assembly
             .GetExportedTypes()
             .Where(type => type.Namespace?.StartsWith("System") == true);
 #if PolyPublic
 #if !NET7_0_OR_GREATER
-        Assert.That(visibleTypes, Is.Not.Empty);
+        await Assert.That(visibleTypes).IsNotEmpty();
+#else
+        await Task.CompletedTask;
 #endif
 #else
-        Assert.That(visibleTypes, Is.Empty);
+        await Assert.That(visibleTypes).IsEmpty();
 #endif
     }
 #if DEBUG
     [Test]
-    public void CodeChecks()
+    public Task CodeChecks()
     {
         var dir = Path.Combine(SolutionDirectoryFinder.Find(), "Polyfill");
         var errors = new List<string>();
@@ -50,10 +51,11 @@ public class SanityChecks
         {
             throw new(string.Join("\n", errors));
         }
+        return Task.CompletedTask;
     }
 #endif
     [Test]
-    public void ReflectionChecks()
+    public Task ReflectionChecks()
     {
         var errors = new List<string>();
         foreach (var type in typeof(SanityChecks).Assembly.GetTypes())
@@ -68,12 +70,21 @@ public class SanityChecks
                 continue;
             }
 
-            if (HasAttribute<TestFixtureAttribute>(type))
+            if (HasAttribute<TestAttribute>(type))
             {
                 continue;
             }
 
             var name = type.Name;
+
+            // Skip test classes
+            if (name.EndsWith("Tests") ||
+                name.EndsWith("Test") ||
+                name == "SanityChecks" ||
+                name == "Memory_CommonPrefixLength")
+            {
+                continue;
+            }
             if (name.EndsWith("Usage") ||
                 name.Contains("<") ||
                 name.Contains("Sample") ||
@@ -113,9 +124,10 @@ public class SanityChecks
         {
             throw new(string.Join("\n", errors));
         }
+        return Task.CompletedTask;
     }
 
-    static bool HasAttribute<T>(Type type)
+    static bool HasAttribute<T>(System.Type type)
     {
         try
         {

@@ -10,9 +10,7 @@
     <RootNamespace>NoExtras</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NUnit" />
-    <PackageReference Include="NUnit3TestAdapter" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="TUnit" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\TestIncludes.targets" />
