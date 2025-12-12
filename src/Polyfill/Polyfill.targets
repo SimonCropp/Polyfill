@@ -100,7 +100,6 @@ For example:
                    @(Reference->AnyHaveMetadataValue('Identity', 'System.Net.Http'))">$(DefineConstants);FeatureHttp</DefineConstants>
 
       <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.IO.Compression')) OR
                    @(Reference->AnyHaveMetadataValue('Identity', 'System.IO.Compression'))">$(DefineConstants);FeatureCompression</DefineConstants>
 
       <DefineConstants Condition="$(LowerFramework.StartsWith('net10'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
