@@ -841,7 +841,7 @@ class Consume
         target.Write(new StringBuilder());
         await target.FlushAsync(CancellationToken.None);
         await target.WriteAsync(new StringBuilder());
-#if FeatureMemory
+#if FeatureMemory && FeatureValueTask
         target.WriteLine("a".AsSpan());
         target.Write("a".AsSpan());
         var memory = "a".AsMemory();
