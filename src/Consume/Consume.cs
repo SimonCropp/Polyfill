@@ -762,7 +762,7 @@ class Consume
     {
         var result = new char[5];
         var reader = new StreamReader(new MemoryStream());
-#if FeatureMemory
+#if FeatureMemory && FeatureValueTask
         var memory = new Memory<char>(result);
         var count = await reader.ReadAsync(memory);
 #endif
