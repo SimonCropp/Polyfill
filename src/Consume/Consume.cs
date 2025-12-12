@@ -748,7 +748,7 @@ class Consume
         var input = new byte[] {1, 2};
         using var stream = new MemoryStream(input);
         var result = new byte[2];
-#if FeatureMemory
+#if FeatureMemory && FeatureValueTask
         var memory = new Memory<byte>(result);
         var read = await stream.ReadAsync(memory);
 #endif
