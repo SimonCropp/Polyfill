@@ -174,66 +174,6 @@ static partial class Polyfill
         public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
             string.Join(separator, values.ToArray());
 
-#if AllowUnsafeBlocks && FeatureMemory
-            Join(separator, new ReadOnlySpan<string?>(values));
-#else
-            string.Join(new(separator, 1), values);
-#endif
-#if AllowUnsafeBlocks && FeatureMemory
-            Join(separator, new ReadOnlySpan<string?>(value, startIndex, count));
-#else
-            string.Join(new(separator, 1), value, startIndex, count);
-#endif
 
-#if FeatureMemory
-        /// <summary>
-        /// Creates a new string with a specific length and initializes it after creation by using the specified callback.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.create?view=net-10.0#system-string-create-1(system-int32-0-system-buffers-spanaction((system-char-0)))
-        public static string Create<TState>(int length, TState state, System.Buffers.SpanAction<char, TState> action)
-        {
-            if (length < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(length));
-            }
-
-            if (length == 0)
-            {
-                return string.Empty;
-            }
-
-#if AllowUnsafeBlocks
-            var str = new string('\0', length);
-
-            unsafe
-            {
-                fixed (char* strPtr = str)
-                {
-                    action(new Span<char>(strPtr, length), state);
-                }
-            }
-
-            return str;
-#else
-            var pool = System.Buffers.ArrayPool<char>.Shared;
-            var chars = pool.Rent(length);
-
-            try
-            {
-                var span = chars.AsSpan(0, length);
-                // IMPORTANT: Clear the span to avoid garbage data from pooled buffer
-                // ArrayPool doesn't clear buffers for performance
-                span.Clear();
-                action(span, state);
-
-                return new string(chars, 0, length);
-            }
-            finally
-            {
-                pool.Return(chars);
-            }
-#endif
-        }
-#endif
     }
 }

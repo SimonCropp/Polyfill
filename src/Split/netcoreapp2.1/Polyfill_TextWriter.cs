@@ -89,49 +89,4 @@ static partial class Polyfill
 #endif
     }
 
-#if FeatureValueTask
-
-    /// <summary>
-    /// Asynchronously writes a character memory region to the stream.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-10.0#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
-    public static ValueTask WriteAsync(
-        this TextWriter target,
-        ReadOnlyMemory<char> buffer,
-        CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        if (!MemoryMarshal.TryGetArray(buffer, out var segment))
-        {
-            segment = new(buffer.ToArray());
-        }
-
-        var task = target.WriteAsync(segment.Array!, segment.Offset, segment.Count)
-            .WaitAsync(cancellationToken);
-        return new(task);
-    }
-
-    /// <summary>
-    /// Asynchronously writes the text representation of a character memory region to the stream, followed by a line terminator.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-10.0#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
-    public static ValueTask WriteLineAsync(
-        this TextWriter target,
-        ReadOnlyMemory<char> buffer,
-        CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        if (!MemoryMarshal.TryGetArray(buffer, out var segment))
-        {
-            segment = new(buffer.ToArray());
-        }
-
-        var task = target.WriteLineAsync(segment.Array!, segment.Offset, segment.Count)
-            .WaitAsync(cancellationToken);
-        return new(task);
-    }
-
-#endif
 }

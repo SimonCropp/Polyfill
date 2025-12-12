@@ -2,12 +2,6 @@
 #pragma warning disable
 
 #if FeatureMemory
-#if PolyUseEmbeddedAttribute
-[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
-#endif
-#if PolyPublic
-public
-#endif
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(CollectionBuilderAttribute))]
 #endif

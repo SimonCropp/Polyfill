@@ -11,18 +11,6 @@ using System.Text;
 
 static partial class Polyfill
 {
-#if AllowUnsafeBlocks
-    public unsafe static int GetByteCount(this Encoding target, ReadOnlySpan<char> chars)
-    {
-        fixed (char* charsPtr = chars)
-        {
-            return target.GetByteCount(charsPtr, chars.Length);
-        }
-    }
-#else
-    public static int GetByteCount(this Encoding target, ReadOnlySpan<char> chars) =>
-        target.GetByteCount(chars.ToArray());
-#endif
 
 }
 

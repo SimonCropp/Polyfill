@@ -174,16 +174,6 @@ static partial class Polyfill
         public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
             string.Join(separator, values.ToArray());
 
-#if AllowUnsafeBlocks && FeatureMemory
-            Join(separator, new ReadOnlySpan<string?>(values));
-#else
-            string.Join(new(separator, 1), values);
-#endif
-#if AllowUnsafeBlocks && FeatureMemory
-            Join(separator, new ReadOnlySpan<string?>(value, startIndex, count));
-#else
-            string.Join(new(separator, 1), value, startIndex, count);
-#endif
 
 #if FeatureMemory
         /// <summary>

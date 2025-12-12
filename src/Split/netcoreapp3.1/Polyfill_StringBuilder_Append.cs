@@ -10,15 +10,4 @@ using System.Text;
 static partial class Polyfill
 {
 
-#if AllowUnsafeBlocks
-        unsafe
-        {
-            fixed (char* valueChars = value)
-            {
-                target.Append(valueChars, value.Length);
-            }
-        }
-#else
-        target.Append(value.ToString());
-#endif
 }

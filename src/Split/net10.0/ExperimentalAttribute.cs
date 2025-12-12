@@ -3,11 +3,5 @@
 
 #nullable enable
 
-#if PolyUseEmbeddedAttribute
-[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
-#endif
-#if PolyPublic
-public
-#endif
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.ExperimentalAttribute))]

@@ -424,7 +424,7 @@ public class FrameworkSplitterTest
         readonly Stack<bool> directiveStack = new();
         readonly HashSet<string> frameworkRelatedKeywords;
 
-        public DirectiveRemovalRewriter(List<string> frameworkSymbols) : base(visitIntoStructuredTrivia: true)
+        public DirectiveRemovalRewriter(List<string> frameworkSymbols) : base(visitIntoStructuredTrivia: false)
         {
             this.frameworkSymbols = frameworkSymbols.ToHashSet();
 
@@ -517,6 +517,12 @@ public class FrameworkSplitterTest
             }
 
             var structure = trivia.GetStructure();
+
+            // Remove any inactive directives (these are inside disabled blocks)
+            if (structure is DirectiveTriviaSyntax directive && !directive.IsActive)
+            {
+                return true;
+            }
 
             // Check if it's an #if directive
             if (structure is IfDirectiveTriviaSyntax ifDirective)

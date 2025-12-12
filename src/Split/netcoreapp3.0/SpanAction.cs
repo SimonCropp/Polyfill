@@ -2,13 +2,6 @@
 #pragma warning disable
 
 #if FeatureMemory
-#nullable enable
-#if PolyUseEmbeddedAttribute
-[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
-#endif
-#if PolyPublic
-public
-#endif
 using System.Buffers;
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(SpanAction<,>))]

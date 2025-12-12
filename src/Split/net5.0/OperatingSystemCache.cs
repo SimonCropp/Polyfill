@@ -3,6 +3,3 @@
 
 namespace Polyfills;
 
-#if PolyUseEmbeddedAttribute
-[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
-#endif
