@@ -72,9 +72,18 @@ public class FrameworkSplitterTest
         var root = syntaxTree.GetRoot();
         var processedRoot = RemoveFrameworkDirectives(root, frameworkSymbols);
 
+        // Check if the file has any meaningful code
+        if (!HasMeaningfulCode(processedRoot))
+        {
+            // Skip files with no actual code
+            var relativePath = Path.GetRelativePath(polyfillSourceDir, sourceFile);
+            Console.WriteLine($"  Skipped (no code): {relativePath}");
+            return;
+        }
+
         // Get the relative path and recreate directory structure
-        var relativePath = Path.GetRelativePath(polyfillSourceDir, sourceFile);
-        var outputPath = Path.Combine(frameworkOutputDir, relativePath);
+        var relativePath2 = Path.GetRelativePath(polyfillSourceDir, sourceFile);
+        var outputPath = Path.Combine(frameworkOutputDir, relativePath2);
 
         // Create subdirectories if needed
         var outputDir = Path.GetDirectoryName(outputPath);
@@ -87,7 +96,16 @@ public class FrameworkSplitterTest
         var processedCode = processedRoot.ToFullString();
         File.WriteAllText(outputPath, processedCode);
 
-        Console.WriteLine($"  Processed: {relativePath}");
+        Console.WriteLine($"  Processed: {relativePath2}");
+    }
+
+    bool HasMeaningfulCode(SyntaxNode root)
+    {
+        // Check if the file has any actual code elements (not just directives/comments)
+        var hasMembers = root.DescendantNodes()
+            .Any(node => node is MemberDeclarationSyntax or StatementSyntax or UsingDirectiveSyntax);
+
+        return hasMembers;
     }
 
     SyntaxNode RemoveFrameworkDirectives(SyntaxNode root, List<string> frameworkSymbols)
