@@ -28,6 +28,17 @@ build_script:
     }
 - dotnet build src/Polyfill.slnx --configuration Release --verbosity quiet
 - dotnet test src/Polyfill.slnx --configuration Release --no-build --no-restore
+- pwsh: |
+    git diff --exit-code
+    if ($LASTEXITCODE -ne 0) {
+      Write-Error "There are unstaged changes after running tests. Please commit the generated files."
+      exit 1
+    }
+    git diff --cached --exit-code
+    if ($LASTEXITCODE -ne 0) {
+      Write-Error "There are staged changes after running tests. Please commit the generated files."
+      exit 1
+    }
 - dotnet build src/PolyfillTrimmed.slnf --target PublishAll --configuration Release
 
 on_failure:
