@@ -1,6 +1,6 @@
 image:
 - Visual Studio 2022
-- macOS
+#- macOS
 #- Ubuntu
 environment:
   DOTNET_NOLOGO: true
@@ -14,10 +14,6 @@ build_script:
       ./dotnet-install.ps1 -Version 3.1.426 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
       ./dotnet-install.ps1 -Version 5.0.408 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
       ./dotnet-install.ps1 -Version 9.0.306 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
-      dotnet build src/Polyfill.slnx --configuration Release --verbosity quiet
-      dotnet test src/Polyfill.slnx --configuration Release --no-build --no-restore
-      # msbuild.exe src/PolyfillUwp.slnx /p:Configuration=Release -verbosity:quiet
-      dotnet build src/PolyfillTrimmed.slnf --target PublishAll --configuration Release
     }
     else {
       Invoke-WebRequest "https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh" -OutFile "./dotnet-install.sh"
@@ -30,10 +26,10 @@ build_script:
       } else {
         sudo ./dotnet-install.sh --jsonfile src/global.json --architecture x64 --install-dir '/usr/share/dotnet'
       }
-      dotnet build src/Polyfill.slnx --configuration Release --verbosity quiet
-      dotnet test src/Polyfill.slnx --configuration Release --no-build --no-restore
-      dotnet build src/PolyfillTrimmed.slnf --target PublishAll --configuration Release
     }
+- dotnet build src/Polyfill.slnx --configuration Release --verbosity quiet
+- dotnet test src/Polyfill.slnx --configuration Release --no-build --no-restore
+- dotnet build src/PolyfillTrimmed.slnf --target PublishAll --configuration Release
 
 on_failure:
   - ps: Get-ChildItem *.received.* -recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
