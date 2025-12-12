@@ -1,7 +1,12 @@
 <Project>
+  <PropertyGroup>
+    <!-- For -windows targets (e.g. net6.0-windows), use the non-windows equivalent (e.g. net6.0) -->
+    <SplitTargetFramework Condition="$(TargetFramework.EndsWith('-windows'))">$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf('-windows'))))</SplitTargetFramework>
+    <SplitTargetFramework Condition="'$(SplitTargetFramework)' == ''">$(TargetFramework)</SplitTargetFramework>
+  </PropertyGroup>
   <ItemGroup>
     <!-- Include all framework-specific split files based on TargetFramework -->
-    <Compile Include="$(MSBuildThisFileDirectory)Split\$(TargetFramework)\**\*.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Split\$(SplitTargetFramework)\**\*.cs">
       <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
   </ItemGroup>

@@ -348,23 +348,6 @@ public class FrameworkSplitterTest
             },
             new()
             {
-                Moniker = "net6.0-windows",
-                Directives =
-                [
-                    "NET",
-                    "NET6_0",
-                    "NET6_0_OR_GREATER",
-                    "NET5_0_OR_GREATER",
-                    "NETCOREAPP",
-                    "NETCOREAPP3_1_OR_GREATER",
-                    "NETCOREAPP3_0_OR_GREATER",
-                    "NETCOREAPP2_1_OR_GREATER",
-                    "NETCOREAPP2_0_OR_GREATER",
-                    "WINDOWS"
-                ]
-            },
-            new()
-            {
                 Moniker = "net7.0",
                 Directives =
                 [
