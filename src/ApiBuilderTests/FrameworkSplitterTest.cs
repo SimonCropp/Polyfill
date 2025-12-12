@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-
 [TestFixture]
 public class FrameworkSplitterTest
 {
@@ -70,7 +66,7 @@ public class FrameworkSplitterTest
         // Get the root and remove only framework-related directives
         // Feature directives will be kept
         var root = syntaxTree.GetRoot();
-        var processedRoot = RemoveFrameworkDirectives(root, frameworkSymbols, sharedSymbols);
+        var processedRoot = RemoveFrameworkDirectives(root, sharedSymbols);
 
         // Check if the file has any meaningful code
         if (!HasMeaningfulCode(processedRoot))
@@ -99,19 +95,15 @@ public class FrameworkSplitterTest
         Console.WriteLine($"  Processed: {relativePath2}");
     }
 
-    bool HasMeaningfulCode(SyntaxNode root)
-    {
         // Check if the file has any actual code elements (not just directives/comments)
-        var hasMembers = root.DescendantNodes()
+    static bool HasMeaningfulCode(SyntaxNode root) =>
+        root.DescendantNodes()
             .Any(node => node is MemberDeclarationSyntax or StatementSyntax or UsingDirectiveSyntax);
 
-        return hasMembers;
-    }
-
-    SyntaxNode RemoveFrameworkDirectives(SyntaxNode root, List<string> frameworkSymbols, List<string> sharedSymbols)
+    static SyntaxNode RemoveFrameworkDirectives(SyntaxNode root, List<string> sharedSymbols)
     {
         // Remove only framework-related preprocessor directives while keeping feature directives
-        var rewriter = new DirectiveRemovalRewriter(frameworkSymbols, sharedSymbols);
+        var rewriter = new DirectiveRemovalRewriter(sharedSymbols);
         return rewriter.Visit(root);
     }
 
@@ -453,40 +445,32 @@ public class FrameworkSplitterTest
         public required List<string> Directives { get; init; }
     }
 
-    class DirectiveRemovalRewriter : CSharpSyntaxRewriter
+    class DirectiveRemovalRewriter(List<string> sharedSymbols) : CSharpSyntaxRewriter(visitIntoStructuredTrivia: false)
     {
-        readonly HashSet<string> frameworkSymbols;
-        readonly HashSet<string> sharedSymbols;
+        readonly HashSet<string> sharedSymbols = sharedSymbols.ToHashSet();
         readonly Stack<bool> directiveStack = new();
-        readonly HashSet<string> frameworkRelatedKeywords;
+        readonly HashSet<string> frameworkRelatedKeywords =
+        [
+            "NETFRAMEWORK",
+            "NETSTANDARD",
+            "NETCOREAPP",
+            "NET461", "NET462", "NET46X", "NET47", "NET471", "NET47X", "NET472", "NET48", "NET48X", "NET481",
+            "NET5_0", "NET6_0", "NET7_0", "NET8_0", "NET9_0", "NET10_0",
+            "NETCOREAPP2_0", "NETCOREAPP2_1", "NETCOREAPP2_2", "NETCOREAPP2X",
+            "NETCOREAPP3_0", "NETCOREAPP3_1", "NETCOREAPP3X",
+            "NETSTANDARD2_0", "NETSTANDARD2_1",
+            "NET5_0_OR_GREATER", "NET6_0_OR_GREATER", "NET7_0_OR_GREATER",
+            "NET8_0_OR_GREATER", "NET9_0_OR_GREATER", "NET10_0_OR_GREATER",
+            "NET461_OR_GREATER", "NET462_OR_GREATER", "NET47_OR_GREATER", "NET471_OR_GREATER",
+            "NET472_OR_GREATER", "NET48_OR_GREATER", "NET481_OR_GREATER",
+            "NETCOREAPP2_0_OR_GREATER", "NETCOREAPP2_1_OR_GREATER", "NETCOREAPP2_2_OR_GREATER",
+            "NETCOREAPP3_0_OR_GREATER", "NETCOREAPP3_1_OR_GREATER",
+            "NETSTANDARD2_0_OR_GREATER", "NETSTANDARD2_1_OR_GREATER",
+            "WINDOWS"
+        ];
 
-        public DirectiveRemovalRewriter(List<string> frameworkSymbols, List<string> sharedSymbols) : base(visitIntoStructuredTrivia: false)
-        {
-            this.frameworkSymbols = frameworkSymbols.ToHashSet();
-            this.sharedSymbols = sharedSymbols.ToHashSet();
-
-            // Keywords that indicate framework-specific conditional compilation
-            // These are the primary framework identifiers
-            frameworkRelatedKeywords =
-            [
-                "NETFRAMEWORK",
-                "NETSTANDARD",
-                "NETCOREAPP",
-                "NET461", "NET462", "NET46X", "NET47", "NET471", "NET47X", "NET472", "NET48", "NET48X", "NET481",
-                "NET5_0", "NET6_0", "NET7_0", "NET8_0", "NET9_0", "NET10_0",
-                "NETCOREAPP2_0", "NETCOREAPP2_1", "NETCOREAPP2_2", "NETCOREAPP2X",
-                "NETCOREAPP3_0", "NETCOREAPP3_1", "NETCOREAPP3X",
-                "NETSTANDARD2_0", "NETSTANDARD2_1",
-                "NET5_0_OR_GREATER", "NET6_0_OR_GREATER", "NET7_0_OR_GREATER",
-                "NET8_0_OR_GREATER", "NET9_0_OR_GREATER", "NET10_0_OR_GREATER",
-                "NET461_OR_GREATER", "NET462_OR_GREATER", "NET47_OR_GREATER", "NET471_OR_GREATER",
-                "NET472_OR_GREATER", "NET48_OR_GREATER", "NET481_OR_GREATER",
-                "NETCOREAPP2_0_OR_GREATER", "NETCOREAPP2_1_OR_GREATER", "NETCOREAPP2_2_OR_GREATER",
-                "NETCOREAPP3_0_OR_GREATER", "NETCOREAPP3_1_OR_GREATER",
-                "NETSTANDARD2_0_OR_GREATER", "NETSTANDARD2_1_OR_GREATER",
-                "WINDOWS"
-            ];
-        }
+        // Keywords that indicate framework-specific conditional compilation
+        // These are the primary framework identifiers
 
         public override SyntaxToken VisitToken(SyntaxToken token)
         {
@@ -617,7 +601,7 @@ public class FrameworkSplitterTest
 
             // First check if the condition contains any feature flags
             // If it does, it's NOT purely framework-related, so we should keep it
-            foreach (var featureFlag in this.sharedSymbols)
+            foreach (var featureFlag in sharedSymbols)
             {
                 if (normalizedCondition.Contains(featureFlag.ToUpperInvariant(), StringComparison.OrdinalIgnoreCase))
                 {
