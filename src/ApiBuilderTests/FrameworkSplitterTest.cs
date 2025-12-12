@@ -322,7 +322,7 @@ public class FrameworkSplitterTest
                 ]
             },
 
-            // .NET 5+
+            // .NET 5+ (also includes NETCOREAPP symbols for compatibility)
             new()
             {
                 Moniker = "net5.0",
@@ -330,7 +330,12 @@ public class FrameworkSplitterTest
                 [
                     "NET",
                     "NET5_0",
-                    "NET5_0_OR_GREATER"
+                    "NET5_0_OR_GREATER",
+                    "NETCOREAPP",
+                    "NETCOREAPP3_1_OR_GREATER",
+                    "NETCOREAPP3_0_OR_GREATER",
+                    "NETCOREAPP2_1_OR_GREATER",
+                    "NETCOREAPP2_0_OR_GREATER"
                 ]
             },
             new()
@@ -341,7 +346,12 @@ public class FrameworkSplitterTest
                     "NET",
                     "NET6_0",
                     "NET6_0_OR_GREATER",
-                    "NET5_0_OR_GREATER"
+                    "NET5_0_OR_GREATER",
+                    "NETCOREAPP",
+                    "NETCOREAPP3_1_OR_GREATER",
+                    "NETCOREAPP3_0_OR_GREATER",
+                    "NETCOREAPP2_1_OR_GREATER",
+                    "NETCOREAPP2_0_OR_GREATER"
                 ]
             },
             new()
@@ -353,6 +363,11 @@ public class FrameworkSplitterTest
                     "NET6_0",
                     "NET6_0_OR_GREATER",
                     "NET5_0_OR_GREATER",
+                    "NETCOREAPP",
+                    "NETCOREAPP3_1_OR_GREATER",
+                    "NETCOREAPP3_0_OR_GREATER",
+                    "NETCOREAPP2_1_OR_GREATER",
+                    "NETCOREAPP2_0_OR_GREATER",
                     "WINDOWS"
                 ]
             },
@@ -365,7 +380,12 @@ public class FrameworkSplitterTest
                     "NET7_0",
                     "NET7_0_OR_GREATER",
                     "NET6_0_OR_GREATER",
-                    "NET5_0_OR_GREATER"
+                    "NET5_0_OR_GREATER",
+                    "NETCOREAPP",
+                    "NETCOREAPP3_1_OR_GREATER",
+                    "NETCOREAPP3_0_OR_GREATER",
+                    "NETCOREAPP2_1_OR_GREATER",
+                    "NETCOREAPP2_0_OR_GREATER"
                 ]
             },
             new()
@@ -378,7 +398,12 @@ public class FrameworkSplitterTest
                     "NET8_0_OR_GREATER",
                     "NET7_0_OR_GREATER",
                     "NET6_0_OR_GREATER",
-                    "NET5_0_OR_GREATER"
+                    "NET5_0_OR_GREATER",
+                    "NETCOREAPP",
+                    "NETCOREAPP3_1_OR_GREATER",
+                    "NETCOREAPP3_0_OR_GREATER",
+                    "NETCOREAPP2_1_OR_GREATER",
+                    "NETCOREAPP2_0_OR_GREATER"
                 ]
             },
             new()
@@ -392,7 +417,12 @@ public class FrameworkSplitterTest
                     "NET8_0_OR_GREATER",
                     "NET7_0_OR_GREATER",
                     "NET6_0_OR_GREATER",
-                    "NET5_0_OR_GREATER"
+                    "NET5_0_OR_GREATER",
+                    "NETCOREAPP",
+                    "NETCOREAPP3_1_OR_GREATER",
+                    "NETCOREAPP3_0_OR_GREATER",
+                    "NETCOREAPP2_1_OR_GREATER",
+                    "NETCOREAPP2_0_OR_GREATER"
                 ]
             },
             new()
@@ -407,7 +437,12 @@ public class FrameworkSplitterTest
                     "NET8_0_OR_GREATER",
                     "NET7_0_OR_GREATER",
                     "NET6_0_OR_GREATER",
-                    "NET5_0_OR_GREATER"
+                    "NET5_0_OR_GREATER",
+                    "NETCOREAPP",
+                    "NETCOREAPP3_1_OR_GREATER",
+                    "NETCOREAPP3_0_OR_GREATER",
+                    "NETCOREAPP2_1_OR_GREATER",
+                    "NETCOREAPP2_0_OR_GREATER"
                 ]
             }
         ];

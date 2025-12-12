@@ -10,22 +10,6 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
-    /// <summary>
-    /// Reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.
-    /// </summary>
-    
-    public static int Read(this Stream target, Span<byte> buffer)
-    {
-        byte[] sharedBuffer = new byte[buffer.Length];
-        int numRead = target.Read(sharedBuffer, 0, buffer.Length);
-        if ((uint)numRead > (uint)buffer.Length)
-        {
-            throw new IOException("StreamTooLong");
-        }
-
-        new ReadOnlySpan<byte>(sharedBuffer, 0, numRead).CopyTo(buffer);
-        return numRead;
-    }
 
 #if FeatureValueTask
     /// <summary>

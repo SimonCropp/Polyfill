@@ -26,12 +26,6 @@ static partial class Polyfill
         target.AsSpan().TryCopyTo(destination);
 
 
-    /// <summary>
-    /// Returns a value indicating whether a specified character occurs within this string.
-    /// </summary>
-    
-    public static bool Contains(this string target, char value) =>
-        target.IndexOf(value) >= 0;
 
     /// <summary>
     /// Replaces all newline sequences in the current string with <paramref name="replacementText"/>.

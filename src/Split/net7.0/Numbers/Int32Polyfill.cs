@@ -39,21 +39,6 @@ static partial class Polyfill
 
 
 
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its 32-bit signed integer equivalent. A return value indicates whether the conversion succeeded.
-        /// </summary>
-        
-        public static bool TryParse(ReadOnlySpan<char> s, out int result) =>
-            int.TryParse(s.ToString(), out result);
-
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its 32-bit signed integer equivalent. A return value indicates whether the conversion succeeded.
-        /// </summary>
-        
-        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out int result) =>
-        int.TryParse(s.ToString(), style, provider, out result);
-
-
 
 #endif
     }

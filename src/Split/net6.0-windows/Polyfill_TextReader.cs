@@ -11,26 +11,6 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
-    /// <summary>
-    /// Asynchronously reads the characters from the current stream into a memory block.
-    /// </summary>
-    
-    public static ValueTask<int> ReadAsync(
-        this TextReader target,
-        Memory<char> buffer,
-        CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<char>)buffer, out var segment))
-        {
-            segment = new(buffer.ToArray());
-        }
-
-        var task = target.ReadAsync(segment.Array!, segment.Offset, segment.Count)
-            .WaitAsync(cancellationToken);
-        return new(task);
-    }
 
     /// <summary>
     /// Reads all characters from the current position to the end of the stream asynchronously and returns them as one string.

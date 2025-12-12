@@ -41,21 +41,6 @@ static partial class Polyfill
             byte.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, null, out result);
 
 
-
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its byte equivalent. A return value indicates whether the conversion succeeded.
-        /// </summary>
-        
-        public static bool TryParse(ReadOnlySpan<char> s, out byte result) =>
-            byte.TryParse(s.ToString(), out result);
-
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its byte equivalent. A return value indicates whether the conversion succeeded.
-        /// </summary>
-        
-        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out byte result) =>
-            byte.TryParse(s.ToString(), style, provider, out result);
-
 #endif
     }
 }

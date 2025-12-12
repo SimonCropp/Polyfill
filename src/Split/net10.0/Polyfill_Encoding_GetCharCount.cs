@@ -11,22 +11,6 @@ using System.Text;
 
 static partial class Polyfill
 {
-    /// <summary>
-    /// Calculates the number of characters produced by decoding the provided read-only byte span.
-    /// </summary>
-    
-#if AllowUnsafeBlocks
-    public static unsafe int GetCharCount(this Encoding target, ReadOnlySpan<byte> bytes)
-    {
-        fixed (byte* bytesPtr = bytes)
-        {
-            return target.GetCharCount(bytesPtr, bytes.Length);
-        }
-    }
-#else
-    public static int GetCharCount(this Encoding target, ReadOnlySpan<byte> bytes) =>
-        target.GetCharCount(bytes.ToArray());
-#endif
 
 }
 

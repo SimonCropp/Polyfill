@@ -80,19 +80,6 @@ static partial class Polyfill
 
 
 
-    /// <summary>
-    /// Fills the elements of a specified span of bytes with random numbers.
-    /// </summary>
-    
-    public static void NextBytes(
-        this Random target,
-        Span<byte> buffer)
-    {
-        var array = new byte[buffer.Length];
-        target.NextBytes(array);
-        array.CopyTo(buffer);
-    }
-
 
     /// <summary>
     /// Performs an in-place shuffle of an array.

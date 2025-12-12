@@ -152,19 +152,6 @@ static partial class Polyfill
 #endif
         }
 
-        /// <summary>
-        /// Returns the hash code for the provided read-only character span.
-        /// </summary>
-        
-        public static int GetHashCode(ReadOnlySpan<char> value) =>
-            value.ToString().GetHashCode();
-
-        /// <summary>
-        /// Returns the hash code for the provided read-only character span using the specified rules.
-        /// </summary>
-        
-        public static int GetHashCode(ReadOnlySpan<char> value,StringComparison comparisonType) =>
-            value.ToString().GetHashCode(comparisonType);
 #endif
 
         /// <summary>

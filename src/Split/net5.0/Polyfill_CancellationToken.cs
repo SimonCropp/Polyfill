@@ -11,39 +11,6 @@ using System.Threading;
 static partial class Polyfill
 {
 
-    /// <summary>
-    /// Registers a delegate that will be called when this
-    /// <see cref="CancellationToken">CancellationToken</see> is canceled.
-    /// </summary>
-    
-    public static CancellationTokenRegistration UnsafeRegister(this CancellationToken target, Action<object?> callback, object? state)
-    {
-        if (callback is null)
-        {
-            throw new ArgumentNullException(nameof(callback));
-        }
-
-        var restoreFlow = false;
-        if (!ExecutionContext.IsFlowSuppressed())
-        {
-            ExecutionContext.SuppressFlow();
-            restoreFlow = true;
-        }
-
-        try
-        {
-            return target.Register(callback, state, false);
-        }
-        finally
-        {
-            if (restoreFlow)
-            {
-                ExecutionContext.RestoreFlow();
-            }
-        }
-    }
-
-
 
     /// <summary>Registers a delegate that will be called when this <see cref="CancellationToken">CancellationToken</see> is canceled.</summary>
     

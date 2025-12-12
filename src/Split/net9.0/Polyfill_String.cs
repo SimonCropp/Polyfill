@@ -12,11 +12,5 @@ static partial class Polyfill
 {
 
 
-    /// <summary>
-    /// Returns a value indicating whether a specified character occurs within this string.
-    /// </summary>
-    
-    public static bool Contains(this string target, char value) =>
-        target.IndexOf(value) >= 0;
 
 }

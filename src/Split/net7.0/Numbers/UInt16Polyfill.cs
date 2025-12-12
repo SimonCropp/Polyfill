@@ -38,21 +38,6 @@ static partial class Polyfill
             ushort.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, null, out result);
 
 
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its ushort equivalent. A return value indicates whether the conversion succeeded.
-        /// </summary>
-        
-        public static bool TryParse(ReadOnlySpan<char> s, out ushort result) =>
-            ushort.TryParse(s.ToString(), out result);
-
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its ushort equivalent. A return value indicates whether the conversion succeeded.
-        /// </summary>
-        
-        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out ushort result) =>
-            ushort.TryParse(s.ToString(), style, provider, out result);
-
-
 
 #endif
     }

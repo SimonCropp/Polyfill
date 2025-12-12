@@ -18,14 +18,6 @@ static partial class Polyfill
 #if FeatureMemory
 
 
-        /// <summary>
-        /// Converts span of characters representing the GUID to the equivalent Guid structure, provided that the string is in the specified format.
-        /// </summary>
-        
-        public static bool TryParseExact(ReadOnlySpan<char> input, ReadOnlySpan<char> format, out Guid result) =>
-            Guid.TryParseExact(input.ToString(), format.ToString(), out result);
-
-
 
 
         /// <summary>

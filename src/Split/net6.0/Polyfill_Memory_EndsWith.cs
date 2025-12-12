@@ -33,26 +33,6 @@ static partial class Polyfill
 
 
 
-    /// <summary>
-    /// Determines whether the end of the span matches the specified value when compared using the specified <paramref name="comparison"/> option.
-    /// </summary>
-    
-    public static bool EndsWith(
-        this ReadOnlySpan<char> target,
-        string other,
-        StringComparison comparison = StringComparison.CurrentCulture) =>
-        target.EndsWith(other.AsSpan(), comparison);
-
-    /// <summary>
-    /// Determines whether the specified sequence appears at the end of a span.
-    /// </summary>
-    
-    public static bool EndsWith(
-        this Span<char> target,
-        string other) =>
-        target.EndsWith(other.AsSpan());
-
-
 }
 
 #endif
