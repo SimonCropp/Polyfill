@@ -608,19 +608,19 @@ partial class PolyfillTests
 
     #region Helper Methods
 
-    private async Task<T> GetValueAfterDelayAsync<T>(T value, int delayMs)
+    async Task<T> GetValueAfterDelayAsync<T>(T value, int delayMs)
     {
         await Task.Delay(delayMs);
         return value;
     }
 
-    private async Task ThrowExceptionAsync()
+    async Task ThrowExceptionAsync()
     {
         await Task.Delay(10);
         throw new InvalidOperationException("Test exception");
     }
 
-    private async Task<T> ThrowExceptionAsync<T>()
+    async Task<T> ThrowExceptionAsync<T>()
     {
         await Task.Delay(10);
         throw new InvalidOperationException("Test exception");

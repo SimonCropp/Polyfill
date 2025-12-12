@@ -140,7 +140,7 @@ public class BuildApiTest
         return ReadMethodsForFiles(files);
     }
 
-    private static List<Method> ReadMethodsForFiles(IEnumerable<string> files)
+    static List<Method> ReadMethodsForFiles(IEnumerable<string> files)
     {
         var types = files
             .SelectMany(Identifiers.ReadTypesForFile)

@@ -300,7 +300,7 @@ public class EnsureTests
     public void NotEqual_WithEqualIntegers_ThrowsArgumentOutOfRangeException(int value, int other) =>
         Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotEqual(value, other));
 
-    private record Person(string Name, int Age);
+    record Person(string Name, int Age);
 
     #if NET10_0_OR_GREATER
     public class User

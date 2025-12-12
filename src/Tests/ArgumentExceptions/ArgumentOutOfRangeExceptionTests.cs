@@ -886,9 +886,9 @@ public class ArgumentOutOfRangeExceptionTests
 
     #region Helper Classes
 
-    private class TestEquatable(int value) : IEquatable<TestEquatable>
+    class TestEquatable(int value) : IEquatable<TestEquatable>
     {
-        private readonly int value = value;
+        readonly int value = value;
 
         public bool Equals(TestEquatable? other)
         {
@@ -903,7 +903,7 @@ public class ArgumentOutOfRangeExceptionTests
             value.GetHashCode();
     }
 
-    private class TestProduct
+    class TestProduct
     {
         public TestProduct(
             string sku,

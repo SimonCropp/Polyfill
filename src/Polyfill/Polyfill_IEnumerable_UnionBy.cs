@@ -24,15 +24,14 @@ static partial class Polyfill
         this IEnumerable<TSource> first,
         IEnumerable<TSource> second,
         Func<TSource, TKey> keySelector,
-        IEqualityComparer<TKey>? comparer
-    ) => UnionByIterator(first, second, keySelector, comparer);
+        IEqualityComparer<TKey>? comparer) =>
+        UnionByIterator(first, second, keySelector, comparer);
 
-    private static IEnumerable<TSource> UnionByIterator<TSource, TKey>(
+    static IEnumerable<TSource> UnionByIterator<TSource, TKey>(
         IEnumerable<TSource> first,
         IEnumerable<TSource> second,
         Func<TSource, TKey> keySelector,
-        IEqualityComparer<TKey>? comparer
-    )
+        IEqualityComparer<TKey>? comparer)
     {
         var set = new HashSet<TKey>(comparer);
 
