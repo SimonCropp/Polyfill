@@ -39,12 +39,13 @@
       Condition="($(LowerFrameworks.Contains('net5')) OR
                  $(LowerFrameworks.Contains('net6')) OR
                  $(LowerFrameworks.Contains('net7')) OR
+                 $(LowerFrameworks.Contains('net8')) OR
                  $(LowerFrameworks.Contains('netstandard')) OR
                  $(LowerFrameworks.Contains('netcore')))
                  AND
-                 !$(LowerFrameworks.Contains('net8'))
+                 !$(LowerFrameworks.Contains('net9'))
                  AND
-                 !$(LowerFramework.Contains('net8'))"
+                 !$(LowerFramework.Contains('net9'))"
       >true</MaxNetRequired>
     <MaxNetClassicRequired>false</MaxNetClassicRequired>
     <MaxNetClassicRequired
