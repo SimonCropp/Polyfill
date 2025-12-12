@@ -37,6 +37,7 @@ static class SHA256Polyfill
         }
 
 
+#if FeatureValueTask && !NET7_0_OR_GREATER
         /// <summary>
         /// Asynchronously computes the hash of a stream using the SHA-256 algorithm.
         /// </summary>
@@ -46,6 +47,7 @@ static class SHA256Polyfill
             using var hasher = SHA256.Create();
             return new(hasher.ComputeHash(source));
         }
+#endif
 
 #if FeatureMemory
 
@@ -63,6 +65,7 @@ static class SHA256Polyfill
 
 
 
+#if FeatureValueTask && !NET7_0_OR_GREATER
 
         /// <summary>
         /// Asynchronously computes the hash of a stream using the SHA-256 algorithm.
@@ -76,6 +79,7 @@ static class SHA256Polyfill
             return new(hash.Length);
         }
 
+#endif
 
 #endif
     }

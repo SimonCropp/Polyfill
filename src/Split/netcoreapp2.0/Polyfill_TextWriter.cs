@@ -89,6 +89,7 @@ static partial class Polyfill
 #endif
     }
 
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER && FeatureMemory
 #if FeatureValueTask
 
     /// <summary>
@@ -178,4 +179,5 @@ static partial class Polyfill
             pool.Return(array);
         }
     }
+#endif
 }

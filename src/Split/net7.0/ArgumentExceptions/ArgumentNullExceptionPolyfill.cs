@@ -12,6 +12,7 @@ static partial class Polyfill
     extension(ArgumentNullException)
     {
 
+#if AllowUnsafeBlocks && !NET9_0_OR_GREATER
         
         public static unsafe void ThrowIfNull(void* argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
         {
@@ -20,5 +21,6 @@ static partial class Polyfill
                 throw new ArgumentNullException(paramName);
             }
         }
+#endif
     }
 }

@@ -2,5 +2,6 @@
 #pragma warning disable
 
 
+#nullable enable
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.ObsoletedOSPlatformAttribute))]

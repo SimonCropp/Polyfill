@@ -2,6 +2,7 @@
 #pragma warning disable
 
 #if FeatureMemory
+#nullable enable
 using System.Buffers;
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(SpanAction<,>))]

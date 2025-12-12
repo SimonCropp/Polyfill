@@ -2,6 +2,7 @@
 
 #pragma warning disable
 
+#if !NET5_0_OR_GREATER && FeatureValueTask
 
 namespace Polyfills;
 
@@ -19,3 +20,4 @@ static partial class Polyfill
         public static ValueTask CompletedTask => default;
     }
 }
+#endif

@@ -79,6 +79,7 @@ static partial class Polyfill
     }
 
 
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER && FeatureMemory
 
     /// <summary>
     /// Fills the elements of a specified span of bytes with random numbers.
@@ -92,6 +93,7 @@ static partial class Polyfill
         target.NextBytes(array);
         array.CopyTo(buffer);
     }
+#endif
 
 
     /// <summary>

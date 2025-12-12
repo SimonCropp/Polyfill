@@ -17,4 +17,50 @@ static partial class Polyfill
 {
 
 
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER && FeatureMemory
+
+    /// <summary>
+    /// Writes a character span to the text stream.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write?view=net-10.0#system-io-textwriter-write(system-readonlyspan((system-char)))
+    public static void Write(
+        this TextWriter target,
+        ReadOnlySpan<char> buffer)
+    {
+        var pool = ArrayPool<char>.Shared;
+        var array = pool.Rent(buffer.Length);
+
+        try
+        {
+            buffer.CopyTo(new(array));
+            target.Write(array, 0, buffer.Length);
+        }
+        finally
+        {
+            pool.Return(array);
+        }
+    }
+
+    /// <summary>
+    /// Writes the text representation of a character span to the text stream, followed by a line terminator.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline?view=net-10.0#system-io-textwriter-writeline(system-readonlyspan((system-char)))
+    public static void WriteLine(
+        this TextWriter target,
+        ReadOnlySpan<char> buffer)
+    {
+        var pool = ArrayPool<char>.Shared;
+        var array = pool.Rent(buffer.Length);
+
+        try
+        {
+            buffer.CopyTo(new(array));
+            target.WriteLine(array, 0, buffer.Length);
+        }
+        finally
+        {
+            pool.Return(array);
+        }
+    }
+#endif
 }

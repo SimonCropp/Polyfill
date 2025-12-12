@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
+#if (!NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1) && FeatureMemory
     /// <summary>
     /// Reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.
     /// </summary>
@@ -26,6 +27,7 @@ static partial class Polyfill
         new ReadOnlySpan<byte>(sharedBuffer, 0, numRead).CopyTo(buffer);
         return numRead;
     }
+#endif
 
 #if FeatureValueTask
     /// <summary>

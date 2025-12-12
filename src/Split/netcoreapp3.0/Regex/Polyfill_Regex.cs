@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 
 static partial class Polyfill
 {
+#if !NET7_0_OR_GREATER && FeatureMemory
     /// <summary>
     /// Indicates whether the regular expression specified in the Regex constructor finds a match in a specified input span.
     /// </summary>
@@ -35,7 +36,9 @@ static partial class Polyfill
     
     public static ValueMatchEnumerator EnumerateMatches(this Regex target, ReadOnlySpan<char> input, int startat) =>
         new(target, input, startat);
+#endif
 
+#if !NET9_0_OR_GREATER && FeatureMemory && FeatureValueTuple
 
      
     public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input) =>
@@ -68,4 +71,5 @@ static partial class Polyfill
         return new ValueSplitEnumerator(input, regex, count, startat);
     }
 
+#endif
 }

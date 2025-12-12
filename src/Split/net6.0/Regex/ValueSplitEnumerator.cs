@@ -4,6 +4,7 @@
 
 #pragma warning disable
 
+#if !NET9_0_OR_GREATER && FeatureMemory && FeatureValueTuple
 
 namespace System.Text.RegularExpressions;
 
@@ -109,3 +110,4 @@ ref struct ValueSplitEnumerator
     }
 }
 
+#endif

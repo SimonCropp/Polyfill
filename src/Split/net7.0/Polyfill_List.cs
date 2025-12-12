@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 static partial class Polyfill
 {
 
+#if !NET8_0_OR_GREATER && FeatureMemory
     /// <summary>Adds the elements of the specified span to the end of the <see cref="List{T}"/>.</summary>
     
     public static void AddRange<T>(this List<T> target, ReadOnlySpan<T> source)
@@ -40,5 +41,6 @@ static partial class Polyfill
             destination[index] = target[index];
         }
     }
+#endif
 
 }

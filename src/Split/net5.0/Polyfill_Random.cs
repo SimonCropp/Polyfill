@@ -79,6 +79,21 @@ static partial class Polyfill
     }
 
 
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER && FeatureMemory
+
+    /// <summary>
+    /// Fills the elements of a specified span of bytes with random numbers.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-10.0#system-random-nextbytes(system-span((system-byte)))
+    public static void NextBytes(
+        this Random target,
+        Span<byte> buffer)
+    {
+        var array = new byte[buffer.Length];
+        target.NextBytes(array);
+        array.CopyTo(buffer);
+    }
+#endif
 
 
     /// <summary>

@@ -2,6 +2,7 @@
 
 #pragma warning disable
 
+#if FeatureCompression && ((NETFRAMEWORK && !NET472_OR_GREATER) || NETSTANDARD2_0)
 namespace Polyfills;
 
 using System.IO.Compression;
@@ -22,3 +23,4 @@ static partial class Polyfill
         }
     }
 }
+#endif

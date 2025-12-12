@@ -15,6 +15,7 @@ static partial class Polyfill
     public static ReadOnlyCollection<T> AsReadOnly<T>(this IList<T> target) =>
         new(target);
 
+#if !NET8_0_OR_GREATER && FeatureMemory
     /// <summary>Adds the elements of the specified span to the end of the <see cref="List{T}"/>.</summary>
     
     public static void AddRange<T>(this List<T> target, ReadOnlySpan<T> source)
@@ -45,6 +46,7 @@ static partial class Polyfill
             destination[index] = target[index];
         }
     }
+#endif
 
 
     /// <summary>

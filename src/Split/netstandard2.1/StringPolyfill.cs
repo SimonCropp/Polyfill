@@ -167,12 +167,14 @@ static partial class Polyfill
             value.ToString().GetHashCode(comparisonType);
 #endif
 
+#if !NET9_0_OR_GREATER && FeatureMemory
         /// <summary>
         /// Concatenates the string representations of a span of objects, using the specified separator between each member.
         /// </summary>
         
         public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
             string.Join(separator, values.ToArray());
+#endif
 
 
     }

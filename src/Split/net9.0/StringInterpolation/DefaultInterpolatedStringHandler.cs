@@ -2,6 +2,17 @@
 #pragma warning disable
 
 #if FeatureMemory
-                                        using System.Runtime.CompilerServices;
+#nullable enable
+    #region AppendFormatted
+    #region AppendFormatted T
+    #endregion
+    #region AppendFormatted ReadOnlySpan<char>
+    #endregion
+    #region AppendFormatted string
+    #endregion
+    #region AppendFormatted object
+    #endregion
+    #endregion
+using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.DefaultInterpolatedStringHandler))]
 #endif

@@ -60,6 +60,7 @@ static partial class Polyfill
             RegexCache.GetOrAdd(pattern, options, TimeSpan.MaxValue).EnumerateMatches(input);
 #endif
 
+#if !NET9_0_OR_GREATER && FeatureMemory && FeatureValueTuple
 
         
         public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern)
@@ -82,5 +83,6 @@ static partial class Polyfill
             return new ValueSplitEnumerator(input, regex, 0, 0);
         }
 
+#endif
     }
 }

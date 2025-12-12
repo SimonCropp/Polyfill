@@ -70,7 +70,7 @@ public class FrameworkSplitterTest
         // Get the root and remove only framework-related directives
         // Feature directives will be kept
         var root = syntaxTree.GetRoot();
-        var processedRoot = RemoveFrameworkDirectives(root, frameworkSymbols);
+        var processedRoot = RemoveFrameworkDirectives(root, frameworkSymbols, sharedSymbols);
 
         // Check if the file has any meaningful code
         if (!HasMeaningfulCode(processedRoot))
@@ -108,10 +108,10 @@ public class FrameworkSplitterTest
         return hasMembers;
     }
 
-    SyntaxNode RemoveFrameworkDirectives(SyntaxNode root, List<string> frameworkSymbols)
+    SyntaxNode RemoveFrameworkDirectives(SyntaxNode root, List<string> frameworkSymbols, List<string> sharedSymbols)
     {
         // Remove only framework-related preprocessor directives while keeping feature directives
-        var rewriter = new DirectiveRemovalRewriter(frameworkSymbols);
+        var rewriter = new DirectiveRemovalRewriter(frameworkSymbols, sharedSymbols);
         return rewriter.Visit(root);
     }
 
@@ -456,12 +456,14 @@ public class FrameworkSplitterTest
     class DirectiveRemovalRewriter : CSharpSyntaxRewriter
     {
         readonly HashSet<string> frameworkSymbols;
+        readonly HashSet<string> sharedSymbols;
         readonly Stack<bool> directiveStack = new();
         readonly HashSet<string> frameworkRelatedKeywords;
 
-        public DirectiveRemovalRewriter(List<string> frameworkSymbols) : base(visitIntoStructuredTrivia: false)
+        public DirectiveRemovalRewriter(List<string> frameworkSymbols, List<string> sharedSymbols) : base(visitIntoStructuredTrivia: false)
         {
             this.frameworkSymbols = frameworkSymbols.ToHashSet();
+            this.sharedSymbols = sharedSymbols.ToHashSet();
 
             // Keywords that indicate framework-specific conditional compilation
             // These are the primary framework identifiers
@@ -553,16 +555,20 @@ public class FrameworkSplitterTest
 
             var structure = trivia.GetStructure();
 
-            // Remove any inactive directives (these are inside disabled blocks)
-            if (structure is DirectiveTriviaSyntax directive && !directive.IsActive)
-            {
-                return true;
-            }
-
             // Check if it's an #if directive
             if (structure is IfDirectiveTriviaSyntax ifDirective)
             {
                 var isFrameworkRelated = IsFrameworkRelated(ifDirective.Condition.ToString());
+
+                // If the directive is inactive, always remove it (regardless of whether it's framework-related)
+                // Inactive directives mean the code will never be compiled for this target framework
+                if (!ifDirective.IsActive)
+                {
+                    directiveStack.Push(true); // Mark for removal so matching endif is also removed
+                    return true;
+                }
+
+                // For active directives, only remove if framework-related
                 directiveStack.Push(isFrameworkRelated);
                 return isFrameworkRelated;
             }
@@ -590,7 +596,7 @@ public class FrameworkSplitterTest
             }
 
             // Check if it's an #endif directive
-            if (structure is EndIfDirectiveTriviaSyntax)
+            if (structure is EndIfDirectiveTriviaSyntax endIfDirective)
             {
                 // #endif closes the current directive block
                 if (directiveStack.Count > 0)
@@ -608,6 +614,17 @@ public class FrameworkSplitterTest
         {
             // Normalize the condition
             var normalizedCondition = condition.Replace(" ", "").ToUpperInvariant();
+
+            // First check if the condition contains any feature flags
+            // If it does, it's NOT purely framework-related, so we should keep it
+            foreach (var featureFlag in this.sharedSymbols)
+            {
+                if (normalizedCondition.Contains(featureFlag.ToUpperInvariant(), StringComparison.OrdinalIgnoreCase))
+                {
+                    // This condition includes a feature flag, so keep the directive
+                    return false;
+                }
+            }
 
             // Check if the condition contains any framework-related keywords
             // We need to check for exact matches or with operators

@@ -37,6 +37,7 @@ static partial class SHA512Polyfill
         }
 
 
+#if FeatureValueTask && !NET7_0_OR_GREATER
 
         /// <summary>
         /// Asynchronously computes the hash of a stream using the SHA-512 algorithm.
@@ -49,6 +50,7 @@ static partial class SHA512Polyfill
             return new(hasher.ComputeHash(source));
         }
 
+#endif
 
 #if FeatureMemory
 
@@ -66,6 +68,7 @@ static partial class SHA512Polyfill
         }
 
 
+#if FeatureValueTask && !NET7_0_OR_GREATER
 
         /// <summary>
         /// Asynchronously computes the hash of a stream using the SHA-512 algorithm.
@@ -80,6 +83,7 @@ static partial class SHA512Polyfill
 
         }
 
+#endif
 
 #endif
     }

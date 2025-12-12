@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 
 static partial class Polyfill
 {
+#if FeatureMemory && !NET6_0_OR_GREATER
 
     /// <summary>
     /// Copies the contents of this string into the destination span.
@@ -24,6 +25,7 @@ static partial class Polyfill
     
     public static bool TryCopyTo(this string target, Span<char> destination) =>
         target.AsSpan().TryCopyTo(destination);
+#endif
 
 
 

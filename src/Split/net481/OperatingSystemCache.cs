@@ -3,6 +3,7 @@
 
 namespace Polyfills;
 
+#if FeatureRuntimeInformation && !NET
 
 using System;
 using System.Diagnostics;
@@ -140,3 +141,4 @@ static class OperatingSystemCache
         return androidVersion >= new Version(major, minor, build, revision);
     }
 }
+#endif
