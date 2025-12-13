@@ -1,17 +1,17 @@
 #if FeatureMemory
 
-using System.Buffers;
+namespace Polyfills;
 
-namespace Polyfill;
+using System.Buffers;
 
 static partial class Polyfill
 {
 #if !NET5_0_OR_GREATER
-    public static void Sort<T>(this ref Span<T> source)
+    public static void Sort<T>(this Span<T> source)
         where T : IComparable<T>
-        => Sort(ref source, (x, y) => x.CompareTo(y));
+        => Sort(source, (x, y) => x.CompareTo(y));
 
-    public static void Sort<T>(this ref Span<T> source, Comparison<T> comparison)
+    public static void Sort<T>(this Span<T> source, Comparison<T> comparison)
     {
         ArgumentNullException.ThrowIfNull(comparison);
         var array = ArrayPool<T>.Shared.Rent(source.Length);
@@ -30,10 +30,10 @@ static partial class Polyfill
         }
     }
 
-    public static void Sort<TKey, TValue>(this ref Span<TKey> keys, ref Span<TValue> values)
-        => Sort(ref keys, ref values, Comparer<TKey>.Default);
+    public static void Sort<TKey, TValue>(this Span<TKey> keys, Span<TValue> values)
+        => Sort(keys, values, Comparer<TKey>.Default);
 
-    public static void Sort<TKey, TValue, TComparer>(this ref Span<TKey> keys, ref Span<TValue> values, TComparer comparer)
+    public static void Sort<TKey, TValue, TComparer>(this Span<TKey> keys, Span<TValue> values, TComparer comparer)
         where TComparer : IComparer<TKey>
     {
         ArgumentNullException.ThrowIfNull(comparer);
@@ -61,8 +61,8 @@ static partial class Polyfill
         }
     }
 
-    public static void Sort<TKey, TValue>(this ref Span<TKey> keys, ref Span<TValue> values, Comparison<TKey> comparison)
-        => Sort(ref keys, ref values, new ComparerWrapper<TKey>(comparison));
+    public static void Sort<TKey, TValue>(this Span<TKey> keys, Span<TValue> values, Comparison<TKey> comparison)
+        => Sort(keys, values, new ComparerWrapper<TKey>(comparison));
 
     private class ComparerWrapper<T> : IComparer<T>
     {
