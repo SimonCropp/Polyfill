@@ -19,7 +19,6 @@ static partial class Polyfill
         try
         {
             source.CopyTo(array);
-
             Array.Sort(array, comparison);
 
             array.AsSpan(0, source.Length).CopyTo(source);
@@ -74,8 +73,13 @@ static partial class Polyfill
             this.comparison = comparison;
         }
 
-        public int Compare(T x, T y) =>
-            comparison(x, y);
+        public int Compare(T? x, T? y)
+        {
+            if (x is null || y is null)
+                return 0;
+
+            return comparison((T)x, (T)y);
+        }
     }
 #endif
 }
