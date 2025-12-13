@@ -1,12 +1,11 @@
 using ProjectFilesGenerator;
 
-[TestFixture]
 public class BuildApiTest
 {
     static string polyfillDir = Path.Combine(ProjectFiles.SolutionDirectory, "Polyfill");
 
     [Test]
-    public void RunWithRoslyn()
+    public Task RunWithRoslyn()
     {
         var md = Path.Combine(ProjectFiles.SolutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
@@ -29,6 +28,7 @@ public class BuildApiTest
         var countMd = Path.Combine(ProjectFiles.SolutionDirectory, "..", "apiCount.include.md");
         File.Delete(countMd);
         File.WriteAllText(countMd, $"**API count: {count}**");
+        return Task.CompletedTask;
     }
 
     static int WriteExtensions(StreamWriter writer, int count)

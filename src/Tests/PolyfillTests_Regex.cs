@@ -1,15 +1,15 @@
 partial class PolyfillTests
 {
     [Test]
-    public void RegexIsMatch()
+    public async Task RegexIsMatch()
     {
         var regex = new Regex(@"\d+");
         var match = regex.Match("a55a");
-        Assert.IsTrue(match.Success);
+        await Assert.That(match.Success).IsTrue();
     }
 
     [Test]
-    public void EnumerateMatches()
+    public Task EnumerateMatches()
     {
         var regex = new Regex(@"\d+");
         var span = "a55a".AsSpan();
@@ -17,32 +17,40 @@ partial class PolyfillTests
         foreach (var match in regex.EnumerateMatches(span))
         {
             found = true;
-            Assert.AreEqual(1, match.Index);
-            Assert.AreEqual(2, match.Length);
+            if (match.Index != 1)
+                throw new Exception($"Expected Index 1 but got {match.Index}");
+            if (match.Length != 2)
+                throw new Exception($"Expected Length 2 but got {match.Length}");
         }
 
-        Assert.IsTrue(found);
+        if (!found)
+            throw new Exception("Expected to find a match");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void EnumerateMatchesStatic()
+    public Task EnumerateMatchesStatic()
     {
         var span = "a55a".AsSpan();
         var found = false;
         foreach (var match in Regex.EnumerateMatches(span, @"\d+"))
         {
             found = true;
-            Assert.AreEqual(1, match.Index);
-            Assert.AreEqual(2, match.Length);
+            if (match.Index != 1)
+                throw new Exception($"Expected Index 1 but got {match.Index}");
+            if (match.Length != 2)
+                throw new Exception($"Expected Length 2 but got {match.Length}");
         }
 
-        Assert.IsTrue(found);
+        if (!found)
+            throw new Exception("Expected to find a match");
+        return Task.CompletedTask;
     }
 
 #if FeatureMemory
 
    [Test]
-    public void EnumerateSplits_InstanceMethod_BasicSplit()
+    public async Task EnumerateSplits_InstanceMethod_BasicSplit()
     {
         var regex = new Regex(@"[,\s]+");
         var input = "one, two  three,four".AsSpan();
@@ -53,11 +61,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Is.EqualTo(new[] { "one", "two", "three", "four" }));
+        await Assert.That(results.SequenceEqual(new[] { "one", "two", "three", "four" })).IsTrue();
     }
 
     [Test]
-    public void EnumerateSplits_InstanceMethod_WithCount()
+    public async Task EnumerateSplits_InstanceMethod_WithCount()
     {
         var regex = new Regex(@"[,\s]+");
         var input = "one, two  three,four".AsSpan();
@@ -68,11 +76,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Has.Count.EqualTo(2));
+        await Assert.That(results.Count).IsEqualTo(2);
     }
 
     [Test]
-    public void EnumerateSplits_InstanceMethod_WithCountAndStartat()
+    public async Task EnumerateSplits_InstanceMethod_WithCountAndStartat()
     {
         var regex = new Regex(@"[,\s]+");
         var input = "one, two  three,four".AsSpan();
@@ -83,11 +91,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Has.Count.EqualTo(2));
+        await Assert.That(results.Count).IsEqualTo(2);
     }
 
     [Test]
-    public void EnumerateSplits_InstanceMethod_EmptyInput()
+    public async Task EnumerateSplits_InstanceMethod_EmptyInput()
     {
         var regex = new Regex(",");
         var input = "".AsSpan();
@@ -98,12 +106,12 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Has.Count.EqualTo(1));
-        Assert.That(results[0], Is.EqualTo(""));
+        await Assert.That(results.Count).IsEqualTo(1);
+        await Assert.That(results[0]).IsEqualTo("");
     }
 
     [Test]
-    public void EnumerateSplits_InstanceMethod_NoMatch()
+    public async Task EnumerateSplits_InstanceMethod_NoMatch()
     {
         var regex = new Regex("xyz");
         var input = "hello world".AsSpan();
@@ -114,40 +122,40 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Has.Count.EqualTo(1));
-        Assert.That(results[0], Is.EqualTo("hello world"));
+        await Assert.That(results.Count).IsEqualTo(1);
+        await Assert.That(results[0]).IsEqualTo("hello world");
     }
 
     [Test]
-    public void EnumerateSplits_InstanceMethod_NegativeCount_ThrowsArgumentOutOfRangeException()
+    public async Task EnumerateSplits_InstanceMethod_NegativeCount_ThrowsArgumentOutOfRangeException()
     {
         var regex = new Regex(",");
 
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
+        await Assert.That(() =>
         {
             var input = "test".AsSpan();
             foreach (var _ in regex.EnumerateSplits(input, -1))
             {
             }
-        });
+        }).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void EnumerateSplits_InstanceMethod_InvalidStartat_ThrowsArgumentOutOfRangeException()
+    public async Task EnumerateSplits_InstanceMethod_InvalidStartat_ThrowsArgumentOutOfRangeException()
     {
         var regex = new Regex(",");
 
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
+        await Assert.That(() =>
         {
             var input = "test".AsSpan();
             foreach (var _ in regex.EnumerateSplits(input, 0, 100))
             {
             }
-        });
+        }).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void EnumerateSplits_StaticMethod_BasicSplit()
+    public async Task EnumerateSplits_StaticMethod_BasicSplit()
     {
         var input = "one,two,three".AsSpan();
 
@@ -157,11 +165,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Is.EqualTo(new[] { "one", "two", "three" }));
+        await Assert.That(results.SequenceEqual(new[] { "one", "two", "three" })).IsTrue();
     }
 
     [Test]
-    public void EnumerateSplits_StaticMethod_WithOptions()
+    public async Task EnumerateSplits_StaticMethod_WithOptions()
     {
         var input = "ONE,two,THREE".AsSpan();
 
@@ -171,11 +179,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results.Count, Is.GreaterThan(2));
+        await Assert.That(results.Count).IsGreaterThan(2);
     }
 
     [Test]
-    public void EnumerateSplits_StaticMethod_WithTimeout()
+    public async Task EnumerateSplits_StaticMethod_WithTimeout()
     {
         var input = "one,two,three".AsSpan();
 
@@ -185,11 +193,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Is.EqualTo(new[] { "one", "two", "three" }));
+        await Assert.That(results.SequenceEqual(new[] { "one", "two", "three" })).IsTrue();
     }
 
     [Test]
-    public void EnumerateSplits_Digits_SplitCorrectly()
+    public async Task EnumerateSplits_Digits_SplitCorrectly()
     {
         var input = "abc123def456ghi".AsSpan();
 
@@ -199,11 +207,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Is.EqualTo(new[] { "abc", "def", "ghi" }));
+        await Assert.That(results.SequenceEqual(new[] { "abc", "def", "ghi" })).IsTrue();
     }
 
     [Test]
-    public void EnumerateSplits_Whitespace_SplitCorrectly()
+    public async Task EnumerateSplits_Whitespace_SplitCorrectly()
     {
         var input = "Hello   World  Test".AsSpan();
 
@@ -213,11 +221,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Is.EqualTo(new[] { "Hello", "World", "Test" }));
+        await Assert.That(results.SequenceEqual(new[] { "Hello", "World", "Test" })).IsTrue();
     }
 
     [Test]
-    public void EnumerateSplits_ConsecutiveMatches_ProducesEmptyStrings()
+    public async Task EnumerateSplits_ConsecutiveMatches_ProducesEmptyStrings()
     {
         var input = "a,,b".AsSpan();
 
@@ -227,11 +235,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Is.EqualTo(new[] { "a", "", "b" }));
+        await Assert.That(results.SequenceEqual(new[] { "a", "", "b" })).IsTrue();
     }
 
     [Test]
-    public void EnumerateSplits_MatchAtBeginning()
+    public async Task EnumerateSplits_MatchAtBeginning()
     {
         var input = ",a,b".AsSpan();
 
@@ -241,11 +249,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Is.EqualTo(new[] { "", "a", "b" }));
+        await Assert.That(results.SequenceEqual(new[] { "", "a", "b" })).IsTrue();
     }
 
     [Test]
-    public void EnumerateSplits_MatchAtEnd()
+    public async Task EnumerateSplits_MatchAtEnd()
     {
         var input = "a,b,".AsSpan();
 
@@ -255,11 +263,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Is.EqualTo(new[] { "a", "b", "" }));
+        await Assert.That(results.SequenceEqual(new[] { "a", "b", "" })).IsTrue();
     }
 
     [Test]
-    public void EnumerateSplits_ComplexPattern()
+    public async Task EnumerateSplits_ComplexPattern()
     {
         var input = "user@example.com;admin@test.org;guest@domain.net".AsSpan();
 
@@ -269,11 +277,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Is.EqualTo(new[] { "user@example.com", "admin@test.org", "guest@domain.net" }));
+        await Assert.That(results.SequenceEqual(new[] { "user@example.com", "admin@test.org", "guest@domain.net" })).IsTrue();
     }
 
     [Test]
-    public void EnumerateSplits_ZeroCount_ReturnsAllSplits()
+    public async Task EnumerateSplits_ZeroCount_ReturnsAllSplits()
     {
         var regex = new Regex(",");
         var input = "a,b,c,d".AsSpan();
@@ -284,11 +292,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Is.EqualTo(new[] { "a", "b", "c", "d" }));
+        await Assert.That(results.SequenceEqual(new[] { "a", "b", "c", "d" })).IsTrue();
     }
 
     [Test]
-    public void EnumerateSplits_MultiCharacterDelimiter()
+    public async Task EnumerateSplits_MultiCharacterDelimiter()
     {
         var input = "one::two::three".AsSpan();
 
@@ -298,11 +306,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Is.EqualTo(new[] { "one", "two", "three" }));
+        await Assert.That(results.SequenceEqual(new[] { "one", "two", "three" })).IsTrue();
     }
 
     [Test]
-    public void EnumerateSplits_CaseInsensitive()
+    public async Task EnumerateSplits_CaseInsensitive()
     {
         var input = "HelloWORLDhello".AsSpan();
 
@@ -312,11 +320,11 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Has.Count.EqualTo(3));
+        await Assert.That(results.Count).IsEqualTo(3);
     }
 
     [Test]
-    public void EnumerateSplits_UnicodeCharacters()
+    public async Task EnumerateSplits_UnicodeCharacters()
     {
         var input = "α,β,γ,δ".AsSpan();
 
@@ -326,7 +334,7 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        Assert.That(results, Is.EqualTo(new[] { "α", "β", "γ", "δ" }));
+        await Assert.That(results.SequenceEqual(new[] { "α", "β", "γ", "δ" })).IsTrue();
     }
 
 #endif

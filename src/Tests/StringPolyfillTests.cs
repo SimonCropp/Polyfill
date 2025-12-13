@@ -1,24 +1,23 @@
 // ReSharper disable RedundantExplicitParamsArrayCreation
 // ReSharper disable ReplaceSliceWithRangeIndexer
-[TestFixture]
 [SuppressMessage("Style", "IDE0057:Use range operator")]
 public class StringPolyfillTest
 {
     [Test]
-    public void Join()
+    public async Task Join()
     {
-        Assert.AreEqual("bac", string.Join('a', ["b", "c"]));
-        Assert.AreEqual("ba1c", string.Join("a1", ["b", "c"]));
-        Assert.AreEqual("ba1a1c", string.Join("a1", ["b", null, "c"]));
-        Assert.AreEqual("bac", string.Join('a', new object[] {"b", "c"}));
-        Assert.AreEqual("baac", string.Join('a', new object?[] {"b", null, "c"}));
+        await Assert.That(string.Join('a', ["b", "c"])).IsEqualTo("bac");
+        await Assert.That(string.Join("a1", ["b", "c"])).IsEqualTo("ba1c");
+        await Assert.That(string.Join("a1", ["b", null, "c"])).IsEqualTo("ba1a1c");
+        await Assert.That(string.Join('a', new object[] {"b", "c"})).IsEqualTo("bac");
+        await Assert.That(string.Join('a', new object?[] {"b", null, "c"})).IsEqualTo("baac");
         // ReSharper disable once RedundantCast
-        Assert.AreEqual("bac", string.Join('a', (IEnumerable<string>) new List<string> {"b", "c"}));
+        await Assert.That(string.Join('a', (IEnumerable<string>) new List<string> {"b", "c"})).IsEqualTo("bac");
     }
 
     [Test]
-    public void Create() =>
-        Assert.AreEqual("abcde",
+    public async Task Create() =>
+        await Assert.That(
             string.Create(
                 5,
                 'a',
@@ -28,42 +27,42 @@ public class StringPolyfillTest
                     {
                         span[i] = state++;
                     }
-                }));
+                })).IsEqualTo("abcde");
 
     [Test]
-    public void Create_WithZeroLength_ReturnsEmptyString()
+    public async Task Create_WithZeroLength_ReturnsEmptyString()
     {
         var result = string.Create(0,
             (object?) null,
             static (span, state) => throw new InvalidOperationException("Should not be called"));
 
-        Assert.That(result, Is.EqualTo(string.Empty));
-        Assert.That(result.Length, Is.EqualTo(0));
+        await Assert.That(result).IsEqualTo(string.Empty);
+        await Assert.That(result.Length).IsEqualTo(0);
     }
 
     [Test]
-    public void Create_WithNegativeLength_ThrowsArgumentOutOfRangeException() =>
-        Assert.Throws<ArgumentOutOfRangeException>(
+    public async Task Create_WithNegativeLength_ThrowsArgumentOutOfRangeException() =>
+        await Assert.That(
             () => string.Create(
                 -1,
                 (object?) null,
                 static (span, state) =>
         {
-        }));
+        })).Throws<ArgumentOutOfRangeException>();
 
     [Test]
-    public void Create_FillsStringWithCharacter()
+    public async Task Create_FillsStringWithCharacter()
     {
         var result = string.Create(
             5,
             'X',
             static (span, state) => span.Fill(state));
 
-        Assert.That(result, Is.EqualTo("XXXXX"));
+        await Assert.That(result).IsEqualTo("XXXXX");
     }
 
     [Test]
-    public void Create_WithStateObject_UsesStateCorrectly()
+    public async Task Create_WithStateObject_UsesStateCorrectly()
     {
         var state = (first: "Hello", second: "World");
 
@@ -77,11 +76,11 @@ public class StringPolyfillTest
                 s.second.AsSpan().Slice(0, 4).CopyTo(span.Slice(6));
             });
 
-        Assert.That(result, Is.EqualTo("Hello Worl"));
+        await Assert.That(result).IsEqualTo("Hello Worl");
     }
 
     [Test]
-    public void Create_ReverseString_WorksCorrectly()
+    public async Task Create_ReverseString_WorksCorrectly()
     {
         var original = "abcdef";
 
@@ -96,11 +95,11 @@ public class StringPolyfillTest
                 }
             });
 
-        Assert.That(reversed, Is.EqualTo("fedcba"));
+        await Assert.That(reversed).IsEqualTo("fedcba");
     }
 
     [Test]
-    public void Create_WithNumbers_FormatsCorrectly()
+    public async Task Create_WithNumbers_FormatsCorrectly()
     {
         var numbers = new[] {1, 2, 3};
 
@@ -116,11 +115,11 @@ public class StringPolyfillTest
                 span[4] = (char) ('0' + state[2]);
             });
 
-        Assert.That(result, Is.EqualTo("1,2,3"));
+        await Assert.That(result).IsEqualTo("1,2,3");
     }
 
     [Test]
-    public void Create_LargeString_WorksCorrectly()
+    public async Task Create_LargeString_WorksCorrectly()
     {
         var length = 10000;
         var result = string.Create(
@@ -128,12 +127,12 @@ public class StringPolyfillTest
             'A',
             static (span, state) => span.Fill(state));
 
-        Assert.That(result.Length, Is.EqualTo(length));
-        Assert.That(result.All(c => c == 'A'), Is.True);
+        await Assert.That(result.Length).IsEqualTo(length);
+        await Assert.That(result.All(c => c == 'A')).IsTrue();
     }
 
     [Test]
-    public void Create_WithComplexState_PreservesAllData()
+    public async Task Create_WithComplexState_PreservesAllData()
     {
         var state = new
         {
@@ -167,11 +166,11 @@ public class StringPolyfillTest
                 activeStr.AsSpan().CopyTo(span.Slice(pos));
             });
 
-        Assert.That(result, Is.EqualTo("123-Test-True\0\0\0\0\0\0\0"));
+        await Assert.That(result).IsEqualTo("123-Test-True\0\0\0\0\0\0\0");
     }
 
     [Test]
-    public void Create_ModifyingEachCharacter_WorksCorrectly()
+    public async Task Create_ModifyingEachCharacter_WorksCorrectly()
     {
         var result = string.Create(
             26,
@@ -184,11 +183,11 @@ public class StringPolyfillTest
                 }
             });
 
-        Assert.That(result, Is.EqualTo("abcdefghijklmnopqrstuvwxyz"));
+        await Assert.That(result).IsEqualTo("abcdefghijklmnopqrstuvwxyz");
     }
 
     [Test]
-    public void Create_WithUnicodeCharacters_WorksCorrectly()
+    public async Task Create_WithUnicodeCharacters_WorksCorrectly()
     {
         var emoji = "😀🎉🔥";
 
@@ -197,6 +196,6 @@ public class StringPolyfillTest
             emoji,
             static (span, state) => state.AsSpan().CopyTo(span));
 
-        Assert.That(result, Is.EqualTo(emoji));
+        await Assert.That(result).IsEqualTo(emoji);
     }
 }

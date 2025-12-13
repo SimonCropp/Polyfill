@@ -1,57 +1,56 @@
-[TestFixture]
 public class ArgumentNullExceptionTests
 {
     [Test]
-    public void ThrowIfNull_WithNullObject_ThrowsArgumentNullException()
+    public async Task ThrowIfNull_WithNullObject_ThrowsArgumentNullException()
     {
         // Arrange
         object? nullObject = null;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentNullException>(() =>
-            ArgumentNullException.ThrowIfNull(nullObject))!;
+        var ex = await Assert.That(() =>
+            ArgumentNullException.ThrowIfNull(nullObject)).Throws<ArgumentNullException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("nullObject"));
+        await Assert.That(ex!.ParamName).IsEqualTo("nullObject");
     }
 
     [Test]
-    public void ThrowIfNull_WithNullString_ThrowsArgumentNullException()
+    public async Task ThrowIfNull_WithNullString_ThrowsArgumentNullException()
     {
         // Arrange
         string? nullString = null;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentNullException>(() =>
-            ArgumentNullException.ThrowIfNull(nullString))!;
+        var ex = await Assert.That(() =>
+            ArgumentNullException.ThrowIfNull(nullString)).Throws<ArgumentNullException>();
 
-        Assert.That(ex, Is.Not.Null);
-        Assert.That(ex.ParamName, Is.EqualTo("nullString"));
+        await Assert.That(ex).IsNotNull();
+        await Assert.That(ex!.ParamName).IsEqualTo("nullString");
     }
 
     [Test]
-    public void ThrowIfNull_WithNullArray_ThrowsArgumentNullException()
+    public async Task ThrowIfNull_WithNullArray_ThrowsArgumentNullException()
     {
         // Arrange
         int[]? nullArray = null;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentNullException>(() =>
-            ArgumentNullException.ThrowIfNull(nullArray))!;
+        var ex = await Assert.That(() =>
+            ArgumentNullException.ThrowIfNull(nullArray)).Throws<ArgumentNullException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("nullArray"));
+        await Assert.That(ex!.ParamName).IsEqualTo("nullArray");
     }
 
     [Test]
-    public void ThrowIfNull_WithNullCustomType_ThrowsArgumentNullException()
+    public async Task ThrowIfNull_WithNullCustomType_ThrowsArgumentNullException()
     {
         // Arrange
         TestClass? nullCustom = null;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentNullException>(() =>
-            ArgumentNullException.ThrowIfNull(nullCustom))!;
+        var ex = await Assert.That(() =>
+            ArgumentNullException.ThrowIfNull(nullCustom)).Throws<ArgumentNullException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("nullCustom"));
+        await Assert.That(ex!.ParamName).IsEqualTo("nullCustom");
     }
 
     [Test]
@@ -61,8 +60,7 @@ public class ArgumentNullExceptionTests
         var nonNullObject = new object();
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentNullException.ThrowIfNull(nonNullObject));
+        ArgumentNullException.ThrowIfNull(nonNullObject);
     }
 
     [Test]
@@ -72,8 +70,7 @@ public class ArgumentNullExceptionTests
         var nonNullString = "test";
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentNullException.ThrowIfNull(nonNullString));
+        ArgumentNullException.ThrowIfNull(nonNullString);
     }
 
     [Test]
@@ -83,8 +80,7 @@ public class ArgumentNullExceptionTests
         var emptyString = string.Empty;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentNullException.ThrowIfNull(emptyString));
+        ArgumentNullException.ThrowIfNull(emptyString);
     }
 
     [Test]
@@ -94,8 +90,7 @@ public class ArgumentNullExceptionTests
         var nonNullArray = new int[] {1, 2, 3};
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentNullException.ThrowIfNull(nonNullArray));
+        ArgumentNullException.ThrowIfNull(nonNullArray);
     }
 
     [Test]
@@ -105,8 +100,7 @@ public class ArgumentNullExceptionTests
         var emptyArray = Array.Empty<int>();
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentNullException.ThrowIfNull(emptyArray));
+        ArgumentNullException.ThrowIfNull(emptyArray);
     }
 
     [Test]
@@ -116,25 +110,24 @@ public class ArgumentNullExceptionTests
         var nonNullCustom = new TestClass();
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentNullException.ThrowIfNull(nonNullCustom));
+        ArgumentNullException.ThrowIfNull(nonNullCustom);
     }
 
     [Test]
-    public void ThrowIfNull_CalledInMethod_CapturesCorrectParameterName()
+    public async Task ThrowIfNull_CalledInMethod_CapturesCorrectParameterName()
     {
         // Arrange
         string? nullParameter = null;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentNullException>(() =>
-            MethodThatValidatesParameter(nullParameter))!;
+        var ex = await Assert.That(() =>
+            MethodThatValidatesParameter(nullParameter)).Throws<ArgumentNullException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("parameter"));
+        await Assert.That(ex!.ParamName).IsEqualTo("parameter");
     }
 
     [Test]
-    public void ThrowIfNull_WithMultipleParameters_CapturesCorrectNames()
+    public async Task ThrowIfNull_WithMultipleParameters_CapturesCorrectNames()
     {
         // Arrange
         string? first = null;
@@ -142,16 +135,15 @@ public class ArgumentNullExceptionTests
         string? third = null;
 
         // Act & Assert
-        var ex1 = Assert.Throws<ArgumentNullException>(() =>
-            ArgumentNullException.ThrowIfNull(first))!;
-        Assert.That(ex1.ParamName, Is.EqualTo("first"));
+        var ex1 = await Assert.That(() =>
+            ArgumentNullException.ThrowIfNull(first)).Throws<ArgumentNullException>();
+        await Assert.That(ex1!.ParamName).IsEqualTo("first");
 
-        Assert.DoesNotThrow(() =>
-            ArgumentNullException.ThrowIfNull(second));
+        ArgumentNullException.ThrowIfNull(second);
 
-        var ex2 = Assert.Throws<ArgumentNullException>(() =>
-            ArgumentNullException.ThrowIfNull(third))!;
-        Assert.That(ex2.ParamName, Is.EqualTo("third"));
+        var ex2 = await Assert.That(() =>
+            ArgumentNullException.ThrowIfNull(third)).Throws<ArgumentNullException>();
+        await Assert.That(ex2!.ParamName).IsEqualTo("third");
     }
 
     [Test]
@@ -163,22 +155,22 @@ public class ArgumentNullExceptionTests
         object boxedBool = true;
 
         // Act & Assert
-        Assert.DoesNotThrow(() => ArgumentNullException.ThrowIfNull(boxedInt));
-        Assert.DoesNotThrow(() => ArgumentNullException.ThrowIfNull(boxedDecimal));
-        Assert.DoesNotThrow(() => ArgumentNullException.ThrowIfNull(boxedBool));
+        ArgumentNullException.ThrowIfNull(boxedInt);
+        ArgumentNullException.ThrowIfNull(boxedDecimal);
+        ArgumentNullException.ThrowIfNull(boxedBool);
     }
 
     [Test]
-    public void ThrowIfNull_WithNullableValueType_ThrowsWhenNull()
+    public async Task ThrowIfNull_WithNullableValueType_ThrowsWhenNull()
     {
         // Arrange
         int? nullableInt = null;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentNullException>(() =>
-            ArgumentNullException.ThrowIfNull(nullableInt))!;
+        var ex = await Assert.That(() =>
+            ArgumentNullException.ThrowIfNull(nullableInt)).Throws<ArgumentNullException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("nullableInt"));
+        await Assert.That(ex!.ParamName).IsEqualTo("nullableInt");
     }
 
     [Test]
@@ -188,8 +180,7 @@ public class ArgumentNullExceptionTests
         int? nullableInt = 42;
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentNullException.ThrowIfNull(nullableInt));
+        ArgumentNullException.ThrowIfNull(nullableInt);
     }
 
     // Helper method to test parameter name capture

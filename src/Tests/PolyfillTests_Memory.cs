@@ -1,16 +1,16 @@
 partial class PolyfillTests
 {
     [Test]
-    public void ReadOnlySpan_ZeroLengthContains()
+    public async Task ReadOnlySpan_ZeroLengthContains()
     {
         var span = new ReadOnlySpan<int>([]);
 
         var found = span.Contains(0);
-        Assert.False(found);
+        await Assert.That(found).IsFalse();
     }
 
     [Test]
-    public void ReadOnlySpan_TestContains()
+    public Task ReadOnlySpan_TestContains()
     {
         for (var length = 0; length < 32; length++)
         {
@@ -25,13 +25,15 @@ partial class PolyfillTests
             {
                 var target = a[targetIndex];
                 var found = span.Contains(target);
-                Assert.True(found);
+                if (!found)
+                    throw new Exception($"Expected to find {target} in span");
             }
         }
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void ReadOnlySpan_TestMultipleContains()
+    public Task ReadOnlySpan_TestMultipleContains()
     {
         for (var length = 2; length < 32; length++)
         {
@@ -46,20 +48,22 @@ partial class PolyfillTests
 
             var span = new ReadOnlySpan<int>(a);
             var found = span.Contains(5555);
-            Assert.True(found);
+            if (!found)
+                throw new Exception("Expected to find 5555 in span");
         }
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void ReadOnlySpan_ZeroLengthContains_String()
+    public async Task ReadOnlySpan_ZeroLengthContains_String()
     {
         var span = new ReadOnlySpan<string>([]);
         var found = span.Contains("a");
-        Assert.False(found);
+        await Assert.That(found).IsFalse();
     }
 
     [Test]
-    public void ReadOnlySpan_EnumerateLines()
+    public async Task ReadOnlySpan_EnumerateLines()
     {
         var list = new List<string>();
         var input = """
@@ -71,12 +75,12 @@ partial class PolyfillTests
             list.Add(line.ToString());
         }
 
-        Assert.AreEqual("a", list[0]);
-        Assert.AreEqual("b", list[1]);
+        await Assert.That(list[0]).IsEqualTo("a");
+        await Assert.That(list[1]).IsEqualTo("b");
     }
 
     [Test]
-    public void ReadOnlySpan_TestMatchContains_String()
+    public Task ReadOnlySpan_TestMatchContains_String()
     {
         for (var length = 0; length < 32; length++)
         {
@@ -92,13 +96,15 @@ partial class PolyfillTests
             {
                 var target = a[targetIndex];
                 var found = span.Contains(target);
-                Assert.True(found);
+                if (!found)
+                    throw new Exception($"Expected to find {target} in span");
             }
         }
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void ReadOnlySpan_TestNoMatchContains_String()
+    public Task ReadOnlySpan_TestNoMatchContains_String()
     {
         var rnd = new Random(42);
         for (var length = 0; length <= byte.MaxValue; length++)
@@ -113,12 +119,14 @@ partial class PolyfillTests
             var span = new ReadOnlySpan<string>(a);
 
             var found = span.Contains(target);
-            Assert.False(found);
+            if (found)
+                throw new Exception($"Expected not to find {target} in span");
         }
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void ReadOnlySpan_TestMultipleMatchContains_String()
+    public Task ReadOnlySpan_TestMultipleMatchContains_String()
     {
         for (var length = 2; length < 32; length++)
         {
@@ -133,21 +141,23 @@ partial class PolyfillTests
 
             var span = new ReadOnlySpan<string>(a);
             var found = span.Contains("5555");
-            Assert.True(found);
+            if (!found)
+                throw new Exception("Expected to find '5555' in span");
         }
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void Span_ZeroLengthContains()
+    public async Task Span_ZeroLengthContains()
     {
         var span = new Span<int>([]);
 
         var found = span.Contains(0);
-        Assert.False(found);
+        await Assert.That(found).IsFalse();
     }
 
     [Test]
-    public void Span_TestContains()
+    public Task Span_TestContains()
     {
         for (var length = 0; length < 32; length++)
         {
@@ -162,13 +172,15 @@ partial class PolyfillTests
             {
                 var target = a[targetIndex];
                 var found = span.Contains(target);
-                Assert.True(found);
+                if (!found)
+                    throw new Exception($"Expected to find {target} in span");
             }
         }
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void Span_TestMultipleContains()
+    public Task Span_TestMultipleContains()
     {
         for (var length = 2; length < 32; length++)
         {
@@ -183,20 +195,22 @@ partial class PolyfillTests
 
             var span = new Span<int>(a);
             var found = span.Contains(5555);
-            Assert.True(found);
+            if (!found)
+                throw new Exception("Expected to find 5555 in span");
         }
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void Span_ZeroLengthContains_String()
+    public async Task Span_ZeroLengthContains_String()
     {
         var span = new Span<string>([]);
         var found = span.Contains("a");
-        Assert.False(found);
+        await Assert.That(found).IsFalse();
     }
 
     [Test]
-    public void Span_TestMatchContains_String()
+    public Task Span_TestMatchContains_String()
     {
         for (var length = 0; length < 32; length++)
         {
@@ -211,13 +225,15 @@ partial class PolyfillTests
             {
                 var target = a[targetIndex];
                 var found = span.Contains(target);
-                Assert.True(found);
+                if (!found)
+                    throw new Exception($"Expected to find {target} in span");
             }
         }
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void Span_TestNoMatchContains_String()
+    public Task Span_TestNoMatchContains_String()
     {
         var rnd = new Random(42);
         for (var length = 0; length <= byte.MaxValue; length++)
@@ -232,12 +248,14 @@ partial class PolyfillTests
             var span = new Span<string>(a);
 
             var found = span.Contains(target);
-            Assert.False(found);
+            if (found)
+                throw new Exception($"Expected not to find {target} in span");
         }
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void Span_TestMultipleMatchContains_String()
+    public Task Span_TestMultipleMatchContains_String()
     {
         for (var length = 2; length < 32; length++)
         {
@@ -252,64 +270,93 @@ partial class PolyfillTests
 
             var span = new Span<string>(a);
             var found = span.Contains("5555");
-            Assert.True(found);
+            if (!found)
+                throw new Exception("Expected to find '5555' in span");
         }
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void Span_SequenceEqual()
+    public Task Span_SequenceEqual()
     {
-        Assert.True("value".AsSpan().SequenceEqual("value"));
-        Assert.False("value".AsSpan().SequenceEqual("value2"));
-        Assert.False("value".AsSpan().SequenceEqual("v"));
+        if (!"value".AsSpan().SequenceEqual("value"))
+            throw new Exception("Expected SequenceEqual to be true");
+        if ("value".AsSpan().SequenceEqual("value2"))
+            throw new Exception("Expected SequenceEqual to be false");
+        if ("value".AsSpan().SequenceEqual("v"))
+            throw new Exception("Expected SequenceEqual to be false");
         var span = new Span<char>("value".ToCharArray());
-        Assert.True(span.SequenceEqual("value"));
-        Assert.False(span.SequenceEqual("value2"));
-        Assert.False(span.SequenceEqual("v"));
+        if (!span.SequenceEqual("value"))
+            throw new Exception("Expected SequenceEqual to be true");
+        if (span.SequenceEqual("value2"))
+            throw new Exception("Expected SequenceEqual to be false");
+        if (span.SequenceEqual("v"))
+            throw new Exception("Expected SequenceEqual to be false");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void Span_StartsWith()
+    public Task Span_StartsWith()
     {
-        Assert.True("value".AsSpan().StartsWith("value"));
-        Assert.False("value".AsSpan().StartsWith("value2"));
-        Assert.True("value".AsSpan().StartsWith("v"));
-        Assert.True("value".AsSpan().StartsWith('v'));
+        if (!"value".AsSpan().StartsWith("value"))
+            throw new Exception("Expected StartsWith to be true");
+        if ("value".AsSpan().StartsWith("value2"))
+            throw new Exception("Expected StartsWith to be false");
+        if (!"value".AsSpan().StartsWith("v"))
+            throw new Exception("Expected StartsWith to be true");
+        if (!"value".AsSpan().StartsWith('v'))
+            throw new Exception("Expected StartsWith char to be true");
         var span = new Span<char>("value".ToCharArray());
-        Assert.True(span.StartsWith("value"));
-        Assert.True(span.StartsWith('v'));
-        Assert.False(span.StartsWith('a'));
-        Assert.False(span.StartsWith("value2"));
-        Assert.True(span.StartsWith("val"));
+        if (!span.StartsWith("value"))
+            throw new Exception("Expected StartsWith to be true");
+        if (!span.StartsWith('v'))
+            throw new Exception("Expected StartsWith char to be true");
+        if (span.StartsWith('a'))
+            throw new Exception("Expected StartsWith char to be false");
+        if (span.StartsWith("value2"))
+            throw new Exception("Expected StartsWith to be false");
+        if (!span.StartsWith("val"))
+            throw new Exception("Expected StartsWith to be true");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void Span_EndsWith()
+    public Task Span_EndsWith()
     {
-        Assert.True("value".AsSpan().EndsWith("value"));
-        Assert.False("value".AsSpan().EndsWith("value2"));
-        Assert.True("value".AsSpan().EndsWith("e"));
-        Assert.True("value".AsSpan().EndsWith('e'));
+        if (!"value".AsSpan().EndsWith("value"))
+            throw new Exception("Expected EndsWith to be true");
+        if ("value".AsSpan().EndsWith("value2"))
+            throw new Exception("Expected EndsWith to be false");
+        if (!"value".AsSpan().EndsWith("e"))
+            throw new Exception("Expected EndsWith to be true");
+        if (!"value".AsSpan().EndsWith('e'))
+            throw new Exception("Expected EndsWith char to be true");
         var span = new Span<char>("value".ToCharArray());
-        Assert.True(span.EndsWith("value"));
-        Assert.False(span.EndsWith("value2"));
-        Assert.True(span.EndsWith("lue"));
-        Assert.True(span.EndsWith('e'));
-        Assert.False(span.EndsWith('w'));
+        if (!span.EndsWith("value"))
+            throw new Exception("Expected EndsWith to be true");
+        if (span.EndsWith("value2"))
+            throw new Exception("Expected EndsWith to be false");
+        if (!span.EndsWith("lue"))
+            throw new Exception("Expected EndsWith to be true");
+        if (!span.EndsWith('e'))
+            throw new Exception("Expected EndsWith char to be true");
+        if (span.EndsWith('w'))
+            throw new Exception("Expected EndsWith char to be false");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void SpanStringBuilderAppend()
+    public async Task SpanStringBuilderAppend()
     {
         var builder = new StringBuilder();
         builder.Append("value".AsSpan());
-        Assert.AreEqual("value", builder.ToString());
+        await Assert.That(builder.ToString()).IsEqualTo("value");
     }
 
     [Test]
-    public void StringEqualsSpan()
+    public async Task StringEqualsSpan()
     {
         var builder = new StringBuilder("value");
-        Assert.IsTrue(builder.Equals("value".AsSpan()));
+        await Assert.That(builder.Equals("value".AsSpan())).IsTrue();
     }
 }

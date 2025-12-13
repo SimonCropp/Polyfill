@@ -2,7 +2,7 @@
 partial class PolyfillTests
 {
     [Test]
-    public void IReadOnlyDictionaryAsReadOnly()
+    public async Task IReadOnlyDictionaryAsReadOnly()
     {
         IDictionary<string, string> dictionary = new Dictionary<string, string>
         {
@@ -12,48 +12,48 @@ partial class PolyfillTests
         };
 
         var readOnly = dictionary.AsReadOnly();
-        Assert.AreEqual("value", readOnly["key"]);
+        await Assert.That(readOnly["key"]).IsEqualTo("value");
     }
 
     [Test]
-    public void Dictionary_TryAdd_ThrowsOnNullKey()
+    public async Task Dictionary_TryAdd_ThrowsOnNullKey()
     {
         var dictionary = new Dictionary<string, int>();
 
-        Assert.Throws<ArgumentNullException>(() => dictionary.TryAdd(null!, 1));
+        await Assert.That(() => dictionary.TryAdd(null!, 1)).Throws<ArgumentNullException>();
     }
 
     [Test]
-    public void IDictionary_TryAdd_ThrowsOnNullKey()
+    public async Task IDictionary_TryAdd_ThrowsOnNullKey()
     {
         IDictionary<string, int> dictionary = new Dictionary<string, int>();
-        Assert.Throws<ArgumentNullException>(() => dictionary.TryAdd(null!, 1));
+        await Assert.That(() => dictionary.TryAdd(null!, 1)).Throws<ArgumentNullException>();
     }
 
     [Test]
-    public void IDictionary_TryAdd_ReturnsTrueOnSuccessfulAdd()
+    public async Task IDictionary_TryAdd_ReturnsTrueOnSuccessfulAdd()
     {
         IDictionary<string, string> dictionary = new Dictionary<string, string>();
 
         var entryAdded = dictionary.TryAdd("key", "value");
 
-        Assert.True(entryAdded);
-        Assert.AreEqual("value", dictionary["key"]);
+        await Assert.That(entryAdded).IsTrue();
+        await Assert.That(dictionary["key"]).IsEqualTo("value");
     }
 
     [Test]
-    public void Dictionary_TryAdd_ReturnsTrueOnSuccessfulAdd()
+    public async Task Dictionary_TryAdd_ReturnsTrueOnSuccessfulAdd()
     {
         var dictionary = new Dictionary<string, string>();
 
         var entryAdded = dictionary.TryAdd("key", "value");
 
-        Assert.True(entryAdded);
-        Assert.AreEqual("value", dictionary["key"]);
+        await Assert.That(entryAdded).IsTrue();
+        await Assert.That(dictionary["key"]).IsEqualTo("value");
     }
 
     [Test]
-    public void Dictionary_TryAdd_ReturnsFalseIfElementAlreadyPresent()
+    public async Task Dictionary_TryAdd_ReturnsFalseIfElementAlreadyPresent()
     {
         var dictionary = new Dictionary<string, string>
         {
@@ -64,12 +64,12 @@ partial class PolyfillTests
 
         var entryAdded = dictionary.TryAdd("existingKey", "new value");
 
-        Assert.False(entryAdded);
-        Assert.AreEqual("original value", dictionary["existingKey"]);
+        await Assert.That(entryAdded).IsFalse();
+        await Assert.That(dictionary["existingKey"]).IsEqualTo("original value");
     }
 
     [Test]
-    public void IDictionary_TryAdd_ReturnsFalseIfElementAlreadyPresent()
+    public async Task IDictionary_TryAdd_ReturnsFalseIfElementAlreadyPresent()
     {
         IDictionary<string, string> dictionary = new Dictionary<string, string>
         {
@@ -80,12 +80,12 @@ partial class PolyfillTests
 
         var entryAdded = dictionary.TryAdd("existingKey", "new value");
 
-        Assert.False(entryAdded);
-        Assert.AreEqual("original value", dictionary["existingKey"]);
+        await Assert.That(entryAdded).IsFalse();
+        await Assert.That(dictionary["existingKey"]).IsEqualTo("original value");
     }
 
     [Test]
-    public void Dictionary_Remove()
+    public async Task Dictionary_Remove()
     {
         var dictionary = new Dictionary<string, string?>
         {
@@ -94,12 +94,12 @@ partial class PolyfillTests
             }
         };
 
-        Assert.True(dictionary.Remove("key", out var value));
-        Assert.AreEqual("value", value);
+        await Assert.That(dictionary.Remove("key", out var value)).IsTrue();
+        await Assert.That(value).IsEqualTo("value");
     }
 
     [Test]
-    public void IDictionary_Remove()
+    public async Task IDictionary_Remove()
     {
         IDictionary<string, string?> dictionary = new Dictionary<string, string?>
         {
@@ -108,39 +108,39 @@ partial class PolyfillTests
             }
         };
 
-        Assert.True(dictionary.Remove("key", out var value));
-        Assert.AreEqual("value", value);
+        await Assert.That(dictionary.Remove("key", out var value)).IsTrue();
+        await Assert.That(value).IsEqualTo("value");
     }
 
     [Test]
-    public void Dictionary_Remove_DoesntThrowOnMissingKey()
+    public async Task Dictionary_Remove_DoesntThrowOnMissingKey()
     {
         var dictionary = new Dictionary<string, string?>();
 
-        Assert.False(dictionary.Remove("non-existent key", out var value));
-        Assert.IsNull(value);
+        await Assert.That(dictionary.Remove("non-existent key", out var value)).IsFalse();
+        await Assert.That(value).IsNull();
     }
 
     [Test]
-    public void IDictionary_Remove_DoesntThrowOnMissingKey()
+    public async Task IDictionary_Remove_DoesntThrowOnMissingKey()
     {
         IDictionary<string, string?> dictionary = new Dictionary<string, string?>();
 
-        Assert.False(dictionary.Remove("non-existent key", out var value));
-        Assert.IsNull(value);
+        await Assert.That(dictionary.Remove("non-existent key", out var value)).IsFalse();
+        await Assert.That(value).IsNull();
     }
 
     [Test]
-    public void Dictionary_Remove_ThrowsOnNull()
+    public async Task Dictionary_Remove_ThrowsOnNull()
     {
         var dictionary = new Dictionary<string, string>();
-        Assert.Throws<ArgumentNullException>(() => dictionary.Remove(null!, out _));
+        await Assert.That(() => dictionary.Remove(null!, out _)).Throws<ArgumentNullException>();
     }
 
     [Test]
-    public void IDictionary_Remove_ThrowsOnNull()
+    public async Task IDictionary_Remove_ThrowsOnNull()
     {
         IDictionary<string, string> dictionary = new Dictionary<string, string>();
-        Assert.Throws<ArgumentNullException>(() => dictionary.Remove(null!, out _));
+        await Assert.That(() => dictionary.Remove(null!, out _)).Throws<ArgumentNullException>();
     }
 }

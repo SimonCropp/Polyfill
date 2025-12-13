@@ -6,8 +6,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Threading.Tasks.Extensions" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\Consume\*.cs" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\TestIncludes.targets" />

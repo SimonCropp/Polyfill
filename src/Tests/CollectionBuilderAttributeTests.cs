@@ -1,10 +1,10 @@
-﻿[TestFixture]
 public class CollectionBuilderAttributeTests
 {
     [Test]
-    public void CollectionBuilderAttributeTests_Compatibility_with_all_TargetFrameworks()
+    public Task CollectionBuilderAttributeTests_Compatibility_with_all_TargetFrameworks()
     {
         MyCollection myCollection = [1, 2, 3, 4, 5];
+        return Task.CompletedTask;
     }
 
     [CollectionBuilder(typeof(MyCollection), nameof(Create))]

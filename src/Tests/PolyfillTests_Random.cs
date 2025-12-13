@@ -4,78 +4,86 @@ partial class PolyfillTests
 #if FeatureMemory
 
     [Test]
-    public void RandomNextBytesSpan()
+    public async Task RandomNextBytesSpan()
     {
         var random = new Random();
         Span<byte> buffer = new byte[10];
         random.NextBytes(buffer);
-        Assert.IsTrue(buffer.ToArray().Any(_ => _ != 0));
+        await Assert.That(buffer.ToArray().Any(_ => _ != 0)).IsTrue();
     }
 
     [Test]
-    public void RandomGetItems_ReadOnlySpan_Span()
+    public Task RandomGetItems_ReadOnlySpan_Span()
     {
         var random = new Random();
         ReadOnlySpan<int> choices = [1, 2, 3, 4, 5];
         Span<int> destination = new int[10];
         random.GetItems(choices, destination);
 
-        Assert.IsTrue(destination.Length == 10);
+        if (destination.Length != 10)
+            throw new Exception($"Expected destination length 10 but got {destination.Length}");
+        var choicesArray = choices.ToArray();
         foreach (var item in destination)
         {
-            Assert.IsTrue(choices.Contains(item));
+            if (!choicesArray.Contains(item))
+                throw new Exception($"Item {item} not found in choices");
         }
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void RandomGetItems_ReadOnlySpan_Int()
+    public Task RandomGetItems_ReadOnlySpan_Int()
     {
         var random = new Random();
         ReadOnlySpan<int> choices = [1, 2, 3, 4, 5];
         var length = 10;
         var result = random.GetItems(choices, length);
 
-        Assert.AreEqual(length, result.Length);
+        if (result.Length != length)
+            throw new Exception($"Expected length {length} but got {result.Length}");
+        var choicesArray = choices.ToArray();
         foreach (var item in result)
         {
-            Assert.Contains(item, choices.ToArray());
+            if (!choicesArray.Contains(item))
+                throw new Exception($"Item {item} not found in choices");
         }
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void RandomGetItems_Array_Int()
+    public async Task RandomGetItems_Array_Int()
     {
         var random = new Random();
         int[] choices = [1, 2, 3, 4, 5];
         var length = 10;
         var result = random.GetItems(choices, length);
 
-        Assert.AreEqual(length, result.Length);
+        await Assert.That(result.Length).IsEqualTo(length);
         foreach (var item in result)
         {
-            Assert.Contains(item, choices);
+            await Assert.That(choices).Contains(item);
         }
     }
 
     [Test]
-    public void RandomShuffleSpan()
+    public async Task RandomShuffleSpan()
     {
         var random = new Random();
         Span<byte> buffer = new byte[10];
         random.NextBytes(buffer);
         random.Shuffle(buffer);
-        Assert.IsTrue(buffer.ToArray().Any(b => b != 0));
+        await Assert.That(buffer.ToArray().Any(b => b != 0)).IsTrue();
     }
 
 #endif
 
     [Test]
-    public void RandomShuffleArray()
+    public async Task RandomShuffleArray()
     {
         var random = new Random();
         var buffer = new byte[10];
         random.NextBytes(buffer);
         random.Shuffle(buffer);
-        Assert.IsTrue(buffer.ToArray().Any(b => b != 0));
+        await Assert.That(buffer.ToArray().Any(b => b != 0)).IsTrue();
     }
 }

@@ -1,32 +1,33 @@
-[TestFixture]
+using System.Runtime.InteropServices;
+
 public class PathTests
 {
 #if FeatureMemory
     [Test]
-    public void GetDirectoryName() =>
-        Assert.AreEqual("dir", Path.GetDirectoryName("dir/file.txt".AsSpan()).ToString());
+    public async Task GetDirectoryName() =>
+        await Assert.That(Path.GetDirectoryName("dir/file.txt".AsSpan()).ToString()).IsEqualTo("dir");
 
     [Test]
-    public void GetFileName() =>
-        Assert.AreEqual("file.txt", Path.GetFileName("dir/file.txt".AsSpan()).ToString());
+    public async Task GetFileName() =>
+        await Assert.That(Path.GetFileName("dir/file.txt".AsSpan()).ToString()).IsEqualTo("file.txt");
 
     [Test]
-    public void GetFileNameWithoutExtension() =>
-        Assert.AreEqual("file", Path.GetFileNameWithoutExtension("dir/file.txt".AsSpan()).ToString());
+    public async Task GetFileNameWithoutExtension() =>
+        await Assert.That(Path.GetFileNameWithoutExtension("dir/file.txt".AsSpan()).ToString()).IsEqualTo("file");
 
     [Test]
-    public void HasExtension()
+    public async Task HasExtension()
     {
-        Assert.True(Path.HasExtension("file.txt".AsSpan()));
-        Assert.False(Path.HasExtension("file".AsSpan()));
+        await Assert.That(Path.HasExtension("file.txt".AsSpan())).IsTrue();
+        await Assert.That(Path.HasExtension("file".AsSpan())).IsFalse();
     }
 
     [Test]
-    public void GetExtension() =>
-        Assert.AreEqual(".txt", Path.GetExtension("file.txt".AsSpan()).ToString());
+    public async Task GetExtension() =>
+        await Assert.That(Path.GetExtension("file.txt".AsSpan()).ToString()).IsEqualTo(".txt");
 
     [Test]
-    public void Combine()
+    public async Task Combine()
     {
         ReadOnlySpan<string> paths =
         [
@@ -37,69 +38,75 @@ public class PathTests
 
         var result = Path.Combine(paths);
 
-        Assert.AreEqual("folder1\\folder2\\file.txt", result.Replace('/','\\'));
+        await Assert.That(result.Replace('/', '\\')).IsEqualTo("folder1\\folder2\\file.txt");
     }
 #endif
 
     [Test]
-    public void EndsInDirectorySeparator()
+    public async Task EndsInDirectorySeparator()
     {
         #if FeatureMemory
-        Assert.False(Path.EndsInDirectorySeparator("file.txt".AsSpan()));
-        Assert.True(Path.EndsInDirectorySeparator("path/".AsSpan()));
+        await Assert.That(Path.EndsInDirectorySeparator("file.txt".AsSpan())).IsFalse();
+        await Assert.That(Path.EndsInDirectorySeparator("path/".AsSpan())).IsTrue();
         #endif
-        Assert.False(Path.EndsInDirectorySeparator("file.txt"));
-        Assert.True(Path.EndsInDirectorySeparator("path/"));
+        await Assert.That(Path.EndsInDirectorySeparator("file.txt")).IsFalse();
+        await Assert.That(Path.EndsInDirectorySeparator("path/")).IsTrue();
     }
 
     [Test]
-    public void Exists()
+    public async Task Exists()
     {
-        Assert.False(Path.Exists(null));
-        Assert.False(Path.Exists(""));
-        Assert.False(Path.Exists("file.txt"));
-        Assert.True(Path.Exists(Environment.CurrentDirectory));
+        await Assert.That(Path.Exists(null)).IsFalse();
+        await Assert.That(Path.Exists("")).IsFalse();
+        await Assert.That(Path.Exists("file.txt")).IsFalse();
+        await Assert.That(Path.Exists(Environment.CurrentDirectory)).IsTrue();
     }
 
     [Test]
-    [Platform("win")]
-    [TestCase(@"C:\folder\", @"C:\folder")]
-    [TestCase(@"C:/folder/", @"C:/folder")]
-    [TestCase(@"/folder/", @"/folder")]
-    [TestCase(@"\folder\", @"\folder")]
-    [TestCase(@"folder\", @"folder")]
-    [TestCase(@"folder/", @"folder")]
-    [TestCase(@"C:\", @"C:\")]
-    [TestCase(@"C:/", @"C:/")]
-    [TestCase(@"", @"")]
-    [TestCase(@"/", @"/")]
-    [TestCase(@"\", @"\")]
-    [TestCase(@"\\server\share\", @"\\server\share")]
-    [TestCase(@"\\server\share\folder\", @"\\server\share\folder")]
-    [TestCase(@"\\?\C:\", @"\\?\C:\")]
-    [TestCase(@"\\?\C:\folder\", @"\\?\C:\folder")]
-    [TestCase(@"\\?\UNC\", @"\\?\UNC\")]
-    [TestCase(@"\\?\UNC\a\", @"\\?\UNC\a\")]
-    [TestCase(@"\\?\UNC\a\folder\", @"\\?\UNC\a\folder")]
-    public void TrimEndingDirectorySeparator_Windows(string input, string expected)
+    [Arguments(@"C:\folder\", @"C:\folder")]
+    [Arguments(@"C:/folder/", @"C:/folder")]
+    [Arguments(@"/folder/", @"/folder")]
+    [Arguments(@"\folder\", @"\folder")]
+    [Arguments(@"folder\", @"folder")]
+    [Arguments(@"folder/", @"folder")]
+    [Arguments(@"C:\", @"C:\")]
+    [Arguments(@"C:/", @"C:/")]
+    [Arguments(@"", @"")]
+    [Arguments(@"/", @"/")]
+    [Arguments(@"\", @"\")]
+    [Arguments(@"\\server\share\", @"\\server\share")]
+    [Arguments(@"\\server\share\folder\", @"\\server\share\folder")]
+    [Arguments(@"\\?\C:\", @"\\?\C:\")]
+    [Arguments(@"\\?\C:\folder\", @"\\?\C:\folder")]
+    [Arguments(@"\\?\UNC\", @"\\?\UNC\")]
+    [Arguments(@"\\?\UNC\a\", @"\\?\UNC\a\")]
+    [Arguments(@"\\?\UNC\a\folder\", @"\\?\UNC\a\folder")]
+    public async Task TrimEndingDirectorySeparator_Windows(string input, string expected)
     {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
         #if FeatureMemory
-        Assert.AreEqual(expected, Path.TrimEndingDirectorySeparator(input.AsSpan()).ToString());
+        await Assert.That(Path.TrimEndingDirectorySeparator(input.AsSpan()).ToString()).IsEqualTo(expected);
         #endif
-        Assert.AreEqual(expected, Path.TrimEndingDirectorySeparator(input));
+        await Assert.That(Path.TrimEndingDirectorySeparator(input)).IsEqualTo(expected);
     }
 
     [Test]
-    [Platform(Exclude = "win")]
-    [TestCase(@"/folder/", @"/folder")]
-    [TestCase(@"folder/", @"folder")]
-    [TestCase(@"", @"")]
-    [TestCase(@"/", @"/")]
-    public void TrimEndingDirectorySeparator_Unix(string input, string expected)
+    [Arguments(@"/folder/", @"/folder")]
+    [Arguments(@"folder/", @"folder")]
+    [Arguments(@"", @"")]
+    [Arguments(@"/", @"/")]
+    public async Task TrimEndingDirectorySeparator_Unix(string input, string expected)
     {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
         #if FeatureMemory
-        Assert.AreEqual(expected, Path.TrimEndingDirectorySeparator(input.AsSpan()).ToString());
+        await Assert.That(Path.TrimEndingDirectorySeparator(input.AsSpan()).ToString()).IsEqualTo(expected);
         #endif
-        Assert.AreEqual(expected, Path.TrimEndingDirectorySeparator(input));
+        await Assert.That(Path.TrimEndingDirectorySeparator(input)).IsEqualTo(expected);
     }
 }

@@ -6,7 +6,7 @@ public class NullabilitySamples
     #region NullabilityUsage
 
     [Test]
-    public void Test()
+    public async Task Test()
     {
         var type = typeof(NullabilityTarget);
         var arrayField = type.GetField("ArrayField")!;
@@ -16,14 +16,14 @@ public class NullabilitySamples
 
         var arrayInfo = context.Create(arrayField);
 
-        Assert.AreEqual(NullabilityState.NotNull, arrayInfo.ReadState);
-        Assert.AreEqual(NullabilityState.Nullable, arrayInfo.ElementType!.ReadState);
+        await Assert.That(arrayInfo.ReadState).IsEqualTo(NullabilityState.NotNull);
+        await Assert.That(arrayInfo.ElementType!.ReadState).IsEqualTo(NullabilityState.Nullable);
 
         var genericInfo = context.Create(genericField);
 
-        Assert.AreEqual(NullabilityState.NotNull, genericInfo.ReadState);
-        Assert.AreEqual(NullabilityState.NotNull, genericInfo.GenericTypeArguments[0].ReadState);
-        Assert.AreEqual(NullabilityState.Nullable, genericInfo.GenericTypeArguments[1].ReadState);
+        await Assert.That(genericInfo.ReadState).IsEqualTo(NullabilityState.NotNull);
+        await Assert.That(genericInfo.GenericTypeArguments[0].ReadState).IsEqualTo(NullabilityState.NotNull);
+        await Assert.That(genericInfo.GenericTypeArguments[1].ReadState).IsEqualTo(NullabilityState.Nullable);
     }
 
     #endregion
@@ -31,13 +31,13 @@ public class NullabilitySamples
     #region NullabilityExtension
 
     [Test]
-    public void ExtensionTests()
+    public async Task ExtensionTests()
     {
         var type = typeof(NullabilityTarget);
         var field = type.GetField("StringField")!;
-        Assert.True(field.IsNullable());
-        Assert.AreEqual(NullabilityState.Nullable, field.GetNullability());
-        Assert.AreEqual(NullabilityState.Nullable, field.GetNullabilityInfo().ReadState);
+        await Assert.That(field.IsNullable()).IsTrue();
+        await Assert.That(field.GetNullability()).IsEqualTo(NullabilityState.Nullable);
+        await Assert.That(field.GetNullabilityInfo().ReadState).IsEqualTo(NullabilityState.Nullable);
     }
 
     #endregion
@@ -59,15 +59,15 @@ public class NullabilitySamples
     // ReSharper restore UnusedMember.Local
 
     [Test]
-    public void Property()
+    public async Task Property()
     {
         var type = typeof(PropertyTarget);
         var readWrite = type.GetProperty("ReadWrite")!;
         var write = type.GetProperty("Write")!;
         var read = type.GetProperty("Read")!;
-        Assert.True(readWrite.IsNullable());
-        Assert.True(write.IsNullable());
-        Assert.True(read.IsNullable());
+        await Assert.That(readWrite.IsNullable()).IsTrue();
+        await Assert.That(write.IsNullable()).IsTrue();
+        await Assert.That(read.IsNullable()).IsTrue();
     }
 #pragma warning disable CS0649, CS8618
 

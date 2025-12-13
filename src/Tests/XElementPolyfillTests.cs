@@ -1,4 +1,3 @@
-﻿[TestFixture]
 public class XElementPolyfillTests
 {
     const string XmlContent = "<root><child>value</child></root>";
@@ -8,8 +7,8 @@ public class XElementPolyfillTests
     {
         using var stream = new MemoryStream(Encoding.UTF8.GetBytes(XmlContent));
         var result = await XElement.LoadAsync(stream, LoadOptions.None, Cancel.None);
-        Assert.AreEqual("root", result.Name.LocalName);
-        Assert.AreEqual("value", result.Element("child")?.Value);
+        await Assert.That(result.Name.LocalName).IsEqualTo("root");
+        await Assert.That(result.Element("child")?.Value).IsEqualTo("value");
     }
 
     [Test]
@@ -17,8 +16,8 @@ public class XElementPolyfillTests
     {
         using var reader = new StringReader(XmlContent);
         var result = await XElement.LoadAsync(reader, LoadOptions.None, Cancel.None);
-        Assert.AreEqual("root", result.Name.LocalName);
-        Assert.AreEqual("value", result.Element("child")?.Value);
+        await Assert.That(result.Name.LocalName).IsEqualTo("root");
+        await Assert.That(result.Element("child")?.Value).IsEqualTo("value");
     }
 
     [Test]
@@ -32,8 +31,8 @@ public class XElementPolyfillTests
                 Async = true
             });
         var result = await XElement.LoadAsync(xmlReader, LoadOptions.None, Cancel.None);
-        Assert.AreEqual("root", result.Name.LocalName);
-        Assert.AreEqual("value", result.Element("child")?.Value);
+        await Assert.That(result.Name.LocalName).IsEqualTo("root");
+        await Assert.That(result.Element("child")?.Value).IsEqualTo("value");
     }
 
     [Test]
@@ -52,7 +51,7 @@ public class XElementPolyfillTests
             exception = e;
         }
 
-        Assert.IsNotNull(exception);
-        Assert.IsTrue(exception is OperationCanceledException or TaskCanceledException);
+        await Assert.That(exception).IsNotNull();
+        await Assert.That(exception is OperationCanceledException or TaskCanceledException).IsTrue();
     }
 }

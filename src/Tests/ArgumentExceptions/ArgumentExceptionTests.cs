@@ -1,46 +1,45 @@
-[TestFixture]
 public class ArgumentExceptionTests
 {
     #region ThrowIfNullOrEmpty Tests
 
     [Test]
-    public void ThrowIfNullOrEmpty_WithNullString_ThrowsArgumentNullException()
+    public async Task ThrowIfNullOrEmpty_WithNullString_ThrowsArgumentNullException()
     {
         // Arrange
         string? nullString = null;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentNullException>(() =>
-            ArgumentException.ThrowIfNullOrEmpty(nullString))!;
+        var ex = await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrEmpty(nullString)).Throws<ArgumentNullException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("nullString"));
+        await Assert.That(ex!.ParamName).IsEqualTo("nullString");
     }
 
     [Test]
-    public void ThrowIfNullOrEmpty_WithEmptyString_ThrowsArgumentException()
+    public async Task ThrowIfNullOrEmpty_WithEmptyString_ThrowsArgumentException()
     {
         // Arrange
         var emptyString = string.Empty;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrEmpty(emptyString))!;
+        var ex = await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrEmpty(emptyString)).Throws<ArgumentException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("emptyString"));
-        Assert.That(ex.Message, Does.Contain("cannot be an empty string"));
+        await Assert.That(ex!.ParamName).IsEqualTo("emptyString");
+        await Assert.That(ex.Message.Contains("cannot be an empty string")).IsTrue();
     }
 
     [Test]
-    public void ThrowIfNullOrEmpty_WithEmptyStringLiteral_ThrowsArgumentException()
+    public async Task ThrowIfNullOrEmpty_WithEmptyStringLiteral_ThrowsArgumentException()
     {
         // Arrange
         var value = "";
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrEmpty(value))!;
+        var ex = await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrEmpty(value)).Throws<ArgumentException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("value"));
+        await Assert.That(ex!.ParamName).IsEqualTo("value");
     }
 
     [Test]
@@ -50,8 +49,7 @@ public class ArgumentExceptionTests
         var whitespaceString = "   ";
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentException.ThrowIfNullOrEmpty(whitespaceString));
+        ArgumentException.ThrowIfNullOrEmpty(whitespaceString);
     }
 
     [Test]
@@ -61,8 +59,7 @@ public class ArgumentExceptionTests
         var validString = "test";
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentException.ThrowIfNullOrEmpty(validString));
+        ArgumentException.ThrowIfNullOrEmpty(validString);
     }
 
     [Test]
@@ -72,8 +69,7 @@ public class ArgumentExceptionTests
         var singleChar = "a";
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentException.ThrowIfNullOrEmpty(singleChar));
+        ArgumentException.ThrowIfNullOrEmpty(singleChar);
     }
 
     [Test]
@@ -83,21 +79,20 @@ public class ArgumentExceptionTests
         var longString = new string('a', 1000);
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentException.ThrowIfNullOrEmpty(longString));
+        ArgumentException.ThrowIfNullOrEmpty(longString);
     }
 
     [Test]
-    public void ThrowIfNullOrEmpty_CalledInMethod_CapturesCorrectParameterName()
+    public async Task ThrowIfNullOrEmpty_CalledInMethod_CapturesCorrectParameterName()
     {
         // Arrange
         var empty = string.Empty;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentException>(() =>
-            MethodThatValidatesEmpty(empty))!;
+        var ex = await Assert.That(() =>
+            MethodThatValidatesEmpty(empty)).Throws<ArgumentException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("parameter"));
+        await Assert.That(ex!.ParamName).IsEqualTo("parameter");
     }
 
     #endregion
@@ -105,108 +100,108 @@ public class ArgumentExceptionTests
     #region ThrowIfNullOrWhiteSpace Tests
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithNullString_ThrowsArgumentNullException()
+    public async Task ThrowIfNullOrWhiteSpace_WithNullString_ThrowsArgumentNullException()
     {
         // Arrange
         string? nullString = null;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentNullException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(nullString))!;
+        var ex = await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(nullString)).Throws<ArgumentNullException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("nullString"));
+        await Assert.That(ex!.ParamName).IsEqualTo("nullString");
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithEmptyString_ThrowsArgumentException()
+    public async Task ThrowIfNullOrWhiteSpace_WithEmptyString_ThrowsArgumentException()
     {
         // Arrange
         var emptyString = string.Empty;
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(emptyString))!;
+        var ex = await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(emptyString)).Throws<ArgumentException>();
 
-        Assert.That(ex, Is.Not.Null);
-        Assert.That(ex.Message, Does.Contain("whitespace"));
+        await Assert.That(ex).IsNotNull();
+        await Assert.That(ex!.Message).Contains("whitespace");
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithSingleSpace_ThrowsArgumentException()
+    public async Task ThrowIfNullOrWhiteSpace_WithSingleSpace_ThrowsArgumentException()
     {
         // Arrange
         var singleSpace = " ";
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(singleSpace))!;
+        var ex = await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(singleSpace)).Throws<ArgumentException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("singleSpace"));
+        await Assert.That(ex!.ParamName).IsEqualTo("singleSpace");
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithMultipleSpaces_ThrowsArgumentException()
+    public async Task ThrowIfNullOrWhiteSpace_WithMultipleSpaces_ThrowsArgumentException()
     {
         // Arrange
         var spaces = "     ";
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(spaces))!;
+        var ex = await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(spaces)).Throws<ArgumentException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("spaces"));
+        await Assert.That(ex!.ParamName).IsEqualTo("spaces");
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithTab_ThrowsArgumentException()
+    public async Task ThrowIfNullOrWhiteSpace_WithTab_ThrowsArgumentException()
     {
         // Arrange
         var tab = "\t";
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(tab))!;
+        var ex = await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(tab)).Throws<ArgumentException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("tab"));
+        await Assert.That(ex!.ParamName).IsEqualTo("tab");
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithNewline_ThrowsArgumentException()
+    public async Task ThrowIfNullOrWhiteSpace_WithNewline_ThrowsArgumentException()
     {
         // Arrange
         var newline = "\n";
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(newline))!;
+        var ex = await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(newline)).Throws<ArgumentException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("newline"));
+        await Assert.That(ex!.ParamName).IsEqualTo("newline");
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithCarriageReturn_ThrowsArgumentException()
+    public async Task ThrowIfNullOrWhiteSpace_WithCarriageReturn_ThrowsArgumentException()
     {
         // Arrange
         var carriageReturn = "\r";
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(carriageReturn))!;
+        var ex = await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(carriageReturn)).Throws<ArgumentException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("carriageReturn"));
+        await Assert.That(ex!.ParamName).IsEqualTo("carriageReturn");
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithMixedWhitespace_ThrowsArgumentException()
+    public async Task ThrowIfNullOrWhiteSpace_WithMixedWhitespace_ThrowsArgumentException()
     {
         // Arrange
         var mixedWhitespace = " \t\r\n ";
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(mixedWhitespace))!;
+        var ex = await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(mixedWhitespace)).Throws<ArgumentException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("mixedWhitespace"));
+        await Assert.That(ex!.ParamName).IsEqualTo("mixedWhitespace");
     }
 
     [Test]
@@ -216,8 +211,7 @@ public class ArgumentExceptionTests
         var validString = "test";
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(validString));
+        ArgumentException.ThrowIfNullOrWhiteSpace(validString);
     }
 
     [Test]
@@ -227,8 +221,7 @@ public class ArgumentExceptionTests
         var stringWithSpaces = "hello world";
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(stringWithSpaces));
+        ArgumentException.ThrowIfNullOrWhiteSpace(stringWithSpaces);
     }
 
     [Test]
@@ -238,8 +231,7 @@ public class ArgumentExceptionTests
         var leadingSpace = " test";
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(leadingSpace));
+        ArgumentException.ThrowIfNullOrWhiteSpace(leadingSpace);
     }
 
     [Test]
@@ -249,8 +241,7 @@ public class ArgumentExceptionTests
         var trailingSpace = "test ";
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(trailingSpace));
+        ArgumentException.ThrowIfNullOrWhiteSpace(trailingSpace);
     }
 
     [Test]
@@ -260,21 +251,20 @@ public class ArgumentExceptionTests
         var singleChar = "a";
 
         // Act & Assert
-        Assert.DoesNotThrow(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(singleChar));
+        ArgumentException.ThrowIfNullOrWhiteSpace(singleChar);
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_CalledInMethod_CapturesCorrectParameterName()
+    public async Task ThrowIfNullOrWhiteSpace_CalledInMethod_CapturesCorrectParameterName()
     {
         // Arrange
         var whitespace = "   ";
 
         // Act & Assert
-        var ex = Assert.Throws<ArgumentException>(() =>
-            MethodThatValidatesWhitespace(whitespace))!;
+        var ex = await Assert.That(() =>
+            MethodThatValidatesWhitespace(whitespace)).Throws<ArgumentException>();
 
-        Assert.That(ex.ParamName, Is.EqualTo("parameter"));
+        await Assert.That(ex!.ParamName).IsEqualTo("parameter");
     }
 
     #endregion
@@ -282,7 +272,7 @@ public class ArgumentExceptionTests
     #region Multiple Validation Tests
 
     [Test]
-    public void ThrowIfNullOrEmpty_ThenThrowIfNullOrWhiteSpace_BothValidate()
+    public async Task ThrowIfNullOrEmpty_ThenThrowIfNullOrWhiteSpace_BothValidate()
     {
         // Arrange
         string? nullValue = null;
@@ -291,117 +281,114 @@ public class ArgumentExceptionTests
         var validValue = "test";
 
         // Act & Assert - ThrowIfNullOrEmpty
-        Assert.Throws<ArgumentNullException>(() =>
-            ArgumentException.ThrowIfNullOrEmpty(nullValue));
-        Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrEmpty(emptyValue));
-        Assert.DoesNotThrow(() =>
-            ArgumentException.ThrowIfNullOrEmpty(whitespaceValue));
-        Assert.DoesNotThrow(() =>
-            ArgumentException.ThrowIfNullOrEmpty(validValue));
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrEmpty(nullValue)).Throws<ArgumentNullException>();
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrEmpty(emptyValue)).Throws<ArgumentException>();
+        ArgumentException.ThrowIfNullOrEmpty(whitespaceValue);
+        ArgumentException.ThrowIfNullOrEmpty(validValue);
 
         // Act & Assert - ThrowIfNullOrWhiteSpace
-        Assert.Throws<ArgumentNullException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(nullValue));
-        Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(emptyValue));
-        Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(whitespaceValue));
-        Assert.DoesNotThrow(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(validValue));
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(nullValue)).Throws<ArgumentNullException>();
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(emptyValue)).Throws<ArgumentException>();
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(whitespaceValue)).Throws<ArgumentException>();
+        ArgumentException.ThrowIfNullOrWhiteSpace(validValue);
     }
 
     [Test]
-    public void ThrowIfNullOrEmpty_Empty() =>
-        Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrEmpty(""));
+    public async Task ThrowIfNullOrEmpty_Empty() =>
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrEmpty("")).Throws<ArgumentException>();
 
     [Test]
-    public void ThrowIfNullOrEmpty_Null() =>
-        Assert.Throws<ArgumentNullException>(() =>
-            ArgumentException.ThrowIfNullOrEmpty(null));
+    public async Task ThrowIfNullOrEmpty_Null() =>
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrEmpty(null)).Throws<ArgumentNullException>();
 
-    [TestCase("a")]
-    [TestCase("test")]
-    [TestCase("hello world")]
-    [TestCase("   with spaces   ")]
+    [Arguments("a")]
+    [Arguments("test")]
+    [Arguments("hello world")]
+    [Arguments("   with spaces   ")]
+    [Test]
     public void ThrowIfNullOrEmpty_WithValidValues_DoesNotThrow(string value) =>
-        Assert.DoesNotThrow(() =>
-            ArgumentException.ThrowIfNullOrEmpty(value));
+        ArgumentException.ThrowIfNullOrEmpty(value);
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithNull_Throws()
+    public async Task ThrowIfNullOrWhiteSpace_WithNull_Throws()
     {
         string? value = null;
-        Assert.Throws<ArgumentNullException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(value));
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(value)).Throws<ArgumentNullException>();
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithEmpty_Throws()
+    public async Task ThrowIfNullOrWhiteSpace_WithEmpty_Throws()
     {
         var value = "";
-        Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(value));
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(value)).Throws<ArgumentException>();
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithSingleSpace_Throws()
+    public async Task ThrowIfNullOrWhiteSpace_WithSingleSpace_Throws()
     {
         var value = " ";
-        Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(value));
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(value)).Throws<ArgumentException>();
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithMultipleSpaces_Throws()
+    public async Task ThrowIfNullOrWhiteSpace_WithMultipleSpaces_Throws()
     {
         var value = "   ";
-        Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(value));
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(value)).Throws<ArgumentException>();
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithTab_Throws()
+    public async Task ThrowIfNullOrWhiteSpace_WithTab_Throws()
     {
         var value = "\t";
-        Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(value));
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(value)).Throws<ArgumentException>();
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithNewline_Throws()
+    public async Task ThrowIfNullOrWhiteSpace_WithNewline_Throws()
     {
         var value = "\n";
-        Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(value));
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(value)).Throws<ArgumentException>();
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithCarriageReturn_Throws()
+    public async Task ThrowIfNullOrWhiteSpace_WithCarriageReturn_Throws()
     {
         var value = "\r";
-        Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(value));
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(value)).Throws<ArgumentException>();
     }
 
     [Test]
-    public void ThrowIfNullOrWhiteSpace_WithMixedWhitespace_Throws()
+    public async Task ThrowIfNullOrWhiteSpace_WithMixedWhitespace_Throws()
     {
         var value = " \t\r\n ";
-        Assert.Throws<ArgumentException>(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(value));
+        await Assert.That(() =>
+            ArgumentException.ThrowIfNullOrWhiteSpace(value)).Throws<ArgumentException>();
     }
 
-    [TestCase("a")]
-    [TestCase("test")]
-    [TestCase("hello world")]
-    [TestCase(" test")]
-    [TestCase("test ")]
-    [TestCase(" test ")]
+    [Arguments("a")]
+    [Arguments("test")]
+    [Arguments("hello world")]
+    [Arguments(" test")]
+    [Arguments("test ")]
+    [Arguments(" test ")]
+    [Test]
     public void ThrowIfNullOrWhiteSpace_WithValidValues_DoesNotThrow(string value) =>
-        Assert.DoesNotThrow(() =>
-            ArgumentException.ThrowIfNullOrWhiteSpace(value));
+        ArgumentException.ThrowIfNullOrWhiteSpace(value);
 
     #endregion
 

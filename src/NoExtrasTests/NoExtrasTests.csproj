@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
     <TargetFramework>net10.0</TargetFramework>
     <PolyEnsure>false</PolyEnsure>
@@ -10,9 +11,7 @@
     <RootNamespace>NoExtras</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="NUnit" />
-    <PackageReference Include="NUnit3TestAdapter" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="TUnit" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\TestIncludes.targets" />

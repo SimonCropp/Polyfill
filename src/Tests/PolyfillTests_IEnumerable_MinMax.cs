@@ -10,96 +10,98 @@ partial class PolyfillTests
     static IEnumerable<int?> emptyNullables = [];
     static IEnumerable<string?> emptyReferences = [];
 
-    static void AssertThrowsNoElementsException(TestDelegate code) =>
-        Assert.AreEqual("Sequence contains no elements",
-            Assert.Throws<InvalidOperationException>(code)!.Message);
+    static async Task AssertThrowsNoElementsException(Func<Task> code)
+    {
+        var ex = await Assert.That(code).Throws<InvalidOperationException>();
+        await Assert.That(ex!.Message).IsEqualTo("Sequence contains no elements");
+    }
 
     // Avoid CA1806: Do not ignore method results
     // LINQ methods are known to not have side effects, and the result should not be ignored.
     [StackTraceHidden]
-    static void AssertThrowsNoElementsException<T>(Func<T> code) =>
-        AssertThrowsNoElementsException(() => { code(); });
+    static Task AssertThrowsNoElementsException<T>(Func<T> code) =>
+        AssertThrowsNoElementsException(async () => { code(); await Task.CompletedTask; });
 
     [Test]
-    public void MaxBy()
+    public async Task MaxBy()
     {
-        Assert.AreEqual(1, comparableValues.MaxBy(n => -n));
-        Assert.AreEqual(1, comparableNullables.MaxBy(n => -n));
-        Assert.AreEqual("baa", comparableReferences.MaxBy(s => s?.Length));
-        Assert.AreEqual("ab", comparableReferences.MaxBy(ReverseString));
+        await Assert.That(comparableValues.MaxBy(n => -n)).IsEqualTo(1);
+        await Assert.That(comparableNullables.MaxBy(n => -n)).IsEqualTo(1);
+        await Assert.That(comparableReferences.MaxBy(s => s?.Length)).IsEqualTo("baa");
+        await Assert.That(comparableReferences.MaxBy(ReverseString)).IsEqualTo("ab");
 
-        AssertThrowsNoElementsException(static () => emptyValues.MaxBy(n => -n));
-        Assert.AreEqual(null, emptyNullables.MaxBy(n => -n));
-        Assert.AreEqual(null, emptyReferences.MaxBy(s => s?.Length));
-        Assert.AreEqual(null, emptyReferences.MaxBy(ReverseString));
+        await AssertThrowsNoElementsException(static () => emptyValues.MaxBy(n => -n));
+        await Assert.That(emptyNullables.MaxBy(n => -n)).IsNull();
+        await Assert.That(emptyReferences.MaxBy(s => s?.Length)).IsNull();
+        await Assert.That(emptyReferences.MaxBy(ReverseString)).IsNull();
     }
 
     [Test]
-    public void MaxComparer()
+    public async Task MaxComparer()
     {
-        Assert.AreEqual(1, comparableValues.Max(reverseComparer));
-        Assert.AreEqual(1, comparableNullables.Max(reverseComparer));
-        Assert.AreEqual("ab", comparableReferences.Max(reverseComparer));
+        await Assert.That(comparableValues.Max(reverseComparer)).IsEqualTo(1);
+        await Assert.That(comparableNullables.Max(reverseComparer)).IsEqualTo(1);
+        await Assert.That(comparableReferences.Max(reverseComparer)).IsEqualTo("ab");
 
-        AssertThrowsNoElementsException(static () => emptyValues.Max(reverseComparer));
-        Assert.AreEqual(null, emptyNullables.Max(reverseComparer));
-        Assert.AreEqual(null, emptyReferences.Max(reverseComparer));
-        Assert.AreEqual(null, emptyReferences.Max(reverseComparer));
+        await AssertThrowsNoElementsException(static () => emptyValues.Max(reverseComparer));
+        await Assert.That(emptyNullables.Max(reverseComparer)).IsNull();
+        await Assert.That(emptyReferences.Max(reverseComparer)).IsNull();
+        await Assert.That(emptyReferences.Max(reverseComparer)).IsNull();
     }
 
     [Test]
-    public void MaxByComparer()
+    public async Task MaxByComparer()
     {
-        Assert.AreEqual(2, comparableValues.MaxBy(n => -n, reverseComparer));
-        Assert.AreEqual(2, comparableNullables.MaxBy(n => -n, reverseComparer));
-        Assert.AreEqual("ab", comparableReferences.MaxBy(s => s?.Length, reverseComparer));
-        Assert.AreEqual("baa", comparableReferences.MaxBy(ReverseString, reverseComparer));
+        await Assert.That(comparableValues.MaxBy(n => -n, reverseComparer)).IsEqualTo(2);
+        await Assert.That(comparableNullables.MaxBy(n => -n, reverseComparer)).IsEqualTo(2);
+        await Assert.That(comparableReferences.MaxBy(s => s?.Length, reverseComparer)).IsEqualTo("ab");
+        await Assert.That(comparableReferences.MaxBy(ReverseString, reverseComparer)).IsEqualTo("baa");
 
-        AssertThrowsNoElementsException(static () => emptyValues.MaxBy(n => -n, reverseComparer));
-        Assert.AreEqual(null, emptyNullables.MaxBy(n => -n, reverseComparer));
-        Assert.AreEqual(null, emptyReferences.MaxBy(s => s?.Length, reverseComparer));
-        Assert.AreEqual(null, emptyReferences.MaxBy(ReverseString, reverseComparer));
+        await AssertThrowsNoElementsException(static () => emptyValues.MaxBy(n => -n, reverseComparer));
+        await Assert.That(emptyNullables.MaxBy(n => -n, reverseComparer)).IsNull();
+        await Assert.That(emptyReferences.MaxBy(s => s?.Length, reverseComparer)).IsNull();
+        await Assert.That(emptyReferences.MaxBy(ReverseString, reverseComparer)).IsNull();
     }
 
     [Test]
-    public void MinBy()
+    public async Task MinBy()
     {
-        Assert.AreEqual(2, comparableValues.MinBy(n => -n));
-        Assert.AreEqual(2, comparableNullables.MinBy(n => -n));
-        Assert.AreEqual("ab", comparableReferences.MinBy(s => s?.Length));
-        Assert.AreEqual("baa", comparableReferences.MinBy(ReverseString));
+        await Assert.That(comparableValues.MinBy(n => -n)).IsEqualTo(2);
+        await Assert.That(comparableNullables.MinBy(n => -n)).IsEqualTo(2);
+        await Assert.That(comparableReferences.MinBy(s => s?.Length)).IsEqualTo("ab");
+        await Assert.That(comparableReferences.MinBy(ReverseString)).IsEqualTo("baa");
 
-        AssertThrowsNoElementsException(static () => emptyValues.MinBy(n => -n));
-        Assert.AreEqual(null, emptyNullables.MinBy(n => -n));
-        Assert.AreEqual(null, emptyReferences.MinBy(s => s?.Length));
-        Assert.AreEqual(null, emptyReferences.MinBy(ReverseString));
+        await AssertThrowsNoElementsException(static () => emptyValues.MinBy(n => -n));
+        await Assert.That(emptyNullables.MinBy(n => -n)).IsNull();
+        await Assert.That(emptyReferences.MinBy(s => s?.Length)).IsNull();
+        await Assert.That(emptyReferences.MinBy(ReverseString)).IsNull();
     }
 
     [Test]
-    public void MinComparer()
+    public async Task MinComparer()
     {
-        Assert.AreEqual(2, comparableValues.Min(reverseComparer));
-        Assert.AreEqual(2, comparableNullables.Min(reverseComparer));
-        Assert.AreEqual("baa", comparableReferences.Min(reverseComparer));
+        await Assert.That(comparableValues.Min(reverseComparer)).IsEqualTo(2);
+        await Assert.That(comparableNullables.Min(reverseComparer)).IsEqualTo(2);
+        await Assert.That(comparableReferences.Min(reverseComparer)).IsEqualTo("baa");
 
-        AssertThrowsNoElementsException(static () => emptyValues.Min(reverseComparer));
-        Assert.AreEqual(null, emptyNullables.Min(reverseComparer));
-        Assert.AreEqual(null, emptyReferences.Min(reverseComparer));
-        Assert.AreEqual(null, emptyReferences.Min(reverseComparer));
+        await AssertThrowsNoElementsException(static () => emptyValues.Min(reverseComparer));
+        await Assert.That(emptyNullables.Min(reverseComparer)).IsNull();
+        await Assert.That(emptyReferences.Min(reverseComparer)).IsNull();
+        await Assert.That(emptyReferences.Min(reverseComparer)).IsNull();
     }
 
     [Test]
-    public void MinByComparer()
+    public async Task MinByComparer()
     {
-        Assert.AreEqual(1, comparableValues.MinBy(n => -n, reverseComparer));
-        Assert.AreEqual(1, comparableNullables.MinBy(n => -n, reverseComparer));
-        Assert.AreEqual("baa", comparableReferences.MinBy(s => s?.Length, reverseComparer));
-        Assert.AreEqual("ab", comparableReferences.MinBy(ReverseString, reverseComparer));
+        await Assert.That(comparableValues.MinBy(n => -n, reverseComparer)).IsEqualTo(1);
+        await Assert.That(comparableNullables.MinBy(n => -n, reverseComparer)).IsEqualTo(1);
+        await Assert.That(comparableReferences.MinBy(s => s?.Length, reverseComparer)).IsEqualTo("baa");
+        await Assert.That(comparableReferences.MinBy(ReverseString, reverseComparer)).IsEqualTo("ab");
 
-        AssertThrowsNoElementsException(static () => emptyValues.MinBy(n => -n, reverseComparer));
-        Assert.AreEqual(null, emptyNullables.MinBy(n => -n, reverseComparer));
-        Assert.AreEqual(null, emptyReferences.MinBy(s => s?.Length, reverseComparer));
-        Assert.AreEqual(null, emptyReferences.MinBy(ReverseString, reverseComparer));
+        await AssertThrowsNoElementsException(static () => emptyValues.MinBy(n => -n, reverseComparer));
+        await Assert.That(emptyNullables.MinBy(n => -n, reverseComparer)).IsNull();
+        await Assert.That(emptyReferences.MinBy(s => s?.Length, reverseComparer)).IsNull();
+        await Assert.That(emptyReferences.MinBy(ReverseString, reverseComparer)).IsNull();
     }
 
     class ReverseComparer : IComparer<int>, IComparer<int?>, IComparer<string?>

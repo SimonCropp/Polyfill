@@ -1,4 +1,3 @@
-﻿[TestFixture]
 public class EnsureTests
 {
     static string nullString = null!;
@@ -30,20 +29,20 @@ public class EnsureTests
     static IEnumerable<string> nonEmptyEnumerable = nonEmptyList.Select(x => x);
 
     [Test]
-    public void NotNull()
+    public async Task NotNull()
     {
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNull(nullArray));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNull(nullString));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNull(nullObject));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNull(nullList));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNull(nullICollection));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNull(nullIList));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNull(nullIReadOnlyList));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNull(nullIReadOnlyCollection));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNull(nullEnumerable));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNull(nullDictionary));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNull(nullIDictionary));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNull(nullIReadOnlyDictionary));
+        await Assert.That(() => Ensure.NotNull(nullArray)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNull(nullString)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNull(nullObject)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNull(nullList)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNull(nullICollection)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNull(nullIList)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNull(nullIReadOnlyList)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNull(nullIReadOnlyCollection)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNull(nullEnumerable)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNull(nullDictionary)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNull(nullIDictionary)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNull(nullIReadOnlyDictionary)).Throws<ArgumentNullException>();
         Ensure.NotNull(nonEmptyArray);
         Ensure.NotNull(nonEmptyEnumerable);
         Ensure.NotNull("value");
@@ -51,36 +50,36 @@ public class EnsureTests
     }
 
     [Test]
-    public void NotNullOrEmpty()
+    public async Task NotNullOrEmpty()
     {
 #if FeatureMemory
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrEmpty(Memory<char>.Empty));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrEmpty((Memory<char>?) null));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrEmpty((ReadOnlyMemory<char>?) null));
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrEmpty(ReadOnlyMemory<char>.Empty));
+        await Assert.That(() => Ensure.NotNullOrEmpty(Memory<char>.Empty)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty((Memory<char>?) null)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty((ReadOnlyMemory<char>?) null)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(ReadOnlyMemory<char>.Empty)).Throws<ArgumentException>();
 #endif
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrEmpty(emptyString));
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrEmpty(emptyList));
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrEmpty(emptyIList));
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrEmpty(emptyICollection));
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrEmpty(emptyIReadOnlyList));
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrEmpty(emptyIReadOnlyCollection));
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrEmpty(emptyArray));
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrEmpty(emptyEnumerable));
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrEmpty(emptyDictionary));
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrEmpty(emptyIDictionary));
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrEmpty(emptyIReadOnlyDictionary));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrEmpty(nullString));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrEmpty(nullList));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrEmpty(nullIList));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrEmpty(nullICollection));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrEmpty(nullIReadOnlyList));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrEmpty(nullIReadOnlyCollection));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrEmpty(nullArray));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrEmpty(nullEnumerable));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrEmpty(nullDictionary));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrEmpty(nullIDictionary));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrEmpty(nullIReadOnlyDictionary));
+        await Assert.That(() => Ensure.NotNullOrEmpty(emptyString)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(emptyList)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(emptyIList)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(emptyICollection)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(emptyIReadOnlyList)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(emptyIReadOnlyCollection)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(emptyArray)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(emptyEnumerable)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(emptyDictionary)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(emptyIDictionary)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(emptyIReadOnlyDictionary)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(nullString)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(nullList)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(nullIList)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(nullICollection)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(nullIReadOnlyList)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(nullIReadOnlyCollection)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(nullArray)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(nullEnumerable)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(nullDictionary)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(nullIDictionary)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrEmpty(nullIReadOnlyDictionary)).Throws<ArgumentNullException>();
         Ensure.NotNullOrEmpty(nonEmptyArray);
         Ensure.NotNullOrEmpty(nonEmptyEnumerable);
         Ensure.NotNullOrEmpty("value");
@@ -88,15 +87,15 @@ public class EnsureTests
     }
 
     [Test]
-    public void NotEmpty()
+    public async Task NotEmpty()
     {
-        Assert.Throws<ArgumentException>(() => Ensure.NotEmpty(emptyString));
-        Assert.Throws<ArgumentException>(() => Ensure.NotEmpty(emptyList));
-        Assert.Throws<ArgumentException>(() => Ensure.NotEmpty(emptyIList));
-        Assert.Throws<ArgumentException>(() => Ensure.NotEmpty(emptyICollection));
-        Assert.Throws<ArgumentException>(() => Ensure.NotEmpty(emptyIReadOnlyList));
-        Assert.Throws<ArgumentException>(() => Ensure.NotEmpty(emptyIReadOnlyCollection));
-        Assert.Throws<ArgumentException>(() => Ensure.NotEmpty(emptyArray));
+        await Assert.That(() => Ensure.NotEmpty(emptyString)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotEmpty(emptyList)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotEmpty(emptyIList)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotEmpty(emptyICollection)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotEmpty(emptyIReadOnlyList)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotEmpty(emptyIReadOnlyCollection)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotEmpty(emptyArray)).Throws<ArgumentException>();
 #if FeatureMemory
         Span<char> buffer = [];
         var spanCaught = false;
@@ -109,15 +108,15 @@ public class EnsureTests
             spanCaught = true;
         }
 
-        Assert.True(spanCaught);
-        Assert.Throws<ArgumentException>(() => Ensure.NotEmpty(Memory<char>.Empty));
-        Assert.Throws<ArgumentException>(() => Ensure.NotEmpty(Span<char>.Empty));
-        Assert.Throws<ArgumentException>(() => Ensure.NotEmpty(ReadOnlyMemory<char>.Empty));
+        await Assert.That(spanCaught).IsTrue();
+        await Assert.That(() => Ensure.NotEmpty(Memory<char>.Empty)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotEmpty(Span<char>.Empty)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotEmpty(ReadOnlyMemory<char>.Empty)).Throws<ArgumentException>();
 #endif
-        Assert.Throws<ArgumentException>(() => Ensure.NotEmpty(emptyEnumerable));
-        Assert.Throws<ArgumentException>(() => Ensure.NotEmpty(emptyDictionary));
-        Assert.Throws<ArgumentException>(() => Ensure.NotEmpty(emptyIDictionary));
-        Assert.Throws<ArgumentException>(() => Ensure.NotEmpty(emptyIReadOnlyDictionary));
+        await Assert.That(() => Ensure.NotEmpty(emptyEnumerable)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotEmpty(emptyDictionary)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotEmpty(emptyIDictionary)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotEmpty(emptyIReadOnlyDictionary)).Throws<ArgumentException>();
         Ensure.NotEmpty(nullString);
         Ensure.NotEmpty(nullList);
         Ensure.NotEmpty(nullIList);
@@ -135,10 +134,10 @@ public class EnsureTests
     }
 
     [Test]
-    public void NotWhiteSpace()
+    public async Task NotWhiteSpace()
     {
-        Assert.Throws<ArgumentException>(() => Ensure.NotWhiteSpace(" \t"));
-        Assert.Throws<ArgumentException>(() => Ensure.NotWhiteSpace(string.Empty));
+        await Assert.That(() => Ensure.NotWhiteSpace(" \t")).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotWhiteSpace(string.Empty)).Throws<ArgumentException>();
 #if FeatureMemory
         Span<char> buffer = [];
         var spanCaught = false;
@@ -151,10 +150,10 @@ public class EnsureTests
             spanCaught = true;
         }
 
-        Assert.True(spanCaught);
-        Assert.Throws<ArgumentException>(() => Ensure.NotWhiteSpace(Memory<char>.Empty));
-        Assert.Throws<ArgumentException>(() => Ensure.NotWhiteSpace(Span<char>.Empty));
-        Assert.Throws<ArgumentException>(() => Ensure.NotWhiteSpace(ReadOnlyMemory<char>.Empty));
+        await Assert.That(spanCaught).IsTrue();
+        await Assert.That(() => Ensure.NotWhiteSpace(Memory<char>.Empty)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotWhiteSpace(Span<char>.Empty)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotWhiteSpace(ReadOnlyMemory<char>.Empty)).Throws<ArgumentException>();
         Ensure.NotWhiteSpace((Memory<char>?) null!);
         Ensure.NotWhiteSpace((ReadOnlyMemory<char>?) null!);
 #endif
@@ -164,19 +163,19 @@ public class EnsureTests
     }
 
     [Test]
-    public void NotNullOrWhiteSpace()
+    public async Task NotNullOrWhiteSpace()
     {
 #if FeatureMemory
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrWhiteSpace(Memory<char>.Empty));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrWhiteSpace((Memory<char>?) null));
-        Assert.Throws<ArgumentNullException>(() => Ensure.NotNullOrWhiteSpace((ReadOnlyMemory<char>?) null));
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrWhiteSpace(ReadOnlyMemory<char>.Empty));
+        await Assert.That(() => Ensure.NotNullOrWhiteSpace(Memory<char>.Empty)).Throws<ArgumentException>();
+        await Assert.That(() => Ensure.NotNullOrWhiteSpace((Memory<char>?) null)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrWhiteSpace((ReadOnlyMemory<char>?) null)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrWhiteSpace(ReadOnlyMemory<char>.Empty)).Throws<ArgumentException>();
 #endif
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrWhiteSpace(" \t"));
-        Assert.Throws<ArgumentNullException>(
+        await Assert.That(() => Ensure.NotNullOrWhiteSpace(" \t")).Throws<ArgumentException>();
+        await Assert.That(
             // ReSharper disable once RedundantCast
-            () => Ensure.NotNullOrWhiteSpace((string) null!));
-        Assert.Throws<ArgumentException>(() => Ensure.NotNullOrWhiteSpace(string.Empty));
+            () => Ensure.NotNullOrWhiteSpace((string) null!)).Throws<ArgumentNullException>();
+        await Assert.That(() => Ensure.NotNullOrWhiteSpace(string.Empty)).Throws<ArgumentException>();
         Ensure.NotNullOrWhiteSpace("value");
     }
 
@@ -189,40 +188,40 @@ public class EnsureTests
     }
 
     [Test]
-    public void NotEqual_WhenValuesAreEqual_ThrowsArgumentOutOfRangeException()
+    public async Task NotEqual_WhenValuesAreEqual_ThrowsArgumentOutOfRangeException()
     {
         const int value = 42;
         const int other = 42;
 
-        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotEqual(value, other))!;
+        var exception = await Assert.That(() => Ensure.NotEqual(value, other)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(exception.ParamName, Is.EqualTo("value"));
-        Assert.That(exception.Message, Does.Contain("must not be equal to"));
-        Assert.That(exception.Message, Does.Contain("'42'"));
+        await Assert.That(exception!.ParamName).IsEqualTo("value");
+        await Assert.That(exception!.Message).Contains("must not be equal to");
+        await Assert.That(exception!.Message).Contains("'42'");
     }
 
     [Test]
-    public void NotEqual_WhenStringsAreEqual_ThrowsArgumentOutOfRangeException()
+    public async Task NotEqual_WhenStringsAreEqual_ThrowsArgumentOutOfRangeException()
     {
         const string value = "test";
         const string other = "test";
 
-        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotEqual(value, other))!;
+        var exception = await Assert.That(() => Ensure.NotEqual(value, other)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(exception.ParamName, Is.EqualTo("value"));
-        Assert.That(exception.Message, Does.Contain("'test'"));
+        await Assert.That(exception!.ParamName).IsEqualTo("value");
+        await Assert.That(exception!.Message).Contains("'test'");
     }
 
     [Test]
-    public void NotEqual_WhenBothNull_ThrowsArgumentOutOfRangeException()
+    public async Task NotEqual_WhenBothNull_ThrowsArgumentOutOfRangeException()
     {
         string? value = null;
         string? other = null;
 
-        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotEqual(value, other))!;
+        var exception = await Assert.That(() => Ensure.NotEqual(value, other)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(exception.ParamName, Is.EqualTo("value"));
-        Assert.That(exception.Message, Does.Contain("'null'"));
+        await Assert.That(exception!.ParamName).IsEqualTo("value");
+        await Assert.That(exception!.Message).Contains("'null'");
     }
 
     [Test]
@@ -234,12 +233,12 @@ public class EnsureTests
     }
 
     [Test]
-    public void NotEqual_WithCustomType_WhenEqual_ThrowsArgumentOutOfRangeException()
+    public async Task NotEqual_WithCustomType_WhenEqual_ThrowsArgumentOutOfRangeException()
     {
         var value = new Person("John", 30);
         var other = new Person("John", 30);
 
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotEqual(value, other));
+        await Assert.That(() => Ensure.NotEqual(value, other)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
@@ -252,21 +251,21 @@ public class EnsureTests
     }
 
     [Test]
-    public void NotEqual_WithNullableValueType_WhenBothHaveSameValue_ThrowsArgumentOutOfRangeException()
+    public async Task NotEqual_WithNullableValueType_WhenBothHaveSameValue_ThrowsArgumentOutOfRangeException()
     {
         int? value = 42;
         int? other = 42;
 
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotEqual(value, other));
+        await Assert.That(() => Ensure.NotEqual(value, other)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void NotEqual_WithNullableValueType_WhenBothNull_ThrowsArgumentOutOfRangeException()
+    public async Task NotEqual_WithNullableValueType_WhenBothNull_ThrowsArgumentOutOfRangeException()
     {
         int? value = null;
         int? other = null;
 
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotEqual(value, other));
+        await Assert.That(() => Ensure.NotEqual(value, other)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
@@ -278,27 +277,29 @@ public class EnsureTests
     }
 
     [Test]
-    public void NotEqual_PreservesParameterName_WhenUsingCallerArgumentExpression()
+    public async Task NotEqual_PreservesParameterName_WhenUsingCallerArgumentExpression()
     {
         var myVariable = 100;
         var otherValue = 100;
 
-        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotEqual(myVariable, otherValue))!;
+        var exception = await Assert.That(() => Ensure.NotEqual(myVariable, otherValue)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.That(exception.ParamName, Is.EqualTo("myVariable"));
+        await Assert.That(exception!.ParamName).IsEqualTo("myVariable");
     }
 
-    [TestCase(0, 1)]
-    [TestCase(-5, 5)]
-    [TestCase(int.MaxValue, int.MinValue)]
+    [Test]
+    [Arguments(0, 1)]
+    [Arguments(-5, 5)]
+    [Arguments(int.MaxValue, int.MinValue)]
     public void NotEqual_WithDifferentIntegers_DoesNotThrow(int value, int other) =>
         Ensure.NotEqual(value, other);
 
-    [TestCase(5, 5)]
-    [TestCase(0, 0)]
-    [TestCase(-10, -10)]
-    public void NotEqual_WithEqualIntegers_ThrowsArgumentOutOfRangeException(int value, int other) =>
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotEqual(value, other));
+    [Test]
+    [Arguments(5, 5)]
+    [Arguments(0, 0)]
+    [Arguments(-10, -10)]
+    public async Task NotEqual_WithEqualIntegers_ThrowsArgumentOutOfRangeException(int value, int other) =>
+        await Assert.That(() => Ensure.NotEqual(value, other)).Throws<ArgumentOutOfRangeException>();
 
     record Person(string Name, int Age);
 
@@ -325,7 +326,7 @@ public class EnsureTests
 #endif
 
     [Test]
-    public void NotNegativeOrZero_WithPositive_DoesNotThrow()
+    public async Task NotNegativeOrZero_WithPositive_DoesNotThrow()
     {
         // ReSharper disable once SuggestVarOrType_BuiltInTypes
         nint positiveNint = 3;
@@ -333,13 +334,13 @@ public class EnsureTests
         var positiveInt = 1;
         var positiveDouble = 1.0;
 
-        Assert.DoesNotThrow(() => Ensure.NotNegativeOrZero(positiveNint));
-        Assert.DoesNotThrow(() => Ensure.NotNegativeOrZero(positiveInt));
-        Assert.DoesNotThrow(() => Ensure.NotNegativeOrZero(positiveDouble));
+        await Assert.That(() => Ensure.NotNegativeOrZero(positiveNint)).ThrowsNothing();
+        await Assert.That(() => Ensure.NotNegativeOrZero(positiveInt)).ThrowsNothing();
+        await Assert.That(() => Ensure.NotNegativeOrZero(positiveDouble)).ThrowsNothing();
     }
 
     [Test]
-    public void NotNegativeOrZero_WithNegativeOrZero_ThrowsNegativeOrZero()
+    public async Task NotNegativeOrZero_WithNegativeOrZero_ThrowsNegativeOrZero()
     {
         // ReSharper disable once SuggestVarOrType_BuiltInTypes
         nint minusOneNint = -1;
@@ -350,16 +351,16 @@ public class EnsureTests
         var zeroInt = 0;
         var zeroDouble = 0.0;
 
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(minusOneNint));
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(zeroNint));
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(zeroInt));
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(minusOneNint));
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(minusOneInt));
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegativeOrZero(zeroDouble));
+        await Assert.That(() => Ensure.NotNegativeOrZero(minusOneNint)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => Ensure.NotNegativeOrZero(zeroNint)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => Ensure.NotNegativeOrZero(zeroInt)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => Ensure.NotNegativeOrZero(minusOneNint)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => Ensure.NotNegativeOrZero(minusOneInt)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => Ensure.NotNegativeOrZero(zeroDouble)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void NotNegative_WithNegative_ThrowsNegative()
+    public async Task NotNegative_WithNegative_ThrowsNegative()
     {
         // ReSharper disable once SuggestVarOrType_BuiltInTypes
         nint minusOneNint = -1;
@@ -367,13 +368,13 @@ public class EnsureTests
         var minusOneInt = -1;
         var minusTwoDouble = -2.0;
 
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegative(minusOneNint));
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegative(minusOneInt));
-        Assert.Throws<ArgumentOutOfRangeException>(() => Ensure.NotNegative(minusTwoDouble));
+        await Assert.That(() => Ensure.NotNegative(minusOneNint)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => Ensure.NotNegative(minusOneInt)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => Ensure.NotNegative(minusTwoDouble)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void NotNegative_WithPositive_DoesNotThrow()
+    public async Task NotNegative_WithPositive_DoesNotThrow()
     {
         // ReSharper disable once SuggestVarOrType_BuiltInTypes
         nint positiveNint = 3;
@@ -381,110 +382,111 @@ public class EnsureTests
         var positiveInt = 1;
         var positiveDouble = 0.0;
 
-        Assert.DoesNotThrow(() => Ensure.NotNegative(positiveNint));
-        Assert.DoesNotThrow(() => Ensure.NotNegative(positiveInt));
-        Assert.DoesNotThrow(() => Ensure.NotNegative(positiveDouble));
+        await Assert.That(() => Ensure.NotNegative(positiveNint)).ThrowsNothing();
+        await Assert.That(() => Ensure.NotNegative(positiveInt)).ThrowsNothing();
+        await Assert.That(() => Ensure.NotNegative(positiveDouble)).ThrowsNothing();
     }
 
     [Test]
-    public void NoDuplicates_WithUniqueValues_DoesNotThrow()
+    public async Task NoDuplicates_WithUniqueValues_DoesNotThrow()
     {
         var values = new[] { 1, 2, 3, 4, 5 };
 
-        Assert.DoesNotThrow(() => Ensure.NoDuplicates(values));
+        await Assert.That(() => Ensure.NoDuplicates(values)).ThrowsNothing();
     }
 
     [Test]
-    public void NoDuplicates_WithEmptyCollection_DoesNotThrow()
+    public async Task NoDuplicates_WithEmptyCollection_DoesNotThrow()
     {
         var values = Array.Empty<int>();
 
-        Assert.DoesNotThrow(() => Ensure.NoDuplicates(values));
+        await Assert.That(() => Ensure.NoDuplicates(values)).ThrowsNothing();
     }
 
     [Test]
-    public void NoDuplicates_WithSingleItem_DoesNotThrow()
+    public async Task NoDuplicates_WithSingleItem_DoesNotThrow()
     {
         var values = new[] { 42 };
 
-        Assert.DoesNotThrow(() => Ensure.NoDuplicates(values));
+        await Assert.That(() => Ensure.NoDuplicates(values)).ThrowsNothing();
     }
 
     [Test]
-    public void NoDuplicates_WithDuplicates_ThrowsArgumentException()
+    public async Task NoDuplicates_WithDuplicates_ThrowsArgumentException()
     {
         var values = new[] { 1, 2, 3, 2, 4 };
 
-        var exception = Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(values))!;
+        var exception = await Assert.That(() => Ensure.NoDuplicates(values)).Throws<ArgumentException>();
 
-        Assert.That(exception.ParamName, Is.EqualTo("values"));
+        await Assert.That(exception!.ParamName).IsEqualTo("values");
     }
 
     [Test]
-    public void NoDuplicates_WithDuplicates_MessageIncludesDuplicateValue()
+    public async Task NoDuplicates_WithDuplicates_MessageIncludesDuplicateValue()
     {
         var values = new[] { 1, 2, 3, 2, 4 };
 
-        var exception = Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(values))!;
+        var exception = await Assert.That(() => Ensure.NoDuplicates(values)).Throws<ArgumentException>();
 
-        Assert.That(exception.Message, Does.Contain("Duplicate value: 2"));
+        await Assert.That(exception!.Message).Contains("Duplicate value: 2");
     }
 
     [Test]
-    public void NoDuplicates_WithStringDuplicates_ThrowsWithCorrectValue()
+    public async Task NoDuplicates_WithStringDuplicates_ThrowsWithCorrectValue()
     {
         var values = new[] { "apple", "banana", "cherry", "banana" };
 
-        var exception = Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(values))!;
+        var exception = await Assert.That(() => Ensure.NoDuplicates(values)).Throws<ArgumentException>();
 
-        Assert.That(exception.Message, Does.Contain("Duplicate value: banana"));
+        await Assert.That(exception!.Message).Contains("Duplicate value: banana");
     }
 
     [Test]
-    public void NoDuplicates_WithConsecutiveDuplicates_ThrowsOnFirstDuplicate()
+    public async Task NoDuplicates_WithConsecutiveDuplicates_ThrowsOnFirstDuplicate()
     {
         var values = new[] { 1, 2, 2, 3, 3 };
 
-        var exception = Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(values))!;
+        var exception = await Assert.That(() => Ensure.NoDuplicates(values)).Throws<ArgumentException>();
 
-        Assert.That(exception.Message, Does.Contain("Duplicate value: 2"));
+        await Assert.That(exception!.Message).Contains("Duplicate value: 2");
     }
 
     [Test]
-    public void NoDuplicates_CapturesParameterName_UsingCallerArgumentExpression()
+    public async Task NoDuplicates_CapturesParameterName_UsingCallerArgumentExpression()
     {
         var myCollection = new[] { 1, 2, 3, 2 };
 
-        var exception = Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(myCollection))!;
+        var exception = await Assert.That(() => Ensure.NoDuplicates(myCollection)).Throws<ArgumentException>();
 
-        Assert.That(exception.ParamName, Is.EqualTo("myCollection"));
+        await Assert.That(exception!.ParamName).IsEqualTo("myCollection");
     }
 
     [Test]
-    public void NoDuplicates_WithReferenceTypeDuplicates_ThrowsCorrectly()
+    public async Task NoDuplicates_WithReferenceTypeDuplicates_ThrowsCorrectly()
     {
         var person1 = new Person("John",20);
         var person2 = new Person("Jane",20);
         var values = new[] { person1, person2, person1 };
 
-        var exception = Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(values))!;
+        var exception = await Assert.That(() => Ensure.NoDuplicates(values)).Throws<ArgumentException>();
 
-        Assert.That(exception.Message, Does.Contain($"Duplicate value: {person1}"));
+        await Assert.That(exception!.Message).Contains($"Duplicate value: {person1}");
     }
 
-    [TestCase(new[] { 1, 1 })]
-    [TestCase(new[] { 5, 5, 5 })]
-    [TestCase(new[] { 1, 2, 1 })]
-    public void NoDuplicates_WithVariousDuplicatePatterns_Throws(int[] values) =>
-        Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(values));
+    [Test]
+    [Arguments(new[] { 1, 1 })]
+    [Arguments(new[] { 5, 5, 5 })]
+    [Arguments(new[] { 1, 2, 1 })]
+    public async Task NoDuplicates_WithVariousDuplicatePatterns_Throws(int[] values) =>
+        await Assert.That(() => Ensure.NoDuplicates(values)).Throws<ArgumentException>();
 
     [Test]
-    public void NoDuplicates_WithNullValues_HandlesCorrectly()
+    public async Task NoDuplicates_WithNullValues_HandlesCorrectly()
     {
         var values = new string?[] { "a", null, "b", null };
 
-        var exception = Assert.Throws<ArgumentException>(() => Ensure.NoDuplicates(values))!;
+        var exception = await Assert.That(() => Ensure.NoDuplicates(values)).Throws<ArgumentException>();
 
-        Assert.That(exception.Message, Does.Contain("Duplicate value:"));
+        await Assert.That(exception!.Message).Contains("Duplicate value:");
     }
 }

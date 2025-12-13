@@ -1,11 +1,11 @@
 partial class PolyfillTests
 {
     [Test]
-    public void ConcurrentQueueClear()
+    public async Task ConcurrentQueueClear()
     {
         var bag = new ConcurrentQueue<string>();
         bag.Enqueue("Hello");
         bag.Clear();
-        Assert.AreEqual(0, bag.Count);
+        await Assert.That(bag.Count).IsEqualTo(0);
     }
 }

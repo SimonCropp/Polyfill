@@ -1,20 +1,19 @@
 ﻿#if FeatureMemory
 
-[TestFixture]
 public class StringInterpolationTests
 {
     [Test]
-    public void ShouldInterpolateString()
+    public async Task ShouldInterpolateString()
     {
         Span<char> buffer = ['H', 'e', 'l', 'l', 'o'];
         var number = 15;
         var result = $"{buffer}, you're {number} years old";
 
-        Assert.AreEqual("Hello, you're 15 years old", result);
+        await Assert.That(result).IsEqualTo("Hello, you're 15 years old");
     }
 
     [Test]
-    public void ShouldInterpolateStringBuilder()
+    public async Task ShouldInterpolateStringBuilder()
     {
         var builder = new StringBuilder();
         Span<char> buffer = ['H', 'e', 'l', 'l', 'o'];
@@ -22,7 +21,7 @@ public class StringInterpolationTests
         Polyfill.Append(builder, $"{buffer}, you're {number} years old {builder.ToString()}");
         var result = builder.ToString();
 
-        Assert.AreEqual("Hello, you're 15 years old Hello, you're 15 years old ", result);
+        await Assert.That(result).IsEqualTo("Hello, you're 15 years old Hello, you're 15 years old ");
     }
 }
 #endif

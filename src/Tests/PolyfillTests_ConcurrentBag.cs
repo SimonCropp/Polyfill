@@ -1,13 +1,13 @@
 partial class PolyfillTests
 {
     [Test]
-    public void ConcurrentBagClear()
+    public async Task ConcurrentBagClear()
     {
         var bag = new ConcurrentBag<string>
         {
             "Hello"
         };
         bag.Clear();
-        Assert.AreEqual(0, bag.Count);
+        await Assert.That(bag.Count).IsEqualTo(0);
     }
 }

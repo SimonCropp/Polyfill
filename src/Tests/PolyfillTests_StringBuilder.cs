@@ -1,40 +1,40 @@
 partial class PolyfillTests
 {
     [Test]
-    public void StringBuilderCopyTo()
+    public async Task StringBuilderCopyTo()
     {
         var builder = new StringBuilder("value");
 
         var span = new Span<char>(new char[1]);
         builder.CopyTo(0, span, 1);
-        Assert.True(span is "v");
+        await Assert.That(span is "v").IsTrue();
 
         span = new(new char[1]);
         builder.CopyTo(1, span, 1);
-        Assert.True(span is "a");
+        await Assert.That(span is "a").IsTrue();
 
         span = new(new char[2]);
         builder.CopyTo(1, span, 2);
-        Assert.True(span is "al");
+        await Assert.That(span is "al").IsTrue();
 
         span = new(new char[5]);
         builder.CopyTo(0, span, 5);
-        Assert.True(span is "value");
+        await Assert.That(span is "value").IsTrue();
     }
 
     [Test]
-    public void Replace()
+    public async Task Replace()
     {
         var builder = new StringBuilder("a");
 
         builder.Replace("a".AsSpan(), "b".AsSpan());
-        Assert.AreEqual("b", builder.ToString());
+        await Assert.That(builder.ToString()).IsEqualTo("b");
     }
 
 #if FeatureMemory
 
     [Test]
-    public void GetChunks()
+    public async Task GetChunks()
     {
         var builder = new StringBuilder("a", 1);
         builder.Append("bb");
@@ -44,77 +44,77 @@ partial class PolyfillTests
             list.Add(chunk.ToString());
         }
 
-        Assert.AreEqual("a", list[0]);
-        Assert.AreEqual("bb", list[1]);
+        await Assert.That(list[0]).IsEqualTo("a");
+        await Assert.That(list[1]).IsEqualTo("bb");
     }
 
 #endif
 
     [Test]
-    public void Append()
+    public async Task Append()
     {
         var builder = new StringBuilder();
 
         var x = 10;
         Polyfill.Append(builder, $"value{x}");
-        Assert.AreEqual("value10", builder.ToString());
+        await Assert.That(builder.ToString()).IsEqualTo("value10");
     }
 
     [Test]
-    public void AppendLine()
+    public async Task AppendLine()
     {
         var builder = new StringBuilder();
 
         var x = 10;
         Polyfill.AppendLine(builder, $"value{x}");
-        Assert.AreEqual("value10" + Environment.NewLine, builder.ToString());
+        await Assert.That(builder.ToString()).IsEqualTo("value10" + Environment.NewLine);
     }
 
     [Test]
-    public void AppendWithFormat()
+    public async Task AppendWithFormat()
     {
         var builder = new StringBuilder();
 
         var x = 10;
         Polyfill.Append(builder, null, $"value{x}");
-        Assert.AreEqual("value10", builder.ToString());
+        await Assert.That(builder.ToString()).IsEqualTo("value10");
     }
 
     [Test]
-    public void AppendLineWithFormat()
+    public async Task AppendLineWithFormat()
     {
         var builder = new StringBuilder();
 
         var x = 10;
         Polyfill.AppendLine(builder, null, $"value{x}");
-        Assert.AreEqual("value10" + Environment.NewLine, builder.ToString());
+        await Assert.That(builder.ToString()).IsEqualTo("value10" + Environment.NewLine);
     }
 
     [Test]
-    public void AppendJoin()
+    public async Task AppendJoin()
     {
         var builder = new StringBuilder();
 
         string?[] span = ["value1", "value2"];
         builder.AppendJoin(",", span);
-        Assert();
+        await AssertAsync();
         builder.AppendJoin(",", new object[] {"value1", "value2"});
-        Assert();
+        await AssertAsync();
         builder.AppendJoin(',', span);
-        Assert();
+        await AssertAsync();
         builder.AppendJoin(',', new object[] {"value1", "value2"});
-        Assert();
+        await AssertAsync();
         builder.AppendJoin(",", new object[] {"value1", "value2"}.Select(_ => _));
-        Assert();
+        await AssertAsync();
         builder.AppendJoin(',', new object[] {"value1", "value2"}.Select(_ => _));
-        Assert();
+        await AssertAsync();
         // ReSharper disable once RedundantExplicitParamsArrayCreation
         builder.AppendJoin<string>(',', ["value1", "value2"]);
-        Assert();
+        await AssertAsync();
 
-        void Assert()
+        async Task AssertAsync()
         {
-            NUnit.Framework.Assert.AreEqual("value1,value2", builder.ToString());
+            await TUnit.Assertions.Assert.That(builder.ToString()).IsEqualTo("value1,value2");
             builder.Clear();
         }
     }

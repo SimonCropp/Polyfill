@@ -1,7 +1,7 @@
 partial class PolyfillTests
 {
     [Test]
-    public void IReadOnlyDictionaryGetValueOrDefault()
+    public async Task IReadOnlyDictionaryGetValueOrDefault()
     {
         var dictionary = new Dictionary<string, string?>
         {
@@ -10,13 +10,13 @@ partial class PolyfillTests
             }
         };
 
-        Assert.AreEqual("value", dictionary.GetValueOrDefault("key"));
-        Assert.AreEqual(null, dictionary.GetValueOrDefault("key1"));
-        Assert.AreEqual("value1", dictionary.GetValueOrDefault("key1", "value1"));
+        await Assert.That(dictionary.GetValueOrDefault("key")).IsEqualTo("value");
+        await Assert.That(dictionary.GetValueOrDefault("key1")).IsEqualTo(null);
+        await Assert.That(dictionary.GetValueOrDefault("key1", "value1")).IsEqualTo("value1");
     }
 
     [Test]
-    public void IReadOnlyDictionaryGetValueOrDefault_NonNullValue()
+    public async Task IReadOnlyDictionaryGetValueOrDefault_NonNullValue()
     {
         var dictionary = new Dictionary<string, string>
         {
@@ -25,8 +25,8 @@ partial class PolyfillTests
             }
         };
 
-        Assert.AreEqual("value", dictionary.GetValueOrDefault("key"));
-        Assert.AreEqual(null, dictionary.GetValueOrDefault("key1"));
-        Assert.AreEqual("value1", dictionary.GetValueOrDefault("key1", "value1"));
+        await Assert.That(dictionary.GetValueOrDefault("key")).IsEqualTo("value");
+        await Assert.That(dictionary.GetValueOrDefault("key1")).IsEqualTo(null);
+        await Assert.That(dictionary.GetValueOrDefault("key1", "value1")).IsEqualTo("value1");
     }
 }

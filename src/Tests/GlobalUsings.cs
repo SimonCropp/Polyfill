@@ -1,7 +1,10 @@
-﻿global using NUnit.Framework;
+﻿global using TUnit.Core;
+global using TUnit.Assertions;
+global using TUnit.Assertions.Extensions;
 global using System;
 global using System.Diagnostics.CodeAnalysis;
 global using System.Globalization;
 global using System.Text.RegularExpressions;
 global using System.Xml;
 global using System.Xml.Linq;
+global using System.Runtime.InteropServices;

@@ -1,23 +1,23 @@
 partial class PolyfillTests
 {
     [Test]
-    public void CancellationToken_Register_Exceptions()
+    public async Task CancellationToken_Register_Exceptions()
     {
         Cancel token = default;
 
 #nullable disable
-        Assert.Throws<ArgumentNullException>(() => token.Register((Action<object, Cancel>) null, null));
+        await Assert.That(() => token.Register((Action<object, Cancel>) null, null)).Throws<ArgumentNullException>();
 
         // ReSharper disable once RedundantCast
-        Assert.Throws<ArgumentNullException>(() => token.UnsafeRegister((Action<object>) null, null));
-        Assert.Throws<ArgumentNullException>(() => token.UnsafeRegister((Action<object, Cancel>) null, null));
+        await Assert.That(() => token.UnsafeRegister((Action<object>) null, null)).Throws<ArgumentNullException>();
+        await Assert.That(() => token.UnsafeRegister((Action<object, Cancel>) null, null)).Throws<ArgumentNullException>();
 #nullable enable
     }
 
     [Test]
-    [TestCase(false)]
-    [TestCase(true)]
-    public static void CancellationToken_Register_ExecutionContextFlowsIfExpected(bool callbackWithToken)
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task CancellationToken_Register_ExecutionContextFlowsIfExpected(bool callbackWithToken)
     {
         var cancelSource = new CancelSource();
 
@@ -33,7 +33,9 @@ partial class PolyfillTests
             Action<object?> callback = s =>
             {
                 invoked++;
-                Assert.AreEqual(flowExecutionContext ? (int) s! : 0, asyncLocal.Value);
+                var expected = flowExecutionContext ? (int) s! : 0;
+                if (asyncLocal.Value != expected)
+                    throw new Exception($"Expected {expected} but got {asyncLocal.Value}");
             };
 
             var token = cancelSource.Token;
@@ -42,7 +44,8 @@ partial class PolyfillTests
                 token.Register(
                     (s, t) =>
                     {
-                        Assert.AreEqual(token, t);
+                        if (!token.Equals(t))
+                            throw new Exception("Token mismatch");
                         callback(s);
                     },
                     i);
@@ -56,7 +59,8 @@ partial class PolyfillTests
                 token.UnsafeRegister(
                     (s, t) =>
                     {
-                        Assert.AreEqual(token, t);
+                        if (!token.Equals(t))
+                            throw new Exception("Token mismatch");
                         callback(s);
                     },
                     i);
@@ -70,6 +74,6 @@ partial class PolyfillTests
         asyncLocal.Value = 0;
 
         cancelSource.Cancel();
-        Assert.AreEqual(iterations, invoked);
+        await Assert.That(invoked).IsEqualTo(iterations);
     }
 }

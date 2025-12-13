@@ -18,23 +18,32 @@ using System.Buffers;
 partial class PolyfillTests
 {
     [Test]
-    public static void DefaultSpanSplitEnumeratorBehaviour()
+    public Task DefaultSpanSplitEnumeratorBehaviour()
     {
         var charSpanEnumerator = new MemoryExtensions.SpanSplitEnumerator<char>();
         var stringSpanEnumerator = new MemoryExtensions.SpanSplitEnumerator<string>();
-        Assert.AreEqual(new Range(0, 0), charSpanEnumerator.Current);
-        Assert.False(charSpanEnumerator.MoveNext());
+        AssertRangeEquals(charSpanEnumerator.Current, new Range(0, 0));
+        if (charSpanEnumerator.MoveNext())
+            throw new Exception("Expected MoveNext to return false");
 
         // Implicit DoesNotThrow assertion
         charSpanEnumerator.GetEnumerator();
 
-        Assert.AreEqual(new Range(0, 0), stringSpanEnumerator.Current);
-        Assert.False(stringSpanEnumerator.MoveNext());
+        AssertRangeEquals(stringSpanEnumerator.Current, new Range(0, 0));
+        if (stringSpanEnumerator.MoveNext())
+            throw new Exception("Expected MoveNext to return false");
         stringSpanEnumerator.GetEnumerator();
+        return Task.CompletedTask;
+    }
+
+    static void AssertRangeEquals(Range actual, Range expected)
+    {
+        if (actual.Start.Value != expected.Start.Value || actual.End.Value != expected.End.Value)
+            throw new Exception($"Expected Range({expected.Start}..{expected.End}) but got Range({actual.Start}..{actual.End})");
     }
 
     [Test]
-    public static void Split_SingleElementSeparator()
+    public Task Split_SingleElementSeparator()
     {
         // Split on default
         Test((char[]) ['a', ' ', 'b'], default, (Range[]) [0..3]);
@@ -82,13 +91,15 @@ partial class PolyfillTests
         Test((CustomStruct[]) [new(1), new(3), new(2), new(2)], new CustomStruct(2), (Range[]) [0..2, 3..3, 4..4]);
         Test((CustomClass[]) [new(1), new(3), new(2), new(2)], new CustomClass(2), (Range[]) [0..2, 3..3, 4..4]);
 
+        return Task.CompletedTask;
+
         static void Test<T>(T[] value, T separator, Range[] result)
             where T : IEquatable<T> =>
             AssertEnsureCorrectEnumeration(new ReadOnlySpan<T>(value).Split(separator), result);
     }
 
     [Test]
-    public static void Split_SequenceSeparator()
+    public Task Split_SequenceSeparator()
     {
         // Split no separators
         Test((char[]) ['a', ' ', 'b'], (char[]) [], (Range[]) [0..3]);
@@ -136,13 +147,15 @@ partial class PolyfillTests
         Test((CustomStruct[]) [new(2), new(4), new(3), new(2), new(4), new(5)], (CustomStruct[]) [new(2), new(4)], (Range[]) [0..0, 2..3, 5..6]);
         Test((CustomClass[]) [new(2), new(4), new(3), new(2), new(4), new(5)], (CustomClass[]) [new(2), new(4)], (Range[]) [0..0, 2..3, 5..6]);
 
+        return Task.CompletedTask;
+
         static void Test<T>(T[] value, T[] separator, Range[] result)
             where T : IEquatable<T> =>
             AssertEnsureCorrectEnumeration(new ReadOnlySpan<T>(value).Split(separator), result);
     }
 
     [Test]
-    public static void SplitAnySeparatorData()
+    public Task SplitAnySeparatorData()
     {
         // Split no separators
         Test((char[]) ['a', ' ', 'b'], (char[]) [], (Range[]) [0..1, 2..3]); // an empty span of separators for char is handled as all whitespace being separators
@@ -190,6 +203,8 @@ partial class PolyfillTests
         Test((CustomStruct[]) [new(2), new(4), new(3), new(2), new(4), new(5)], (CustomStruct[]) [new(2), new(4)], (Range[]) [0..0, 1..1, 2..3, 4..4, 5..6]);
         Test((CustomClass[]) [new(2), new(4), new(3), new(2), new(4), new(5)], (CustomClass[]) [new(2), new(4)], (Range[]) [0..0, 1..1, 2..3, 4..4, 5..6]);
 
+        return Task.CompletedTask;
+
         static void Test<T>(T[] value, T[] separator, Range[] result)
             where T : IEquatable<T>
         {
@@ -216,15 +231,22 @@ partial class PolyfillTests
     static void AssertEnsureCorrectEnumeration<T>(MemoryExtensions.SpanSplitEnumerator<T> enumerator, Range[] result)
         where T : IEquatable<T>
     {
-        Assert.AreEqual(new Range(0, 0), enumerator.Current);
+        var current = enumerator.Current;
+        if (current.Start.Value != 0 || current.End.Value != 0)
+            throw new Exception($"Expected Range(0,0) but got Range({current.Start}..{current.End})");
 
         for (var i = 0; i < result.Length; i++)
         {
-            Assert.True(enumerator.MoveNext());
-            Assert.AreEqual(result[i], enumerator.Current);
+            if (!enumerator.MoveNext())
+                throw new Exception($"Expected MoveNext to return true at index {i}");
+            var actual = enumerator.Current;
+            var expected = result[i];
+            if (actual.Start.Value != expected.Start.Value || actual.End.Value != expected.End.Value)
+                throw new Exception($"Expected Range({expected.Start}..{expected.End}) but got Range({actual.Start}..{actual.End}) at index {i}");
         }
 
-        Assert.False(enumerator.MoveNext());
+        if (enumerator.MoveNext())
+            throw new Exception("Expected MoveNext to return false after all elements");
     }
 
     public record struct CustomStruct(int value);

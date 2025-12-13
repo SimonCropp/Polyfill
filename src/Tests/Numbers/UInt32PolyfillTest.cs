@@ -1,28 +1,27 @@
-[TestFixture]
 public class UInt32PolyfillTest
 {
     [Test]
-    public void TryParse()
+    public async Task TryParse()
     {
-        Assert.True(uint.TryParse("1"u8, null, out var value));
-        Assert.AreEqual(1, value);
+        await Assert.That(uint.TryParse("1"u8, null, out var value)).IsTrue();
+        await Assert.That((long)value).IsEqualTo(1);
 
-        Assert.True(uint.TryParse(['1'], out value));
-        Assert.AreEqual(1, value);
+        await Assert.That(uint.TryParse(['1'], out value)).IsTrue();
+        await Assert.That((long)value).IsEqualTo(1);
 
-        Assert.True(uint.TryParse(['1'], null, out value));
-        Assert.AreEqual(1, value);
+        await Assert.That(uint.TryParse(['1'], null, out value)).IsTrue();
+        await Assert.That((long)value).IsEqualTo(1);
 
-        Assert.True(uint.TryParse("1", null, out value));
-        Assert.AreEqual(1, value);
+        await Assert.That(uint.TryParse("1", null, out value)).IsTrue();
+        await Assert.That((long)value).IsEqualTo(1);
 
-        Assert.True(uint.TryParse("1"u8, NumberStyles.Integer, null, out value));
-        Assert.AreEqual(1, value);
+        await Assert.That(uint.TryParse("1"u8, NumberStyles.Integer, null, out value)).IsTrue();
+        await Assert.That((long)value).IsEqualTo(1);
 
-        Assert.True(uint.TryParse("1"u8, out value));
-        Assert.AreEqual(1, value);
+        await Assert.That(uint.TryParse("1"u8, out value)).IsTrue();
+        await Assert.That((long)value).IsEqualTo(1);
 
-        Assert.True(uint.TryParse(['1'], NumberStyles.Integer, null, out value));
-        Assert.AreEqual(1, value);
+        await Assert.That(uint.TryParse(['1'], NumberStyles.Integer, null, out value)).IsTrue();
+        await Assert.That((long)value).IsEqualTo(1);
     }
 }

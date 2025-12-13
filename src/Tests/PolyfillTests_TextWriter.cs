@@ -8,7 +8,7 @@ partial class PolyfillTests
         writer.Write("value".AsSpan());
         await writer.FlushAsync();
         var s = Encoding.UTF8.GetString(stream.ToArray());
-        Assert.AreEqual("value", s);
+        await Assert.That(s).IsEqualTo("value");
     }
 
     [Test]
@@ -19,7 +19,7 @@ partial class PolyfillTests
         await writer.WriteAsync("value");
         await writer.FlushAsync(Cancel.None);
         var s = Encoding.UTF8.GetString(stream.ToArray());
-        Assert.AreEqual("value", s);
+        await Assert.That(s).IsEqualTo("value");
     }
 
     [Test]
@@ -31,7 +31,7 @@ partial class PolyfillTests
         writer.Write(new StringBuilder("value"));
         await writer.FlushAsync();
         var s = Encoding.UTF8.GetString(stream.ToArray());
-        Assert.AreEqual("value", s);
+        await Assert.That(s).IsEqualTo("value");
     }
 
     [Test]
@@ -42,7 +42,7 @@ partial class PolyfillTests
         await writer.WriteAsync(new StringBuilder("value"));
         await writer.FlushAsync();
         var s = Encoding.UTF8.GetString(stream.ToArray());
-        Assert.AreEqual("value", s);
+        await Assert.That(s).IsEqualTo("value");
     }
 
     [Test]
@@ -53,7 +53,7 @@ partial class PolyfillTests
         writer.WriteLine("value".AsSpan());
         await writer.FlushAsync();
         var s = Encoding.UTF8.GetString(stream.ToArray());
-        Assert.AreEqual("value" + Environment.NewLine, s);
+        await Assert.That(s).IsEqualTo("value" + Environment.NewLine);
     }
 
     [Test]
@@ -65,7 +65,7 @@ partial class PolyfillTests
         await writer.WriteAsync(memory);
         await writer.FlushAsync();
         var s = Encoding.UTF8.GetString(stream.ToArray());
-        Assert.AreEqual("value", s);
+        await Assert.That(s).IsEqualTo("value");
     }
 
     [Test]
@@ -77,7 +77,7 @@ partial class PolyfillTests
         await writer.WriteLineAsync(memory);
         await writer.FlushAsync();
         var s = Encoding.UTF8.GetString(stream.ToArray());
-        Assert.AreEqual("value" + Environment.NewLine, s);
+        await Assert.That(s).IsEqualTo("value" + Environment.NewLine);
     }
 
     [Test]
@@ -89,7 +89,7 @@ partial class PolyfillTests
         writer.Write(memory);
         await writer.FlushAsync();
         var s = Encoding.UTF8.GetString(stream.ToArray());
-        Assert.AreEqual("value", s);
+        await Assert.That(s).IsEqualTo("value");
     }
 
     [Test]
@@ -101,6 +101,6 @@ partial class PolyfillTests
         writer.WriteLine(memory);
         await writer.FlushAsync();
         var s = Encoding.UTF8.GetString(stream.ToArray());
-        Assert.AreEqual("value" + Environment.NewLine, s);
+        await Assert.That(s).IsEqualTo("value" + Environment.NewLine);
     }
 }
