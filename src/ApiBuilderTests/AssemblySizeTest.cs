@@ -103,12 +103,15 @@ public class AssemblySizeTest
             return "N/A";
         }
 
-        return $"+{bytes/1024:N0} kb";
+        return $"+{bytes:N0} bytes";
     }
 
     static SizeResult MeasureFramework(string baseDir, string framework, bool embedUntrackedSources)
     {
-        var result = new SizeResult {TargetFramework = framework};
+        var result = new SizeResult
+        {
+            TargetFramework = framework
+        };
         var embedSuffix = embedUntrackedSources ? "_embed" : "";
         var projectDir = Path.Combine(baseDir, $"{framework}{embedSuffix}");
         Directory.CreateDirectory(projectDir);
@@ -188,12 +191,9 @@ public class AssemblySizeTest
 
         // Create a minimal class file
         var classFile = """
-                        namespace TestProject
+                        public class Class1
                         {
-                            public class Class1
-                            {
-                                public void Method1() { }
-                            }
+                            public void Method1() { }
                         }
                         """;
         File.WriteAllText(Path.Combine(variantDir, "Class1.cs"), classFile);
@@ -202,30 +202,13 @@ public class AssemblySizeTest
         var startInfo = new ProcessStartInfo
         {
             FileName = "dotnet",
-            Arguments = "build -c Release --no-restore",
+            Arguments = "build -c Release",
             WorkingDirectory = variantDir,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
             UseShellExecute = false,
             CreateNoWindow = true
         };
-
-        // First restore
-        var restoreInfo = new ProcessStartInfo
-        {
-            FileName = "dotnet",
-            Arguments = "restore",
-            WorkingDirectory = variantDir,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        using (var restoreProcess = Process.Start(restoreInfo)!)
-        {
-            restoreProcess.WaitForExit(120000);
-        }
 
         using var process = Process.Start(startInfo)!;
         var output = process.StandardOutput.ReadToEnd();
@@ -234,10 +217,12 @@ public class AssemblySizeTest
 
         if (process.ExitCode != 0)
         {
-            Console.WriteLine($"Build failed for {targetFramework} ({variant}):");
-            Console.WriteLine(output);
-            Console.WriteLine(error);
-            return -1;
+            throw new(
+                $"""
+                 Build failed for {targetFramework} ({variant}):
+                 {output}
+                 {error}
+                 """);
         }
 
         // Find the DLL
