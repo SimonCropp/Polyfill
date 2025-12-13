@@ -730,7 +730,15 @@ class Consume
         _ = span.TrimEnd();
         _ = span.TrimStart();
 
-        var numbers = new Span<int>(Enumerable.Range(0, 5).Shuffle().ToArray());
+        var array = Enumerable.Range(0, 5).ToArray();
+
+#if !NET8_0_OR_GREATER
+        Polyfill.Shuffle(array);
+#else
+        Random.Shared.Shuffle(array);
+#endif
+
+        var numbers = new Span<int>(array);
         numbers.Sort();
     }
 
