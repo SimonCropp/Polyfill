@@ -14,6 +14,7 @@
     <Compile Remove="..\Tests\PolyfillTests.cs" />
     <Compile Remove="..\Tests\PolyfillTests_*.cs" />
     <PackageReference Include="TUnit" />
+    <PackageReference Include="ProjectFiles" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\TestIncludes.targets" />

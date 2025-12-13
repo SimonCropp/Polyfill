@@ -9,6 +9,7 @@
   <ItemGroup>
     <Compile Include="..\Tests\*.cs" />
     <PackageReference Include="TUnit" />
+    <PackageReference Include="ProjectFiles" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
     <PackageReference Include="System.Memory" Condition="$(TargetFrameworkIdentifier) == '.NETStandard' or $(TargetFrameworkIdentifier) == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" />
     <PackageReference Include="System.ValueTuple" Condition="$(TargetFramework.StartsWith('net46'))" />
