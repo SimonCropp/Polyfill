@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="..\Tests\*.cs" />
     <PackageReference Include="NUnit" />
+    <PackageReference Include="ProjectFiles" />
     <PackageReference Include="NUnit3TestAdapter" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />

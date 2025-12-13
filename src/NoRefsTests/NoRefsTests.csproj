@@ -12,6 +12,7 @@
     <Compile Remove="..\Tests\RangeIndexUsage.cs" />
     <Compile Remove="..\Tests\PolyfillTests.cs" />
     <Compile Remove="..\Tests\PolyfillTests_*.cs" />
+    <PackageReference Include="ProjectFiles" />
     <PackageReference Include="NUnit" />
     <PackageReference Include="NUnit3TestAdapter" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
