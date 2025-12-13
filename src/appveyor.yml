@@ -27,7 +27,7 @@ build_script:
       }
     }
 - dotnet build src/Polyfill.slnx --configuration Release --verbosity quiet
-- ps: |
+- pwsh: |
     Get-ChildItem -Recurse -Filter "*Tests.csproj" -Path src | ForEach-Object {
         $proj = $_.FullName
         [xml]$xml = Get-Content $proj
