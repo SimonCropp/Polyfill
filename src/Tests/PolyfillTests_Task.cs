@@ -199,9 +199,9 @@ partial class PolyfillTests
         cancelSource.CancelAfter(100);
         var task = Task.Delay(10000);
 
-        // Act & Assert (cancellation should win)
-        await Assert.That(async () =>
-            await task.WaitAsync(TimeSpan.FromMilliseconds(500), cancelSource.Token)).Throws<TaskCanceledException>();
+        // Act & Assert (cancellation should win - use 5s timeout to ensure cancellation fires first on slow CI servers)
+        await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token));
     }
 
     [Test]
