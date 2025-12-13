@@ -2,11 +2,15 @@
 
 namespace Polyfills;
 
+#if !NET5_0_OR_GREATER
+using System;
+using System.Collections.Generic;
 using System.Buffers;
+#endif
 
 static partial class Polyfill
 {
-#if !NET5_0_OR_GREATER
+#if  !NET5_0_OR_GREATER
     public static void Sort<T>(this Span<T> source)
         where T : IComparable<T>
         => Sort(source, (x, y) => x.CompareTo(y));
