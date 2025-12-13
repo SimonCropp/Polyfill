@@ -729,6 +729,9 @@ class Consume
         var span = new Span<char>(new char[1]);
         _ = span.TrimEnd();
         _ = span.TrimStart();
+
+        var numbers = new Span<int>(Enumerable.Range(0, 5).Shuffle().ToArray());
+        numbers.Sort();
     }
 
 #endif
