@@ -96,7 +96,7 @@ public class AssemblySizeTest
             return "N/A";
         }
 
-        return $"{bytes:N0} bytes";
+        return $"{bytes/1024:N0} kb";
     }
 
     static string FormatSizeDiff(long bytes)
@@ -106,7 +106,7 @@ public class AssemblySizeTest
             return "N/A";
         }
 
-        return $"+{bytes:N0} bytes";
+        return $"+{bytes/1024:N0} kb";
     }
 
     static SizeResult MeasureFramework(string baseDir, string targetFramework, bool embedUntrackedSources)
