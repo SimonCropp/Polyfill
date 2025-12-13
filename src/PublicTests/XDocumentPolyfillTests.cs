@@ -1,5 +1,4 @@
-﻿[TestFixture]
-public class XDocumentPolyfillTests
+﻿public class XDocumentPolyfillTests
 {
     const string XmlContent = "<root><child>value</child></root>";
 
