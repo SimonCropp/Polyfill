@@ -1,5 +1,3 @@
-using ProjectFilesGenerator;
-
 [TestFixture]
 public class BuildApiTest
 {

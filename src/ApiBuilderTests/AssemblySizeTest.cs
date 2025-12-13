@@ -1,8 +1,6 @@
 [TestFixture]
 public class AssemblySizeTest
 {
-    static string solutionDirectory = SolutionDirectoryFinder.Find();
-
     static readonly string[] TargetFrameworks =
     [
         "netstandard2.0",
@@ -51,7 +49,7 @@ public class AssemblySizeTest
             }
 
             // Generate markdown
-            var mdPath = Path.Combine(solutionDirectory, "..", "assemblySize.include.md");
+            var mdPath = Path.Combine(ProjectFiles.SolutionDirectory, "..", "assemblySize.include.md");
             using var writer = File.CreateText(mdPath);
 
             WriteTable(writer, results, "Assembly Sizes");
@@ -146,7 +144,7 @@ public class AssemblySizeTest
 
         var polyfillImportLines = polyfillImport
             ? $"""
-                 <Import Project="{solutionDirectory}\Polyfill\Polyfill.targets" />
+                 <Import Project="{ProjectFiles.SolutionDirectory}\Polyfill\Polyfill.targets" />
                """
             : "";
 
