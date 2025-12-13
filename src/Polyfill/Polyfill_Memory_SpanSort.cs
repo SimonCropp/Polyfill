@@ -1,4 +1,4 @@
-//#if FeatureMemory
+#if FeatureMemory
 
 using System.Buffers;
 
@@ -80,4 +80,4 @@ static partial class Polyfill
 #endif
 }
 
-//#endif
+#endif
