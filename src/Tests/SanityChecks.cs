@@ -1,3 +1,5 @@
+using ProjectFilesGenerator;
+
 #pragma warning disable IL2026
 
 public class SanityChecks
@@ -22,7 +24,7 @@ public class SanityChecks
     [Test]
     public Task CodeChecks()
     {
-        var dir = Path.Combine(SolutionDirectoryFinder.Find(), "Polyfill");
+        var dir = Path.Combine(ProjectFiles.SolutionDirectory, "Polyfill");
         var errors = new List<string>();
         foreach (var file in Directory.EnumerateFiles(dir, "*.cs", SearchOption.AllDirectories))
         {

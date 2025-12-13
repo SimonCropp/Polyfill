@@ -7,8 +7,6 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Include="TUnit" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
-    <Compile Include="..\Tests\SolutionDirectoryFinder.cs">
-      <Link>SolutionDirectoryFinder.cs</Link>
-    </Compile>
+    <PackageReference Include="ProjectFiles" />
   </ItemGroup>
 </Project>
