@@ -29,6 +29,7 @@ public class AssemblySizeTest
     ];
 
     [Test]
+    [Explicit]
     public void MeasureAssemblySizes()
     {
         var tempDir = Path.Combine(Path.GetTempPath(), $"PolyfillSizeTest_{Guid.NewGuid():N}");
@@ -65,14 +66,7 @@ public class AssemblySizeTest
         }
         finally
         {
-            try
-            {
-                Directory.Delete(tempDir, recursive: true);
-            }
-            catch
-            {
-                // Ignore cleanup errors
-            }
+            Directory.Delete(tempDir, recursive: true);
         }
     }
 
@@ -112,13 +106,12 @@ public class AssemblySizeTest
             return "N/A";
         }
 
-        var sign = bytes >= 0 ? "+" : "";
-        return $"{sign}{bytes:N0} bytes";
+        return $"+{bytes:N0} bytes";
     }
 
     static SizeResult MeasureFramework(string baseDir, string targetFramework, bool embedUntrackedSources)
     {
-        var result = new SizeResult { TargetFramework = targetFramework };
+        var result = new SizeResult {TargetFramework = targetFramework};
         var embedSuffix = embedUntrackedSources ? "_embed" : "";
         var projectDir = Path.Combine(baseDir, $"{targetFramework}{embedSuffix}");
         Directory.CreateDirectory(projectDir);
@@ -153,62 +146,62 @@ public class AssemblySizeTest
 
         var polyfillImportLines = polyfillImport
             ? $"""
-              <Import Project="{solutionDirectory}\TestIncludes.targets" />
-              <Import Project="{solutionDirectory}\Polyfill\Polyfill.targets" />
-            """
+                 <Import Project="{solutionDirectory}\TestIncludes.targets" />
+                 <Import Project="{solutionDirectory}\Polyfill\Polyfill.targets" />
+               """
             : "";
 
         // Add package references needed for older frameworks when using polyfill
         var packageReferences = polyfillImport
             ? """
-              <ItemGroup>
-                <PackageReference Include="System.Memory" Condition="$(TargetFrameworkIdentifier) == '.NETStandard' or $(TargetFrameworkIdentifier) == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" Version="4.5.5" />
-                <PackageReference Include="System.ValueTuple" Condition="$(TargetFramework.StartsWith('net46'))" Version="4.5.0" />
-                <PackageReference Include="System.Net.Http" Condition="$(TargetFramework.StartsWith('net4'))" Version="4.3.4" />
-                <PackageReference Include="System.Threading.Tasks.Extensions" Condition="$(TargetFramework) == 'netstandard2.0' or $(TargetFramework) == 'netcoreapp2.0' or $(TargetFrameworkIdentifier) == '.NETFramework'" Version="4.5.4" />
-                <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Condition="$(TargetFramework.StartsWith('net4'))" Version="4.3.0" />
-                <PackageReference Include="System.IO.Compression" Condition="$(TargetFrameworkIdentifier) == '.NETFramework'" Version="4.3.0" />
-              </ItemGroup>
-            """
+                <ItemGroup>
+                  <PackageReference Include="System.Memory" Condition="$(TargetFrameworkIdentifier) == '.NETStandard' or $(TargetFrameworkIdentifier) == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" Version="4.5.5" />
+                  <PackageReference Include="System.ValueTuple" Condition="$(TargetFramework.StartsWith('net46'))" Version="4.5.0" />
+                  <PackageReference Include="System.Net.Http" Condition="$(TargetFramework.StartsWith('net4'))" Version="4.3.4" />
+                  <PackageReference Include="System.Threading.Tasks.Extensions" Condition="$(TargetFramework) == 'netstandard2.0' or $(TargetFramework) == 'netcoreapp2.0' or $(TargetFrameworkIdentifier) == '.NETFramework'" Version="4.5.4" />
+                  <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Condition="$(TargetFramework.StartsWith('net4'))" Version="4.3.0" />
+                  <PackageReference Include="System.IO.Compression" Condition="$(TargetFrameworkIdentifier) == '.NETFramework'" Version="4.3.0" />
+                </ItemGroup>
+              """
             : "";
 
         var csproj = $"""
-            <Project Sdk="Microsoft.NET.Sdk">
-              <PropertyGroup>
-                <TargetFramework>{targetFramework}</TargetFramework>
-                <OutputType>Library</OutputType>
-                <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-                <EnableDefaultItems>false</EnableDefaultItems>
-                <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
-                <LangVersion>preview</LangVersion>
-                {embedProperty}
-                {polyOptions}
-              </PropertyGroup>
-              {packageReferences}
-              {polyfillImportLines}
-              <ItemGroup>
-                <Compile Include="Class1.cs" />
-              </ItemGroup>
-            </Project>
-            """;
+                      <Project Sdk="Microsoft.NET.Sdk">
+                        <PropertyGroup>
+                          <TargetFramework>{targetFramework}</TargetFramework>
+                          <OutputType>Library</OutputType>
+                          <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+                          <EnableDefaultItems>false</EnableDefaultItems>
+                          <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
+                          <LangVersion>preview</LangVersion>
+                          {embedProperty}
+                          {polyOptions}
+                        </PropertyGroup>
+                        {packageReferences}
+                        {polyfillImportLines}
+                        <ItemGroup>
+                          <Compile Include="Class1.cs" />
+                        </ItemGroup>
+                      </Project>
+                      """;
 
         var csprojPath = Path.Combine(variantDir, "TestProject.csproj");
         File.WriteAllText(csprojPath, csproj);
 
         // Create a minimal class file
         var classFile = """
-            namespace TestProject
-            {
-                public class Class1
-                {
-                    public void Method1() { }
-                }
-            }
-            """;
+                        namespace TestProject
+                        {
+                            public class Class1
+                            {
+                                public void Method1() { }
+                            }
+                        }
+                        """;
         File.WriteAllText(Path.Combine(variantDir, "Class1.cs"), classFile);
 
         // Build the project
-        var startInfo = new System.Diagnostics.ProcessStartInfo
+        var startInfo = new ProcessStartInfo
         {
             FileName = "dotnet",
             Arguments = "build -c Release --no-restore",
@@ -220,7 +213,7 @@ public class AssemblySizeTest
         };
 
         // First restore
-        var restoreInfo = new System.Diagnostics.ProcessStartInfo
+        var restoreInfo = new ProcessStartInfo
         {
             FileName = "dotnet",
             Arguments = "restore",
@@ -231,42 +224,33 @@ public class AssemblySizeTest
             CreateNoWindow = true
         };
 
-        try
+        using (var restoreProcess = Process.Start(restoreInfo)!)
         {
-            using (var restoreProcess = System.Diagnostics.Process.Start(restoreInfo)!)
-            {
-                restoreProcess.WaitForExit(120000);
-            }
+            restoreProcess.WaitForExit(120000);
+        }
 
-            using var process = System.Diagnostics.Process.Start(startInfo)!;
-            var output = process.StandardOutput.ReadToEnd();
-            var error = process.StandardError.ReadToEnd();
-            process.WaitForExit(120000);
+        using var process = Process.Start(startInfo)!;
+        var output = process.StandardOutput.ReadToEnd();
+        var error = process.StandardError.ReadToEnd();
+        process.WaitForExit(120000);
 
-            if (process.ExitCode != 0)
-            {
-                Console.WriteLine($"Build failed for {targetFramework} ({variant}):");
-                Console.WriteLine(output);
-                Console.WriteLine(error);
-                return -1;
-            }
-
-            // Find the DLL
-            var dllPath = Path.Combine(variantDir, "bin", "Release", targetFramework, "TestProject.dll");
-            if (File.Exists(dllPath))
-            {
-                var fileInfo = new FileInfo(dllPath);
-                return fileInfo.Length;
-            }
-
-            Console.WriteLine($"DLL not found at {dllPath}");
+        if (process.ExitCode != 0)
+        {
+            Console.WriteLine($"Build failed for {targetFramework} ({variant}):");
+            Console.WriteLine(output);
+            Console.WriteLine(error);
             return -1;
         }
-        catch (Exception ex)
+
+        // Find the DLL
+        var dllPath = Path.Combine(variantDir, "bin", "Release", targetFramework, "TestProject.dll");
+        if (File.Exists(dllPath))
         {
-            Console.WriteLine($"Error building {targetFramework} ({variant}): {ex.Message}");
-            return -1;
+            var fileInfo = new FileInfo(dllPath);
+            return fileInfo.Length;
         }
+
+        throw new($"DLL not found at {dllPath}");
     }
 
     class SizeResult
