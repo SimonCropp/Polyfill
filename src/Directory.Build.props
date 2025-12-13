@@ -21,6 +21,7 @@
     <PolyStringInterpolation>true</PolyStringInterpolation>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <Nullable>enable</Nullable>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
     <IsAotCompatible
       Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net6.0'))">true</IsAotCompatible>
   </PropertyGroup>
