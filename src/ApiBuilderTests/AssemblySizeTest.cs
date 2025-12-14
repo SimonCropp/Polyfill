@@ -119,7 +119,17 @@ public class AssemblySizeTest
             if (!polyOptions.Contains("<PolyNullability>true</PolyNullability>"))
                 allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}Nullability{Path.DirectorySeparatorChar}")).ToList();
 
-            sourceSize = allFiles.Sum(f => new FileInfo(f).Length);
+            // Calculate compressed size (EmbedUntrackedSources uses deflate compression)
+            sourceSize = allFiles.Sum(f =>
+            {
+                var content = File.ReadAllBytes(f);
+                using var output = new MemoryStream();
+                using (var deflate = new DeflateStream(output, CompressionLevel.Optimal, leaveOpen: true))
+                {
+                    deflate.Write(content);
+                }
+                return output.Length;
+            });
         }
 
         // Include Polyfill source files before the targets (which use Remove to exclude based on options)
@@ -156,7 +166,6 @@ public class AssemblySizeTest
                         <PropertyGroup>
                           <TargetFrameworks>{allFrameworks}</TargetFrameworks>
                           <OutputType>Library</OutputType>
-                          <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
                           <EnableDefaultItems>false</EnableDefaultItems>
                           <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
                           <LangVersion>preview</LangVersion>
@@ -279,8 +288,8 @@ public class AssemblySizeTest
     {
         writer.WriteLine($"### {title}");
         writer.WriteLine();
-        writer.WriteLine("|                | without polyfill | with polyfill | difference | PolyEnsure | PolyArgumentExceptions | PolyStringInterpolation | PolyNullability |");
-        writer.WriteLine("|----------------|------------------|---------------|------------|------------|------------------------|-------------------------|-----------------|");
+        writer.WriteLine("|                | Empty&nbsp;Assembly | With&nbsp;Polyfill | Diff | Ensure | ArgumentExceptions | StringInterpolation | Nullability |");
+        writer.WriteLine("|----------------|-----------------|---------------|------|--------|--------------------|---------------------|-------------|");
 
         foreach (var result in results)
         {
@@ -305,7 +314,7 @@ public class AssemblySizeTest
         }
 
         var kb = bytes / 1024.0;
-        return $"{kb:N} KB";
+        return $"{kb:N1} KB";
     }
 
     static string FormatSizeDiff(long bytes)

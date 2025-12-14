@@ -1,52 +1,50 @@
 ### Assembly Sizes
 
-|                | size without polyfill | size with polyfill | size difference | size difference using PolyEnsure | size difference with PolyArgumentExceptions | size difference with PolyStringInterpolation | size difference with PolyNullability |
-|----------------|-----------------------|--------------------|-----------------|----------------------------------|---------------------------------------------|----------------------------------------------|--------------------------------------|
-| net461         |           4,096 bytes |      161,792 bytes |  +157,696 bytes |                   +164,352 bytes |                              +162,304 bytes |                               +165,376 bytes |                       +169,472 bytes |
-| net462         |           4,096 bytes |      161,792 bytes |  +157,696 bytes |                   +164,352 bytes |                              +162,304 bytes |                               +165,376 bytes |                       +169,472 bytes |
-| net47          |           4,096 bytes |      161,792 bytes |  +157,696 bytes |                   +164,352 bytes |                              +162,304 bytes |                               +165,376 bytes |                       +168,960 bytes |
-| net471         |           4,096 bytes |      160,768 bytes |  +156,672 bytes |                   +163,328 bytes |                              +161,280 bytes |                               +163,840 bytes |                       +167,936 bytes |
-| net472         |           4,096 bytes |      159,744 bytes |  +155,648 bytes |                   +162,304 bytes |                              +160,256 bytes |                               +162,816 bytes |                       +166,912 bytes |
-| net48          |           4,096 bytes |      159,744 bytes |  +155,648 bytes |                   +162,304 bytes |                              +160,256 bytes |                               +162,816 bytes |                       +166,912 bytes |
-| net481         |           4,096 bytes |      159,744 bytes |  +155,648 bytes |                   +162,304 bytes |                              +160,256 bytes |                               +162,816 bytes |                       +166,912 bytes |
-| net6.0-windows |           4,096 bytes |       77,824 bytes |   +73,728 bytes |                    +81,408 bytes |                               +78,848 bytes |                                +74,240 bytes |                        +76,800 bytes |
-| netstandard2.0 |           4,096 bytes |      156,160 bytes |  +152,064 bytes |                   +158,720 bytes |                              +156,672 bytes |                               +159,744 bytes |                       +163,840 bytes |
-| netstandard2.1 |           4,096 bytes |      123,904 bytes |  +119,808 bytes |                   +126,464 bytes |                              +124,416 bytes |                               +127,488 bytes |                       +131,584 bytes |
-| netcoreapp2.0  |           4,096 bytes |      138,752 bytes |  +134,656 bytes |                   +141,312 bytes |                              +138,752 bytes |                               +141,824 bytes |                       +145,920 bytes |
-| netcoreapp2.1  |           4,096 bytes |      133,120 bytes |  +129,024 bytes |                   +135,680 bytes |                              +133,632 bytes |                               +136,192 bytes |                       +140,288 bytes |
-| netcoreapp2.2  |           4,096 bytes |      133,120 bytes |  +129,024 bytes |                   +135,680 bytes |                              +133,632 bytes |                               +136,192 bytes |                       +140,288 bytes |
-| netcoreapp3.0  |           4,096 bytes |      127,488 bytes |  +123,392 bytes |                   +130,048 bytes |                              +127,488 bytes |                               +130,560 bytes |                       +134,656 bytes |
-| netcoreapp3.1  |           4,096 bytes |      125,440 bytes |  +121,344 bytes |                   +128,512 bytes |                              +125,952 bytes |                               +129,024 bytes |                       +133,120 bytes |
-| net5.0         |           4,096 bytes |      105,984 bytes |  +101,888 bytes |                   +108,544 bytes |                              +106,496 bytes |                               +109,568 bytes |                       +113,664 bytes |
-| net6.0         |           4,096 bytes |       77,824 bytes |   +73,728 bytes |                    +81,408 bytes |                               +78,848 bytes |                                +74,240 bytes |                        +76,800 bytes |
-| net7.0         |           4,096 bytes |       57,344 bytes |   +53,248 bytes |                    +60,416 bytes |                               +57,856 bytes |                                +53,760 bytes |                        +56,320 bytes |
-| net8.0         |           3,584 bytes |       43,008 bytes |   +39,424 bytes |                    +46,592 bytes |                               +40,448 bytes |                                +39,936 bytes |                        +42,496 bytes |
-| net9.0         |           3,584 bytes |       19,456 bytes |   +15,872 bytes |                    +23,040 bytes |                               +16,896 bytes |                                +16,384 bytes |                        +18,944 bytes |
-| net10.0        |           3,584 bytes |       11,264 bytes |    +7,680 bytes |                    +15,360 bytes |                                +8,704 bytes |                                 +8,192 bytes |                        +10,752 bytes |
+|                | Empty&nbsp;Assembly | With&nbsp;Polyfill | Diff | Ensure | ArgumentExceptions | StringInterpolation | Nullability |
+|----------------|-----------------|---------------|------|--------|--------------------|---------------------|-------------|
+| netstandard2.0 |           8.0 KB |      185.0 KB |  +177.0 KB |    +8.5 KB |                +5.0 KB |                 +9.0 KB |        +13.5 KB |
+| netstandard2.1 |           8.5 KB |      150.0 KB |  +141.5 KB |    +8.5 KB |                +5.0 KB |                 +9.0 KB |        +14.0 KB |
+| net461         |           5.5 KB |      189.5 KB |  +184.0 KB |    +8.5 KB |                +5.5 KB |                 +9.5 KB |        +14.0 KB |
+| net462         |           5.5 KB |      189.5 KB |  +184.0 KB |    +8.5 KB |                +5.5 KB |                 +9.5 KB |        +14.0 KB |
+| net47          |           5.5 KB |      189.5 KB |  +184.0 KB |    +8.5 KB |                +5.5 KB |                 +9.0 KB |        +14.0 KB |
+| net471         |           5.5 KB |      189.5 KB |  +184.0 KB |    +8.5 KB |                +5.5 KB |                 +9.0 KB |        +14.0 KB |
+| net472         |           5.5 KB |      188.5 KB |  +183.0 KB |    +8.5 KB |                +5.5 KB |                 +9.0 KB |        +14.0 KB |
+| net48          |           5.5 KB |      188.5 KB |  +183.0 KB |    +8.5 KB |                +5.5 KB |                 +9.0 KB |        +13.5 KB |
+| net481         |           5.5 KB |      188.5 KB |  +183.0 KB |    +8.5 KB |                +5.5 KB |                 +9.0 KB |        +14.0 KB |
+| netcoreapp2.0  |           9.0 KB |      166.5 KB |  +157.5 KB |    +8.0 KB |                +5.0 KB |                 +8.5 KB |        +13.5 KB |
+| netcoreapp2.1  |           9.0 KB |      160.0 KB |  +151.0 KB |    +8.5 KB |                +5.0 KB |                 +9.0 KB |        +14.0 KB |
+| netcoreapp2.2  |           9.0 KB |      160.0 KB |  +151.0 KB |    +8.5 KB |                +5.0 KB |                 +9.0 KB |        +14.0 KB |
+| netcoreapp3.0  |           9.5 KB |      154.0 KB |  +144.5 KB |    +8.5 KB |                +5.0 KB |                 +9.0 KB |        +13.5 KB |
+| netcoreapp3.1  |           9.5 KB |      152.0 KB |  +142.5 KB |    +8.5 KB |                +5.5 KB |                 +9.0 KB |        +14.0 KB |
+| net5.0         |           9.5 KB |      131.0 KB |  +121.5 KB |    +8.0 KB |                +5.0 KB |                 +9.0 KB |        +13.5 KB |
+| net6.0         |          10.0 KB |      100.0 KB |   +90.0 KB |    +9.0 KB |                +5.5 KB |                 +1.0 KB |         +3.5 KB |
+| net7.0         |          10.0 KB |       77.5 KB |   +67.5 KB |    +9.0 KB |                +5.0 KB |                 +1.0 KB |         +3.5 KB |
+| net8.0         |           9.5 KB |       62.0 KB |   +52.5 KB |    +8.5 KB |                +1.0 KB |              +512 bytes |         +3.5 KB |
+| net9.0         |          10.0 KB |       36.5 KB |   +26.5 KB |    +9.0 KB |                +1.0 KB |                 +1.0 KB |         +4.0 KB |
+| net10.0        |          10.0 KB |       27.5 KB |   +17.5 KB |    +9.0 KB |                +1.5 KB |                 +1.0 KB |         +4.0 KB |
 
 
 ### Assembly Sizes with EmbedUntrackedSources
 
-|                | size without polyfill | size with polyfill | size difference | size difference using PolyEnsure | size difference with PolyArgumentExceptions | size difference with PolyStringInterpolation | size difference with PolyNullability |
-|----------------|-----------------------|--------------------|-----------------|----------------------------------|---------------------------------------------|----------------------------------------------|--------------------------------------|
-| net461         |           4,096 bytes |      161,792 bytes |  +157,696 bytes |                   +164,352 bytes |                              +162,304 bytes |                               +165,376 bytes |                       +169,472 bytes |
-| net462         |           4,096 bytes |      161,792 bytes |  +157,696 bytes |                   +164,352 bytes |                              +162,304 bytes |                               +165,376 bytes |                       +169,472 bytes |
-| net47          |           4,096 bytes |      161,792 bytes |  +157,696 bytes |                   +164,352 bytes |                              +162,304 bytes |                               +165,376 bytes |                       +168,960 bytes |
-| net471         |           4,096 bytes |      160,768 bytes |  +156,672 bytes |                   +163,328 bytes |                              +161,280 bytes |                               +163,840 bytes |                       +167,936 bytes |
-| net472         |           4,096 bytes |      159,744 bytes |  +155,648 bytes |                   +162,304 bytes |                              +160,256 bytes |                               +162,816 bytes |                       +166,912 bytes |
-| net48          |           4,096 bytes |      159,744 bytes |  +155,648 bytes |                   +162,304 bytes |                              +160,256 bytes |                               +162,816 bytes |                       +166,912 bytes |
-| net481         |           4,096 bytes |      159,744 bytes |  +155,648 bytes |                   +162,304 bytes |                              +160,256 bytes |                               +162,816 bytes |                       +166,912 bytes |
-| net6.0-windows |           4,096 bytes |       77,824 bytes |   +73,728 bytes |                    +81,408 bytes |                               +78,848 bytes |                                +74,240 bytes |                        +76,800 bytes |
-| netstandard2.0 |           4,096 bytes |      156,160 bytes |  +152,064 bytes |                   +158,720 bytes |                              +156,672 bytes |                               +159,744 bytes |                       +163,840 bytes |
-| netstandard2.1 |           4,096 bytes |      123,904 bytes |  +119,808 bytes |                   +126,464 bytes |                              +124,416 bytes |                               +127,488 bytes |                       +131,584 bytes |
-| netcoreapp2.0  |           4,096 bytes |      138,752 bytes |  +134,656 bytes |                   +141,312 bytes |                              +138,752 bytes |                               +141,824 bytes |                       +145,920 bytes |
-| netcoreapp2.1  |           4,096 bytes |      133,120 bytes |  +129,024 bytes |                   +135,680 bytes |                              +133,632 bytes |                               +136,192 bytes |                       +140,288 bytes |
-| netcoreapp2.2  |           4,096 bytes |      133,120 bytes |  +129,024 bytes |                   +135,680 bytes |                              +133,632 bytes |                               +136,192 bytes |                       +140,288 bytes |
-| netcoreapp3.0  |           4,096 bytes |      127,488 bytes |  +123,392 bytes |                   +130,048 bytes |                              +127,488 bytes |                               +130,560 bytes |                       +134,656 bytes |
-| netcoreapp3.1  |           4,096 bytes |      125,440 bytes |  +121,344 bytes |                   +128,512 bytes |                              +125,952 bytes |                               +129,024 bytes |                       +133,120 bytes |
-| net5.0         |           4,096 bytes |      105,984 bytes |  +101,888 bytes |                   +108,544 bytes |                              +106,496 bytes |                               +109,568 bytes |                       +113,664 bytes |
-| net6.0         |           4,096 bytes |       77,824 bytes |   +73,728 bytes |                    +81,408 bytes |                               +78,848 bytes |                                +74,240 bytes |                        +76,800 bytes |
-| net7.0         |           4,096 bytes |       57,344 bytes |   +53,248 bytes |                    +60,416 bytes |                               +57,856 bytes |                                +53,760 bytes |                        +56,320 bytes |
-| net8.0         |           3,584 bytes |       43,008 bytes |   +39,424 bytes |                    +46,592 bytes |                               +40,448 bytes |                                +39,936 bytes |                        +42,496 bytes |
-| net9.0         |           3,584 bytes |       19,456 bytes |   +15,872 bytes |                    +23,040 bytes |                               +16,896 bytes |                                +16,384 bytes |                        +18,944 bytes |
-| net10.0        |           3,584 bytes |       11,264 bytes |    +7,680 bytes |                    +15,360 bytes |                                +8,704 bytes |                                 +8,192 bytes |                        +10,752 bytes |
+|                | Empty&nbsp;Assembly | With&nbsp;Polyfill | Diff | Ensure | ArgumentExceptions | StringInterpolation | Nullability |
+|----------------|-----------------|---------------|------|--------|--------------------|---------------------|-------------|
+| netstandard2.0 |           8.0 KB |      323.6 KB |  +315.6 KB |   +16.8 KB |                +7.0 KB |                +15.3 KB |        +19.6 KB |
+| netstandard2.1 |           8.5 KB |      288.6 KB |  +280.1 KB |   +16.8 KB |                +7.0 KB |                +15.3 KB |        +20.1 KB |
+| net461         |           5.5 KB |      328.1 KB |  +322.6 KB |   +16.8 KB |                +7.5 KB |                +15.8 KB |        +20.1 KB |
+| net462         |           5.5 KB |      328.1 KB |  +322.6 KB |   +16.8 KB |                +7.5 KB |                +15.8 KB |        +20.1 KB |
+| net47          |           5.5 KB |      328.1 KB |  +322.6 KB |   +16.8 KB |                +7.5 KB |                +15.3 KB |        +20.1 KB |
+| net471         |           5.5 KB |      328.1 KB |  +322.6 KB |   +16.8 KB |                +7.5 KB |                +15.3 KB |        +20.1 KB |
+| net472         |           5.5 KB |      327.1 KB |  +321.6 KB |   +16.8 KB |                +7.5 KB |                +15.3 KB |        +20.1 KB |
+| net48          |           5.5 KB |      327.1 KB |  +321.6 KB |   +16.8 KB |                +7.5 KB |                +15.3 KB |        +19.6 KB |
+| net481         |           5.5 KB |      327.1 KB |  +321.6 KB |   +16.8 KB |                +7.5 KB |                +15.3 KB |        +20.1 KB |
+| netcoreapp2.0  |           9.0 KB |      305.1 KB |  +296.1 KB |   +16.3 KB |                +7.0 KB |                +14.8 KB |        +19.6 KB |
+| netcoreapp2.1  |           9.0 KB |      298.6 KB |  +289.6 KB |   +16.8 KB |                +7.0 KB |                +15.3 KB |        +20.1 KB |
+| netcoreapp2.2  |           9.0 KB |      298.6 KB |  +289.6 KB |   +16.8 KB |                +7.0 KB |                +15.3 KB |        +20.1 KB |
+| netcoreapp3.0  |           9.5 KB |      292.6 KB |  +283.1 KB |   +16.8 KB |                +7.0 KB |                +15.3 KB |        +19.6 KB |
+| netcoreapp3.1  |           9.5 KB |      290.6 KB |  +281.1 KB |   +16.8 KB |                +7.5 KB |                +15.3 KB |        +20.1 KB |
+| net5.0         |           9.5 KB |      269.6 KB |  +260.1 KB |   +16.3 KB |                +7.0 KB |                +15.3 KB |        +19.6 KB |
+| net6.0         |          10.0 KB |      238.6 KB |  +228.6 KB |   +17.3 KB |                +7.5 KB |                 +7.3 KB |         +9.6 KB |
+| net7.0         |          10.0 KB |      216.1 KB |  +206.1 KB |   +17.3 KB |                +7.0 KB |                 +7.3 KB |         +9.6 KB |
+| net8.0         |           9.5 KB |      200.6 KB |  +191.1 KB |   +16.8 KB |                +3.0 KB |                 +6.8 KB |         +9.6 KB |
+| net9.0         |          10.0 KB |      175.1 KB |  +165.1 KB |   +17.3 KB |                +3.0 KB |                 +7.3 KB |        +10.1 KB |
+| net10.0        |          10.0 KB |      166.1 KB |  +156.1 KB |   +17.3 KB |                +3.5 KB |                 +7.3 KB |        +10.1 KB |
