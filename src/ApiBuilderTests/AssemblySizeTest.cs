@@ -34,13 +34,12 @@ public class AssemblySizeTest
 
         try
         {
-            Console.WriteLine("Building without EmbedUntrackedSources...");
-            var sizesWithoutEmbed = MeasureAllVariants(tempDir, "no_embed", embedUntrackedSources: false);
-            var results = ConvertToSizeResults(sizesWithoutEmbed);
+            Console.WriteLine("Building variants...");
+            var (sizes, sourceSizes) = MeasureAllVariants(tempDir);
+            var results = ConvertToSizeResults(sizes);
 
-            Console.WriteLine("Building with EmbedUntrackedSources...");
-            var sizesWithEmbed = MeasureAllVariants(tempDir, "with_embed", embedUntrackedSources: true);
-            var resultsWithEmbed = ConvertToSizeResults(sizesWithEmbed);
+            // Compute EmbedUntrackedSources results by adding source file sizes
+            var resultsWithEmbed = ConvertToSizeResultsWithEmbed(sizes, sourceSizes);
 
             // Generate markdown
             var mdPath = Path.Combine(ProjectFiles.SolutionDirectory, "..", "assemblySize.include.md");
@@ -59,38 +58,37 @@ public class AssemblySizeTest
         }
     }
 
-    static Dictionary<string, Dictionary<string, long>> MeasureAllVariants(string baseDir, string suffix, bool embedUntrackedSources)
+    static (Dictionary<string, Dictionary<string, long>> assemblySizes, Dictionary<string, long> sourceSizes) MeasureAllVariants(string baseDir)
     {
-        var projectDir = Path.Combine(baseDir, suffix);
+        var projectDir = Path.Combine(baseDir, "build");
         Directory.CreateDirectory(projectDir);
-
-        var embedProperty = embedUntrackedSources ? "<EmbedUntrackedSources>true</EmbedUntrackedSources>" : "";
 
         // Build all variants and collect sizes
         var allSizes = new Dictionary<string, Dictionary<string, long>>();
+        var sourceSizes = new Dictionary<string, long>();
 
-        Console.WriteLine("  Building without polyfill.. .");
-        allSizes["without"] = BuildAllFrameworksAndMeasure(projectDir, "without", embedProperty, polyfillImport: false, polyOptions: "");
+        Console.WriteLine("  Building without polyfill...");
+        (allSizes["without"], sourceSizes["without"]) = BuildAllFrameworksAndMeasure(projectDir, "without", polyfillImport: false, polyOptions: "");
 
-        Console.WriteLine("  Building with polyfill.. .");
-        allSizes["with"] = BuildAllFrameworksAndMeasure(projectDir, "with", embedProperty, polyfillImport: true, polyOptions: "<PolyEnsure>false</PolyEnsure><PolyArgumentExceptions>false</PolyArgumentExceptions><PolyStringInterpolation>false</PolyStringInterpolation><PolyNullability>false</PolyNullability>");
+        Console.WriteLine("  Building with polyfill...");
+        (allSizes["with"], sourceSizes["with"]) = BuildAllFrameworksAndMeasure(projectDir, "with", polyfillImport: true, polyOptions: "<PolyEnsure>false</PolyEnsure><PolyArgumentExceptions>false</PolyArgumentExceptions><PolyStringInterpolation>false</PolyStringInterpolation><PolyNullability>false</PolyNullability>");
 
         Console.WriteLine("  Building with PolyEnsure...");
-        allSizes["ensure"] = BuildAllFrameworksAndMeasure(projectDir, "ensure", embedProperty, polyfillImport: true, polyOptions: "<PolyEnsure>true</PolyEnsure>");
+        (allSizes["ensure"], sourceSizes["ensure"]) = BuildAllFrameworksAndMeasure(projectDir, "ensure", polyfillImport: true, polyOptions: "<PolyEnsure>true</PolyEnsure>");
 
         Console.WriteLine("  Building with PolyArgumentExceptions...");
-        allSizes["argex"] = BuildAllFrameworksAndMeasure(projectDir, "argex", embedProperty, polyfillImport: true, polyOptions: "<PolyArgumentExceptions>true</PolyArgumentExceptions>");
+        (allSizes["argex"], sourceSizes["argex"]) = BuildAllFrameworksAndMeasure(projectDir, "argex", polyfillImport: true, polyOptions: "<PolyArgumentExceptions>true</PolyArgumentExceptions>");
 
         Console.WriteLine("  Building with PolyStringInterpolation...");
-        allSizes["stringinterp"] = BuildAllFrameworksAndMeasure(projectDir, "stringinterp", embedProperty, polyfillImport: true, polyOptions: "<PolyStringInterpolation>true</PolyStringInterpolation>");
+        (allSizes["stringinterp"], sourceSizes["stringinterp"]) = BuildAllFrameworksAndMeasure(projectDir, "stringinterp", polyfillImport: true, polyOptions: "<PolyStringInterpolation>true</PolyStringInterpolation>");
 
         Console.WriteLine("  Building with PolyNullability...");
-        allSizes["nullability"] = BuildAllFrameworksAndMeasure(projectDir, "nullability", embedProperty, polyfillImport: true, polyOptions: "<PolyNullability>true</PolyNullability>");
+        (allSizes["nullability"], sourceSizes["nullability"]) = BuildAllFrameworksAndMeasure(projectDir, "nullability", polyfillImport: true, polyOptions: "<PolyNullability>true</PolyNullability>");
 
-        return allSizes;
+        return (allSizes, sourceSizes);
     }
 
-    static Dictionary<string, long> BuildAllFrameworksAndMeasure(string projectDir, string variant, string embedProperty, bool polyfillImport, string polyOptions)
+    static (Dictionary<string, long> assemblySizes, long sourceSize) BuildAllFrameworksAndMeasure(string projectDir, string variant, bool polyfillImport, string polyOptions)
     {
         var variantDir = Path.Combine(projectDir, variant);
         Directory.CreateDirectory(variantDir);
@@ -100,6 +98,29 @@ public class AssemblySizeTest
         // Go up from bin/Debug/net10.0 to src, then into Polyfill
         var polyfillDir = Path.GetFullPath(Path.Combine(assemblyDir, "..", "..", "..", "..", "Polyfill"));
         var polyfillTargetsPath = Path.Combine(polyfillDir, "Polyfill.targets");
+
+        // Calculate source file size based on what's included
+        long sourceSize = 0;
+        if (polyfillImport)
+        {
+            // Get all source files
+            var allFiles = Directory.GetFiles(polyfillDir, "*.cs", SearchOption.AllDirectories)
+                .Where(f => !f.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}") &&
+                           !f.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}"))
+                .ToList();
+
+            // Exclude directories based on polyOptions (matching Polyfill.targets logic)
+            if (!polyOptions.Contains("<PolyEnsure>true</PolyEnsure>"))
+                allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}Ensure{Path.DirectorySeparatorChar}")).ToList();
+            if (!polyOptions.Contains("<PolyArgumentExceptions>true</PolyArgumentExceptions>"))
+                allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}ArgumentExceptions{Path.DirectorySeparatorChar}")).ToList();
+            if (!polyOptions.Contains("<PolyStringInterpolation>true</PolyStringInterpolation>"))
+                allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}StringInterpolation{Path.DirectorySeparatorChar}")).ToList();
+            if (!polyOptions.Contains("<PolyNullability>true</PolyNullability>"))
+                allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}Nullability{Path.DirectorySeparatorChar}")).ToList();
+
+            sourceSize = allFiles.Sum(f => new FileInfo(f).Length);
+        }
 
         // Include Polyfill source files before the targets (which use Remove to exclude based on options)
         var polyfillSourceIncludes = polyfillImport
@@ -141,7 +162,6 @@ public class AssemblySizeTest
                           <LangVersion>preview</LangVersion>
                           <DebugType>embedded</DebugType>
                           <DebugSymbols>true</DebugSymbols>
-                          {embedProperty}
                           {polyOptions}
                         </PropertyGroup>
                         {packageReferences}
@@ -210,7 +230,7 @@ public class AssemblySizeTest
             }
         }
 
-        return sizes;
+        return (sizes, sourceSize);
     }
 
     static List<SizeResult> ConvertToSizeResults(Dictionary<string, Dictionary<string, long>> allSizes)
@@ -228,6 +248,27 @@ public class AssemblySizeTest
                 SizeWithArgumentExceptions = allSizes["argex"].GetValueOrDefault(framework, -1),
                 SizeWithStringInterpolation = allSizes["stringinterp"].GetValueOrDefault(framework, -1),
                 SizeWithNullability = allSizes["nullability"].GetValueOrDefault(framework, -1)
+            });
+        }
+
+        return results;
+    }
+
+    static List<SizeResult> ConvertToSizeResultsWithEmbed(Dictionary<string, Dictionary<string, long>> allSizes, Dictionary<string, long> sourceSizes)
+    {
+        var results = new List<SizeResult>();
+
+        foreach (var framework in TargetFrameworks)
+        {
+            results.Add(new SizeResult
+            {
+                TargetFramework = framework,
+                SizeWithoutPolyfill = allSizes["without"].GetValueOrDefault(framework, -1) + sourceSizes["without"],
+                SizeWithPolyfill = allSizes["with"].GetValueOrDefault(framework, -1) + sourceSizes["with"],
+                SizeWithEnsure = allSizes["ensure"].GetValueOrDefault(framework, -1) + sourceSizes["ensure"],
+                SizeWithArgumentExceptions = allSizes["argex"].GetValueOrDefault(framework, -1) + sourceSizes["argex"],
+                SizeWithStringInterpolation = allSizes["stringinterp"].GetValueOrDefault(framework, -1) + sourceSizes["stringinterp"],
+                SizeWithNullability = allSizes["nullability"].GetValueOrDefault(framework, -1) + sourceSizes["nullability"]
             });
         }
 
