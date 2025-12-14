@@ -8,12 +8,12 @@ partial class PolyfillTests
         var result = new byte[2];
         var memory = new Memory<byte>(result);
         var read = await stream.ReadAsync(memory);
-        Assert.AreEqual(2, read);
-        Assert.IsTrue(input.SequenceEqual(result));
+        await Assert.That(read).IsEqualTo(2);
+        await Assert.That(input.SequenceEqual(result)).IsTrue();
     }
 
     [Test]
-    public void Read_FillsBuffer_ReturnsBufferLength()
+    public async Task Read_FillsBuffer_ReturnsBufferLength()
     {
         var data = new byte[] {1, 2, 3, 4};
         using var stream = new MemoryStream(data);
@@ -21,12 +21,12 @@ partial class PolyfillTests
 
         var read = stream.Read(buffer);
 
-        Assert.AreEqual(4, read);
-        Assert.AreEqual(data, buffer);
+        await Assert.That(read).IsEqualTo(4);
+        await Assert.That(buffer.SequenceEqual(data)).IsTrue();
     }
 
     [Test]
-    public void Read_PartialBuffer_ReturnsBytesRead()
+    public async Task Read_PartialBuffer_ReturnsBytesRead()
     {
         var data = new byte[] {1, 2, 3, 4};
         using var stream = new MemoryStream(data);
@@ -34,12 +34,12 @@ partial class PolyfillTests
 
         var read = stream.Read(buffer);
 
-        Assert.AreEqual(2, read);
-        Assert.AreEqual(new byte[] {1, 2}, buffer);
+        await Assert.That(read).IsEqualTo(2);
+        await Assert.That(buffer.SequenceEqual(new byte[] {1, 2})).IsTrue();
     }
 
     [Test]
-    public void Read_EmptyBuffer_ReturnsZero()
+    public async Task Read_EmptyBuffer_ReturnsZero()
     {
         var data = new byte[] {1, 2, 3, 4};
         using var stream = new MemoryStream(data);
@@ -47,22 +47,22 @@ partial class PolyfillTests
 
         var read = stream.Read(buffer);
 
-        Assert.AreEqual(0, read);
+        await Assert.That(read).IsEqualTo(0);
     }
 
     [Test]
-    public void Read_EmptyStream_ReturnsZero()
+    public async Task Read_EmptyStream_ReturnsZero()
     {
         using var stream = new MemoryStream([]);
         var buffer = new byte[4];
 
         var read = stream.Read(buffer);
 
-        Assert.AreEqual(0, read);
+        await Assert.That(read).IsEqualTo(0);
     }
 
     [Test]
-    public void ReadExactly_ReadsExactBytes()
+    public async Task ReadExactly_ReadsExactBytes()
     {
         var data = new byte[] {1, 2, 3, 4, 5};
         using var stream = new MemoryStream(data);
@@ -70,7 +70,7 @@ partial class PolyfillTests
 
         stream.ReadExactly(buffer, 0, 5);
 
-        Assert.AreEqual(data, buffer);
+        await Assert.That(buffer.SequenceEqual(data)).IsTrue();
     }
 
     [Test]
@@ -82,18 +82,18 @@ partial class PolyfillTests
 
         await stream.ReadExactlyAsync(buffer, 0, 5);
 
-        Assert.AreEqual(data, buffer);
+        await Assert.That(buffer.SequenceEqual(data)).IsTrue();
     }
 
     [Test]
-    public void ReadExactly_WithOffsetAndCount_ReadsCorrectBytes()
+    public async Task ReadExactly_WithOffsetAndCount_ReadsCorrectBytes()
     {
         var data = new byte[] {10, 20, 30, 40, 50};
         using var stream = new MemoryStream(data);
         var buffer = new byte[10];
         stream.ReadExactly(buffer, 2, 5);
 
-        Assert.AreEqual(new byte[] {0, 0, 10, 20, 30, 40, 50, 0, 0, 0}, buffer);
+        await Assert.That(buffer.SequenceEqual(new byte[] {0, 0, 10, 20, 30, 40, 50, 0, 0, 0})).IsTrue();
     }
 
     [Test]
@@ -104,57 +104,57 @@ partial class PolyfillTests
         var buffer = new byte[10];
         await stream.ReadExactlyAsync(buffer, 2, 5);
 
-        Assert.AreEqual(new byte[] {0, 0, 10, 20, 30, 40, 50, 0, 0, 0}, buffer);
+        await Assert.That(buffer.SequenceEqual(new byte[] {0, 0, 10, 20, 30, 40, 50, 0, 0, 0})).IsTrue();
     }
 
     [Test]
-    public void ReadExactly_ThrowsOnEndOfStream()
+    public async Task ReadExactly_ThrowsOnEndOfStream()
     {
         var data = new byte[] {1, 2, 3};
         using var stream = new MemoryStream(data);
         var buffer = new byte[5];
 
-        Assert.Throws<EndOfStreamException>(() =>
-            stream.ReadExactly(buffer, 0, 5));
-        Assert.ThrowsAsync<EndOfStreamException>(async () =>
-            await stream.ReadExactlyAsync(buffer, 0, 5));
+        await Assert.That(() =>
+            stream.ReadExactly(buffer, 0, 5)).Throws<EndOfStreamException>();
+        await Assert.That(async () =>
+            await stream.ReadExactlyAsync(buffer, 0, 5)).Throws<EndOfStreamException>();
     }
 
     [Test]
-    public void ReadExactly_ThrowsOnNullBuffer()
+    public async Task ReadExactly_ThrowsOnNullBuffer()
     {
         using var stream = new MemoryStream(new byte[1]);
-        Assert.Throws<ArgumentNullException>(() =>
-            stream.ReadExactly(null!, 0, 1));
-        Assert.ThrowsAsync<ArgumentNullException>(async () =>
-            await stream.ReadExactlyAsync(null!, 0, 1));
+        await Assert.That(() =>
+            stream.ReadExactly(null!, 0, 1)).Throws<ArgumentNullException>();
+        await Assert.That(async () =>
+            await stream.ReadExactlyAsync(null!, 0, 1)).Throws<ArgumentNullException>();
     }
 
     [Test]
-    public void ReadExactly_ThrowsOnNegativeOffset()
-    {
-        using var stream = new MemoryStream(new byte[1]);
-        var buffer = new byte[1];
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            stream.ReadExactly(buffer, -1, 1));
-        Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () =>
-            await stream.ReadExactlyAsync(buffer, -1, 1));
-    }
-
-    [Test]
-    public void ReadExactly_ThrowsOnInvalidCount()
+    public async Task ReadExactly_ThrowsOnNegativeOffset()
     {
         using var stream = new MemoryStream(new byte[1]);
         var buffer = new byte[1];
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            stream.ReadExactly(buffer, 0, 2));
-        Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () =>
-            await stream.ReadExactlyAsync(buffer, 0, 2));
+        await Assert.That(() =>
+            stream.ReadExactly(buffer, -1, 1)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(async () =>
+            await stream.ReadExactlyAsync(buffer, -1, 1)).Throws<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
+    public async Task ReadExactly_ThrowsOnInvalidCount()
+    {
+        using var stream = new MemoryStream(new byte[1]);
+        var buffer = new byte[1];
+        await Assert.That(() =>
+            stream.ReadExactly(buffer, 0, 2)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(async () =>
+            await stream.ReadExactlyAsync(buffer, 0, 2)).Throws<ArgumentOutOfRangeException>();
     }
 
 #if FeatureMemory
     [Test]
-    public void ReadExactlySpan_ReadsExactBytes()
+    public async Task ReadExactlySpan_ReadsExactBytes()
     {
         var data = new byte[] {1, 2, 3, 4, 5};
         using var stream = new MemoryStream(data);
@@ -162,25 +162,25 @@ partial class PolyfillTests
 
         stream.ReadExactly(buffer);
 
-        Assert.IsTrue(buffer.SequenceEqual(data));
+        await Assert.That(buffer.SequenceEqual(data)).IsTrue();
     }
 
     [Test]
-    public void ReadExactlySpan_ThrowsOnEndOfStream()
+    public async Task ReadExactlySpan_ThrowsOnEndOfStream()
     {
         var data = new byte[] {1, 2, 3};
         using var stream = new MemoryStream(data);
 
-        Assert.Throws<EndOfStreamException>(() =>
+        await Assert.That(() =>
         {
             var buffer = new byte[5].AsSpan();
             stream.ReadExactly(buffer);
-        });
-        Assert.ThrowsAsync<EndOfStreamException>(async () =>
+        }).Throws<EndOfStreamException>();
+        await Assert.That(async () =>
         {
             var buffer = new byte[5].AsMemory();
             await stream.ReadExactlyAsync(buffer);
-        });
+        }).Throws<EndOfStreamException>();
     }
 
     [Test]
@@ -194,7 +194,7 @@ partial class PolyfillTests
     }
 
     [Test]
-    public void ReadAtLeast_ReadsMinimumBytes()
+    public async Task ReadAtLeast_ReadsMinimumBytes()
     {
         var data = new byte[] {1, 2, 3, 4, 5};
         using var stream = new MemoryStream(data);
@@ -202,8 +202,8 @@ partial class PolyfillTests
 
         var read = stream.ReadAtLeast(buffer, 3);
 
-        Assert.AreEqual(5, read);
-        Assert.IsTrue(buffer.AsSpan().SequenceEqual(data));
+        await Assert.That(read).IsEqualTo(5);
+        await Assert.That(buffer.AsSpan().SequenceEqual(data)).IsTrue();
     }
 
     [Test]
@@ -215,12 +215,12 @@ partial class PolyfillTests
 
         var read = await stream.ReadAtLeastAsync(buffer, 3);
 
-        Assert.AreEqual(5, read);
-        Assert.IsTrue(buffer.AsSpan().SequenceEqual(data));
+        await Assert.That(read).IsEqualTo(5);
+        await Assert.That(buffer.AsSpan().SequenceEqual(data)).IsTrue();
     }
 
     [Test]
-    public void ReadAtLeast_ReadsPartialAndReturnsTotalRead()
+    public async Task ReadAtLeast_ReadsPartialAndReturnsTotalRead()
     {
         var data = new byte[] {1, 2, 3};
         using var stream = new MemoryStream(data);
@@ -228,8 +228,8 @@ partial class PolyfillTests
 
         var read = stream.ReadAtLeast(buffer, 2, throwOnEndOfStream: false);
 
-        Assert.AreEqual(3, read);
-        Assert.IsTrue(buffer.AsSpan(0, 3).SequenceEqual(data));
+        await Assert.That(read).IsEqualTo(3);
+        await Assert.That(buffer.AsSpan(0, 3).SequenceEqual(data)).IsTrue();
     }
 
     [Test]
@@ -241,21 +241,21 @@ partial class PolyfillTests
 
         var read = await stream.ReadAtLeastAsync(buffer, 2, throwOnEndOfStream: false);
 
-        Assert.AreEqual(3, read);
-        Assert.IsTrue(buffer.AsSpan(0, 3).SequenceEqual(data));
+        await Assert.That(read).IsEqualTo(3);
+        await Assert.That(buffer.AsSpan(0, 3).SequenceEqual(data)).IsTrue();
     }
 
     [Test]
-    public void ReadAtLeast_ThrowsOnEndOfStream_WhenThrowOnEndOfStreamTrue()
+    public async Task ReadAtLeast_ThrowsOnEndOfStream_WhenThrowOnEndOfStreamTrue()
     {
         var data = new byte[] {1, 2, 3};
         using var stream = new MemoryStream(data);
         var buffer = new byte[5];
 
-        Assert.Throws<EndOfStreamException>(() =>
-            stream.ReadAtLeast(buffer, 4, throwOnEndOfStream: true));
-        Assert.ThrowsAsync<EndOfStreamException>(async () =>
-            await stream.ReadAtLeastAsync(buffer, 4, throwOnEndOfStream: true));
+        await Assert.That(() =>
+            stream.ReadAtLeast(buffer, 4, throwOnEndOfStream: true)).Throws<EndOfStreamException>();
+        await Assert.That(async () =>
+            await stream.ReadAtLeastAsync(buffer, 4, throwOnEndOfStream: true)).Throws<EndOfStreamException>();
     }
 
     [Test]
@@ -266,36 +266,36 @@ partial class PolyfillTests
 
         var read = stream.ReadAtLeast(buffer, 0);
 
-        Assert.AreEqual(0, read);
+        await Assert.That(read).IsEqualTo(0);
 
         await stream.ReadAtLeastAsync(buffer, 0);
 
-        Assert.AreEqual(0, read);
+        await Assert.That(read).IsEqualTo(0);
     }
 
     [Test]
-    public void ReadAtLeast_ThrowsOnNegativeMinimumBytes()
+    public async Task ReadAtLeast_ThrowsOnNegativeMinimumBytes()
     {
         using var stream = new MemoryStream(new byte[1]);
         var buffer = new byte[1];
 
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            stream.ReadAtLeast(buffer, -1));
-        Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () =>
-            await stream.ReadAtLeastAsync(buffer, -1));
+        await Assert.That(() =>
+            stream.ReadAtLeast(buffer, -1)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(async () =>
+            await stream.ReadAtLeastAsync(buffer, -1)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void ReadAtLeast_ThrowsWhenMinimumGreaterThanBufferLength()
+    public async Task ReadAtLeast_ThrowsWhenMinimumGreaterThanBufferLength()
     {
         using var stream = new MemoryStream(new byte[1]);
         var buffer = new byte[1];
 
-        Assert.Throws<ArgumentOutOfRangeException>(() =>
-            stream.ReadAtLeast(buffer, 2));
+        await Assert.That(() =>
+            stream.ReadAtLeast(buffer, 2)).Throws<ArgumentOutOfRangeException>();
 
-        Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () =>
-            await stream.ReadAtLeastAsync(buffer, 2));
+        await Assert.That(async () =>
+            await stream.ReadAtLeastAsync(buffer, 2)).Throws<ArgumentOutOfRangeException>();
     }
 #endif
 }

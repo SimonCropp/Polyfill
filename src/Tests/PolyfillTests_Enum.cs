@@ -1,43 +1,43 @@
 partial class PolyfillTests
 {
     [Test]
-    public void EnumGetValues()
+    public async Task EnumGetValues()
     {
         var dayOfWeeks = Enum.GetValues<DayOfWeek>();
-        Assert.AreEqual(DayOfWeek.Sunday, dayOfWeeks[0]);
+        await Assert.That(dayOfWeeks[0]).IsEqualTo(DayOfWeek.Sunday);
     }
 
     [Test]
-    public void EnumGetNames()
+    public async Task EnumGetNames()
     {
         var dayOfWeeks = Enum.GetNames<DayOfWeek>();
-        Assert.AreEqual("Sunday", dayOfWeeks[0]);
+        await Assert.That(dayOfWeeks[0]).IsEqualTo("Sunday");
     }
 
     [Test]
-    public void Parse()
+    public async Task Parse()
     {
         var dayOfWeek = Enum.Parse<DayOfWeek>("Sunday");
-        Assert.AreEqual(DayOfWeek.Sunday, dayOfWeek);
+        await Assert.That(dayOfWeek).IsEqualTo(DayOfWeek.Sunday);
 
-        Assert.Throws<ArgumentException>(() => Enum.Parse<DayOfWeek>("a"));
+        await Assert.That(() => Enum.Parse<DayOfWeek>("a")).Throws<ArgumentException>();
 
         dayOfWeek = Enum.Parse<DayOfWeek>("sunday", true);
-        Assert.AreEqual(DayOfWeek.Sunday, dayOfWeek);
+        await Assert.That(dayOfWeek).IsEqualTo(DayOfWeek.Sunday);
 
-        Assert.Throws<ArgumentException>(() => Enum.Parse<DayOfWeek>("a", true));
+        await Assert.That(() => Enum.Parse<DayOfWeek>("a", true)).Throws<ArgumentException>();
 
 #if FeatureMemory
 
         dayOfWeek = Enum.Parse<DayOfWeek>("Sunday".AsSpan());
-        Assert.AreEqual(DayOfWeek.Sunday, dayOfWeek);
+        await Assert.That(dayOfWeek).IsEqualTo(DayOfWeek.Sunday);
 
-        Assert.Throws<ArgumentException>(() => Enum.Parse<DayOfWeek>("a".AsSpan()));
+        await Assert.That(() => Enum.Parse<DayOfWeek>("a".AsSpan())).Throws<ArgumentException>();
 
         dayOfWeek = Enum.Parse<DayOfWeek>("sunday".AsSpan(), true);
-        Assert.AreEqual(DayOfWeek.Sunday, dayOfWeek);
+        await Assert.That(dayOfWeek).IsEqualTo(DayOfWeek.Sunday);
 
-        Assert.Throws<ArgumentException>(() => Enum.Parse<DayOfWeek>("a".AsSpan(), true));
+        await Assert.That(() => Enum.Parse<DayOfWeek>("a".AsSpan(), true)).Throws<ArgumentException>();
 
 #endif
     }
@@ -45,44 +45,53 @@ partial class PolyfillTests
 #if FeatureMemory
 
     [Test]
-    public void TryParse()
+    public async Task TryParse()
     {
         var result = Enum.TryParse<DayOfWeek>("Sunday".AsSpan(), out var dayOfWeek);
-        Assert.AreEqual(DayOfWeek.Sunday, dayOfWeek);
-        Assert.True(result);
+        await Assert.That(dayOfWeek).IsEqualTo(DayOfWeek.Sunday);
+        await Assert.That(result).IsTrue();
 
         result = Enum.TryParse<DayOfWeek>("sunday".AsSpan(), true, out dayOfWeek);
-        Assert.AreEqual(DayOfWeek.Sunday, dayOfWeek);
-        Assert.True(result);
+        await Assert.That(dayOfWeek).IsEqualTo(DayOfWeek.Sunday);
+        await Assert.That(result).IsTrue();
     }
 
     enum Colors { Red, Green, Blue }
 
     [Test]
-    public void EnumTryFormat_ValidValue()
+    public Task EnumTryFormat_ValidValue()
     {
         Span<char> buffer = stackalloc char[10];
         var result = Enum.TryFormat(Colors.Green, buffer, out var charsWritten);
-        Assert.IsTrue(result);
-        Assert.AreEqual("Green", buffer[..charsWritten].ToString());
+        if (!result)
+            throw new Exception("Expected result to be true");
+        if (buffer[..charsWritten].ToString() != "Green")
+            throw new Exception($"Expected 'Green' but got '{buffer[..charsWritten].ToString()}'");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void EnumTryFormat_BufferTooSmall()
+    public Task EnumTryFormat_BufferTooSmall()
     {
         Span<char> buffer = stackalloc char[3];
         var result = Enum.TryFormat(Colors.Blue, buffer, out var charsWritten);
-        Assert.IsFalse(result);
-        Assert.AreEqual(0, charsWritten);
+        if (result)
+            throw new Exception("Expected result to be false");
+        if (charsWritten != 0)
+            throw new Exception($"Expected 0 but got {charsWritten}");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void EnumTryFormat_WithFormatSpecifier()
+    public Task EnumTryFormat_WithFormatSpecifier()
     {
         Span<char> buffer = stackalloc char[10];
         var result = Enum.TryFormat(Colors.Red, buffer, out var charsWritten, "G");
-        Assert.IsTrue(result);
-        Assert.AreEqual("Red", buffer[..charsWritten].ToString());
+        if (!result)
+            throw new Exception("Expected result to be true");
+        if (buffer[..charsWritten].ToString() != "Red")
+            throw new Exception($"Expected 'Red' but got '{buffer[..charsWritten].ToString()}'");
+        return Task.CompletedTask;
     }
 
 #endif

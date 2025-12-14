@@ -3,18 +3,18 @@ partial class PolyfillTests
     public static event EventHandler? EventForHasSingleTarget;
 
     [Test]
-    public void HasSingleTarget()
+    public async Task HasSingleTarget()
     {
         EventForHasSingleTarget += Handler;
-        Assert.IsTrue(EventForHasSingleTarget.HasSingleTarget);
+        await Assert.That(EventForHasSingleTarget.HasSingleTarget).IsTrue();
         EventForHasSingleTarget += Handler;
-        Assert.IsFalse(EventForHasSingleTarget.HasSingleTarget);
+        await Assert.That(EventForHasSingleTarget.HasSingleTarget).IsFalse();
         var action = () =>
         {
         };
-        Assert.IsTrue(action.HasSingleTarget);
+        await Assert.That(action.HasSingleTarget).IsTrue();
         action += action;
-        Assert.IsFalse(action.HasSingleTarget);
+        await Assert.That(action.HasSingleTarget).IsFalse();
     }
 
     static void Handler(object? sender, EventArgs e)
@@ -24,7 +24,7 @@ partial class PolyfillTests
     public event EventHandler? EventForEnumerateInvocationList;
 
     [Test]
-    public void EnumerateInvocationList()
+    public async Task EnumerateInvocationList()
     {
         var count = 0;
 
@@ -35,11 +35,11 @@ partial class PolyfillTests
             item(this, EventArgs.Empty);
         }
 
-        Assert.AreEqual(1, count);
+        await Assert.That(count).IsEqualTo(1);
     }
 
     [Test]
-    public void NullEnumerateInvocationList()
+    public async Task NullEnumerateInvocationList()
     {
         var count = 0;
 
@@ -48,6 +48,6 @@ partial class PolyfillTests
             item(this, EventArgs.Empty);
         }
 
-        Assert.AreEqual(0, count);
+        await Assert.That(count).IsEqualTo(0);
     }
 }

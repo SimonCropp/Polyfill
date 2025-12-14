@@ -1,25 +1,25 @@
 partial class PolyfillTests
 {
-    [Test, RequiresThread]
-    [TestCase(0)]  // poll
-    [TestCase(10)] // real timeout
-    public void Process_CurrentProcess_WaitAsyncNeverCompletes(int milliseconds)
+    [Test]
+    [Arguments(0)]  // poll
+    [Arguments(10)] // real timeout
+    public async Task Process_CurrentProcess_WaitAsyncNeverCompletes(int milliseconds)
     {
         using var cancelSource = new CancelSource(milliseconds);
         var cancel = cancelSource.Token;
         var process = Process.GetCurrentProcess();
 
-        var ex = Assert.CatchAsync(() => process.WaitForExitAsync(cancel)) as OperationCanceledException;
+        var ex = await Assert.That(async () => await process.WaitForExitAsync(cancel)).Throws<OperationCanceledException>();
 
-        Assert.IsNotNull(ex);
-        Assert.AreEqual(cancel, ex!.CancellationToken);
-        Assert.False(process.HasExited);
+        await Assert.That(ex).IsNotNull();
+        await Assert.That(ex.CancellationToken).IsEqualTo(cancel);
+        await Assert.That(process.HasExited).IsFalse();
     }
 
-    [Test, RequiresThread]
-    public void Process_WaitForExitAsync_NotDirected_ThrowsInvalidOperationException()
+    [Test]
+    public async Task Process_WaitForExitAsync_NotDirected_ThrowsInvalidOperationException()
     {
         var process = new Process();
-        Assert.ThrowsAsync<InvalidOperationException>(async () => await process.WaitForExitAsync());
+        await Assert.That(async () => await process.WaitForExitAsync()).Throws<InvalidOperationException>();
     }
 }

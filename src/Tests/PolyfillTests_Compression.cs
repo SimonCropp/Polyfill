@@ -4,7 +4,7 @@ using System.IO.Compression;
 partial class PolyfillTests
 {
     [Test]
-    public void ExtractToDirectory_Extracts_All_Entries()
+    public async Task ExtractToDirectory_Extracts_All_Entries()
     {
         using var memStream = new MemoryStream();
         using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
@@ -23,8 +23,8 @@ partial class PolyfillTests
         {
             extractArchive.ExtractToDirectory(tempDir, overwriteFiles: false);
             var filePath = Path.Combine(tempDir, "test.txt");
-            Assert.True(File.Exists(filePath));
-            Assert.AreEqual("content", File.ReadAllText(filePath));
+            await Assert.That(File.Exists(filePath)).IsTrue();
+            await Assert.That(File.ReadAllText(filePath)).IsEqualTo("content");
         }
         finally
         {
@@ -33,7 +33,7 @@ partial class PolyfillTests
     }
 
     [Test]
-    public void ExtractToDirectory_Overwrites_Existing_File_When_True()
+    public async Task ExtractToDirectory_Overwrites_Existing_File_When_True()
     {
         using var memStream = new MemoryStream();
         using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
@@ -53,7 +53,7 @@ partial class PolyfillTests
         try
         {
             extractArchive.ExtractToDirectory(tempDir, overwriteFiles: true);
-            Assert.AreEqual("new content", File.ReadAllText(filePath));
+            await Assert.That(File.ReadAllText(filePath)).IsEqualTo("new content");
         }
         finally
         {

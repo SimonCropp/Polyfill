@@ -1,7 +1,7 @@
 partial class PolyfillTests
 {
     [Test]
-    public void ConcurrentDictionaryGetOrAddFunc()
+    public async Task ConcurrentDictionaryGetOrAddFunc()
     {
         var dictionary = new ConcurrentDictionary<string, int>();
 
@@ -9,10 +9,10 @@ partial class PolyfillTests
 
         var value = dictionary.GetOrAdd("Hello", valueFactory, "World");
 
-        Assert.AreEqual(5, value);
+        await Assert.That(value).IsEqualTo(5);
 
         value = dictionary.GetOrAdd("Hello", valueFactory, "Universe");
 
-        Assert.AreEqual(5, value);
+        await Assert.That(value).IsEqualTo(5);
     }
 }
