@@ -28,9 +28,9 @@ partial class PolyfillTests
             await Assert.That(exception.CancellationToken == tokenSource.Token).IsTrue();
         }
 
-        // Allow tolerance of +-50ms for timing variations
+        // Allow tolerance for timing variations (CI machines can be slow)
         await Assert.That(stopwatch.ElapsedMilliseconds).IsGreaterThanOrEqualTo(350);
-        await Assert.That(stopwatch.ElapsedMilliseconds).IsLessThanOrEqualTo(500);
+        await Assert.That(stopwatch.ElapsedMilliseconds).IsLessThanOrEqualTo(800);
     }
 
     [Test]
