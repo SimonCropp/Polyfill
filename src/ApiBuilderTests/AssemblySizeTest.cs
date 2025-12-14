@@ -32,18 +32,34 @@ public class AssemblySizeTest
         var tempDir = Path.Combine(Path.GetTempPath(), $"PolyfillSizeTest_{Guid.NewGuid():N}");
         Directory.CreateDirectory(tempDir);
 
+        // Initialize git repo so files are "untracked" for EmbedUntrackedSources
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = "git",
+            Arguments = "init",
+            WorkingDirectory = tempDir,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        })!.WaitForExit();
+
         try
         {
-            var results = new List<SizeResult>();
-            var resultsWithEmbed = new List<SizeResult>();
-
             Console.WriteLine("Building without EmbedUntrackedSources...");
             var sizesWithoutEmbed = MeasureAllVariants(tempDir, "no_embed", embedUntrackedSources: false);
-            results = ConvertToSizeResults(sizesWithoutEmbed);
+            var results = ConvertToSizeResults(sizesWithoutEmbed);
 
             Console.WriteLine("Building with EmbedUntrackedSources...");
             var sizesWithEmbed = MeasureAllVariants(tempDir, "with_embed", embedUntrackedSources: true);
-            resultsWithEmbed = ConvertToSizeResults(sizesWithEmbed);
+            var resultsWithEmbed = ConvertToSizeResults(sizesWithEmbed);
+
+            // Verify EmbedUntrackedSources results in larger assemblies
+            for (var i = 0; i < results.Count; i++)
+            {
+                var noEmbed = results[i];
+                var withEmbed = resultsWithEmbed[i];
+                Debug.Assert(withEmbed.SizeWithPolyfill > noEmbed.SizeWithPolyfill,
+                    $"EmbedUntrackedSources should result in larger assembly for {noEmbed.TargetFramework}: with={withEmbed.SizeWithPolyfill}, without={noEmbed.SizeWithPolyfill}");
+            }
 
             // Generate markdown
             var mdPath = Path.Combine(ProjectFiles.SolutionDirectory, "..", "assemblySize.include.md");
@@ -282,12 +298,12 @@ public class AssemblySizeTest
 
     class SizeResult
     {
-        public string TargetFramework { get; set; } = "";
-        public long SizeWithoutPolyfill { get; set; }
-        public long SizeWithPolyfill { get; set; }
-        public long SizeWithEnsure { get; set; }
-        public long SizeWithArgumentExceptions { get; set; }
-        public long SizeWithStringInterpolation { get; set; }
-        public long SizeWithNullability { get; set; }
+        public string TargetFramework { get; init; } = "";
+        public long SizeWithoutPolyfill { get; init; }
+        public long SizeWithPolyfill { get; init; }
+        public long SizeWithEnsure { get; init; }
+        public long SizeWithArgumentExceptions { get; init; }
+        public long SizeWithStringInterpolation { get; init; }
+        public long SizeWithNullability { get; init; }
     }
 }
