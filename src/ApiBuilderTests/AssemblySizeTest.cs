@@ -288,8 +288,8 @@ public class AssemblySizeTest
     {
         writer.WriteLine($"### {title}");
         writer.WriteLine();
-        writer.WriteLine("|                | Empty&nbsp;Assembly | With&nbsp;Polyfill | Diff | Ensure | ArgumentExceptions | StringInterpolation | Nullability |");
-        writer.WriteLine("|----------------|-----------------|---------------|------|--------|--------------------|---------------------|-------------|");
+        writer.WriteLine("|                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |");
+        writer.WriteLine("|----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|");
 
         foreach (var result in results)
         {
@@ -302,7 +302,7 @@ public class AssemblySizeTest
             Debug.Assert(sizeDiffEnsure > 0, $"sizeDiffEnsure should be positive for {result.TargetFramework}, but was {sizeDiffEnsure}");
             Debug.Assert(sizeDiffNullability > 0, $"sizeDiffNullability should be positive for {result.TargetFramework}, but was {sizeDiffNullability}");
 
-            writer.WriteLine($"| {result.TargetFramework,-14} | {FormatSize(result.SizeWithoutPolyfill),16} | {FormatSize(result.SizeWithPolyfill),13} | {FormatSizeDiff(sizeDiff),10} | {FormatSizeDiff(sizeDiffEnsure),10} | {FormatSizeDiff(sizeDiffArgEx),22} | {FormatSizeDiff(sizeDiffStringInterp),23} | {FormatSizeDiff(sizeDiffNullability),15} |");
+            writer.WriteLine($"| {result.TargetFramework,-14} | {FormatSize(result.SizeWithoutPolyfill),14} | {FormatSize(result.SizeWithPolyfill),13} | {FormatSizeDiff(sizeDiff),9} | {FormatSizeDiff(sizeDiffEnsure),9} | {FormatSizeDiff(sizeDiffArgEx),18} | {FormatSizeDiff(sizeDiffStringInterp),19} | {FormatSizeDiff(sizeDiffNullability),11} |");
         }
     }
 
