@@ -1,4 +1,3 @@
-[TestFixture]
 public class AssemblySizeTest
 {
     static readonly string[] TargetFrameworks =
