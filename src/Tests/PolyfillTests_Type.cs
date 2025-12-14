@@ -1,20 +1,20 @@
 partial class PolyfillTests
 {
     [Test]
-    public void IsAssignableTo()
+    public async Task IsAssignableTo()
     {
-        Assert.True(typeof(List<string>).IsAssignableTo(typeof(IList)));
-        Assert.True(typeof(List<string>).IsAssignableTo<IList>());
-        Assert.False(typeof(List<string>).IsAssignableTo(typeof(string)));
-        Assert.False(typeof(List<string>).IsAssignableTo<string>());
-        Assert.False(typeof(List<string>).IsAssignableTo(null));
+        await Assert.That(typeof(List<string>).IsAssignableTo(typeof(IList))).IsTrue();
+        await Assert.That(typeof(List<string>).IsAssignableTo<IList>()).IsTrue();
+        await Assert.That(typeof(List<string>).IsAssignableTo(typeof(string))).IsFalse();
+        await Assert.That(typeof(List<string>).IsAssignableTo<string>()).IsFalse();
+        await Assert.That(typeof(List<string>).IsAssignableTo(null)).IsFalse();
     }
 
     [Test]
-    public void IsAssignableFrom()
+    public async Task IsAssignableFrom()
     {
-        Assert.True(typeof(IList).IsAssignableFrom<List<string>>());
-        Assert.False(typeof(string).IsAssignableFrom<List<string>>());
+        await Assert.That(typeof(IList).IsAssignableFrom<List<string>>()).IsTrue();
+        await Assert.That(typeof(string).IsAssignableFrom<List<string>>()).IsFalse();
     }
 
     public class WithGenericMethod
@@ -35,13 +35,13 @@ partial class PolyfillTests
 
 #if !NETFRAMEWORK && !NETSTANDARD2_0 && !NETCOREAPP2_0
     [Test]
-    public void Type_GetMethod()
+    public async Task Type_GetMethod()
     {
         var type = typeof(WithGenericMethod);
         var method = type.GetMethod("Method", 1, BindingFlags.Public | BindingFlags.Instance, [typeof(string)])!;
-        Assert.AreEqual("Method", method.Name);
-        Assert.AreEqual(1, method.GetParameters().Length);
-        Assert.AreEqual(1, method.GetGenericArguments().Length);
+        await Assert.That(method.Name).IsEqualTo("Method");
+        await Assert.That(method.GetParameters().Length).IsEqualTo(1);
+        await Assert.That(method.GetGenericArguments().Length).IsEqualTo(1);
     }
 #endif
 }

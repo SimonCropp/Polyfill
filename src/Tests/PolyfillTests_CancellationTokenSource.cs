@@ -27,7 +27,7 @@ partial class PolyfillTests
     // }
 
     [Test]
-    public static async Task CancelSource_CancelAsync_CallbacksInvokedAsynchronously()
+    public async Task CancelSource_CancelAsync_CallbacksInvokedAsynchronously()
     {
         var cancelSource = new CancelSource();
 
@@ -35,18 +35,18 @@ partial class PolyfillTests
         cancelSource.Token.Register(resetEventSlim.Wait);
 
         var t = cancelSource.CancelAsync();
-        Assert.False(t.IsCompleted);
-        Assert.True(cancelSource.IsCancellationRequested);
+        await Assert.That(t.IsCompleted).IsFalse();
+        await Assert.That(cancelSource.IsCancellationRequested).IsTrue();
 
         // secondary call completes immediately
-        Assert.True(IsCompletedSuccessfully(cancelSource.CancelAsync()));
+        await Assert.That(IsCompletedSuccessfully(cancelSource.CancelAsync())).IsTrue();
 
         resetEventSlim.Set();
         await t;
     }
 
     [Test]
-    public static void CancelSource_CancelAsync_AllCallbacksInvoked()
+    public async Task CancelSource_CancelAsync_AllCallbacksInvoked()
     {
         const int iterations = 1000;
 
@@ -64,13 +64,13 @@ partial class PolyfillTests
         }
 
         var t = cancelSource.CancelAsync();
-        Assert.True(cancelSource.IsCancellationRequested);
+        await Assert.That(cancelSource.IsCancellationRequested).IsTrue();
 
         // synchronously block without inlining to ensure this thread isn't reused
         ((IAsyncResult) t).AsyncWaitHandle.WaitOne();
         // propagate any exceptions
         t.Wait(cancelSource.Token);
 
-        Assert.AreEqual(iterations * (iterations + 1) / 2, sum);
+        await Assert.That(sum).IsEqualTo(iterations * (iterations + 1) / 2);
     }
 }
