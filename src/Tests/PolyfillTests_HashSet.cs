@@ -1,7 +1,7 @@
 partial class PolyfillTests
 {
     [Test]
-    public void TryGetValue()
+    public async Task TryGetValue()
     {
         var value = "value";
         var set = new HashSet<string>
@@ -9,10 +9,10 @@ partial class PolyfillTests
             value
         };
         var found = set.TryGetValue("value", out var result);
-        Assert.True(found);
-        Assert.AreSame(value, result!);
+        await Assert.That(found).IsTrue();
+        await Assert.That(result!).IsEqualTo(value);
         found = set.TryGetValue("value2", out result);
-        Assert.Null(result);
-        Assert.False(found);
+        await Assert.That(result).IsNull();
+        await Assert.That(found).IsFalse();
     }
 }
