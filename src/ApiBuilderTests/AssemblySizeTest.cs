@@ -29,7 +29,7 @@ public class AssemblySizeTest
     [Explicit]
     public void MeasureAssemblySizes()
     {
-        var tempDir = Path.Combine(Path.GetTempPath(), $"PolyfillSizeTest_{Guid.NewGuid():N}");
+        var tempDir = Path.Combine(Path. GetTempPath(), $"PolyfillSizeTest_{Guid.NewGuid():N}");
         Directory.CreateDirectory(tempDir);
 
         try
@@ -37,19 +37,16 @@ public class AssemblySizeTest
             var results = new List<SizeResult>();
             var resultsWithEmbed = new List<SizeResult>();
 
-            foreach (var framework in TargetFrameworks)
-            {
-                Console.WriteLine($"Processing {framework}...");
+            Console.WriteLine("Building without EmbedUntrackedSources...");
+            var sizesWithoutEmbed = MeasureAllVariants(tempDir, "no_embed", embedUntrackedSources: false);
+            results = ConvertToSizeResults(sizesWithoutEmbed);
 
-                var result = MeasureFramework(tempDir, framework, embedUntrackedSources: false);
-                results.Add(result);
-
-                var resultWithEmbed = MeasureFramework(tempDir, framework, embedUntrackedSources: true);
-                resultsWithEmbed.Add(resultWithEmbed);
-            }
+            Console.WriteLine("Building with EmbedUntrackedSources...");
+            var sizesWithEmbed = MeasureAllVariants(tempDir, "with_embed", embedUntrackedSources:  true);
+            resultsWithEmbed = ConvertToSizeResults(sizesWithEmbed);
 
             // Generate markdown
-            var mdPath = Path.Combine(ProjectFiles.SolutionDirectory, "..", "assemblySize.include.md");
+            var mdPath = Path. Combine(ProjectFiles.SolutionDirectory, "..", "assemblySize.include.md");
             using var writer = File.CreateText(mdPath);
 
             WriteTable(writer, results, "Assembly Sizes");
@@ -63,6 +60,166 @@ public class AssemblySizeTest
         {
             Directory.Delete(tempDir, recursive: true);
         }
+    }
+
+    static Dictionary<string, Dictionary<string, long>> MeasureAllVariants(string baseDir, string suffix, bool embedUntrackedSources)
+    {
+        var projectDir = Path.Combine(baseDir, suffix);
+        Directory. CreateDirectory(projectDir);
+
+        var embedProperty = embedUntrackedSources ? "<EmbedUntrackedSources>true</EmbedUntrackedSources>" : "";
+
+        // Build all variants and collect sizes
+        var allSizes = new Dictionary<string, Dictionary<string, long>>();
+
+        Console.WriteLine("  Building without polyfill.. .");
+        allSizes["without"] = BuildAllFrameworksAndMeasure(projectDir, "without", embedProperty, polyfillImport: false, polyOptions:  "");
+
+        Console.WriteLine("  Building with polyfill.. .");
+        allSizes["with"] = BuildAllFrameworksAndMeasure(projectDir, "with", embedProperty, polyfillImport: true, polyOptions:  "");
+
+        Console.WriteLine("  Building with PolyEnsure...");
+        allSizes["ensure"] = BuildAllFrameworksAndMeasure(projectDir, "ensure", embedProperty, polyfillImport: true, polyOptions: "<PolyEnsure>true</PolyEnsure>");
+
+        Console.WriteLine("  Building with PolyArgumentExceptions...");
+        allSizes["argex"] = BuildAllFrameworksAndMeasure(projectDir, "argex", embedProperty, polyfillImport:  true, polyOptions: "<PolyArgumentExceptions>true</PolyArgumentExceptions>");
+
+        Console.WriteLine("  Building with PolyStringInterpolation...");
+        allSizes["stringinterp"] = BuildAllFrameworksAndMeasure(projectDir, "stringinterp", embedProperty, polyfillImport: true, polyOptions: "<PolyStringInterpolation>true</PolyStringInterpolation>");
+
+        Console.WriteLine("  Building with PolyNullability...");
+        allSizes["nullability"] = BuildAllFrameworksAndMeasure(projectDir, "nullability", embedProperty, polyfillImport: true, polyOptions:  "<PolyNullability>true</PolyNullability>");
+
+        return allSizes;
+    }
+
+    static Dictionary<string, long> BuildAllFrameworksAndMeasure(string projectDir, string variant, string embedProperty, bool polyfillImport, string polyOptions)
+    {
+        var variantDir = Path. Combine(projectDir, variant);
+        Directory. CreateDirectory(variantDir);
+
+        var polyfillImportLines = polyfillImport
+            ? $"""
+                 <Import Project="{ProjectFiles.SolutionDirectory}\Polyfill\Polyfill.targets" />
+               """
+            : "";
+
+        var packageReferences = polyfillImport
+            ? """
+                <ItemGroup>
+                  <PackageReference Include="System.Memory" Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" Version="4.5.5" />
+                  <PackageReference Include="System.ValueTuple" Condition="$(TargetFramework.StartsWith('net46'))" Version="4.5.0" />
+                  <PackageReference Include="System.Net.Http" Condition="$(TargetFramework.StartsWith('net4'))" Version="4.3.4" />
+                  <PackageReference Include="System.Threading.Tasks.Extensions" Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netcoreapp2.0' or '$(TargetFrameworkIdentifier)' == '.NETFramework'" Version="4.5.4" />
+                  <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Condition="$(TargetFramework.StartsWith('net4'))" Version="4.3.0" />
+                  <PackageReference Include="System.IO.Compression" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" Version="4.3.0" />
+                </ItemGroup>
+              """
+            : "";
+
+        var allFrameworks = string.Join(";", TargetFrameworks);
+
+        var csproj = $"""
+                      <Project Sdk="Microsoft.NET.Sdk">
+                        <PropertyGroup>
+                          <TargetFrameworks>{allFrameworks}</TargetFrameworks>
+                          <OutputType>Library</OutputType>
+                          <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+                          <EnableDefaultItems>false</EnableDefaultItems>
+                          <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
+                          <LangVersion>preview</LangVersion>
+                          <DebugType>embedded</DebugType>
+                          <DebugSymbols>true</DebugSymbols>
+                          {embedProperty}
+                          {polyOptions}
+                        </PropertyGroup>
+                        {packageReferences}
+                        {polyfillImportLines}
+                        <ItemGroup>
+                          <Compile Include="Class1.cs" />
+                        </ItemGroup>
+                      </Project>
+                      """;
+
+        var csprojPath = Path.Combine(variantDir, "TestProject.csproj");
+        File.WriteAllText(csprojPath, csproj);
+
+        var classFile = """
+                        public class Class1
+                        {
+                            public void Method1() { }
+                        }
+                        """;
+        File.WriteAllText(Path.Combine(variantDir, "Class1.cs"), classFile);
+
+        // Build the project once for all frameworks
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = "dotnet",
+            Arguments = "build -c Release",
+            WorkingDirectory = variantDir,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true
+        };
+
+        using var process = Process.Start(startInfo)!;
+        var output = process. StandardOutput.ReadToEnd();
+        var error = process.StandardError.ReadToEnd();
+        process.WaitForExit(120000);
+
+        if (process. ExitCode != 0)
+        {
+            throw new(
+                $"""
+                 Build failed for {variant}:
+                 {output}
+                 {error}
+                 """);
+        }
+
+        // Collect sizes from all framework DLLs
+        var sizes = new Dictionary<string, long>();
+        var binPath = Path.Combine(variantDir, "bin", "Release");
+
+        foreach (var framework in TargetFrameworks)
+        {
+            var dllPath = Path. Combine(binPath, framework, "TestProject.dll");
+            if (File.Exists(dllPath))
+            {
+                var fileInfo = new FileInfo(dllPath);
+                sizes[framework] = fileInfo.Length;
+            }
+            else
+            {
+                Console.WriteLine($"    Warning: DLL not found for {framework} at {dllPath}");
+                sizes[framework] = -1; // Mark as unavailable
+            }
+        }
+
+        return sizes;
+    }
+
+    static List<SizeResult> ConvertToSizeResults(Dictionary<string, Dictionary<string, long>> allSizes)
+    {
+        var results = new List<SizeResult>();
+
+        foreach (var framework in TargetFrameworks)
+        {
+            results. Add(new SizeResult
+            {
+                TargetFramework = framework,
+                SizeWithoutPolyfill = allSizes["without"]. GetValueOrDefault(framework, -1),
+                SizeWithPolyfill = allSizes["with"].GetValueOrDefault(framework, -1),
+                SizeWithEnsure = allSizes["ensure"].GetValueOrDefault(framework, -1),
+                SizeWithArgumentExceptions = allSizes["argex"].GetValueOrDefault(framework, -1),
+                SizeWithStringInterpolation = allSizes["stringinterp"]. GetValueOrDefault(framework, -1),
+                SizeWithNullability = allSizes["nullability"].GetValueOrDefault(framework, -1)
+            });
+        }
+
+        return results;
     }
 
     static void WriteTable(StreamWriter writer, List<SizeResult> results, string title)
@@ -86,152 +243,23 @@ public class AssemblySizeTest
 
     static string FormatSize(long bytes)
     {
-        if (bytes < 0)
+        if (bytes < 1024)
         {
-            return "N/A";
+            return $"{bytes:N0} bytes";
         }
 
-        return $"{bytes/1024:N0} kb";
+        var kb = bytes / 1024.0;
+        return $"{kb:N} KB";
     }
 
     static string FormatSizeDiff(long bytes)
     {
-        if (bytes < 0)
+        if (bytes == 0)
         {
-            return "N/A";
+            return "";
         }
 
-        return $"+{bytes:N0} bytes";
-    }
-
-    static SizeResult MeasureFramework(string baseDir, string framework, bool embedUntrackedSources)
-    {
-        var result = new SizeResult
-        {
-            TargetFramework = framework
-        };
-        var embedSuffix = embedUntrackedSources ? "_embed" : "";
-        var projectDir = Path.Combine(baseDir, $"{framework}{embedSuffix}");
-        Directory.CreateDirectory(projectDir);
-
-        var embedProperty = embedUntrackedSources ? "<EmbedUntrackedSources>true</EmbedUntrackedSources>" : "";
-
-        // Build without polyfill
-        result.SizeWithoutPolyfill = BuildAndMeasure(projectDir, framework, "without", embedProperty, polyfillImport: false, polyOptions: "");
-
-        // Build with polyfill (no extra options)
-        result.SizeWithPolyfill = BuildAndMeasure(projectDir, framework, "with", embedProperty, polyfillImport: true, polyOptions: "");
-
-        // Build with PolyEnsure
-        result.SizeWithEnsure = BuildAndMeasure(projectDir, framework, "ensure", embedProperty, polyfillImport: true, polyOptions: "<PolyEnsure>true</PolyEnsure>");
-
-        // Build with PolyArgumentExceptions
-        result.SizeWithArgumentExceptions = BuildAndMeasure(projectDir, framework, "argex", embedProperty, polyfillImport: true, polyOptions: "<PolyArgumentExceptions>true</PolyArgumentExceptions>");
-
-        // Build with PolyStringInterpolation
-        result.SizeWithStringInterpolation = BuildAndMeasure(projectDir, framework, "stringinterp", embedProperty, polyfillImport: true, polyOptions: "<PolyStringInterpolation>true</PolyStringInterpolation>");
-
-        // Build with PolyNullability
-        result.SizeWithNullability = BuildAndMeasure(projectDir, framework, "nullability", embedProperty, polyfillImport: true, polyOptions: "<PolyNullability>true</PolyNullability>");
-
-        return result;
-    }
-
-    static long BuildAndMeasure(string projectDir, string targetFramework, string variant, string embedProperty, bool polyfillImport, string polyOptions)
-    {
-        var variantDir = Path.Combine(projectDir, variant);
-        Directory.CreateDirectory(variantDir);
-
-        var polyfillImportLines = polyfillImport
-            ? $"""
-                 <Import Project="{ProjectFiles.SolutionDirectory}\Polyfill\Polyfill.targets" />
-               """
-            : "";
-
-        // Add package references needed for older frameworks when using polyfill
-        var packageReferences = polyfillImport
-            ? """
-                <ItemGroup>
-                  <PackageReference Include="System.Memory" Condition="$(TargetFrameworkIdentifier) == '.NETStandard' or $(TargetFrameworkIdentifier) == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" Version="4.5.5" />
-                  <PackageReference Include="System.ValueTuple" Condition="$(TargetFramework.StartsWith('net46'))" Version="4.5.0" />
-                  <PackageReference Include="System.Net.Http" Condition="$(TargetFramework.StartsWith('net4'))" Version="4.3.4" />
-                  <PackageReference Include="System.Threading.Tasks.Extensions" Condition="$(TargetFramework) == 'netstandard2.0' or $(TargetFramework) == 'netcoreapp2.0' or $(TargetFrameworkIdentifier) == '.NETFramework'" Version="4.5.4" />
-                  <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Condition="$(TargetFramework.StartsWith('net4'))" Version="4.3.0" />
-                  <PackageReference Include="System.IO.Compression" Condition="$(TargetFrameworkIdentifier) == '.NETFramework'" Version="4.3.0" />
-                </ItemGroup>
-              """
-            : "";
-
-        var csproj = $"""
-                      <Project Sdk="Microsoft.NET.Sdk">
-                        <PropertyGroup>
-                          <TargetFramework>{targetFramework}</TargetFramework>
-                          <OutputType>Library</OutputType>
-                          <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-                          <EnableDefaultItems>false</EnableDefaultItems>
-                          <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
-                          <LangVersion>preview</LangVersion>
-                          <DebugType>embedded</DebugType>
-                          <DebugSymbols>true</DebugSymbols>
-                          {embedProperty}
-                          {polyOptions}
-                        </PropertyGroup>
-                        {packageReferences}
-                        {polyfillImportLines}
-                        <ItemGroup>
-                          <Compile Include="Class1.cs" />
-                        </ItemGroup>
-                      </Project>
-                      """;
-
-        var csprojPath = Path.Combine(variantDir, "TestProject.csproj");
-        File.WriteAllText(csprojPath, csproj);
-
-        // Create a minimal class file
-        var classFile = """
-                        public class Class1
-                        {
-                            public void Method1() { }
-                        }
-                        """;
-        File.WriteAllText(Path.Combine(variantDir, "Class1.cs"), classFile);
-
-        // Build the project
-        var startInfo = new ProcessStartInfo
-        {
-            FileName = "dotnet",
-            Arguments = "build -c Release",
-            WorkingDirectory = variantDir,
-            RedirectStandardOutput = true,
-            RedirectStandardError = true,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        };
-
-        using var process = Process.Start(startInfo)!;
-        var output = process.StandardOutput.ReadToEnd();
-        var error = process.StandardError.ReadToEnd();
-        process.WaitForExit(120000);
-
-        if (process.ExitCode != 0)
-        {
-            throw new(
-                $"""
-                 Build failed for {targetFramework} ({variant}):
-                 {output}
-                 {error}
-                 """);
-        }
-
-        // Find the DLL
-        var dllPath = Path.Combine(variantDir, "bin", "Release", targetFramework, "TestProject.dll");
-        if (File.Exists(dllPath))
-        {
-            var fileInfo = new FileInfo(dllPath);
-            return fileInfo.Length;
-        }
-
-        throw new($"DLL not found at {dllPath}");
+        return $"+{FormatSize(bytes)}";
     }
 
     class SizeResult
