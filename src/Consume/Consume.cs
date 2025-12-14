@@ -40,6 +40,7 @@ using MemoryStream = System.IO.MemoryStream;
 // ReSharper disable MethodHasAsyncOverload
 // ReSharper disable RedundantCast
 // ReSharper disable NotAccessedField.Local
+#pragma warning disable CS0219 // Variable is assigned but its value is never used
 #pragma warning disable CS0414 // Field is assigned but its value is never used
 #pragma warning disable CS0169 // Field is never used
 
@@ -747,7 +748,7 @@ class Consume
         var input = new byte[] {1, 2};
         using var stream = new MemoryStream(input);
         var result = new byte[2];
-#if FeatureMemory
+#if FeatureMemory && FeatureValueTask
         var memory = new Memory<byte>(result);
         var read = await stream.ReadAsync(memory);
 #endif
@@ -761,7 +762,7 @@ class Consume
     {
         var result = new char[5];
         var reader = new StreamReader(new MemoryStream());
-#if FeatureMemory
+#if FeatureMemory && FeatureValueTask
         var memory = new Memory<char>(result);
         var count = await reader.ReadAsync(memory);
 #endif
@@ -840,7 +841,7 @@ class Consume
         target.Write(new StringBuilder());
         await target.FlushAsync(CancellationToken.None);
         await target.WriteAsync(new StringBuilder());
-#if FeatureMemory
+#if FeatureMemory && FeatureValueTask
         target.WriteLine("a".AsSpan());
         target.Write("a".AsSpan());
         var memory = "a".AsMemory();

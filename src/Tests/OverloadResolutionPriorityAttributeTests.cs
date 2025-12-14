@@ -1,17 +1,17 @@
-﻿// ReSharper disable UnusedParameter.Global
+// ReSharper disable UnusedParameter.Global
 #if FeatureMemory
 
 #region OverloadResolutionPriority
 
-[TestFixture]
 public class OverloadResolutionPriorityAttributeTests
 {
     [Test]
-    public void Run()
+    public Task Run()
     {
         int[] arr = [1, 2, 3];
         //Prints "Span" because resolution priority is higher
         Method(arr);
+        return Task.CompletedTask;
     }
 
     [OverloadResolutionPriority(2)]

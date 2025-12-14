@@ -2,7 +2,7 @@
 partial class PolyfillTests
 {
     [Test]
-    public void CopyTo_ArraySegment_CopiesElements()
+    public async Task CopyTo_ArraySegment_CopiesElements()
     {
         var source = new ArraySegment<int>([1, 2, 3, 4], 1, 2); // [2,3]
         var destArr = new int[2];
@@ -10,56 +10,42 @@ partial class PolyfillTests
 
         source.CopyTo(dest);
 
-        Assert.AreEqual(new[]
-        {
-            2,
-            3
-        }, destArr);
+        await Assert.That(destArr.SequenceEqual(new[] { 2, 3 })).IsTrue();
     }
 
     [Test]
-    public void CopyTo_Array_CopiesElements()
+    public async Task CopyTo_Array_CopiesElements()
     {
         var source = new ArraySegment<string>(["a", "b", "c"], 1, 2); // ["b","c"]
         var dest = new string[2];
 
         source.CopyTo(dest);
 
-        Assert.AreEqual(new[]
-        {
-            "b",
-            "c"
-        }, dest);
+        await Assert.That(dest.SequenceEqual(new[] { "b", "c" })).IsTrue();
     }
 
     [Test]
-    public void CopyTo_Array_WithOffset_CopiesElements()
+    public async Task CopyTo_Array_WithOffset_CopiesElements()
     {
         var source = new ArraySegment<char>(['x', 'y', 'z'], 1, 2); // ['y','z']
         var dest = new char[4];
 
         source.CopyTo(dest, 1);
 
-        Assert.AreEqual(new[]
-        {
-            '\0',
-            'y',
-            'z',
-            '\0'
-        }, dest);
+        await Assert.That(dest.SequenceEqual(new[] { '\0', 'y', 'z', '\0' })).IsTrue();
     }
 
     [Test]
-    public void CopyTo_ArraySegment_ThrowsIfDestinationTooShort()
+    public async Task CopyTo_ArraySegment_ThrowsIfDestinationTooShort()
     {
         var source = new ArraySegment<int>([1, 2, 3]);
         var dest = new ArraySegment<int>(new int[2]);
 
-        Assert.Throws<ArgumentException>(() => source.CopyTo(dest));
+        await Assert.That(() => source.CopyTo(dest)).Throws<ArgumentException>();
     }
 
     [Test]
-    public void Enumerates_All_Elements()
+    public async Task Enumerates_All_Elements()
     {
         var arr = new[]
         {
@@ -77,15 +63,11 @@ partial class PolyfillTests
             result.Add(enumerator.Current);
         }
 
-        Assert.That(result, Is.EqualTo(new[]
-        {
-            2,
-            3
-        }));
+        await Assert.That(result.SequenceEqual(new[] { 2, 3 })).IsTrue();
     }
 
     [Test]
-    public void Empty_Segment_Enumerates_Nothing()
+    public async Task Empty_Segment_Enumerates_Nothing()
     {
         var arr = new[]
         {
@@ -96,11 +78,11 @@ partial class PolyfillTests
         var segment = new ArraySegment<int>(arr, 1, 0);
         using var enumerator = segment.GetEnumerator();
 
-        Assert.IsFalse(enumerator.MoveNext());
+        await Assert.That(enumerator.MoveNext()).IsFalse();
     }
 
     [Test]
-    public void Current_Before_MoveNext_Throws()
+    public async Task Current_Before_MoveNext_Throws()
     {
         var arr = new[]
         {
@@ -110,14 +92,14 @@ partial class PolyfillTests
         var segment = new ArraySegment<int>(arr);
         using var enumerator = segment.GetEnumerator();
 
-        Assert.Throws<InvalidOperationException>(() =>
+        await Assert.That(() =>
         {
             var _ = enumerator.Current;
-        });
+        }).Throws<InvalidOperationException>();
     }
 
     [Test]
-    public void Current_After_Enumeration_Throws()
+    public async Task Current_After_Enumeration_Throws()
     {
         var arr = new[]
         {
@@ -131,14 +113,14 @@ partial class PolyfillTests
         {
         }
 
-        Assert.Throws<InvalidOperationException>(() =>
+        await Assert.That(() =>
         {
             var _ = enumerator.Current;
-        });
+        }).Throws<InvalidOperationException>();
     }
 
     [Test]
-    public void Reset_Allows_ReEnumeration()
+    public async Task Reset_Allows_ReEnumeration()
     {
         var arr = new[]
         {
@@ -149,13 +131,13 @@ partial class PolyfillTests
         var segment = new ArraySegment<int>(arr);
         using var enumerator = segment.GetEnumerator();
 
-        Assert.IsTrue(enumerator.MoveNext());
-        Assert.AreEqual(5, enumerator.Current);
+        await Assert.That(enumerator.MoveNext()).IsTrue();
+        await Assert.That(enumerator.Current).IsEqualTo(5);
 
         ((IEnumerator) enumerator).Reset();
 
-        Assert.AreEqual(5, enumerator.Current);
-        Assert.IsTrue(enumerator.MoveNext());
-        Assert.AreEqual(6, enumerator.Current);
+        await Assert.That(enumerator.Current).IsEqualTo(5);
+        await Assert.That(enumerator.MoveNext()).IsTrue();
+        await Assert.That(enumerator.Current).IsEqualTo(6);
     }
 }
