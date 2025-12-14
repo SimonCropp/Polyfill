@@ -1,13 +1,12 @@
-﻿[TestFixture]
-public class ModuleInitSample
+﻿public class ModuleInitSample
 {
     #region ModuleInitializerAttribute
 
     static bool InitCalled;
 
     [Test]
-    public void ModuleInitTest() =>
-        Assert.True(InitCalled);
+    public async Task ModuleInitTest() =>
+        await Assert.That(InitCalled).IsTrue();
 
     [ModuleInitializer]
     public static void ModuleInit() =>

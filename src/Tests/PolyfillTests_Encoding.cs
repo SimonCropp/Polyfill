@@ -2,17 +2,17 @@ partial class PolyfillTests
 {
 #if FeatureMemory
     [Test]
-    public void Encoding_GetByteCount()
+    public async Task Encoding_GetByteCount()
     {
         var encoding = Encoding.UTF8;
         var chars = "Hello, World!".AsSpan();
 
         var byteCount = encoding.GetByteCount(chars);
-        Assert.AreEqual(13, byteCount);
+        await Assert.That(byteCount).IsEqualTo(13);
     }
 
     [Test]
-    public void Encoding_GetChars()
+    public async Task Encoding_GetChars()
     {
         // Arrange
         var encoding = Encoding.UTF8;
@@ -26,19 +26,19 @@ partial class PolyfillTests
 
         // Assert
         var result = charSpan.Slice(0, charCount).ToString();
-        Assert.AreEqual("Hello, World!", result);
+        await Assert.That(result).IsEqualTo("Hello, World!");
     }
 
     [Test]
-    public void Encoding_GetString()
+    public async Task Encoding_GetString()
     {
         var array = (ReadOnlySpan<byte>)"value"u8.ToArray().AsSpan();
         var result = Encoding.UTF8.GetString(array);
-        Assert.AreEqual("value", result);
+        await Assert.That(result).IsEqualTo("value");
     }
 
     [Test]
-    public void Encoding_GetBytes()
+    public Task Encoding_GetBytes()
     {
         var encoding = Encoding.UTF8;
         var chars = "Hello, World!".AsSpan();
@@ -46,12 +46,15 @@ partial class PolyfillTests
 
         var byteCount = encoding.GetBytes(chars, bytes);
 
-        Assert.AreEqual(encoding.GetByteCount(chars), byteCount);
-        Assert.AreEqual(encoding.GetBytes("Hello, World!"), bytes.ToArray());
+        if (byteCount != encoding.GetByteCount(chars))
+            throw new Exception($"Expected {encoding.GetByteCount(chars)} but got {byteCount}");
+        if (!bytes.ToArray().SequenceEqual(encoding.GetBytes("Hello, World!")))
+            throw new Exception("Bytes do not match expected");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryGetChars_WithValidInput_ReturnsTrue()
+    public Task TryGetChars_WithValidInput_ReturnsTrue()
     {
         // Arrange
         var encoding = Encoding.UTF8;
@@ -64,12 +67,15 @@ partial class PolyfillTests
         var result = encoding.TryGetChars(byteSpan, charSpan, out var written);
 
         // Assert
-        Assert.IsTrue(result);
-        Assert.AreEqual("Hello, World!", charSpan.Slice(0, written).ToString());
+        if (!result)
+            throw new Exception("Expected result to be true");
+        if (charSpan.Slice(0, written).ToString() != "Hello, World!")
+            throw new Exception("Expected 'Hello, World!'");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryGetChars_WithSmallDestination_ReturnsFalse()
+    public Task TryGetChars_WithSmallDestination_ReturnsFalse()
     {
         // Arrange
         var encoding = Encoding.UTF8;
@@ -83,8 +89,11 @@ partial class PolyfillTests
         var result = encoding.TryGetChars(byteSpan, charSpan, out var written);
 
         // Assert
-        Assert.IsFalse(result);
-        Assert.AreEqual(0, written);
+        if (result)
+            throw new Exception("Expected result to be false");
+        if (written != 0)
+            throw new Exception($"Expected written to be 0 but got {written}");
+        return Task.CompletedTask;
     }
 #endif
 }
