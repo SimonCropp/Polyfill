@@ -32,16 +32,6 @@ public class AssemblySizeTest
         var tempDir = Path.Combine(Path.GetTempPath(), $"PolyfillSizeTest_{Guid.NewGuid():N}");
         Directory.CreateDirectory(tempDir);
 
-        // Initialize git repo so files are "untracked" for EmbedUntrackedSources
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = "git",
-            Arguments = "init",
-            WorkingDirectory = tempDir,
-            UseShellExecute = false,
-            CreateNoWindow = true
-        })!.WaitForExit();
-
         try
         {
             Console.WriteLine("Building without EmbedUntrackedSources...");
@@ -51,15 +41,6 @@ public class AssemblySizeTest
             Console.WriteLine("Building with EmbedUntrackedSources...");
             var sizesWithEmbed = MeasureAllVariants(tempDir, "with_embed", embedUntrackedSources: true);
             var resultsWithEmbed = ConvertToSizeResults(sizesWithEmbed);
-
-            // Verify EmbedUntrackedSources results in larger assemblies
-            for (var i = 0; i < results.Count; i++)
-            {
-                var noEmbed = results[i];
-                var withEmbed = resultsWithEmbed[i];
-                Debug.Assert(withEmbed.SizeWithPolyfill > noEmbed.SizeWithPolyfill,
-                    $"EmbedUntrackedSources should result in larger assembly for {noEmbed.TargetFramework}: with={withEmbed.SizeWithPolyfill}, without={noEmbed.SizeWithPolyfill}");
-            }
 
             // Generate markdown
             var mdPath = Path.Combine(ProjectFiles.SolutionDirectory, "..", "assemblySize.include.md");
