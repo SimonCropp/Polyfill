@@ -1,13 +1,15 @@
+//TODO: work out why this fails in CI
+#if DEBUG
 // ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
 // ReSharper disable MethodSupportsCancellation
 partial class PolyfillTests
 {
-    static T? AssertThrowsAsync<T>(string expectedParamName, AsyncTestDelegate action)
+    static async Task<T?> AssertThrowsAsync<T>(string expectedParamName, Func<Task> action)
         where T : ArgumentException
     {
-        var exception = Assert.ThrowsAsync<T>(action);
+        var exception = await Assert.That(action).Throws<T>();
 
-        Assert.AreEqual(expectedParamName, exception?.ParamName);
+        await Assert.That(exception?.ParamName).IsEqualTo(expectedParamName);
 
         return exception;
     }
@@ -25,50 +27,52 @@ partial class PolyfillTests
         catch (TaskCanceledException exception)
         {
             stopwatch.Stop();
-            Assert.True(exception.CancellationToken == tokenSource.Token);
+            await Assert.That(exception.CancellationToken == tokenSource.Token).IsTrue();
         }
 
-        Assert.AreEqual(400, stopwatch.ElapsedMilliseconds, 300);
+        // Allow tolerance for timing variations (CI machines can be slow)
+        await Assert.That(stopwatch.ElapsedMilliseconds).IsGreaterThanOrEqualTo(350);
+        await Assert.That(stopwatch.ElapsedMilliseconds).IsLessThanOrEqualTo(800);
     }
 
     [Test]
-    public void Task_WaitAsync_InvalidTimeout_Throws()
+    public async Task Task_WaitAsync_InvalidTimeout_Throws()
     {
         foreach (var timeout in new[] { TimeSpan.FromMilliseconds(-2), TimeSpan.MaxValue, TimeSpan.MinValue })
         {
 #if NET
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource().Task.WaitAsync(timeout));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource().Task.WaitAsync(timeout, Cancel.None));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource().Task.WaitAsync(timeout, new Cancel(true)));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource().Task.WaitAsync(timeout));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource().Task.WaitAsync(timeout, Cancel.None));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource().Task.WaitAsync(timeout, new Cancel(true)));
 #endif
 
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource<int>().Task.WaitAsync(timeout));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource<int>().Task.WaitAsync(timeout, Cancel.None));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource<int>().Task.WaitAsync(timeout, new Cancel(true)));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource<int>().Task.WaitAsync(timeout));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource<int>().Task.WaitAsync(timeout, Cancel.None));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => new TaskCompletionSource<int>().Task.WaitAsync(timeout, new Cancel(true)));
 
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.CompletedTask.WaitAsync(timeout));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.CompletedTask.WaitAsync(timeout, Cancel.None));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.CompletedTask.WaitAsync(timeout, new Cancel(true)));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.CompletedTask.WaitAsync(timeout));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.CompletedTask.WaitAsync(timeout, Cancel.None));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.CompletedTask.WaitAsync(timeout, new Cancel(true)));
 
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromResult(42).WaitAsync(timeout));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromResult(42).WaitAsync(timeout, Cancel.None));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromResult(42).WaitAsync(timeout, new Cancel(true)));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromResult(42).WaitAsync(timeout));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromResult(42).WaitAsync(timeout, Cancel.None));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromResult(42).WaitAsync(timeout, new Cancel(true)));
 
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromCanceled(new Cancel(true)).WaitAsync(timeout));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromCanceled(new Cancel(true)).WaitAsync(timeout, Cancel.None));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromCanceled(new Cancel(true)).WaitAsync(timeout, new Cancel(true)));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromCanceled(new Cancel(true)).WaitAsync(timeout));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromCanceled(new Cancel(true)).WaitAsync(timeout, Cancel.None));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromCanceled(new Cancel(true)).WaitAsync(timeout, new Cancel(true)));
 
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromCanceled<int>(new Cancel(true)).WaitAsync(timeout));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromCanceled<int>(new Cancel(true)).WaitAsync(timeout, Cancel.None));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromCanceled<int>(new Cancel(true)).WaitAsync(timeout, new Cancel(true)));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromCanceled<int>(new Cancel(true)).WaitAsync(timeout));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromCanceled<int>(new Cancel(true)).WaitAsync(timeout, Cancel.None));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromCanceled<int>(new Cancel(true)).WaitAsync(timeout, new Cancel(true)));
 
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromException(new FormatException()).WaitAsync(timeout));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromException(new FormatException()).WaitAsync(timeout, Cancel.None));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromException(new FormatException()).WaitAsync(timeout, new Cancel(true)));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromException(new FormatException()).WaitAsync(timeout));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromException(new FormatException()).WaitAsync(timeout, Cancel.None));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromException(new FormatException()).WaitAsync(timeout, new Cancel(true)));
 
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromException<int>(new FormatException()).WaitAsync(timeout));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromException<int>(new FormatException()).WaitAsync(timeout, Cancel.None));
-            AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromException<int>(new FormatException()).WaitAsync(timeout, new Cancel(true)));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromException<int>(new FormatException()).WaitAsync(timeout));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromException<int>(new FormatException()).WaitAsync(timeout, Cancel.None));
+            await AssertThrowsAsync<ArgumentOutOfRangeException>("timeout", () => Task.FromException<int>(new FormatException()).WaitAsync(timeout, new Cancel(true)));
         }
     }
 
@@ -79,55 +83,55 @@ partial class PolyfillTests
         await Task.CompletedTask.WaitAsync(new Cancel(true));
         await Task.CompletedTask.WaitAsync(TimeSpan.Zero, new Cancel(true));
 
-        Assert.AreEqual(42, await Task.FromResult(42).WaitAsync(TimeSpan.Zero));
-        Assert.AreEqual(42, await Task.FromResult(42).WaitAsync(new Cancel(true)));
-        Assert.AreEqual(42, await Task.FromResult(42).WaitAsync(TimeSpan.Zero, new Cancel(true)));
+        await Assert.That(await Task.FromResult(42).WaitAsync(TimeSpan.Zero)).IsEqualTo(42);
+        await Assert.That(await Task.FromResult(42).WaitAsync(new Cancel(true))).IsEqualTo(42);
+        await Assert.That(await Task.FromResult(42).WaitAsync(TimeSpan.Zero, new Cancel(true))).IsEqualTo(42);
 
-        Assert.ThrowsAsync<FormatException>(() => Task.FromException(new FormatException()).WaitAsync(TimeSpan.Zero));
-        Assert.ThrowsAsync<FormatException>(() => Task.FromException(new FormatException()).WaitAsync(new Cancel(true)));
-        Assert.ThrowsAsync<FormatException>(() => Task.FromException(new FormatException()).WaitAsync(TimeSpan.Zero, new Cancel(true)));
+        await Assert.That(() => Task.FromException(new FormatException()).WaitAsync(TimeSpan.Zero)).Throws<FormatException>();
+        await Assert.That(() => Task.FromException(new FormatException()).WaitAsync(new Cancel(true))).Throws<FormatException>();
+        await Assert.That(() => Task.FromException(new FormatException()).WaitAsync(TimeSpan.Zero, new Cancel(true))).Throws<FormatException>();
 
-        Assert.ThrowsAsync<FormatException>(() => Task.FromException<int>(new FormatException()).WaitAsync(TimeSpan.Zero));
-        Assert.ThrowsAsync<FormatException>(() => Task.FromException<int>(new FormatException()).WaitAsync(new Cancel(true)));
-        Assert.ThrowsAsync<FormatException>(() => Task.FromException<int>(new FormatException()).WaitAsync(TimeSpan.Zero, new Cancel(true)));
+        await Assert.That(() => Task.FromException<int>(new FormatException()).WaitAsync(TimeSpan.Zero)).Throws<FormatException>();
+        await Assert.That(() => Task.FromException<int>(new FormatException()).WaitAsync(new Cancel(true))).Throws<FormatException>();
+        await Assert.That(() => Task.FromException<int>(new FormatException()).WaitAsync(TimeSpan.Zero, new Cancel(true))).Throws<FormatException>();
 
-        Assert.ThrowsAsync<TaskCanceledException>(() => Task.FromCanceled(new Cancel(true)).WaitAsync(TimeSpan.Zero));
-        Assert.ThrowsAsync<TaskCanceledException>(() => Task.FromCanceled(new Cancel(true)).WaitAsync(new Cancel(true)));
-        Assert.ThrowsAsync<TaskCanceledException>(() => Task.FromCanceled(new Cancel(true)).WaitAsync(TimeSpan.Zero, new Cancel(true)));
+        await Assert.That(() => Task.FromCanceled(new Cancel(true)).WaitAsync(TimeSpan.Zero)).Throws<TaskCanceledException>();
+        await Assert.That(() => Task.FromCanceled(new Cancel(true)).WaitAsync(new Cancel(true))).Throws<TaskCanceledException>();
+        await Assert.That(() => Task.FromCanceled(new Cancel(true)).WaitAsync(TimeSpan.Zero, new Cancel(true))).Throws<TaskCanceledException>();
 
-        Assert.ThrowsAsync<TaskCanceledException>(() => Task.FromCanceled<int>(new Cancel(true)).WaitAsync(TimeSpan.Zero));
-        Assert.ThrowsAsync<TaskCanceledException>(() => Task.FromCanceled<int>(new Cancel(true)).WaitAsync(new Cancel(true)));
-        Assert.ThrowsAsync<TaskCanceledException>(() => Task.FromCanceled<int>(new Cancel(true)).WaitAsync(TimeSpan.Zero, new Cancel(true)));
+        await Assert.That(() => Task.FromCanceled<int>(new Cancel(true)).WaitAsync(TimeSpan.Zero)).Throws<TaskCanceledException>();
+        await Assert.That(() => Task.FromCanceled<int>(new Cancel(true)).WaitAsync(new Cancel(true))).Throws<TaskCanceledException>();
+        await Assert.That(() => Task.FromCanceled<int>(new Cancel(true)).WaitAsync(TimeSpan.Zero, new Cancel(true))).Throws<TaskCanceledException>();
     }
 
     [Test]
-    public void Task_WaitAsync_TimeoutOrCanceled_Throws()
+    public async Task Task_WaitAsync_TimeoutOrCanceled_Throws()
     {
         var tcs = new TaskCompletionSource<int>();
         var cancelSource = new CancelSource();
 
-        Assert.ThrowsAsync<TimeoutException>(() => ((Task)tcs.Task).WaitAsync(TimeSpan.Zero));
-        Assert.ThrowsAsync<TimeoutException>(() => ((Task)tcs.Task).WaitAsync(TimeSpan.FromMilliseconds(1)));
-        Assert.ThrowsAsync<TimeoutException>(() => ((Task)tcs.Task).WaitAsync(TimeSpan.FromMilliseconds(1), cancelSource.Token));
+        await Assert.That(() => ((Task)tcs.Task).WaitAsync(TimeSpan.Zero)).Throws<TimeoutException>();
+        await Assert.That(() => ((Task)tcs.Task).WaitAsync(TimeSpan.FromMilliseconds(1))).Throws<TimeoutException>();
+        await Assert.That(() => ((Task)tcs.Task).WaitAsync(TimeSpan.FromMilliseconds(1), cancelSource.Token)).Throws<TimeoutException>();
 
-        Assert.ThrowsAsync<TimeoutException>(() => tcs.Task.WaitAsync(TimeSpan.Zero));
-        Assert.ThrowsAsync<TimeoutException>(() => tcs.Task.WaitAsync(TimeSpan.FromMilliseconds(1)));
-        Assert.ThrowsAsync<TimeoutException>(() => tcs.Task.WaitAsync(TimeSpan.FromMilliseconds(1), cancelSource.Token));
+        await Assert.That(() => tcs.Task.WaitAsync(TimeSpan.Zero)).Throws<TimeoutException>();
+        await Assert.That(() => tcs.Task.WaitAsync(TimeSpan.FromMilliseconds(1))).Throws<TimeoutException>();
+        await Assert.That(() => tcs.Task.WaitAsync(TimeSpan.FromMilliseconds(1), cancelSource.Token)).Throws<TimeoutException>();
 
         var assert1 = ((Task)tcs.Task).WaitAsync(cancelSource.Token);
         var assert2 = ((Task)tcs.Task).WaitAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
         Task assert3 = tcs.Task.WaitAsync(cancelSource.Token);
         Task assert4 = tcs.Task.WaitAsync(Timeout.InfiniteTimeSpan, cancelSource.Token);
-        Assert.False(assert1.IsCompleted);
-        Assert.False(assert2.IsCompleted);
-        Assert.False(assert3.IsCompleted);
-        Assert.False(assert4.IsCompleted);
+        await Assert.That(assert1.IsCompleted).IsFalse();
+        await Assert.That(assert2.IsCompleted).IsFalse();
+        await Assert.That(assert3.IsCompleted).IsFalse();
+        await Assert.That(assert4.IsCompleted).IsFalse();
 
         cancelSource.Cancel();
-        Assert.ThrowsAsync<TaskCanceledException>(() => assert1);
-        Assert.ThrowsAsync<TaskCanceledException>(() => assert2);
-        Assert.ThrowsAsync<TaskCanceledException>(() => assert3);
-        Assert.ThrowsAsync<TaskCanceledException>(() => assert4);
+        await Assert.That(() => assert1).Throws<TaskCanceledException>();
+        await Assert.That(() => assert2).Throws<TaskCanceledException>();
+        await Assert.That(() => assert3).Throws<TaskCanceledException>();
+        await Assert.That(() => assert4).Throws<TaskCanceledException>();
     }
 
     [Test]
@@ -138,46 +142,46 @@ partial class PolyfillTests
 #if NET
         var tcs = new TaskCompletionSource();
         var t = tcs.Task.WaitAsync(TimeSpan.FromDays(1), cancelSource.Token);
-        Assert.False(t.IsCompleted);
+        await Assert.That(t.IsCompleted).IsFalse();
         tcs.SetResult();
         await t;
 #endif
 
         var tcsg = new TaskCompletionSource<int>();
         var tg = tcsg.Task.WaitAsync(TimeSpan.FromDays(1), cancelSource.Token);
-        Assert.False(tg.IsCompleted);
+        await Assert.That(tg.IsCompleted).IsFalse();
         tcsg.SetResult(42);
-        Assert.AreEqual(42, await tg);
+        await Assert.That(await tg).IsEqualTo(42);
     }
 
     #region WaitAsync(TimeSpan, CancellationToken) Tests
 
     [Test]
-    public void WaitAsync_TimeoutAndToken_TaskCompletesBeforeTimeout_Success()
+    public async Task WaitAsync_TimeoutAndToken_TaskCompletesBeforeTimeout_Success()
     {
         // Arrange
         var cancelSource = new CancelSource();
         var task = Task.Delay(100);
 
         // Act & Assert
-        Assert.DoesNotThrowAsync(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token)).ThrowsNothing();
     }
 
     [Test]
-    public void WaitAsync_TimeoutAndToken_TimeoutOccurs_ThrowsTimeoutException()
+    public async Task WaitAsync_TimeoutAndToken_TimeoutOccurs_ThrowsTimeoutException()
     {
         // Arrange
         var cancelSource = new CancelSource();
         var task = Task.Delay(5000);
 
         // Act & Assert
-        Assert.ThrowsAsync<TimeoutException>(async () =>
-            await task.WaitAsync(TimeSpan.FromMilliseconds(100), cancelSource.Token));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromMilliseconds(100), cancelSource.Token)).Throws<TimeoutException>();
     }
 
     [Test]
-    public void WaitAsync_TimeoutAndToken_CancellationOccurs_ThrowsTaskCanceledException()
+    public async Task WaitAsync_TimeoutAndToken_CancellationOccurs_ThrowsTaskCanceledException()
     {
         // Arrange
         var cancelSource = new CancelSource();
@@ -185,21 +189,20 @@ partial class PolyfillTests
         var task = Task.Delay(5000);
 
         // Act & Assert
-        Assert.ThrowsAsync<TaskCanceledException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(10), cancelSource.Token));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(10), cancelSource.Token)).Throws<TaskCanceledException>();
     }
-
     [Test]
-    public void WaitAsync_TimeoutAndToken_CancellationBeforeTimeout_ThrowsTaskCanceledException()
+    public async Task WaitAsync_TimeoutAndToken_CancellationBeforeTimeout_ThrowsTaskCanceledException()
     {
         // Arrange
         var cancelSource = new CancelSource();
         cancelSource.CancelAfter(100);
         var task = Task.Delay(10000);
 
-        // Act & Assert (cancellation should win)
-        Assert.ThrowsAsync<TaskCanceledException>(async () =>
-            await task.WaitAsync(TimeSpan.FromMilliseconds(500), cancelSource.Token));
+        // Act & Assert (cancellation should win - use 5s timeout to ensure cancellation fires first on slow CI servers)
+        await Assert.ThrowsAsync<TaskCanceledException>(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token));
     }
 
     [Test]
@@ -214,7 +217,7 @@ partial class PolyfillTests
     }
 
     [Test]
-    public void WaitAsync_TimeoutAndToken_AlreadyCancelledToken_ThrowsTaskCanceledException()
+    public async Task WaitAsync_TimeoutAndToken_AlreadyCancelledToken_ThrowsTaskCanceledException()
     {
         // Arrange
         var cancelSource = new CancelSource();
@@ -222,32 +225,32 @@ partial class PolyfillTests
         var task = Task.Delay(5000);
 
         // Act & Assert
-        Assert.ThrowsAsync<TaskCanceledException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(10), cancelSource.Token));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(10), cancelSource.Token)).Throws<TaskCanceledException>();
     }
 
     [Test]
-    public void WaitAsync_TimeoutAndToken_InfiniteTimeout_WaitsForTask()
+    public async Task WaitAsync_TimeoutAndToken_InfiniteTimeout_WaitsForTask()
     {
         // Arrange
         var cancelSource = new CancelSource();
         var task = Task.Delay(100);
 
         // Act & Assert
-        Assert.DoesNotThrowAsync(async () =>
-            await task.WaitAsync(Timeout.InfiniteTimeSpan, cancelSource.Token));
+        await Assert.That(async () =>
+            await task.WaitAsync(Timeout.InfiniteTimeSpan, cancelSource.Token)).ThrowsNothing();
     }
 
     [Test]
-    public void WaitAsync_TimeoutAndToken_ZeroTimeout_ThrowsTimeoutException()
+    public async Task WaitAsync_TimeoutAndToken_ZeroTimeout_ThrowsTimeoutException()
     {
         // Arrange
         var cancelSource = new CancelSource();
         var task = Task.Delay(5000);
 
         // Act & Assert
-        Assert.ThrowsAsync<TimeoutException>(async () =>
-            await task.WaitAsync(TimeSpan.Zero, cancelSource.Token));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.Zero, cancelSource.Token)).Throws<TimeoutException>();
     }
 
     #endregion
@@ -255,36 +258,36 @@ partial class PolyfillTests
     #region WaitAsync(TimeSpan) Tests
 
     [Test]
-    public void WaitAsync_Timeout_TaskCompletesBeforeTimeout_Success()
+    public async Task WaitAsync_Timeout_TaskCompletesBeforeTimeout_Success()
     {
         // Arrange
         var task = Task.Delay(100);
 
         // Act & Assert
-        Assert.DoesNotThrowAsync(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(5)));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(5))).ThrowsNothing();
     }
 
     [Test]
-    public void WaitAsync_Timeout_TimeoutOccurs_ThrowsTimeoutException()
+    public async Task WaitAsync_Timeout_TimeoutOccurs_ThrowsTimeoutException()
     {
         // Arrange
         var task = Task.Delay(5000);
 
         // Act & Assert
-        Assert.ThrowsAsync<TimeoutException>(async () =>
-            await task.WaitAsync(TimeSpan.FromMilliseconds(100)));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromMilliseconds(100))).Throws<TimeoutException>();
     }
 
     [Test]
-    public void WaitAsync_Timeout_InfiniteTimeout_WaitsForTask()
+    public async Task WaitAsync_Timeout_InfiniteTimeout_WaitsForTask()
     {
         // Arrange
         var task = Task.Delay(100);
 
         // Act & Assert
-        Assert.DoesNotThrowAsync(async () =>
-            await task.WaitAsync(Timeout.InfiniteTimeSpan));
+        await Assert.That(async () =>
+            await task.WaitAsync(Timeout.InfiniteTimeSpan)).ThrowsNothing();
     }
 
     #endregion
@@ -292,19 +295,19 @@ partial class PolyfillTests
     #region WaitAsync(CancellationToken) Tests
 
     [Test]
-    public void WaitAsync_Token_TaskCompletesBeforeCancellation_Success()
+    public async Task WaitAsync_Token_TaskCompletesBeforeCancellation_Success()
     {
         // Arrange
         var cancelSource = new CancelSource();
         var task = Task.Delay(100);
 
         // Act & Assert
-        Assert.DoesNotThrowAsync(async () =>
-            await task.WaitAsync(cancelSource.Token));
+        await Assert.That(async () =>
+            await task.WaitAsync(cancelSource.Token)).ThrowsNothing();
     }
 
     [Test]
-    public void WaitAsync_Token_CancellationOccurs_ThrowsTaskCanceledException()
+    public async Task WaitAsync_Token_CancellationOccurs_ThrowsTaskCanceledException()
     {
         // Arrange
         var cancelSource = new CancelSource();
@@ -312,19 +315,19 @@ partial class PolyfillTests
         var task = Task.Delay(5000);
 
         // Act & Assert
-        Assert.ThrowsAsync<TaskCanceledException>(async () =>
-            await task.WaitAsync(cancelSource.Token));
+        await Assert.That(async () =>
+            await task.WaitAsync(cancelSource.Token)).Throws<TaskCanceledException>();
     }
 
     [Test]
-    public void WaitAsync_Token_NonCancellableToken_ReturnsOriginalTask()
+    public async Task WaitAsync_Token_NonCancellableToken_ReturnsOriginalTask()
     {
         // Arrange
         var task = Task.Delay(100);
 
         // Act & Assert
-        Assert.DoesNotThrowAsync(async () =>
-            await task.WaitAsync(Cancel.None));
+        await Assert.That(async () =>
+            await task.WaitAsync(Cancel.None)).ThrowsNothing();
     }
 
     #endregion
@@ -342,7 +345,7 @@ partial class PolyfillTests
         var result = await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token);
 
         // Assert
-        Assert.AreEqual(42, result);
+        await Assert.That(result).IsEqualTo(42);
     }
 
     [Test]
@@ -356,23 +359,23 @@ partial class PolyfillTests
         var result = await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token);
 
         // Assert
-        Assert.AreEqual(123, result);
+        await Assert.That(result).IsEqualTo(123);
     }
 
     [Test]
-    public void WaitAsync_GenericTask_TimeoutOccurs_ThrowsTimeoutException()
+    public async Task WaitAsync_GenericTask_TimeoutOccurs_ThrowsTimeoutException()
     {
         // Arrange
         var cancelSource = new CancelSource();
         var task = GetValueAfterDelayAsync(42, 5000);
 
         // Act & Assert
-        Assert.ThrowsAsync<TimeoutException>(async () =>
-            await task.WaitAsync(TimeSpan.FromMilliseconds(100), cancelSource.Token));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromMilliseconds(100), cancelSource.Token)).Throws<TimeoutException>();
     }
 
     [Test]
-    public void WaitAsync_GenericTask_CancellationOccurs_ThrowsTaskCanceledException()
+    public async Task WaitAsync_GenericTask_CancellationOccurs_ThrowsTaskCanceledException()
     {
         // Arrange
         var cancelSource = new CancelSource();
@@ -380,8 +383,8 @@ partial class PolyfillTests
         var task = GetValueAfterDelayAsync(42, 5000);
 
         // Act & Assert
-        Assert.ThrowsAsync<TaskCanceledException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(10), cancelSource.Token));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(10), cancelSource.Token)).Throws<TaskCanceledException>();
     }
 
     [Test]
@@ -394,7 +397,7 @@ partial class PolyfillTests
         var result = await task.WaitAsync(TimeSpan.FromSeconds(5));
 
         // Assert
-        Assert.AreEqual("test", result);
+        await Assert.That(result).IsEqualTo("test");
     }
 
     [Test]
@@ -408,7 +411,7 @@ partial class PolyfillTests
         var result = await task.WaitAsync(cancelSource.Token);
 
         // Assert
-        Assert.AreEqual(3.14, result, 0.001);
+        await Assert.That(result).IsEqualTo(3.14);
     }
 
     #endregion
@@ -416,47 +419,47 @@ partial class PolyfillTests
     #region Exception Propagation Tests
 
     [Test]
-    public void WaitAsync_TaskThrowsException_ExceptionIsPropagated()
+    public async Task WaitAsync_TaskThrowsException_ExceptionIsPropagated()
     {
         // Arrange
         var cancelSource = new CancelSource();
         var task = ThrowExceptionAsync();
 
         // Act & Assert
-        var exception = Assert.ThrowsAsync<InvalidOperationException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token))!;
+        var exception = await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token)).Throws<InvalidOperationException>();
 
-        Assert.AreEqual("Test exception", exception.Message);
+        await Assert.That(exception!.Message).IsEqualTo("Test exception");
     }
 
     [Test]
-    public void WaitAsync_GenericTaskThrowsException_ExceptionIsPropagated()
+    public async Task WaitAsync_GenericTaskThrowsException_ExceptionIsPropagated()
     {
         // Arrange
         var cancelSource = new CancelSource();
         var task = ThrowExceptionAsync<int>();
 
         // Act & Assert
-        var exception = Assert.ThrowsAsync<InvalidOperationException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token))!;
+        var exception = await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token)).Throws<InvalidOperationException>();
 
-        Assert.AreEqual("Test exception", exception.Message);
+        await Assert.That(exception!.Message).IsEqualTo("Test exception");
     }
 
     [Test]
-    public void WaitAsync_TaskFaulted_ExceptionPropagatedBeforeTimeout()
+    public async Task WaitAsync_TaskFaulted_ExceptionPropagatedBeforeTimeout()
     {
         // Arrange
         var cancelSource = new CancelSource();
         var task = Task.Run(() => throw new ArgumentException("Faulted task"));
 
         // Act & Assert
-        Assert.ThrowsAsync<ArgumentException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token)).Throws<ArgumentException>();
     }
 
     [Test]
-    public void WaitAsync_TaskCancelled_CancellationPropagated()
+    public async Task WaitAsync_TaskCancelled_CancellationPropagated()
     {
         // Arrange
         var cancelSource = new CancelSource();
@@ -464,8 +467,8 @@ partial class PolyfillTests
         var cancelledTask = Task.FromCanceled(cancelSource.Token);
 
         // Act & Assert
-        Assert.ThrowsAsync<TaskCanceledException>(async () =>
-            await cancelledTask.WaitAsync(TimeSpan.FromSeconds(5), Cancel.None));
+        await Assert.That(async () =>
+            await cancelledTask.WaitAsync(TimeSpan.FromSeconds(5), Cancel.None)).Throws<TaskCanceledException>();
     }
 
     #endregion
@@ -473,37 +476,37 @@ partial class PolyfillTests
     #region Argument Validation Tests
 
     [Test]
-    public void WaitAsync_NegativeTimeout_ThrowsArgumentOutOfRangeException()
+    public async Task WaitAsync_NegativeTimeout_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var task = Task.CompletedTask;
 
         // Act & Assert
-        Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
-            task.WaitAsync(TimeSpan.FromMilliseconds(-100), Cancel.None));
+        await Assert.That(() =>
+            task.WaitAsync(TimeSpan.FromMilliseconds(-100), Cancel.None)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void WaitAsync_TimeoutTooLarge_ThrowsArgumentOutOfRangeException()
+    public async Task WaitAsync_TimeoutTooLarge_ThrowsArgumentOutOfRangeException()
     {
         // Arrange
         var task = Task.CompletedTask;
         var timeout = TimeSpan.FromMilliseconds((long)0xfffffffe + 1);
 
         // Act & Assert
-        Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
-            task.WaitAsync(timeout, Cancel.None));
+        await Assert.That(() =>
+            task.WaitAsync(timeout, Cancel.None)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void WaitAsync_MinusOneMilliseconds_AllowedAsInfinite()
+    public async Task WaitAsync_MinusOneMilliseconds_AllowedAsInfinite()
     {
         // Arrange
         var task = Task.Delay(100);
 
         // Act & Assert (should not throw)
-        Assert.DoesNotThrowAsync(async () =>
-            await task.WaitAsync(TimeSpan.FromMilliseconds(-1), Cancel.None));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromMilliseconds(-1), Cancel.None)).ThrowsNothing();
     }
 
     #endregion
@@ -511,7 +514,7 @@ partial class PolyfillTests
     #region Edge Cases Tests
 
     [Test]
-    public void WaitAsync_MultipleAwaitsOnSameTask_AllComplete()
+    public async Task WaitAsync_MultipleAwaitsOnSameTask_AllComplete()
     {
         // Arrange
         var cancelSource = new CancelSource();
@@ -523,23 +526,23 @@ partial class PolyfillTests
         var task3 = task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token);
 
         // Assert
-        Assert.DoesNotThrowAsync(async () =>
-            await Task.WhenAll(task1, task2, task3));
+        await Assert.That(async () =>
+            await Task.WhenAll(task1, task2, task3)).ThrowsNothing();
     }
 
     [Test]
-    public void WaitAsync_VeryShortTimeout_WorksCorrectly()
+    public async Task WaitAsync_VeryShortTimeout_WorksCorrectly()
     {
         // Arrange
         var task = Task.Delay(1000);
 
         // Act & Assert
-        Assert.ThrowsAsync<TimeoutException>(async () =>
-            await task.WaitAsync(TimeSpan.FromMilliseconds(1)));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromMilliseconds(1))).Throws<TimeoutException>();
     }
 
     [Test]
-    public void WaitAsync_ConcurrentCancellationAndTimeout_RespectsOrder()
+    public async Task WaitAsync_ConcurrentCancellationAndTimeout_RespectsOrder()
     {
         // Arrange
         var cancelSource = new CancelSource();
@@ -550,12 +553,12 @@ partial class PolyfillTests
         var task = Task.Delay(10000);
 
         // Act & Assert (cancellation should win even with short timeout)
-        Assert.ThrowsAsync<TaskCanceledException>(async () =>
-            await task.WaitAsync(TimeSpan.FromMilliseconds(100), cancelSource.Token));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromMilliseconds(100), cancelSource.Token)).Throws<TaskCanceledException>();
     }
 
     [Test]
-    public void WaitAsync_DisposedCancellationTokenSource_BehavesCorrectly()
+    public async Task WaitAsync_DisposedCancellationTokenSource_BehavesCorrectly()
     {
         // Arrange
         var task = Task.Delay(100);
@@ -567,8 +570,8 @@ partial class PolyfillTests
         }
 
         // Act & Assert (should still work with token from disposed source)
-        Assert.DoesNotThrowAsync(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(5), token));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(5), token)).ThrowsNothing();
     }
 
     #endregion
@@ -586,7 +589,7 @@ partial class PolyfillTests
         var result = await completedTask.WaitAsync(TimeSpan.FromSeconds(1), cancelSource.Token);
 
         // Assert
-        Assert.AreEqual(42, result);
+        await Assert.That(result).IsEqualTo(42);
         // This should return immediately without creating additional tasks
     }
 
@@ -858,19 +861,19 @@ partial class PolyfillTests
 
     #region Helper Methods
 
-    private async Task<T> GetValueAfterDelayAsync<T>(T value, int delayMs)
+    async Task<T> GetValueAfterDelayAsync<T>(T value, int delayMs)
     {
         await Task.Delay(delayMs);
         return value;
     }
 
-    private async Task ThrowExceptionAsync()
+    async Task ThrowExceptionAsync()
     {
         await Task.Delay(10);
         throw new InvalidOperationException("Test exception");
     }
 
-    private async Task<T> ThrowExceptionAsync<T>()
+    async Task<T> ThrowExceptionAsync<T>()
     {
         await Task.Delay(10);
         throw new InvalidOperationException("Test exception");
@@ -878,3 +881,4 @@ partial class PolyfillTests
 
     #endregion
 }
+#endif

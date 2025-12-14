@@ -1,19 +1,13 @@
-[TestFixture]
+using ProjectFilesGenerator;
+
 public class BuildApiTest
 {
-    static string solutionDirectory;
-    static string polyfillDir;
-
-    static BuildApiTest()
-    {
-        solutionDirectory = SolutionDirectoryFinder.Find();
-        polyfillDir = Path.Combine(solutionDirectory, "Polyfill");
-    }
+    static string polyfillDir = Path.Combine(ProjectFiles.SolutionDirectory, "Polyfill");
 
     [Test]
-    public void RunWithRoslyn()
+    public Task RunWithRoslyn()
     {
-        var md = Path.Combine(solutionDirectory, "..", "api_list.include.md");
+        var md = Path.Combine(ProjectFiles.SolutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
         using var writer = File.CreateText(md);
         var count = 0;
@@ -31,9 +25,10 @@ public class BuildApiTest
         //Nullability*
         count += 3;
 
-        var countMd = Path.Combine(solutionDirectory, "..", "apiCount.include.md");
+        var countMd = Path.Combine(ProjectFiles.SolutionDirectory, "..", "apiCount.include.md");
         File.Delete(countMd);
         File.WriteAllText(countMd, $"**API count: {count}**");
+        return Task.CompletedTask;
     }
 
     static int WriteExtensions(StreamWriter writer, int count)
@@ -140,7 +135,7 @@ public class BuildApiTest
         return ReadMethodsForFiles(files);
     }
 
-    private static List<Method> ReadMethodsForFiles(IEnumerable<string> files)
+    static List<Method> ReadMethodsForFiles(IEnumerable<string> files)
     {
         var types = files
             .SelectMany(Identifiers.ReadTypesForFile)

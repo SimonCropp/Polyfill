@@ -1,15 +1,14 @@
-[TestFixture]
 public class Tests
 {
     [Test]
-    public void NoEnsure() =>
-        Assert.IsNull(GetType().Assembly.GetType("Polyfills.Ensure"));
+    public async Task NoEnsure() =>
+        await Assert.That(GetType().Assembly.GetType("Polyfills.Ensure")).IsNull();
 
     [Test]
-    public void NoNullExtensions()
+    public async Task NoNullExtensions()
     {
         var method = typeof(Polyfill)
             .GetMethod("GetNullabilityInfo", BindingFlags.Static | BindingFlags.Public, null, [typeof(MemberInfo)], null);
-        Assert.IsNull(method);
+        await Assert.That(method).IsNull();
     }
 }

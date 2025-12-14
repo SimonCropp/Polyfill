@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 657**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 646**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -96,14 +96,14 @@ Reference: [Module Initializers](https://learn.microsoft.com/en-us/dotnet/csharp
 static bool InitCalled;
 
 [Test]
-public void ModuleInitTest() =>
-    Assert.True(InitCalled);
+public async Task ModuleInitTest() =>
+    await Assert.That(InitCalled).IsTrue();
 
 [ModuleInitializer]
 public static void ModuleInit() =>
     InitCalled = true;
 ```
-<sup><a href='/src/Tests/ModuleInitSample.cs#L4-L16' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/ModuleInitSample.cs#L3-L15' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -225,25 +225,24 @@ If consuming in a project that targets net461 or net462, a reference to System.V
 <!-- snippet: IndexRange -->
 <a id='snippet-IndexRange'></a>
 ```cs
-[TestFixture]
 class IndexRangeSample
 {
     [Test]
-    public void Range()
+    public async Task Range()
     {
         var substring = "value"[2..];
-        Assert.AreEqual("lue", substring);
+        await Assert.That(substring).IsEqualTo("lue");
     }
 
     [Test]
-    public void Index()
+    public async Task Index()
     {
         var ch = "value"[^2];
-        Assert.AreEqual('u', ch);
+        await Assert.That(ch).IsEqualTo('u');
     }
 
     [Test]
-    public void ArrayIndex()
+    public async Task ArrayIndex()
     {
         var array = new[]
         {
@@ -253,11 +252,11 @@ class IndexRangeSample
 
         var value = array[^2];
 
-        Assert.AreEqual("value1", value);
+        await Assert.That(value).IsEqualTo("value1");
     }
 }
 ```
-<sup><a href='/src/Tests/IndexRangeSample.cs#L1-L35' title='Snippet source file'>snippet source</a> | <a href='#snippet-IndexRange' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Tests/IndexRangeSample.cs#L1-L34' title='Snippet source file'>snippet source</a> | <a href='#snippet-IndexRange' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -278,15 +277,15 @@ class IndexRangeSample
 <!-- snippet: OverloadResolutionPriority -->
 <a id='snippet-OverloadResolutionPriority'></a>
 ```cs
-[TestFixture]
 public class OverloadResolutionPriorityAttributeTests
 {
     [Test]
-    public void Run()
+    public Task Run()
     {
         int[] arr = [1, 2, 3];
         //Prints "Span" because resolution priority is higher
         Method(arr);
+        return Task.CompletedTask;
     }
 
     [OverloadResolutionPriority(2)]
@@ -1212,12 +1211,6 @@ The class `Polyfill` includes the following extension methods:
  * `void SetCanceled<T>(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled?view=net-10.0#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken))
 
 
-#### TaskWhenEach
-
- * `IAsyncEnumerable<Task> WhenEach(IEnumerable<Task>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.wheneach?view=net-10.0)
- * `IAsyncEnumerable<Task<TResult>> WhenEach<TResult>(IEnumerable<Task<TResult>>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.wheneach?view=net-10.0)
-
-
 #### TextReader
 
  * `ValueTask<int> ReadAsync(Memory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readasync?view=net-10.0#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken))
@@ -1252,7 +1245,6 @@ The class `Polyfill` includes the following extension methods:
  * `int Nanoseconds()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds?view=net-10.0)
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat?view=net-10.0#system-timespan-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat?view=net-10.0#system-timespan-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
- * `TimeSpan FromMilliseconds(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommilliseconds?view=net-10.0)
 
 
 #### Type
@@ -1344,17 +1336,6 @@ The class `Polyfill` includes the following extension methods:
  * `Task ExtractToFileAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttofileasync?view=net-10.0#system-io-compression-zipfileextensions-extracttofileasync(system-io-compression-ziparchiveentry-system-string-system-threading-cancellationtoken))
  * `Task<Stream> OpenAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.openasync?view=net-10.0)
  * `ExternalAttributes` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.externalattributes?view=net-10.0)
-
-
-#### ZipFile
-
- * `Task CreateFromDirectoryAsync(string, string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0)
- * `Task CreateFromDirectoryAsync(string, string, CompressionLevel, bool, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0)
- * `Task CreateFromDirectoryAsync(string, string, CompressionLevel, bool, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0)
- * `Task ExtractToDirectoryAsync(string, string, bool, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0)
- * `Task ExtractToDirectoryAsync(string, string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0)
- * `Task ExtractToDirectoryAsync(string, string, Encoding, bool, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0)
- * `Task ExtractToDirectoryAsync(string, string, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0)
 
 
 #### Ensure
@@ -1505,7 +1486,7 @@ class NullabilityTarget
 <a id='snippet-NullabilityUsage'></a>
 ```cs
 [Test]
-public void Test()
+public async Task Test()
 {
     var type = typeof(NullabilityTarget);
     var arrayField = type.GetField("ArrayField")!;
@@ -1515,14 +1496,14 @@ public void Test()
 
     var arrayInfo = context.Create(arrayField);
 
-    Assert.AreEqual(NullabilityState.NotNull, arrayInfo.ReadState);
-    Assert.AreEqual(NullabilityState.Nullable, arrayInfo.ElementType!.ReadState);
+    await Assert.That(arrayInfo.ReadState).IsEqualTo(NullabilityState.NotNull);
+    await Assert.That(arrayInfo.ElementType!.ReadState).IsEqualTo(NullabilityState.Nullable);
 
     var genericInfo = context.Create(genericField);
 
-    Assert.AreEqual(NullabilityState.NotNull, genericInfo.ReadState);
-    Assert.AreEqual(NullabilityState.NotNull, genericInfo.GenericTypeArguments[0].ReadState);
-    Assert.AreEqual(NullabilityState.Nullable, genericInfo.GenericTypeArguments[1].ReadState);
+    await Assert.That(genericInfo.ReadState).IsEqualTo(NullabilityState.NotNull);
+    await Assert.That(genericInfo.GenericTypeArguments[0].ReadState).IsEqualTo(NullabilityState.NotNull);
+    await Assert.That(genericInfo.GenericTypeArguments[1].ReadState).IsEqualTo(NullabilityState.Nullable);
 }
 ```
 <sup><a href='/src/Tests/NullabilitySamples.cs#L6-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-NullabilityUsage' title='Start of snippet'>anchor</a></sup>
@@ -1595,7 +1576,7 @@ void ArgumentExceptionExample(Order order, Customer customer, string customerId,
     this.quantity = quantity;
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L377-L395' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L378-L396' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -1614,7 +1595,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L401-L413' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L402-L414' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -36,7 +36,7 @@ partial class PolyfillTests
         var content = await reader.ReadToEndAsync(cancel);
 
         // Assert
-        Assert.AreEqual("Fake Content", content);
+        await Assert.That(content).IsEqualTo("Fake Content");
     }
 
     [Test]
@@ -50,12 +50,12 @@ partial class PolyfillTests
         try
         {
             await httpClient.GetStreamAsync("https://example.com", cancel);
-            Assert.Fail();
+            Assert.Fail("Test failed");
         }
         catch (OperationCanceledException exception)
         {
             // Assert
-            Assert.IsTrue(exception.CancellationToken.IsCancellationRequested);
+            await Assert.That(exception.CancellationToken.IsCancellationRequested).IsTrue();
         }
     }
 
@@ -71,7 +71,7 @@ partial class PolyfillTests
         var content = Encoding.UTF8.GetString(bytes);
 
         // Assert
-        Assert.AreEqual("Fake Content", content);
+        await Assert.That(content).IsEqualTo("Fake Content");
     }
 
     [Test]
@@ -85,12 +85,12 @@ partial class PolyfillTests
         try
         {
             await httpClient.GetByteArrayAsync("https://example.com", cancel);
-            Assert.Fail();
+            Assert.Fail("Test failed");
         }
         catch (OperationCanceledException exception)
         {
             // Assert
-            Assert.IsTrue(exception.CancellationToken.IsCancellationRequested);
+            await Assert.That(exception.CancellationToken.IsCancellationRequested).IsTrue();
         }
     }
 
@@ -105,7 +105,7 @@ partial class PolyfillTests
         var content = await httpClient.GetStringAsync("https://example.com", cancel);
 
         // Assert
-        Assert.AreEqual("Fake Content", content);
+        await Assert.That(content).IsEqualTo("Fake Content");
     }
 
     [Test]
@@ -119,12 +119,12 @@ partial class PolyfillTests
         try
         {
             await httpClient.GetStringAsync("https://example.com", cancel);
-            Assert.Fail();
+            Assert.Fail("Test failed");
         }
         catch (OperationCanceledException exception)
         {
             // Assert
-            Assert.IsTrue(exception.CancellationToken.IsCancellationRequested);
+            await Assert.That(exception.CancellationToken.IsCancellationRequested).IsTrue();
         }
     }
 }

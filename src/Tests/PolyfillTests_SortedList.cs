@@ -1,7 +1,7 @@
 partial class PolyfillTests
 {
     [Test]
-    public void SortedListGetKeyAtIndex()
+    public async Task SortedListGetKeyAtIndex()
     {
         var list = new SortedList<int, char>
         {
@@ -10,11 +10,11 @@ partial class PolyfillTests
             }
         };
         var key = list.GetKeyAtIndex(0);
-        Assert.AreEqual(3, key);
+        await Assert.That(key).IsEqualTo(3);
     }
 
     [Test]
-    public void SortedListGetValueAtIndex()
+    public async Task SortedListGetValueAtIndex()
     {
         var list = new SortedList<int, char>
         {
@@ -23,6 +23,6 @@ partial class PolyfillTests
             }
         };
         var value = list.GetValueAtIndex(0);
-        Assert.AreEqual('x', value);
+        await Assert.That(value).IsEqualTo('x');
     }
 }

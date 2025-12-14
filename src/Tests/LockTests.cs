@@ -1,79 +1,89 @@
-﻿[TestFixture]
 public class LockTests
 {
     [Test]
-    public void Enter()
+    public async Task Enter()
     {
         var locker = new Lock();
 
-        Assert.False(locker.IsHeldByCurrentThread);
+        await Assert.That(locker.IsHeldByCurrentThread).IsFalse();
         locker.Enter();
-        Assert.True(locker.IsHeldByCurrentThread);
+        var isHeld = locker.IsHeldByCurrentThread;
+        await Assert.That(isHeld).IsTrue();
     }
 
     [Test]
-    public void TryEnter()
+    public async Task TryEnter()
     {
         var locker = new Lock();
 
-        Assert.False(locker.IsHeldByCurrentThread);
-        Assert.True(locker.TryEnter());
-        Assert.True(locker.IsHeldByCurrentThread);
+        await Assert.That(locker.IsHeldByCurrentThread).IsFalse();
+        var result = locker.TryEnter();
+        await Assert.That(result).IsTrue();
+        await Assert.That(locker.IsHeldByCurrentThread).IsTrue();
     }
 
     [Test]
-    public void TryEnter_Timeout()
+    public async Task TryEnter_Timeout()
     {
         var locker = new Lock();
 
-        Assert.False(locker.IsHeldByCurrentThread);
-        Assert.True(locker.TryEnter(100));
-        Assert.True(locker.IsHeldByCurrentThread);
+        await Assert.That(locker.IsHeldByCurrentThread).IsFalse();
+        var result = locker.TryEnter(100);
+        await Assert.That(result).IsTrue();
+        await Assert.That(locker.IsHeldByCurrentThread).IsTrue();
     }
 
     [Test]
-    public void Exit()
+    public async Task Exit()
     {
         var locker = new Lock();
 
-        Assert.False(locker.IsHeldByCurrentThread);
+        await Assert.That(locker.IsHeldByCurrentThread).IsFalse();
         locker.Enter();
-        Assert.True(locker.IsHeldByCurrentThread);
+        await Assert.That(locker.IsHeldByCurrentThread).IsTrue();
         locker.Exit();
-        Assert.False(locker.IsHeldByCurrentThread);
+        await Assert.That(locker.IsHeldByCurrentThread).IsFalse();
     }
 
     [Test]
-    public void EnterScope()
+    public async Task EnterScope()
     {
         var locker = new Lock();
+        bool isHeldInside;
 
-        Assert.False(locker.IsHeldByCurrentThread);
+        await Assert.That(locker.IsHeldByCurrentThread).IsFalse();
         using (locker.EnterScope())
         {
-            Assert.True(locker.IsHeldByCurrentThread);
+            isHeldInside = locker.IsHeldByCurrentThread;
         }
 
-        Assert.False(locker.IsHeldByCurrentThread);
+        await Assert.That(isHeldInside).IsTrue();
+        await Assert.That(locker.IsHeldByCurrentThread).IsFalse();
     }
 
     [Test]
-    public void EnterScope_Layered()
+    public async Task EnterScope_Layered()
     {
         var locker = new Lock();
+        bool isHeldInner;
+        bool isHeldMiddle;
+        bool isHeldAfterInner;
 
-        Assert.False(locker.IsHeldByCurrentThread);
+        await Assert.That(locker.IsHeldByCurrentThread).IsFalse();
         using (locker.EnterScope())
         {
-            Assert.True(locker.IsHeldByCurrentThread);
+            isHeldMiddle = locker.IsHeldByCurrentThread;
             using (locker.EnterScope())
             {
-                Assert.True(locker.IsHeldByCurrentThread);
+                isHeldInner = locker.IsHeldByCurrentThread;
             }
 
-            Assert.True(locker.IsHeldByCurrentThread);
+            isHeldAfterInner = locker.IsHeldByCurrentThread;
         }
 
-        Assert.False(locker.IsHeldByCurrentThread);
+        await Assert.That(isHeldMiddle).IsTrue();
+        await Assert.That(isHeldInner).IsTrue();
+        await Assert.That(isHeldAfterInner).IsTrue();
+        await Assert.That(locker.IsHeldByCurrentThread).IsFalse();
     }
 }
