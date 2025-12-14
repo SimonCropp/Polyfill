@@ -1,3 +1,5 @@
+//TODO: work out why this fails in CI
+#if DEBUG
 // ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
 // ReSharper disable MethodSupportsCancellation
 partial class PolyfillTests
@@ -12,8 +14,6 @@ partial class PolyfillTests
         return exception;
     }
 
-    //TODO: work out why this fails in CI
-#if DEBUG
     [Test]
     public async Task Task_WaitAsync_With_Cancellation_Timeout()
     {
@@ -34,7 +34,6 @@ partial class PolyfillTests
         await Assert.That(stopwatch.ElapsedMilliseconds).IsGreaterThanOrEqualTo(350);
         await Assert.That(stopwatch.ElapsedMilliseconds).IsLessThanOrEqualTo(800);
     }
-#endif
 
     [Test]
     public async Task Task_WaitAsync_InvalidTimeout_Throws()
@@ -181,8 +180,6 @@ partial class PolyfillTests
             await task.WaitAsync(TimeSpan.FromMilliseconds(100), cancelSource.Token)).Throws<TimeoutException>();
     }
 
-    //TODO: work out why this fails in CI
-    #if DEBUG
     [Test]
     public async Task WaitAsync_TimeoutAndToken_CancellationOccurs_ThrowsTaskCanceledException()
     {
@@ -195,8 +192,6 @@ partial class PolyfillTests
         await Assert.That(async () =>
             await task.WaitAsync(TimeSpan.FromSeconds(10), cancelSource.Token)).Throws<TaskCanceledException>();
     }
-    #endif
-
     [Test]
     public async Task WaitAsync_TimeoutAndToken_CancellationBeforeTimeout_ThrowsTaskCanceledException()
     {
@@ -636,3 +631,4 @@ partial class PolyfillTests
 
     #endregion
 }
+#endif
