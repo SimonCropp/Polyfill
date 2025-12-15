@@ -13,17 +13,10 @@ static partial class Polyfill
         /// <summary>
         /// Returns a <see cref="TimeSpan"/> that represents a specified number of milliseconds.
         /// </summary>
-        /// <param name="value">A number of milliseconds.</param>
-        /// <returns>An object that represents <paramref name="value"/>.</returns>
-        /// <exception cref="OverflowException">
-        /// <paramref name="value"/> is less than <see cref="MinValue"/> or greater than <see cref="MaxValue"/>.
-        /// -or-
-        /// <paramref name="value"/> is <see cref="double.PositiveInfinity"/>.
-        /// -or-
-        /// <paramref name="value"/> is <see cref="double.NegativeInfinity"/>.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> is equal to <see cref="double.NaN"/>.
+        /// <param name="milliseconds">A number of milliseconds.</param>
+        /// <returns>An object that represents <paramref name="milliseconds"/>.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="milliseconds"/> is less than <see cref="TimeSpan.MinValue"/> or greater than <see cref="TimeSpan.MaxValue"/>.
         /// </exception>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommilliseconds?view=net-10.0
         public static TimeSpan FromMilliseconds(long milliseconds)
@@ -34,7 +27,7 @@ static partial class Polyfill
 
             if (milliseconds < MinMilliseconds || milliseconds > MaxMilliseconds)
             {
-                throw new OverflowException("TimeSpan overflowed because the duration is too long.");
+                throw new ArgumentOutOfRangeException(nameof(milliseconds), "TimeSpan overflowed because the duration is too long.");
             }
 
             return new TimeSpan(milliseconds * TicksPerMillisecond);
