@@ -2,7 +2,7 @@
   <PropertyGroup>
     <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <TargetFramework>uap10.0.16299</TargetFramework>
+    <TargetFramework>uap10.0.19041</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Memory" />
