@@ -9,11 +9,12 @@ namespace System.Runtime.CompilerServices;
 /// Indicates the argument should be captured as the state machine's cancellation token, for use with IAsyncEnumerable.
 /// </summary>
 [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif
-sealed class EnumeratorCancellationAttribute : Attribute
-{
-}
+sealed class EnumeratorCancellationAttribute : Attribute;
 
 #endif
