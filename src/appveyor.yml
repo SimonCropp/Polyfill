@@ -29,8 +29,7 @@ build_script:
 - dotnet build src/Polyfill.slnx --configuration Release --verbosity quiet
 - pwsh: ./src/run-tests.ps1
 - dotnet build src/PolyfillTrimmed.slnf --target PublishAll --configuration Release
-- msbuild.exe src/PolyfillUwp.sln /p:Configuration=Release -verbosity:quiet -restore
-- msbuild.exe src/PolyfillUwp.sln /p:Configuration=Release -verbosity:quiet
+- msbuild.exe src/PolyfillUwp.slnx /p:Configuration=Release -verbosity:quiet
 
 on_failure:
   - ps: Get-ChildItem *.received.* -recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
