@@ -3,7 +3,7 @@
 partial class PolyfillTests
 {
     [Test]
-    public static void DefaultSpanSortBehaviour()
+    public Task DefaultSpanSortBehaviour()
     {
         var expected = Enumerable.Range(0, 10).ToArray();
         var reversed = Enumerable.Range(0, 10)
@@ -15,11 +15,11 @@ partial class PolyfillTests
 
         chars.Sort();
 
-        Assert.That(expected.SequenceEqual(actual));
+       await Assert.That(expected.SequenceEqual(actual));
     }
 
     [Test]
-    public static void Sort_Comparison_HighToLow()
+    public Task Sort_Comparison_HighToLow()
     {
         var expected = Enumerable.Range(0, 10).Reverse().ToArray();
         var notReversed = Enumerable.Range(0, 10).ToArray();
@@ -28,11 +28,11 @@ partial class PolyfillTests
 
         actual.Sort((x, y) => x.CompareTo(y));
 
-        Assert.That(expected.SequenceEqual(actual));
+       await Assert.That(expected.SequenceEqual(actual));
     }
 
     [Test]
-    public static void Sort_Separate_Spans_Comparison_HighToLow()
+    public Task Sort_Separate_Spans_Comparison_HighToLow()
     {
         var expectedKeys = Enumerable.Range(0, 3).Reverse().ToArray();
         var expectedItems = new[]{'a', 'b', 'c'}.AsEnumerable().Reverse().ToArray();
@@ -44,8 +44,8 @@ partial class PolyfillTests
 
         actualKeysSpan.Sort(actualItems, (x, y) => x >= y ? 1 : -1);
 
-        Assert.That(expectedKeys.SequenceEqual(actualKeys));
-        Assert.That(expectedItems.SequenceEqual(actualItems));
+       await Assert.That(expectedKeys.SequenceEqual(actualKeys));
+       await Assert.That(expectedItems.SequenceEqual(actualItems));
     }
 }
 #endif
