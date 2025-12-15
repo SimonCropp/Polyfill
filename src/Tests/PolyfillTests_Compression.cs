@@ -10,7 +10,8 @@ partial class PolyfillTests
         using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
         {
             var entry = archive.CreateEntry("test.txt");
-            using var writer = new StreamWriter(entry.Open());
+            await using var stream = entry.Open();
+            using var writer = new StreamWriter(stream);
             writer.Write("content");
         }
 
@@ -39,7 +40,8 @@ partial class PolyfillTests
         using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
         {
             var entry = archive.CreateEntry("test.txt");
-            using var writer = new StreamWriter(entry.Open());
+            await using var stream = entry.Open();
+            using var writer = new StreamWriter(stream);
             writer.Write("new content");
         }
 
@@ -62,7 +64,7 @@ partial class PolyfillTests
     }
 
     [Test]
-    public void ExtractToDirectory_Throws_When_Entry_Would_Escape_Directory()
+    public async Task ExtractToDirectory_Throws_When_Entry_Would_Escape_Directory()
     {
         using var memStream = new MemoryStream();
         using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
@@ -77,8 +79,8 @@ partial class PolyfillTests
 
         try
         {
-            Assert.Throws<IOException>(() =>
-                extractArchive.ExtractToDirectory(tempDir, overwriteFiles: false));
+            await Assert.That(() =>
+                extractArchive.ExtractToDirectory(tempDir, overwriteFiles: false)).Throws<IOException>();
         }
         finally
         {
@@ -90,7 +92,7 @@ partial class PolyfillTests
     public async Task ZipFile_ExtractToDirectoryAsync_ExtractsAllEntries()
     {
         // Arrange
-        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".zip");
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
 
         try
@@ -99,7 +101,8 @@ partial class PolyfillTests
             using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create))
             {
                 var entry = archive.CreateEntry("test.txt");
-                using var writer = new StreamWriter(entry.Open());
+                await using var stream = entry.Open();
+                using var writer = new StreamWriter(stream);
                 writer.Write("async content");
             }
 
@@ -108,15 +111,20 @@ partial class PolyfillTests
 
             // Assert
             var filePath = Path.Combine(tempDir, "test.txt");
-            Assert.True(File.Exists(filePath));
-            Assert.AreEqual("async content", File.ReadAllText(filePath));
+            await Assert.That(File.Exists(filePath)).IsTrue();
+            await Assert.That(File.ReadAllText(filePath)).IsEqualTo("async content");
         }
         finally
         {
             if (File.Exists(tempArchive))
+            {
                 File.Delete(tempArchive);
+            }
+
             if (Directory.Exists(tempDir))
+            {
                 Directory.Delete(tempDir, true);
+            }
         }
     }
 
@@ -124,7 +132,7 @@ partial class PolyfillTests
     public async Task ZipFile_ExtractToDirectoryAsync_WithOverwrite_OverwritesFiles()
     {
         // Arrange
-        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".zip");
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         Directory.CreateDirectory(tempDir);
         var filePath = Path.Combine(tempDir, "test.txt");
@@ -136,7 +144,8 @@ partial class PolyfillTests
             using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create))
             {
                 var entry = archive.CreateEntry("test.txt");
-                using var writer = new StreamWriter(entry.Open());
+                await using var stream = entry.Open();
+                using var writer = new StreamWriter(stream);
                 writer.Write("new content");
             }
 
@@ -144,14 +153,19 @@ partial class PolyfillTests
             await ZipFile.ExtractToDirectoryAsync(tempArchive, tempDir, overwriteFiles: true);
 
             // Assert
-            Assert.AreEqual("new content", File.ReadAllText(filePath));
+            await Assert.That(File.ReadAllText(filePath)).IsEqualTo("new content");
         }
         finally
         {
             if (File.Exists(tempArchive))
+            {
                 File.Delete(tempArchive);
+            }
+
             if (Directory.Exists(tempDir))
+            {
                 Directory.Delete(tempDir, true);
+            }
         }
     }
 
@@ -159,7 +173,7 @@ partial class PolyfillTests
     public async Task ZipFile_ExtractToDirectoryAsync_WithEncoding_ExtractsCorrectly()
     {
         // Arrange
-        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".zip");
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
 
         try
@@ -168,7 +182,8 @@ partial class PolyfillTests
             using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create, Encoding.UTF8))
             {
                 var entry = archive.CreateEntry("test.txt");
-                using var writer = new StreamWriter(entry.Open());
+                await using var stream = entry.Open();
+                using var writer = new StreamWriter(stream);
                 writer.Write("encoded content");
             }
 
@@ -177,15 +192,20 @@ partial class PolyfillTests
 
             // Assert
             var filePath = Path.Combine(tempDir, "test.txt");
-            Assert.True(File.Exists(filePath));
-            Assert.AreEqual("encoded content", File.ReadAllText(filePath));
+            await Assert.That(File.Exists(filePath)).IsTrue();
+            await Assert.That(File.ReadAllText(filePath)).IsEqualTo("encoded content");
         }
         finally
         {
             if (File.Exists(tempArchive))
+            {
                 File.Delete(tempArchive);
+            }
+
             if (Directory.Exists(tempDir))
+            {
                 Directory.Delete(tempDir, true);
+            }
         }
     }
 
@@ -193,7 +213,7 @@ partial class PolyfillTests
     public async Task ZipFile_ExtractToDirectoryAsync_WithCancellation_CanBeCancelled()
     {
         // Arrange
-        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".zip");
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         var cancelSource = new CancelSource();
 
@@ -203,22 +223,28 @@ partial class PolyfillTests
             using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create))
             {
                 var entry = archive.CreateEntry("test.txt");
-                using var writer = new StreamWriter(entry.Open());
+                await using var stream = entry.Open();
+                using var writer = new StreamWriter(stream);
                 writer.Write("content");
             }
 
             cancelSource.Cancel();
 
             // Act & Assert - Polyfill throws TaskCanceledException, native .NET 10+ throws OperationCanceledException
-            Assert.That(async () => await ZipFile.ExtractToDirectoryAsync(tempArchive, tempDir, cancelSource.Token),
-                Throws.InstanceOf<OperationCanceledException>());
+            await Assert.That(async () => await ZipFile.ExtractToDirectoryAsync(tempArchive, tempDir, cancelSource.Token))
+                .Throws<OperationCanceledException>();
         }
         finally
         {
             if (File.Exists(tempArchive))
+            {
                 File.Delete(tempArchive);
+            }
+
             if (Directory.Exists(tempDir))
+            {
                 Directory.Delete(tempDir, true);
+            }
         }
     }
 
@@ -227,7 +253,7 @@ partial class PolyfillTests
     {
         // Arrange
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".zip");
         Directory.CreateDirectory(tempDir);
         File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
 
@@ -237,17 +263,22 @@ partial class PolyfillTests
             await ZipFile.CreateFromDirectoryAsync(tempDir, tempArchive);
 
             // Assert
-            Assert.True(File.Exists(tempArchive));
+            await Assert.That(File.Exists(tempArchive)).IsTrue();
             using var archive = ZipFile.OpenRead(tempArchive);
-            Assert.AreEqual(1, archive.Entries.Count);
-            Assert.AreEqual("test.txt", archive.Entries[0].Name);
+            await Assert.That(archive.Entries.Count).IsEqualTo(1);
+            await Assert.That(archive.Entries[0].Name).IsEqualTo("test.txt");
         }
         finally
         {
             if (File.Exists(tempArchive))
+            {
                 File.Delete(tempArchive);
+            }
+
             if (Directory.Exists(tempDir))
+            {
                 Directory.Delete(tempDir, true);
+            }
         }
     }
 
@@ -256,7 +287,7 @@ partial class PolyfillTests
     {
         // Arrange
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".zip");
         Directory.CreateDirectory(tempDir);
         File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
 
@@ -270,16 +301,21 @@ partial class PolyfillTests
                 includeBaseDirectory: false);
 
             // Assert
-            Assert.True(File.Exists(tempArchive));
+            await Assert.That(File.Exists(tempArchive)).IsTrue();
             using var archive = ZipFile.OpenRead(tempArchive);
-            Assert.AreEqual(1, archive.Entries.Count);
+            await Assert.That(archive.Entries.Count).IsEqualTo(1);
         }
         finally
         {
             if (File.Exists(tempArchive))
+            {
                 File.Delete(tempArchive);
+            }
+
             if (Directory.Exists(tempDir))
+            {
                 Directory.Delete(tempDir, true);
+            }
         }
     }
 
@@ -288,7 +324,7 @@ partial class PolyfillTests
     {
         // Arrange
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".zip");
         Directory.CreateDirectory(tempDir);
         File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
 
@@ -303,16 +339,21 @@ partial class PolyfillTests
                 Encoding.UTF8);
 
             // Assert
-            Assert.True(File.Exists(tempArchive));
+            await Assert.That(File.Exists(tempArchive)).IsTrue();
             using var archive = ZipFile.OpenRead(tempArchive);
-            Assert.AreEqual(1, archive.Entries.Count);
+            await Assert.That(archive.Entries.Count).IsEqualTo(1);
         }
         finally
         {
             if (File.Exists(tempArchive))
+            {
                 File.Delete(tempArchive);
+            }
+
             if (Directory.Exists(tempDir))
+            {
                 Directory.Delete(tempDir, true);
+            }
         }
     }
 
@@ -321,7 +362,7 @@ partial class PolyfillTests
     {
         // Arrange
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
-        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + ".zip");
+        var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".zip");
         Directory.CreateDirectory(tempDir);
         File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
         var cancelSource = new CancelSource();
@@ -331,15 +372,20 @@ partial class PolyfillTests
             cancelSource.Cancel();
 
             // Act & Assert - Polyfill throws TaskCanceledException, native .NET 10+ throws OperationCanceledException
-            Assert.ThrowsAsync<OperationCanceledException>(async () =>
-                await ZipFile.CreateFromDirectoryAsync(tempDir, tempArchive, cancelSource.Token));
+            await Assert.That(async () =>
+                await ZipFile.CreateFromDirectoryAsync(tempDir, tempArchive, cancelSource.Token)).Throws<OperationCanceledException>();
         }
         finally
         {
             if (File.Exists(tempArchive))
+            {
                 File.Delete(tempArchive);
+            }
+
             if (Directory.Exists(tempDir))
+            {
                 Directory.Delete(tempDir, true);
+            }
         }
     }
 }
