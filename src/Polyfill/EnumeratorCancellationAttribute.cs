@@ -5,6 +5,9 @@
 
 namespace System.Runtime.CompilerServices;
 
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+
 /// <summary>
 /// Indicates the argument should be captured as the state machine's cancellation token, for use with IAsyncEnumerable.
 /// </summary>
