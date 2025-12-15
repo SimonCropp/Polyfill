@@ -2,7 +2,7 @@
   <PropertyGroup>
     <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <TargetFramework>uap10.0</TargetFramework>
+    <TargetFramework>uap10.0.26100.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Consume\*.cs" />
