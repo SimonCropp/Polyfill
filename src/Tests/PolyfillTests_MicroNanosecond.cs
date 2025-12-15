@@ -86,12 +86,7 @@ partial class PolyfillTests
         // Arrange - value that would overflow
         var tooLarge = long.MaxValue;
 
-        // Act & Assert - Native .NET 10+ throws ArgumentOutOfRangeException, polyfill throws OverflowException
-#if NET10_0_OR_GREATER
         await Assert.That(() => TimeSpan.FromMilliseconds(tooLarge)).Throws<ArgumentOutOfRangeException>();
-#else
-        await Assert.That(() => TimeSpan.FromMilliseconds(tooLarge)).Throws<OverflowException>();
-#endif
     }
 
     [Test]
@@ -100,12 +95,7 @@ partial class PolyfillTests
         // Arrange - value that would overflow
         var tooSmall = long.MinValue;
 
-        // Act & Assert - Native .NET 10+ throws ArgumentOutOfRangeException, polyfill throws OverflowException
-#if NET10_0_OR_GREATER
         await Assert.That(() => TimeSpan.FromMilliseconds(tooSmall)).Throws<ArgumentOutOfRangeException>();
-#else
-        await Assert.That(() => TimeSpan.FromMilliseconds(tooSmall)).Throws<OverflowException>();
-#endif
     }
 
     [Test]

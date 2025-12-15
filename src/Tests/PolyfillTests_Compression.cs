@@ -10,7 +10,7 @@ partial class PolyfillTests
         using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
         {
             var entry = archive.CreateEntry("test.txt");
-            await using var stream = entry.Open();
+            using var stream = entry.Open();
             using var writer = new StreamWriter(stream);
             await writer.WriteAsync("content");
         }
@@ -40,7 +40,7 @@ partial class PolyfillTests
         using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
         {
             var entry = archive.CreateEntry("test.txt");
-            await using var stream = entry.Open();
+            using var stream = entry.Open();
             using var writer = new StreamWriter(stream);
             await writer.WriteAsync("new content");
         }
@@ -101,7 +101,7 @@ partial class PolyfillTests
             using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create))
             {
                 var entry = archive.CreateEntry("test.txt");
-                await using var stream = entry.Open();
+                using var stream = entry.Open();
                 using var writer = new StreamWriter(stream);
                 await writer.WriteAsync("async content");
             }
@@ -144,7 +144,7 @@ partial class PolyfillTests
             using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create))
             {
                 var entry = archive.CreateEntry("test.txt");
-                await using var stream = entry.Open();
+                using var stream = entry.Open();
                 using var writer = new StreamWriter(stream);
                 writer.Write("new content");
             }
@@ -182,7 +182,7 @@ partial class PolyfillTests
             using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create, Encoding.UTF8))
             {
                 var entry = archive.CreateEntry("test.txt");
-                await using var stream = entry.Open();
+                using var stream = entry.Open();
                 using var writer = new StreamWriter(stream);
                 await writer.WriteAsync("encoded content");
             }
@@ -223,7 +223,7 @@ partial class PolyfillTests
             using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create))
             {
                 var entry = archive.CreateEntry("test.txt");
-                await using var stream = entry.Open();
+                using var stream = entry.Open();
                 using var writer = new StreamWriter(stream);
                 writer.Write("content");
             }

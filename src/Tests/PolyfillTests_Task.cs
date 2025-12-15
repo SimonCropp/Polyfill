@@ -201,8 +201,8 @@ partial class PolyfillTests
         var task = Task.Delay(10000);
 
         // Act & Assert (cancellation should win - use 5s timeout to ensure cancellation fires first on slow CI servers)
-        await Assert.ThrowsAsync<TaskCanceledException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token)).Throws<TaskCanceledException>();
     }
 
     [Test]
@@ -642,7 +642,7 @@ partial class PolyfillTests
         await whenEachTask;
 
         // Assert - verify we got all tasks
-        Assert.AreEqual(3, completed.Count);
+        await Assert.That(completed.Count).IsEqualTo(3);
     }
 
     [Test]
@@ -673,10 +673,10 @@ partial class PolyfillTests
         await whenEachTask;
 
         // Assert - verify we got all results
-        Assert.AreEqual(3, results.Count);
-        Assert.Contains(1, results);
-        Assert.Contains(2, results);
-        Assert.Contains(3, results);
+        await Assert.That(results.Count).IsEqualTo(3);
+        await Assert.That(results.Contains(1)).IsTrue();
+        await Assert.That(results.Contains(2)).IsTrue();
+        await Assert.That(results.Contains(3)).IsTrue();
     }
 
     [Test]
@@ -693,7 +693,7 @@ partial class PolyfillTests
         }
 
         // Assert
-        Assert.AreEqual(0, count);
+        await Assert.That(count).IsEqualTo(0);
     }
 
     [Test]
@@ -710,34 +710,34 @@ partial class PolyfillTests
         }
 
         // Assert
-        Assert.AreEqual(0, count);
+        await Assert.That(count).IsEqualTo(0);
     }
 
     [Test]
-    public void WhenEach_NonGeneric_NullTasks_ThrowsArgumentNullException()
+    public async Task WhenEach_NonGeneric_NullTasks_ThrowsArgumentNullException()
     {
         // Act & Assert
 #pragma warning disable IDE0022
-        Assert.ThrowsAsync<ArgumentNullException>(async () =>
+        await Assert.That(async () =>
         {
             await foreach (var task in Task.WhenEach((IEnumerable<Task>)null!))
             {
             }
-        });
+        }).Throws<ArgumentNullException>();
 #pragma warning restore IDE0022
     }
 
     [Test]
-    public void WhenEach_Generic_NullTasks_ThrowsArgumentNullException()
+    public async Task WhenEach_Generic_NullTasks_ThrowsArgumentNullException()
     {
         // Act & Assert
 #pragma warning disable IDE0022
-        Assert.ThrowsAsync<ArgumentNullException>(async () =>
+        await Assert.That(async () =>
         {
             await foreach (var task in Task.WhenEach((IEnumerable<Task<int>>)null!))
             {
             }
-        });
+        }).Throws<ArgumentNullException>();
 #pragma warning restore IDE0022
     }
 
@@ -774,7 +774,7 @@ partial class PolyfillTests
         tcs3.SetResult();
 
         // Assert
-        Assert.ThrowsAsync<OperationCanceledException>(() => whenEachTask);
+        await Assert.That(() => whenEachTask).Throws<OperationCanceledException>();
     }
 #endif
 
@@ -802,9 +802,9 @@ partial class PolyfillTests
         await whenEachTask;
 
         // Assert - WhenEach completes, but the task itself is faulted
-        Assert.AreEqual(2, results.Count);
-        Assert.DoesNotThrowAsync(() => results[0]);
-        Assert.ThrowsAsync<InvalidOperationException>(() => results[1]);
+        await Assert.That(results.Count).IsEqualTo(2);
+        await Assert.That(async () => await results[0]).ThrowsNothing();
+        await Assert.That(async () => await results[1]).Throws<InvalidOperationException>();
     }
 
     [Test]
@@ -823,11 +823,11 @@ partial class PolyfillTests
         await foreach (var task in Task.WhenEach(tasks))
         {
             count++;
-            Assert.True(task.IsCompleted);
+            await Assert.That(task.IsCompleted).IsTrue();
         }
 
         // Assert
-        Assert.AreEqual(3, count);
+        await Assert.That(count).IsEqualTo(3);
     }
 
     [Test]
@@ -849,10 +849,10 @@ partial class PolyfillTests
         }
 
         // Assert
-        Assert.AreEqual(3, results.Count);
-        Assert.Contains(1, results);
-        Assert.Contains(2, results);
-        Assert.Contains(3, results);
+        await Assert.That(results.Count).IsEqualTo(3);
+        await Assert.That(results.Contains(1)).IsTrue();
+        await Assert.That(results.Contains(2)).IsTrue();
+        await Assert.That(results.Contains(3)).IsTrue();
     }
 
     #endregion
