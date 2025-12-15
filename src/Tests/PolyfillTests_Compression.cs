@@ -12,7 +12,7 @@ partial class PolyfillTests
             var entry = archive.CreateEntry("test.txt");
             await using var stream = entry.Open();
             using var writer = new StreamWriter(stream);
-            writer.Write("content");
+            await writer.WriteAsync("content");
         }
 
         memStream.Position = 0;
@@ -42,7 +42,7 @@ partial class PolyfillTests
             var entry = archive.CreateEntry("test.txt");
             await using var stream = entry.Open();
             using var writer = new StreamWriter(stream);
-            writer.Write("new content");
+            await writer.WriteAsync("new content");
         }
 
         memStream.Position = 0;
@@ -50,12 +50,12 @@ partial class PolyfillTests
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         Directory.CreateDirectory(tempDir);
         var filePath = Path.Combine(tempDir, "test.txt");
-        File.WriteAllText(filePath, "old content");
+        await File.WriteAllTextAsync(filePath, "old content");
 
         try
         {
             extractArchive.ExtractToDirectory(tempDir, overwriteFiles: true);
-            await Assert.That(File.ReadAllText(filePath)).IsEqualTo("new content");
+            await Assert.That(await File.ReadAllTextAsync(filePath)).IsEqualTo("new content");
         }
         finally
         {
@@ -103,7 +103,7 @@ partial class PolyfillTests
                 var entry = archive.CreateEntry("test.txt");
                 await using var stream = entry.Open();
                 using var writer = new StreamWriter(stream);
-                writer.Write("async content");
+                await writer.WriteAsync("async content");
             }
 
             // Act
@@ -136,7 +136,7 @@ partial class PolyfillTests
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         Directory.CreateDirectory(tempDir);
         var filePath = Path.Combine(tempDir, "test.txt");
-        File.WriteAllText(filePath, "old content");
+        await File.WriteAllTextAsync(filePath, "old content");
 
         try
         {
@@ -153,7 +153,7 @@ partial class PolyfillTests
             await ZipFile.ExtractToDirectoryAsync(tempArchive, tempDir, overwriteFiles: true);
 
             // Assert
-            await Assert.That(File.ReadAllText(filePath)).IsEqualTo("new content");
+            await Assert.That(await File.ReadAllTextAsync(filePath)).IsEqualTo("new content");
         }
         finally
         {
@@ -184,7 +184,7 @@ partial class PolyfillTests
                 var entry = archive.CreateEntry("test.txt");
                 await using var stream = entry.Open();
                 using var writer = new StreamWriter(stream);
-                writer.Write("encoded content");
+                await writer.WriteAsync("encoded content");
             }
 
             // Act
@@ -193,7 +193,7 @@ partial class PolyfillTests
             // Assert
             var filePath = Path.Combine(tempDir, "test.txt");
             await Assert.That(File.Exists(filePath)).IsTrue();
-            await Assert.That(File.ReadAllText(filePath)).IsEqualTo("encoded content");
+            await Assert.That(await File.ReadAllTextAsync(filePath)).IsEqualTo("encoded content");
         }
         finally
         {
