@@ -8,6 +8,8 @@ namespace System.Runtime.CompilerServices;
 /// <summary>
 /// Indicates the argument should be captured as the state machine's cancellation token, for use with IAsyncEnumerable.
 /// </summary>
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
 [AttributeUsage(AttributeTargets.Parameter, Inherited = false)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
