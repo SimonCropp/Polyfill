@@ -2,7 +2,7 @@
 #pragma warning disable
 
 #if FeatureMemory
-#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2X
+#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0
 #nullable enable
 
 namespace System.Buffers;
