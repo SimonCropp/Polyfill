@@ -652,7 +652,7 @@ public class SplitterTests
     public async Task StringBuilder_Append_ProducesValidCSharp()
     {
         // This tests the specific file that was reported as producing invalid C#
-        var source = File.ReadAllText(Path.Combine(Splitter.SplitOutputDir, "..", "Polyfill", "StringInterpolation", "Polyfill_StringBuilder_Append.cs"));
+        var source = await File.ReadAllTextAsync(Path.Combine(Splitter.SplitOutputDir, "..", "Polyfill", "StringInterpolation", "Polyfill_StringBuilder_Append.cs"));
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net461");
         var resultLines = Splitter.ProcessFile(source, definedSymbols);
         resultLines = Splitter.RemoveEmptyConditionalBlocks(resultLines);

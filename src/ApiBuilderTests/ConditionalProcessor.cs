@@ -49,13 +49,10 @@ public class ConditionalProcessor
 
                 state.Push(new()
                 {
-                    OriginalExpression = expression,
                     EvalResult = evalResult,
-                    SimplifiedExpression = SimplifyExpression(expression),
                     BranchTaken = evalResult is TriState.True or TriState.Unknown,
                     HasElse = false,
                     ElseEvalResult = null,
-                    Line = i,
                     InsideExcludedBranch = insideFalseBranch
                 });
 
@@ -63,7 +60,7 @@ public class ConditionalProcessor
                 {
                     // Keep the directive but with simplified expression
                     var simplified = SimplifyExpression(expression);
-                    var indent = line.Substring(0, line.Length - trimmed.Length);
+                    var indent = line[..^trimmed.Length];
                     outputLines.Add($"{indent}#if {simplified}");
                 }
                 // If evalResult is True or False, we don't output the #if
@@ -88,7 +85,7 @@ public class ConditionalProcessor
                     {
                         // Only output elif if it has unknown symbols and we're not inside an excluded branch
                         var simplified = SimplifyExpression(expression);
-                        var indent = line.Substring(0, line.Length - trimmed.Length);
+                        var indent = line[..^trimmed.Length];
                         outputLines.Add($"{indent}#elif {simplified}");
                     }
                     // If elif condition is definitely true or false, don't output it
@@ -122,7 +119,7 @@ public class ConditionalProcessor
             {
                 if (state.Count == 0)
                 {
-                    throw new InvalidOperationException($"Unexpected #else at line {i + 1}");
+                    throw new($"Unexpected #else at line {i + 1}");
                 }
 
                 var current = state.Peek();
@@ -155,7 +152,7 @@ public class ConditionalProcessor
             {
                 if (state.Count == 0)
                 {
-                    throw new InvalidOperationException($"Unexpected #endif at line {i + 1}");
+                    throw new($"Unexpected #endif at line {i + 1}");
                 }
 
                 var current = state.Pop();
@@ -196,7 +193,7 @@ public class ConditionalProcessor
     static string ExtractExpression(string line, string directive)
     {
         var startIndex = line.IndexOf(directive, StringComparison.Ordinal) + directive.Length;
-        return line.Substring(startIndex).Trim();
+        return line[startIndex..].Trim();
     }
 
     /// <summary>
@@ -220,13 +217,10 @@ public class ConditionalProcessor
 
     class ConditionalState
     {
-        public required string OriginalExpression { get; init; }
         public TriState EvalResult { get; set; }
-        public required string SimplifiedExpression { get; init; }
         public bool BranchTaken { get; set; }
         public bool HasElse { get; set; }
         public TriState? ElseEvalResult { get; set; }
-        public int Line { get; init; }
         public bool InsideExcludedBranch { get; init; }
     }
 }
