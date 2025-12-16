@@ -1,45 +1,12 @@
-using System.Text.RegularExpressions;
-using System.Runtime.CompilerServices;
-
 /// <summary>
 /// Splits Polyfill source files by target framework, evaluating conditional compilations.
 /// Unknown symbols (like Feature*) are preserved in the output.
 /// </summary>
 public class Splitter
 {
-    static readonly string SolutionDir = FindSolutionDirectory();
-    static readonly string PolyfillDir = Path.Combine(SolutionDir, "Polyfill");
+    static readonly string PolyfillDir = Path.Combine(ProjectFiles.SolutionDirectory, "Polyfill");
 
-    /// <summary>
-    /// The directory where split files are written.
-    /// </summary>
-    public static readonly string SplitOutputDir = Path.Combine(SolutionDir, "Split");
-
-    /// <summary>
-    /// Finds the solution directory by navigating up from the source file location.
-    /// Falls back to ProjectFiles.SolutionDirectory if the source file approach fails.
-    /// </summary>
-    static string FindSolutionDirectory([CallerFilePath] string sourceFilePath = "")
-    {
-        // Try to find the solution directory from the source file path
-        // The source file is at: src/ApiBuilderTests/Splitter.cs
-        // The solution directory is: src/
-        if (!string.IsNullOrEmpty(sourceFilePath))
-        {
-            var dir = Path.GetDirectoryName(sourceFilePath);
-            if (dir != null)
-            {
-                var parentDir = Path.GetDirectoryName(dir);
-                if (parentDir != null && Directory.Exists(Path.Combine(parentDir, "Polyfill")))
-                {
-                    return parentDir;
-                }
-            }
-        }
-
-        // Fall back to ProjectFiles.SolutionDirectory
-        return ProjectFiles.SolutionDirectory;
-    }
+    public static readonly string SplitOutputDir = Path.Combine(ProjectFiles.SolutionDirectory, "Split");
 
     /// <summary>
     /// All target frameworks to generate splits for.
@@ -620,9 +587,9 @@ public class ExpressionParser
                 return "true";
             }
             // Check if inner starts with ! and simplify double negation
-            if (inner.StartsWith("!"))
+            if (inner.StartsWith('!'))
             {
-                return inner.Substring(1);
+                return inner[1..];
             }
             return $"!{inner}";
         }
@@ -644,7 +611,7 @@ public class ExpressionParser
                 _pos++;
             }
             // Only keep parens if needed (contains || and was inside an && context)
-            if (result.Contains("||") && !result.StartsWith("("))
+            if (result.Contains("||") && !result.StartsWith('('))
             {
                 return $"({result})";
             }
