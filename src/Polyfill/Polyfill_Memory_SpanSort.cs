@@ -17,7 +17,9 @@ static partial class Polyfill
 
     public static void Sort<T>(this Span<T> source, Comparison<T> comparison)
     {
-        comparison = Ensure.NotNull(comparison);
+        if((Comparison<T>?)comparison is null)
+            throw new ArgumentNullException(nameof(comparison));
+
         var array = ArrayPool<T>.Shared.Rent(source.Length);
 
         try
@@ -39,7 +41,7 @@ static partial class Polyfill
     public static void Sort<TKey, TValue, TComparer>(this Span<TKey> keys, Span<TValue> values, TComparer comparer)
         where TComparer : IComparer<TKey>
     {
-        comparer = comparer is not null ? comparer : throw new ArgumentNullException();
+        comparer = comparer is not null ? comparer : throw new ArgumentNullException(nameof(comparer));
 
         if(keys.Length != values.Length)
             throw new ArgumentException();
@@ -73,7 +75,9 @@ static partial class Polyfill
 
         internal ComparerWrapper(Comparison<T> comparison)
         {
-           comparison = Ensure.NotNull(comparison);
+            if ((Comparison<T>?)comparison is null)
+                throw new ArgumentNullException(nameof(comparison));
+
             this.comparison = comparison;
         }
 
