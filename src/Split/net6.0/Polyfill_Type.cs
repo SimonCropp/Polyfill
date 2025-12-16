@@ -10,57 +10,11 @@ using System.Linq;
 
 static partial class Polyfill
 {
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas?view=net-10.0
-    public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other) =>
-        target.MetadataToken == other.MetadataToken &&
-        target.Module.Equals(other.Module);
 
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod?view=net-10.0#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-type())
     public static MethodInfo? GetMethod([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types)
     {
-        var methods = target.GetMethods(bindingAttr);
-        if (genericParameterCount == 0)
-        {
-            foreach (var method in methods)
-            {
-                if (method.IsGenericMethod)
-                {
-                    continue;
-                }
-
-                if (IsMatch(method))
-                {
-                    return method;
-                }
-            }
-        }
-        else
-        {
-            foreach (var method in methods)
-            {
-                if (!method.IsGenericMethod)
-                {
-                    continue;
-                }
-
-                var genericArguments = method.GetGenericArguments();
-                if (genericParameterCount != genericArguments.Length)
-                {
-                    continue;
-                }
-
-                if (IsMatch(method))
-                {
-                    return method;
-                }
-            }
-        }
-
-        return null;
-
-        bool IsMatch(MethodInfo method) =>
-            name == method.Name &&
-            method.GetParameters().Select(_ => _.ParameterType).SequenceEqual(types);
+        return target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);
     }
 
     /// <summary>
@@ -68,8 +22,7 @@ static partial class Polyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter?view=net-10.0
     public static bool IsGenericMethodParameter(this Type target) =>
-        target.IsGenericParameter &&
-        target.DeclaringMethod != null;
+        target.IsGenericMethodParameter;
 
     /// <summary>
     /// Generic version of Type.IsAssignableTo https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto.

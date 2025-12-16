@@ -28,12 +28,6 @@ static partial class Polyfill
 #endif
 
 
-    /// <summary>
-    /// Returns a value indicating whether a specified character occurs within this string.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-10.0#system-string-contains(system-char)
-    public static bool Contains(this string target, char value) =>
-        target.IndexOf(value) >= 0;
 
     /// <summary>
     /// Replaces all newline sequences in the current string with <paramref name="replacementText"/>.

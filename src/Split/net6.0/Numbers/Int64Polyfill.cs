@@ -47,21 +47,6 @@ static partial class Polyfill
 
 
 
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its 32-bit signed integer equivalent. A return value indicates whether the conversion succeeded.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse?view=net-10.0#system-int64-tryparse(system-readonlyspan((system-char))-system-int64@)
-        public static bool TryParse(ReadOnlySpan<char> s, out long result) =>
-            long.TryParse(s.ToString(), out result);
-
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its 64-bit signed integer equivalent. A return value indicates whether the conversion succeeded.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse?view=net-10.0#system-int64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-int64@)
-        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out long result) =>
-            long.TryParse(s.ToString(), style, provider, out result);
-
-
 
         /// <summary>
         /// Tries to parse a span of characters into a value.

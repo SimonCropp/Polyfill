@@ -11,27 +11,5 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
-#if FeatureValueTask && FeatureMemory
-    /// <summary>
-    /// Asynchronously reads the characters from the current stream into a memory block.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readasync?view=net-10.0#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken)
-    public static ValueTask<int> ReadAsync(
-        this TextReader target,
-        Memory<char> buffer,
-        CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<char>)buffer, out var segment))
-        {
-            segment = new(buffer.ToArray());
-        }
-
-        var task = target.ReadAsync(segment.Array!, segment.Offset, segment.Count)
-            .WaitAsync(cancellationToken);
-        return new(task);
-    }
-#endif
 
 }

@@ -14,26 +14,6 @@ static partial class Polyfill
 {
 
 
-    /// <summary>
-    /// Determines whether a read-only character span begins with a specified value when compared using a specified <see cref="StringComparison"/> value.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith?view=net-10.0#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
-    public static bool StartsWith(
-        this ReadOnlySpan<char> target,
-        string other,
-        StringComparison comparison = StringComparison.CurrentCulture) =>
-        target.StartsWith(other.AsSpan(), comparison);
-
-    /// <summary>
-    /// Determines whether a specified sequence appears at the start of a span.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith?view=net-10.0#system-memoryextensions-startswith-1(system-span((-0))-system-readonlyspan((-0)))
-    public static bool StartsWith(
-        this Span<char> target,
-        string other) =>
-        target.StartsWith(other.AsSpan());
-
-
 }
 
 #endif

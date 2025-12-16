@@ -3,3 +3,6 @@
 
 #if FeatureMemory
 #endif
+            #if FeatureRuntimeInformation
+            #else
+            #endif

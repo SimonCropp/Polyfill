@@ -12,79 +12,10 @@ static partial class Polyfill
 {
     extension(RandomNumberGenerator)
     {
-        /// <summary>
-        ///Generates a random integer between a specified inclusive lower bound and a specified exclusive upper bound using a cryptographically strong random number generator.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32?view=net-10.0#system-security-cryptography-randomnumbergenerator-getint32(system-int32-system-int32)
-        public static int GetInt32(int fromInclusive, int toExclusive)
-        {
-            if (fromInclusive >= toExclusive)
-            {
-                throw new ArgumentException("toExclusive must be greater than fromInclusive.");
-            }
-
-            // The total possible range is [0, 4,294,967,295).
-            // Subtract one to account for zero being an actual possibility.
-            var range = (uint) toExclusive - (uint) fromInclusive - 1;
-
-            // If there is only one possible choice, nothing random will actually happen, so return
-            // the only possibility.
-            if (range == 0)
-            {
-                return fromInclusive;
-            }
-
-            // Create a mask for the bits that we care about for the range. The other bits will be
-            // masked away.
-            uint mask = range;
-            mask |= mask >> 1;
-            mask |= mask >> 2;
-            mask |= mask >> 4;
-            mask |= mask >> 8;
-            mask |= mask >> 16;
-
-            uint value;
-            var bytes = new byte[4];
-
-            using var generator = RandomNumberGenerator.Create();
-            do
-            {
-                generator.GetBytes(bytes);
-                value = BitConverter.ToUInt32(bytes, 0) & mask;
-            } while (value >= range);
-
-            return (int) (fromInclusive + value);
-        }
-
-
-        /// <summary>
-        /// Generates a random integer between 0 (inclusive) and a specified exclusive upper bound using a cryptographically strong random number generator.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getint32?view=net-10.0#system-security-cryptography-randomnumbergenerator-getint32(system-int32)
-        public static int GetInt32(int toExclusive)
-        {
-            if (toExclusive <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(toExclusive), "Value must be positive and non-zero.");
-            }
-
-            return GetInt32(0, toExclusive);
-        }
 
 
 #if FeatureMemory
 
-        /// <summary>
-        /// Fills a span with cryptographically strong random bytes.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.fill?view=net-10.0
-        public static void Fill(Span<byte> data)
-        {
-            using var generator = RandomNumberGenerator.Create();
-            var bytes = new byte[data.Length];
-            generator.GetBytes(bytes);
-            bytes.CopyTo(data);
-        }
 
         /// <summary>
         ///   Fills the elements of a specified span with items chosen at random from the provided set of choices.

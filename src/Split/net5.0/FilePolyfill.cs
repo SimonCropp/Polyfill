@@ -131,82 +131,42 @@ static partial class Polyfill
                 return;
             }
 
-            if (overwrite)
-            {
-                File.Copy(sourceFileName, destFileName, overwrite: true);
-                File.Delete(sourceFileName);
-            }
-            else
-            {
-                File.Move(sourceFileName, destFileName);
-            }
+            File.Move(sourceFileName, destFileName, overwrite: overwrite);
         }
 
 
-        /// <summary>
-        /// Asynchronously creates a new file, writes the specified byte array to the file, and then closes the file. If the target file already exists, it is truncated and overwritten.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writeallbytesasync?view=net-10.0#system-io-file-writeallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)
-        public static async Task WriteAllBytesAsync(string path, byte[] bytes, CancellationToken cancellationToken = default)
-        {
-            using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
-            await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
-        }
-
-        /// <summary>
-        /// Asynchronously creates a new file, writes the specified lines to the file, and then closes the file.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealllinesasync?view=net-10.0#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)
-        public static Task WriteAllLinesAsync(string path, IEnumerable<string> contents, CancellationToken cancellationToken = default) =>
-            WriteAllLinesAsync(path, contents, Encoding.UTF8, cancellationToken);
-
-        /// <summary>
-        /// Asynchronously creates a new file, write the specified lines to the file by using the specified encoding, and then closes the file.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealllinesasync?view=net-10.0#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken)
-        public static async Task WriteAllLinesAsync(string path, IEnumerable<string> contents, Encoding encoding, CancellationToken cancellationToken = default)
-        {
-            using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
-            using var writer = new StreamWriter(stream, encoding);
-
-            foreach (var line in contents)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                await writer.WriteLineAsync(line);
-            }
-
-            await writer.FlushAsync(cancellationToken);
-        }
-
-        /// <summary>
-        /// Asynchronously appends lines to a file, and then closes the file. If the specified file does not exist, this method creates a file, writes the specified lines to the file, and then closes the file.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendalllinesasync?view=net-10.0#system-io-file-appendalllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)
-        public static Task AppendAllLinesAsync(string path, IEnumerable<string> contents, CancellationToken cancellationToken = default) =>
-            AppendAllLinesAsync(path, contents, Encoding.UTF8, cancellationToken);
-
-        /// <summary>
-        /// Asynchronously appends lines to a file by using a specified encoding, and then closes the file. If the specified file does not exist, this method creates a file, writes the specified lines to the file, and then closes the file.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendalllinesasync?view=net-10.0#system-io-file-appendalllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken)
-        public static async Task AppendAllLinesAsync(string path, IEnumerable<string> contents, Encoding encoding, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
-            using var writer = new StreamWriter(stream, encoding);
-
-            foreach (var content in contents)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                await writer.WriteLineAsync(content);
-            }
-
-            await writer.FlushAsync(cancellationToken);
-        }
-
-
+            #if FeatureRuntimeInformation
+            #else
+            #endif
 
         //TODO: re add NETSTANDARD via https://www.nuget.org/packages/Microsoft.Bcl.AsyncInterfaces#dependencies-body-tab
+        /// <summary>
+        /// Asynchronously reads the lines of a file.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readlinesasync?view=net-10.0#system-io-file-readalllinesasync(system-string-system-threading-cancellationtoken)
+        public static IAsyncEnumerable<string> ReadLinesAsync(string path, [EnumeratorCancellation] CancellationToken cancellationToken = default) =>
+            ReadLinesAsync(path, Encoding.UTF8, cancellationToken);
+
+        /// <summary>
+        /// Asynchronously reads the lines of a file that has a specified encoding.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readlinesasync?view=net-10.0#system-io-file-readalllinesasync(system-string-system-text-encoding-system-threading-cancellationtoken)
+        public static async IAsyncEnumerable<string> ReadLinesAsync(string path, Encoding encoding, CancellationToken cancellationToken = default)
+        {
+            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
+            using var reader = new StreamReader(stream, encoding);
+            while (!reader.EndOfStream)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                var line = await reader.ReadLineAsync();
+                if (line != null)
+                {
+                    yield return line;
+                }
+            }
+        }
+
+
 
     }
 }

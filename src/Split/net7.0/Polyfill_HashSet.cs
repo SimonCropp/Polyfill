@@ -8,30 +8,6 @@ using System.Diagnostics.CodeAnalysis;
 
 static partial class Polyfill
 {
-    /// <summary>
-    ///  Searches the set for a given value and returns the equal value it finds, if any.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetvalue?view=net-10.0
-    public static bool TryGetValue<T>(
-        this HashSet<T> target,
-        T equalValue,
-        [MaybeNullWhen(false)] out T actualValue)
-    {
-        var comparer = target.Comparer;
-        var hashCode = comparer.GetHashCode(equalValue);
-        foreach (var item in target)
-        {
-            if (comparer.GetHashCode(item) == hashCode &&
-                comparer.Equals(item, equalValue))
-            {
-                actualValue = item;
-                return true;
-            }
-        }
-
-        actualValue = default;
-        return false;
-    }
 
 
 

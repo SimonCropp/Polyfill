@@ -47,21 +47,6 @@ static partial class Polyfill
 
 
 
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its ulong equivalent. A return value indicates whether the conversion succeeded.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-10.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-uint64@)
-        public static bool TryParse(ReadOnlySpan<char> s, out ulong result) =>
-            ulong.TryParse(s.ToString(), out result);
-
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its ulong equivalent. A return value indicates whether the conversion succeeded.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-10.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint64@)
-        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out ulong result) =>
-            ulong.TryParse(s.ToString(), style, provider, out result);
-
-
 
         /// <summary>
         /// Tries to parse a span of characters into a value.

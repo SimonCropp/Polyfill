@@ -133,7 +133,6 @@ public class Splitter
             }
             else if (tfm.StartsWith("net47"))
             {
-                symbols.Add("NET46X");
                 symbols.Add("NET47X");
                 symbols.Add("NET461_OR_GREATER");
                 symbols.Add("NET462_OR_GREATER");
@@ -159,8 +158,6 @@ public class Splitter
             }
             else if (tfm.StartsWith("net48"))
             {
-                symbols.Add("NET46X");
-                symbols.Add("NET47X");
                 symbols.Add("NET48X");
                 symbols.Add("NET461_OR_GREATER");
                 symbols.Add("NET462_OR_GREATER");
@@ -268,6 +265,13 @@ public class Splitter
                 {
                     symbols.Add($"NET{v}_0_OR_GREATER");
                 }
+
+                // .NET 5+ also defines legacy NETCOREAPP symbols for backwards compatibility
+                symbols.Add("NETCOREAPP");
+                symbols.Add("NETCOREAPP2_0_OR_GREATER");
+                symbols.Add("NETCOREAPP2_1_OR_GREATER");
+                symbols.Add("NETCOREAPP3_0_OR_GREATER");
+                symbols.Add("NETCOREAPP3_1_OR_GREATER");
             }
         }
 

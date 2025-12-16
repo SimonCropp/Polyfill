@@ -128,12 +128,6 @@ static partial class Polyfill
                 case SpanSplitEnumeratorMode.Any:
 
                     separatorLength = 1;
-                    //https://github.com/dotnet/coreclr/pull/25075
-                    if (_separatorBuffer.Length == 0)
-                    {
-                        separatorIndex = -1;
-                        break;
-                    }
                     separatorIndex = _source.Slice(_startNext)
                         .IndexOfAny(_separatorBuffer);
                     break;

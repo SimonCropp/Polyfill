@@ -38,21 +38,6 @@ static partial class Polyfill
 
 
 
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its short equivalent. A return value indicates whether the conversion succeeded.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int16.tryparse?view=net-10.0#system-int16-tryparse(system-readonlyspan((system-char))-system-int16@)
-        public static bool TryParse(ReadOnlySpan<char> s, out short result) =>
-            short.TryParse(s.ToString(), out result);
-
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its short equivalent. A return value indicates whether the conversion succeeded.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int16.tryparse?view=net-10.0#system-int16-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-int16@)
-        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out short result) =>
-            short.TryParse(s.ToString(), style, provider, out result);
-
-
 #endif
     }
 }

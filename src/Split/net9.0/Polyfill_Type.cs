@@ -10,10 +10,6 @@ using System.Linq;
 
 static partial class Polyfill
 {
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas?view=net-10.0
-    public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other) =>
-        target.MetadataToken == other.MetadataToken &&
-        target.Module.Equals(other.Module);
 
 
     /// <summary>
@@ -21,8 +17,7 @@ static partial class Polyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter?view=net-10.0
     public static bool IsGenericMethodParameter(this Type target) =>
-        target.IsGenericParameter &&
-        target.DeclaringMethod != null;
+        target.IsGenericMethodParameter;
 
     /// <summary>
     /// Generic version of Type.IsAssignableTo https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto.

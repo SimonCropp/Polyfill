@@ -46,21 +46,6 @@ static partial class Polyfill
 
 
 
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its double-precision floating-point number equivalent. A return value indicates whether the conversion succeeded or failed.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-10.0#system-double-tryparse(system-readonlyspan((system-char))-system-double@)
-        public static bool TryParse(ReadOnlySpan<char> s, out double result) =>
-            double.TryParse(s.ToString(), out result);
-
-        /// <summary>
-        /// Converts the string representation of a number in a specified style and culture-specific format to its double-precision floating-point number equivalent. A return value indicates whether the conversion succeeded or failed.
-        /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-10.0#system-double-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-double@)
-        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out double result) =>
-            double.TryParse(s.ToString(), style, provider, out result);
-
-
 
         /// <summary>
         /// Tries to parse a span of characters into a value.

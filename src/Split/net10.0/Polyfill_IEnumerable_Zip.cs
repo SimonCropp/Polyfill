@@ -11,20 +11,5 @@ static partial class Polyfill
 {
 
 
-    /// <summary>
-    /// Produces a sequence of tuples with elements from the two specified sequences.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip?view=net-10.0#system-linq-enumerable-zip-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1)))
-    public static IEnumerable<(TFirst First, TSecond Second)> Zip<TFirst, TSecond>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second)
-    {
-        using var e1 = first.GetEnumerator();
-        using var e2 = second.GetEnumerator();
-        while (e1.MoveNext() && e2.MoveNext())
-        {
-            yield return (e1.Current, e2.Current);
-        }
-    }
-
-
 }
 #endif
