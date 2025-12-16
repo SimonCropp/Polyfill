@@ -1,4 +1,4 @@
-#if FeatureMemory
+#if !FeatureMemory
 
 namespace Polyfills;
 
@@ -17,7 +17,7 @@ static partial class Polyfill
 
     public static void Sort<T>(this Span<T> source, Comparison<T> comparison)
     {
-        Ensure.NotNull(comparison);
+        comparison = Ensure.NotNull(comparison);
         var array = ArrayPool<T>.Shared.Rent(source.Length);
 
         try
@@ -39,7 +39,7 @@ static partial class Polyfill
     public static void Sort<TKey, TValue, TComparer>(this Span<TKey> keys, Span<TValue> values, TComparer comparer)
         where TComparer : IComparer<TKey>
     {
-        ArgumentNullException.ThrowIfNull(comparer);
+        comparer = comparer is not null ? comparer : throw new ArgumentNullException();
 
         if(keys.Length != values.Length)
             throw new ArgumentException();
@@ -73,7 +73,7 @@ static partial class Polyfill
 
         internal ComparerWrapper(Comparison<T> comparison)
         {
-            ArgumentNullException.ThrowIfNull(comparison);
+           comparison = Ensure.NotNull(comparison);
             this.comparison = comparison;
         }
 
