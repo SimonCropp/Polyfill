@@ -15,12 +15,12 @@ static partial class Polyfill
 #if !AllowUnsafeBlocks && !NETSTANDARD2_1_OR_GREATER && !NETCOREAPP2_0_OR_GREATER
 
     [StructLayout(LayoutKind.Explicit)]
-    struct BitConverter_Unknown<T1, T2>
+    struct BitConverter_Int32_Float
     {
         [FieldOffset(0)]
-        public T1 _field1;
+        public int _int;
         [FieldOffset(0)]
-        public T2 _field2;
+        public float _float;
     }
 
 #endif
@@ -43,9 +43,9 @@ static partial class Polyfill
 #else
         public static float Int32BitsToSingle(int value)
         {
-            var i = new BitConverter_Unknown<int, float>();
-            i._field1 = value;
-            return i._field2;
+            var i = new BitConverter_Int32_Float();
+            i._int = value;
+            return i._float;
         }
 #endif
 
@@ -96,9 +96,9 @@ static partial class Polyfill
 #else
         public static int SingleToInt32Bits(float value)
         {
-            var i = new BitConverter_Unknown<float, int>();
-            i._field1 = value;
-            return i._field2;
+            var i = new BitConverter_Int32_Float();
+            i._float = value;
+            return i._int;
         }
 #endif
 
