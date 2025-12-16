@@ -107,7 +107,7 @@ public class FilePolyfillTests
             return;
         }
 
-        var expected = UnixFileMode.OtherRead | UnixFileMode.GroupRead | UnixFileMode.UserWrite | UnixFileMode.UserRead;
+        var expected = UnixFileMode.OtherRead | UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.UserWrite | UnixFileMode.UserRead;
 
         var sourceContent = "Test content";
         File.WriteAllText(TestFilePath, sourceContent);
