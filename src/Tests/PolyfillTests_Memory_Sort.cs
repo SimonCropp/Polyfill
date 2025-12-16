@@ -15,7 +15,7 @@ partial class PolyfillTests
 
         chars.Sort();
 
-        await Assert.That(expected.SequenceEqual(actual));
+        await Assert.That(expected.SequenceEqual(actual)).IsTrue();
     }
 
     [Test]
@@ -28,7 +28,7 @@ partial class PolyfillTests
 
         actual.Sort((x, y) => x.CompareTo(y));
 
-        await Assert.That(expected.SequenceEqual(actual));
+        await Assert.That(expected.SequenceEqual(actual)).IsTrue();
     }
 
     [Test]
@@ -44,8 +44,8 @@ partial class PolyfillTests
 
         actualKeysSpan.Sort(actualItems, (x, y) => x >= y ? 1 : -1);
 
-        await Assert.That(expectedKeys.SequenceEqual(actualKeys));
-        await Assert.That(expectedItems.SequenceEqual(actualItems));
+        await Assert.That(expectedKeys.SequenceEqual(actualKeys)).IsTrue();
+        await Assert.That(expectedItems.SequenceEqual(actualItems)).IsTrue();
     }
 }
 #endif

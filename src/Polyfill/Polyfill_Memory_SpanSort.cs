@@ -17,7 +17,7 @@ static partial class Polyfill
 
     public static void Sort<T>(this Span<T> source, Comparison<T> comparison)
     {
-        ArgumentNullException.ThrowIfNull(comparison);
+        Ensure.NotNull(comparison);
         var array = ArrayPool<T>.Shared.Rent(source.Length);
 
         try
