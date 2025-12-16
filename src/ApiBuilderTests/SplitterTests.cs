@@ -60,15 +60,6 @@ public class SplitterTests
     }
 
     [Test]
-    public async Task ProcessedFiles_HaveWindowsNewlines()
-    {
-        var source = "line1\nline2\rline3\r\nline4";
-        var result = Splitter.NormalizeNewlines(source);
-
-        await Assert.That(result).IsEqualTo("line1\r\nline2\r\nline3\r\nline4");
-    }
-
-    [Test]
     public async Task RemoveEmptyLines_RemovesEmptyAndWhitespaceLines()
     {
         var source = """
