@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 public class SplitterTests
 {
     [Test]
+    [Explicit]
     public async Task Run()
     {
         Splitter.Run();
