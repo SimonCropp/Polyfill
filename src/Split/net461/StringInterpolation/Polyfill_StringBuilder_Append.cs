@@ -20,6 +20,5 @@ static partial class Polyfill
         IFormatProvider? provider,
         [InterpolatedStringHandlerArgument(nameof(target), nameof(provider))]
         ref AppendInterpolatedStringHandler handler) => target;
-#elif false
 #endif
 }

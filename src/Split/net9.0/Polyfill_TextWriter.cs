@@ -12,12 +12,4 @@ using System.Buffers;
 #endif
 static partial class Polyfill
 {
-#if FeatureMemory
-#else
-#endif
-#if FeatureValueTask && FeatureMemory
-#else
-#endif
-#if FeatureValueTask
-#endif
 }

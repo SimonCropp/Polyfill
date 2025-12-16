@@ -27,12 +27,4 @@ static partial class Polyfill
         return target.FlushAsync()
             .WaitAsync(cancellationToken);
     }
-#if FeatureMemory
-#else
-#endif
-#if FeatureValueTask && FeatureMemory
-#else
-#endif
-#if FeatureValueTask
-#endif
 }

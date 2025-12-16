@@ -22,6 +22,5 @@ static partial class Polyfill
         [InterpolatedStringHandlerArgument(nameof(target), nameof(provider))]
         ref AppendInterpolatedStringHandler handler) =>
         target.AppendLine();
-#elif false
 #endif
 }

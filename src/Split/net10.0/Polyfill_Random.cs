@@ -4,8 +4,4 @@ namespace Polyfills;
 using System;
 static partial class Polyfill
 {
-#if FeatureMemory
-#endif
-#if FeatureMemory
-#endif
 }

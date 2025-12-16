@@ -6,7 +6,4 @@ using System.Runtime.CompilerServices;
 using System.Text;
 static partial class Polyfill
 {
-#if AllowUnsafeBlocks
-#else
-#endif
 }

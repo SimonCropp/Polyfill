@@ -12,7 +12,5 @@ static partial class Polyfill
 {
     extension(Regex)
     {
-#if FeatureMemory
-#endif
     }
 }

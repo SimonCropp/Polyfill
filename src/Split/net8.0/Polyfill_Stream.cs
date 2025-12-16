@@ -8,6 +8,4 @@ using System.Threading;
 using System.Threading.Tasks;
 static partial class Polyfill
 {
-#if FeatureMemory && FeatureValueTask
-#endif
 }

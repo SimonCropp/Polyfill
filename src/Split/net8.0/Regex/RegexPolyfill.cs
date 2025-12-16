@@ -12,8 +12,6 @@ static partial class Polyfill
 {
     extension(Regex)
     {
-#if FeatureMemory
-#endif
 #if FeatureMemory && FeatureValueTuple
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-10.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))-system-string)
         public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern)

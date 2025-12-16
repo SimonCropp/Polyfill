@@ -7,11 +7,5 @@ using System.Runtime.InteropServices;
 using System.Text;
 static partial class Polyfill
 {
-#if AllowUnsafeBlocks
-#else
-#endif
-#if AllowUnsafeBlocks
-#else
-#endif
 }
 #endif

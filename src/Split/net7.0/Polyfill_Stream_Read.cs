@@ -7,10 +7,4 @@ using System.Threading;
 using System.Threading.Tasks;
 static partial class Polyfill
 {
-#if FeatureValueTask
-#endif
-#if FeatureMemory
-#if FeatureValueTask
-#endif
-#endif
 }

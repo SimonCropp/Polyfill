@@ -310,7 +310,8 @@ public class Splitter
                 var sourceCode = File.ReadAllText(csFile);
                 var processedCode = ProcessFile(sourceCode, definedSymbols);
 
-                // Remove empty/whitespace lines and normalize newlines to \r\n
+                // Remove empty conditional blocks, empty lines, and normalize newlines to \r\n
+                processedCode = RemoveEmptyConditionalBlocks(processedCode);
                 processedCode = RemoveEmptyLines(processedCode);
                 processedCode = NormalizeNewlines(processedCode);
 
@@ -327,6 +328,75 @@ public class Splitter
         var lines = text.Split('\n').Select(l => l.TrimEnd('\r'));
         var nonEmptyLines = lines.Where(l => !string.IsNullOrWhiteSpace(l));
         return string.Join("\n", nonEmptyLines);
+    }
+
+    /// <summary>
+    /// Removes empty conditional blocks (e.g., #if X followed directly by #endif with no content).
+    /// Handles nested cases by repeatedly removing until no more empty blocks exist.
+    /// </summary>
+    public static string RemoveEmptyConditionalBlocks(string text)
+    {
+        var lines = text.Split('\n').Select(l => l.TrimEnd('\r')).ToList();
+        bool changed;
+
+        do
+        {
+            changed = false;
+            var result = new List<string>();
+
+            for (var i = 0; i < lines.Count; i++)
+            {
+                var line = lines[i];
+                var trimmed = line.TrimStart();
+
+                // Check if this is an #if or #elif that is immediately followed by #endif, #else, or #elif
+                if (trimmed.StartsWith("#if ") || trimmed.StartsWith("#if(") ||
+                    trimmed.StartsWith("#elif ") || trimmed.StartsWith("#elif("))
+                {
+                    // Look ahead to find the matching #endif, #else, or #elif
+                    if (i + 1 < lines.Count)
+                    {
+                        var nextTrimmed = lines[i + 1].TrimStart();
+                        if (nextTrimmed == "#endif" || nextTrimmed == "#else" ||
+                            nextTrimmed.StartsWith("#elif ") || nextTrimmed.StartsWith("#elif("))
+                        {
+                            // This #if/#elif has no content, skip it
+                            // If next is #endif, skip both
+                            if (nextTrimmed == "#endif")
+                            {
+                                i++; // Skip the #endif too
+                                changed = true;
+                                continue;
+                            }
+                            // If next is #else or #elif, just skip this #if/#elif line
+                            changed = true;
+                            continue;
+                        }
+                    }
+                }
+
+                // Check if this is an #else immediately followed by #endif
+                if (trimmed == "#else")
+                {
+                    if (i + 1 < lines.Count)
+                    {
+                        var nextTrimmed = lines[i + 1].TrimStart();
+                        if (nextTrimmed == "#endif")
+                        {
+                            // Empty #else block, skip just the #else (keep the #endif to close the #if)
+                            changed = true;
+                            continue;
+                        }
+                    }
+                }
+
+                result.Add(line);
+            }
+
+            lines = result;
+        } while (changed);
+
+        return string.Join("\n", lines);
     }
 
     /// <summary>
@@ -374,6 +444,19 @@ public class ConditionalProcessor
         var state = new Stack<ConditionalState>();
         var i = 0;
 
+        // Helper to check if we're inside an outer False branch
+        bool IsInsideFalseBranch()
+        {
+            foreach (var s in state)
+            {
+                if (!s.BranchTaken)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         while (i < _lines.Count)
         {
             var line = _lines[i];
@@ -384,6 +467,9 @@ public class ConditionalProcessor
                 var expression = ExtractExpression(trimmed, "#if");
                 var evalResult = EvaluateExpression(expression);
 
+                // Check if we're inside a False branch BEFORE pushing the new state
+                var insideFalseBranch = IsInsideFalseBranch();
+
                 state.Push(new ConditionalState
                 {
                     OriginalExpression = expression,
@@ -392,10 +478,11 @@ public class ConditionalProcessor
                     BranchTaken = evalResult == TriState.True || evalResult == TriState.Unknown,
                     HasElse = false,
                     ElseEvalResult = null,
-                    Line = i
+                    Line = i,
+                    InsideExcludedBranch = insideFalseBranch
                 });
 
-                if (evalResult == TriState.Unknown)
+                if (evalResult == TriState.Unknown && !insideFalseBranch)
                 {
                     // Keep the directive but with simplified expression
                     var simplified = SimplifyExpression(expression);
@@ -420,12 +507,14 @@ public class ConditionalProcessor
                 {
                     // Previous branch was taken, this elif becomes else-false
                     current.BranchTaken = false;
-                    if (current.EvalResult == TriState.Unknown)
+                    if (current.EvalResult == TriState.Unknown && evalResult == TriState.Unknown && !current.InsideExcludedBranch)
                     {
+                        // Only output elif if it has unknown symbols and we're not inside an excluded branch
                         var simplified = SimplifyExpression(expression);
                         var indent = line.Substring(0, line.Length - trimmed.Length);
                         _outputLines.Add($"{indent}#elif {simplified}");
                     }
+                    // If elif condition is definitely true or false, don't output it
                 }
                 else if (current.EvalResult == TriState.False)
                 {
@@ -433,7 +522,7 @@ public class ConditionalProcessor
                     current.EvalResult = evalResult;
                     current.BranchTaken = evalResult == TriState.True || evalResult == TriState.Unknown;
 
-                    if (evalResult == TriState.Unknown)
+                    if (evalResult == TriState.Unknown && !current.InsideExcludedBranch)
                     {
                         var simplified = SimplifyExpression(expression);
                         var indent = line.Substring(0, line.Length - trimmed.Length);
@@ -442,11 +531,14 @@ public class ConditionalProcessor
                 }
                 else
                 {
-                    // Unknown state - keep the elif
-                    var simplified = SimplifyExpression(expression);
-                    var indent = line.Substring(0, line.Length - trimmed.Length);
-                    _outputLines.Add($"{indent}#elif {simplified}");
+                    // Unknown state - keep the elif only if it has unknown symbols
                     current.BranchTaken = evalResult == TriState.True || evalResult == TriState.Unknown;
+                    if (evalResult == TriState.Unknown && !current.InsideExcludedBranch)
+                    {
+                        var simplified = SimplifyExpression(expression);
+                        var indent = line.Substring(0, line.Length - trimmed.Length);
+                        _outputLines.Add($"{indent}#elif {simplified}");
+                    }
                 }
             }
             else if (trimmed == "#else")
@@ -473,10 +565,13 @@ public class ConditionalProcessor
                 }
                 else
                 {
-                    // Unknown - keep the else
+                    // Unknown - keep the else only if not inside an excluded branch
                     current.ElseEvalResult = TriState.Unknown;
                     current.BranchTaken = true;
-                    _outputLines.Add(line);
+                    if (!current.InsideExcludedBranch)
+                    {
+                        _outputLines.Add(line);
+                    }
                 }
             }
             else if (trimmed == "#endif")
@@ -488,9 +583,10 @@ public class ConditionalProcessor
 
                 var current = state.Pop();
 
-                // Only output #endif if we had an unknown condition
-                if (current.EvalResult == TriState.Unknown ||
-                    (current.HasElse && current.ElseEvalResult == TriState.Unknown))
+                // Only output #endif if we had an unknown condition and not inside an excluded branch
+                if (!current.InsideExcludedBranch &&
+                    (current.EvalResult == TriState.Unknown ||
+                    (current.HasElse && current.ElseEvalResult == TriState.Unknown)))
                 {
                     _outputLines.Add(line);
                 }
@@ -554,6 +650,7 @@ public class ConditionalProcessor
         public bool HasElse { get; set; }
         public TriState? ElseEvalResult { get; set; }
         public int Line { get; init; }
+        public bool InsideExcludedBranch { get; init; }
     }
 }
 

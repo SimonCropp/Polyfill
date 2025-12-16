@@ -75,6 +75,4 @@ static partial class Polyfill
         return target.WriteAsync(value.ToString());
 #endif
     }
-#if FeatureValueTask
-#endif
 }

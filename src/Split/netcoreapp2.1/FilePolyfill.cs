@@ -120,9 +120,6 @@ static partial class Polyfill
                 File.Move(sourceFileName, destFileName);
             }
         }
-            #if FeatureRuntimeInformation
-            #else
-            #endif
         //TODO: re add NETSTANDARD via https://www.nuget.org/packages/Microsoft.Bcl.AsyncInterfaces#dependencies-body-tab
     }
 }

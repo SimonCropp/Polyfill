@@ -138,12 +138,6 @@ static partial class Polyfill
         public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
             string.Join(separator, values.ToArray());
 #endif
-#if AllowUnsafeBlocks && FeatureMemory
-#else
-#endif
-#if AllowUnsafeBlocks && FeatureMemory
-#else
-#endif
 #if FeatureMemory
         /// <summary>
         /// Creates a new string with a specific length and initializes it after creation by using the specified callback.
