@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
-#if NETFRAMEWORK ||  NETSTANDARD || NETCOREAPP2X
+#if NETFRAMEWORK || NETSTANDARD || NETCOREAPP2X || WINDOWS_UWP
 
     /// <summary>
     /// Immediately stops the associated process, and optionally its child/descendent processes.
