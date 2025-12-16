@@ -9,7 +9,7 @@
     <PackageVersion Include="TUnit" Version="1.5.60" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.163" />
     <PackageVersion Include="Microsoft.Bcl.Memory" Version="10.0.1" />
-    <PackageVersion Include="ProjectFiles" Version="0.3.0" />
+    <PackageVersion Include="ProjectFiles" Version="0.4.0" />
     <PackageVersion Include="System.Memory" Version="4.6.3" />
     <PackageVersion Include="System.Net.Http" Version="4.3.4" />
     <PackageVersion Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
