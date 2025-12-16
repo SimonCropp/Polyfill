@@ -310,12 +310,23 @@ public class Splitter
                 var sourceCode = File.ReadAllText(csFile);
                 var processedCode = ProcessFile(sourceCode, definedSymbols);
 
-                // Normalize newlines to \r\n
+                // Remove empty/whitespace lines and normalize newlines to \r\n
+                processedCode = RemoveEmptyLines(processedCode);
                 processedCode = NormalizeNewlines(processedCode);
 
                 File.WriteAllText(outputPath, processedCode);
             }
         }
+    }
+
+    /// <summary>
+    /// Removes empty and whitespace-only lines from the text.
+    /// </summary>
+    public static string RemoveEmptyLines(string text)
+    {
+        var lines = text.Split('\n').Select(l => l.TrimEnd('\r'));
+        var nonEmptyLines = lines.Where(l => !string.IsNullOrWhiteSpace(l));
+        return string.Join("\n", nonEmptyLines);
     }
 
     /// <summary>

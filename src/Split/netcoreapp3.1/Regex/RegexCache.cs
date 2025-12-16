@@ -2,18 +2,14 @@
 #pragma warning disable
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
 #if FeatureMemory
-
 namespace System.Text.RegularExpressions;
-
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics;
 using System.Threading;
-
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyUseEmbeddedAttribute
@@ -25,15 +21,12 @@ internal sealed class RegexCache
 {
     const int DefaultMaxCacheSize = 15;
     const int MaxExamineOnDrop = 30;
-
     static volatile Node? s_lastAccessed;
     static ConcurrentDictionary<Key, Node> s_cacheDictionary = new ConcurrentDictionary<Key, Node>(concurrencyLevel: 1, capacity: 31);
     static List<Node> s_cacheList = new List<Node>(DefaultMaxCacheSize);
     static Random s_random = new Random();
     static int s_maxCacheSize = DefaultMaxCacheSize;
-
     static object SyncObj => s_cacheDictionary;
-
     /// <summary>Gets or sets the maximum size of the cache.</summary>
     public static int MaxCacheSize
     {
@@ -49,7 +42,6 @@ internal sealed class RegexCache
             lock (SyncObj)
             {
                 s_maxCacheSize = value;
-
                 if (value == 0)
                 {
                     s_cacheDictionary.Clear();
@@ -68,62 +60,48 @@ internal sealed class RegexCache
             }
         }
     }
-
     public static Regex GetOrAdd(string pattern)
     {
         var key = new Key(pattern, RegexOptions.None, Regex.InfiniteMatchTimeout);
-
         var regex = Get(key);
         if (regex is null)
         {
             regex = new Regex(pattern);
             Add(key, regex);
         }
-
         return regex;
     }
-
     public static Regex GetOrAdd(string pattern, RegexOptions options, TimeSpan matchTimeout)
     {
         Key key = new Key(pattern, options, matchTimeout);
-
         Regex? regex = Get(key);
         if (regex is null)
         {
             regex = new Regex(pattern, options, matchTimeout);
             Add(key, regex);
         }
-
         return regex;
     }
-
     static Regex? Get(Key key)
     {
         long lastAccessedStamp = 0;
-
         if (s_lastAccessed is Node lastAccessed)
         {
             if (key.Equals(lastAccessed.Key))
             {
                 return lastAccessed.Regex;
             }
-
             lastAccessedStamp = Volatile.Read(ref lastAccessed.LastAccessStamp);
         }
-
         if (s_maxCacheSize != 0 &&
             s_cacheDictionary.TryGetValue(key, out Node? node))
         {
             Volatile.Write(ref node.LastAccessStamp, lastAccessedStamp + 1);
-
             s_lastAccessed = node;
-
             return node.Regex;
         }
-
         return null;
     }
-
     static void Add(Key key, Regex regex)
     {
         lock (SyncObj)
@@ -132,12 +110,10 @@ internal sealed class RegexCache
             {
                 return;
             }
-
             if (s_cacheList.Count == s_maxCacheSize)
             {
                 int itemsToExamine;
                 bool useRandom;
-
                 if (s_maxCacheSize <= MaxExamineOnDrop)
                 {
                     itemsToExamine = s_cacheList.Count;
@@ -148,10 +124,8 @@ internal sealed class RegexCache
                     itemsToExamine = MaxExamineOnDrop;
                     useRandom = true;
                 }
-
                 int minListIndex = useRandom ? s_random.Next(s_cacheList.Count) : 0;
                 long min = Volatile.Read(ref s_cacheList[minListIndex].LastAccessStamp);
-
                 for (int i = 1; i < itemsToExamine; i++)
                 {
                     int nextIndex = useRandom ? s_random.Next(s_cacheList.Count) : i;
@@ -162,44 +136,36 @@ internal sealed class RegexCache
                         min = next;
                     }
                 }
-
                 s_cacheDictionary.TryRemove(s_cacheList[minListIndex].Key, out _);
                 s_cacheList.RemoveAt(minListIndex);
             }
-
             var node = new Node(key, regex);
             s_lastAccessed = node;
             s_cacheList.Add(node);
             s_cacheDictionary.TryAdd(key, node);
         }
     }
-
     /// <summary>Used as a key for <see cref="Node"/>.</summary>
     internal readonly struct Key : IEquatable<Key>
     {
         readonly string _pattern;
         readonly RegexOptions _options;
         readonly TimeSpan _matchTimeout;
-
         public Key(string pattern, RegexOptions options, TimeSpan matchTimeout)
         {
             _pattern = pattern;
             _options = options;
             _matchTimeout = matchTimeout;
         }
-
         public override bool Equals([NotNullWhen(true)] object? obj) =>
             obj is Key other && Equals(other);
-
         public bool Equals(Key other) =>
             _pattern.Equals(other._pattern) &&
             _options == other._options &&
             _matchTimeout == other._matchTimeout;
-
         public override int GetHashCode() =>
             _pattern.GetHashCode() ^ (int)_options;
     }
-
     /// <summary>Node for a cached Regex instance.</summary>
     sealed class Node(Key key, Regex regex)
     {

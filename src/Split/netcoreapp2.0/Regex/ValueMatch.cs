@@ -2,14 +2,10 @@
 #pragma warning disable
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
 #if FeatureMemory
-
 namespace System.Text.RegularExpressions;
-
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-
 /// <summary>
 /// Represents the results from a single regular expression match.
 /// </summary>
@@ -31,12 +27,10 @@ readonly ref struct ValueMatch
         Index = index;
         Length = length;
     }
-
     /// <summary>
     /// Gets the position in the original span where the first character of the captured sliced span is found.
     /// </summary>
     public int Index { get; }
-
     /// <summary>
     /// Gets the length of the captured sliced span.
     /// </summary>

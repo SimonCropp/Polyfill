@@ -2,14 +2,10 @@
 #pragma warning disable
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
 #if FeatureMemory
-
 namespace System.Text;
-
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
-
 /// <summary>
 /// Enumerates the lines of a <see cref="ReadOnlySpan{Char}"/>.
 /// </summary>
@@ -27,24 +23,20 @@ ref struct SpanLineEnumerator
     ReadOnlySpan<char> remaining;
     bool isActive;
     ReadOnlySpan<char> newlines = "\r\f\u0085\u2028\u2029\n".AsSpan();
-
     internal SpanLineEnumerator(ReadOnlySpan<char> buffer)
     {
         remaining = buffer;
         Current = default;
         isActive = true;
     }
-
     /// <summary>
     /// Gets the line at the current position of the enumerator.
     /// </summary>
     public ReadOnlySpan<char> Current { get; private set; }
-
     /// <summary>
     /// Returns this instance as an enumerator.
     /// </summary>
     public SpanLineEnumerator GetEnumerator() => this;
-
     /// <summary>
     /// Advances the enumerator to the next line of the span.
     /// </summary>
@@ -54,22 +46,18 @@ ref struct SpanLineEnumerator
         {
             return false;
         }
-
         //TODO: revisit when SearchValues is implemented
         var index = remaining.IndexOfAny(newlines);
-
         var remainingLength = (uint)remaining.Length;
         if ((uint)index < remainingLength)
         {
             var stride = 1;
-
             if (remaining[index] == '\r' &&
                 (uint)(index + 1) < remainingLength &&
                 remaining[index + 1] == '\n')
             {
                 stride = 2;
             }
-
             // ReSharper disable ReplaceSliceWithRangeIndexer
             //Dont use range indexer here since https://github.com/SimonCropp/Polyfill/pull/159
             Current = remaining.Slice(0, index);
@@ -77,7 +65,6 @@ ref struct SpanLineEnumerator
             // ReSharper restore ReplaceSliceWithRangeIndexer
             return true;
         }
-
         Current = remaining;
         remaining = default;
         isActive = false;

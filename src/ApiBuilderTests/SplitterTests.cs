@@ -40,6 +40,30 @@ public class SplitterTests
     }
 
     [Test]
+    public async Task RemoveEmptyLines_RemovesEmptyAndWhitespaceLines()
+    {
+        var source = """
+            line1
+
+            line2
+
+            line3
+
+            """;
+
+        var result = Splitter.RemoveEmptyLines(source);
+
+        await Assert.That(result).DoesNotContain("\n\n");
+        await Assert.That(result).Contains("line1");
+        await Assert.That(result).Contains("line2");
+        await Assert.That(result).Contains("line3");
+
+        // Should have exactly 3 lines
+        var lines = result.Split('\n');
+        await Assert.That(lines.Length).IsEqualTo(3);
+    }
+
+    [Test]
     public async Task SimpleIfTrue_RemovesDirective()
     {
         var source = """

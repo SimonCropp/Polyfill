@@ -2,15 +2,11 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 #pragma warning disable
-
 #if FeatureMemory
-
 namespace System.Text.RegularExpressions;
-
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-
 //https://github.com/dotnet/runtime/blob/main/src/libraries/System.Text.RegularExpressions/src/System/Text/RegularExpressions/Regex.EnumerateMatches.cs
 /// <summary>
 /// Represents an enumerator containing the set of successful matches found by iteratively applying a regular expression pattern to the input span.
@@ -29,7 +25,6 @@ ref struct ValueMatchEnumerator
     ValueMatch _current;
     MatchCollection matchCollection;
     int index = 0;
-
     /// <summary>
     /// Creates an instance of the <see cref="ValueMatchEnumerator"/> for the passed in <paramref name="regex"/> which iterates over <paramref name="input"/>.
     /// </summary>
@@ -39,12 +34,10 @@ ref struct ValueMatchEnumerator
         _input = input;
         _current = default;
     }
-
     /// <summary>
     /// Provides an enumerator that iterates through the matches in the input span.
     /// </summary>
     public readonly ValueMatchEnumerator GetEnumerator() => this;
-
     /// <summary>
     /// Advances the enumerator to the next match in the span.
     /// </summary>
@@ -54,13 +47,11 @@ ref struct ValueMatchEnumerator
         {
             return false;
         }
-
         var match = matchCollection[index];
         _current = new ValueMatch(match.Index, match.Length);
         index++;
         return true;
     }
-
     /// <summary>
     /// Gets the <see cref="ValueMatch"/> element at the current position of the enumerator.
     /// </summary>

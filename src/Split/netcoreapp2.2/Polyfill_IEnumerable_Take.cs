@@ -2,28 +2,21 @@
 #pragma warning disable
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
-
-
 namespace Polyfills;
-
 using System;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
-
 static partial class Polyfill
 {
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     static bool IsEmptyArray<TSource>(IEnumerable<TSource> source) =>
         source is TSource[] { Length: 0 };
-
     static IEnumerable<TSource> TakeRangeFromEndIterator<TSource>(IEnumerable<TSource> source, bool isStartIndexFromEnd, int startIndex, bool isEndIndexFromEnd, int endIndex)
     {
         if (source.TryGetNonEnumeratedCount(out var count))
         {
             startIndex = CalculateStartIndex(isStartIndexFromEnd, startIndex, count);
             endIndex = CalculateEndIndex(isEndIndexFromEnd, endIndex, count);
-
             if (startIndex < endIndex)
             {
                 foreach (var element in TakeRangeIterator(source, startIndex, endIndex))
@@ -31,12 +24,9 @@ static partial class Polyfill
                     yield return element;
                 }
             }
-
             yield break;
         }
-
         Queue<TSource> queue;
-
         if (isStartIndexFromEnd)
         {
             using (var e = source.GetEnumerator())
@@ -45,11 +35,9 @@ static partial class Polyfill
                 {
                     yield break;
                 }
-
                 queue = new();
                 queue.Enqueue(e.Current);
                 count = 1;
-
                 while (e.MoveNext())
                 {
                     if (count < startIndex)
@@ -68,15 +56,12 @@ static partial class Polyfill
                                 ++count;
                             }
                         } while (e.MoveNext());
-
                         break;
                     }
                 }
             }
-
             startIndex = CalculateStartIndex(isStartIndexFromEnd: true, startIndex, count);
             endIndex = CalculateEndIndex(isEndIndexFromEnd, endIndex, count);
-
             for (int rangeIndex = startIndex; rangeIndex < endIndex; rangeIndex++)
             {
                 yield return queue.Dequeue();
@@ -85,13 +70,11 @@ static partial class Polyfill
         else
         {
             using var e = source.GetEnumerator();
-
             count = 0;
             while (count < startIndex && e.MoveNext())
             {
                 ++count;
             }
-
             if (count == startIndex)
             {
                 queue = new();
@@ -104,46 +87,36 @@ static partial class Polyfill
                             queue.Enqueue(e.Current);
                             yield return queue.Dequeue();
                         } while (e.MoveNext());
-
                         break;
                     }
-
                     queue.Enqueue(e.Current);
                 }
             }
         }
-
         static int CalculateStartIndex(bool isStartIndexFromEnd, int startIndex, int count) =>
             Math.Max(0, isStartIndexFromEnd ? count - startIndex : startIndex);
-
         static int CalculateEndIndex(bool isEndIndexFromEnd, int endIndex, int count) =>
             Math.Min(count, isEndIndexFromEnd ? count - endIndex : endIndex);
     }
-
     static IEnumerable<TSource> TakeRangeIterator<TSource>(IEnumerable<TSource> source, int startIndex, int endIndex)
     {
         using var e = source.GetEnumerator();
-
         var index = 0;
         while (index < startIndex && e.MoveNext())
         {
             ++index;
         }
-
         if (index < startIndex)
         {
             yield break;
         }
-
         while (index < endIndex && e.MoveNext())
         {
             yield return e.Current;
             ++index;
         }
     }
-
 #if FeatureValueTuple
-
     //https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Take.cs
     /// <summary>Returns a specified range of contiguous elements from a sequence.</summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.take?view=net-10.0#system-linq-enumerable-take-1(system-collections-generic-ienumerable((-0))-system-range)
@@ -155,14 +128,12 @@ static partial class Polyfill
         {
             return [];
         }
-
         var start = range.Start;
         var end = range.End;
         var isStartIndexFromEnd = start.IsFromEnd;
         var isEndIndexFromEnd = end.IsFromEnd;
         var startIndex = start.Value;
         var endIndex = end.Value;
-
         if (isStartIndexFromEnd)
         {
             if (startIndex == 0 || (isEndIndexFromEnd && endIndex >= startIndex))
@@ -174,10 +145,7 @@ static partial class Polyfill
         {
             return startIndex >= endIndex ? [] : TakeRangeIterator(target, startIndex, endIndex);
         }
-
         return TakeRangeFromEndIterator(target, isStartIndexFromEnd, startIndex, isEndIndexFromEnd, endIndex);
     }
-
 #endif
-
 }
