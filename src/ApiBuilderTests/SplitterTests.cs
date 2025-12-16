@@ -1,8 +1,5 @@
-using System.Text.RegularExpressions;
-
 public class SplitterTests
 {
-
     [Test]
     [Explicit]
     public async Task Run()
@@ -37,12 +34,12 @@ public class SplitterTests
         // This tests the specific file that was reported as having empty conditionals
         var source = await File.ReadAllTextAsync(Path.Combine(Splitter.SplitOutputDir, "..", "Polyfill", "ConvertPolyfill.cs"));
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net10.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
-        result = Splitter.RemoveEmptyConditionalBlocks(result);
-        result = Splitter.RemoveEmptyLines(result);
+        var resultLines = Splitter.ProcessFile(source, definedSymbols);
+        resultLines = Splitter.RemoveEmptyConditionalBlocks(resultLines);
+        resultLines = Splitter.RemoveEmptyLines(resultLines);
 
         // Should not have patterns like "#if X\n#endif" (empty conditional blocks)
-        var lines = result.Split('\n').Select(l => l.TrimEnd('\r').TrimStart()).ToList();
+        var lines = resultLines.Select(l => l.TrimStart()).ToList();
         for (var i = 0; i < lines.Count - 1; i++)
         {
             var current = lines[i];
@@ -83,7 +80,9 @@ public class SplitterTests
 
             """;
 
-        var result = Splitter.RemoveEmptyLines(source);
+        var sourceLines = source.Split('\n').Select(l => l.TrimEnd('\r')).ToList();
+        var resultLines = Splitter.RemoveEmptyLines(sourceLines);
+        var result = string.Join("\n", resultLines);
 
         await Assert.That(result).DoesNotContain("\n\n");
         await Assert.That(result).Contains("line1");
@@ -91,8 +90,7 @@ public class SplitterTests
         await Assert.That(result).Contains("line3");
 
         // Should have exactly 3 lines
-        var lines = result.Split('\n');
-        await Assert.That(lines.Length).IsEqualTo(3);
+        await Assert.That(resultLines.Count).IsEqualTo(3);
     }
 
     [Test]
@@ -113,7 +111,9 @@ public class SplitterTests
             #endif
             """;
 
-        var result = Splitter.RemoveEmptyConditionalBlocks(source);
+        var sourceLines = source.Split('\n').Select(l => l.TrimEnd('\r')).ToList();
+        var resultLines = Splitter.RemoveEmptyConditionalBlocks(sourceLines);
+        var result = string.Join("\n", resultLines);
 
         // Should remove all empty #if...#endif blocks, including nested ones
         await Assert.That(result).DoesNotContain("#if !NET");
@@ -123,8 +123,8 @@ public class SplitterTests
         await Assert.That(result).DoesNotContain("#endif");
 
         // Count the remaining lines
-        var lines = result.Split('\n').Where(l => !string.IsNullOrWhiteSpace(l)).ToList();
-        await Assert.That(lines.Count).IsEqualTo(2); // header, pragma
+        var nonEmptyLines = resultLines.Where(l => !string.IsNullOrWhiteSpace(l)).ToList();
+        await Assert.That(nonEmptyLines.Count).IsEqualTo(2); // header, pragma
     }
 
     [Test]
@@ -136,7 +136,9 @@ public class SplitterTests
             #endif
             """;
 
-        var result = Splitter.RemoveEmptyConditionalBlocks(source);
+        var sourceLines = source.Split('\n').Select(l => l.TrimEnd('\r')).ToList();
+        var resultLines = Splitter.RemoveEmptyConditionalBlocks(sourceLines);
+        var result = string.Join("\n", resultLines);
 
         // Non-empty blocks should be preserved
         await Assert.That(result).Contains("#if FeatureMemory");
@@ -154,7 +156,9 @@ public class SplitterTests
             #endif
             """;
 
-        var result = Splitter.RemoveEmptyConditionalBlocks(source);
+        var sourceLines = source.Split('\n').Select(l => l.TrimEnd('\r')).ToList();
+        var resultLines = Splitter.RemoveEmptyConditionalBlocks(sourceLines);
+        var result = string.Join("\n", resultLines);
 
         await Assert.That(result).Contains("#if FeatureMemory");
         await Assert.That(result).Contains("content");
@@ -174,7 +178,9 @@ public class SplitterTests
             #endif
             """;
 
-        var result = Splitter.RemoveEmptyConditionalBlocks(source);
+        var sourceLines = source.Split('\n').Select(l => l.TrimEnd('\r')).ToList();
+        var resultLines = Splitter.RemoveEmptyConditionalBlocks(sourceLines);
+        var result = string.Join("\n", resultLines);
 
         await Assert.That(result).Contains("#if SomeCondition");
         await Assert.That(result).Contains("content1");
@@ -196,7 +202,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         await Assert.That(result).DoesNotContain("#if");
         await Assert.That(result).DoesNotContain("#endif");
@@ -217,7 +223,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         await Assert.That(result).DoesNotContain("#if");
         await Assert.That(result).DoesNotContain("#endif");
@@ -236,7 +242,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         await Assert.That(result).Contains("#if FeatureMemory");
         await Assert.That(result).Contains("#endif");
@@ -255,7 +261,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net5.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         await Assert.That(result).Contains("#if FeatureMemory");
         await Assert.That(result).DoesNotContain("NET6_0_OR_GREATER");
@@ -274,7 +280,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         await Assert.That(result).Contains("#if FeatureMemory");
         await Assert.That(result).DoesNotContain("NET5_0_OR_GREATER");
@@ -292,7 +298,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         await Assert.That(result).DoesNotContain("#if");
         await Assert.That(result).DoesNotContain("inside");
@@ -310,7 +316,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         await Assert.That(result).DoesNotContain("#if");
         await Assert.That(result).Contains("inside");
@@ -328,7 +334,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         await Assert.That(result).Contains("#if FeatureMemory");
         await Assert.That(result).DoesNotContain("NET8_0_OR_GREATER");
@@ -346,7 +352,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         await Assert.That(result).Contains("ifbranch");
         await Assert.That(result).DoesNotContain("elsebranch");
@@ -366,7 +372,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         await Assert.That(result).DoesNotContain("ifbranch");
         await Assert.That(result).Contains("elsebranch");
@@ -386,7 +392,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         await Assert.That(result).Contains("ifbranch");
         await Assert.That(result).Contains("elsebranch");
@@ -491,7 +497,7 @@ public class SplitterTests
             """;
 
         var definedSymbolsNet6 = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var resultNet6 = Splitter.ProcessFile(source, definedSymbolsNet6);
+        var resultNet6 = string.Join("\n", Splitter.ProcessFile(source, definedSymbolsNet6));
 
         // For net6.0, both are false, so content should be removed
         await Assert.That(resultNet6).DoesNotContain("NETFRAMEWORK");
@@ -509,7 +515,7 @@ public class SplitterTests
             """;
 
         var definedSymbolsNet461 = Splitter.GetPreprocessorSymbolsForFramework("net461");
-        var resultNet461 = Splitter.ProcessFile(source, definedSymbolsNet461);
+        var resultNet461 = string.Join("\n", Splitter.ProcessFile(source, definedSymbolsNet461));
 
         // For net461, NETFRAMEWORK is true, so content should be included without directives
         await Assert.That(resultNet461).DoesNotContain("#if");
@@ -528,8 +534,8 @@ public class SplitterTests
         var definedSymbolsNet5 = Splitter.GetPreprocessorSymbolsForFramework("net5.0");
         var definedSymbolsNet6 = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
 
-        var resultNet5 = Splitter.ProcessFile(source, definedSymbolsNet5);
-        var resultNet6 = Splitter.ProcessFile(source, definedSymbolsNet6);
+        var resultNet5 = string.Join("\n", Splitter.ProcessFile(source, definedSymbolsNet5));
+        var resultNet6 = string.Join("\n", Splitter.ProcessFile(source, definedSymbolsNet6));
 
         // For net5.0, !NET6_0_OR_GREATER = !false = true, include content
         await Assert.That(resultNet5).Contains("inside");
@@ -549,7 +555,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         await Assert.That(result).Contains("#if !FeatureMemory");
         await Assert.That(result).Contains("inside");
@@ -569,7 +575,7 @@ public class SplitterTests
             """;
 
         var definedSymbolsNet5 = Splitter.GetPreprocessorSymbolsForFramework("net5.0");
-        var resultNet5 = Splitter.ProcessFile(source, definedSymbolsNet5);
+        var resultNet5 = string.Join("\n", Splitter.ProcessFile(source, definedSymbolsNet5));
 
         await Assert.That(resultNet5).Contains("outer_if");
         await Assert.That(resultNet5).DoesNotContain("inner_if");
@@ -588,7 +594,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         // Should include the content without directives since the whole expression is true
         await Assert.That(result).Contains("inside");
@@ -641,7 +647,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         // PolyPublic and PolyUseEmbeddedAttribute should be preserved as unknown conditions
         await Assert.That(result).Contains("#if PolyPublic");
@@ -657,9 +663,10 @@ public class SplitterTests
         // This tests the specific file that was reported as producing invalid C#
         var source = File.ReadAllText(Path.Combine(Splitter.SplitOutputDir, "..", "Polyfill", "StringInterpolation", "Polyfill_StringBuilder_Append.cs"));
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net461");
-        var result = Splitter.ProcessFile(source, definedSymbols);
-        result = Splitter.RemoveEmptyConditionalBlocks(result);
-        result = Splitter.RemoveEmptyLines(result);
+        var resultLines = Splitter.ProcessFile(source, definedSymbols);
+        resultLines = Splitter.RemoveEmptyConditionalBlocks(resultLines);
+        resultLines = Splitter.RemoveEmptyLines(resultLines);
+        var result = string.Join("\n", resultLines);
 
         // Must have matching braces and directives
         var openBraces = result.Count(c => c == '{');
@@ -691,7 +698,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net461");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         // Should have simplified #if FeatureMemory (since !NET6_0_OR_GREATER is true for net461)
         await Assert.That(result).Contains("#if FeatureMemory");
@@ -714,7 +721,9 @@ public class SplitterTests
             #endif
             """;
 
-        var result = Splitter.RemoveEmptyConditionalBlocks(source);
+        var sourceLines = source.Split('\n').Select(l => l.TrimEnd('\r')).ToList();
+        var resultLines = Splitter.RemoveEmptyConditionalBlocks(sourceLines);
+        var result = string.Join("\n", resultLines);
 
         // Should NOT be removed - it has content
         await Assert.That(result).Contains("#if PolyPublic");
@@ -741,7 +750,7 @@ public class SplitterTests
         foreach (var tfm in Splitter.TargetFrameworks)
         {
             var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework(tfm);
-            var result = Splitter.ProcessFile(source, definedSymbols);
+            var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
             // Should never contain these framework symbols in the output
             await Assert.That(result).DoesNotContain("NETCOREAPP2X");
@@ -766,11 +775,11 @@ public class SplitterTests
         var symbolsNet30 = Splitter.GetPreprocessorSymbolsForFramework("netcoreapp3.0");
         var symbolsNet60 = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
 
-        var resultNet20 = Splitter.ProcessFile(source, symbolsNet20);
-        var resultNet21 = Splitter.ProcessFile(source, symbolsNet21);
-        var resultNet22 = Splitter.ProcessFile(source, symbolsNet22);
-        var resultNet30 = Splitter.ProcessFile(source, symbolsNet30);
-        var resultNet60 = Splitter.ProcessFile(source, symbolsNet60);
+        var resultNet20 = string.Join("\n", Splitter.ProcessFile(source, symbolsNet20));
+        var resultNet21 = string.Join("\n", Splitter.ProcessFile(source, symbolsNet21));
+        var resultNet22 = string.Join("\n", Splitter.ProcessFile(source, symbolsNet22));
+        var resultNet30 = string.Join("\n", Splitter.ProcessFile(source, symbolsNet30));
+        var resultNet60 = string.Join("\n", Splitter.ProcessFile(source, symbolsNet60));
 
         // NETCOREAPP2X should be true for netcoreapp2.0, 2.1, and 2.2
         await Assert.That(resultNet20).Contains("inside");
@@ -792,7 +801,7 @@ public class SplitterTests
             """;
 
         var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var result = Splitter.ProcessFile(source, definedSymbols);
+        var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
 
         await Assert.That(result).Contains("    #if FeatureMemory");
         await Assert.That(result).Contains("        inside");
@@ -837,21 +846,21 @@ public class SplitterTests
 
         // For net5.0+, NETCOREAPP3_0_OR_GREATER is true, so we should get the TypeForwardedTo branch
         var definedSymbolsNet5 = Splitter.GetPreprocessorSymbolsForFramework("net5.0");
-        var resultNet5 = Splitter.ProcessFile(source, definedSymbolsNet5);
+        var resultNet5 = string.Join("\n", Splitter.ProcessFile(source, definedSymbolsNet5));
 
         await Assert.That(resultNet5).Contains("TypeForwardedTo");
         await Assert.That(resultNet5).DoesNotContain("class NotNullAttribute");
 
         // For net461, both conditions are false, so we get the class definition
         var definedSymbolsNet461 = Splitter.GetPreprocessorSymbolsForFramework("net461");
-        var resultNet461 = Splitter.ProcessFile(source, definedSymbolsNet461);
+        var resultNet461 = string.Join("\n", Splitter.ProcessFile(source, definedSymbolsNet461));
 
         await Assert.That(resultNet461).Contains("class NotNullAttribute");
         await Assert.That(resultNet461).DoesNotContain("TypeForwardedTo");
 
         // For netstandard2.1, NETSTANDARD2_1_OR_GREATER is true, so we get TypeForwardedTo
         var definedSymbolsNs21 = Splitter.GetPreprocessorSymbolsForFramework("netstandard2.1");
-        var resultNs21 = Splitter.ProcessFile(source, definedSymbolsNs21);
+        var resultNs21 = string.Join("\n", Splitter.ProcessFile(source, definedSymbolsNs21));
 
         await Assert.That(resultNs21).Contains("TypeForwardedTo");
         await Assert.That(resultNs21).DoesNotContain("class NotNullAttribute");
@@ -871,7 +880,7 @@ public class SplitterTests
             """;
 
         var definedSymbolsNet6 = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var resultNet6 = Splitter.ProcessFile(source, definedSymbolsNet6);
+        var resultNet6 = string.Join("\n", Splitter.ProcessFile(source, definedSymbolsNet6));
 
         await Assert.That(resultNet6).DoesNotContain("class NewFeature");
         await Assert.That(resultNet6).Contains("// <auto-generated />");
@@ -889,13 +898,13 @@ public class SplitterTests
             """;
 
         var definedSymbolsNet5 = Splitter.GetPreprocessorSymbolsForFramework("net5.0");
-        var resultNet5 = Splitter.ProcessFile(source, definedSymbolsNet5);
+        var resultNet5 = string.Join("\n", Splitter.ProcessFile(source, definedSymbolsNet5));
 
         await Assert.That(resultNet5).DoesNotContain("struct Index");
         await Assert.That(resultNet5).DoesNotContain("struct Range");
 
         var definedSymbolsNet461 = Splitter.GetPreprocessorSymbolsForFramework("net461");
-        var resultNet461 = Splitter.ProcessFile(source, definedSymbolsNet461);
+        var resultNet461 = string.Join("\n", Splitter.ProcessFile(source, definedSymbolsNet461));
 
         await Assert.That(resultNet461).Contains("struct Index");
         await Assert.That(resultNet461).Contains("struct Range");
@@ -913,17 +922,17 @@ public class SplitterTests
 
         // For net471+, this should be excluded
         var definedSymbolsNet471 = Splitter.GetPreprocessorSymbolsForFramework("net471");
-        var resultNet471 = Splitter.ProcessFile(source, definedSymbolsNet471);
+        var resultNet471 = string.Join("\n", Splitter.ProcessFile(source, definedSymbolsNet471));
         await Assert.That(resultNet471).DoesNotContain("Append");
 
         // For net6.0 (which has NETCOREAPP2_0_OR_GREATER), this should be excluded
         var definedSymbolsNet6 = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
-        var resultNet6 = Splitter.ProcessFile(source, definedSymbolsNet6);
+        var resultNet6 = string.Join("\n", Splitter.ProcessFile(source, definedSymbolsNet6));
         await Assert.That(resultNet6).DoesNotContain("Append");
 
         // For net461, this should be included
         var definedSymbolsNet461 = Splitter.GetPreprocessorSymbolsForFramework("net461");
-        var resultNet461 = Splitter.ProcessFile(source, definedSymbolsNet461);
+        var resultNet461 = string.Join("\n", Splitter.ProcessFile(source, definedSymbolsNet461));
         await Assert.That(resultNet461).Contains("Append");
     }
 
@@ -938,27 +947,27 @@ public class SplitterTests
             """;
 
         // net461 - NET46X is true
-        var result461 = Splitter.ProcessFile(source, Splitter.GetPreprocessorSymbolsForFramework("net461"));
+        var result461 = string.Join("\n", Splitter.ProcessFile(source, Splitter.GetPreprocessorSymbolsForFramework("net461")));
         await Assert.That(result461).Contains("inside");
 
         // net462 - NET46X is true
-        var result462 = Splitter.ProcessFile(source, Splitter.GetPreprocessorSymbolsForFramework("net462"));
+        var result462 = string.Join("\n", Splitter.ProcessFile(source, Splitter.GetPreprocessorSymbolsForFramework("net462")));
         await Assert.That(result462).Contains("inside");
 
         // net47 - NET47 is true
-        var result47 = Splitter.ProcessFile(source, Splitter.GetPreprocessorSymbolsForFramework("net47"));
+        var result47 = string.Join("\n", Splitter.ProcessFile(source, Splitter.GetPreprocessorSymbolsForFramework("net47")));
         await Assert.That(result47).Contains("inside");
 
         // net471 - neither NET46X nor NET47 is true (NET47X is true but that's different)
-        var result471 = Splitter.ProcessFile(source, Splitter.GetPreprocessorSymbolsForFramework("net471"));
+        var result471 = string.Join("\n", Splitter.ProcessFile(source, Splitter.GetPreprocessorSymbolsForFramework("net471")));
         await Assert.That(result471).DoesNotContain("inside");
 
         // net472 - neither NET46X nor NET47 is true
-        var result472 = Splitter.ProcessFile(source, Splitter.GetPreprocessorSymbolsForFramework("net472"));
+        var result472 = string.Join("\n", Splitter.ProcessFile(source, Splitter.GetPreprocessorSymbolsForFramework("net472")));
         await Assert.That(result472).DoesNotContain("inside");
 
         // net48 - neither NET46X nor NET47 is true (NET48X is true but that's different)
-        var result48 = Splitter.ProcessFile(source, Splitter.GetPreprocessorSymbolsForFramework("net48"));
+        var result48 = string.Join("\n", Splitter.ProcessFile(source, Splitter.GetPreprocessorSymbolsForFramework("net48")));
         await Assert.That(result48).DoesNotContain("inside");
     }
 

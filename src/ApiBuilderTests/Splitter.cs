@@ -308,12 +308,14 @@ public class Splitter
                 Directory.CreateDirectory(outputFileDir);
 
                 var sourceCode = File.ReadAllText(csFile);
-                var processedCode = ProcessFile(sourceCode, definedSymbols);
 
-                // Remove empty conditional blocks, empty lines, and normalize newlines to \r\n
-                processedCode = RemoveEmptyConditionalBlocks(processedCode);
-                processedCode = RemoveEmptyLines(processedCode);
-                processedCode = NormalizeNewlines(processedCode);
+                // Process file and clean up - all operations work on List<string> to avoid repeated split/join
+                var lines = ProcessFile(sourceCode, definedSymbols);
+                lines = RemoveEmptyConditionalBlocks(lines);
+                lines = RemoveEmptyLines(lines);
+
+                // Join and normalize newlines only at the end
+                var processedCode = NormalizeNewlines(string.Join("\n", lines));
 
                 File.WriteAllText(outputPath, processedCode);
             }
@@ -321,22 +323,17 @@ public class Splitter
     }
 
     /// <summary>
-    /// Removes empty and whitespace-only lines from the text.
+    /// Removes empty and whitespace-only lines from the list.
     /// </summary>
-    public static string RemoveEmptyLines(string text)
-    {
-        var lines = text.Split('\n').Select(l => l.TrimEnd('\r'));
-        var nonEmptyLines = lines.Where(l => !string.IsNullOrWhiteSpace(l));
-        return string.Join("\n", nonEmptyLines);
-    }
+    public static List<string> RemoveEmptyLines(List<string> lines) =>
+        lines.Where(l => !string.IsNullOrWhiteSpace(l)).ToList();
 
     /// <summary>
     /// Removes empty conditional blocks (e.g., #if X followed directly by #endif with no content).
     /// Handles nested cases by repeatedly removing until no more empty blocks exist.
     /// </summary>
-    public static string RemoveEmptyConditionalBlocks(string text)
+    public static List<string> RemoveEmptyConditionalBlocks(List<string> lines)
     {
-        var lines = text.Split('\n').Select(l => l.TrimEnd('\r')).ToList();
         bool changed;
 
         do
@@ -396,7 +393,7 @@ public class Splitter
             lines = result;
         } while (changed);
 
-        return string.Join("\n", lines);
+        return lines;
     }
 
     /// <summary>
@@ -411,9 +408,9 @@ public class Splitter
 
     /// <summary>
     /// Processes a single source file, evaluating conditional compilations based on defined symbols.
-    /// Unknown symbols are preserved in the output.
+    /// Unknown symbols are preserved in the output. Returns lines (without \r).
     /// </summary>
-    public static string ProcessFile(string sourceCode, HashSet<string> definedSymbols)
+    public static List<string> ProcessFile(string sourceCode, HashSet<string> definedSymbols)
     {
         var processor = new ConditionalProcessor(sourceCode, definedSymbols);
         return processor.Process();
@@ -439,7 +436,7 @@ public class ConditionalProcessor
         _outputLines = [];
     }
 
-    public string Process()
+    public List<string> Process()
     {
         var state = new Stack<ConditionalState>();
         var i = 0;
@@ -613,7 +610,7 @@ public class ConditionalProcessor
             i++;
         }
 
-        return string.Join("\n", _outputLines);
+        return _outputLines;
     }
 
     static string ExtractExpression(string line, string directive)
