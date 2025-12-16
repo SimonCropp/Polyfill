@@ -32,7 +32,8 @@ public class Splitter
         "net7.0",
         "net8.0",
         "net9.0",
-        "net10.0"
+        "net10.0",
+        "uap10.0"
     ];
 
     /// <summary>
@@ -65,6 +66,7 @@ public class Splitter
         symbols.Add("NETCOREAPP");
         symbols.Add("NETFRAMEWORK");
         symbols.Add("NETSTANDARD");
+        symbols.Add("WINDOWS_UWP");
 
         return symbols;
     }
@@ -76,6 +78,14 @@ public class Splitter
     {
         var symbols = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         var tfm = targetFramework.ToLowerInvariant();
+
+        // WINDOWS_UWP maps to net10.0 symbols
+        if (tfm == "windows_uwp")
+        {
+            symbols = GetPreprocessorSymbolsForFramework("uap10.0");
+            symbols.Add("WINDOWS_UWP");
+            return symbols;
+        }
 
         // NET Framework
         if (tfm.StartsWith("net4"))

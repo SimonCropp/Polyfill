@@ -981,6 +981,48 @@ public class SplitterTests
         await Assert.That(symbols48.Contains("NET46X")).IsFalse();
     }
 
+    [Test]
+    public async Task WindowsUwp_MapsToNet10Symbols()
+    {
+        var symbolsUwp = Splitter.GetPreprocessorSymbolsForFramework("WINDOWS_UWP");
+        var symbolsNet10 = Splitter.GetPreprocessorSymbolsForFramework("net10.0");
+
+        // WINDOWS_UWP should have its own symbol
+        await Assert.That(symbolsUwp.Contains("WINDOWS_UWP")).IsTrue();
+
+        // WINDOWS_UWP should have all net10.0 symbols
+        await Assert.That(symbolsUwp.Contains("NET10_0")).IsTrue();
+        await Assert.That(symbolsUwp.Contains("NET10_0_OR_GREATER")).IsTrue();
+        await Assert.That(symbolsUwp.Contains("NET9_0_OR_GREATER")).IsTrue();
+        await Assert.That(symbolsUwp.Contains("NET5_0_OR_GREATER")).IsTrue();
+        await Assert.That(symbolsUwp.Contains("NETCOREAPP")).IsTrue();
+        await Assert.That(symbolsUwp.Contains("NETCOREAPP3_1_OR_GREATER")).IsTrue();
+
+        // net10.0 should NOT have WINDOWS_UWP
+        await Assert.That(symbolsNet10.Contains("WINDOWS_UWP")).IsFalse();
+    }
+
+    [Test]
+    public async Task WindowsUwp_ProcessesCorrectly()
+    {
+        var source = """
+            #if WINDOWS_UWP
+            uwp_code
+            #endif
+            #if NET10_0_OR_GREATER
+            net10_code
+            #endif
+            """;
+
+        var symbolsUwp = Splitter.GetPreprocessorSymbolsForFramework("WINDOWS_UWP");
+        var resultUwp = string.Join("\n", Splitter.ProcessFile(source, symbolsUwp));
+
+        // Both conditions should be true for WINDOWS_UWP
+        await Assert.That(resultUwp).Contains("uwp_code");
+        await Assert.That(resultUwp).Contains("net10_code");
+        await Assert.That(resultUwp).DoesNotContain("#if");
+    }
+
     /// <summary>
     /// Asserts that no framework monikers appear in the processed content.
     /// </summary>
@@ -1000,7 +1042,8 @@ public class SplitterTests
             @"\bNETCOREAPPX\b",
             @"\bNETFRAMEWORK\b",
             @"\bNETSTANDARD\b(?!_)",
-            @"\bNETCOREAPP\b(?!_)"
+            @"\bNETCOREAPP\b(?!_)",
+            @"\bWINDOWS_UWP\b"
         };
 
         foreach (var pattern in monikerPatterns)
