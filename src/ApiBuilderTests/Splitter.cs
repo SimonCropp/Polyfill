@@ -4,13 +4,10 @@
 /// </summary>
 public class Splitter
 {
-    static readonly string PolyfillDir = Path.Combine(ProjectFiles.SolutionDirectory, "Polyfill");
+    static string polyfillDir = Path.Combine(ProjectFiles.SolutionDirectory, "Polyfill");
 
-    public static readonly string SplitOutputDir = Path.Combine(ProjectFiles.SolutionDirectory, "Split");
+    public static string SplitOutputDir = Path.Combine(ProjectFiles.SolutionDirectory, "Split");
 
-    /// <summary>
-    /// All target frameworks to generate splits for.
-    /// </summary>
     public static readonly string[] TargetFrameworks =
     [
         "net461",
@@ -265,7 +262,7 @@ public class Splitter
             Directory.Delete(SplitOutputDir, true);
         }
 
-        var csFiles = Directory.EnumerateFiles(PolyfillDir, "*.cs", SearchOption.AllDirectories)
+        var csFiles = Directory.EnumerateFiles(polyfillDir, "*.cs", SearchOption.AllDirectories)
             .Where(_ => !_.Contains(@"\obj\") &&
                         !_.Contains("/obj/"))
             .ToList();
@@ -279,7 +276,7 @@ public class Splitter
 
             foreach (var csFile in csFiles)
             {
-                var relativePath = Path.GetRelativePath(PolyfillDir, csFile);
+                var relativePath = Path.GetRelativePath(polyfillDir, csFile);
                 var outputPath = Path.Combine(outputDir, relativePath);
                 var outputFileDir = Path.GetDirectoryName(outputPath)!;
                 Directory.CreateDirectory(outputFileDir);
