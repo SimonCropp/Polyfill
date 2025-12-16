@@ -287,7 +287,7 @@ public class Splitter
                 var lines = ProcessFile(sourceCode, definedSymbols);
                 lines = RemoveEmptyConditionalBlocks(lines);
                 lines = RemoveEmptyLines(lines);
-                if (lines.Count == 0)
+                if (lines.Count == 0 || !ContainsTypes(lines))
                 {
                     continue;
                 }
@@ -303,6 +303,22 @@ public class Splitter
     /// </summary>
     public static List<string> RemoveEmptyLines(List<string> lines) =>
         lines.Where(l => !string.IsNullOrWhiteSpace(l)).ToList();
+
+    /// <summary>
+    /// Checks if the lines contain any type declarations (class, struct, record, interface, enum, delegate) or TypeForwardedTo attributes.
+    /// </summary>
+    public static bool ContainsTypes(List<string> lines) =>
+        lines.Any(line =>
+        {
+            var trimmed = line.TrimStart();
+            return trimmed.Contains("class ") ||
+                   trimmed.Contains("struct ") ||
+                   trimmed.Contains("record ") ||
+                   trimmed.Contains("interface ") ||
+                   trimmed.Contains("enum ") ||
+                   trimmed.Contains("delegate ") ||
+                   trimmed.Contains("TypeForwardedTo");
+        });
 
     /// <summary>
     /// Removes empty conditional blocks (e.g., #if X followed directly by #endif with no content).
