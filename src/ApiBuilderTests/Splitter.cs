@@ -14,7 +14,7 @@ public class Splitter
     /// <summary>
     /// The directory where split files are written.
     /// </summary>
-    public static readonly string SplitOutputDir = Path.Combine(SolutionDir, "..", "Split");
+    public static readonly string SplitOutputDir = Path.Combine(SolutionDir, "Split");
 
     /// <summary>
     /// Finds the solution directory by navigating up from the source file location.
