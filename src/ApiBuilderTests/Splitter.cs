@@ -75,10 +75,12 @@ public class Splitter
     {
         var symbols = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        // WINDOWS_UWP maps to net10.0 symbols
-        if (framework == "windows_uwp")
+        // uap10.0 defines WINDOWS_UWP and NETSTANDARD2_0
+        if (framework == "uap10.0")
         {
             symbols.Add("NETSTANDARD2_0");
+            symbols.Add("NETSTANDARD2_0_OR_GREATER");
+            symbols.Add("NETSTANDARD");
             symbols.Add("WINDOWS_UWP");
             return symbols;
         }
