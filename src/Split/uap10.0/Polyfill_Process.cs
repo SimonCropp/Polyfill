@@ -8,6 +8,15 @@ using System.Threading;
 using System.Threading.Tasks;
 static partial class Polyfill
 {
+    /// <summary>
+    /// Immediately stops the associated process, and optionally its child/descendent processes.
+    /// Maps to <see cref="Process.Kill"/>.
+    /// </summary>
+    [SupportedOSPlatform("maccatalyst")]
+    [UnsupportedOSPlatform("ios")]
+    [UnsupportedOSPlatform("tvos")]
+    public static void Kill(this Process target, bool entireProcessTree) =>
+        target.Kill();
 #if !NET
     /// <summary>
     /// Instructs the Process component to wait for the associated process to exit, or

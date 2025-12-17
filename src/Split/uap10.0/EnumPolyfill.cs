@@ -31,6 +31,18 @@ static partial class Polyfill
             where TEnum : struct, Enum =>
             Enum.GetNames(typeof(TEnum));
 #endif
+        /// <summary>
+        /// Converts the string representation of the name or numeric value of one or more enumerated constants specified by TEnum to an equivalent enumerated object.
+        /// </summary>
+        public static TEnum Parse<TEnum>(string value)
+            where TEnum : struct, Enum =>
+            (TEnum) Enum.Parse(typeof(TEnum), value);
+        /// <summary>
+        /// Converts the string representation of the name or numeric value of one or more enumerated constants specified by TEnum to an equivalent enumerated object.
+        /// </summary>
+        public static TEnum Parse<TEnum>(string value, bool ignoreCase)
+            where TEnum : struct, Enum =>
+            (TEnum) Enum.Parse(typeof(TEnum), value, ignoreCase);
 #if FeatureMemory
         /// <summary>
         /// Converts the span of characters representation of the name or numeric value of one or more enumerated constants specified by TEnum to an equivalent enumerated object.

@@ -17,4 +17,30 @@ static partial class Polyfill
     public static void TrimExcess<T>(this Stack<T> target, int capacity)
     {
     }
+    /// <summary>
+    /// Returns a value that indicates whether there is an object at the top of the <see cref="Stack{T}"/>, and if one is present, copies it to the result parameter. The object is not removed from the <see cref="Stack{T}"/>.
+    /// </summary>
+    public static bool TryPeek<T>(this Stack<T> target, [MaybeNullWhen(false)] out T result)
+    {
+        if (target.Count > 0)
+        {
+            result = target.Peek();
+            return true;
+        }
+        result = default;
+        return false;
+    }
+    /// <summary>
+    /// Returns a value that indicates whether there is an object at the top of the <see cref="Stack{T}"/>, and if one is present, copies it to the result parameter, and removes it from the <see cref="Stack{T}"/>.
+    /// </summary>
+    public static bool TryPop<T>(this Stack<T> target, [MaybeNullWhen(false)] out T result)
+    {
+        if (target.Count > 0)
+        {
+            result = target.Pop();
+            return true;
+        }
+        result = default;
+        return false;
+    }
 }

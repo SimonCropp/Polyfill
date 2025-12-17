@@ -10,47 +10,6 @@ static partial class Polyfill
     public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other) =>
         target.MetadataToken == other.MetadataToken &&
         target.Module.Equals(other.Module);
-    public static MethodInfo? GetMethod([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types)
-    {
-        var methods = target.GetMethods(bindingAttr);
-        if (genericParameterCount == 0)
-        {
-            foreach (var method in methods)
-            {
-                if (method.IsGenericMethod)
-                {
-                    continue;
-                }
-                if (IsMatch(method))
-                {
-                    return method;
-                }
-            }
-        }
-        else
-        {
-            foreach (var method in methods)
-            {
-                if (!method.IsGenericMethod)
-                {
-                    continue;
-                }
-                var genericArguments = method.GetGenericArguments();
-                if (genericParameterCount != genericArguments.Length)
-                {
-                    continue;
-                }
-                if (IsMatch(method))
-                {
-                    return method;
-                }
-            }
-        }
-        return null;
-        bool IsMatch(MethodInfo method) =>
-            name == method.Name &&
-            method.GetParameters().Select(_ => _.ParameterType).SequenceEqual(types);
-    }
     /// <summary>
     /// Gets a value that indicates whether the current Type represents a type parameter in the definition of a generic method.
     /// </summary>

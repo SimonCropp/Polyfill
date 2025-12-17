@@ -20,6 +20,82 @@ static partial class Polyfill
         target.AsSpan().TryCopyTo(destination);
 #endif
     /// <summary>
+    /// Returns the hash code for this string using the specified rules.
+    /// </summary>
+    public static int GetHashCode(this string target, StringComparison comparisonType) =>
+        FromComparison(comparisonType).GetHashCode(target);
+    static StringComparer FromComparison(StringComparison comparison) =>
+        comparison switch
+        {
+            StringComparison.CurrentCulture => StringComparer.CurrentCulture,
+            StringComparison.CurrentCultureIgnoreCase => StringComparer.CurrentCultureIgnoreCase,
+            StringComparison.InvariantCulture => StringComparer.InvariantCulture,
+            StringComparison.InvariantCultureIgnoreCase => StringComparer.InvariantCultureIgnoreCase,
+            StringComparison.Ordinal => StringComparer.Ordinal,
+            StringComparison.OrdinalIgnoreCase => StringComparer.OrdinalIgnoreCase,
+            _ => throw new ArgumentOutOfRangeException(nameof(comparison), comparison, null)
+        };
+    /// <summary>
+    /// Returns a value indicating whether a specified character occurs within this string, using the specified comparison rules.
+    /// </summary>
+    public static bool Contains(this string target, char value, StringComparison comparisonType) =>
+        target.IndexOf(value, comparisonType) >= 0;
+    /// <summary>
+    /// Reports the zero-based index of the first occurrence of the specified Unicode character in this string. A parameter specifies the type of search to use for the specified character.
+    /// </summary>
+    public static int IndexOf(this string target, char value, StringComparison comparisonType) =>
+        target.IndexOf(value.ToString(), comparisonType);
+    /// <summary>
+    /// Returns a value indicating whether a specified string occurs within this string, using the specified comparison rules.
+    /// </summary>
+    public static bool Contains(this string target, string value, StringComparison comparisonType) =>
+        target.IndexOf(value, comparisonType) >= 0;
+    /// <summary>
+    /// Determines whether this string instance starts with the specified character.
+    /// </summary>
+    public static bool StartsWith(this string target, char value)
+    {
+        if (target.Length == 0)
+        {
+            return false;
+        }
+        return target[0] == value;
+    }
+    /// <summary>
+    /// Returns a value indicating whether a specified character occurs within this string.
+    /// </summary>
+    public static bool EndsWith(this string target, char value)
+    {
+        if (target.Length == 0)
+        {
+            return false;
+        }
+        var lastPos = target.Length - 1;
+        return target[lastPos] == value;
+    }
+    /// <summary>
+    /// Splits a string into substrings based on a specified delimiting character and, optionally, options.
+    /// </summary>
+    public static string[] Split(this string target, char separator, StringSplitOptions options = StringSplitOptions.None) =>
+        target.Split([separator], options);
+    /// <summary>
+    /// Splits a string into a maximum number of substrings based on a specified delimiting character and, optionally,
+    /// options. Splits a string into a maximum number of substrings based on the provided character separator,
+    /// optionally omitting empty substrings from the result.
+    /// </summary>
+    public static string[] Split(this string target, char separator, int count, StringSplitOptions options = StringSplitOptions.None) =>
+        target.Split([separator], count, options);
+    /// <summary>
+    /// Splits a string into substrings that are based on the provided string separator.
+    /// </summary>
+    public static string[] Split(this string target, string separator, StringSplitOptions options = StringSplitOptions.None) =>
+        target.Split([separator], options);
+    /// <summary>
+    /// Splits a string into a maximum number of substrings based on a specified delimiting string and, optionally, options.
+    /// </summary>
+    public static string[] Split(this string target, string separator, int count, StringSplitOptions options = StringSplitOptions.None) =>
+        target.Split([separator], count, options);
+    /// <summary>
     /// Returns a value indicating whether a specified character occurs within this string.
     /// </summary>
     public static bool Contains(this string target, char value) =>

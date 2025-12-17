@@ -155,6 +155,106 @@ static partial class Polyfill
             }
             await writer.FlushAsync(cancellationToken);
         }
+        /// <summary>
+        /// Asynchronously creates a new file, writes the specified string to the file using the specified encoding, and then closes the file. If the target file already exists, it is truncated and overwritten.
+        /// </summary>
+        public static async Task WriteAllTextAsync(string path, string? contents, Encoding encoding, CancellationToken cancellationToken = default)
+        {
+            using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
+            using var writer = new StreamWriter(stream, encoding);
+            if (contents != null)
+            {
+                await writer.WriteAsync(contents);
+            }
+            await writer.FlushAsync(cancellationToken);
+        }
+        /// <summary>
+        /// Asynchronously creates a new file, writes the specified string to the file using the specified encoding, and then closes the file. If the target file already exists, it is truncated and overwritten.
+        /// </summary>
+        public static Task WriteAllTextAsync(string path, string? contents, CancellationToken cancellationToken = default) =>
+            WriteAllTextAsync(path, contents, Encoding.UTF8, cancellationToken);
+        /// <summary>
+        /// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file using the specified encoding, and then closes the file.
+        /// </summary>
+        public static async Task AppendAllTextAsync(string path, string? contents, Encoding encoding, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
+            using var writer = new StreamWriter(stream, encoding);
+            await writer.WriteAsync(contents);
+            await writer.FlushAsync(cancellationToken);
+        }
+        /// <summary>
+        /// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file, and then closes the file.
+        /// </summary>
+        public static Task AppendAllTextAsync(string path, string? contents, CancellationToken cancellationToken = default) =>
+            AppendAllTextAsync(path, contents, Encoding.UTF8, cancellationToken);
+        /// <summary>
+        /// Asynchronously opens a binary file, reads the contents of the file into a byte array, and then closes the file.
+        /// </summary>
+        public static async Task<byte[]> ReadAllBytesAsync(string path, CancellationToken cancellationToken = default)
+        {
+            #if FeatureRuntimeInformation
+            var options = FileOptions.Asynchronous | (OperatingSystem.IsWindows() ? FileOptions.SequentialScan : FileOptions.None);
+            #else
+            var options = FileOptions.Asynchronous | FileOptions.SequentialScan;
+            #endif
+            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, options);
+            var length = (int) stream.Length;
+            var bytes = new byte[length];
+            var bytesRead = 0;
+            while (bytesRead < length)
+            {
+                var read = await stream.ReadAsync(bytes, bytesRead, length - bytesRead, cancellationToken);
+                if (read == 0)
+                {
+                    throw new EndOfStreamException($"End of stream reached with {length - bytesRead} bytes left to read");
+                }
+                bytesRead += read;
+            }
+            return bytes;
+        }
+        /// <summary>
+        /// Asynchronously opens a text file, reads all lines of the file, and then closes the file.
+        /// </summary>
+        public static Task<string[]> ReadAllLinesAsync(string path, CancellationToken cancellationToken = default) =>
+            ReadAllLinesAsync(path, Encoding.UTF8, cancellationToken);
+        /// <summary>
+        /// Asynchronously opens a text file, reads all lines of the file with the specified encoding, and then closes the file.
+        /// </summary>
+        public static async Task<string[]> ReadAllLinesAsync(string path, Encoding encoding, CancellationToken cancellationToken = default)
+        {
+            var lines = new List<string>();
+            using var reader = AsyncStreamReader(path, encoding);
+            while (!reader.EndOfStream)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                var line = await reader.ReadLineAsync();
+                if (line != null)
+                {
+                    lines.Add(line);
+                }
+            }
+            return lines.ToArray();
+        }
+        /// <summary>
+        /// Asynchronously opens a text file, reads all the text in the file, and then closes the file.
+        /// </summary>
+        public static Task<string> ReadAllTextAsync(string path, CancellationToken cancellationToken = default) =>
+            ReadAllTextAsync(path, Encoding.UTF8, cancellationToken);
+        /// <summary>
+        /// Asynchronously opens a text file, reads all text in the file with the specified encoding, and then closes the file.
+        /// </summary>
+        public static async Task<string> ReadAllTextAsync(string path, Encoding encoding, CancellationToken cancellationToken = default)
+        {
+            using var reader = AsyncStreamReader(path, encoding);
+            return await reader.ReadToEndAsync(cancellationToken);
+        }
+        static StreamReader AsyncStreamReader(string path, Encoding encoding)
+        {
+            var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.Asynchronous | FileOptions.SequentialScan);
+            return new StreamReader(stream, encoding, detectEncodingFromByteOrderMarks: true);
+        }
         //TODO: re add NETSTANDARD via https://www.nuget.org/packages/Microsoft.Bcl.AsyncInterfaces#dependencies-body-tab
     }
 }
