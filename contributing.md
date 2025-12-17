@@ -407,11 +407,6 @@ partial class PolyfillTests
 <!-- endSnippet -->
 
 
-### Add documentation
-
-Add documentation for the API to the `readme.md`.
-
-
 ### Add to the Consume project
 
 Add a simple usage of the API to the Consume project. The usage is there to check it compiles on old runtimes, not correctness.
