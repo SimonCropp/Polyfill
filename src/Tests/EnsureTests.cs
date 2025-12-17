@@ -196,8 +196,8 @@ public class EnsureTests
         var exception = await Assert.That(() => Ensure.NotEqual(value, other)).Throws<ArgumentOutOfRangeException>();
 
         await Assert.That(exception!.ParamName).IsEqualTo("value");
-        await Assert.That(exception!.Message).Contains("must not be equal to");
-        await Assert.That(exception!.Message).Contains("'42'");
+        await Assert.That(exception.Message).Contains("must not be equal to");
+        await Assert.That(exception.Message).Contains("'42'");
     }
 
     [Test]
@@ -209,7 +209,7 @@ public class EnsureTests
         var exception = await Assert.That(() => Ensure.NotEqual(value, other)).Throws<ArgumentOutOfRangeException>();
 
         await Assert.That(exception!.ParamName).IsEqualTo("value");
-        await Assert.That(exception!.Message).Contains("'test'");
+        await Assert.That(exception.Message).Contains("'test'");
     }
 
     [Test]
@@ -221,7 +221,7 @@ public class EnsureTests
         var exception = await Assert.That(() => Ensure.NotEqual(value, other)).Throws<ArgumentOutOfRangeException>();
 
         await Assert.That(exception!.ParamName).IsEqualTo("value");
-        await Assert.That(exception!.Message).Contains("'null'");
+        await Assert.That(exception.Message).Contains("'null'");
     }
 
     [Test]

@@ -1,5 +1,3 @@
-using ProjectFilesGenerator;
-
 public class BuildApiTest
 {
     static string polyfillDir = Path.Combine(ProjectFiles.SolutionDirectory, "Polyfill");
