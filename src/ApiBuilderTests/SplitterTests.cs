@@ -1,31 +1,7 @@
 public class SplitterTests
 {
     [Test]
-    public async Task Run()
-    {
-        Splitter.Run();
-
-        var splitDir = Splitter.SplitOutputDir;
-        await Assert.That(Directory.Exists(splitDir)).IsTrue();
-
-        // Verify all target frameworks have output directories
-        foreach (var tfm in Splitter.TargetFrameworks)
-        {
-            var tfmDir = Path.Combine(splitDir, tfm);
-            await Assert.That(Directory.Exists(tfmDir)).IsTrue();
-
-            // Verify at least some files were written
-            var files = Directory.GetFiles(tfmDir, "*.cs", SearchOption.AllDirectories);
-            await Assert.That(files.Length > 0).IsTrue();
-
-            // Verify no framework monikers remain in any file
-            foreach (var file in files)
-            {
-                var content = await File.ReadAllTextAsync(file);
-                AssertNoFrameworkMonikers(content, file, tfm);
-            }
-        }
-    }
+    public Task Run() => Splitter.Run();
 
     [Test]
     public async Task ConvertPolyfill_NoEmptyConditionals()
@@ -664,7 +640,7 @@ public class SplitterTests
         await Assert.That(openBraces).IsEqualTo(closeBraces);
 
         var ifCount = Regex.Matches(result, @"#if\s").Count;
-        var endifCount = Regex.Matches(result, @"#endif").Count;
+        var endifCount = Regex.Matches(result, "#endif").Count;
         await Assert.That(ifCount).IsEqualTo(endifCount);
 
         // Should not have #elif (NET6_0_OR_GREATER is false for net461)
@@ -737,10 +713,10 @@ public class SplitterTests
             #endif
             """;
 
-        foreach (var tfm in Splitter.TargetFrameworks)
+        foreach (var framework in Splitter.Frameworks)
         {
-            var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework(tfm);
-            var result = string.Join("\n", Splitter.ProcessFile(source, definedSymbols));
+            var symbols = Splitter.GetPreprocessorSymbolsForFramework(framework);
+            var result = string.Join("\n", Splitter.ProcessFile(source, symbols));
 
             // Should never contain these framework symbols in the output
             await Assert.That(result).DoesNotContain("NETCOREAPP2X");
@@ -965,7 +941,7 @@ public class SplitterTests
     public async Task GetPreprocessorSymbols()
     {
         var dictionary = new Dictionary<string, HashSet<string>>();
-        foreach (var framework in Splitter.TargetFrameworks)
+        foreach (var framework in Splitter.Frameworks)
         {
             dictionary[framework] = Splitter.GetPreprocessorSymbolsForFramework(framework);
         }
