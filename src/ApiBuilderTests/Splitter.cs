@@ -286,7 +286,7 @@ public class Splitter
                 var lines = ProcessFile(sourceCode, definedSymbols);
                 lines = RemoveEmptyConditionalBlocks(lines);
                 lines = RemoveEmptyLines(lines);
-                if (lines.Count == 0 || !ContainsTypes(lines))
+                if (lines.Count == 0 || !ContainsTypes(lines) || IsEmptyPolyfillClass(lines))
                 {
                     continue;
                 }
@@ -318,6 +318,38 @@ public class Splitter
                    trimmed.Contains("delegate ") ||
                    trimmed.Contains("TypeForwardedTo");
         });
+
+    /// <summary>
+    /// Checks if the file is an empty Polyfill class (only contains namespace, usings, and an empty static partial class Polyfill).
+    /// </summary>
+    public static bool IsEmptyPolyfillClass(List<string> lines)
+    {
+        foreach (var line in lines)
+        {
+            var trimmed = line.TrimStart();
+
+            // Skip namespace declarations, using statements, braces, and preprocessor directives
+            if (trimmed.StartsWith("namespace ") ||
+                trimmed.StartsWith("using ") ||
+                trimmed is "{" or "}" ||
+                trimmed.StartsWith('#'))
+            {
+                continue;
+            }
+
+            // Skip the Polyfill class declaration itself
+            if (trimmed.StartsWith("static partial class Polyfill") ||
+                trimmed.StartsWith("partial class Polyfill"))
+            {
+                continue;
+            }
+
+            // Any other content means it's not empty
+            return false;
+        }
+
+        return true;
+    }
 
     /// <summary>
     /// Removes empty conditional blocks (e.g., #if X followed directly by #endif with no content).
