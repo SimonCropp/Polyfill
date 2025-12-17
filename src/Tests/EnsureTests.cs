@@ -26,7 +26,7 @@ public class EnsureTests
     static string[] emptyArray = [];
     static string[] nonEmptyArray = ["value"];
     static List<string> nonEmptyList = ["value"];
-    static IEnumerable<string> nonEmptyEnumerable = nonEmptyList.Select(x => x);
+    static IEnumerable<string> nonEmptyEnumerable = nonEmptyList.Select(_ => _);
 
     [Test]
     public async Task NotNull()

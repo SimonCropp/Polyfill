@@ -243,7 +243,7 @@ public class AssemblySizeTest
 
         foreach (var framework in TargetFrameworks)
         {
-            results.Add(new SizeResult
+            results.Add(new()
             {
                 TargetFramework = framework,
                 SizeWithoutPolyfill = allSizes["without"].GetValueOrDefault(framework, -1),
@@ -264,7 +264,7 @@ public class AssemblySizeTest
 
         foreach (var framework in TargetFrameworks)
         {
-            results.Add(new SizeResult
+            results.Add(new()
             {
                 TargetFramework = framework,
                 SizeWithoutPolyfill = allSizes["without"].GetValueOrDefault(framework, -1) + sourceSizes["without"].GetValueOrDefault(framework, 0),

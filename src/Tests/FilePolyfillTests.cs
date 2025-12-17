@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
-using static TUnit.Core.HookType;
+﻿using System.Runtime.Versioning;
 // ReSharper disable MethodHasAsyncOverload
 
 [NotInParallel]

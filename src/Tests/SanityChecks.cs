@@ -1,5 +1,3 @@
-using ProjectFilesGenerator;
-
 #pragma warning disable IL2026
 
 public class SanityChecks
