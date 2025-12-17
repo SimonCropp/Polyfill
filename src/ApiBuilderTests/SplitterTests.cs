@@ -961,7 +961,7 @@ public class SplitterTests
             #endif
             """;
 
-        var symbolsUwp = Splitter.GetPreprocessorSymbolsForFramework("WINDOWS_UWP");
+        var symbolsUwp = Splitter.GetPreprocessorSymbolsForFramework("windows_uwpP");
         var resultUwp = string.Join("\n", Splitter.ProcessFile(source, symbolsUwp));
 
         // Both conditions should be true for WINDOWS_UWP

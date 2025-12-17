@@ -71,13 +71,12 @@ public class Splitter
     /// <summary>
     /// Gets the preprocessor symbols defined for a given target framework.
     /// </summary>
-    public static HashSet<string> GetPreprocessorSymbolsForFramework(string targetFramework)
+    public static HashSet<string> GetPreprocessorSymbolsForFramework(string framework)
     {
         var symbols = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        var tfm = targetFramework.ToLowerInvariant();
 
         // WINDOWS_UWP maps to net10.0 symbols
-        if (tfm == "windows_uwp")
+        if (framework == "windows_uwp")
         {
             symbols.Add("NETSTANDARD2_0");
             symbols.Add("WINDOWS_UWP");
@@ -85,43 +84,43 @@ public class Splitter
         }
 
         // NET Framework
-        if (tfm.StartsWith("net4"))
+        if (framework.StartsWith("net4"))
         {
             symbols.Add("NETFRAMEWORK");
 
-            if (tfm.StartsWith("net46"))
+            if (framework.StartsWith("net46"))
             {
                 symbols.Add("NET46X");
-                if (tfm == "net461")
+                if (framework == "net461")
                 {
                     symbols.Add("NET461");
                     symbols.Add("NET461_OR_GREATER");
                 }
-                else if (tfm == "net462")
+                else if (framework == "net462")
                 {
                     symbols.Add("NET462");
                     symbols.Add("NET462_OR_GREATER");
                     symbols.Add("NET461_OR_GREATER");
                 }
             }
-            else if (tfm.StartsWith("net47"))
+            else if (framework.StartsWith("net47"))
             {
                 symbols.Add("NET47X");
                 symbols.Add("NET461_OR_GREATER");
                 symbols.Add("NET462_OR_GREATER");
 
-                if (tfm == "net47")
+                if (framework == "net47")
                 {
                     symbols.Add("NET47");
                     symbols.Add("NET47_OR_GREATER");
                 }
-                else if (tfm == "net471")
+                else if (framework == "net471")
                 {
                     symbols.Add("NET471");
                     symbols.Add("NET471_OR_GREATER");
                     symbols.Add("NET47_OR_GREATER");
                 }
-                else if (tfm == "net472")
+                else if (framework == "net472")
                 {
                     symbols.Add("NET472");
                     symbols.Add("NET472_OR_GREATER");
@@ -129,7 +128,7 @@ public class Splitter
                     symbols.Add("NET47_OR_GREATER");
                 }
             }
-            else if (tfm.StartsWith("net48"))
+            else if (framework.StartsWith("net48"))
             {
                 symbols.Add("NET48X");
                 symbols.Add("NET461_OR_GREATER");
@@ -138,12 +137,12 @@ public class Splitter
                 symbols.Add("NET471_OR_GREATER");
                 symbols.Add("NET472_OR_GREATER");
 
-                if (tfm == "net48")
+                if (framework == "net48")
                 {
                     symbols.Add("NET48");
                     symbols.Add("NET48_OR_GREATER");
                 }
-                else if (tfm == "net481")
+                else if (framework == "net481")
                 {
                     symbols.Add("NET481");
                     symbols.Add("NET481_OR_GREATER");
@@ -152,16 +151,16 @@ public class Splitter
             }
         }
         // .NET Standard
-        else if (tfm.StartsWith("netstandard"))
+        else if (framework.StartsWith("netstandard"))
         {
             symbols.Add("NETSTANDARD");
 
-            if (tfm == "netstandard2.0")
+            if (framework == "netstandard2.0")
             {
                 symbols.Add("NETSTANDARD2_0");
                 symbols.Add("NETSTANDARD2_0_OR_GREATER");
             }
-            else if (tfm == "netstandard2.1")
+            else if (framework == "netstandard2.1")
             {
                 symbols.Add("NETSTANDARD2_1");
                 symbols.Add("NETSTANDARD2_1_OR_GREATER");
@@ -169,27 +168,27 @@ public class Splitter
             }
         }
         // .NET Core
-        else if (tfm.StartsWith("netcoreapp"))
+        else if (framework.StartsWith("netcoreapp"))
         {
             symbols.Add("NETCOREAPP");
             symbols.Add("NETCOREAPPX");
 
-            if (tfm.StartsWith("netcoreapp2"))
+            if (framework.StartsWith("netcoreapp2"))
             {
                 symbols.Add("NETCOREAPP2X");
 
-                if (tfm == "netcoreapp2.0")
+                if (framework == "netcoreapp2.0")
                 {
                     symbols.Add("NETCOREAPP2_0");
                     symbols.Add("NETCOREAPP2_0_OR_GREATER");
                 }
-                else if (tfm == "netcoreapp2.1")
+                else if (framework == "netcoreapp2.1")
                 {
                     symbols.Add("NETCOREAPP2_1");
                     symbols.Add("NETCOREAPP2_1_OR_GREATER");
                     symbols.Add("NETCOREAPP2_0_OR_GREATER");
                 }
-                else if (tfm == "netcoreapp2.2")
+                else if (framework == "netcoreapp2.2")
                 {
                     symbols.Add("NETCOREAPP2_2");
                     symbols.Add("NETCOREAPP2_2_OR_GREATER");
@@ -197,19 +196,19 @@ public class Splitter
                     symbols.Add("NETCOREAPP2_0_OR_GREATER");
                 }
             }
-            else if (tfm.StartsWith("netcoreapp3"))
+            else if (framework.StartsWith("netcoreapp3"))
             {
                 symbols.Add("NETCOREAPP3X");
                 symbols.Add("NETCOREAPP2_0_OR_GREATER");
                 symbols.Add("NETCOREAPP2_1_OR_GREATER");
                 symbols.Add("NETCOREAPP2_2_OR_GREATER");
 
-                if (tfm == "netcoreapp3.0")
+                if (framework == "netcoreapp3.0")
                 {
                     symbols.Add("NETCOREAPP3_0");
                     symbols.Add("NETCOREAPP3_0_OR_GREATER");
                 }
-                else if (tfm == "netcoreapp3.1")
+                else if (framework == "netcoreapp3.1")
                 {
                     symbols.Add("NETCOREAPP3_1");
                     symbols.Add("NETCOREAPP3_1_OR_GREATER");
@@ -218,10 +217,10 @@ public class Splitter
             }
         }
         // .NET 5+
-        else if (tfm.StartsWith("net"))
+        else if (framework.StartsWith("net"))
         {
             // Parse version number
-            var versionStr = tfm.Substring(3).Replace(".", "_");
+            var versionStr = framework.Substring(3).Replace(".", "_");
             var match = Regex.Match(versionStr, @"^(\d+)");
             if (match.Success && int.TryParse(match.Groups[1].Value, out var majorVersion) && majorVersion >= 5)
             {
@@ -293,7 +292,7 @@ public class Splitter
                 }
                 lines.Insert(0,"#pragma warning disable");
                 lines.Insert(0,"// <auto-generated />");
-                await File.WriteAllTextAsync(outputPath, string.Join("\r\n", lines));
+                await File.WriteAllLinesAsync(outputPath, lines);
             }
         }
     }
