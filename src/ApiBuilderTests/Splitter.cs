@@ -79,7 +79,7 @@ public class Splitter
         // WINDOWS_UWP maps to net10.0 symbols
         if (tfm == "windows_uwp")
         {
-            symbols = GetPreprocessorSymbolsForFramework("uap10.0");
+            symbols.Add("NETSTANDARD2_0");
             symbols.Add("WINDOWS_UWP");
             return symbols;
         }

@@ -48,13 +48,13 @@ public class SplitterTests
             // Check for empty #if...#endif
             if ((current.StartsWith("#if ") || current.StartsWith("#if(")) && next == "#endif")
             {
-                throw new Exception($"Empty conditional block found: {current} followed by {next}");
+                throw new($"Empty conditional block found: {current} followed by {next}");
             }
 
             // Check for empty #else...#endif
             if (current == "#else" && next == "#endif")
             {
-                throw new Exception($"Empty else block found: {current} followed by {next}");
+                throw new($"Empty else block found: {current} followed by {next}");
             }
         }
     }
@@ -963,54 +963,26 @@ public class SplitterTests
     }
 
     [Test]
-    public async Task Net46x_OnlyForNet461And462()
+    public async Task GetPreprocessorSymbols()
     {
-        var symbols461 = Splitter.GetPreprocessorSymbolsForFramework("net461");
-        var symbols462 = Splitter.GetPreprocessorSymbolsForFramework("net462");
-        var symbols47 = Splitter.GetPreprocessorSymbolsForFramework("net47");
-        var symbols471 = Splitter.GetPreprocessorSymbolsForFramework("net471");
-        var symbols48 = Splitter.GetPreprocessorSymbolsForFramework("net48");
+        var dictionary = new Dictionary<string, HashSet<string>>();
+        foreach (var framework in Splitter.TargetFrameworks)
+        {
+            dictionary[framework] = Splitter.GetPreprocessorSymbolsForFramework(framework);
+        }
 
-        // NET46X should be true for net461 and net462
-        await Assert.That(symbols461.Contains("NET46X")).IsTrue();
-        await Assert.That(symbols462.Contains("NET46X")).IsTrue();
-
-        // NET46X should be false for net47+
-        await Assert.That(symbols47.Contains("NET46X")).IsFalse();
-        await Assert.That(symbols471.Contains("NET46X")).IsFalse();
-        await Assert.That(symbols48.Contains("NET46X")).IsFalse();
+        await Verify(dictionary);
     }
 
     [Test]
-    public async Task WindowsUwp_MapsToNet10Symbols()
-    {
-        var symbolsUwp = Splitter.GetPreprocessorSymbolsForFramework("WINDOWS_UWP");
-        var symbolsNet10 = Splitter.GetPreprocessorSymbolsForFramework("net10.0");
-
-        // WINDOWS_UWP should have its own symbol
-        await Assert.That(symbolsUwp.Contains("WINDOWS_UWP")).IsTrue();
-
-        // WINDOWS_UWP should have all net10.0 symbols
-        await Assert.That(symbolsUwp.Contains("NET10_0")).IsTrue();
-        await Assert.That(symbolsUwp.Contains("NET10_0_OR_GREATER")).IsTrue();
-        await Assert.That(symbolsUwp.Contains("NET9_0_OR_GREATER")).IsTrue();
-        await Assert.That(symbolsUwp.Contains("NET5_0_OR_GREATER")).IsTrue();
-        await Assert.That(symbolsUwp.Contains("NETCOREAPP")).IsTrue();
-        await Assert.That(symbolsUwp.Contains("NETCOREAPP3_1_OR_GREATER")).IsTrue();
-
-        // net10.0 should NOT have WINDOWS_UWP
-        await Assert.That(symbolsNet10.Contains("WINDOWS_UWP")).IsFalse();
-    }
-
-    [Test]
-    public async Task WindowsUwp_ProcessesCorrectly()
+    public async Task WindowsUwp()
     {
         var source = """
             #if WINDOWS_UWP
             uwp_code
             #endif
-            #if NET10_0_OR_GREATER
-            net10_code
+            #if NETSTANDARD2_0
+            netstandard_code
             #endif
             """;
 
@@ -1023,9 +995,6 @@ public class SplitterTests
         await Assert.That(resultUwp).DoesNotContain("#if");
     }
 
-    /// <summary>
-    /// Asserts that no framework monikers appear in the processed content.
-    /// </summary>
     static void AssertNoFrameworkMonikers(string content, string filePath, string targetFramework)
     {
         // Check for specific framework version symbols
@@ -1072,7 +1041,7 @@ public class SplitterTests
                 }
 
                 // This is a framework moniker in a preprocessor directive - fail
-                throw new Exception(
+                throw new(
                     $"Framework moniker '{match.Value}' found in {filePath} for target framework {targetFramework}:\n" +
                     $"Line: {line.Trim()}");
             }
