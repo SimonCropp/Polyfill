@@ -10,5 +10,6 @@
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
     <PackageReference Include="ProjectFiles" />
     <PackageReference Include="Verify.TUnit" />
+    <Using Include="System.ReadOnlySpan&lt;System.Char&gt;" Alias="CharSpan" />
   </ItemGroup>
 </Project>
