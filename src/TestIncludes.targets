@@ -2,6 +2,8 @@
   <PropertyGroup>
     <!-- For -windows targets (e.g. net6.0-windows), use the non-windows equivalent (e.g. net6.0) -->
     <SplitTargetFramework Condition="$(TargetFramework.EndsWith('-windows'))">$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf('-windows'))))</SplitTargetFramework>
+    <!-- For UWP targets (e.g. uap10.0.26100), use the base version (e.g. uap10.0) -->
+    <SplitTargetFramework Condition="'$(SplitTargetFramework)' == '' AND $(TargetFramework.StartsWith('uap10.0.'))">uap10.0</SplitTargetFramework>
     <SplitTargetFramework Condition="'$(SplitTargetFramework)' == ''">$(TargetFramework)</SplitTargetFramework>
   </PropertyGroup>
   <ItemGroup>
