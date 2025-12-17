@@ -76,7 +76,7 @@ public class Splitter
         var symbols = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         // uap10.0 defines WINDOWS_UWP and NETSTANDARD2_0
-        if (framework == "uap10.0")
+        if (framework.StartsWith("uap"))
         {
             symbols.Add("NETSTANDARD2_0");
             symbols.Add("NETSTANDARD2_0_OR_GREATER");
