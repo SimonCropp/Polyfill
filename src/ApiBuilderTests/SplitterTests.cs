@@ -1,7 +1,6 @@
 public class SplitterTests
 {
     [Test]
-    [Explicit]
     public async Task Run()
     {
         Splitter.Run();
@@ -991,7 +990,7 @@ public class SplitterTests
 
         // Both conditions should be true for WINDOWS_UWP
         await Assert.That(resultUwp).Contains("uwp_code");
-        await Assert.That(resultUwp).Contains("net10_code");
+        await Assert.That(resultUwp).Contains("netstandard_code");
         await Assert.That(resultUwp).DoesNotContain("#if");
     }
 

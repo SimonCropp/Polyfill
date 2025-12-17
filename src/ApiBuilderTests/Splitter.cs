@@ -41,29 +41,29 @@ public class Splitter
 
     static HashSet<string> BuildAllKnownSymbols()
     {
-        var symbols = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var symbols = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "NETCOREAPP2X",
+            "NETCOREAPP3X",
+            "NETCOREAPPX",
+            "NET46X",
+            "NET47X",
+            "NET48X",
+            "NETCOREAPP",
+            "NETFRAMEWORK",
+            "NETSTANDARD",
+            "WINDOWS_UWP"
+        };
 
         // Add all specific version symbols
-        foreach (var tfm in TargetFrameworks)
+        foreach (var framework in TargetFrameworks)
         {
-            var symbolsForTfm = GetPreprocessorSymbolsForFramework(tfm);
+            var symbolsForTfm = GetPreprocessorSymbolsForFramework(framework);
             foreach (var sym in symbolsForTfm)
             {
                 symbols.Add(sym);
             }
         }
-
-        // Add X-suffixed symbols
-        symbols.Add("NETCOREAPP2X");
-        symbols.Add("NETCOREAPP3X");
-        symbols.Add("NETCOREAPPX");
-        symbols.Add("NET46X");
-        symbols.Add("NET47X");
-        symbols.Add("NET48X");
-        symbols.Add("NETCOREAPP");
-        symbols.Add("NETFRAMEWORK");
-        symbols.Add("NETSTANDARD");
-        symbols.Add("WINDOWS_UWP");
 
         return symbols;
     }
