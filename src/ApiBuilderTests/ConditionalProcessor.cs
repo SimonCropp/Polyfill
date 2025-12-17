@@ -22,17 +22,7 @@ public class ConditionalProcessor
         var i = 0;
 
         // Helper to check if we're inside an outer False branch
-        bool IsInsideFalseBranch()
-        {
-            foreach (var s in state)
-            {
-                if (!s.BranchTaken)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
+        bool IsInsideFalseBranch() => state.Any(_ => !_.BranchTaken);
 
         while (i < lines.Count)
         {

@@ -335,7 +335,7 @@ public class Splitter
             for (var i = 0; i < lines.Count; i++)
             {
                 var line = lines[i];
-                var trimmed = line.TrimStart();
+                var trimmed = line.AsSpan().TrimStart();
 
                 // Check if this is an #if or #elif that is immediately followed by #endif, #else, or #elif
                 if (trimmed.StartsWith("#if ") || trimmed.StartsWith("#if(") ||
@@ -344,13 +344,13 @@ public class Splitter
                     // Look ahead to find the matching #endif, #else, or #elif
                     if (i + 1 < lines.Count)
                     {
-                        var nextTrimmed = lines[i + 1].TrimStart();
-                        if (nextTrimmed == "#endif" || nextTrimmed == "#else" ||
+                        var nextTrimmed = lines[i + 1].AsSpan().TrimStart();
+                        if (nextTrimmed is "#endif" || nextTrimmed is "#else" ||
                             nextTrimmed.StartsWith("#elif ") || nextTrimmed.StartsWith("#elif("))
                         {
                             // This #if/#elif has no content, skip it
                             // If next is #endif, skip both
-                            if (nextTrimmed == "#endif")
+                            if (nextTrimmed is "#endif")
                             {
                                 i++; // Skip the #endif too
                                 changed = true;
@@ -364,12 +364,12 @@ public class Splitter
                 }
 
                 // Check if this is an #else immediately followed by #endif
-                if (trimmed == "#else")
+                if (trimmed is "#else")
                 {
                     if (i + 1 < lines.Count)
                     {
-                        var nextTrimmed = lines[i + 1].TrimStart();
-                        if (nextTrimmed == "#endif")
+                        var nextTrimmed = lines[i + 1].AsSpan().TrimStart();
+                        if (nextTrimmed is "#endif")
                         {
                             // Empty #else block, skip just the #else (keep the #endif to close the #if)
                             changed = true;
@@ -389,7 +389,7 @@ public class Splitter
 
     /// <summary>
     /// Processes a single source file, evaluating conditional compilations based on defined symbols.
-    /// Unknown symbols are preserved in the output. Returns lines (without \r).
+    /// Unknown symbols are preserved in the output.
     /// </summary>
     public static List<string> ProcessFile(string sourceCode, HashSet<string> definedSymbols)
     {
