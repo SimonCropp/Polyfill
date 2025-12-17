@@ -9,7 +9,6 @@ static partial class Polyfill
     /// <summary>
     /// Appends a copy of a substring within a specified string builder to this instance.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append?view=net-10.0#system-text-stringbuilder-append(system-text-stringbuilder-system-int32-system-int32)
     public static StringBuilder Append(this StringBuilder target, StringBuilder? value, int startIndex, int count)
     {
         if (value == null)
@@ -30,7 +29,6 @@ static partial class Polyfill
     /// <summary>
     /// Appends the string representation of a specified read-only character span to this instance.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append?view=net-10.0#system-text-stringbuilder-append(system-readonlyspan((system-char)))
     public static StringBuilder Append(this StringBuilder target, ReadOnlySpan<char> value)
     {
         if (value.Length <= 0)

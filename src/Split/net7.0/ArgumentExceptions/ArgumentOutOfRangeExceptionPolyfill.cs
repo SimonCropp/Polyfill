@@ -10,7 +10,6 @@ static partial class Polyfill
 {
     extension(ArgumentOutOfRangeException)
     {
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifzero?view=net-10.0#system-argumentoutofrangeexception-throwifzero-1(-0-system-string)
         public static void ThrowIfZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : INumberBase<T>
         {
@@ -22,7 +21,6 @@ static partial class Polyfill
         [DoesNotReturn]
         static void ThrowZero(string? paramName) =>
             throw new ArgumentOutOfRangeException(paramName, "Value must not be zero.");
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegative?view=net-10.0#system-argumentoutofrangeexception-throwifnegative-1(-0-system-string)
         public static void ThrowIfNegative<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : INumberBase<T>
         {
@@ -34,7 +32,6 @@ static partial class Polyfill
         [DoesNotReturn]
         static void ThrowNegative<T>(T value, string? paramName) =>
             throw new ArgumentOutOfRangeException(paramName, value, "Value must be non-negative.");
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegativeorzero?view=net-10.0#system-argumentoutofrangeexception-throwifnegativeorzero-1(-0-system-string)
         public static void ThrowIfNegativeOrZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : INumberBase<T>
         {
@@ -46,7 +43,6 @@ static partial class Polyfill
         [DoesNotReturn]
         static void ThrowNegativeOrZero<T>(T value, string? name) =>
             throw new ArgumentOutOfRangeException(name, value, $"{name} ('{value}') must be a non-negative and non-zero value.");
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifequal?view=net-10.0#system-argumentoutofrangeexception-throwifequal-1(-0-0-system-string)
         public static void ThrowIfEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IEquatable<T>?
         {
@@ -55,7 +51,6 @@ static partial class Polyfill
                 throw new ArgumentOutOfRangeException(paramName, value, $"Value must not be equal to {other}.");
             }
         }
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnotequal?view=net-10.0#system-argumentoutofrangeexception-throwifnotequal-1(-0-0-system-string)
         public static void ThrowIfNotEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IEquatable<T>?
         {
@@ -64,7 +59,6 @@ static partial class Polyfill
                 throw new ArgumentOutOfRangeException(paramName, value, $"Value must be equal to {other}.");
             }
         }
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthan?view=net-10.0#system-argumentoutofrangeexception-throwifgreaterthan-1(-0-0-system-string)
         public static void ThrowIfGreaterThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IComparable<T>
         {
@@ -73,7 +67,6 @@ static partial class Polyfill
                 throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than or equal to {other}.");
             }
         }
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthanorequal?view=net-10.0#system-argumentoutofrangeexception-throwifgreaterthanorequal-1(-0-0-system-string)
         public static void ThrowIfGreaterThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IComparable<T>
         {
@@ -82,7 +75,6 @@ static partial class Polyfill
                 throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than {other}.");
             }
         }
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthan?view=net-10.0#system-argumentoutofrangeexception-throwiflessthan-1(-0-0-system-string)
         public static void ThrowIfLessThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IComparable<T>
         {
@@ -91,7 +83,6 @@ static partial class Polyfill
                 throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than or equal to {other}.");
             }
         }
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthanorequal?view=net-10.0#system-argumentoutofrangeexception-throwiflessthanorequal-1(-0-0-system-string)
         public static void ThrowIfLessThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IComparable<T>
         {

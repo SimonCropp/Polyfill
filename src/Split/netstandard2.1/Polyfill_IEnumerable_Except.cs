@@ -9,7 +9,6 @@ static partial class Polyfill
     /// <summary>
     /// Produces a set items excluding <paramref name="item"/> by using the default equality comparer to compare values.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except?view=net-10.0#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0)))
     public static IEnumerable<TSource> Except<TSource>(
         this IEnumerable<TSource> target,
         TSource item) =>
@@ -26,7 +25,6 @@ static partial class Polyfill
     /// <summary>
     /// Produces a set items excluding <paramref name="item"/> by using <paramref name="comparer"/> to compare values.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except?view=net-10.0#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0))-system-collections-generic-iequalitycomparer((-0)))
     public static IEnumerable<TSource> Except<TSource>(
         this IEnumerable<TSource> target,
         TSource item,
@@ -44,7 +42,6 @@ static partial class Polyfill
     /// <summary>
     /// Produces the set difference of two sequences by <paramref name="comparer"/> to compare values.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except?view=net-10.0#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0))-system-collections-generic-iequalitycomparer((-0)))
     public static IEnumerable<TSource> Except<TSource>(
         this IEnumerable<TSource> target,
         IEqualityComparer<TSource>? comparer,
@@ -53,13 +50,11 @@ static partial class Polyfill
     /// <summary>
     /// Produces the set difference of two sequences according to a specified key selector function.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.exceptby?view=net-10.0#system-linq-enumerable-exceptby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1)))
     public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector) =>
         ExceptBy(first, second, keySelector, null);
     /// <summary>
     /// Produces the set difference of two sequences according to a specified key selector function.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.exceptby?view=net-10.0#system-linq-enumerable-exceptby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1)))
     public static IEnumerable<TSource> ExceptBy<TSource, TKey>(this IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer) =>
         ExceptByIterator(first, second, keySelector, comparer);
     static IEnumerable<TSource> ExceptByIterator<TSource, TKey>(IEnumerable<TSource> first, IEnumerable<TKey> second, Func<TSource, TKey> keySelector, IEqualityComparer<TKey>? comparer)

@@ -7,7 +7,6 @@ static partial class Polyfill
     /// <summary>
     /// Appends a value to the end of the sequence.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.append?view=net-10.0
     public static IEnumerable<TSource> Append<TSource>(
         this IEnumerable<TSource> target,
         TSource element)

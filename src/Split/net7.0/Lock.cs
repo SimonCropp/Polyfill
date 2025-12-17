@@ -14,7 +14,6 @@ using Diagnostics.CodeAnalysis;
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.lock?view=net-10.0
 #if PolyPublic
 public
 #endif

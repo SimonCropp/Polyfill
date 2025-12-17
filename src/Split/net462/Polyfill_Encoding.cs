@@ -8,7 +8,6 @@ using System.Text;
 static partial class Polyfill
 {
     /// <summary>Encodes into a span of bytes a set of characters from the specified read-only span.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getbytes?view=net-10.0#system-text-encoding-getbytes(system-readonlyspan((system-char))-system-span((system-byte)))
 #if AllowUnsafeBlocks
     public static unsafe int GetBytes(this Encoding target, ReadOnlySpan<char> chars, Span<byte> bytes)
     {
@@ -27,7 +26,6 @@ static partial class Polyfill
     }
 #endif
     /// <summary>When overridden in a derived class, decodes all the bytes in the specified byte span into a string.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getstring?view=net-10.0#system-text-encoding-getstring(system-readonlyspan((system-byte)))
 #if AllowUnsafeBlocks
     public static unsafe string GetString(this Encoding target, ReadOnlySpan<byte> bytes)
     {

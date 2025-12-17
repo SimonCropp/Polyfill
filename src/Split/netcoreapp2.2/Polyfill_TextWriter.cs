@@ -17,7 +17,6 @@ static partial class Polyfill
     /// Asynchronously clears all buffers for the current writer and causes any buffered data to
     /// be written to the underlying device.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.flushasync?view=net-10.0#system-io-textwriter-flushasync(system-threading-cancellationtoken)
     public static Task FlushAsync(this TextWriter target, CancellationToken cancellationToken)
     {
         if (cancellationToken.IsCancellationRequested)
@@ -31,7 +30,6 @@ static partial class Polyfill
     /// Equivalent to Write(stringBuilder.ToString()) however it uses the
     /// StringBuilder.GetChunks() method to avoid creating the intermediate string
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write?view=net-10.0#system-io-textwriter-write(system-text-stringbuilder)
     public static void Write(this TextWriter target, StringBuilder? value)
     {
         if (value == null)
@@ -51,7 +49,6 @@ static partial class Polyfill
     /// Equivalent to WriteAsync(stringBuilder.ToString()) however it uses the
     /// StringBuilder.GetChunks() method to avoid creating the intermediate string
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-10.0#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
     public static Task WriteAsync(this TextWriter target, StringBuilder? value, CancellationToken cancellationToken = default)
     {
         if (cancellationToken.IsCancellationRequested)

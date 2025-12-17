@@ -11,13 +11,11 @@ static partial class Polyfill
         /// <summary>
         /// Concatenates the string representations of a span of objects, using the specified separator between each member.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-10.0#system-string-join(system-char-system-readonlyspan((system-object)))
         public static string Join(char separator, scoped ReadOnlySpan<object?> values) =>
             Join(separator, values.ToArray());
         /// <summary>
         /// Concatenates a span of strings, using the specified separator between each member.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-10.0#system-string-join(system-char-system-readonlyspan((system-string)))
         public static string Join(char separator, scoped ReadOnlySpan<string?> values)
         {
             if (values.Length == 0)
@@ -65,7 +63,6 @@ static partial class Polyfill
         /// <summary>
         /// Concatenates a span of strings, using the specified separator between each member.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-10.0#system-string-join(system-string-system-readonlyspan((system-string)))
         public static string Join(string? separator, scoped ReadOnlySpan<string?> values)
         {
             if (values.Length == 0)
@@ -120,13 +117,11 @@ static partial class Polyfill
         /// <summary>
         /// Returns the hash code for the provided read-only character span.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-10.0#system-string-gethashcode(system-readonlyspan((system-char)))
         public static int GetHashCode(ReadOnlySpan<char> value) =>
             value.ToString().GetHashCode();
         /// <summary>
         /// Returns the hash code for the provided read-only character span using the specified rules.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-10.0#system-string-gethashcode(system-readonlyspan((system-char))-system-stringcomparison)
         public static int GetHashCode(ReadOnlySpan<char> value,StringComparison comparisonType) =>
             value.ToString().GetHashCode(comparisonType);
 #endif
@@ -134,7 +129,6 @@ static partial class Polyfill
         /// <summary>
         /// Concatenates the string representations of a span of objects, using the specified separator between each member.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-10.0#system-string-join(system-string-system-readonlyspan((system-object)))
         public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
             string.Join(separator, values.ToArray());
 #endif

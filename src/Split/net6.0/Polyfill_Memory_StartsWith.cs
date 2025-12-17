@@ -11,7 +11,6 @@ static partial class Polyfill
     /// <summary>
     /// Determines whether the specified value appears at the start of the span.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith?view=net-10.0#system-memoryextensions-endswith-1(system-readonlyspan((-0))-0)
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool StartsWith<T>(this ReadOnlySpan<T> target, T value)
         where T : IEquatable<T>? =>

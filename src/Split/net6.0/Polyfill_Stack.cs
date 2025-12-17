@@ -8,7 +8,6 @@ static partial class Polyfill
     /// <summary>
     /// Sets the capacity of a Stack object to a specified number of entries.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trimexcess?view=net-10.0#system-collections-generic-stack-1-trimexcess(system-int32)
     public static void TrimExcess<T>(this Stack<T> target, int capacity)
     {
     }

@@ -19,7 +19,6 @@ static class KeyValuePair
     /// <summary>
     /// Creates a new key/value pair instance using provided values.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair.create?view=net-10.0
     public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value) =>
         new(key, value);
 }

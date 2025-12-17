@@ -11,32 +11,27 @@ static partial class Polyfill
         /// <summary>
         /// Tries to parse a string into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse?view=net-10.0#system-int32-tryparse(system-string-system-iformatprovider-system-int32@)
         public static bool TryParse(string? s, IFormatProvider? provider, out int result) =>
             int.TryParse(s, NumberStyles.Integer, provider, out result);
 #if FeatureMemory
         /// <summary>
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse?view=net-10.0#system-int32-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-int32@)
         public static bool TryParse(ReadOnlySpan<byte> utf8Text, IFormatProvider? provider, out int result) =>
             int.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, provider, out result);
         /// <summary>
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse?view=net-10.0#system-int32-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-int32@)
         public static bool TryParse(ReadOnlySpan<byte> utf8Text, NumberStyles style, IFormatProvider? provider, out int result) =>
             int.TryParse(Encoding.UTF8.GetString(utf8Text), style, provider, out result);
         /// <summary>
         /// Tries to convert a UTF-8 character span containing the string representation of a number to its 32-bit signed integer equivalent.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse?view=net-10.0#system-int32-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-int32@)
         public static bool TryParse(ReadOnlySpan<byte> utf8Text, out int result) =>
             int.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, null, out result);
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse?view=net-10.0#system-int32-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int32@)
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out int result) =>
             int.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
 #endif

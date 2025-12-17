@@ -11,26 +11,22 @@ static partial class Polyfill
         /// <summary>
         /// Combines a span of strings into a path.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.combine?view=net-10.0#system-io-path-combine(system-readonlyspan((system-string)))
         public static string Combine(scoped ReadOnlySpan<string> paths) =>
             Path.Combine(paths.ToArray());
         /// <summary>
         /// Returns a value that indicates whether the path, specified as a read-only span, ends in a directory separator.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.endsindirectoryseparator?view=net-10.0#system-io-path-endsindirectoryseparator(system-readonlyspan((system-char)))
         public static bool EndsInDirectorySeparator (ReadOnlySpan<char> path) =>
             EndsInDirectorySeparator(path.ToString());
         /// <summary>
         /// Trims one trailing directory separator beyond the root of the specified path.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.trimendingdirectoryseparator?view=net-10.0#system-io-path-trimendingdirectoryseparator(system-readonlyspan((system-char)))
         public static ReadOnlySpan<char> TrimEndingDirectorySeparator(ReadOnlySpan<char> path) =>
             TrimEndingDirectorySeparator(path.ToString()).AsSpan();
 #endif
         /// <summary>
         /// Returns a value that indicates whether the specified path ends in a directory separator.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.endsindirectoryseparator?view=net-10.0#system-io-path-endsindirectoryseparator(system-string)
         public static bool EndsInDirectorySeparator(string path)
         {
             if (string.IsNullOrEmpty(path))
@@ -42,7 +38,6 @@ static partial class Polyfill
         /// <summary>
         /// Trims one trailing directory separator beyond the root of the specified path.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.trimendingdirectoryseparator?view=net-10.0#system-io-path-trimendingdirectoryseparator(system-string)
         public static string TrimEndingDirectorySeparator(string path)
         {
             if (EndsInDirectorySeparator(path) &&
@@ -60,7 +55,6 @@ static partial class Polyfill
         /// <summary>
         /// Determines whether the specified file or directory exists.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.exists?view=net-10.0
         public static bool Exists(string? path)
         {
             if (string.IsNullOrEmpty(path))

@@ -7,7 +7,6 @@ using System.Reflection;
 using System.Linq;
 static partial class Polyfill
 {
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod?view=net-10.0#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-type())
     public static MethodInfo? GetMethod([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types)
     {
         return target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);
@@ -15,7 +14,6 @@ static partial class Polyfill
     /// <summary>
     /// Gets a value that indicates whether the current Type represents a type parameter in the definition of a generic method.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter?view=net-10.0
     public static bool IsGenericMethodParameter(this Type target) =>
         target.IsGenericMethodParameter;
     /// <summary>
@@ -32,7 +30,6 @@ static partial class Polyfill
     /// <summary>
     /// Determines whether the current type can be assigned to a variable of the specified targetType.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto?view=net-10.0
     public static bool IsAssignableTo(this Type target, [NotNullWhen(true)] Type? targetType) =>
         targetType?.IsAssignableFrom(target) ?? false;
 #endif

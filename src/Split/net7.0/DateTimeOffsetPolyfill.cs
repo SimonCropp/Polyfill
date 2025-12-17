@@ -12,7 +12,6 @@ static partial class Polyfill
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparse?view=net-10.0#system-datetimeoffset-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-datetimeoffset@)
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out DateTimeOffset result) =>
             DateTimeOffset.TryParse(s.ToString(), provider, DateTimeStyles.None, out result);
 #endif

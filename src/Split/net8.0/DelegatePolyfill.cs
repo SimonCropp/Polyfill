@@ -40,7 +40,6 @@ static partial class Polyfill
         /// <summary>
         /// Gets an enumerator for the invocation targets of this delegate.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.enumerateinvocationlist?view=net-10.0
         public static InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate? target)
             where TDelegate : Delegate =>
             new(target);
@@ -50,7 +49,6 @@ static partial class Polyfill
         /// <summary>
         /// Gets a value that indicates whether the Delegate has a single invocation target.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.hassingletarget?view=net-10.0
         public bool HasSingleTarget => target.GetInvocationList().Length == 1;
     }
 }

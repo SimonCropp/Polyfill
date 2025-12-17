@@ -285,6 +285,7 @@ public class Splitter
                 // Process file and clean up - all operations work on List<string> to avoid repeated split/join
                 var lines = ProcessFile(sourceCode, definedSymbols);
                 lines = RemoveEmptyConditionalBlocks(lines);
+                lines = RemoveLinkComments(lines);
                 lines = RemoveEmptyLines(lines);
                 if (lines.Count == 0 || !ContainsTypes(lines) || IsEmptyPolyfillClass(lines))
                 {
@@ -302,6 +303,12 @@ public class Splitter
     /// </summary>
     public static List<string> RemoveEmptyLines(List<string> lines) =>
         lines.Where(l => !string.IsNullOrWhiteSpace(l)).ToList();
+
+    /// <summary>
+    /// Removes lines that are //Link: comments.
+    /// </summary>
+    public static List<string> RemoveLinkComments(List<string> lines) =>
+        lines.Where(l => !l.TrimStart().StartsWith("//Link:")).ToList();
 
     /// <summary>
     /// Checks if the lines contain any type declarations (class, struct, record, interface, enum, delegate) or TypeForwardedTo attributes.

@@ -6,14 +6,12 @@ using System.Collections.Generic;
 static partial class Polyfill
 {
     /// <summary>Returns the first element of the sequence that satisfies a condition or a default value if no such element is found.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.firstordefault?view=net-10.0#system-linq-enumerable-firstordefault-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-boolean))-0)
     public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate, TSource defaultValue)
     {
         var first = source.TryGetFirst(predicate, out var found);
         return found ? first! : defaultValue;
     }
     /// <summary>Returns the first element of a sequence, or a default value if the sequence contains no elements.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.firstordefault?view=net-10.0#system-linq-enumerable-firstordefault-1(system-collections-generic-ienumerable((-0))-0)
     public static TSource FirstOrDefault<TSource>(this IEnumerable<TSource> source, TSource defaultValue)
     {
         var first = source.TryGetFirst(out var found);

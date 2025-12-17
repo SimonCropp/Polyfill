@@ -8,14 +8,12 @@ static partial class Polyfill
     /// <summary>
     /// Ensures that the capacity of this HashSet is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.ensurecapacity?view=net-10.0#system-collections-generic-hashset-1-ensurecapacity(system-int32)
     public static void EnsureCapacity<T>(this HashSet<T> target, int capacity)
     {
     }
     /// <summary>
     /// Sets the capacity of a HashSet object to the specified number of entries, rounded up to a nearby, implementation-specific value.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trimexcess?view=net-10.0#system-collections-generic-hashset-1-trimexcess(system-int32)
     public static void TrimExcess<T>(this HashSet<T> target, int capacity)
     {
     }

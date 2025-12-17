@@ -22,7 +22,6 @@ using System.Diagnostics.CodeAnalysis;
 #endif
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.versioning.requirespreviewfeaturesattribute?view=net-10.0
 #if PolyPublic
 public
 #endif

@@ -8,7 +8,6 @@ static partial class Polyfill
     /// <summary>
     /// Deconstructs this TimeOnly instance.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.deconstruct?view=net-10.0#system-timeonly-deconstruct(system-int32@-system-int32@-system-int32@-system-int32@-system-int32@)
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct(this TimeOnly target, out int hour, out int minute, out int second, out int millisecond, out int microsecond)
     {
@@ -21,7 +20,6 @@ static partial class Polyfill
     /// <summary>
     /// Deconstructs this TimeOnly instance.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.deconstruct?view=net-10.0#system-timeonly-deconstruct(system-int32@-system-int32@-system-int32@-system-int32@)
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct(this TimeOnly target, out int hour, out int minute, out int second, out int millisecond)
     {
@@ -33,7 +31,6 @@ static partial class Polyfill
     /// <summary>
     /// Deconstructs this TimeOnly instance.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.deconstruct?view=net-10.0#system-timeonly-deconstruct(system-int32@-system-int32@-system-int32@)
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct(this TimeOnly target, out int hour, out int minute, out int second)
     {
@@ -44,7 +41,6 @@ static partial class Polyfill
     /// <summary>
     /// Deconstructs this TimeOnly instance.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.deconstruct?view=net-10.0#system-timeonly-deconstruct(system-int32@-system-int32@)
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct(this TimeOnly target, out int hour, out int minute)
     {

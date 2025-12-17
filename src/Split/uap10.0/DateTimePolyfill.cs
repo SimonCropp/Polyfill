@@ -10,38 +10,32 @@ static partial class Polyfill
         /// <summary>
         /// Tries to parse a string into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparse?view=net-10.0#system-datetime-tryparse(system-string-system-iformatprovider-system-datetime@)
         public static bool TryParse(string? s, IFormatProvider? provider, out DateTime result) =>
             DateTime.TryParse(s, provider, DateTimeStyles.None, out result);
 #if FeatureMemory
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparse?view=net-10.0#system-datetime-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-datetime@)
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out DateTime result) =>
             DateTime.TryParse(s.ToString(), provider, DateTimeStyles.None, out result);
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparse?view=net-10.0#system-datetime-tryparse(system-readonlyspan((system-char))-system-datetime@)
         public static bool TryParse(ReadOnlySpan<char> s, out DateTime result) =>
             DateTime.TryParse(s.ToString(), null, DateTimeStyles.None, out result);
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparse?view=net-10.0#system-datetime-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetime@)
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, DateTimeStyles styles, out DateTime result) =>
             DateTime.TryParse(s.ToString(), provider, styles, out result);
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparseexact?view=net-10.0#system-datetime-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetime@)
         public static bool TryParseExact(ReadOnlySpan<char> s, string format, IFormatProvider? provider, DateTimeStyles style, out DateTime result) =>
             DateTime.TryParseExact(s.ToString(), format, provider, style, out result);
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparseexact?view=net-10.0#system-datetime-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetime@)
         public static bool TryParseExact(ReadOnlySpan<char> s, ReadOnlySpan<char> format, IFormatProvider? provider, DateTimeStyles styles, out DateTime result) =>
             DateTime.TryParseExact(s.ToString(), format.ToString(), provider, styles, out result);
 #endif

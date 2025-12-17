@@ -11,7 +11,6 @@ static partial class Polyfill
         /// <summary>
         /// Combines a span of strings into a path.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.combine?view=net-10.0#system-io-path-combine(system-readonlyspan((system-string)))
         public static string Combine(scoped ReadOnlySpan<string> paths) =>
             Path.Combine(paths.ToArray());
 #endif

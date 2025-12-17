@@ -14,7 +14,6 @@ using Diagnostics;
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.reflection.nullabilityinfo
 #if PolyPublic
 public
 #endif

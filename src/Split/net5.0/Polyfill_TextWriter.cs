@@ -17,7 +17,6 @@ static partial class Polyfill
     /// Asynchronously clears all buffers for the current writer and causes any buffered data to
     /// be written to the underlying device.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.flushasync?view=net-10.0#system-io-textwriter-flushasync(system-threading-cancellationtoken)
     public static Task FlushAsync(this TextWriter target, CancellationToken cancellationToken)
     {
         if (cancellationToken.IsCancellationRequested)

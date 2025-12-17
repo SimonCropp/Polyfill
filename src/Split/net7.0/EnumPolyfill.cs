@@ -11,7 +11,6 @@ static partial class Polyfill
         /// <summary>
         /// Retrieves an array of the values of the constants in a specified enumeration type.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.enum.getvalues?view=net-10.0
         public static TEnum[] GetValues<TEnum>()
             where TEnum : struct, Enum
         {
@@ -21,7 +20,6 @@ static partial class Polyfill
             return result;
         }
         /// <summary>Returns a <see cref="bool"/> telling whether a given integral value exists in a specified enumeration.</summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.enum.isdefined?view=net-10.0#system-enum-isdefined-1(-0)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsDefined<TEnum>(TEnum value)
             where TEnum : struct, Enum =>
@@ -29,7 +27,6 @@ static partial class Polyfill
         /// <summary>
         /// Retrieves an array of the names of the constants in a specified enumeration type.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.enum.getnames?view=net-10.0
         public static string[] GetNames<TEnum>()
             where TEnum : struct, Enum =>
             Enum.GetNames(typeof(TEnum));
@@ -38,7 +35,6 @@ static partial class Polyfill
         /// <summary>
         /// Tries to format the value of the enumerated type instance into the provided span of characters.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.enum.tryformat?view=net-10.0
         public static bool TryFormat<TEnum>(TEnum value, Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default)
             where TEnum : struct, Enum =>
             TryFormatUnconstrained(value, destination, out charsWritten, format);

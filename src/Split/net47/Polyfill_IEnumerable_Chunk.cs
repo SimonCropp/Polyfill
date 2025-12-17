@@ -8,7 +8,6 @@ static partial class Polyfill
     /// <summary>
     /// Split the elements of a sequence into chunks of size at most <paramref name="size"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.chunk?view=net-10.0
     public static IEnumerable<TSource[]> Chunk<TSource>(this IEnumerable<TSource> source, int size)
     {
         if (size < 1)

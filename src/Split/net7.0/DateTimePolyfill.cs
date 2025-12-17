@@ -11,13 +11,11 @@ static partial class Polyfill
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparse?view=net-10.0#system-datetime-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-datetime@)
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out DateTime result) =>
             DateTime.TryParse(s.ToString(), provider, DateTimeStyles.None, out result);
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparseexact?view=net-10.0#system-datetime-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetime@)
         public static bool TryParseExact(ReadOnlySpan<char> s, ReadOnlySpan<char> format, IFormatProvider? provider, DateTimeStyles styles, out DateTime result) =>
             DateTime.TryParseExact(s.ToString(), format.ToString(), provider, styles, out result);
 #endif

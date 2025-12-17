@@ -9,7 +9,6 @@ using System.Linq;
 static partial class Polyfill
 {
     /// <summary>Returns the element at a specified index in a sequence.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.elementat?view=net-10.0#system-linq-enumerable-elementat-1(system-collections-generic-ienumerable((-0))-system-index)
     public static TSource ElementAt<TSource>(this IEnumerable<TSource> source, Index index)
     {
         if (!index.IsFromEnd)
@@ -54,7 +53,6 @@ static partial class Polyfill
         return false;
     }
     /// <summary>Returns the element at a specified index in a sequence or a default value if the index is out of range.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.elementatordefault?view=net-10.0#system-linq-enumerable-elementatordefault-1(system-collections-generic-ienumerable((-0))-system-index)
     public static TSource? ElementAtOrDefault<TSource>(this IEnumerable<TSource> source, Index index)
     {
         if (!index.IsFromEnd)

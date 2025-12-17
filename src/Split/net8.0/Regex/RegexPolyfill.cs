@@ -13,19 +13,16 @@ static partial class Polyfill
     extension(Regex)
     {
 #if FeatureMemory && FeatureValueTuple
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-10.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))-system-string)
         public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern)
         {
             var regex = new Regex(pattern);
             return new ValueSplitEnumerator(input, regex, 0, 0);
         }
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-10.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions)
         public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options)
         {
             var regex = new Regex(pattern, options);
             return new ValueSplitEnumerator(input, regex, 0, 0);
         }
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-10.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan)
         public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan matchTimeout)
         {
             var regex = new Regex(pattern, options, matchTimeout);

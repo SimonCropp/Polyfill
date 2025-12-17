@@ -12,7 +12,6 @@ using System.Diagnostics.CodeAnalysis;
 [AttributeUsage(
     validOn: AttributeTargets.Method,
     Inherited = false)]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.suppressgctransitionattribute?view=net-10.0
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif

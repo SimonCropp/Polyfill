@@ -6,10 +6,8 @@ using System.Text.RegularExpressions;
 static partial class Polyfill
 {
 #if FeatureMemory && FeatureValueTuple
-     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-10.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char)))
     public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input) =>
         new(input, regex, 0, 0);
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-10.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))-system-int32)
     public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input, int count)
     {
         if (count < 0)
@@ -18,7 +16,6 @@ static partial class Polyfill
         }
         return new ValueSplitEnumerator(input, regex, count, 0);
     }
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-10.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))-system-int32-system-int32)
     public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input, int count, int startat)
     {
         if (count < 0)

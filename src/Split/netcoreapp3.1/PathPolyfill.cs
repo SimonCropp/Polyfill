@@ -11,7 +11,6 @@ static partial class Polyfill
         /// <summary>
         /// Combines a span of strings into a path.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.combine?view=net-10.0#system-io-path-combine(system-readonlyspan((system-string)))
         public static string Combine(scoped ReadOnlySpan<string> paths) =>
             Path.Combine(paths.ToArray());
 #endif
@@ -23,7 +22,6 @@ static partial class Polyfill
         /// <summary>
         /// Determines whether the specified file or directory exists.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.exists?view=net-10.0
         public static bool Exists(string? path)
         {
             if (string.IsNullOrEmpty(path))

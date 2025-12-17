@@ -8,13 +8,11 @@ static partial class Polyfill
     /// <summary>
     /// Returns the maximum value in a generic sequence according to a specified key selector function.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby?view=net-10.0#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))
     public static TSource? MaxBy<TSource, TKey>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector) =>
         MaxBy(source, keySelector, null);
     /// <summary>Returns the maximum value in a generic sequence according to a specified key selector function.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.maxby?view=net-10.0#system-linq-enumerable-maxby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))
     public static TSource? MaxBy<TSource, TKey>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,

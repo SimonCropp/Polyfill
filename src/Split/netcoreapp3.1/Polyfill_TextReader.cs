@@ -11,7 +11,6 @@ static partial class Polyfill
     /// <summary>
     /// Reads all characters from the current position to the end of the stream asynchronously and returns them as one string.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readtoendasync?view=net-10.0#system-io-textreader-readtoendasync(system-threading-cancellationtoken)
     public static Task<string> ReadToEndAsync(
         this TextReader target,
         CancellationToken cancellationToken)
@@ -23,7 +22,6 @@ static partial class Polyfill
     /// <summary>
     /// Reads a line of characters asynchronously and returns the data as a string.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readtoendasync?view=net-10.0#system-io-textreader-readlineasync(system-threading-cancellationtoken)
     public static Task<string> ReadLineAsync(
         this TextReader target,
         CancellationToken cancellationToken)

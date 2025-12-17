@@ -7,14 +7,12 @@ using System.Reflection;
 using System.Linq;
 static partial class Polyfill
 {
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas?view=net-10.0
     public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other) =>
         target.MetadataToken == other.MetadataToken &&
         target.Module.Equals(other.Module);
     /// <summary>
     /// Gets a value that indicates whether the current Type represents a type parameter in the definition of a generic method.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter?view=net-10.0
     public static bool IsGenericMethodParameter(this Type target) =>
         target.IsGenericParameter &&
         target.DeclaringMethod != null;
@@ -32,14 +30,12 @@ static partial class Polyfill
     /// <summary>
     /// Determines whether the current type can be assigned to a variable of the specified targetType.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto?view=net-10.0
     public static bool IsAssignableTo(this Type target, [NotNullWhen(true)] Type? targetType) =>
         targetType?.IsAssignableFrom(target) ?? false;
 #endif
     /// <summary>
     /// Searches for the MemberInfo on the current Type that matches the specified MemberInfo.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmemberwithsamemetadatadefinitionas?view=net-10.0
     public static MemberInfo GetMemberWithSameMetadataDefinitionAs(
         this Type type,
         MemberInfo member)

@@ -9,10 +9,8 @@ static partial class Polyfill
     extension(Guid)
     {
         /// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.createversion7?view=net-10.0#system-guid-createversion7
         public static Guid CreateVersion7() => CreateVersion7(DateTimeOffset.UtcNow);
         /// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.createversion7?view=net-10.0#system-guid-createversion7(system-datetimeoffset)
         public static Guid CreateVersion7(DateTimeOffset timestamp)
         {
             var unixMilliseconds = timestamp.ToUnixTimeMilliseconds();
@@ -37,13 +35,11 @@ static partial class Polyfill
         /// <summary>
         /// Tries to parse a span of UTF-8 bytes into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-10.0#system-guid-tryparse(system-readonlyspan((system-byte))-system-guid@)
         public static bool TryParse(ReadOnlySpan<byte> utf8Text, out Guid result) =>
             Guid.TryParse(Encoding.UTF8.GetString(utf8Text), out result);
         /// <summary>
         /// Parse a span of UTF-8 bytes into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.parse?view=net-10.0#system-guid-parse(system-readonlyspan((system-byte)))
         public static Guid Parse(ReadOnlySpan<byte> utf8Text) =>
             Guid.Parse(Encoding.UTF8.GetString(utf8Text));
 #endif

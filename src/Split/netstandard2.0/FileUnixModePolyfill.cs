@@ -15,7 +15,6 @@ static partial class Polyfill
         /// </summary>
         /// <param name="path">The path to the file.</param>
         /// <returns>The UnixFileMode of the file handle.</returns>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.getunixfilemode?view=net-10.0#system-io-file-getunixfilemode(system-string)
         [UnsupportedOSPlatform("windows")]
         public static UnixFileMode GetUnixFileMode(string path)
         {
@@ -161,7 +160,6 @@ static partial class Polyfill
         /// </summary>
         /// <param name="path">The path to the file.</param>
         /// <param name="mode">The Unix file mode.</param>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.setunixfilemode?view=net-10.0#system-io-file-setunixfilemode(system-string-system-io-unixfilemode)
         [UnsupportedOSPlatform("windows")]
         public static void SetUnixFileMode(string path, UnixFileMode mode)
         {

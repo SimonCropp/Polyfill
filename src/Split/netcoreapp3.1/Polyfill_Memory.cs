@@ -9,12 +9,10 @@ static partial class Polyfill
     /// <summary>
     /// Returns an enumeration of lines over the provided span.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines?view=net-10.0#system-memoryextensions-enumeratelines(system-readonlyspan((system-char)))
     public static SpanLineEnumerator EnumerateLines(this ReadOnlySpan<char> target) => new(target);
     /// <summary>
     /// Returns an enumeration of lines over the provided span.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines?view=net-10.0#system-memoryextensions-enumeratelines(system-span((system-char)))
     public static SpanLineEnumerator EnumerateLines(this Span<char> target) => new(target);
 }
 #endif

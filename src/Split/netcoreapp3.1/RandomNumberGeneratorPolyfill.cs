@@ -10,7 +10,6 @@ static partial class Polyfill
         /// <summary>
         /// Creates an array of bytes with a cryptographically strong random sequence of values.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getbytes?view=net-10.0#system-security-cryptography-randomnumbergenerator-getbytes(system-int32)
         public static byte[] GetBytes(int count)
         {
             if (count < 0)
@@ -26,7 +25,6 @@ static partial class Polyfill
         /// <summary>
         ///   Fills the elements of a specified span with items chosen at random from the provided set of choices.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems?view=net-10.0#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-span((-0)))
         public static void GetItems<T>(ReadOnlySpan<T> choices, Span<T> destination)
         {
             if (choices.IsEmpty)
@@ -41,7 +39,6 @@ static partial class Polyfill
         /// <summary>
         ///   Creates an array populated with items chosen at random from choices.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getitems?view=net-10.0#system-security-cryptography-randomnumbergenerator-getitems-1(system-readonlyspan((-0))-system-int32)
         public static T[] GetItems<T>(ReadOnlySpan<T> choices, int length)
         {
             var result = new T[length];
@@ -51,7 +48,6 @@ static partial class Polyfill
         /// <summary>
         ///   Creates a string populated with characters chosen at random from choices.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getstring?view=net-10.0
         public static string GetString(ReadOnlySpan<char> choices, int length)
         {
             var result = new char[length];
@@ -61,7 +57,6 @@ static partial class Polyfill
         /// <summary>
         ///   Fills a buffer with cryptographically random hexadecimal characters.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getstring?view=net-10.0
         public static void GetHexString(Span<char> destination, bool lowercase = false)
         {
             if (destination.IsEmpty)
@@ -89,7 +84,6 @@ static partial class Polyfill
         /// <summary>
         ///   Performs an in-place shuffle of a span using cryptographically random number generation.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.shuffle?view=net-10.0
         public static void Shuffle<T>(Span<T> values)
         {
             var n = values.Length;
@@ -108,7 +102,6 @@ static partial class Polyfill
         /// <summary>
         ///   Creates a string filled with cryptographically random hexadecimal characters.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.gethexstring?view=net-10.0#system-security-cryptography-randomnumbergenerator-gethexstring(system-int32-system-boolean)
         public static string GetHexString(int stringLength, bool lowercase = false)
         {
             if (stringLength == 0)

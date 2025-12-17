@@ -12,7 +12,6 @@ static partial class Polyfill
     /// Immediately stops the associated process, and optionally its child/descendent processes.
     /// Maps to <see cref="Process.Kill"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.kill?view=net-10.0#system-diagnostics-process-kill(system-boolean)
     [SupportedOSPlatform("maccatalyst")]
     [UnsupportedOSPlatform("ios")]
     [UnsupportedOSPlatform("tvos")]
@@ -23,7 +22,6 @@ static partial class Polyfill
     /// Instructs the Process component to wait for the associated process to exit, or
     /// for the <paramref name="cancellationToken"/> to be canceled.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitasync?view=net-10.0
     public static async Task WaitForExitAsync(this Process target, CancellationToken cancellationToken = default)
     {
         if (!target.HasExited)

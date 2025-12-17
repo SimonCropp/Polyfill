@@ -11,26 +11,22 @@ static partial class Polyfill
     /// <summary>
     /// Copies the contents of this string into the destination span.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.copyto?view=net-10.0
     public static void CopyTo(this string target, Span<char> destination) =>
         target.AsSpan().CopyTo(destination);
     /// <summary>
     /// Copies the contents of this string into the destination span.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.trycopyto?view=net-10.0
     public static bool TryCopyTo(this string target, Span<char> destination) =>
         target.AsSpan().TryCopyTo(destination);
 #endif
     /// <summary>
     /// Returns a value indicating whether a specified character occurs within this string.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-10.0#system-string-contains(system-char)
     public static bool Contains(this string target, char value) =>
         target.IndexOf(value) >= 0;
     /// <summary>
     /// Replaces all newline sequences in the current string with <paramref name="replacementText"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.replacelineendings?view=net-10.0#system-string-replacelineendings(system-string)
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string ReplaceLineEndings(this string target, string replacementText)
     {
@@ -51,7 +47,6 @@ static partial class Polyfill
     /// <summary>
     /// Replaces all newline sequences in the current string with <see cref="Environment.NewLine"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.replacelineendings?view=net-10.0#system-string-replacelineendings
     public static string ReplaceLineEndings(this string target) =>
         ReplaceLineEndings(target, Environment.NewLine);
 }

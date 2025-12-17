@@ -13,7 +13,6 @@ static partial class Polyfill
     /// Asynchronously reads a sequence of bytes from the current stream, advances the position within the stream by
     /// the number of bytes read, and monitors cancellation requests.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync?view=net-10.0#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken)
     public static ValueTask<int> ReadAsync(
         this Stream target,
         Memory<byte> buffer,
@@ -30,7 +29,6 @@ static partial class Polyfill
     /// Asynchronously writes a sequence of bytes to the current stream, advances the current position
     /// within this stream by the number of bytes written, and monitors cancellation requests.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync?view=net-10.0#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken)
     public static ValueTask WriteAsync(
         this Stream target,
         ReadOnlyMemory<byte> buffer,
@@ -48,7 +46,6 @@ static partial class Polyfill
     /// Asynchronously reads the bytes from the current stream and writes them to another stream, using a specified
     /// cancellation token. Both streams positions are advanced by the number of bytes copied.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.copytoasync?view=net-10.0#system-io-stream-copytoasync(system-io-stream-system-threading-cancellationtoken)
     public static Task CopyToAsync(
         this Stream target,
         Stream destination,

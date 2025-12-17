@@ -38,25 +38,21 @@ static partial class Polyfill
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryformat?view=net-10.0#system-datetimeoffset-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider)
     public static bool TryFormat(this DateTimeOffset target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.DateTimeFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default) =>
         target.DoFormat(destination, out charsWritten, format, provider);
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryformat?view=net-10.0#system-datetime-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider)
     public static bool TryFormat(this DateTime target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.DateOnlyFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default) =>
         target.DoFormat(destination, out charsWritten, format, provider);
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.dateonly.tryformat?view=net-10.0#system-dateonly-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider)
     public static bool TryFormat(this DateOnly target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.DateOnlyFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default) =>
         target.DoFormat(destination, out charsWritten, format, provider);
     /// <summary>
     /// Tries to format the value of the current instance into the provided span of characters.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timeonly.tryformat?view=net-10.0#system-timeonly-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider)
     public static bool TryFormat(this TimeOnly target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.TimeOnlyFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default) =>
         target.DoFormat(destination, out charsWritten, format, provider);
 }

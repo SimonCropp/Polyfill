@@ -9,17 +9,14 @@ using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
         /// <summary>Finds the length of any common prefix shared between <paramref name="span"/> and <paramref name="other"/>.</summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-10.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0)))
         [OverloadResolutionPriority(-1)]
         public static int CommonPrefixLength<T>(this Span<T> span, ReadOnlySpan<T> other) =>
             CommonPrefixLength((ReadOnlySpan<T>)span, other);
         /// <summary>Finds the length of any common prefix shared between <paramref name="span"/> and <paramref name="other"/>.</summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-10.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0)))
         [OverloadResolutionPriority(-1)]
         public static int CommonPrefixLength<T>(this Span<T> span, ReadOnlySpan<T> other, IEqualityComparer<T>? comparer) =>
             CommonPrefixLength((ReadOnlySpan<T>)span, other, comparer);
         /// <summary>Finds the length of any common prefix shared between <paramref name="span"/> and <paramref name="other"/>.</summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-10.0#system-memoryextensions-commonprefixlength-1(system-readonlyspan((-0))-system-readonlyspan((-0)))
         public static int CommonPrefixLength<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> other)
         {
             SliceLongerSpanToMatchShorterLength(ref span, ref other);
@@ -33,7 +30,6 @@ static partial class Polyfill
             return span.Length;
         }
         /// <summary>Determines the length of any common prefix shared between <paramref name="span"/> and <paramref name="other"/>.</summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-10.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0)))
         public static int CommonPrefixLength<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> other, IEqualityComparer<T>? comparer)
         {
             if (typeof(T).IsValueType && (comparer is null || comparer == EqualityComparer<T>.Default))

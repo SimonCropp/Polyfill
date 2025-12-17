@@ -8,7 +8,6 @@ using System.Diagnostics.CodeAnalysis;
 /// Used to indicate to the compiler that a method should be called
 /// in its containing module's initializer.
 /// </summary>
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.moduleinitializerattribute?view=net-10.0
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(

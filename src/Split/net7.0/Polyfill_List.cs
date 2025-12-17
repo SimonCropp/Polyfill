@@ -8,7 +8,6 @@ static partial class Polyfill
 {
 #if FeatureMemory
     /// <summary>Adds the elements of the specified span to the end of the <see cref="List{T}"/>.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.addrange?view=net-10.0
     public static void AddRange<T>(this List<T> target, ReadOnlySpan<T> source)
     {
         foreach (var item in source)
@@ -17,7 +16,6 @@ static partial class Polyfill
         }
     }
     /// <summary>Inserts the elements of a span into the <see cref="List{T}"/> at the specified index.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange?view=net-10.0
     public static void InsertRange<T>(this List<T> target, int index, ReadOnlySpan<T> source)
     {
         for (var i = 0; i < source.Length; i++)
@@ -27,7 +25,6 @@ static partial class Polyfill
         }
     }
     /// <summary>Copies the entire <see cref="List{T}"/> to a span.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.copyto?view=net-10.0
     public static void CopyTo<T>(this List<T> target, Span<T> destination)
     {
         for (var index = 0; index < target.Count; index++)

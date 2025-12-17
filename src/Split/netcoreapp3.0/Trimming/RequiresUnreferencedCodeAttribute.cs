@@ -18,7 +18,6 @@ using Targets = AttributeTargets;
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis.requiresunreferencedcodeattribute
 #if PolyPublic
 public
 #endif

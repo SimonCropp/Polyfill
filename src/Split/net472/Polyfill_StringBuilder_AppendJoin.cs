@@ -8,56 +8,48 @@ using System.Collections.Generic;
 static partial class Polyfill
 {
     /// <summary>Concatenates and appends the members of a collection, using the specified separator between each member.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-10.0#system-text-stringbuilder-appendjoin-1(system-string-system-collections-generic-ienumerable((-0)))
     public static StringBuilder AppendJoin<T>(
         this StringBuilder target,
         char separator,
         IEnumerable<T> values) =>
         target.AppendJoinCore(separator, values);
     /// <summary>Concatenates and appends the members of a collection, using the specified char separator between each member.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-10.0#system-text-stringbuilder-appendjoin-1(system-char-system-collections-generic-ienumerable((-0)))
     public static StringBuilder AppendJoin<T>(
         this StringBuilder target,
         string? separator,
         IEnumerable<T> values) =>
         target.AppendJoinCore(separator ?? string.Empty, values);
     /// <summary>Concatenates the strings of the provided array, using the specified separator between each string, then appends the result to the current instance of the string builder.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-10.0#system-text-stringbuilder-appendjoin(system-string-system-string())
     public static StringBuilder AppendJoin(
         this StringBuilder target,
         string? separator,
         params string?[] values) =>
         target.AppendJoinCore(separator ?? string.Empty, values);
     /// <summary>Concatenates the string representations of the elements in the provided array of objects, using the specified separator between each member, then appends the result to the current instance of the string builder.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-10.0#system-text-stringbuilder-appendjoin(system-string-system-object())
     public static StringBuilder AppendJoin(
         this StringBuilder target,
         string? separator,
         params object?[] values) =>
         target.AppendJoinCore(separator ?? string.Empty, values);
     /// <summary>Concatenates the strings of the provided array, using the specified char separator between each string, then appends the result to the current instance of the string builder.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-10.0#system-text-stringbuilder-appendjoin(system-char-system-string())
     public static StringBuilder AppendJoin(
         this StringBuilder target,
         char separator,
         params string?[] values) =>
         target.AppendJoinCore(separator, values);
     /// <summary>Concatenates the string representations of the elements in the provided array of objects, using the specified char separator between each member, then appends the result to the current instance of the string builder.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-10.0#system-text-stringbuilder-appendjoin(system-char-system-object())
     public static StringBuilder AppendJoin(
         this StringBuilder target,
         char separator,
         params object?[] values) =>
         target.AppendJoinCore(separator, values);
     /// <summary>Concatenates and appends the members of a collection, using the specified char separator between each member.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-10.0#system-text-stringbuilder-appendjoin-1(system-char-system-collections-generic-ienumerable((-0)))
     public static StringBuilder AppendJoin<T>(
         this StringBuilder target,
         char separator,
         params T[] values) =>
         target.AppendJoinCore(separator, values);
     /// <summary>Concatenates and appends the members of a collection, using the specified char separator between each member.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-10.0#system-text-stringbuilder-appendjoin-1(system-string-system-collections-generic-ienumerable((-0)))
     public static StringBuilder AppendJoin<T>(
         this StringBuilder target,
         string separator,
