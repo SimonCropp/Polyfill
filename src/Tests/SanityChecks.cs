@@ -94,7 +94,7 @@ public class SanityChecks
         return Task.CompletedTask;
     }
 
-    static bool HasAttribute<T>(System.Type type)
+    static bool HasAttribute<T>(Type type)
     {
         try
         {
