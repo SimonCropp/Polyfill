@@ -14,7 +14,7 @@ public class SplitterTests
         resultLines = Splitter.RemoveEmptyLines(resultLines);
 
         // Should not have patterns like "#if X\n#endif" (empty conditional blocks)
-        var lines = resultLines.Select(l => l.TrimStart()).ToList();
+        var lines = resultLines.Select(_ => _.TrimStart()).ToList();
         for (var i = 0; i < lines.Count - 1; i++)
         {
             var current = lines[i];
