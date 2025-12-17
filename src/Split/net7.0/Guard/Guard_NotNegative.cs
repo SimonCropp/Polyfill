@@ -17,8 +17,5 @@ static partial class Guard
     /// <param name="value">The argument to validate as non-negative.</param>
     /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
     public static T NotNegative<T>(T value, [CallerArgumentExpression(nameof(value))] string? name = null)
-        where T : INumberBase<T>
-    {
-        return Ensure.NotNegative(value, name);
-    }
+        where T : INumberBase<T> => Ensure.NotNegative(value, name);
 }

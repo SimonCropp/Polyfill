@@ -2,6 +2,8 @@
 
 #if !NET9_0_OR_GREATER
 
+#pragma warning disable CS9216 // Casting Lock to object will use monitor-based locking - intentional for polyfill
+
 namespace System.Threading;
 
 using Diagnostics;

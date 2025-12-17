@@ -1,5 +1,5 @@
 #if !NET
-
+#pragma warning disable CS0649
 #nullable enable
 
 namespace System.Runtime.InteropServices;

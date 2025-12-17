@@ -1,4 +1,3 @@
-
 namespace Polyfills;
 
 using System.Numerics;
@@ -10,7 +9,6 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-
 static partial class Ensure
 {
     [DoesNotReturn]

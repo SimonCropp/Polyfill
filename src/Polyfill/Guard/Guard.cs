@@ -2,9 +2,7 @@ namespace Polyfills;
 
 using System.Runtime.CompilerServices;
 
-
 using System;
-using System.IO;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 

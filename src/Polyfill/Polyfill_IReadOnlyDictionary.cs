@@ -1,4 +1,5 @@
 #if NETFRAMEWORK || NETSTANDARD2_0
+#pragma warning disable CS8714
 
 namespace Polyfills;
 

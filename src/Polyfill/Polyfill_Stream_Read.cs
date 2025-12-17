@@ -97,12 +97,7 @@ static partial class Polyfill
 
             if (read == 0)
             {
-                if (true)
-                {
-                    throw new EndOfStreamException();
-                }
-
-                return;
+                throw new EndOfStreamException();
             }
 
             totalRead += read;

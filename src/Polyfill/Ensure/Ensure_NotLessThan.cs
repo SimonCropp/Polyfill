@@ -1,4 +1,3 @@
-
 namespace Polyfills;
 
 using System.Numerics;
@@ -9,7 +8,6 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-
 static partial class Ensure
 {
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than <paramref name="other"/>.</summary>

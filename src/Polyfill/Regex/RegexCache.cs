@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 #if !NET7_0_OR_GREATER && FeatureMemory
-
+#nullable enable
 namespace System.Text.RegularExpressions;
 
 using System;

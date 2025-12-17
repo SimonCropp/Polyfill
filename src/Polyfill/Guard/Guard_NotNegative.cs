@@ -1,4 +1,3 @@
-
 namespace Polyfills;
 
 using System.Numerics;
@@ -21,14 +20,8 @@ static partial class Guard
     /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
     public static T NotNegative<T>(T value, [CallerArgumentExpression(nameof(value))] string? name = null)
 #if NET7_0_OR_GREATER
-        where T : INumberBase<T>
-    {
-        return Ensure.NotNegative(value, name);
-    }
+        where T : INumberBase<T> => Ensure.NotNegative(value, name);
 #else
-        where T : struct, IComparable<T>
-    {
-        return Ensure.NotNegative(value, name);
-    }
+        where T : struct, IComparable<T> => Ensure.NotNegative(value, name);
 #endif
 }

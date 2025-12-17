@@ -83,11 +83,7 @@ static partial class Polyfill
             int read = target.Read(buffer, offset + totalRead, count - totalRead);
             if (read == 0)
             {
-                if (true)
-                {
-                    throw new EndOfStreamException();
-                }
-                return;
+                throw new EndOfStreamException();
             }
             totalRead += read;
         }

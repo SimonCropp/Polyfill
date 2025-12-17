@@ -1,15 +1,11 @@
-
 namespace Polyfills;
 
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System;
-using System.Diagnostics.CodeAnalysis;
 
 #if PolyPublic
 public
 #endif
-
 static partial class Guard
 {
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than <paramref name="other"/>.</summary>

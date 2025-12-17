@@ -17,7 +17,7 @@ static partial class Polyfill
         time = TimeOnly.FromDateTime(target);
     }
     /// <summary>
-    ///  Deconstructs <see cref="DateOnly"/> by <see cref="Year"/>, <see cref="Month"/> and <see cref="Day"/>.
+    ///  Deconstructs <see cref="DateTime"/> by <see cref="DateTime.Year"/>, <see cref="DateTime.Month"/> and <see cref="DateTime.Day"/>.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.deconstruct?view=net-10.0#system-datetime-deconstruct(system-int32@-system-int32@-system-int32@)
     [EditorBrowsable(EditorBrowsableState.Never)]

@@ -1,4 +1,3 @@
-
 namespace Polyfills;
 
 using System.Diagnostics.CodeAnalysis;
