@@ -132,34 +132,6 @@ static partial class Polyfill
         public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
             string.Join(separator, values.ToArray());
 #endif
-        /// <summary>
-        /// Concatenates an array of strings, using the specified separator between each member.
-        /// </summary>
-        public static string Join(char separator, params string?[] values) =>
-#if AllowUnsafeBlocks && FeatureMemory
-            Join(separator, new ReadOnlySpan<string?>(values));
-#else
-            string.Join(new(separator, 1), values);
-#endif
-        /// <summary>
-        /// Concatenates the string representations of an array of objects, using the specified separator between each member.
-        /// </summary>
-        public static string Join(char separator, params object?[] values) =>
-            string.Join(new(separator, 1), values);
-        /// <summary>
-        /// Concatenates the specified elements of a string array, using the specified separator between each element.
-        /// </summary>
-        public static string Join(char separator, string?[] value, int startIndex, int count) =>
-#if AllowUnsafeBlocks && FeatureMemory
-            Join(separator, new ReadOnlySpan<string?>(value, startIndex, count));
-#else
-            string.Join(new(separator, 1), value, startIndex, count);
-#endif
-        /// <summary>
-        /// Concatenates the specified elements of a string array, using the specified separator between each element.
-        /// </summary>
-        public static string Join<T>(char separator, IEnumerable<T> values) =>
-            string.Join(new(separator, 1), values);
 #if FeatureMemory
         /// <summary>
         /// Creates a new string with a specific length and initializes it after creation by using the specified callback.

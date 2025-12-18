@@ -178,7 +178,7 @@ static partial class Polyfill
             string.Join(separator, values.ToArray());
 #endif
 
-#if NETSTANDARD2_0 || NETFRAMEWORK
+#if (NETSTANDARD2_0 || NETFRAMEWORK) && !WINDOWS_UWP
 
         /// <summary>
         /// Concatenates an array of strings, using the specified separator between each member.
