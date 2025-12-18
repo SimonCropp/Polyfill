@@ -1,4 +1,4 @@
-#if NETFRAMEWORK || NETSTANDARD2_0
+#if (NETFRAMEWORK || NETSTANDARD2_0) && !WINDOWS_UWP
 #nullable enable
 
 namespace System.Collections.Generic;
