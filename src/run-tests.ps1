@@ -1,6 +1,5 @@
-Get-ChildItem -Recurse -Filter "*Tests.csproj" -Path . | ForEach-Object {
-    $proj = $_.FullName
-    $projName = $_.Name
+function Run-TestProject($proj) {
+    $projName = (Get-Item $proj).Name
     [xml]$xml = Get-Content $proj
 
     # Collect all framework values from TargetFrameworks and TargetFramework elements
@@ -22,4 +21,23 @@ Get-ChildItem -Recurse -Filter "*Tests.csproj" -Path . | ForEach-Object {
         dotnet run --project $proj --configuration Release --framework $fw --no-build
         if ($LASTEXITCODE -ne 0) { throw "Tests failed for $projName [$fw]" }
     }
+}
+
+# Run ApiBuilderTests first
+$apiBuilderTests = Get-ChildItem -Recurse -Filter "ApiBuilderTests.csproj" -Path .
+if ($apiBuilderTests) {
+    Run-TestProject $apiBuilderTests.FullName
+
+    # Check for git diffs after ApiBuilderTests
+    $gitDiff = git diff --stat HEAD
+    if ($gitDiff) {
+        Write-Host "Git diffs detected after ApiBuilderTests:" -ForegroundColor Red
+        Write-Host $gitDiff
+        throw "Build failed: Uncommitted changes detected after running ApiBuilderTests"
+    }
+}
+
+# Run remaining test projects
+Get-ChildItem -Recurse -Filter "*Tests.csproj" -Path . | Where-Object { $_.Name -ne "ApiBuilderTests.csproj" } | ForEach-Object {
+    Run-TestProject $_.FullName
 }
