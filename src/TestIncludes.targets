@@ -1,34 +1,15 @@
 <Project>
+  <PropertyGroup>
+    <!-- For -windows targets (e.g. net6.0-windows), use the non-windows equivalent (e.g. net6.0) -->
+    <SplitTargetFramework Condition="$(TargetFramework.EndsWith('-windows'))">$(TargetFramework.Substring(0, $(TargetFramework.LastIndexOf('-windows'))))</SplitTargetFramework>
+    <!-- For UWP targets (e.g. uap10.0.26100), use the base version (e.g. uap10.0) -->
+    <SplitTargetFramework Condition="'$(SplitTargetFramework)' == '' AND $(TargetFramework.StartsWith('uap10.0.'))">uap10.0</SplitTargetFramework>
+    <SplitTargetFramework Condition="'$(SplitTargetFramework)' == ''">$(TargetFramework)</SplitTargetFramework>
+  </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(SolutionDir)Polyfill\*.cs">
-      <Link>Pollyfill\%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="$(SolutionDir)Polyfill\Guard\*.cs">
-      <Link>Pollyfill\Guard\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="$(SolutionDir)Polyfill\Nullable\*.cs">
-      <Link>Pollyfill\Nullable\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="$(SolutionDir)Polyfill\Nullability\*.cs">
-      <Link>Pollyfill\Nullability\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="$(SolutionDir)Polyfill\IndexRange\*.cs">
-      <Link>Pollyfill\IndexRange\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="$(SolutionDir)Polyfill\StringInterpolation\*.cs">
-      <Link>Pollyfill\StringInterpolation\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="$(SolutionDir)Polyfill\Trimming\*.cs">
-      <Link>Pollyfill\Trimming\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="$(SolutionDir)Polyfill\PlatformCompatibility\*.cs">
-      <Link>Pollyfill\PlatformCompatibility\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="$(SolutionDir)Polyfill\Numbers\*.cs">
-      <Link>Pollyfill\Numbers\%(RecursiveDir)%(Filename).cs</Link>
-    </Compile>
-    <Compile Include="$(SolutionDir)Polyfill\Regex\*.cs">
-      <Link>Pollyfill\Regex\%(RecursiveDir)%(Filename).cs</Link>
+    <!-- Include all framework-specific split files based on TargetFramework -->
+    <Compile Include="$(MSBuildThisFileDirectory)Split\$(SplitTargetFramework)\**\*.cs">
+      <Link>Pollyfill\%(RecursiveDir)%(Filename).cs</Link>
     </Compile>
   </ItemGroup>
 </Project>

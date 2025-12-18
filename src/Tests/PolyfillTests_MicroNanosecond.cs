@@ -4,33 +4,34 @@ partial class PolyfillTests
     static DateTime dateTime = DateTime.Now;
 
     [Test]
-    public void AddMicroseconds()
+    public async Task AddMicroseconds()
     {
         var fromTicksDateTimeOffset = dateTimeOffset.AddSeconds(1);
         var fromMicrosecondsDateTimeOffset = dateTimeOffset.AddMicroseconds(1000000);
-        Assert.AreEqual(fromTicksDateTimeOffset, fromMicrosecondsDateTimeOffset);
+        await Assert.That(fromMicrosecondsDateTimeOffset).IsEqualTo(fromTicksDateTimeOffset);
 
         var fromTicksDateTime = dateTime.AddSeconds(1);
         var fromMicrosecondsDateTime = dateTime.AddMicroseconds(1000000);
-        Assert.AreEqual(fromTicksDateTime, fromMicrosecondsDateTime);
+        await Assert.That(fromMicrosecondsDateTime).IsEqualTo(fromTicksDateTime);
     }
 
 #if NET7_0_OR_GREATER
     static TimeSpan timeSpan = DateTime.Now.TimeOfDay;
     [Test]
-    public void Nanoseconds()
+    public async Task Nanoseconds()
     {
-        Assert.AreEqual(dateTimeOffset.Nanosecond, dateTimeOffset.Nanosecond());
-        Assert.AreEqual(timeSpan.Nanoseconds, timeSpan.Nanoseconds());
-        Assert.AreEqual(dateTime.Nanosecond, dateTime.Nanosecond());
+        await Assert.That(dateTimeOffset.Nanosecond()).IsEqualTo(dateTimeOffset.Nanosecond);
+        await Assert.That(timeSpan.Nanoseconds()).IsEqualTo(timeSpan.Nanoseconds);
+        await Assert.That(dateTime.Nanosecond()).IsEqualTo(dateTime.Nanosecond);
     }
 
     [Test]
-    public void Microsecond()
+    public async Task Microsecond()
     {
-        Assert.AreEqual(dateTimeOffset.Microsecond, dateTimeOffset.Microsecond());
-        Assert.AreEqual(timeSpan.Microseconds, timeSpan.Microseconds());
-        Assert.AreEqual(dateTime.Microsecond, dateTime.Microsecond());
+        await Assert.That(dateTimeOffset.Microsecond()).IsEqualTo(dateTimeOffset.Microsecond);
+        await Assert.That(timeSpan.Microseconds()).IsEqualTo(timeSpan.Microseconds);
+        await Assert.That(dateTime.Microsecond()).IsEqualTo(dateTime.Microsecond);
     }
 #endif
+
 }

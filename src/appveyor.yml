@@ -1,6 +1,6 @@
 image:
 - Visual Studio 2022
-- macOS
+#- macOS
 #- Ubuntu
 environment:
   DOTNET_NOLOGO: true
@@ -11,25 +11,26 @@ build_script:
     if ($isWindows) {
       Invoke-WebRequest "https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.ps1" -OutFile "./dotnet-install.ps1"
       ./dotnet-install.ps1 -JSonFile src/global.json -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
+      ./dotnet-install.ps1 -Version 3.1.426 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
       ./dotnet-install.ps1 -Version 5.0.408 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
-      ./dotnet-install.ps1 -Version 9.0.301 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
-      dotnet build src/Polyfill.sln --configuration Release --verbosity quiet
-      dotnet test src/Polyfill.sln --configuration Release --no-build --no-restore
-      msbuild.exe src/PolyfillUwp.sln /p:Configuration=Release -verbosity:quiet
     }
     else {
       Invoke-WebRequest "https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh" -OutFile "./dotnet-install.sh"
       sudo chmod u+x dotnet-install.sh
       if ($isMacOS) {
         sudo ./dotnet-install.sh --jsonfile src/global.json --architecture x64 --install-dir '/usr/local/share/dotnet'
+        sudo ./dotnet-install.sh --version 3.1.426 --architecture x64 --install-dir '/usr/local/share/dotnet'
         sudo ./dotnet-install.sh --version 5.0.408 --architecture x64 --install-dir '/usr/local/share/dotnet'
-        sudo ./dotnet-install.sh --version 9.0.301 --architecture x64 --install-dir '/usr/local/share/dotnet'
+        sudo ./dotnet-install.sh --version 9.0.306 --architecture x64 --install-dir '/usr/local/share/dotnet'
       } else {
         sudo ./dotnet-install.sh --jsonfile src/global.json --architecture x64 --install-dir '/usr/share/dotnet'
       }
-      dotnet build src/Polyfill.sln --configuration Release --verbosity quiet
-      dotnet test src/Polyfill.sln --configuration Release --no-build --no-restore
     }
+- dotnet build src/Polyfill.slnx --configuration Release --verbosity quiet
+- pwsh: ./src/run-tests.ps1
+- dotnet build src/PolyfillTrimmed.slnf --target PublishAll --configuration Release
+- msbuild.exe src/PolyfillUwp.sln /p:Configuration=Release -verbosity:quiet -restore
+- msbuild.exe src/PolyfillUwp.sln /p:Configuration=Release -verbosity:quiet
 
 on_failure:
   - ps: Get-ChildItem *.received.* -recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }

@@ -1,67 +1,80 @@
 partial class PolyfillTests
 {
     [Test]
-    public void GetHashCodeStringComparison()
+    public async Task GetHashCodeStringComparison()
     {
-        var hash = "value".GetHashCode(StringComparison.Ordinal);
-        Assert.AreNotEqual(0, hash);
+        var hash1 = "value".GetHashCode(StringComparison.Ordinal);
+        await Assert.That(hash1).IsNotEqualTo(0);
+
+        var hash2 = string.GetHashCode("value".AsSpan());
+        await Assert.That(hash2).IsNotEqualTo(0);
+
+        var hash3 = string.GetHashCode("value".AsSpan(), StringComparison.Ordinal);
+        await Assert.That(hash3).IsNotEqualTo(0);
     }
 
     [Test]
-    public void EndsWith()
+    public async Task EndsWith()
     {
-        Assert.True("value".EndsWith('e'));
-        Assert.True("e".EndsWith('e'));
-        Assert.False("".EndsWith('e'));
+        await Assert.That("value".EndsWith('e')).IsTrue();
+        await Assert.That("e".EndsWith('e')).IsTrue();
+        await Assert.That("".EndsWith('e')).IsFalse();
     }
 
     [Test]
-    [Platform("Win")]
-    public void ReplaceLineEndings()
+    public async Task ReplaceLineEndings()
     {
-        Assert.AreEqual("a\r\nb\r\nc\r\nd", "a\rb\nc\r\nd".ReplaceLineEndings());
-        Assert.AreEqual("a_b_c_d", "a\rb\nc\r\nd".ReplaceLineEndings("_"));
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            await Assert.That("a\rb\nc\r\nd".ReplaceLineEndings()).IsEqualTo("a\r\nb\r\nc\r\nd");
+        }
+        await Assert.That("a\rb\nc\r\nd".ReplaceLineEndings("_")).IsEqualTo("a_b_c_d");
     }
 
     [Test]
-    public void CopyTo()
+    public Task CopyTo()
     {
         var span = new Span<char>(new char[1]);
         "a".CopyTo(span);
-        Assert.AreEqual("a", span.ToString());
+        if (span.ToString() != "a")
+            throw new Exception($"Expected 'a' but got '{span.ToString()}'");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryCopyTo()
+    public Task TryCopyTo()
     {
         var span = new Span<char>(new char[1]);
-        Assert.IsTrue("a".TryCopyTo(span));
-        Assert.AreEqual("a", span.ToString());
+        if (!"a".TryCopyTo(span))
+            throw new Exception("Expected TryCopyTo to return true");
+        if (span.ToString() != "a")
+            throw new Exception($"Expected 'a' but got '{span.ToString()}'");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void StringContainsStringComparison() =>
-        Assert.True("value".Contains("E", StringComparison.OrdinalIgnoreCase));
+    public async Task StringContainsStringComparison() =>
+        await Assert.That("value".Contains("E", StringComparison.OrdinalIgnoreCase)).IsTrue();
 
     [Test]
-    public void StartsWith()
+    public async Task StartsWith()
     {
-        Assert.True("value".StartsWith('v'));
-        Assert.True("v".StartsWith('v'));
-        Assert.False("".StartsWith('v'));
+        await Assert.That("value".StartsWith('v')).IsTrue();
+        await Assert.That("v".StartsWith('v')).IsTrue();
+        await Assert.That("".StartsWith('v')).IsFalse();
     }
 
     [Test]
-    public void Split()
+    public async Task Split()
     {
-        Assert.AreEqual(new []{"a","b"}, "a b".Split(' ', StringSplitOptions.RemoveEmptyEntries));
-        Assert.AreEqual(new []{"a","b"}, "a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries));
+        await Assert.That("a b".Split(' ', StringSplitOptions.RemoveEmptyEntries).SequenceEqual(new []{"a","b"})).IsTrue();
+        await Assert.That("a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries).SequenceEqual(new []{"a","b"})).IsTrue();
 
-        Assert.AreEqual(new []{"a","b"}, "a b".Split(" ", StringSplitOptions.RemoveEmptyEntries));
-        Assert.AreEqual(new []{"a","b"}, "a b".Split(" ", 2, StringSplitOptions.RemoveEmptyEntries));
+        await Assert.That("a b".Split(" ", StringSplitOptions.RemoveEmptyEntries).SequenceEqual(new []{"a","b"})).IsTrue();
+        await Assert.That("a b".Split(" ", 2, StringSplitOptions.RemoveEmptyEntries).SequenceEqual(new []{"a","b"})).IsTrue();
     }
 
     [Test]
-    public void ContainsChar() =>
-        Assert.True("value".Contains('v'));
+    public async Task ContainsChar() =>
+        await Assert.That("value".Contains('v')).IsTrue();
 }

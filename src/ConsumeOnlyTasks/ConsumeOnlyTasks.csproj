@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Threading.Tasks.Extensions" />
+    <Compile Include="..\Consume\*.cs" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\TestIncludes.targets" />
   <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />

@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <OutputType>Exe</OutputType>
     <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
     <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT'">net462;net472;net48;net6.0-windows</TargetFrameworks>
     <TargetFrameworks>$(TargetFrameworks);netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
@@ -12,9 +13,8 @@
     <Compile Remove="..\Tests\RangeIndexUsage.cs" />
     <Compile Remove="..\Tests\PolyfillTests.cs" />
     <Compile Remove="..\Tests\PolyfillTests_*.cs" />
-    <PackageReference Include="NUnit" />
-    <PackageReference Include="NUnit3TestAdapter" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="TUnit" />
+    <PackageReference Include="ProjectFiles" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
   </ItemGroup>
   <Import Project="$(SolutionDir)\TestIncludes.targets" />

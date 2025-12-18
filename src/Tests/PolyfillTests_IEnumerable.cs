@@ -2,7 +2,7 @@
 partial class PolyfillTests
 {
     [Test]
-    public void TakeRange()
+    public async Task TakeRange()
     {
         var letters = new List<char>
         {
@@ -14,11 +14,11 @@ partial class PolyfillTests
         };
 
         var taken = letters.Take(1..3).ToList();
-        Assert.IsTrue(taken.SequenceEqual(['b', 'c']));
+        await Assert.That(taken.SequenceEqual(['b', 'c'])).IsTrue();
     }
 
     [Test]
-    public void TakeLast()
+    public async Task TakeLast()
     {
         var letters = new List<char>
         {
@@ -30,27 +30,27 @@ partial class PolyfillTests
         };
 
         var taken = letters.TakeLast(2).ToList();
-        Assert.IsTrue(taken.SequenceEqual(['d', 'e']));
+        await Assert.That(taken.SequenceEqual(['d', 'e'])).IsTrue();
     }
 
     [Test]
-    public void Except()
+    public async Task Except()
     {
         IEnumerable<int> enumerable = [1, 2];
-        Assert.AreEqual(1, enumerable.Except(2).Single());
+        await Assert.That(enumerable.Except(2).Single()).IsEqualTo(1);
     }
 
     [Test]
-    public void TryGetNonEnumeratedCount()
+    public async Task TryGetNonEnumeratedCount()
     {
         IEnumerable<int> enumerable = [1, 2];
 
-        Assert.True(enumerable.TryGetNonEnumeratedCount(out var count));
-        Assert.AreEqual(2, count);
+        await Assert.That(enumerable.TryGetNonEnumeratedCount(out var count)).IsTrue();
+        await Assert.That(count).IsEqualTo(2);
     }
 
     [Test]
-    public void Index()
+    public async Task Index()
     {
         var count = 0;
         IEnumerable<int> enumerable = [3, 4];
@@ -59,52 +59,52 @@ partial class PolyfillTests
             count++;
             if (index == 0)
             {
-                Assert.AreEqual(3, item);
+                await Assert.That(item).IsEqualTo(3);
             }
 
             if (index == 1)
             {
-                Assert.AreEqual(4, item);
+                await Assert.That(item).IsEqualTo(4);
             }
         }
 
-        Assert.AreEqual(2, count);
+        await Assert.That(count).IsEqualTo(2);
     }
 
     [Test]
-    public void DistinctBy()
+    public async Task DistinctBy()
     {
         IEnumerable<int> enumerable = [3, 4];
         var distinctBy = enumerable.DistinctBy(_ => _).ToList();
-        Assert.AreEqual(2, distinctBy.Count);
-        Assert.AreEqual(3, distinctBy[0]);
-        Assert.AreEqual(4, distinctBy[1]);
+        await Assert.That(distinctBy.Count).IsEqualTo(2);
+        await Assert.That(distinctBy[0]).IsEqualTo(3);
+        await Assert.That(distinctBy[1]).IsEqualTo(4);
     }
 
     [Test]
-    public void CountBy()
+    public async Task CountBy()
     {
         IEnumerable<int> enumerable = [3, 4, 3];
         var list = enumerable.CountBy(_ => _).ToList();
-        Assert.AreEqual(3, list[0].Key);
-        Assert.AreEqual(2, list[0].Value);
-        Assert.AreEqual(4, list[1].Key);
-        Assert.AreEqual(1, list[1].Value);
-        Assert.AreEqual(2, list.Count);
+        await Assert.That(list[0].Key).IsEqualTo(3);
+        await Assert.That(list[0].Value).IsEqualTo(2);
+        await Assert.That(list[1].Key).IsEqualTo(4);
+        await Assert.That(list[1].Value).IsEqualTo(1);
+        await Assert.That(list.Count).IsEqualTo(2);
     }
 
     [Test]
-    public void IEnumerableExceptBy()
+    public async Task IEnumerableExceptBy()
     {
         IEnumerable<string> firstList = ["banana", "apple", "cherry"];
         IEnumerable<int> secondList = [6];
 
         var result = firstList.ExceptBy(secondList, _ => _.Length).ToList();
-        Assert.IsTrue(result.SequenceEqual(["apple"]));
+        await Assert.That(result.SequenceEqual(["apple"])).IsTrue();
     }
 
     [Test]
-    public void AggregateBySeed()
+    public async Task AggregateBySeed()
     {
         (string id, int score)[] data =
         [
@@ -122,17 +122,17 @@ partial class PolyfillTests
                 (totalScore, curr) => totalScore + curr.score
             ).ToList();
 
-        Assert.AreEqual("0", aggregated[0].Key);
-        Assert.AreEqual(67, aggregated[0].Value);
-        Assert.AreEqual("1", aggregated[1].Key);
-        Assert.AreEqual(15, aggregated[1].Value);
-        Assert.AreEqual("2", aggregated[2].Key);
-        Assert.AreEqual(4, aggregated[2].Value);
-        Assert.AreEqual(3, aggregated.Count);
+        await Assert.That(aggregated[0].Key).IsEqualTo("0");
+        await Assert.That(aggregated[0].Value).IsEqualTo(67);
+        await Assert.That(aggregated[1].Key).IsEqualTo("1");
+        await Assert.That(aggregated[1].Value).IsEqualTo(15);
+        await Assert.That(aggregated[2].Key).IsEqualTo("2");
+        await Assert.That(aggregated[2].Value).IsEqualTo(4);
+        await Assert.That(aggregated.Count).IsEqualTo(3);
     }
 
     [Test]
-    public void AggregateBySeedSelector()
+    public async Task AggregateBySeedSelector()
     {
         (string id, int score)[] data =
         [
@@ -151,137 +151,227 @@ partial class PolyfillTests
                 (totalScore, curr) => totalScore + curr.score
             ).ToList();
 
-        Assert.AreEqual("0", aggregated[0].Key);
-        Assert.AreEqual(67, aggregated[0].Value);
-        Assert.AreEqual("1", aggregated[1].Key);
-        Assert.AreEqual(16, aggregated[1].Value);
-        Assert.AreEqual("2", aggregated[2].Key);
-        Assert.AreEqual(6, aggregated[2].Value);
-        Assert.AreEqual(3, aggregated.Count);
+        await Assert.That(aggregated[0].Key).IsEqualTo("0");
+        await Assert.That(aggregated[0].Value).IsEqualTo(67);
+        await Assert.That(aggregated[1].Key).IsEqualTo("1");
+        await Assert.That(aggregated[1].Value).IsEqualTo(16);
+        await Assert.That(aggregated[2].Key).IsEqualTo("2");
+        await Assert.That(aggregated[2].Value).IsEqualTo(6);
+        await Assert.That(aggregated.Count).IsEqualTo(3);
     }
 
     [Test]
-    public void IEnumerableAppend()
+    public async Task IEnumerableAppend()
     {
         IEnumerable<string> enumerable = ["a", "b"];
 
-        Assert.IsTrue(enumerable.Append("c").SequenceEqual(["a", "b", "c"]));
+        await Assert.That(enumerable.Append("c").SequenceEqual(["a", "b", "c"])).IsTrue();
     }
 
     [Test]
-    public void IEnumerableSkipLast()
+    public async Task IEnumerableSkipLast()
     {
         IEnumerable<string> enumerable = ["a", "b"];
 
-        Assert.IsTrue(enumerable.SkipLast(1).SequenceEqual(["a"]));
+        await Assert.That(enumerable.SkipLast(1).SequenceEqual(["a"])).IsTrue();
     }
 
     [Test]
-    public void ToHashSet()
+    public async Task ToHashSet()
     {
         IEnumerable<string> enumerable = ["a", "b"];
 
         var hashSet = enumerable.ToHashSet();
-        Assert.IsTrue(hashSet.Contains("a"));
-        Assert.IsTrue(hashSet.Contains("b"));
+        await Assert.That(hashSet.Contains("a")).IsTrue();
+        await Assert.That(hashSet.Contains("b")).IsTrue();
     }
 
     [Test]
-    public void Zip3()
+    public async Task Zip3()
     {
-        var numbers = new List<int> { 1 };
-        var words = new List<string> { "one" };
-        var letters = new List<string> { "a" };
+        var numbers = new List<int> {1};
+        var words = new List<string> {"one"};
+        var letters = new List<string> {"a"};
 
         var result = numbers.Zip(words, letters).Single();
 
-        Assert.AreEqual(1, result.First);
-        Assert.AreEqual("one", result.Second);
-        Assert.AreEqual("a", result.Third);
+        await Assert.That(result.First).IsEqualTo(1);
+        await Assert.That(result.Second).IsEqualTo("one");
+        await Assert.That(result.Third).IsEqualTo("a");
     }
 
     [Test]
-    public void ElementAtIndex()
+    public async Task ElementAtIndex()
     {
 #pragma warning disable IDE0028
-        IEnumerable<int> list = new List<int> { 1, 2 };
+        IEnumerable<int> list = new List<int> {1, 2};
 #pragma warning restore IDE0028
 
         // ReSharper disable ArrangeObjectCreationWhenTypeNotEvident
-        Assert.AreEqual(2, list.ElementAt(new Index(1)));
-        Assert.AreEqual(2, list.ElementAtOrDefault(new Index(1)));
-        Assert.AreEqual(0, list.ElementAtOrDefault(new Index(3)));
+        await Assert.That(list.ElementAt(new Index(1))).IsEqualTo(2);
+        await Assert.That(list.ElementAtOrDefault(new Index(1))).IsEqualTo(2);
+        await Assert.That(list.ElementAtOrDefault(new Index(3))).IsEqualTo(0);
         // ReSharper restore ArrangeObjectCreationWhenTypeNotEvident
     }
 
     [Test]
-    public void LastOrDefault()
+    public async Task LastOrDefault()
     {
         IEnumerable<int> list = [1, 2];
 
-        Assert.AreEqual(2, list.LastOrDefault(_ => _ == 2, 3));
-        Assert.AreEqual(3, Enumerable.Empty<int>().LastOrDefault(3));
+        await Assert.That(list.LastOrDefault(_ => _ == 2, 3)).IsEqualTo(2);
+        await Assert.That(Enumerable.Empty<int>().LastOrDefault(3)).IsEqualTo(3);
     }
 
     [Test]
-    public void SingleOrDefault()
+    public async Task SingleOrDefault()
     {
         IEnumerable<int> list = [1, 2];
 
-        Assert.AreEqual(2, list.SingleOrDefault(_ => _ == 2, 3));
-        Assert.AreEqual(3, Enumerable.Empty<int>().SingleOrDefault(3));
+        await Assert.That(list.SingleOrDefault(_ => _ == 2, 3)).IsEqualTo(2);
+        await Assert.That(Enumerable.Empty<int>().SingleOrDefault(3)).IsEqualTo(3);
     }
 
     [Test]
-    public void FirstOrDefault()
+    public async Task FirstOrDefault()
     {
         IEnumerable<int> list = [1, 2];
 
-        Assert.AreEqual(2, list.FirstOrDefault(_ => _ == 2, 3));
-        Assert.AreEqual(3, Enumerable.Empty<int>().FirstOrDefault(3));
+        await Assert.That(list.FirstOrDefault(_ => _ == 2, 3)).IsEqualTo(2);
+        await Assert.That(Enumerable.Empty<int>().FirstOrDefault(3)).IsEqualTo(3);
     }
 
     [Test]
-    public void Zip2()
+    public async Task Zip2()
     {
-        var numbers = new List<int> { 1 };
-        var words = new List<string> { "one" };
+        var numbers = new List<int> {1};
+        var words = new List<string> {"one"};
 
         var result = numbers.Zip(words).Single();
 
-        Assert.AreEqual(1, result.First);
-        Assert.AreEqual("one", result.Second);
+        await Assert.That(result.First).IsEqualTo(1);
+        await Assert.That(result.Second).IsEqualTo("one");
     }
 
     [Test]
-    public void Chunk_SizeOf3()
+    public async Task Chunk_SizeOf3()
     {
         var enumerable = Enumerable.Range(1, 11).ToList();
 
         var chunks = enumerable.Chunk(3).ToList();
 
-        Assert.AreEqual(new[] { 1, 2, 3 }, chunks[0]);
-        Assert.AreEqual(new[] { 4, 5, 6 }, chunks[1]);
-        Assert.AreEqual(new[] { 7, 8, 9 }, chunks[2]);
-        Assert.AreEqual(new[] { 10, 11 }, chunks[3]);
+        await Assert.That(chunks[0].SequenceEqual(new[] {1, 2, 3})).IsTrue();
+        await Assert.That(chunks[1].SequenceEqual(new[] {4, 5, 6})).IsTrue();
+        await Assert.That(chunks[2].SequenceEqual(new[] {7, 8, 9})).IsTrue();
+        await Assert.That(chunks[3].SequenceEqual(new[] {10, 11})).IsTrue();
     }
 
     [Test]
-    public void Chunk_SizeOf8()
+    public async Task Chunk_SizeOf8()
     {
         var enumerable = Enumerable.Range(1, 11).ToList();
 
         var chunks = enumerable.Chunk(8).ToList();
 
-        Assert.AreEqual(new[] { 1, 2, 3, 4, 5, 6, 7, 8 }, chunks[0]);
-        Assert.AreEqual(new[] { 9, 10, 11 }, chunks[1]);
+        await Assert.That(chunks[0].SequenceEqual(new[] {1, 2, 3, 4, 5, 6, 7, 8})).IsTrue();
+        await Assert.That(chunks[1].SequenceEqual(new[] {9, 10, 11})).IsTrue();
     }
 
     [Test]
-    public void Chunk_SizeOfZero_ExpectedException()
+    public async Task Chunk_SizeOfZero_ExpectedException()
     {
         var enumerable = Enumerable.Range(1, 11).ToList();
 
-        Assert.Throws<ArgumentOutOfRangeException>(() => enumerable.Chunk(0).ToList());
+        await Assert.That(() => enumerable.Chunk(0).ToList()).Throws<ArgumentOutOfRangeException>();
+    }
+
+#if NET7_0_OR_GREATER
+    [Test]
+    public async Task InfiniteSequence_StartsAtGivenValue()
+    {
+        var start = 10;
+        var step = 2;
+        var sequence = Enumerable.InfiniteSequence(start, step)
+            .Take(5)
+            .ToList();
+        await Assert.That(sequence[0]).IsEqualTo(start);
+    }
+
+    [Test]
+    public async Task InfiniteSequence_IncrementsByStep()
+    {
+        var start = 1;
+        var step = 3;
+        var sequence = Enumerable.InfiniteSequence(start, step)
+            .Take(4)
+            .ToList();
+        await Assert.That(sequence.SequenceEqual(new[] {1, 4, 7, 10})).IsTrue();
+    }
+
+    [Test]
+    public async Task InfiniteSequence_IsInfinite()
+    {
+        var start = 0;
+        var step = 1;
+        var sequence = Enumerable.InfiniteSequence(start, step);
+        // Only take first 100 elements to avoid infinite loop
+        await Assert.That(sequence.Take(100).Count()).IsEqualTo(100);
+    }
+
+    [Test]
+    public async Task Sequence_Increments_FromStartToEndInclusive()
+    {
+        var result = Enumerable.Sequence(1, 5, 1).ToList();
+        await Assert.That(result.SequenceEqual(new[] {1, 2, 3, 4, 5})).IsTrue();
+    }
+
+    [Test]
+    public async Task Sequence_Decrements_FromStartToEndInclusive()
+    {
+        var result = Enumerable.Sequence(5, 1, -1).ToList();
+        await Assert.That(result.SequenceEqual(new[] {5, 4, 3, 2, 1})).IsTrue();
+    }
+
+    [Test]
+    public async Task Sequence_SingleValue_WhenStartEqualsEnd()
+    {
+        var result = Enumerable.Sequence(3, 3, 1).ToList();
+        await Assert.That(result.SequenceEqual(new[] {3})).IsTrue();
+    }
+
+    [Test]
+    public async Task Sequence_Throws_WhenStepPositiveAndEndLessThanStart() =>
+        await Assert.That(() => Enumerable.Sequence(5, 1, 1).ToList()).Throws<ArgumentOutOfRangeException>();
+
+    [Test]
+    public async Task Sequence_Throws_WhenStepNegativeAndEndGreaterThanStart() =>
+        await Assert.That(() => Enumerable.Sequence(1, 5, -1).ToList()).Throws<ArgumentOutOfRangeException>();
+
+#endif
+
+    [Test]
+    public async Task IEnumerableUnionBy()
+    {
+        IEnumerable<string> firstList = ["banana" /*6*/, "apple" /*5*/, "cherry" /*5*/];
+        IEnumerable<string> secondList = ["banana" /*6*/, "apple2" /*6*/, "cherry" /*5*/, "strawberry" /*10*/];
+
+        var result = firstList.UnionBy(secondList, _ => _.Length).ToList();
+        await Assert.That(result.SequenceEqual(["banana", "apple", "strawberry"])).IsTrue();
+    }
+
+    [Test]
+    public async Task IEnumerableUnionByWithComparer()
+    {
+        IEnumerable<string> firstList = ["banana" /*ba*/, "apple" /*ap*/];
+        IEnumerable<string> secondList = ["banana" /*ba*/, "Apple2" /*Ap*/];
+
+        var result = firstList.UnionBy(secondList, _ => _[0..1], comparer: StringComparer.OrdinalIgnoreCase).ToList();
+        await Assert.That(result.SequenceEqual(["banana", "apple"])).IsTrue();
+
+        result = firstList.UnionBy(secondList, _ => _[0..1], comparer: null).ToList();
+        await Assert.That(result.SequenceEqual(["banana", "apple", "Apple2"])).IsTrue();
+
+        result = firstList.UnionBy(secondList, _ => _[0..1], comparer: StringComparer.Ordinal).ToList();
+        await Assert.That(result.SequenceEqual(["banana", "apple", "Apple2"])).IsTrue();
     }
 }

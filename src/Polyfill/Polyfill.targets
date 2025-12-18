@@ -4,18 +4,14 @@
     <LowerFramework>$(TargetFramework.ToLower())</LowerFramework>
     <LowerFrameworks>$(TargetFrameworks.ToLower())</LowerFrameworks>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(NETCoreSdkVersion)' != '' AND $([MSBuild]::VersionGreaterThanOrEquals($(NETCoreSdkVersion), '9'))">
-    <DefineConstants Condition="$(LangVersion) == '13'">$(DefineConstants);LangVersion13</DefineConstants>
-    <DefineConstants Condition="$(LangVersion) == 'latest'">$(DefineConstants);LangVersion13</DefineConstants>
-    <DefineConstants Condition="$(LangVersion) == 'preview'">$(DefineConstants);LangVersion13</DefineConstants>
-    <DefineConstants Condition="$(LangVersion) == 'default'">$(DefineConstants);LangVersion13</DefineConstants>
-    <DefineConstants Condition="$(LangVersion) == 'latestMajor'">$(DefineConstants);LangVersion13</DefineConstants>
-  </PropertyGroup>
   <PropertyGroup Condition="$(AllowUnsafeBlocks) == 'true' ">
     <DefineConstants>$(DefineConstants);AllowUnsafeBlocks</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="$(PolyPublic) == 'true' ">
     <DefineConstants>$(DefineConstants);PolyPublic</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(PolyUseEmbeddedAttribute) == 'true' ">
+    <DefineConstants>$(DefineConstants);PolyUseEmbeddedAttribute</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="$(LowerFramework.StartsWith('netcoreapp2'))">
     <DefineConstants>$(DefineConstants);NETCOREAPP2X</DefineConstants>
@@ -43,12 +39,13 @@
       Condition="($(LowerFrameworks.Contains('net5')) OR
                  $(LowerFrameworks.Contains('net6')) OR
                  $(LowerFrameworks.Contains('net7')) OR
+                 $(LowerFrameworks.Contains('net8')) OR
                  $(LowerFrameworks.Contains('netstandard')) OR
                  $(LowerFrameworks.Contains('netcore')))
                  AND
-                 !$(LowerFrameworks.Contains('net8'))
+                 !$(LowerFrameworks.Contains('net9'))
                  AND
-                 !$(LowerFramework.Contains('net8'))"
+                 !$(LowerFramework.Contains('net9'))"
       >true</MaxNetRequired>
     <MaxNetClassicRequired>false</MaxNetClassicRequired>
     <MaxNetClassicRequired
@@ -100,10 +97,12 @@ For example:
         Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Threading.Tasks.Extensions'))">$(DefineConstants);FeatureValueTask</DefineConstants>
 
       <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Net.Http')) OR @(Reference->AnyHaveMetadataValue('Identity', 'System.Net.Http'))">$(DefineConstants);FeatureHttp</DefineConstants>
+        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Net.Http')) OR
+                   @(Reference->AnyHaveMetadataValue('Identity', 'System.Net.Http'))">$(DefineConstants);FeatureHttp</DefineConstants>
 
       <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.IO.Compression')) OR @(Reference->AnyHaveMetadataValue('Identity', 'System.IO.Compression'))">$(DefineConstants);FeatureCompression</DefineConstants>
+        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.IO.Compression')) OR
+                   @(Reference->AnyHaveMetadataValue('Identity', 'System.IO.Compression'))">$(DefineConstants);FeatureCompression</DefineConstants>
 
       <DefineConstants Condition="$(LowerFramework.StartsWith('net10'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net9'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression</DefineConstants>
@@ -121,11 +120,22 @@ For example:
       <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.1'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureCompression</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.0'))">$(DefineConstants);FeatureValueTuple;FeatureRuntimeInformation;FeatureCompression</DefineConstants>
     </PropertyGroup>
+  
+    <!-- The whole point of EmbeddedAttribute is to avoid the exposing the internal polyfilled APIs to consuming projects via IVT. -->
+    <Error Text="PolyPublic and PolyUseEmbeddedAttribute shouldn't be used together." Condition="'$(PolyPublic)' == 'true' AND '$(PolyUseEmbeddedAttribute)' == 'true'" />
+
+    <Error Text="PolyGuard has been renamed to PolyEnsure. Replace &lt;PolyGuard&gt;true&lt;/PolyGuard&gt; with &lt;PolyEnsure&gt;true&lt;/PolyEnsure&gt;." Condition="'$(PolyGuard)' == 'true' AND '$(PolyEnsure)' != 'true'" />
   </Target>
   <ItemGroup>
 
+    <Compile Condition="'$(PolyEnsure)' != 'true' "
+             Remove="$(MSBuildThisFileDirectory)..\**\Ensure\*.cs" />
+
     <Compile Condition="'$(PolyGuard)' != 'true' "
              Remove="$(MSBuildThisFileDirectory)..\**\Guard\*.cs" />
+
+    <Compile Condition="'$(PolyArgumentExceptions)' != 'true' "
+             Remove="$(MSBuildThisFileDirectory)..\**\ArgumentExceptions\*.cs" />
 
     <Compile Condition="'$(PolyNullability)' != 'true' "
              Remove="$(MSBuildThisFileDirectory)..\**\Nullability\*.cs" />

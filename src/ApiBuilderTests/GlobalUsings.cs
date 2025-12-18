@@ -1,9 +1,15 @@
-﻿global using NUnit.Framework;
+﻿global using TUnit.Core;
+global using TUnit.Assertions;
+global using TUnit.Assertions.Extensions;
 global using System;
 global using System.Diagnostics.CodeAnalysis;
+global using System.IO.Compression;
+global using System.Text.RegularExpressions;
 global using Microsoft.CodeAnalysis;
 global using Microsoft.CodeAnalysis.CSharp;
 global using Microsoft.CodeAnalysis.CSharp.Syntax;
+global using ProjectFilesGenerator;
+global using VerifyTUnit;
 global using Method = Microsoft.CodeAnalysis.CSharp.Syntax.MethodDeclarationSyntax;
 global using Property = Microsoft.CodeAnalysis.CSharp.Syntax.PropertyDeclarationSyntax;
 global using Member = Microsoft.CodeAnalysis.CSharp.Syntax.MemberDeclarationSyntax;

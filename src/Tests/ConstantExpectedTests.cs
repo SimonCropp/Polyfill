@@ -1,4 +1,5 @@
-[TestFixture]
+// ReSharper disable IncorrectConstantExpectedAnnotation
+#pragma warning disable CA1856
 public class ConstantExpectedTests
 {
     public void Method([ConstantExpected] int b) { }

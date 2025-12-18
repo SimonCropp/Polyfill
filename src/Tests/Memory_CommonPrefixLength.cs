@@ -1,50 +1,53 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-[TestFixture]
-public static class Memory_CommonPrefixLength
+public class Memory_CommonPrefixLength
 {
-    [TestCase(0, 0)]
-    [TestCase(1, 0)]
-    [TestCase(0, 1)]
-    [TestCase(2, 0)]
-    [TestCase(0, 2)]
-    public static void OneOrBothZeroLength_Returns0(int length1, int length2) =>
-        ValidateWithDefaultValues(length1, length2, NonDefaultEqualityComparer<char>.Instance, 0);
+    [Test]
+    [Arguments(0, 0)]
+    [Arguments(1, 0)]
+    [Arguments(0, 1)]
+    [Arguments(2, 0)]
+    [Arguments(0, 2)]
+    public async Task OneOrBothZeroLength_Returns0(int length1, int length2) =>
+        await ValidateWithDefaultValues(length1, length2, NonDefaultEqualityComparer<char>.Instance, 0);
 
-    [TestCase(1)]
-    [TestCase(2)]
-    [TestCase(15)]
-    public static void SameLengthAllEqual_ReturnsLength(int length) =>
-        ValidateWithDefaultValues(length, length, NonDefaultEqualityComparer<char>.Instance, length);
+    [Test]
+    [Arguments(1)]
+    [Arguments(2)]
+    [Arguments(15)]
+    public async Task SameLengthAllEqual_ReturnsLength(int length) =>
+        await ValidateWithDefaultValues(length, length, NonDefaultEqualityComparer<char>.Instance, length);
 
-    [TestCase(1)]
-    [TestCase(2)]
-    [TestCase(15)]
-    public static void FirstShorterAllEqual_ReturnsFirstLength(int length) =>
-        ValidateWithDefaultValues(length, length + 1, NonDefaultEqualityComparer<char>.Instance, length);
+    [Test]
+    [Arguments(1)]
+    [Arguments(2)]
+    [Arguments(15)]
+    public async Task FirstShorterAllEqual_ReturnsFirstLength(int length) =>
+        await ValidateWithDefaultValues(length, length + 1, NonDefaultEqualityComparer<char>.Instance, length);
 
-    [TestCase(1)]
-    [TestCase(2)]
-    [TestCase(15)]
-    public static void SecondShorterAllEqual_ReturnsSecondLength(int length) =>
-        ValidateWithDefaultValues(length + 1, length, NonDefaultEqualityComparer<char>.Instance, length);
+    [Test]
+    [Arguments(1)]
+    [Arguments(2)]
+    [Arguments(15)]
+    public async Task SecondShorterAllEqual_ReturnsSecondLength(int length) =>
+        await ValidateWithDefaultValues(length + 1, length, NonDefaultEqualityComparer<char>.Instance, length);
 
-    static void ValidateWithDefaultValues<T>(int length1, int length2, IEqualityComparer<T> customComparer, int expected)
+    static async Task ValidateWithDefaultValues<T>(int length1, int length2, IEqualityComparer<T> customComparer, int expected)
     {
-        Assert.AreEqual(expected, ((ReadOnlySpan<T>)new T[length1]).CommonPrefixLength(new T[length2]));
-        Assert.AreEqual(expected, ((ReadOnlySpan<T>)new T[length1]).CommonPrefixLength(new T[length2], null));
-        Assert.AreEqual(expected, ((ReadOnlySpan<T>)new T[length1]).CommonPrefixLength(new T[length2], EqualityComparer<T>.Default));
-        Assert.AreEqual(expected, ((ReadOnlySpan<T>)new T[length1]).CommonPrefixLength(new T[length2], customComparer));
+        await Assert.That(((ReadOnlySpan<T>)new T[length1]).CommonPrefixLength(new T[length2])).IsEqualTo(expected);
+        await Assert.That(((ReadOnlySpan<T>)new T[length1]).CommonPrefixLength(new T[length2], null)).IsEqualTo(expected);
+        await Assert.That(((ReadOnlySpan<T>)new T[length1]).CommonPrefixLength(new T[length2], EqualityComparer<T>.Default)).IsEqualTo(expected);
+        await Assert.That(((ReadOnlySpan<T>)new T[length1]).CommonPrefixLength(new T[length2], customComparer)).IsEqualTo(expected);
 
-        Assert.AreEqual(expected, ((Span<T>)new T[length1]).CommonPrefixLength(new T[length2]));
-        Assert.AreEqual(expected, ((Span<T>)new T[length1]).CommonPrefixLength(new T[length2], null));
-        Assert.AreEqual(expected, ((Span<T>)new T[length1]).CommonPrefixLength(new T[length2], EqualityComparer<T>.Default));
-        Assert.AreEqual(expected, ((Span<T>)new T[length1]).CommonPrefixLength(new T[length2], customComparer));
+        await Assert.That(((Span<T>)new T[length1]).CommonPrefixLength(new T[length2])).IsEqualTo(expected);
+        await Assert.That(((Span<T>)new T[length1]).CommonPrefixLength(new T[length2], null)).IsEqualTo(expected);
+        await Assert.That(((Span<T>)new T[length1]).CommonPrefixLength(new T[length2], EqualityComparer<T>.Default)).IsEqualTo(expected);
+        await Assert.That(((Span<T>)new T[length1]).CommonPrefixLength(new T[length2], customComparer)).IsEqualTo(expected);
     }
 
-    [TestCase]
-    public static void PartialEquals_ReturnsPrefixLength_Byte()
+    [Test]
+    public async Task PartialEquals_ReturnsPrefixLength_Byte()
     {
         var arr1 = new byte[]
         {
@@ -63,15 +66,15 @@ public static class Memory_CommonPrefixLength
             7
         };
 
-        Assert.AreEqual(3, ((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2));
-        Assert.AreEqual(3, ((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2, null));
-        Assert.AreEqual(3, ((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2, EqualityComparer<byte>.Default));
-        Assert.AreEqual(3, ((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<byte>.Instance));
+        await Assert.That(((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2)).IsEqualTo(3);
+        await Assert.That(((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2, null)).IsEqualTo(3);
+        await Assert.That(((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2, EqualityComparer<byte>.Default)).IsEqualTo(3);
+        await Assert.That(((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<byte>.Instance)).IsEqualTo(3);
 
-        Assert.AreEqual(3, ((Span<byte>)arr1).CommonPrefixLength(arr2));
-        Assert.AreEqual(3, ((Span<byte>)arr1).CommonPrefixLength(arr2, null));
-        Assert.AreEqual(3, ((Span<byte>)arr1).CommonPrefixLength(arr2, EqualityComparer<byte>.Default));
-        Assert.AreEqual(3, ((Span<byte>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<byte>.Instance));
+        await Assert.That(((Span<byte>)arr1).CommonPrefixLength(arr2)).IsEqualTo(3);
+        await Assert.That(((Span<byte>)arr1).CommonPrefixLength(arr2, null)).IsEqualTo(3);
+        await Assert.That(((Span<byte>)arr1).CommonPrefixLength(arr2, EqualityComparer<byte>.Default)).IsEqualTo(3);
+        await Assert.That(((Span<byte>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<byte>.Instance)).IsEqualTo(3);
 
         // Vectorized code path
         arr1 =
@@ -115,19 +118,19 @@ public static class Memory_CommonPrefixLength
             17
         ];
 
-        Assert.AreEqual(13, ((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2));
-        Assert.AreEqual(13, ((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2, null));
-        Assert.AreEqual(13, ((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2, EqualityComparer<byte>.Default));
-        Assert.AreEqual(13, ((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<byte>.Instance));
+        await Assert.That(((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2)).IsEqualTo(13);
+        await Assert.That(((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2, null)).IsEqualTo(13);
+        await Assert.That(((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2, EqualityComparer<byte>.Default)).IsEqualTo(13);
+        await Assert.That(((ReadOnlySpan<byte>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<byte>.Instance)).IsEqualTo(13);
 
-        Assert.AreEqual(13, ((Span<byte>)arr1).CommonPrefixLength(arr2));
-        Assert.AreEqual(13, ((Span<byte>)arr1).CommonPrefixLength(arr2, null));
-        Assert.AreEqual(13, ((Span<byte>)arr1).CommonPrefixLength(arr2, EqualityComparer<byte>.Default));
-        Assert.AreEqual(13, ((Span<byte>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<byte>.Instance));
+        await Assert.That(((Span<byte>)arr1).CommonPrefixLength(arr2)).IsEqualTo(13);
+        await Assert.That(((Span<byte>)arr1).CommonPrefixLength(arr2, null)).IsEqualTo(13);
+        await Assert.That(((Span<byte>)arr1).CommonPrefixLength(arr2, EqualityComparer<byte>.Default)).IsEqualTo(13);
+        await Assert.That(((Span<byte>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<byte>.Instance)).IsEqualTo(13);
     }
 
     [Test]
-    public static void PartialEquals_ReturnsPrefixLength_ValueType()
+    public async Task PartialEquals_ReturnsPrefixLength_ValueType()
     {
         var arr1 = new int[]
         {
@@ -142,15 +145,15 @@ public static class Memory_CommonPrefixLength
             6
         };
 
-        Assert.AreEqual(2, ((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2));
-        Assert.AreEqual(2, ((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, null));
-        Assert.AreEqual(2, ((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, EqualityComparer<int>.Default));
-        Assert.AreEqual(2, ((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<int>.Instance));
+        await Assert.That(((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2)).IsEqualTo(2);
+        await Assert.That(((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, null)).IsEqualTo(2);
+        await Assert.That(((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, EqualityComparer<int>.Default)).IsEqualTo(2);
+        await Assert.That(((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<int>.Instance)).IsEqualTo(2);
 
-        Assert.AreEqual(2, ((Span<int>)arr1).CommonPrefixLength(arr2));
-        Assert.AreEqual(2, ((Span<int>)arr1).CommonPrefixLength(arr2, null));
-        Assert.AreEqual(2, ((Span<int>)arr1).CommonPrefixLength(arr2, EqualityComparer<int>.Default));
-        Assert.AreEqual(2, ((Span<int>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<int>.Instance));
+        await Assert.That(((Span<int>)arr1).CommonPrefixLength(arr2)).IsEqualTo(2);
+        await Assert.That(((Span<int>)arr1).CommonPrefixLength(arr2, null)).IsEqualTo(2);
+        await Assert.That(((Span<int>)arr1).CommonPrefixLength(arr2, EqualityComparer<int>.Default)).IsEqualTo(2);
+        await Assert.That(((Span<int>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<int>.Instance)).IsEqualTo(2);
 
         // Vectorized code path
         arr1 =
@@ -170,19 +173,19 @@ public static class Memory_CommonPrefixLength
             7
         ];
 
-        Assert.AreEqual(3, ((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2));
-        Assert.AreEqual(3, ((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, null));
-        Assert.AreEqual(3, ((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, EqualityComparer<int>.Default));
-        Assert.AreEqual(3, ((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<int>.Instance));
+        await Assert.That(((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2)).IsEqualTo(3);
+        await Assert.That(((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, null)).IsEqualTo(3);
+        await Assert.That(((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, EqualityComparer<int>.Default)).IsEqualTo(3);
+        await Assert.That(((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<int>.Instance)).IsEqualTo(3);
 
-        Assert.AreEqual(3, ((Span<int>)arr1).CommonPrefixLength(arr2));
-        Assert.AreEqual(3, ((Span<int>)arr1).CommonPrefixLength(arr2, null));
-        Assert.AreEqual(3, ((Span<int>)arr1).CommonPrefixLength(arr2, EqualityComparer<int>.Default));
-        Assert.AreEqual(3, ((Span<int>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<int>.Instance));
+        await Assert.That(((Span<int>)arr1).CommonPrefixLength(arr2)).IsEqualTo(3);
+        await Assert.That(((Span<int>)arr1).CommonPrefixLength(arr2, null)).IsEqualTo(3);
+        await Assert.That(((Span<int>)arr1).CommonPrefixLength(arr2, EqualityComparer<int>.Default)).IsEqualTo(3);
+        await Assert.That(((Span<int>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<int>.Instance)).IsEqualTo(3);
     }
 
     [Test]
-    public static void PartialEquals_ReturnsPrefixLength_ReferenceType()
+    public async Task PartialEquals_ReturnsPrefixLength_ReferenceType()
     {
         var arr1 = new string[]
         {
@@ -205,19 +208,19 @@ public static class Memory_CommonPrefixLength
             "h"
         };
 
-        Assert.AreEqual(4, ((ReadOnlySpan<string>)arr1).CommonPrefixLength(arr2));
-        Assert.AreEqual(4, ((ReadOnlySpan<string>)arr1).CommonPrefixLength(arr2, null));
-        Assert.AreEqual(4, ((ReadOnlySpan<string>)arr1).CommonPrefixLength(arr2, EqualityComparer<string>.Default));
-        Assert.AreEqual(4, ((ReadOnlySpan<string>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<string>.Instance));
+        await Assert.That(((ReadOnlySpan<string>)arr1).CommonPrefixLength(arr2)).IsEqualTo(4);
+        await Assert.That(((ReadOnlySpan<string>)arr1).CommonPrefixLength(arr2, null)).IsEqualTo(4);
+        await Assert.That(((ReadOnlySpan<string>)arr1).CommonPrefixLength(arr2, EqualityComparer<string>.Default)).IsEqualTo(4);
+        await Assert.That(((ReadOnlySpan<string>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<string>.Instance)).IsEqualTo(4);
 
-        Assert.AreEqual(4, ((Span<string>)arr1).CommonPrefixLength(arr2));
-        Assert.AreEqual(4, ((Span<string>)arr1).CommonPrefixLength(arr2, null));
-        Assert.AreEqual(4, ((Span<string>)arr1).CommonPrefixLength(arr2, EqualityComparer<string>.Default));
-        Assert.AreEqual(4, ((Span<string>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<string>.Instance));
+        await Assert.That(((Span<string>)arr1).CommonPrefixLength(arr2)).IsEqualTo(4);
+        await Assert.That(((Span<string>)arr1).CommonPrefixLength(arr2, null)).IsEqualTo(4);
+        await Assert.That(((Span<string>)arr1).CommonPrefixLength(arr2, EqualityComparer<string>.Default)).IsEqualTo(4);
+        await Assert.That(((Span<string>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<string>.Instance)).IsEqualTo(4);
     }
 
     [Test]
-    public static void Comparer_UsedInComparisons_ReferenceType()
+    public async Task Comparer_UsedInComparisons_ReferenceType()
     {
         var arr1 = new string[]
         {
@@ -240,18 +243,18 @@ public static class Memory_CommonPrefixLength
             "H"
         };
 
-        Assert.AreEqual(4, ((ReadOnlySpan<string>)arr1).CommonPrefixLength(arr2, StringComparer.OrdinalIgnoreCase));
-        Assert.AreEqual(4, ((Span<string>)arr1).CommonPrefixLength(arr2, StringComparer.OrdinalIgnoreCase));
+        await Assert.That(((ReadOnlySpan<string>)arr1).CommonPrefixLength(arr2, StringComparer.OrdinalIgnoreCase)).IsEqualTo(4);
+        await Assert.That(((Span<string>)arr1).CommonPrefixLength(arr2, StringComparer.OrdinalIgnoreCase)).IsEqualTo(4);
 
-        Assert.AreEqual(1, ((ReadOnlySpan<string>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<string>.Instance));
-        Assert.AreEqual(1, ((Span<string>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<string>.Instance));
+        await Assert.That(((ReadOnlySpan<string>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<string>.Instance)).IsEqualTo(1);
+        await Assert.That(((Span<string>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<string>.Instance)).IsEqualTo(1);
 
-        Assert.AreEqual(1, ((ReadOnlySpan<string>)arr1).CommonPrefixLength(arr2, EqualityComparer<string>.Default));
-        Assert.AreEqual(1, ((Span<string>)arr1).CommonPrefixLength(arr2, EqualityComparer<string>.Default));
+        await Assert.That(((ReadOnlySpan<string>)arr1).CommonPrefixLength(arr2, EqualityComparer<string>.Default)).IsEqualTo(1);
+        await Assert.That(((Span<string>)arr1).CommonPrefixLength(arr2, EqualityComparer<string>.Default)).IsEqualTo(1);
     }
 
     [Test]
-    public static void Comparer_UsedInComparisons_ValueType()
+    public async Task Comparer_UsedInComparisons_ValueType()
     {
         var arr1 = new[]
         {
@@ -273,14 +276,14 @@ public static class Memory_CommonPrefixLength
         };
 
         var absoluteValueComparer = Create<int>((x, y) => Math.Abs(x) == Math.Abs(y));
-        Assert.AreEqual(4, ((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, absoluteValueComparer));
-        Assert.AreEqual(4, ((Span<int>)arr1).CommonPrefixLength(arr2, absoluteValueComparer));
+        await Assert.That(((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, absoluteValueComparer)).IsEqualTo(4);
+        await Assert.That(((Span<int>)arr1).CommonPrefixLength(arr2, absoluteValueComparer)).IsEqualTo(4);
 
-        Assert.AreEqual(0, ((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<int>.Instance));
-        Assert.AreEqual(0, ((Span<int>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<int>.Instance));
+        await Assert.That(((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<int>.Instance)).IsEqualTo(0);
+        await Assert.That(((Span<int>)arr1).CommonPrefixLength(arr2, NonDefaultEqualityComparer<int>.Instance)).IsEqualTo(0);
 
-        Assert.AreEqual(0, ((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, EqualityComparer<int>.Default));
-        Assert.AreEqual(0, ((Span<int>)arr1).CommonPrefixLength(arr2, EqualityComparer<int>.Default));
+        await Assert.That(((ReadOnlySpan<int>)arr1).CommonPrefixLength(arr2, EqualityComparer<int>.Default)).IsEqualTo(0);
+        await Assert.That(((Span<int>)arr1).CommonPrefixLength(arr2, EqualityComparer<int>.Default)).IsEqualTo(0);
     }
 
     sealed class NonDefaultEqualityComparer<T>

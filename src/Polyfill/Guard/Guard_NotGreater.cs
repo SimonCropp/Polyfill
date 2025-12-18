@@ -1,0 +1,19 @@
+namespace Polyfills;
+
+using System.Runtime.CompilerServices;
+using System;
+
+#if PolyPublic
+public
+#endif
+
+static partial class Guard
+{
+    /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than <paramref name="other"/>.</summary>
+    /// <param name="value">The argument to validate as less or equal than <paramref name="other"/>.</param>
+    /// <param name="other">The value to compare with <paramref name="value"/>.</param>
+    /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
+    public static T NotGreaterThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? name = null)
+        where T : IComparable<T> =>
+        Ensure.NotGreaterThan(value, other, name);
+}

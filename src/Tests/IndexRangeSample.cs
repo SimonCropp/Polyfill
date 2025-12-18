@@ -1,24 +1,23 @@
 #region IndexRange
 
-[TestFixture]
 class IndexRangeSample
 {
     [Test]
-    public void Range()
+    public async Task Range()
     {
         var substring = "value"[2..];
-        Assert.AreEqual("lue", substring);
+        await Assert.That(substring).IsEqualTo("lue");
     }
 
     [Test]
-    public void Index()
+    public async Task Index()
     {
         var ch = "value"[^2];
-        Assert.AreEqual('u', ch);
+        await Assert.That(ch).IsEqualTo('u');
     }
 
     [Test]
-    public void ArrayIndex()
+    public async Task ArrayIndex()
     {
         var array = new[]
         {
@@ -28,7 +27,7 @@ class IndexRangeSample
 
         var value = array[^2];
 
-        Assert.AreEqual("value1", value);
+        await Assert.That(value).IsEqualTo("value1");
     }
 }
 

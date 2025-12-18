@@ -1,532 +1,494 @@
 partial class PolyfillTests
 {
+    static void AssertByteSpanFormat(bool result, bool expectedResult, Span<byte> buffer, string expectedString, int written, int expectedWritten)
+    {
+        if (result != expectedResult)
+            throw new Exception($"Expected result {expectedResult} but got {result}");
+        if (Encoding.UTF8.GetString(buffer) != expectedString)
+            throw new Exception($"Expected '{expectedString}' but got '{Encoding.UTF8.GetString(buffer)}'");
+        if (written != expectedWritten)
+            throw new Exception($"Expected written {expectedWritten} but got {written}");
+    }
+
     [Test]
-    public void TryFormatSByte_ToByteSpan()
+    public Task TryFormatSByte_ToByteSpan()
     {
         sbyte value = 9;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatSByteSmaller_ToByteSpan()
+    public Task TryFormatSByteSmaller_ToByteSpan()
     {
         sbyte value = 9;
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9\0",  Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9\0", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatSByteLarger_ToByteSpan()
+    public Task TryFormatSByteLarger_ToByteSpan()
     {
         sbyte value = 99;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0", written, 0);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatByte_ToByteSpan()
+    public Task TryFormatByte_ToByteSpan()
     {
         byte value = 9;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatByteSmaller_ToByteSpan()
+    public Task TryFormatByteSmaller_ToByteSpan()
     {
         byte value = 9;
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9\0", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatByteLarger_ToByteSpan()
+    public Task TryFormatByteLarger_ToByteSpan()
     {
         byte value = 99;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0", written, 0);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatInt16_ToByteSpan()
+    public Task TryFormatInt16_ToByteSpan()
     {
         short value = 9;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatInt16Smaller_ToByteSpan()
+    public Task TryFormatInt16Smaller_ToByteSpan()
     {
         short value = 9;
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9\0", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatInt16Larger_ToByteSpan()
+    public Task TryFormatInt16Larger_ToByteSpan()
     {
         short value = 99;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0", written, 0);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatUInt16_ToByteSpan()
+    public Task TryFormatUInt16_ToByteSpan()
     {
         ushort value = 9;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatUInt16Smaller_ToByteSpan()
+    public Task TryFormatUInt16Smaller_ToByteSpan()
     {
         ushort value = 9;
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9\0", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatUInt16Larger_ToByteSpan()
+    public Task TryFormatUInt16Larger_ToByteSpan()
     {
         ushort value = 99;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0", written, 0);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatInt32_ToByteSpan()
+    public Task TryFormatInt32_ToByteSpan()
     {
         var value = 9;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatInt32Smaller_ToByteSpan()
+    public Task TryFormatInt32Smaller_ToByteSpan()
     {
         var value = 9;
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9\0", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatInt32Larger_ToByteSpan()
+    public Task TryFormatInt32Larger_ToByteSpan()
     {
         var value = 99;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0", written, 0);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatUInt32_ToByteSpan()
+    public Task TryFormatUInt32_ToByteSpan()
     {
         uint value = 9;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatUInt32Smaller_ToByteSpan()
+    public Task TryFormatUInt32Smaller_ToByteSpan()
     {
         uint value = 9;
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9\0", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatUInt32Larger_ToByteSpan()
+    public Task TryFormatUInt32Larger_ToByteSpan()
     {
         uint value = 99;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0", written, 0);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatInt64_ToByteSpan()
+    public Task TryFormatInt64_ToByteSpan()
     {
         long value = 9;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatInt64Smaller_ToByteSpan()
+    public Task TryFormatInt64Smaller_ToByteSpan()
     {
         long value = 9;
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9\0", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatInt64Larger_ToByteSpan()
+    public Task TryFormatInt64Larger_ToByteSpan()
     {
         long value = 99;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0", written, 0);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatUInt64_ToByteSpan()
+    public Task TryFormatUInt64_ToByteSpan()
     {
         ulong value = 9;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(buffer.Length, written);
+        AssertByteSpanFormat(result, true, buffer, "9", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatUInt64Smaller_ToByteSpan()
+    public Task TryFormatUInt64Smaller_ToByteSpan()
     {
         ulong value = 9;
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9\0", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatUInt64Larger_ToByteSpan()
+    public Task TryFormatUInt64Larger_ToByteSpan()
     {
         ulong value = 99;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0", written, 0);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatSingle_ToByteSpan()
+    public Task TryFormatSingle_ToByteSpan()
     {
         float value = 9;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatSingleSmaller_ToByteSpan()
+    public Task TryFormatSingleSmaller_ToByteSpan()
     {
         float value = 9;
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9\0", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatSingleLarger_ToByteSpan()
+    public Task TryFormatSingleLarger_ToByteSpan()
     {
         float value = 99;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0", written, 0);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatGuid_ToByteSpan()
+    public Task TryFormatGuid_ToByteSpan()
     {
         var value = new Guid("97008c2d-2114-4396-ae19-392c8e6f8f1b");
         Span<byte> buffer = stackalloc byte[36];
         var result = value.TryFormat(buffer, out var written);
-        Assert.True(result);
-        Assert.AreEqual("97008c2d-2114-4396-ae19-392c8e6f8f1b", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(buffer.Length, written);
+        AssertByteSpanFormat(result, true, buffer, "97008c2d-2114-4396-ae19-392c8e6f8f1b", written, 36);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatGuidSmaller_ToByteSpan()
+    public Task TryFormatGuidSmaller_ToByteSpan()
     {
         var value = new Guid("97008c2d-2114-4396-ae19-392c8e6f8f1b");
         Span<byte> buffer = stackalloc byte[40];
         var result = value.TryFormat(buffer, out var written);
-        Assert.True(result);
-        Assert.AreEqual("97008c2d-2114-4396-ae19-392c8e6f8f1b\0\0\0\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(36, written);
+        AssertByteSpanFormat(result, true, buffer, "97008c2d-2114-4396-ae19-392c8e6f8f1b\0\0\0\0", written, 36);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatGuidLarger_ToByteSpan()
+    public Task TryFormatGuidLarger_ToByteSpan()
     {
         var value = new Guid("97008c2d-2114-4396-ae19-392c8e6f8f1b");
         Span<byte> buffer = stackalloc byte[35];
         var result = value.TryFormat(buffer, out var written);
-        Assert.False(result);
-        Assert.AreEqual("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", written, 0);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatDouble_ToByteSpan()
+    public Task TryFormatDouble_ToByteSpan()
     {
         double value = 9;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatDoubleSmaller_ToByteSpan()
+    public Task TryFormatDoubleSmaller_ToByteSpan()
     {
         double value = 9;
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9\0", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatDoubleLarger_ToByteSpan()
+    public Task TryFormatDoubleLarger_ToByteSpan()
     {
         double value = 99;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0", written, 0);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatDecimal_ToByteSpan()
+    public Task TryFormatDecimal_ToByteSpan()
     {
         decimal value = 9;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatDecimalSmaller_ToByteSpan()
+    public Task TryFormatDecimalSmaller_ToByteSpan()
     {
         decimal value = 9;
         Span<byte> buffer = stackalloc byte[2];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("9\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(1, written);
+        AssertByteSpanFormat(result, true, buffer, "9\0", written, 1);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatDecimalLarger_ToByteSpan()
+    public Task TryFormatDecimalLarger_ToByteSpan()
     {
         decimal value = 99;
         Span<byte> buffer = stackalloc byte[1];
         var result = value.TryFormat(buffer, out var written, provider: CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0", written, 0);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatDateTimeOffset_ToByteSpan()
+    public Task TryFormatDateTimeOffset_ToByteSpan()
     {
         var value = new DateTimeOffset(new DateTime(2001, 10, 1), TimeSpan.Zero);
         Span<byte> buffer = stackalloc byte[29];
         var result = value.TryFormat(buffer, out var written, format: "R".AsSpan(), CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(29, written);
+        AssertByteSpanFormat(result, true, buffer, "Mon, 01 Oct 2001 00:00:00 GMT", written, 29);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatDateTimeOffsetSmaller_ToByteSpan()
+    public Task TryFormatDateTimeOffsetSmaller_ToByteSpan()
     {
         var value = new DateTimeOffset(new DateTime(2001, 10, 1), TimeSpan.Zero);
         Span<byte> buffer = stackalloc byte[40];
         var result = value.TryFormat(buffer, out var written, format: "R".AsSpan(), CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT\0\0\0\0\0\0\0\0\0\0\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(29, written);
+        AssertByteSpanFormat(result, true, buffer, "Mon, 01 Oct 2001 00:00:00 GMT\0\0\0\0\0\0\0\0\0\0\0", written, 29);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatDateTimeOffsetLarger_ToByteSpan()
+    public Task TryFormatDateTimeOffsetLarger_ToByteSpan()
     {
         var value = new DateTimeOffset(new DateTime(2001, 10, 1), TimeSpan.Zero);
         Span<byte> buffer = stackalloc byte[28];
         var result = value.TryFormat(buffer, out var written, format: "R".AsSpan(), CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", written, 0);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatDateTime_ToByteSpan()
+    public Task TryFormatDateTime_ToByteSpan()
     {
         var value = new DateTime(2001, 10, 1);
         Span<byte> buffer = stackalloc byte[29];
         var result = value.TryFormat(buffer, out var written, format: "R".AsSpan(), CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(29, written);
+        AssertByteSpanFormat(result, true, buffer, "Mon, 01 Oct 2001 00:00:00 GMT", written, 29);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatDateTimeSmaller_ToByteSpan()
+    public Task TryFormatDateTimeSmaller_ToByteSpan()
     {
         var value = new DateTime(2001, 10, 1);
         Span<byte> buffer = stackalloc byte[40];
         var result = value.TryFormat(buffer, out var written, format: "R".AsSpan(), CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("Mon, 01 Oct 2001 00:00:00 GMT\0\0\0\0\0\0\0\0\0\0\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(29, written);
+        AssertByteSpanFormat(result, true, buffer, "Mon, 01 Oct 2001 00:00:00 GMT\0\0\0\0\0\0\0\0\0\0\0", written, 29);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatDateTimeLarger_ToByteSpan()
+    public Task TryFormatDateTimeLarger_ToByteSpan()
     {
         var value = new DateTime(2001, 10, 1);
         Span<byte> buffer = stackalloc byte[28];
         var result = value.TryFormat(buffer, out var written, format: "R".AsSpan(), CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", written, 0);
+        return Task.CompletedTask;
     }
 
 #if NET6_0_OR_GREATER
     [Test]
-    public void TryFormatDate_ToByteSpan()
+    public Task TryFormatDate_ToByteSpan()
     {
-        var value = new DateOnly(2001, 10, 1);
+        var value = new Date(2001, 10, 1);
         Span<byte> buffer = stackalloc byte[16];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("Mon, 01 Oct 2001", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(16, written);
+        AssertByteSpanFormat(result, true, buffer, "Mon, 01 Oct 2001", written, 16);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatDateSmaller_ToByteSpan()
+    public Task TryFormatDateSmaller_ToByteSpan()
     {
-        var value = new DateOnly(2001, 10, 1);
+        var value = new Date(2001, 10, 1);
         Span<byte> buffer = stackalloc byte[20];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("Mon, 01 Oct 2001\0\0\0\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(16, written);
+        AssertByteSpanFormat(result, true, buffer, "Mon, 01 Oct 2001\0\0\0\0", written, 16);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatDateLarger_ToByteSpan()
+    public Task TryFormatDateLarger_ToByteSpan()
     {
-        var value = new DateOnly(2001, 10, 1);
+        var value = new Date(2001, 10, 1);
         Span<byte> buffer = stackalloc byte[15];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0", written, 0);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatTime_ToByteSpan()
+    public Task TryFormatTime_ToByteSpan()
     {
         var value = new Time(10, 1);
         Span<byte> buffer = stackalloc byte[8];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("10:01:00", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(8, written);
+        AssertByteSpanFormat(result, true, buffer, "10:01:00", written, 8);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatTimeSmaller_ToByteSpan()
+    public Task TryFormatTimeSmaller_ToByteSpan()
     {
         var value = new Time(10, 1);
         Span<byte> buffer = stackalloc byte[10];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
-        Assert.True(result);
-        Assert.AreEqual("10:01:00\0\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(8, written);
+        AssertByteSpanFormat(result, true, buffer, "10:01:00\0\0", written, 8);
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryFormatTimeLarger_ToByteSpan()
+    public Task TryFormatTimeLarger_ToByteSpan()
     {
         var value = new Time(10, 1);
         Span<byte> buffer = stackalloc byte[7];
         var result = value.TryFormat(buffer, out var written, format: "R", CultureInfo.InvariantCulture);
-        Assert.False(result);
-        Assert.AreEqual("\0\0\0\0\0\0\0", Encoding.UTF8.GetString(buffer));
-        Assert.AreEqual(0, written);
+        AssertByteSpanFormat(result, false, buffer, "\0\0\0\0\0\0\0", written, 0);
+        return Task.CompletedTask;
     }
 #endif
 }

@@ -1,0 +1,24 @@
+#if FeatureMemory
+#if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0 || WINDOWS_UWP
+#nullable enable
+
+namespace System.Buffers;
+
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
+// Encapsulates a method that receives a read-only span of objects of type T and a state object of type TArg.
+// https://learn.microsoft.com/en-us/dotnet/api/system.buffers.readonlyspanaction-2?view=net-10.0
+#if PolyPublic
+public
+#endif
+delegate void ReadOnlySpanAction<T, in TArg>(ReadOnlySpan<T> span, TArg arg);
+#else
+using System.Buffers;
+using System.Runtime.CompilerServices;
+[assembly: TypeForwardedTo(typeof(ReadOnlySpanAction<,>))]
+#endif
+#endif

@@ -1,0 +1,8 @@
+﻿{
+  "solution": {
+    "path": "Polyfill.slnx",
+    "projects": [
+      "ConsumeTrimmed\\ConsumeTrimmed.csproj"
+    ]
+  }
+}

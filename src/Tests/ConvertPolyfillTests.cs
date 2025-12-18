@@ -1,193 +1,212 @@
-[TestFixture]
 public class ConvertPolyfillTests
 {
     [Test]
-    public void ToHexString_ValidInput()
+    public async Task ToHexString_ValidInput()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        var result = ConvertPolyfill.ToHexString(input, 0, input.Length);
-        Assert.AreEqual("0FA35C", result);
-        result = ConvertPolyfill.ToHexString(input);
-        Assert.AreEqual("0FA35C", result);
+        var result = Convert.ToHexString(input, 0, input.Length);
+        await Assert.That(result).IsEqualTo("0FA35C");
+        result = Convert.ToHexString(input);
+        await Assert.That(result).IsEqualTo("0FA35C");
 #if  FeatureMemory
-        result = ConvertPolyfill.ToHexString(input.AsSpan());
-        Assert.AreEqual("0FA35C", result);
+        result = Convert.ToHexString(input.AsSpan());
+        await Assert.That(result).IsEqualTo("0FA35C");
 #endif
     }
 
     [Test]
-    public void ToHexString_OffsetAndLength()
+    public async Task ToHexString_OffsetAndLength()
     {
         byte[] input = [0x0F, 0xA3, 0x5C, 0x7E];
-        var result = ConvertPolyfill.ToHexString(input, 1, 2);
-        Assert.AreEqual("A35C", result);
+        var result = Convert.ToHexString(input, 1, 2);
+        await Assert.That(result).IsEqualTo("A35C");
     }
 
     [Test]
-    public void ToHexString_NegativeLength_ThrowsException()
+    public async Task ToHexString_NegativeLength_ThrowsException()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        Assert.Throws<ArgumentOutOfRangeException>(() => ConvertPolyfill.ToHexString(input, 0, -1));
+        await Assert.That(() => Convert.ToHexString(input, 0, -1)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void ToHexString_NegativeOffset_ThrowsException()
+    public async Task ToHexString_NegativeOffset_ThrowsException()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        Assert.Throws<ArgumentOutOfRangeException>(() => ConvertPolyfill.ToHexString(input, -1, 2));
+        await Assert.That(() => Convert.ToHexString(input, -1, 2)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void ToHexString_OffsetPlusLengthExceedsArray_ThrowsException()
+    public async Task ToHexString_OffsetPlusLengthExceedsArray_ThrowsException()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        Assert.Throws<ArgumentOutOfRangeException>(() => ConvertPolyfill.ToHexString(input, 2, 2));
+        await Assert.That(() => Convert.ToHexString(input, 2, 2)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void ToHexStringLower_ValidInput()
+    public async Task ToHexStringLower_ValidInput()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        var result = ConvertPolyfill.ToHexString(input, 0, input.Length);
-        Assert.AreEqual("0FA35C", result);
-        result = ConvertPolyfill.ToHexStringLower(input);
-        Assert.AreEqual("0fa35c", result);
+        var result = Convert.ToHexString(input, 0, input.Length);
+        await Assert.That(result).IsEqualTo("0FA35C");
+        result = Convert.ToHexStringLower(input);
+        await Assert.That(result).IsEqualTo("0fa35c");
 #if  FeatureMemory
-        result = ConvertPolyfill.ToHexStringLower(input.AsSpan());
-        Assert.AreEqual("0fa35c", result);
+        result = Convert.ToHexStringLower(input.AsSpan());
+        await Assert.That(result).IsEqualTo("0fa35c");
 #endif
     }
 
     [Test]
-    public void ToHexStringLower_OffsetAndLength()
+    public async Task ToHexStringLower_OffsetAndLength()
     {
         byte[] input = [0x0F, 0xA3, 0x5C, 0x7E];
-        var result = ConvertPolyfill.ToHexStringLower(input, 1, 2);
-        Assert.AreEqual("a35c", result);
+        var result = Convert.ToHexStringLower(input, 1, 2);
+        await Assert.That(result).IsEqualTo("a35c");
     }
 
     [Test]
-    public void ToHexStringLower_NegativeLength_ThrowsException()
+    public async Task ToHexStringLower_NegativeLength_ThrowsException()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        Assert.Throws<ArgumentOutOfRangeException>(() => ConvertPolyfill.ToHexStringLower(input, 0, -1));
+        await Assert.That(() => Convert.ToHexStringLower(input, 0, -1)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void ToHexStringLower_NegativeOffset_ThrowsException()
+    public async Task ToHexStringLower_NegativeOffset_ThrowsException()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        Assert.Throws<ArgumentOutOfRangeException>(() => ConvertPolyfill.ToHexStringLower(input, -1, 2));
+        await Assert.That(() => Convert.ToHexStringLower(input, -1, 2)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void ToHexStringLower_OffsetPlusLengthExceedsArray_ThrowsException()
+    public async Task ToHexStringLower_OffsetPlusLengthExceedsArray_ThrowsException()
     {
         byte[] input = [0x0F, 0xA3, 0x5C];
-        Assert.Throws<ArgumentOutOfRangeException>(() => ConvertPolyfill.ToHexStringLower(input, 2, 2));
+        await Assert.That(() => Convert.ToHexStringLower(input, 2, 2)).Throws<ArgumentOutOfRangeException>();
     }
 
 #if FeatureMemory
 
     [Test]
-    public void TryToHexString_ValidInput()
+    public Task TryToHexString_ValidInput()
     {
         ReadOnlySpan<byte> source = [0x0F, 0xA3, 0x5C];
         Span<char> destination = stackalloc char[6];
-        var result = ConvertPolyfill.TryToHexString(source, destination, out var charsWritten);
-        Assert.IsTrue(result);
-        Assert.AreEqual(6, charsWritten);
-        Assert.AreEqual("0FA35C", destination.Slice(0, charsWritten).ToString());
+        var result = Convert.TryToHexString(source, destination, out var charsWritten);
+        if (!result)
+            throw new Exception("Expected true");
+        if (charsWritten != 6)
+            throw new Exception($"Expected charsWritten 6 but got {charsWritten}");
+        if (destination.Slice(0, charsWritten).ToString() != "0FA35C")
+            throw new Exception("Expected 0FA35C");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryToHexString_BufferTooSmall()
+    public Task TryToHexString_BufferTooSmall()
     {
         ReadOnlySpan<byte> source = [0x0F, 0xA3, 0x5C];
         Span<char> destination = stackalloc char[4];
-        var result = ConvertPolyfill.TryToHexString(source, destination, out var charsWritten);
-        Assert.IsFalse(result);
-        Assert.AreEqual(0, charsWritten);
+        var result = Convert.TryToHexString(source, destination, out var charsWritten);
+        if (result)
+            throw new Exception("Expected false");
+        if (charsWritten != 0)
+            throw new Exception($"Expected charsWritten 0 but got {charsWritten}");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryToHexString_EmptySource()
+    public Task TryToHexString_EmptySource()
     {
         var source = ReadOnlySpan<byte>.Empty;
         Span<char> destination = [];
-        var result = ConvertPolyfill.TryToHexString(source, destination, out var charsWritten);
-        Assert.IsTrue(result);
-        Assert.AreEqual(0, charsWritten);
+        var result = Convert.TryToHexString(source, destination, out var charsWritten);
+        if (!result)
+            throw new Exception("Expected true");
+        if (charsWritten != 0)
+            throw new Exception($"Expected charsWritten 0 but got {charsWritten}");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryToHexStringLower_ValidInput()
+    public Task TryToHexStringLower_ValidInput()
     {
         ReadOnlySpan<byte> source = [0x0F, 0xA3, 0x5C];
         Span<char> destination = stackalloc char[6];
-        var result = ConvertPolyfill.TryToHexStringLower(source, destination, out var charsWritten);
-        Assert.IsTrue(result);
-        Assert.AreEqual(6, charsWritten);
-        Assert.AreEqual("0fa35c", destination.Slice(0, charsWritten).ToString());
+        var result = Convert.TryToHexStringLower(source, destination, out var charsWritten);
+        if (!result)
+            throw new Exception("Expected true");
+        if (charsWritten != 6)
+            throw new Exception($"Expected charsWritten 6 but got {charsWritten}");
+        if (destination.Slice(0, charsWritten).ToString() != "0fa35c")
+            throw new Exception("Expected 0fa35c");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryToHexStringLower_BufferTooSmall()
+    public Task TryToHexStringLower_BufferTooSmall()
     {
         ReadOnlySpan<byte> source = [0x0F, 0xA3, 0x5C];
         Span<char> destination = stackalloc char[4];
-        var result = ConvertPolyfill.TryToHexStringLower(source, destination, out var charsWritten);
-        Assert.IsFalse(result);
-        Assert.AreEqual(0, charsWritten);
+        var result = Convert.TryToHexStringLower(source, destination, out var charsWritten);
+        if (result)
+            throw new Exception("Expected false");
+        if (charsWritten != 0)
+            throw new Exception($"Expected charsWritten 0 but got {charsWritten}");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryToHexStringLower_EmptySource()
+    public Task TryToHexStringLower_EmptySource()
     {
         var source = ReadOnlySpan<byte>.Empty;
         Span<char> destination = [];
-        var result = ConvertPolyfill.TryToHexStringLower(source, destination, out var charsWritten);
-        Assert.IsTrue(result);
-        Assert.AreEqual(0, charsWritten);
+        var result = Convert.TryToHexStringLower(source, destination, out var charsWritten);
+        if (!result)
+            throw new Exception("Expected true");
+        if (charsWritten != 0)
+            throw new Exception($"Expected charsWritten 0 but got {charsWritten}");
+        return Task.CompletedTask;
     }
 
 #endif
 
     [Test]
-    public void FromHexString_ValidInput()
+    public async Task FromHexString_ValidInput()
     {
         var hexString = "0FA35C";
-        var result = ConvertPolyfill.FromHexString(hexString);
-        CollectionAssert.AreEqual(new byte[] { 0x0F, 0xA3, 0x5C }, result);
+        var result = Convert.FromHexString(hexString);
+        await Assert.That(result.SequenceEqual(new byte[] { 0x0F, 0xA3, 0x5C })).IsTrue();
     }
 
     [Test]
-    public void FromHexString_EmptyString()
+    public async Task FromHexString_EmptyString()
     {
         var hexString = string.Empty;
-        var result = ConvertPolyfill.FromHexString(hexString);
-        CollectionAssert.AreEqual(Array.Empty<byte>(), result);
+        var result = Convert.FromHexString(hexString);
+        await Assert.That(result.SequenceEqual(Array.Empty<byte>())).IsTrue();
     }
 
     [Test]
-    public void FromHexString_InvalidCharacter_ThrowsFormatException()
+    public async Task FromHexString_InvalidCharacter_ThrowsFormatException()
     {
         var hexString = "0FA3ZC";
-        Assert.Throws<FormatException>(() => ConvertPolyfill.FromHexString(hexString));
+        await Assert.That(() => Convert.FromHexString(hexString)).Throws<FormatException>();
     }
 
     [Test]
-    public void FromHexString_OddLength_ThrowsFormatException()
+    public async Task FromHexString_OddLength_ThrowsFormatException()
     {
         var hexString = "0FA3C";
-        Assert.Throws<FormatException>(() => ConvertPolyfill.FromHexString(hexString));
+        await Assert.That(() => Convert.FromHexString(hexString)).Throws<FormatException>();
     }
 
     [Test]
-    public void FromHexString_LowercaseInput()
+    public async Task FromHexString_LowercaseInput()
     {
         var hexString = "0fa35c";
-        var result = ConvertPolyfill.FromHexString(hexString);
-        CollectionAssert.AreEqual(new byte[] { 0x0F, 0xA3, 0x5C }, result);
+        var result = Convert.FromHexString(hexString);
+        await Assert.That(result.SequenceEqual(new byte[] { 0x0F, 0xA3, 0x5C })).IsTrue();
     }
 }

@@ -1,6 +1,3 @@
-using System.Xml;
-using System.Xml.Linq;
-
 partial class PolyfillTests
 {
     [Test]
@@ -18,7 +15,7 @@ partial class PolyfillTests
         using var writer = XmlWriter.Create(builder, settings);
         await document.SaveAsync(writer, Cancel.None);
         await writer.FlushAsync();
-        Assert.AreEqual("<Child />", builder.ToString());
+        await Assert.That(builder.ToString()).IsEqualTo("<Child />");
     }
 
     [Test]
@@ -32,7 +29,7 @@ partial class PolyfillTests
         using var reader = new StreamReader(stream);
         var result = await reader.ReadToEndAsync();
 
-        Assert.AreEqual("<?xml version=\"1.0\" encoding=\"utf-8\"?><Child />", result);
+        await Assert.That(result).IsEqualTo("<?xml version=\"1.0\" encoding=\"utf-8\"?><Child />");
     }
 
     static XDocument GetXDocument() =>

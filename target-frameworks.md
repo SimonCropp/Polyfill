@@ -75,12 +75,13 @@ At build time, if a project is detected to not properly multi target, then a war
     Condition="($(LowerFrameworks.Contains('net5')) OR
                $(LowerFrameworks.Contains('net6')) OR
                $(LowerFrameworks.Contains('net7')) OR
+               $(LowerFrameworks.Contains('net8')) OR
                $(LowerFrameworks.Contains('netstandard')) OR
                $(LowerFrameworks.Contains('netcore')))
                AND
-               !$(LowerFrameworks.Contains('net8'))
+               !$(LowerFrameworks.Contains('net9'))
                AND
-               !$(LowerFramework.Contains('net8'))"
+               !$(LowerFramework.Contains('net9'))"
     >true</MaxNetRequired>
   <MaxNetClassicRequired>false</MaxNetClassicRequired>
   <MaxNetClassicRequired
@@ -95,7 +96,7 @@ At build time, if a project is detected to not properly multi target, then a war
     >true</MaxNetClassicRequired>
 </PropertyGroup>
 ```
-<sup><a href='/src/Polyfill/Polyfill.targets#L39-L65' title='Snippet source file'>snippet source</a> | <a href='#snippet-MaxNetRequired' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill.targets#L35-L62' title='Snippet source file'>snippet source</a> | <a href='#snippet-MaxNetRequired' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -119,7 +120,7 @@ For example:
       Condition="$(MaxNetRequired)" />
 </Target>
 ```
-<sup><a href='/src/Polyfill/Polyfill.targets#L66-L81' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillValidateNugetTargets' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill.targets#L63-L78' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillValidateNugetTargets' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

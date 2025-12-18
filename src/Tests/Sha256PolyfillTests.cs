@@ -1,28 +1,30 @@
-﻿// ReSharper disable ReplaceSliceWithRangeIndexer
+// ReSharper disable ReplaceSliceWithRangeIndexer
+
+using System.Security.Cryptography;
+
 #pragma warning disable IDE0057
 
-[TestFixture]
 public class Sha256PolyfillTests
 {
     static byte[] data = [1, 2, 3, 4, 5];
     static byte[] expected = [116, 248, 31, 225, 103, 217, 155, 76, 180, 29, 109, 12, 205, 168, 34, 120, 202, 238, 159, 62, 47, 37, 213, 229, 163, 147, 111, 243, 220, 236, 96, 208];
 
     [Test]
-    public void HashData_ByteArray_ReturnsCorrectHash()
+    public async Task HashData_ByteArray_ReturnsCorrectHash()
     {
-        var actualHash = SHA256Polyfill.HashData(data);
-        Assert.AreEqual(expected, actualHash);
+        var actualHash = SHA256.HashData(data);
+        await Assert.That(actualHash.SequenceEqual(expected)).IsTrue();
     }
 
     [Test]
-    public void HashData_Stream_ReturnsCorrectHash()
+    public async Task HashData_Stream_ReturnsCorrectHash()
     {
         using var stream = new MemoryStream(data);
 
         stream.Position = 0;
 
-        var actualHash = SHA256Polyfill.HashData(stream);
-        Assert.AreEqual(expected, actualHash);
+        var actualHash = SHA256.HashData(stream);
+        await Assert.That(actualHash.SequenceEqual(expected)).IsTrue();
     }
 
 #if FeatureValueTask
@@ -33,19 +35,19 @@ public class Sha256PolyfillTests
 
         stream.Position = 0;
 
-        var actualHash = await SHA256Polyfill.HashDataAsync(stream);
-        Assert.AreEqual(expected, actualHash);
+        var actualHash = await SHA256.HashDataAsync(stream);
+        await Assert.That(actualHash.SequenceEqual(expected)).IsTrue();
     }
 #endif
 
 #if FeatureMemory
     [Test]
-    public void HashData_ReadOnlySpan_ReturnsCorrectHash()
+    public async Task HashData_ReadOnlySpan_ReturnsCorrectHash()
     {
         ReadOnlySpan<byte> span = data;
 
-        var actualHash = SHA256Polyfill.HashData(span);
-        Assert.AreEqual(expected, actualHash);
+        var actualHash = SHA256.HashData(span);
+        await Assert.That(actualHash.SequenceEqual(expected)).IsTrue();
     }
 
 #if FeatureValueTask
@@ -57,87 +59,100 @@ public class Sha256PolyfillTests
         stream.Position = 0;
         Memory<byte> destination = new byte[expected.Length];
 
-        var length = await SHA256Polyfill.HashDataAsync(stream, destination);
-        Assert.AreEqual(expected.Length, length);
-        Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Span));
+        var length = await SHA256.HashDataAsync(stream, destination);
+        await Assert.That(length).IsEqualTo(expected.Length);
+        await Assert.That(expected.AsSpan().SequenceEqual(destination.Span)).IsTrue();
     }
 #endif
 
     [Test]
-    public void HashData_StreamAndSpan_LongerDestination()
+    public Task HashData_StreamAndSpan_LongerDestination()
     {
         using var stream = new MemoryStream(data);
         Span<byte> destination = stackalloc byte[expected.Length + 1];
 
         stream.Position = 0;
 
-        var length = SHA256Polyfill.HashData(stream, destination);
+        var length = SHA256.HashData(stream, destination);
 
-        Assert.AreEqual(expected.Length, length);
-        Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)));
+        if (length != expected.Length)
+            throw new Exception($"Expected length {expected.Length} but got {length}");
+        if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
+            throw new Exception("Hash mismatch");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void HashData_ReadOnlySpanAndSpan_LongerDestination()
+    public Task HashData_ReadOnlySpanAndSpan_LongerDestination()
     {
         Span<byte> destination = stackalloc byte[expected.Length + 1];
 
-        var length = SHA256Polyfill.HashData(data, destination);
+        var length = SHA256.HashData(data, destination);
 
-        Assert.AreEqual(expected.Length, length);
-        Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)));
+        if (length != expected.Length)
+            throw new Exception($"Expected length {expected.Length} but got {length}");
+        if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
+            throw new Exception("Hash mismatch");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void HashData_StreamAndSpan_ShorterDestination()
+    public async Task HashData_StreamAndSpan_ShorterDestination()
     {
         using var stream = new MemoryStream(data);
 
         stream.Position = 0;
 
-        var exception = Assert.Throws<ArgumentException>(() =>
+        var exception = await Assert.That(() =>
         {
             Span<byte> destination = stackalloc byte[expected.Length - 1];
-            SHA256Polyfill.HashData(stream, destination);
-        });
+            SHA256.HashData(stream, destination);
+        }).Throws<ArgumentException>();
 
-        Assert.True(exception!.Message.StartsWith("Destination is too short."));
+        await Assert.That(exception!.Message.StartsWith("Destination is too short.")).IsTrue();
     }
 
     [Test]
-    public void HashData_ReadOnlySpanAndSpan_ShorterDestination()
+    public async Task HashData_ReadOnlySpanAndSpan_ShorterDestination()
     {
-        var exception = Assert.Throws<ArgumentException>(() =>
+        var exception = await Assert.That(() =>
         {
             Span<byte> destination = stackalloc byte[expected.Length - 1];
-            SHA256Polyfill.HashData(data, destination);
-        });
+            SHA256.HashData(data, destination);
+        }).Throws<ArgumentException>();
 
-        Assert.True(exception!.Message.StartsWith("Destination is too short."));
+        await Assert.That(exception!.Message.StartsWith("Destination is too short.")).IsTrue();
     }
 
 
     [Test]
-    public void TryHashData_ValidInput_ReturnsTrueAndCorrectHash()
+    public Task TryHashData_ValidInput_ReturnsTrueAndCorrectHash()
     {
         Span<byte> destination = stackalloc byte[expected.Length];
 
-        var result = SHA256Polyfill.TryHashData(data, destination, out var written);
+        var result = SHA256.TryHashData(data, destination, out var written);
 
-        Assert.IsTrue(result);
-        Assert.AreEqual(expected.Length, written);
-        Assert.IsTrue(expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)));
+        if (!result)
+            throw new Exception("Expected true");
+        if (written != expected.Length)
+            throw new Exception($"Expected written {expected.Length} but got {written}");
+        if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
+            throw new Exception("Hash mismatch");
+        return Task.CompletedTask;
     }
 
     [Test]
-    public void TryHashData_InsufficientDestinationBuffer_ReturnsFalse()
+    public Task TryHashData_InsufficientDestinationBuffer_ReturnsFalse()
     {
         Span<byte> destination = stackalloc byte[expected.Length - 1];
 
-        var result = SHA256Polyfill.TryHashData(data, destination, out var written);
+        var result = SHA256.TryHashData(data, destination, out var written);
 
-        Assert.IsFalse(result);
-        Assert.AreEqual(0, written);
+        if (result)
+            throw new Exception("Expected false");
+        if (written != 0)
+            throw new Exception($"Expected written 0 but got {written}");
+        return Task.CompletedTask;
     }
 #endif
 }

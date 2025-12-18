@@ -1,0 +1,12 @@
+# Auto detect text files and normalize line endings to LF
+* text=auto eol=lf
+*.snk binary
+*.png binary
+
+*.verified.txt text eol=lf working-tree-encoding=UTF-8
+*.verified.xml text eol=lf working-tree-encoding=UTF-8
+*.verified.json text eol=lf working-tree-encoding=UTF-8
+
+.editorconfig text eol=lf working-tree-encoding=UTF-8
+*.sln.DotSettings text eol=lf working-tree-encoding=UTF-8
+*.slnx.DotSettings text eol=lf working-tree-encoding=UTF-8

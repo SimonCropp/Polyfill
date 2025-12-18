@@ -1,82 +1,85 @@
-﻿[TestFixture]
+using System.Security.Cryptography;
+
 public class RandomNumberGeneratorPolyfillTests
 {
     [Test]
-    public void GetInt32_Range_Valid()
+    public async Task GetInt32_Range_Valid()
     {
         var min = 5;
         var max = 10;
         for (var i = 0; i < 100; i++)
         {
-            var value = RandomNumberGeneratorPolyfill.GetInt32(min, max);
-            Assert.That(value, Is.GreaterThanOrEqualTo(min).And.LessThan(max));
+            var value = RandomNumberGenerator.GetInt32(min, max);
+            await Assert.That(value).IsGreaterThanOrEqualTo(min);
+            await Assert.That(value).IsLessThan(max);
         }
     }
 
     [Test]
-    public void GetInt32_Range_Invalid_Throws()
+    public async Task GetInt32_Range_Invalid_Throws()
     {
-        Assert.Throws<ArgumentException>(() => RandomNumberGeneratorPolyfill.GetInt32(10, 5));
-        Assert.Throws<ArgumentException>(() => RandomNumberGeneratorPolyfill.GetInt32(5, 5));
+        await Assert.That(() => RandomNumberGenerator.GetInt32(10, 5)).Throws<ArgumentException>();
+        await Assert.That(() => RandomNumberGenerator.GetInt32(5, 5)).Throws<ArgumentException>();
     }
 
     [Test]
-    public void GetInt32_Exclusive_Valid()
+    public async Task GetInt32_Exclusive_Valid()
     {
         var max = 10;
         for (var i = 0; i < 100; i++)
         {
-            var value = RandomNumberGeneratorPolyfill.GetInt32(max);
-            Assert.That(value, Is.GreaterThanOrEqualTo(0).And.LessThan(max));
+            var value = RandomNumberGenerator.GetInt32(max);
+            await Assert.That(value).IsGreaterThanOrEqualTo(0);
+            await Assert.That(value).IsLessThan(max);
         }
     }
 
     [Test]
-    public void GetInt32_Exclusive_Invalid_Throws()
+    public async Task GetInt32_Exclusive_Invalid_Throws()
     {
-        Assert.Throws<ArgumentOutOfRangeException>(() => RandomNumberGeneratorPolyfill.GetInt32(0));
-        Assert.Throws<ArgumentOutOfRangeException>(() => RandomNumberGeneratorPolyfill.GetInt32(-1));
+        await Assert.That(() => RandomNumberGenerator.GetInt32(0)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => RandomNumberGenerator.GetInt32(-1)).Throws<ArgumentOutOfRangeException>();
     }
 
     [Test]
-    public void GetBytes_ReturnsArrayOfCorrectLength()
+    public async Task GetBytes_ReturnsArrayOfCorrectLength()
     {
-        var bytes = RandomNumberGeneratorPolyfill.GetBytes(16);
-        Assert.That(bytes.Length, Is.EqualTo(16));
-        Assert.That(bytes, Is.Not.All.EqualTo(0));
+        var bytes = RandomNumberGenerator.GetBytes(16);
+        await Assert.That(bytes.Length).IsEqualTo(16);
+        await Assert.That(bytes.Any(b => b != 0)).IsTrue();
     }
 
     [Test]
-    public void GetBytes_Invalid_Throws() =>
-        Assert.Throws<ArgumentOutOfRangeException>(() => RandomNumberGeneratorPolyfill.GetBytes(-1));
+    public async Task GetBytes_Invalid_Throws() =>
+        await Assert.That(() => RandomNumberGenerator.GetBytes(-1)).Throws<ArgumentOutOfRangeException>();
 
 #if FeatureMemory
     [Test]
-    public void Fill_FillsSpan()
+    public async Task Fill_FillsSpan()
     {
         Span<byte> data = new byte[8];
-        RandomNumberGeneratorPolyfill.Fill(data);
-        Assert.That(data.ToArray(), Has.Some.Not.EqualTo(0));
+        RandomNumberGenerator.Fill(data);
+        await Assert.That(data.ToArray().Any(b => b != 0)).IsTrue();
     }
 
     [Test]
-    public void GetHexString_Span_FillsWithHex()
+    public async Task GetHexString_Span_FillsWithHex()
     {
         Span<char> chars = new char[8];
-        RandomNumberGeneratorPolyfill.GetHexString(chars, lowercase: true);
-        Assert.That(chars.ToArray(), Is.All.Matches<char>(c => "0123456789abcdef".Contains(c)));
+        RandomNumberGenerator.GetHexString(chars, lowercase: true);
+        await Assert.That(chars.ToArray().All(c => "0123456789abcdef".Contains(c))).IsTrue();
     }
 #endif
 
     [Test]
-    public void GetHexString_StringLength_Valid()
+    public async Task GetHexString_StringLength_Valid()
     {
-        var hex = RandomNumberGeneratorPolyfill.GetHexString(12, lowercase: false);
-        Assert.That(hex.Length, Is.EqualTo(12));
-        Assert.That(hex, Is.All.Matches<char>(c => "0123456789ABCDEF".Contains(c)));
+        var hex = RandomNumberGenerator.GetHexString(12, lowercase: false);
+        await Assert.That(hex.Length).IsEqualTo(12);
+        await Assert.That(hex.All(c => "0123456789ABCDEF".Contains(c))).IsTrue();
     }
 
     [Test]
-    public void GetHexString_StringLength_Invalid_Throws() =>
-        Assert.Throws<ArgumentOutOfRangeException>(() => RandomNumberGeneratorPolyfill.GetHexString(-1));
+    public async Task GetHexString_StringLength_Invalid_Throws() =>
+        await Assert.That(() => RandomNumberGenerator.GetHexString(-1)).Throws<ArgumentOutOfRangeException>();
 }

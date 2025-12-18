@@ -16,9 +16,16 @@
         type
             .DescendantNodes()
             .OfType<Method>()
-            .Where(_ => _.Parent == type &&
+            .Where(_ => !_.Ancestors().OfType<Type>().Any(ancestor => ancestor != type && ancestor.GetType().Name != "ExtensionBlockDeclarationSyntax") &&
                         _.IsPublic() &&
                         !_.IsConstructor());
+
+    public static IEnumerable<Property> PublicProperties(this Type type) =>
+        type
+            .DescendantNodes()
+            .OfType<Property>()
+            .Where(_ => !_.Ancestors().OfType<Type>().Any(ancestor => ancestor != type && ancestor.GetType().Name != "ExtensionBlockDeclarationSyntax") &&
+                        _.IsPublic());
 
     public static bool IsConstructor(this Method method)
     {
