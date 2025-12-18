@@ -1,4 +1,4 @@
-#if NETFRAMEWORK || NETSTANDARD2_0
+#if (NETFRAMEWORK || NETSTANDARD2_0) && !WINDOWS_UWP
 #pragma warning disable CS8714
 
 namespace Polyfills;

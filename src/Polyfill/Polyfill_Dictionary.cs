@@ -16,7 +16,7 @@ static partial class Polyfill
         new(target);
 #endif
 
-#if NETFRAMEWORK || NETSTANDARD2_0
+#if (NETFRAMEWORK || NETSTANDARD2_0) && !WINDOWS_UWP
 
     /// <summary>
     /// Attempts to add the specified key and value to the <see cref="IDictionary{TKey,TValue}"/>.
