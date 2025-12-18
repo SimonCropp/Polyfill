@@ -11,6 +11,62 @@ static partial class Polyfill
         target.MetadataToken == other.MetadataToken &&
         target.Module.Equals(other.Module);
     /// <summary>
+    /// Searches for the specified method whose parameters match the specified generic parameter count, argument types and modifiers, using the specified binding constraints.
+    /// </summary>
+    public static MethodInfo? GetMethod(
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target,
+        string name,
+        int genericParameterCount,
+        BindingFlags bindingAttr,
+        Binder? binder,
+        Type[] types,
+        ParameterModifier[]? modifiers)
+    {
+        var methods = target.GetMethods(bindingAttr);
+        if (genericParameterCount == 0)
+        {
+            foreach (var method in methods)
+            {
+                if (method.IsGenericMethod)
+                {
+                    continue;
+                }
+                if (IsMatch(method))
+                {
+                    return method;
+                }
+            }
+        }
+        else
+        {
+            foreach (var method in methods)
+            {
+                if (!method.IsGenericMethod)
+                {
+                    continue;
+                }
+                var genericArguments = method.GetGenericArguments();
+                if (genericParameterCount != genericArguments.Length)
+                {
+                    continue;
+                }
+                if (IsMatch(method))
+                {
+                    return method;
+                }
+            }
+        }
+        return null;
+        bool IsMatch(MethodInfo method) =>
+            name == method.Name &&
+            method.GetParameters().Select(_ => _.ParameterType).SequenceEqual(types);
+    }
+    /// <summary>
+    /// Searches for the specified method whose parameters match the specified generic parameter count, argument types and modifiers, using the specified binding constraints.
+    /// </summary>
+    public static MethodInfo? GetMethod([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types) =>
+        target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);
+    /// <summary>
     /// Gets a value that indicates whether the current Type represents a type parameter in the definition of a generic method.
     /// </summary>
     public static bool IsGenericMethodParameter(this Type target) =>
