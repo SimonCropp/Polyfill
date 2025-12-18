@@ -1,0 +1,4 @@
+root = false
+
+[*.cs]
+resharper_redundant_using_directive_highlighting = warning
