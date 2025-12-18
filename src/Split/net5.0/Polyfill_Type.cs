@@ -7,10 +7,8 @@ using System.Reflection;
 using System.Linq;
 static partial class Polyfill
 {
-    public static MethodInfo? GetMethod([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types)
-    {
-        return target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);
-    }
+    public static MethodInfo? GetMethod([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types) =>
+        target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);
     /// <summary>
     /// Gets a value that indicates whether the current Type represents a type parameter in the definition of a generic method.
     /// </summary>

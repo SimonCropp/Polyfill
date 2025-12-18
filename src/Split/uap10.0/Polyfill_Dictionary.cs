@@ -13,32 +13,6 @@ static partial class Polyfill
         where TKey : notnull =>
         new(target);
     /// <summary>
-    /// Attempts to add the specified key and value to the <see cref="IDictionary{TKey,TValue}"/>.
-    /// </summary>
-    public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> target, TKey key, TValue value)
-        where TKey : notnull
-    {
-        if (!target.ContainsKey(key))
-        {
-            target.Add(key, value);
-            return true;
-        }
-        return false;
-    }
-    /// <summary>
-    /// Removes the value with the specified key from the <see cref="IDictionary{TKey,TValue}"/>, and copies the element
-    /// to the value parameter.
-    /// </summary>
-    public static bool Remove<TKey, TValue>(
-        this IDictionary<TKey, TValue> target,
-        TKey key,
-        [MaybeNullWhen(false)] out TValue value)
-        where TKey : notnull
-    {
-        target.TryGetValue(key, out value);
-        return target.Remove(key);
-    }
-    /// <summary>
     /// Ensures that the capacity of this dictionary is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
     /// </summary>
     public static void EnsureCapacity<TKey, TValue>(this Dictionary<TKey, TValue> target, int capacity)
