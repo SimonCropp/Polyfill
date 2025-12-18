@@ -74,7 +74,10 @@ static partial class Polyfill
     }
 #endif
 
-#if !NET9_0_OR_GREATER && !NETFRAMEWORK && !NETSTANDARD2_0 && !NETCOREAPP2_0 && !WINDOWS_UWP
+#if !NET9_0_OR_GREATER
+    /// <summary>
+    /// Searches for the specified method whose parameters match the specified generic parameter count, argument types and modifiers, using the specified binding constraints.
+    /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod?view=net-10.0#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-type())
     public static MethodInfo? GetMethod([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types) =>
         target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);

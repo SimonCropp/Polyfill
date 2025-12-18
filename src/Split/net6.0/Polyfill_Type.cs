@@ -7,6 +7,9 @@ using System.Reflection;
 using System.Linq;
 static partial class Polyfill
 {
+    /// <summary>
+    /// Searches for the specified method whose parameters match the specified generic parameter count, argument types and modifiers, using the specified binding constraints.
+    /// </summary>
     public static MethodInfo? GetMethod([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types) =>
         target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);
     /// <summary>

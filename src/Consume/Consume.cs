@@ -295,20 +295,26 @@ class Consume
     }
 
 
-#if !NETFRAMEWORK && !NETSTANDARD2_0 && !NETCOREAPP2_0
-    class WithGenericMethod
+    class WithMethods
     {
-        public void GenericMethod<T>(string value)
-        {
-        }
+        public void NonGenericMethod(string value) { }
+        public void GenericMethod<T>(string value) { }
+        public void GenericMethod<T1, T2>(string value, int count) { }
     }
 
     void Type_GetMethod()
     {
-        var type = typeof(WithGenericMethod);
-        type.GetMethod("GenericMethod", 1, BindingFlags.Public, [typeof(string)]);
+        var type = typeof(WithMethods);
+
+        // Non-generic method
+        var nonGeneric = type.GetMethod("NonGenericMethod", 0, BindingFlags.Public | BindingFlags.Instance, [typeof(string)]);
+
+        // Generic method with 1 type parameter
+        var generic1 = type.GetMethod("GenericMethod", 1, BindingFlags.Public | BindingFlags.Instance, [typeof(string)]);
+
+        // Generic method with 2 type parameters
+        var generic2 = type.GetMethod("GenericMethod", 2, BindingFlags.Public | BindingFlags.Instance, [typeof(string), typeof(int)]);
     }
-#endif
 
     void ConcurrentDictionary_Methods()
     {
