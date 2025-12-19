@@ -218,4 +218,88 @@ public class FilePolyfillTests
         await Assert.That(() =>
             File.Move(sourceFilePath, destinationFilePath, overwrite: false)).Throws<IOException>();
     }
+
+#if FeatureAsyncInterfaces
+
+    [Test]
+    public async Task ReadLinesAsync_ReadsAllLines()
+    {
+        var lines = new[] { "Line1", "Line2", "Line3" };
+        File.WriteAllLines(restFilePath, lines);
+
+        var result = new List<string>();
+        await foreach (var line in File.ReadLinesAsync(restFilePath))
+        {
+            result.Add(line);
+        }
+
+        await Assert.That(result.SequenceEqual(lines)).IsTrue();
+    }
+
+    [Test]
+    public async Task ReadLinesAsync_WithEncoding_ReadsAllLines()
+    {
+        var lines = new[] { "Línea1", "Línea2", "Línea3" };
+        File.WriteAllLines(restFilePath, lines, Encoding.UTF8);
+
+        var result = new List<string>();
+        await foreach (var line in File.ReadLinesAsync(restFilePath, Encoding.UTF8))
+        {
+            result.Add(line);
+        }
+
+        await Assert.That(result.SequenceEqual(lines)).IsTrue();
+    }
+
+    [Test]
+    public async Task ReadLinesAsync_EmptyFile_ReturnsNoLines()
+    {
+        File.WriteAllText(restFilePath, "");
+
+        var result = new List<string>();
+        await foreach (var line in File.ReadLinesAsync(restFilePath))
+        {
+            result.Add(line);
+        }
+
+        await Assert.That(result.Count).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task ReadLinesAsync_ThrowsIfFileNotFound()
+    {
+        var nonExistent = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        await Assert.That(async () =>
+        {
+            await foreach (var _ in File.ReadLinesAsync(nonExistent))
+            {
+            }
+        }).Throws<FileNotFoundException>();
+    }
+
+    [Test]
+    public async Task ReadLinesAsync_ThrowsIfCancelled()
+    {
+        var lines = new[] { "Line1", "Line2", "Line3" };
+        File.WriteAllLines(restFilePath, lines);
+        var cancelSource = new CancelSource();
+        cancelSource.Cancel();
+
+        Exception? exception = null;
+        try
+        {
+            await foreach (var _ in File.ReadLinesAsync(restFilePath, cancelSource.Token))
+            {
+            }
+        }
+        catch (Exception e)
+        {
+            exception = e;
+        }
+
+        await Assert.That(exception).IsNotNull();
+        await Assert.That(exception is OperationCanceledException or TaskCanceledException).IsTrue();
+    }
+
+#endif
 }
