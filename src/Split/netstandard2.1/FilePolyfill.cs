@@ -108,6 +108,29 @@ static partial class Polyfill
                 File.Move(sourceFileName, destFileName);
             }
         }
-        //TODO: re add NETSTANDARD via https://www.nuget.org/packages/Microsoft.Bcl.AsyncInterfaces#dependencies-body-tab
+#if FeatureAsyncInterfaces
+        /// <summary>
+        /// Asynchronously reads the lines of a file.
+        /// </summary>
+        public static IAsyncEnumerable<string> ReadLinesAsync(string path, [EnumeratorCancellation] CancellationToken cancellationToken = default) =>
+            ReadLinesAsync(path, Encoding.UTF8, cancellationToken);
+        /// <summary>
+        /// Asynchronously reads the lines of a file that has a specified encoding.
+        /// </summary>
+        public static async IAsyncEnumerable<string> ReadLinesAsync(string path, Encoding encoding, CancellationToken cancellationToken = default)
+        {
+            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
+            using var reader = new StreamReader(stream, encoding);
+            while (!reader.EndOfStream)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+                var line = await reader.ReadLineAsync();
+                if (line != null)
+                {
+                    yield return line;
+                }
+            }
+        }
+#endif
     }
 }

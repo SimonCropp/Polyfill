@@ -343,9 +343,7 @@ static partial class Polyfill
         }
 #endif
 
-        //TODO: re add NETSTANDARD via https://www.nuget.org/packages/Microsoft.Bcl.AsyncInterfaces#dependencies-body-tab
-#if NETCOREAPP3_0_OR_GREATER // || NETSTANDARD
-#if !NET7_0_OR_GREATER
+#if !NET7_0_OR_GREATER && FeatureAsyncInterfaces
         /// <summary>
         /// Asynchronously reads the lines of a file.
         /// </summary>
@@ -371,8 +369,6 @@ static partial class Polyfill
                 }
             }
         }
-
-#endif
 
 #endif
 

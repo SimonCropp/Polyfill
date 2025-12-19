@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 647**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 652**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -691,8 +691,6 @@ The class `Polyfill` includes the following extension methods:
  * `Task<string[]> ReadAllLinesAsync(string, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readalllinesasync?view=net-10.0#system-io-file-readalllinesasync(system-string-system-text-encoding-system-threading-cancellationtoken))
  * `Task<string> ReadAllTextAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readalltextasync?view=net-10.0#system-io-file-readalltextasync(system-string-system-threading-cancellationtoken))
  * `Task<string> ReadAllTextAsync(string, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readalltextasync?view=net-10.0#system-io-file-readalltextasync(system-string-system-text-encoding-system-threading-cancellationtoken))
- * `IAsyncEnumerable<string> ReadLinesAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readlinesasync?view=net-10.0#system-io-file-readalllinesasync(system-string-system-threading-cancellationtoken))
- * `IAsyncEnumerable<string> ReadLinesAsync(string, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readlinesasync?view=net-10.0#system-io-file-readalllinesasync(system-string-system-text-encoding-system-threading-cancellationtoken))
  * `Task WriteAllBytesAsync(string, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writeallbytesasync?view=net-10.0#system-io-file-writeallbytesasync(system-string-system-byte()-system-threading-cancellationtoken))
  * `Task WriteAllBytesAsync(string, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendallbytesasync?view=net-10.0#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
  * `Task WriteAllLinesAsync(string, IEnumerable<string>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealllinesasync?view=net-10.0#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken))
@@ -1211,6 +1209,10 @@ The class `Polyfill` includes the following extension methods:
  * `void SetCanceled<T>(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled?view=net-10.0#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken))
 
 
+#### TaskWhenEach
+
+
+
 #### TextReader
 
  * `ValueTask<int> ReadAsync(Memory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readasync?view=net-10.0#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken))
@@ -1337,6 +1339,17 @@ The class `Polyfill` includes the following extension methods:
  * `Task ExtractToFileAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttofileasync?view=net-10.0#system-io-compression-zipfileextensions-extracttofileasync(system-io-compression-ziparchiveentry-system-string-system-threading-cancellationtoken))
  * `Task<Stream> OpenAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.openasync?view=net-10.0)
  * `ExternalAttributes` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.externalattributes?view=net-10.0)
+
+
+#### ZipFile
+
+ * `Task CreateFromDirectoryAsync(string, string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0)
+ * `Task CreateFromDirectoryAsync(string, string, CompressionLevel, bool, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0)
+ * `Task CreateFromDirectoryAsync(string, string, CompressionLevel, bool, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0)
+ * `Task ExtractToDirectoryAsync(string, string, bool, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0)
+ * `Task ExtractToDirectoryAsync(string, string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0)
+ * `Task ExtractToDirectoryAsync(string, string, Encoding, bool, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0)
+ * `Task ExtractToDirectoryAsync(string, string, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0)
 
 
 #### Ensure

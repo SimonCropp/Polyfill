@@ -168,6 +168,7 @@ public class AssemblySizeTest
                           <PackageReference Include="System.Threading.Tasks.Extensions" Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netcoreapp2.0' or '$(TargetFrameworkIdentifier)' == '.NETFramework'" Version="4.5.4" />
                           <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Condition="$(TargetFramework.StartsWith('net4'))" Version="4.3.0" />
                           <PackageReference Include="System.IO.Compression" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" Version="4.3.0" />
+                          <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' or '$(TargetFramework)' == 'netstandard2.0' or $(TargetFramework.StartsWith('netcoreapp2'))" Version="9.0.1" />
                         </ItemGroup>
                         {polyfillSourceIncludes}
                         {polyfillImportLines}
