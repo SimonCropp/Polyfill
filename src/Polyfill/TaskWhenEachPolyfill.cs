@@ -1,4 +1,4 @@
-#if !NET9_0_OR_GREATER && (NET5_0_OR_GREATER || NETCOREAPP3_0_OR_GREATER)
+#if !NET9_0_OR_GREATER && (NET5_0_OR_GREATER || NETCOREAPP3_0_OR_GREATER) && FeatureAsyncInterfaces
 
 namespace Polyfills;
 

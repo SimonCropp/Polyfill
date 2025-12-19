@@ -100,7 +100,7 @@ static partial class Polyfill
             }
             File.Move(sourceFileName, destFileName, overwrite: overwrite);
         }
-        //TODO: re add NETSTANDARD via https://www.nuget.org/packages/Microsoft.Bcl.AsyncInterfaces#dependencies-body-tab
+#if FeatureAsyncInterfaces
         /// <summary>
         /// Asynchronously reads the lines of a file.
         /// </summary>
@@ -123,5 +123,6 @@ static partial class Polyfill
                 }
             }
         }
+#endif
     }
 }
