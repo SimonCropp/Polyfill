@@ -35,7 +35,8 @@ public class Identifiers
         "AllowUnsafeBlocks",
         "FeatureValueTask",
         "FeatureValueTuple",
-        "FeatureCompression"
+        "FeatureCompression",
+        "FeatureAsyncInterfaces"
     ];
 
     static Identifiers() =>

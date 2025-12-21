@@ -295,20 +295,26 @@ class Consume
     }
 
 
-#if !NETFRAMEWORK && !NETSTANDARD2_0 && !NETCOREAPP2_0
-    class WithGenericMethod
+    class WithMethods
     {
-        public void GenericMethod<T>(string value)
-        {
-        }
+        public void NonGenericMethod(string value) { }
+        public void GenericMethod<T>(string value) { }
+        public void GenericMethod<T1, T2>(string value, int count) { }
     }
 
     void Type_GetMethod()
     {
-        var type = typeof(WithGenericMethod);
-        type.GetMethod("GenericMethod", 1, BindingFlags.Public, [typeof(string)]);
+        var type = typeof(WithMethods);
+
+        // Non-generic method
+        var nonGeneric = type.GetMethod("NonGenericMethod", 0, BindingFlags.Public | BindingFlags.Instance, [typeof(string)]);
+
+        // Generic method with 1 type parameter
+        var generic1 = type.GetMethod("GenericMethod", 1, BindingFlags.Public | BindingFlags.Instance, [typeof(string)]);
+
+        // Generic method with 2 type parameters
+        var generic2 = type.GetMethod("GenericMethod", 2, BindingFlags.Public | BindingFlags.Instance, [typeof(string), typeof(int)]);
     }
-#endif
 
     void ConcurrentDictionary_Methods()
     {
@@ -834,6 +840,31 @@ class Consume
         new Task<int>(func).WaitAsync(TimeSpan.Zero, CancellationToken.None);
     }
 
+#if NET5_0_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+    async Task Task_WhenEach_Methods()
+    {
+        var tasks = new[] { Task.CompletedTask, Task.CompletedTask };
+        await foreach (var task in Task.WhenEach(tasks))
+        {
+        }
+
+        var tasksGeneric = new[] { Task.FromResult(1), Task.FromResult(2) };
+        await foreach (var task in Task.WhenEach(tasksGeneric))
+        {
+        }
+
+#if !NET9_0_OR_GREATER
+        // CancellationToken overloads only exist in polyfill, not in native .NET 9+ implementation
+        await foreach (var task in Task.WhenEach(tasks, CancellationToken.None))
+        {
+        }
+        await foreach (var task in Task.WhenEach(tasksGeneric, CancellationToken.None))
+        {
+        }
+#endif
+    }
+#endif
+
     void TaskCompletionSource_NonGeneric_Methods()
     {
         var tcs = new TaskCompletionSource();
@@ -844,6 +875,11 @@ class Consume
         var completionSource = new TaskCompletionSource<int>();
         var tokenSource = new CancellationTokenSource();
         completionSource.SetCanceled(tokenSource.Token);
+    }
+
+    void TimeSpan_Methods()
+    {
+        var timeSpan = TimeSpan.FromMilliseconds(1000L);
     }
 
     async Task TextWriter_Methods()
@@ -940,6 +976,25 @@ class Consume
         zip.ExtractToDirectoryAsync("destinationPath", true);
         entry.ExtractToFile("destinationPath", true);
         entry.ExtractToFileAsync("destinationPath", true);
+    }
+
+    async Task ZipFile_Methods()
+    {
+        await ZipFile.ExtractToDirectoryAsync("archive.zip", "destination");
+        await ZipFile.ExtractToDirectoryAsync("archive.zip", "destination", CancellationToken.None);
+        await ZipFile.ExtractToDirectoryAsync("archive.zip", "destination", overwriteFiles: true);
+        await ZipFile.ExtractToDirectoryAsync("archive.zip", "destination", overwriteFiles: true, CancellationToken.None);
+        await ZipFile.ExtractToDirectoryAsync("archive.zip", "destination", Encoding.UTF8);
+        await ZipFile.ExtractToDirectoryAsync("archive.zip", "destination", Encoding.UTF8, CancellationToken.None);
+        await ZipFile.ExtractToDirectoryAsync("archive.zip", "destination", Encoding.UTF8, overwriteFiles: true);
+        await ZipFile.ExtractToDirectoryAsync("archive.zip", "destination", Encoding.UTF8, overwriteFiles: true, CancellationToken.None);
+
+        await ZipFile.CreateFromDirectoryAsync("source", "archive.zip");
+        await ZipFile.CreateFromDirectoryAsync("source", "archive.zip", CancellationToken.None);
+        await ZipFile.CreateFromDirectoryAsync("source", "archive.zip", CompressionLevel.Optimal, includeBaseDirectory: false);
+        await ZipFile.CreateFromDirectoryAsync("source", "archive.zip", CompressionLevel.Optimal, includeBaseDirectory: false, CancellationToken.None);
+        await ZipFile.CreateFromDirectoryAsync("source", "archive.zip", CompressionLevel.Optimal, includeBaseDirectory: false, Encoding.UTF8);
+        await ZipFile.CreateFromDirectoryAsync("source", "archive.zip", CompressionLevel.Optimal, includeBaseDirectory: false, Encoding.UTF8, CancellationToken.None);
     }
 #endif
 }

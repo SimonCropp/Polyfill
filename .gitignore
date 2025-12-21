@@ -10,3 +10,4 @@ nugets/
 src/msbuild.binlog
 .claude/settings.local.json
 src/.claude/settings.local.json
+nul

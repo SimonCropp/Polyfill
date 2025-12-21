@@ -57,14 +57,14 @@ public class AssemblySizeTest
         }
     }
 
-    static (Dictionary<string, Dictionary<string, long>> assemblySizes, Dictionary<string, long> sourceSizes) MeasureAllVariants(string baseDir)
+    static (Dictionary<string, Dictionary<string, long>> assemblySizes, Dictionary<string, Dictionary<string, long>> sourceSizes) MeasureAllVariants(string baseDir)
     {
         var projectDir = Path.Combine(baseDir, "build");
         Directory.CreateDirectory(projectDir);
 
         // Build all variants and collect sizes
         var allSizes = new Dictionary<string, Dictionary<string, long>>();
-        var sourceSizes = new Dictionary<string, long>();
+        var sourceSizes = new Dictionary<string, Dictionary<string, long>>();
 
         Console.WriteLine("  Building without polyfill...");
         (allSizes["without"], sourceSizes["without"]) = BuildAllFrameworksAndMeasure(projectDir, "without", polyfillImport: false, polyOptions: "");
@@ -87,55 +87,57 @@ public class AssemblySizeTest
         return (allSizes, sourceSizes);
     }
 
-    static (Dictionary<string, long> assemblySizes, long sourceSize) BuildAllFrameworksAndMeasure(string projectDir, string variant, bool polyfillImport, string polyOptions)
+    static (Dictionary<string, long> assemblySizes, Dictionary<string, long> sourceSizes) BuildAllFrameworksAndMeasure(string projectDir, string variant, bool polyfillImport, string polyOptions)
     {
         var variantDir = Path.Combine(projectDir, variant);
         Directory.CreateDirectory(variantDir);
 
-        // Navigate from assembly location to find Polyfill directory
-        var assemblyDir = Path.GetDirectoryName(typeof(AssemblySizeTest).Assembly.Location)!;
-        // Go up from bin/Debug/net10.0 to src, then into Polyfill
-        var polyfillDir = Path.GetFullPath(Path.Combine(assemblyDir, "..", "..", "..", "..", "Polyfill"));
-        var polyfillTargetsPath = Path.Combine(polyfillDir, "Polyfill.targets");
+        var splitDir = Path.GetFullPath(Path.Combine(ProjectFiles.SolutionDirectory, "Split"));
+        var polyfillTargetsPath = Path.Combine(ProjectFiles.SolutionDirectory, "Polyfill", "Polyfill.targets");
 
-        // Calculate source file size based on what's included
-        long sourceSize = 0;
-        if (polyfillImport)
+        // Calculate source file size per framework based on what's included
+        var sourceSizes = new Dictionary<string, long>();
+        foreach (var framework in TargetFrameworks)
         {
-            // Get all source files
-            var allFiles = Directory.GetFiles(polyfillDir, "*.cs", SearchOption.AllDirectories)
-                .Where(f => !f.Contains($"{Path.DirectorySeparatorChar}obj{Path.DirectorySeparatorChar}") &&
-                           !f.Contains($"{Path.DirectorySeparatorChar}bin{Path.DirectorySeparatorChar}"))
-                .ToList();
-
-            // Exclude directories based on polyOptions (matching Polyfill.targets logic)
-            if (!polyOptions.Contains("<PolyEnsure>true</PolyEnsure>"))
-                allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}Ensure{Path.DirectorySeparatorChar}")).ToList();
-            if (!polyOptions.Contains("<PolyArgumentExceptions>true</PolyArgumentExceptions>"))
-                allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}ArgumentExceptions{Path.DirectorySeparatorChar}")).ToList();
-            if (!polyOptions.Contains("<PolyStringInterpolation>true</PolyStringInterpolation>"))
-                allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}StringInterpolation{Path.DirectorySeparatorChar}")).ToList();
-            if (!polyOptions.Contains("<PolyNullability>true</PolyNullability>"))
-                allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}Nullability{Path.DirectorySeparatorChar}")).ToList();
-
-            // Calculate compressed size (EmbedUntrackedSources uses deflate compression)
-            sourceSize = allFiles.Sum(f =>
+            long sourceSize = 0;
+            if (polyfillImport)
             {
-                var content = File.ReadAllBytes(f);
-                using var output = new MemoryStream();
-                using (var deflate = new DeflateStream(output, CompressionLevel.Optimal, leaveOpen: true))
+                var frameworkDir = Path.Combine(splitDir, framework);
+                if (Directory.Exists(frameworkDir))
                 {
-                    deflate.Write(content);
+                    var allFiles = Directory.GetFiles(frameworkDir, "*.cs", SearchOption.AllDirectories).ToList();
+
+                    // Exclude directories based on polyOptions (matching Polyfill.targets logic)
+                    if (!polyOptions.Contains("<PolyEnsure>true</PolyEnsure>"))
+                        allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}Ensure{Path.DirectorySeparatorChar}")).ToList();
+                    if (!polyOptions.Contains("<PolyArgumentExceptions>true</PolyArgumentExceptions>"))
+                        allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}ArgumentExceptions{Path.DirectorySeparatorChar}")).ToList();
+                    if (!polyOptions.Contains("<PolyStringInterpolation>true</PolyStringInterpolation>"))
+                        allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}StringInterpolation{Path.DirectorySeparatorChar}")).ToList();
+                    if (!polyOptions.Contains("<PolyNullability>true</PolyNullability>"))
+                        allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}Nullability{Path.DirectorySeparatorChar}")).ToList();
+
+                    // Calculate compressed size (EmbedUntrackedSources uses deflate compression)
+                    sourceSize = allFiles.Sum(f =>
+                    {
+                        var content = File.ReadAllBytes(f);
+                        using var output = new MemoryStream();
+                        using (var deflate = new DeflateStream(output, CompressionLevel.Optimal, leaveOpen: true))
+                        {
+                            deflate.Write(content);
+                        }
+                        return output.Length;
+                    });
                 }
-                return output.Length;
-            });
+            }
+            sourceSizes[framework] = sourceSize;
         }
 
-        // Include Polyfill source files before the targets (which use Remove to exclude based on options)
+        // Include Split source files based on TargetFramework, then use Polyfill.targets for Remove logic
         var polyfillSourceIncludes = polyfillImport
             ? $"""
                  <ItemGroup>
-                   <Compile Include="{polyfillDir}\**\*.cs" Exclude="{polyfillDir}\obj\**;{polyfillDir}\bin\**" />
+                   <Compile Include="{splitDir}\$(TargetFramework)\**\*.cs" />
                  </ItemGroup>
                """
             : "";
@@ -143,19 +145,6 @@ public class AssemblySizeTest
             ? $"""
                  <Import Project="{polyfillTargetsPath}" />
                """
-            : "";
-
-        var packageReferences = polyfillImport
-            ? """
-                <ItemGroup>
-                  <PackageReference Include="System.Memory" Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" Version="4.5.5" />
-                  <PackageReference Include="System.ValueTuple" Condition="$(TargetFramework.StartsWith('net46'))" Version="4.5.0" />
-                  <PackageReference Include="System.Net.Http" Condition="$(TargetFramework.StartsWith('net4'))" Version="4.3.4" />
-                  <PackageReference Include="System.Threading.Tasks.Extensions" Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netcoreapp2.0' or '$(TargetFrameworkIdentifier)' == '.NETFramework'" Version="4.5.4" />
-                  <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Condition="$(TargetFramework.StartsWith('net4'))" Version="4.3.0" />
-                  <PackageReference Include="System.IO.Compression" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" Version="4.3.0" />
-                </ItemGroup>
-              """
             : "";
 
         var allFrameworks = string.Join(";", TargetFrameworks);
@@ -166,13 +155,21 @@ public class AssemblySizeTest
                           <TargetFrameworks>{allFrameworks}</TargetFrameworks>
                           <OutputType>Library</OutputType>
                           <EnableDefaultItems>false</EnableDefaultItems>
-                          <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
+                          <NoWarn>$(NoWarn);NU1902;NU1903;PolyfillTargetsForNuget</NoWarn>
                           <LangVersion>preview</LangVersion>
                           <DebugType>embedded</DebugType>
                           <DebugSymbols>true</DebugSymbols>
                           {polyOptions}
                         </PropertyGroup>
-                        {packageReferences}
+                        <ItemGroup>
+                          <PackageReference Include="System.Memory" Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" Version="4.5.5" />
+                          <PackageReference Include="System.ValueTuple" Condition="$(TargetFramework.StartsWith('net46'))" Version="4.5.0" />
+                          <PackageReference Include="System.Net.Http" Condition="$(TargetFramework.StartsWith('net4'))" Version="4.3.4" />
+                          <PackageReference Include="System.Threading.Tasks.Extensions" Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netcoreapp2.0' or '$(TargetFrameworkIdentifier)' == '.NETFramework'" Version="4.5.4" />
+                          <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Condition="$(TargetFramework.StartsWith('net4'))" Version="4.3.0" />
+                          <PackageReference Include="System.IO.Compression" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework'" Version="4.3.0" />
+                          <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Condition="'$(TargetFrameworkIdentifier)' == '.NETFramework' or '$(TargetFramework)' == 'netstandard2.0' or $(TargetFramework.StartsWith('netcoreapp2'))" Version="9.0.1" />
+                        </ItemGroup>
                         {polyfillSourceIncludes}
                         {polyfillImportLines}
                         <ItemGroup>
@@ -238,7 +235,7 @@ public class AssemblySizeTest
             }
         }
 
-        return (sizes, sourceSize);
+        return (sizes, sourceSizes);
     }
 
     static List<SizeResult> ConvertToSizeResults(Dictionary<string, Dictionary<string, long>> allSizes)
@@ -247,7 +244,7 @@ public class AssemblySizeTest
 
         foreach (var framework in TargetFrameworks)
         {
-            results.Add(new SizeResult
+            results.Add(new()
             {
                 TargetFramework = framework,
                 SizeWithoutPolyfill = allSizes["without"].GetValueOrDefault(framework, -1),
@@ -262,21 +259,21 @@ public class AssemblySizeTest
         return results;
     }
 
-    static List<SizeResult> ConvertToSizeResultsWithEmbed(Dictionary<string, Dictionary<string, long>> allSizes, Dictionary<string, long> sourceSizes)
+    static List<SizeResult> ConvertToSizeResultsWithEmbed(Dictionary<string, Dictionary<string, long>> allSizes, Dictionary<string, Dictionary<string, long>> sourceSizes)
     {
         var results = new List<SizeResult>();
 
         foreach (var framework in TargetFrameworks)
         {
-            results.Add(new SizeResult
+            results.Add(new()
             {
                 TargetFramework = framework,
-                SizeWithoutPolyfill = allSizes["without"].GetValueOrDefault(framework, -1) + sourceSizes["without"],
-                SizeWithPolyfill = allSizes["with"].GetValueOrDefault(framework, -1) + sourceSizes["with"],
-                SizeWithEnsure = allSizes["ensure"].GetValueOrDefault(framework, -1) + sourceSizes["ensure"],
-                SizeWithArgumentExceptions = allSizes["argex"].GetValueOrDefault(framework, -1) + sourceSizes["argex"],
-                SizeWithStringInterpolation = allSizes["stringinterp"].GetValueOrDefault(framework, -1) + sourceSizes["stringinterp"],
-                SizeWithNullability = allSizes["nullability"].GetValueOrDefault(framework, -1) + sourceSizes["nullability"]
+                SizeWithoutPolyfill = allSizes["without"].GetValueOrDefault(framework, -1) + sourceSizes["without"].GetValueOrDefault(framework, 0),
+                SizeWithPolyfill = allSizes["with"].GetValueOrDefault(framework, -1) + sourceSizes["with"].GetValueOrDefault(framework, 0),
+                SizeWithEnsure = allSizes["ensure"].GetValueOrDefault(framework, -1) + sourceSizes["ensure"].GetValueOrDefault(framework, 0),
+                SizeWithArgumentExceptions = allSizes["argex"].GetValueOrDefault(framework, -1) + sourceSizes["argex"].GetValueOrDefault(framework, 0),
+                SizeWithStringInterpolation = allSizes["stringinterp"].GetValueOrDefault(framework, -1) + sourceSizes["stringinterp"].GetValueOrDefault(framework, 0),
+                SizeWithNullability = allSizes["nullability"].GetValueOrDefault(framework, -1) + sourceSizes["nullability"].GetValueOrDefault(framework, 0)
             });
         }
 

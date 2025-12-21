@@ -103,8 +103,8 @@ public class ArgumentOutOfRangeExceptionTests
             ArgumentOutOfRangeException.ThrowIfNegative(negative)).Throws<ArgumentOutOfRangeException>();
 
         await Assert.That(ex!.ParamName).IsEqualTo("negative");
-        await Assert.That(ex!.ActualValue).IsEqualTo(-1);
-        await Assert.That(ex!.Message).Contains("non-negative");
+        await Assert.That(ex.ActualValue).IsEqualTo(-1);
+        await Assert.That(ex.Message).Contains("non-negative");
     }
 
     [Test]
@@ -118,7 +118,7 @@ public class ArgumentOutOfRangeExceptionTests
             ArgumentOutOfRangeException.ThrowIfNegative(negative)).Throws<ArgumentOutOfRangeException>();
 
         await Assert.That(ex!.ParamName).IsEqualTo("negative");
-        await Assert.That(ex!.ActualValue).IsEqualTo(-10.5m);
+        await Assert.That(ex.ActualValue).IsEqualTo(-10.5m);
     }
 
     [Test]
@@ -183,8 +183,8 @@ public class ArgumentOutOfRangeExceptionTests
             ArgumentOutOfRangeException.ThrowIfNegativeOrZero(zero)).Throws<ArgumentOutOfRangeException>();
 
         await Assert.That(ex!.ParamName).IsEqualTo("zero");
-        await Assert.That(ex!.ActualValue).IsEqualTo(0);
-        await Assert.That(ex!.Message).Contains("non-zero");
+        await Assert.That(ex.ActualValue).IsEqualTo(0);
+        await Assert.That(ex.Message).Contains("non-zero");
     }
 
     [Test]
@@ -198,7 +198,7 @@ public class ArgumentOutOfRangeExceptionTests
             ArgumentOutOfRangeException.ThrowIfNegativeOrZero(negative)).Throws<ArgumentOutOfRangeException>();
 
         await Assert.That(ex!.ParamName).IsEqualTo("negative");
-        await Assert.That(ex!.ActualValue).IsEqualTo(-5);
+        await Assert.That(ex.ActualValue).IsEqualTo(-5);
     }
 
     [Test]
@@ -283,8 +283,8 @@ public class ArgumentOutOfRangeExceptionTests
             ArgumentOutOfRangeException.ThrowIfGreaterThan(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
         await Assert.That(ex!.ParamName).IsEqualTo("value");
-        await Assert.That(ex!.ActualValue).IsEqualTo(10);
-        await Assert.That(ex!.Message).Contains("less than or equal to");
+        await Assert.That(ex.ActualValue).IsEqualTo(10);
+        await Assert.That(ex.Message).Contains("less than or equal to");
     }
 
     [Test]
@@ -372,8 +372,8 @@ public class ArgumentOutOfRangeExceptionTests
             ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
         await Assert.That(ex!.ParamName).IsEqualTo("value");
-        await Assert.That(ex!.ActualValue).IsEqualTo(10);
-        await Assert.That(ex!.Message).Contains("less than");
+        await Assert.That(ex.ActualValue).IsEqualTo(10);
+        await Assert.That(ex.Message).Contains("less than");
     }
 
     [Test]
@@ -435,8 +435,8 @@ public class ArgumentOutOfRangeExceptionTests
             ArgumentOutOfRangeException.ThrowIfLessThan(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
         await Assert.That(ex!.ParamName).IsEqualTo("value");
-        await Assert.That(ex!.ActualValue).IsEqualTo(3);
-        await Assert.That(ex!.Message).Contains("greater than or equal to");
+        await Assert.That(ex.ActualValue).IsEqualTo(3);
+        await Assert.That(ex.Message).Contains("greater than or equal to");
     }
 
     [Test]
@@ -510,8 +510,8 @@ public class ArgumentOutOfRangeExceptionTests
             ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(value, threshold)).Throws<ArgumentOutOfRangeException>();
 
         await Assert.That(ex!.ParamName).IsEqualTo("value");
-        await Assert.That(ex!.ActualValue).IsEqualTo(3);
-        await Assert.That(ex!.Message).Contains("greater than");
+        await Assert.That(ex.ActualValue).IsEqualTo(3);
+        await Assert.That(ex.Message).Contains("greater than");
     }
 
     [Test]
@@ -602,8 +602,8 @@ public class ArgumentOutOfRangeExceptionTests
             ArgumentOutOfRangeException.ThrowIfEqual(value, other)).Throws<ArgumentOutOfRangeException>();
 
         await Assert.That(ex!.ParamName).IsEqualTo("value");
-        await Assert.That(ex!.ActualValue).IsEqualTo(42);
-        await Assert.That(ex!.Message).Contains("must not be equal");
+        await Assert.That(ex.ActualValue).IsEqualTo(42);
+        await Assert.That(ex.Message).Contains("must not be equal");
     }
 
     [Test]
@@ -723,8 +723,8 @@ public class ArgumentOutOfRangeExceptionTests
             ArgumentOutOfRangeException.ThrowIfNotEqual(value, expected)).Throws<ArgumentOutOfRangeException>();
 
         await Assert.That(ex!.ParamName).IsEqualTo("value");
-        await Assert.That(ex!.ActualValue).IsEqualTo(42);
-        await Assert.That(ex!.Message).Contains("must be equal");
+        await Assert.That(ex.ActualValue).IsEqualTo(42);
+        await Assert.That(ex.Message).Contains("must be equal");
     }
 
     [Test]
