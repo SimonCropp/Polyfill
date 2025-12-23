@@ -1,4 +1,6 @@
-﻿global using TUnit.Core;
+﻿[assembly: Parallelism(1)]
+
+global using TUnit.Core;
 global using TUnit.Assertions;
 global using TUnit.Assertions.Extensions;
 global using System;
