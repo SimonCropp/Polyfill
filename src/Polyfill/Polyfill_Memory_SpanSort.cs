@@ -30,7 +30,7 @@ static partial class Polyfill
         try
         {
             source.CopyTo(array);
-            Array.Sort(array, comparison);
+            Array.Sort(array, 0, source.Length, Comparer<T>.Create(comparison));
 
             array.AsSpan(0, source.Length).CopyTo(source);
         }
@@ -68,7 +68,7 @@ static partial class Polyfill
             keys.CopyTo(keysArray);
             values.CopyTo(valsArray);
 
-            Array.Sort(keysArray, valsArray, comparer);
+            Array.Sort(keysArray, valsArray, 0, keys.Length, comparer);
 
             keysArray.AsSpan(0, keys.Length).CopyTo(keys);
             valsArray.AsSpan(0, values.Length).CopyTo(values);

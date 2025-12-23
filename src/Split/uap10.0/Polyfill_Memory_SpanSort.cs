@@ -7,9 +7,16 @@ using System.Collections.Generic;
 using System.Buffers;
 static partial class Polyfill
 {
+    /// <summary>
+    /// Sorts the elements in the entire <see cref="Span{T}"/> using the <see cref="IComparable{T}"/> implementation of each element of the <see cref="Span{T}"/>.
+    /// </summary>
     public static void Sort<T>(this Span<T> source)
         where T : IComparable<T>
         => Sort(source, (x, y) => x.CompareTo(y));
+    /// <summary>
+    /// Sorts the elements in the entire <see cref="Span{T}"/> using the specified <see cref="Comparison{T}"/>.
+    /// </summary>
+    /// Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-1(system-span((-0))-system-comparison((-0)))
     public static void Sort<T>(this Span<T> source, Comparison<T> comparison)
     {
         if((Comparison<T>?)comparison is null)
@@ -18,7 +25,7 @@ static partial class Polyfill
         try
         {
             source.CopyTo(array);
-            Array.Sort(array, comparison);
+            Array.Sort(array, 0, source.Length, Comparer<T>.Create(comparison));
             array.AsSpan(0, source.Length).CopyTo(source);
         }
         finally
@@ -26,8 +33,14 @@ static partial class Polyfill
             ArrayPool<T>.Shared.Return(array);
         }
     }
+    /// <summary>
+    /// Sorts a pair of spans (one containing the keys and the other containing the corresponding items) based on the keys in the first <see cref="Span{T}"/> using the <see cref=" IComparable{T}"/> implementation of each key.
+    /// </summary>
     public static void Sort<TKey, TValue>(this Span<TKey> keys, Span<TValue> values)
         => Sort(keys, values, Comparer<TKey>.Default);
+    /// <summary>
+    /// Sorts a pair of spans (one containing the keys and the other containing the corresponding items) based on the keys in the first <see cref="Span{T}"/>  using the specified comparer.
+    /// </summary>
     public static void Sort<TKey, TValue, TComparer>(this Span<TKey> keys, Span<TValue> values, TComparer comparer)
         where TComparer : IComparer<TKey>
     {
@@ -40,7 +53,7 @@ static partial class Polyfill
         {
             keys.CopyTo(keysArray);
             values.CopyTo(valsArray);
-            Array.Sort(keysArray, valsArray, comparer);
+            Array.Sort(keysArray, valsArray, 0, keys.Length, comparer);
             keysArray.AsSpan(0, keys.Length).CopyTo(keys);
             valsArray.AsSpan(0, values.Length).CopyTo(values);
         }
@@ -50,9 +63,12 @@ static partial class Polyfill
             ArrayPool<TValue>.Shared.Return(valsArray);
         }
     }
-    public static void Sort<TKey, TValue>(this Span<TKey> keys, Span<TValue> values, Comparison<TKey> comparison)
-        => Sort(keys, values, new ComparerWrapper<TKey>(comparison));
-    private class ComparerWrapper<T> : IComparer<T>
+    /// <summary>
+    /// Sorts a pair of spans (one containing the keys and the other containing the corresponding items) based on the keys in the first <see cref="Span{T}"/> using the specified comparison.
+    /// </summary>
+    public static void Sort<TKey, TValue>(this Span<TKey> keys, Span<TValue> items, Comparison<TKey> comparison)
+        => Sort(keys, items, new ComparerWrapper<TKey>(comparison));
+    class ComparerWrapper<T> : IComparer<T>
     {
         readonly Comparison<T> comparison;
         internal ComparerWrapper(Comparison<T> comparison)
