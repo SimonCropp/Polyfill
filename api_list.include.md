@@ -664,6 +664,15 @@
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-10.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0))))
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-10.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))))
  * `bool Contains<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-10.0#system-memoryextensions-contains-1(system-span((-0))-0))
+ * `void Sort<T>(Comparison<T>)`
+ * `void Sort<T>() where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-1(system-span((-0))))
+
+
+#### Span<TKey>
+
+ * `void Sort<TKey, TValue, TComparer>(Span<TValue>, TComparer) where TComparer : IComparer<TKey>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-3(system-span((-0))-system-span((-1))-2))
+ * `void Sort<TKey, TValue>(Span<TValue>, Comparison<TKey>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-2(system-span((-0))-system-span((-1))-system-comparison((-0))))
+ * `void Sort<TKey, TValue>(Span<TValue>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-2(system-span((-0))-system-span((-1))))
 
 
 #### Stack<T>
