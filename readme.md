@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 661**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 669**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -1226,6 +1226,14 @@ The class `Polyfill` includes the following extension methods:
  * `IAsyncEnumerable<Task<TResult>> WhenEach<TResult>(IEnumerable<Task<TResult>>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.wheneach?view=net-10.0)
 
 
+#### TcpClient
+
+ * `ValueTask ConnectAsync(IPAddress, int, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.connectasync?view=net-10.0#system-net-sockets-tcpclient-connectasync(system-net-ipaddress-system-int32-system-threading-cancellationtoken))
+ * `ValueTask ConnectAsync(IPAddress[], int, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.connectasync?view=net-10.0#system-net-sockets-tcpclient-connectasync(system-net-ipaddress()-system-int32-system-threading-cancellationtoken))
+ * `ValueTask ConnectAsync(IPEndPoint, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.connectasync?view=net-10.0#system-net-sockets-tcpclient-connectasync(system-net-ipendpoint-system-threading-cancellationtoken))
+ * `ValueTask ConnectAsync(string, int, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.connectasync?view=net-10.0#system-net-sockets-tcpclient-connectasync(system-string-system-int32-system-threading-cancellationtoken))
+
+
 #### TextReader
 
  * `ValueTask<int> ReadAsync(Memory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readasync?view=net-10.0#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken))
@@ -1271,6 +1279,14 @@ The class `Polyfill` includes the following extension methods:
  * `bool IsAssignableTo(Type?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto?view=net-10.0)
  * `bool IsAssignableTo<T>()`
  * `bool IsGenericMethodParameter()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter?view=net-10.0)
+
+
+#### UdpClient
+
+ * `ValueTask<UdpReceiveResult> ReceiveAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.receiveasync?view=net-10.0#system-net-sockets-udpclient-receiveasync(system-threading-cancellationtoken))
+ * `ValueTask<int> SendAsync(ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.sendasync?view=net-10.0#system-net-sockets-udpclient-sendasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+ * `ValueTask<int> SendAsync(ReadOnlyMemory<byte>, IPEndPoint?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.sendasync?view=net-10.0#system-net-sockets-udpclient-sendasync(system-readonlymemory((system-byte))-system-net-ipendpoint-system-threading-cancellationtoken))
+ * `ValueTask<int> SendAsync(ReadOnlyMemory<byte>, string?, int, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.sendasync?view=net-10.0#system-net-sockets-udpclient-sendasync(system-readonlymemory((system-byte))-system-string-system-int32-system-threading-cancellationtoken))
 
 
 #### UInt16
@@ -1603,7 +1619,7 @@ void ArgumentExceptionExample(Order order, Customer customer, string customerId,
     this.quantity = quantity;
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L384-L402' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L386-L404' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -1622,7 +1638,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L408-L420' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L410-L422' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
