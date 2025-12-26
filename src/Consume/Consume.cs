@@ -29,6 +29,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
+using System.Net;
+using System.Net.Sockets;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -489,6 +491,30 @@ class Consume
         target.ReadAsStreamAsync(CancellationToken.None);
         target.ReadAsByteArrayAsync(CancellationToken.None);
         target.ReadAsStringAsync(CancellationToken.None);
+    }
+#endif
+
+#if FeatureValueTask
+    async Task TcpClient_Methods()
+    {
+        using var client = new TcpClient();
+        await client.ConnectAsync(IPAddress.Loopback, 12345, CancellationToken.None);
+        await client.ConnectAsync(new[] { IPAddress.Loopback }, 12345, CancellationToken.None);
+        await client.ConnectAsync("localhost", 12345, CancellationToken.None);
+        await client.ConnectAsync(new IPEndPoint(IPAddress.Loopback, 12345), CancellationToken.None);
+    }
+
+    async Task UdpClient_Methods()
+    {
+        using var client = new UdpClient(0);
+        await client.ReceiveAsync(CancellationToken.None);
+#if FeatureMemory
+        var data = new ReadOnlyMemory<byte>(new byte[] { 1, 2, 3 });
+        using var connectedClient = new UdpClient("localhost", 12345);
+        await connectedClient.SendAsync(data, CancellationToken.None);
+        await client.SendAsync(data, new IPEndPoint(IPAddress.Loopback, 12345), CancellationToken.None);
+        await client.SendAsync(data, "localhost", 12345, CancellationToken.None);
+#endif
     }
 #endif
 
