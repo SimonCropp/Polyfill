@@ -1,6 +1,6 @@
 # <img src="/src/icon.png" height="30px" width="30px"> Polyfill
 
-[![Build status](https://ci.appveyor.com/api/projects/status/s6eqqg4ipeovebgd?svg=true)](https://ci.appveyor.com/project/SimonCropp/Polyfill)
+[![Build status](https://img.shields.io/appveyor/build/SimonCropp/Polyfill)](https://ci.appveyor.com/project/SimonCropp/Polyfill)
 [![Polyfill NuGet Status](https://img.shields.io/nuget/v/Polyfill.svg)](https://www.nuget.org/packages/Polyfill/)
 
 Source only package that exposes newer .NET and C# features to older runtimes.
