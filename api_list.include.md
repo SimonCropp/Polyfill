@@ -439,6 +439,18 @@
  * `ushort Clamp(ushort, ushort, ushort)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0)
 
 
+#### MD5
+
+ * `byte[] HashData(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.md5.hashdata?view=net-10.0#system-security-cryptography-md5-hashdata(system-byte()))
+ * `int HashData(ReadOnlySpan<byte>, Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.md5.hashdata?view=net-10.0#system-security-cryptography-md5-hashdata(system-readonlyspan((system-byte))-system-span((system-byte))))
+ * `byte[] HashData(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.md5.hashdata?view=net-10.0#system-security-cryptography-md5-hashdata(system-readonlyspan((system-byte))))
+ * `int HashData(Stream, Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.md5.hashdata?view=net-10.0#system-security-cryptography-md5-hashdata(system-io-stream-system-span((system-byte))))
+ * `byte[] HashData(Stream)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.md5.hashdata?view=net-10.0#system-security-cryptography-md5-hashdata(system-io-stream))
+ * `ValueTask<byte[]> HashDataAsync(Stream, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.md5.hashdataasync?view=net-10.0#system-security-cryptography-md5-hashdataasync(system-io-stream-system-threading-cancellationtoken))
+ * `ValueTask<int> HashDataAsync(Stream, Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.md5.hashdataasync?view=net-10.0#system-security-cryptography-md5-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken))
+ * `bool TryHashData(ReadOnlySpan<byte>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.md5.tryhashdata?view=net-10.0)
+
+
 #### MemberInfo
 
  * `NullabilityState GetNullability()`
@@ -613,6 +625,18 @@
  * `bool TryParse(string?, IFormatProvider?, sbyte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryparse?view=net-10.0#system-sbyte-tryparse(system-string-system-iformatprovider-system-sbyte@))
 
 
+#### SHA1
+
+ * `byte[] HashData(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha1.hashdata?view=net-10.0#system-security-cryptography-sha1-hashdata(system-byte()))
+ * `int HashData(ReadOnlySpan<byte>, Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha1.hashdata?view=net-10.0#system-security-cryptography-sha1-hashdata(system-readonlyspan((system-byte))-system-span((system-byte))))
+ * `byte[] HashData(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha1.hashdata?view=net-10.0#system-security-cryptography-sha1-hashdata(system-readonlyspan((system-byte))))
+ * `int HashData(Stream, Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha1.hashdata?view=net-10.0#system-security-cryptography-sha1-hashdata(system-io-stream-system-span((system-byte))))
+ * `byte[] HashData(Stream)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha1.hashdata?view=net-10.0#system-security-cryptography-sha1-hashdata(system-io-stream))
+ * `ValueTask<byte[]> HashDataAsync(Stream, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha1.hashdataasync?view=net-10.0#system-security-cryptography-sha1-hashdataasync(system-io-stream-system-threading-cancellationtoken))
+ * `ValueTask<int> HashDataAsync(Stream, Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha1.hashdataasync?view=net-10.0#system-security-cryptography-sha1-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken))
+ * `bool TryHashData(ReadOnlySpan<byte>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha1.tryhashdata?view=net-10.0)
+
+
 #### SHA256
 
  * `byte[] HashData(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.hashdata?view=net-10.0#system-security-cryptography-sha256-hashdata(system-byte()))
@@ -623,6 +647,18 @@
  * `ValueTask<byte[]> HashDataAsync(Stream, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.hashdataasync?view=net-10.0#system-security-cryptography-sha256-hashdataasync(system-io-stream-system-threading-cancellationtoken))
  * `ValueTask<int> HashDataAsync(Stream, Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.hashdataasync?view=net-10.0#system-security-cryptography-sha256-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken))
  * `bool TryHashData(ReadOnlySpan<byte>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha256.tryhashdata?view=net-10.0)
+
+
+#### SHA384
+
+ * `byte[] HashData(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha384.hashdata?view=net-10.0#system-security-cryptography-sha384-hashdata(system-byte()))
+ * `int HashData(ReadOnlySpan<byte>, Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha384.hashdata?view=net-10.0#system-security-cryptography-sha384-hashdata(system-readonlyspan((system-byte))-system-span((system-byte))))
+ * `byte[] HashData(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha384.hashdata?view=net-10.0#system-security-cryptography-sha384-hashdata(system-readonlyspan((system-byte))))
+ * `int HashData(Stream, Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha384.hashdata?view=net-10.0#system-security-cryptography-sha384-hashdata(system-io-stream-system-span((system-byte))))
+ * `byte[] HashData(Stream)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha384.hashdata?view=net-10.0#system-security-cryptography-sha384-hashdata(system-io-stream))
+ * `ValueTask<byte[]> HashDataAsync(Stream, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha384.hashdataasync?view=net-10.0#system-security-cryptography-sha384-hashdataasync(system-io-stream-system-threading-cancellationtoken))
+ * `ValueTask<int> HashDataAsync(Stream, Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha384.hashdataasync?view=net-10.0#system-security-cryptography-sha384-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken))
+ * `bool TryHashData(ReadOnlySpan<byte>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha384.tryhashdata?view=net-10.0)
 
 
 #### SHA512

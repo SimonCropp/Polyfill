@@ -231,6 +231,75 @@ class Consume
 #endif
     }
 
+    void SHA1Usage()
+    {
+        SHA1.HashData(source: (byte[]) null!);
+        SHA1.HashData(source: (Stream) null!);
+#if FeatureValueTask
+        SHA1.HashDataAsync(source: null!, cancellationToken: CancellationToken.None);
+#endif
+#if FeatureMemory
+        Span<byte> span = default;
+        ReadOnlySpan<byte> readOnlySpan = default;
+        Memory<byte> memory = default;
+
+        SHA1.HashData(source: (Stream) null!, destination: span);
+        SHA1.HashData(source: readOnlySpan);
+        SHA1.HashData(source: readOnlySpan, destination: span);
+        SHA1.TryHashData(source: readOnlySpan, destination: span, bytesWritten: out _);
+#if FeatureValueTask
+        SHA1.HashDataAsync(source: null!, destination: memory);
+        SHA1.HashDataAsync(source: null!, destination: memory, cancellationToken: CancellationToken.None);
+#endif
+#endif
+    }
+
+    void SHA384Usage()
+    {
+        SHA384.HashData(source: (byte[]) null!);
+        SHA384.HashData(source: (Stream) null!);
+#if FeatureValueTask
+        SHA384.HashDataAsync(source: null!, cancellationToken: CancellationToken.None);
+#endif
+#if FeatureMemory
+        Span<byte> span = default;
+        ReadOnlySpan<byte> readOnlySpan = default;
+        Memory<byte> memory = default;
+
+        SHA384.HashData(source: (Stream) null!, destination: span);
+        SHA384.HashData(source: readOnlySpan);
+        SHA384.HashData(source: readOnlySpan, destination: span);
+        SHA384.TryHashData(source: readOnlySpan, destination: span, bytesWritten: out _);
+#if FeatureValueTask
+        SHA384.HashDataAsync(source: null!, destination: memory);
+        SHA384.HashDataAsync(source: null!, destination: memory, cancellationToken: CancellationToken.None);
+#endif
+#endif
+    }
+
+    void MD5Usage()
+    {
+        MD5.HashData(source: (byte[]) null!);
+        MD5.HashData(source: (Stream) null!);
+#if FeatureValueTask
+        MD5.HashDataAsync(source: null!, cancellationToken: CancellationToken.None);
+#endif
+#if FeatureMemory
+        Span<byte> span = default;
+        ReadOnlySpan<byte> readOnlySpan = default;
+        Memory<byte> memory = default;
+
+        MD5.HashData(source: (Stream) null!, destination: span);
+        MD5.HashData(source: readOnlySpan);
+        MD5.HashData(source: readOnlySpan, destination: span);
+        MD5.TryHashData(source: readOnlySpan, destination: span, bytesWritten: out _);
+#if FeatureValueTask
+        MD5.HashDataAsync(source: null!, destination: memory);
+        MD5.HashDataAsync(source: null!, destination: memory, cancellationToken: CancellationToken.None);
+#endif
+#endif
+    }
+
 #if FeatureMemory
 
     void CollectionBuilderAttribute()
