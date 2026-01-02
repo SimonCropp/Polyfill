@@ -201,8 +201,8 @@ partial class PolyfillTests
         var task = Task.Delay(10000);
 
         // Act & Assert (cancellation should win - use 5s timeout to ensure cancellation fires first on slow CI servers)
-        await Assert.ThrowsAsync<TaskCanceledException>(async () =>
-            await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token));
+        await Assert.That(async () =>
+            await task.WaitAsync(TimeSpan.FromSeconds(5), cancelSource.Token)).Throws<TaskCanceledException>();
     }
 
     [Test]
@@ -608,6 +608,256 @@ partial class PolyfillTests
     }
 
     #endregion
+
+#if NET5_0_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+
+    #region WhenEach Tests
+
+    [Test]
+    public async Task WhenEach_NonGeneric_CompletesInOrder()
+    {
+        // Arrange
+        var tcs1 = new TaskCompletionSource();
+        var tcs2 = new TaskCompletionSource();
+        var tcs3 = new TaskCompletionSource();
+        var tasks = new[] { tcs1.Task, tcs2.Task, tcs3.Task };
+        var completed = new List<int>();
+
+        // Act
+        var whenEachTask = Task.Run(async () =>
+        {
+            var index = 0;
+            await foreach (var task in Task.WhenEach(tasks))
+            {
+                completed.Add(index++);
+            }
+        });
+
+        // Complete in specific order
+        tcs2.SetResult();
+        await Task.Delay(10);
+        tcs1.SetResult();
+        await Task.Delay(10);
+        tcs3.SetResult();
+        await whenEachTask;
+
+        // Assert - verify we got all tasks
+        await Assert.That(completed.Count).IsEqualTo(3);
+    }
+
+    [Test]
+    public async Task WhenEach_Generic_CompletesInOrder()
+    {
+        // Arrange
+        var tcs1 = new TaskCompletionSource<int>();
+        var tcs2 = new TaskCompletionSource<int>();
+        var tcs3 = new TaskCompletionSource<int>();
+        var tasks = new[] { tcs1.Task, tcs2.Task, tcs3.Task };
+        var results = new List<int>();
+
+        // Act
+        var whenEachTask = Task.Run(async () =>
+        {
+            await foreach (var task in Task.WhenEach(tasks))
+            {
+                results.Add(await task);
+            }
+        });
+
+        // Complete in specific order with different values
+        tcs2.SetResult(2);
+        await Task.Delay(10);
+        tcs1.SetResult(1);
+        await Task.Delay(10);
+        tcs3.SetResult(3);
+        await whenEachTask;
+
+        // Assert - verify we got all results
+        await Assert.That(results.Count).IsEqualTo(3);
+        await Assert.That(results.Contains(1)).IsTrue();
+        await Assert.That(results.Contains(2)).IsTrue();
+        await Assert.That(results.Contains(3)).IsTrue();
+    }
+
+    [Test]
+    public async Task WhenEach_NonGeneric_EmptyCollection_CompletesImmediately()
+    {
+        // Arrange
+        var tasks = Array.Empty<Task>();
+        var count = 0;
+
+        // Act
+        await foreach (var task in Task.WhenEach(tasks))
+        {
+            count++;
+        }
+
+        // Assert
+        await Assert.That(count).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task WhenEach_Generic_EmptyCollection_CompletesImmediately()
+    {
+        // Arrange
+        var tasks = Array.Empty<Task<int>>();
+        var count = 0;
+
+        // Act
+        await foreach (var task in Task.WhenEach(tasks))
+        {
+            count++;
+        }
+
+        // Assert
+        await Assert.That(count).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task WhenEach_NonGeneric_NullTasks_ThrowsArgumentNullException()
+    {
+        // Act & Assert
+#pragma warning disable IDE0022
+        await Assert.That(async () =>
+        {
+            await foreach (var task in Task.WhenEach((IEnumerable<Task>)null!))
+            {
+            }
+        }).Throws<ArgumentNullException>();
+#pragma warning restore IDE0022
+    }
+
+    [Test]
+    public async Task WhenEach_Generic_NullTasks_ThrowsArgumentNullException()
+    {
+        // Act & Assert
+#pragma warning disable IDE0022
+        await Assert.That(async () =>
+        {
+            await foreach (var task in Task.WhenEach((IEnumerable<Task<int>>)null!))
+            {
+            }
+        }).Throws<ArgumentNullException>();
+#pragma warning restore IDE0022
+    }
+
+#if !NET9_0_OR_GREATER
+    // CancellationToken overload only exists in polyfill, not in native .NET 9+ implementation
+    [Test]
+    public async Task WhenEach_NonGeneric_WithCancellation_StopsIterating()
+    {
+        // Arrange
+        var tcs1 = new TaskCompletionSource();
+        var tcs2 = new TaskCompletionSource();
+        var tcs3 = new TaskCompletionSource();
+        var tasks = new[] { tcs1.Task, tcs2.Task, tcs3.Task };
+        var cancelSource = new CancelSource();
+        var count = 0;
+
+        // Act
+        var whenEachTask = Task.Run(async () =>
+        {
+            await foreach (var task in Task.WhenEach(tasks, cancelSource.Token))
+            {
+                count++;
+                if (count == 1)
+                {
+                    cancelSource.Cancel();
+                }
+            }
+        });
+
+        tcs1.SetResult();
+        await Task.Delay(10);
+        tcs2.SetResult();
+        await Task.Delay(10);
+        tcs3.SetResult();
+
+        // Assert
+        await Assert.That(() => whenEachTask).Throws<OperationCanceledException>();
+    }
+#endif
+
+    [Test]
+    public async Task WhenEach_Generic_WithFaultedTask_PropagatesException()
+    {
+        // Arrange
+        var tcs1 = new TaskCompletionSource<int>();
+        var tcs2 = new TaskCompletionSource<int>();
+        var tasks = new[] { tcs1.Task, tcs2.Task };
+        var results = new List<Task<int>>();
+
+        // Act
+        var whenEachTask = Task.Run(async () =>
+        {
+            await foreach (var task in Task.WhenEach(tasks))
+            {
+                results.Add(task);
+            }
+        });
+
+        tcs1.SetResult(1);
+        await Task.Delay(10);
+        tcs2.SetException(new InvalidOperationException("Test exception"));
+        await whenEachTask;
+
+        // Assert - WhenEach completes, but the task itself is faulted
+        await Assert.That(results.Count).IsEqualTo(2);
+        await Assert.That(async () => await results[0]).ThrowsNothing();
+        await Assert.That(async () => await results[1]).Throws<InvalidOperationException>();
+    }
+
+    [Test]
+    public async Task WhenEach_NonGeneric_AlreadyCompletedTasks_YieldsAll()
+    {
+        // Arrange
+        var tasks = new[]
+        {
+            Task.CompletedTask,
+            Task.CompletedTask,
+            Task.CompletedTask
+        };
+        var count = 0;
+
+        // Act
+        await foreach (var task in Task.WhenEach(tasks))
+        {
+            count++;
+            await Assert.That(task.IsCompleted).IsTrue();
+        }
+
+        // Assert
+        await Assert.That(count).IsEqualTo(3);
+    }
+
+    [Test]
+    public async Task WhenEach_Generic_AlreadyCompletedTasks_YieldsAll()
+    {
+        // Arrange
+        var tasks = new[]
+        {
+            Task.FromResult(1),
+            Task.FromResult(2),
+            Task.FromResult(3)
+        };
+        var results = new List<int>();
+
+        // Act
+        await foreach (var task in Task.WhenEach(tasks))
+        {
+            results.Add(await task);
+        }
+
+        // Assert
+        await Assert.That(results.Count).IsEqualTo(3);
+        await Assert.That(results.Contains(1)).IsTrue();
+        await Assert.That(results.Contains(2)).IsTrue();
+        await Assert.That(results.Contains(3)).IsTrue();
+    }
+
+    #endregion
+
+#endif
 
     #region Helper Methods
 

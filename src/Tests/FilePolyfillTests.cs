@@ -1,29 +1,27 @@
-﻿using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
-using static TUnit.Core.HookType;
+﻿using System.Runtime.Versioning;
 // ReSharper disable MethodHasAsyncOverload
 
 [NotInParallel]
 public class FilePolyfillTests
 {
-    const string SourceFilePath = "source.txt";
-    const string DestinationFilePath = "destination.txt";
-    const string TestFilePath = "testfile.txt";
+    const string sourceFilePath = "source.txt";
+    const string destinationFilePath = "destination.txt";
+    const string restFilePath = "testfile.txt";
 
     [Before(Test)]
     public void SetUp()
     {
-        File.Delete(TestFilePath);
-        File.Delete(SourceFilePath);
-        File.Delete(DestinationFilePath);
+        File.Delete(restFilePath);
+        File.Delete(sourceFilePath);
+        File.Delete(destinationFilePath);
     }
 
     [After(Test)]
     public void TearDown()
     {
-        File.Delete(TestFilePath);
-        File.Delete(SourceFilePath);
-        File.Delete(DestinationFilePath);
+        File.Delete(restFilePath);
+        File.Delete(sourceFilePath);
+        File.Delete(destinationFilePath);
     }
 
 #if FeatureMemory
@@ -32,9 +30,9 @@ public class FilePolyfillTests
     {
         var data = "Hello, World!"u8.ToArray();
         // ReSharper disable once MethodHasAsyncOverload
-        File.AppendAllBytes(TestFilePath, data);
+        File.AppendAllBytes(restFilePath, data);
 
-        var result = await File.ReadAllBytesAsync(TestFilePath);
+        var result = await File.ReadAllBytesAsync(restFilePath);
         await Assert.That(result.SequenceEqual(data)).IsTrue();
     }
 
@@ -42,9 +40,9 @@ public class FilePolyfillTests
     public async Task AppendAllBytesAsync()
     {
         var data = "Hello, Async World!"u8.ToArray();
-        await File.AppendAllBytesAsync(TestFilePath, data);
+        await File.AppendAllBytesAsync(restFilePath, data);
 
-        var result = await File.ReadAllBytesAsync(TestFilePath);
+        var result = await File.ReadAllBytesAsync(restFilePath);
         await Assert.That(result.SequenceEqual(data)).IsTrue();
     }
 #endif
@@ -53,9 +51,9 @@ public class FilePolyfillTests
     public async Task ReadAllLinesAsync_ReadsAllLines()
     {
         var lines = new[] {"Line1", "Line2", "Line3"};
-        File.WriteAllLines(TestFilePath, lines);
+        File.WriteAllLines(restFilePath, lines);
 
-        var result = await File.ReadAllLinesAsync(TestFilePath);
+        var result = await File.ReadAllLinesAsync(restFilePath);
 
         await Assert.That(result.SequenceEqual(lines)).IsTrue();
     }
@@ -71,13 +69,13 @@ public class FilePolyfillTests
     [Test]
     public async Task ReadAllLinesAsync_ThrowsIfCancelled()
     {
-        File.WriteAllText(TestFilePath, "abc");
+        File.WriteAllText(restFilePath, "abc");
         var cancelSource = new CancelSource();
         cancelSource.Cancel();
         Exception? exception = null;
         try
         {
-            await File.ReadAllLinesAsync(TestFilePath, cancelSource.Token);
+            await File.ReadAllLinesAsync(restFilePath, cancelSource.Token);
         }
         catch (Exception e)
         {
@@ -92,9 +90,9 @@ public class FilePolyfillTests
     public async Task AppendAllTextAsync()
     {
         var content = "Hello, Async Text!";
-        await File.AppendAllTextAsync(TestFilePath, content, Encoding.UTF8);
+        await File.AppendAllTextAsync(restFilePath, content, Encoding.UTF8);
 
-        var result = await File.ReadAllTextAsync(TestFilePath);
+        var result = await File.ReadAllTextAsync(restFilePath);
         await Assert.That(result).IsEqualTo(content);
     }
 
@@ -110,9 +108,9 @@ public class FilePolyfillTests
         var expected = UnixFileMode.OtherRead | UnixFileMode.GroupRead | UnixFileMode.UserWrite | UnixFileMode.UserRead;
 
         var sourceContent = "Test content";
-        File.WriteAllText(TestFilePath, sourceContent);
+        File.WriteAllText(restFilePath, sourceContent);
 
-        var result = File.GetUnixFileMode(TestFilePath);
+        var result = File.GetUnixFileMode(restFilePath);
 
         await Assert.That(result).IsEqualTo(expected);
     }
@@ -127,13 +125,13 @@ public class FilePolyfillTests
         }
 
         var sourceContent = "Test content";
-        File.WriteAllText(TestFilePath, sourceContent);
+        File.WriteAllText(restFilePath, sourceContent);
 
         var expected = UnixFileMode.UserWrite | UnixFileMode.UserRead;
 
-        File.SetUnixFileMode(TestFilePath, expected);
+        File.SetUnixFileMode(restFilePath, expected);
 
-        var result = File.GetUnixFileMode(TestFilePath);
+        var result = File.GetUnixFileMode(restFilePath);
 
         await Assert.That(result).IsEqualTo(expected);
     }
@@ -143,9 +141,9 @@ public class FilePolyfillTests
     public async Task WriteAllBytesAsync()
     {
         var data = "Hello, Write Bytes!"u8.ToArray();
-        await File.WriteAllBytesAsync(TestFilePath, data);
+        await File.WriteAllBytesAsync(restFilePath, data);
 
-        var result = await File.ReadAllBytesAsync(TestFilePath);
+        var result = await File.ReadAllBytesAsync(restFilePath);
         await Assert.That(result.SequenceEqual(data)).IsTrue();
     }
 
@@ -153,9 +151,9 @@ public class FilePolyfillTests
     public async Task WriteAllBytesAsyncMemory()
     {
         ReadOnlyMemory<byte> data = "Hello, Write Bytes!"u8.ToArray();
-        await File.WriteAllBytesAsync(TestFilePath, data);
+        await File.WriteAllBytesAsync(restFilePath, data);
 
-        var result = await File.ReadAllTextAsync(TestFilePath);
+        var result = await File.ReadAllTextAsync(restFilePath);
         await Assert.That(result).IsEqualTo("Hello, Write Bytes!");
     }
 
@@ -165,9 +163,9 @@ public class FilePolyfillTests
     public async Task WriteAllTextAsync()
     {
         var content = "Hello, Write Text!";
-        await File.WriteAllTextAsync(TestFilePath, content, Encoding.UTF8);
+        await File.WriteAllTextAsync(restFilePath, content, Encoding.UTF8);
 
-        var result = await File.ReadAllTextAsync(TestFilePath);
+        var result = await File.ReadAllTextAsync(restFilePath);
         await Assert.That(result).IsEqualTo(content);
     }
 
@@ -176,15 +174,15 @@ public class FilePolyfillTests
     {
         // Arrange
         var content = "Test content";
-        File.WriteAllText(SourceFilePath, content);
+        File.WriteAllText(sourceFilePath, content);
 
         // Act
-        File.Move(SourceFilePath, DestinationFilePath, overwrite: true);
+        File.Move(sourceFilePath, destinationFilePath, overwrite: true);
 
         // Assert
-        await Assert.That(File.Exists(SourceFilePath)).IsFalse();
-        await Assert.That(File.Exists(DestinationFilePath)).IsTrue();
-        var result = File.ReadAllText(DestinationFilePath);
+        await Assert.That(File.Exists(sourceFilePath)).IsFalse();
+        await Assert.That(File.Exists(destinationFilePath)).IsTrue();
+        var result = File.ReadAllText(destinationFilePath);
         await Assert.That(result).IsEqualTo(content);
     }
 
@@ -194,16 +192,16 @@ public class FilePolyfillTests
         // Arrange
         var sourceContent = "Source content";
         var destinationContent = "Destination content";
-        File.WriteAllText(SourceFilePath, sourceContent);
-        File.WriteAllText(DestinationFilePath, destinationContent);
+        File.WriteAllText(sourceFilePath, sourceContent);
+        File.WriteAllText(destinationFilePath, destinationContent);
 
         // Act
-        File.Move(SourceFilePath, DestinationFilePath, overwrite: true);
+        File.Move(sourceFilePath, destinationFilePath, overwrite: true);
 
         // Assert
-        await Assert.That(File.Exists(SourceFilePath)).IsFalse();
-        await Assert.That(File.Exists(DestinationFilePath)).IsTrue();
-        var result = File.ReadAllText(DestinationFilePath);
+        await Assert.That(File.Exists(sourceFilePath)).IsFalse();
+        await Assert.That(File.Exists(destinationFilePath)).IsTrue();
+        var result = File.ReadAllText(destinationFilePath);
         await Assert.That(result).IsEqualTo(sourceContent);
     }
 
@@ -213,11 +211,95 @@ public class FilePolyfillTests
         // Arrange
         var sourceContent = "Source content";
         var destinationContent = "Destination content";
-        File.WriteAllText(SourceFilePath, sourceContent);
-        File.WriteAllText(DestinationFilePath, destinationContent);
+        File.WriteAllText(sourceFilePath, sourceContent);
+        File.WriteAllText(destinationFilePath, destinationContent);
 
         // Act & Assert
         await Assert.That(() =>
-            File.Move(SourceFilePath, DestinationFilePath, overwrite: false)).Throws<IOException>();
+            File.Move(sourceFilePath, destinationFilePath, overwrite: false)).Throws<IOException>();
     }
+
+#if FeatureAsyncInterfaces
+
+    [Test]
+    public async Task ReadLinesAsync_ReadsAllLines()
+    {
+        var lines = new[] { "Line1", "Line2", "Line3" };
+        File.WriteAllLines(restFilePath, lines);
+
+        var result = new List<string>();
+        await foreach (var line in File.ReadLinesAsync(restFilePath))
+        {
+            result.Add(line);
+        }
+
+        await Assert.That(result.SequenceEqual(lines)).IsTrue();
+    }
+
+    [Test]
+    public async Task ReadLinesAsync_WithEncoding_ReadsAllLines()
+    {
+        var lines = new[] { "Línea1", "Línea2", "Línea3" };
+        File.WriteAllLines(restFilePath, lines, Encoding.UTF8);
+
+        var result = new List<string>();
+        await foreach (var line in File.ReadLinesAsync(restFilePath, Encoding.UTF8))
+        {
+            result.Add(line);
+        }
+
+        await Assert.That(result.SequenceEqual(lines)).IsTrue();
+    }
+
+    [Test]
+    public async Task ReadLinesAsync_EmptyFile_ReturnsNoLines()
+    {
+        File.WriteAllText(restFilePath, "");
+
+        var result = new List<string>();
+        await foreach (var line in File.ReadLinesAsync(restFilePath))
+        {
+            result.Add(line);
+        }
+
+        await Assert.That(result.Count).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task ReadLinesAsync_ThrowsIfFileNotFound()
+    {
+        var nonExistent = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+        await Assert.That(async () =>
+        {
+            await foreach (var _ in File.ReadLinesAsync(nonExistent))
+            {
+            }
+        }).Throws<FileNotFoundException>();
+    }
+
+    [Test]
+    public async Task ReadLinesAsync_ThrowsIfCancelled()
+    {
+        var lines = new[] { "Line1", "Line2", "Line3" };
+        File.WriteAllLines(restFilePath, lines);
+        var cancelSource = new CancelSource();
+        cancelSource.Cancel();
+
+        Exception? exception = null;
+        try
+        {
+            await foreach (var _ in File.ReadLinesAsync(restFilePath, cancelSource.Token))
+            {
+            }
+        }
+        catch (Exception e)
+        {
+            exception = e;
+        }
+
+        await Assert.That(exception).IsNotNull();
+        await Assert.That(exception is OperationCanceledException or TaskCanceledException).IsTrue();
+    }
+
+#endif
 }

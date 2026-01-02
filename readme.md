@@ -1,6 +1,6 @@
 # <img src="/src/icon.png" height="30px" width="30px"> Polyfill
 
-[![Build status](https://ci.appveyor.com/api/projects/status/s6eqqg4ipeovebgd?svg=true)](https://ci.appveyor.com/project/SimonCropp/Polyfill)
+[![Build status](https://img.shields.io/appveyor/build/SimonCropp/Polyfill)](https://ci.appveyor.com/project/SimonCropp/Polyfill)
 [![Polyfill NuGet Status](https://img.shields.io/nuget/v/Polyfill.svg)](https://www.nuget.org/packages/Polyfill/)
 
 Source only package that exposes newer .NET and C# features to older runtimes.
@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 652**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 669**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -1113,6 +1113,15 @@ The class `Polyfill` includes the following extension methods:
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-10.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0))))
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-10.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))))
  * `bool Contains<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-10.0#system-memoryextensions-contains-1(system-span((-0))-0))
+ * `void Sort<T>(Comparison<T>)`
+ * `void Sort<T>() where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-1(system-span((-0))))
+
+
+#### Span<TKey>
+
+ * `void Sort<TKey, TValue, TComparer>(Span<TValue>, TComparer) where TComparer : IComparer<TKey>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-3(system-span((-0))-system-span((-1))-2))
+ * `void Sort<TKey, TValue>(Span<TValue>, Comparison<TKey>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-2(system-span((-0))-system-span((-1))-system-comparison((-0))))
+ * `void Sort<TKey, TValue>(Span<TValue>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-2(system-span((-0))-system-span((-1))))
 
 
 #### Stack<T>
@@ -1215,6 +1224,20 @@ The class `Polyfill` includes the following extension methods:
  * `void SetCanceled<T>(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled?view=net-10.0#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken))
 
 
+#### TaskWhenEach
+
+ * `IAsyncEnumerable<Task> WhenEach(IEnumerable<Task>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.wheneach?view=net-10.0)
+ * `IAsyncEnumerable<Task<TResult>> WhenEach<TResult>(IEnumerable<Task<TResult>>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.wheneach?view=net-10.0)
+
+
+#### TcpClient
+
+ * `ValueTask ConnectAsync(IPAddress, int, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.connectasync?view=net-10.0#system-net-sockets-tcpclient-connectasync(system-net-ipaddress-system-int32-system-threading-cancellationtoken))
+ * `ValueTask ConnectAsync(IPAddress[], int, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.connectasync?view=net-10.0#system-net-sockets-tcpclient-connectasync(system-net-ipaddress()-system-int32-system-threading-cancellationtoken))
+ * `ValueTask ConnectAsync(IPEndPoint, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.connectasync?view=net-10.0#system-net-sockets-tcpclient-connectasync(system-net-ipendpoint-system-threading-cancellationtoken))
+ * `ValueTask ConnectAsync(string, int, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.connectasync?view=net-10.0#system-net-sockets-tcpclient-connectasync(system-string-system-int32-system-threading-cancellationtoken))
+
+
 #### TextReader
 
  * `ValueTask<int> ReadAsync(Memory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readasync?view=net-10.0#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken))
@@ -1254,11 +1277,20 @@ The class `Polyfill` includes the following extension methods:
 #### Type
 
  * `MemberInfo GetMemberWithSameMetadataDefinitionAs(MemberInfo)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.getmemberwithsamemetadatadefinitionas?view=net-10.0)
+ * `MethodInfo? GetMethod(string, int, BindingFlags, Binder?, Type[], ParameterModifier[]?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod?view=net-10.0#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-reflection-binder-system-type()-system-reflection-parametermodifier()))
  * `MethodInfo? GetMethod(string, int, BindingFlags, Type[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod?view=net-10.0#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-type()))
  * `bool IsAssignableFrom<T>()`
  * `bool IsAssignableTo(Type?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto?view=net-10.0)
  * `bool IsAssignableTo<T>()`
  * `bool IsGenericMethodParameter()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter?view=net-10.0)
+
+
+#### UdpClient
+
+ * `ValueTask<UdpReceiveResult> ReceiveAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.receiveasync?view=net-10.0#system-net-sockets-udpclient-receiveasync(system-threading-cancellationtoken))
+ * `ValueTask<int> SendAsync(ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.sendasync?view=net-10.0#system-net-sockets-udpclient-sendasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+ * `ValueTask<int> SendAsync(ReadOnlyMemory<byte>, IPEndPoint?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.sendasync?view=net-10.0#system-net-sockets-udpclient-sendasync(system-readonlymemory((system-byte))-system-net-ipendpoint-system-threading-cancellationtoken))
+ * `ValueTask<int> SendAsync(ReadOnlyMemory<byte>, string?, int, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.sendasync?view=net-10.0#system-net-sockets-udpclient-sendasync(system-readonlymemory((system-byte))-system-string-system-int32-system-threading-cancellationtoken))
 
 
 #### UInt16
@@ -1342,6 +1374,17 @@ The class `Polyfill` includes the following extension methods:
  * `Task ExtractToFileAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttofileasync?view=net-10.0#system-io-compression-zipfileextensions-extracttofileasync(system-io-compression-ziparchiveentry-system-string-system-threading-cancellationtoken))
  * `Task<Stream> OpenAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.openasync?view=net-10.0)
  * `ExternalAttributes` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.externalattributes?view=net-10.0)
+
+
+#### ZipFile
+
+ * `Task CreateFromDirectoryAsync(string, string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0)
+ * `Task CreateFromDirectoryAsync(string, string, CompressionLevel, bool, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0)
+ * `Task CreateFromDirectoryAsync(string, string, CompressionLevel, bool, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0)
+ * `Task ExtractToDirectoryAsync(string, string, bool, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0)
+ * `Task ExtractToDirectoryAsync(string, string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0)
+ * `Task ExtractToDirectoryAsync(string, string, Encoding, bool, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0)
+ * `Task ExtractToDirectoryAsync(string, string, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0)
 
 
 #### Ensure
@@ -1582,7 +1625,7 @@ void ArgumentExceptionExample(Order order, Customer customer, string customerId,
     this.quantity = quantity;
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L378-L396' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L386-L404' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -1601,7 +1644,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L402-L414' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L410-L422' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

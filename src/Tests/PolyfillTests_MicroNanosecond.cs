@@ -33,4 +33,5 @@ partial class PolyfillTests
         await Assert.That(dateTime.Microsecond()).IsEqualTo(dateTime.Microsecond);
     }
 #endif
+
 }

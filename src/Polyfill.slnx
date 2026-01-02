@@ -5,10 +5,10 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/Solution Items/">
+    <File Path="../.gitattributes" />
     <File Path="../.gitignore" />
     <File Path="../readme.md" />
-    <File Path=".editorconfig" />
-    <File Path=".gitattributes" />
+    <File Path="../.editorconfig" />
     <File Path="appveyor.yml" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
@@ -32,6 +32,7 @@
   <Project Path="ConsumeLib/ConsumeLib.csproj" />
   <Project Path="ConsumeNoOptional/ConsumeNoOptional.csproj" />
   <Project Path="ConsumeNoRefs/ConsumeNoRefs.csproj" />
+  <Project Path="ConsumeOnlyAsyncInterfaces/ConsumeOnlyAsyncInterfaces.csproj" />
   <Project Path="ConsumeOnlyCompression/ConsumeOnlyCompression.csproj" />
   <Project Path="ConsumeOnlyMemory/ConsumeOnlyMemory.csproj" />
   <Project Path="ConsumeOnlyTasks/ConsumeOnlyTasks.csproj" />

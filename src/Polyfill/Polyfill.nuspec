@@ -15,33 +15,8 @@
   </metadata>
   <files>
     <file src="../icon.png" target="icon.png" />
-    <file src="*.cs"
-          target="contentFiles/cs/netstandard2.0/Polyfill/"/>
-    <file src="ArgumentExceptions\*.cs"
-          target="contentFiles/cs/netstandard2.0/Polyfill/ArgumentExceptions"/>
-    <file src="Ensure\*.cs"
-          target="contentFiles/cs/netstandard2.0/Polyfill/Ensure"/>
-    <file src="Guard\*.cs"
-          target="contentFiles/cs/netstandard2.0/Polyfill/Guard"/>
-    <file src="Nullable\*.cs"
-          target="contentFiles/cs/netstandard2.0/Polyfill/Nullable"/>
-    <file src="Nullability\*.cs"
-          target="contentFiles/cs/netstandard2.0/Polyfill/Nullability"/>
-    <file src="IndexRange\*.cs"
-          target="contentFiles/cs/netstandard2.0/Polyfill/IndexRange"/>
-    <file src="StringInterpolation\*.cs"
-          target="contentFiles/cs/netstandard2.0/Polyfill/StringInterpolation"/>
-    <file src="Trimming\*.cs"
-          target="contentFiles/cs/netstandard2.0/Polyfill/Trimming"/>
-    <file src="Regex\*.cs"
-          target="contentFiles/cs/netstandard2.0/Polyfill/Regex"/>
-    <file src="PlatformCompatibility\*.cs"
-          target="contentFiles/cs/netstandard2.0/Polyfill/PlatformCompatibility"/>
-    <file src="Numbers\*.cs"
-          target="contentFiles/cs/netstandard2.0/Polyfill/Numbers"/>
-    <file src="Polyfill.targets"
-          target="build"/>
-    <file src="exclude.editorconfig"
-          target=".editorconfig"/>
+    <file src="..\Split\**\*.cs" target="contentFiles\cs\"/>
+    <file src="Polyfill.targets" target="build"/>
+    <file src="exclude.editorconfig" target=".editorconfig"/>
   </files>
 </package>
