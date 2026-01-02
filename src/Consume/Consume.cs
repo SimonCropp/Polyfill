@@ -1,3 +1,6 @@
+// used to confirm that all the Polyfilled API actually exist and compile on all target frameworks
+
+
 // ReSharper disable RedundantUsingDirective
 // ReSharper disable RedundantAssignment
 // ReSharper disable UnusedVariable
@@ -491,6 +494,19 @@ class Consume
         target.ReadAsStreamAsync(CancellationToken.None);
         target.ReadAsByteArrayAsync(CancellationToken.None);
         target.ReadAsStringAsync(CancellationToken.None);
+    }
+#endif
+
+#if FeatureValueTask && FeatureMemory
+    async Task Socket_Methods()
+    {
+        using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        var endpoint = new IPEndPoint(IPAddress.Loopback, 12345);
+        await socket.ConnectAsync(endpoint, CancellationToken.None);
+        var sendBuffer = new ReadOnlyMemory<byte>(new byte[] { 1, 2, 3 });
+        await socket.SendAsync(sendBuffer, SocketFlags.None, CancellationToken.None);
+        var receiveBuffer = new Memory<byte>(new byte[10]);
+        await socket.ReceiveAsync(receiveBuffer, SocketFlags.None, CancellationToken.None);
     }
 #endif
 
