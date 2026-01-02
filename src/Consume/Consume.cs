@@ -334,6 +334,18 @@ class Consume
 
 #endif
 
+#if FeatureMemory
+    void BitConverter_Methods()
+    {
+        var floatFromInt = BitConverter.Int32BitsToSingle(0x3F800000);
+        var intFromFloat = BitConverter.SingleToInt32Bits(1.0f);
+        var floatFromUInt = BitConverter.UInt32BitsToSingle(0x3F800000u);
+        var uintFromFloat = BitConverter.SingleToUInt32Bits(1.0f);
+        var doubleFromULong = BitConverter.UInt64BitsToDouble(0x3FF0000000000000ul);
+        var ulongFromDouble = BitConverter.DoubleToUInt64Bits(1.0);
+    }
+#endif
+
     void Byte_Methods()
     {
         byte.TryParse(s: "1", provider: null, result: out _);
