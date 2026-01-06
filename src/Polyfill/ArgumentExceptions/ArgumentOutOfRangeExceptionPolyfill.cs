@@ -149,7 +149,7 @@ static partial class Polyfill
 #endif
 
 #if !NET8_0_OR_GREATER
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthanorequal?view=net-10.0#system-argumentoutofrangeexception-throwifgreaterthanorequal-1(-0-0-system-string)
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than <paramref name="other"/>.</summary>
         public static void ThrowIfGreaterThan(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
         {
             if (value > other)
@@ -172,7 +172,7 @@ static partial class Polyfill
 #endif
 
 #if !NET8_0_OR_GREATER
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthanorequal?view=net-10.0#system-argumentoutofrangeexception-throwifgreaterthanorequal-1(-0-0-system-string)
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than or equal to <paramref name="other"/>.</summary>
         public static void ThrowIfGreaterThanOrEqual(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
         {
             if (value >= other)
@@ -195,7 +195,7 @@ static partial class Polyfill
 #endif
 
 #if !NET8_0_OR_GREATER
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthan?view=net-10.0#system-argumentoutofrangeexception-throwiflessthan-1(-0-0-system-string)
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than <paramref name="other"/>.</summary>
         public static void ThrowIfLessThan(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
         {
             if (value < other)
@@ -218,7 +218,7 @@ static partial class Polyfill
 #endif
 
 #if !NET8_0_OR_GREATER
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthanorequal?view=net-10.0#system-argumentoutofrangeexception-throwiflessthanorequal-1(-0-0-system-string)
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than or equal to <paramref name="other"/>.</summary>
         public static void ThrowIfLessThanOrEqual(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
         {
             if (value <= other)
