@@ -41,6 +41,7 @@ static partial class Ensure
     }
 #endif
 
+#if !NET7_0_OR_GREATER
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
     /// <param name="value">The argument to validate as non-zero.</param>
     /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
@@ -53,5 +54,5 @@ static partial class Ensure
 
         return value;
     }
-
+#endif
 }
