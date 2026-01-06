@@ -31,6 +31,17 @@ static partial class Polyfill
         }
 #endif
 
+#if !NET7_0_OR_GREATER
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
+        public static void ThrowIfZero(nint value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+        {
+           if (value == (nint)0)
+            {
+                ThrowZero(paramName);
+            }
+        }
+#endif
+
         [DoesNotReturn]
         static void ThrowZero(string? paramName) =>
             throw new ArgumentOutOfRangeException(paramName, "Value must not be zero.");
