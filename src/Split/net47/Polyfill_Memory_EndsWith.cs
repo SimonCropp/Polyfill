@@ -8,34 +8,34 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Determines whether the specified value appears at the end of the span.
-    /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool EndsWith<T>(this ReadOnlySpan<T> target, T value)
-        where T : IEquatable<T>?
-    {
-        if (target.Length == 0)
-        {
-            return false;
-        }
-        var last = target[target.Length - 1];
-        return last?.Equals(value) ?? (object?) value is null;
-    }
-    /// <summary>
-    /// Determines whether the end of the span matches the specified value when compared using the specified <paramref name="comparison"/> option.
-    /// </summary>
-    public static bool EndsWith(
-        this ReadOnlySpan<char> target,
-        string other,
-        StringComparison comparison = StringComparison.CurrentCulture) =>
-        target.EndsWith(other.AsSpan(), comparison);
-    /// <summary>
-    /// Determines whether the specified sequence appears at the end of a span.
-    /// </summary>
-    public static bool EndsWith(
-        this Span<char> target,
-        string other) =>
-        target.EndsWith(other.AsSpan());
+	/// <summary>
+	/// Determines whether the specified value appears at the end of the span.
+	/// </summary>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static bool EndsWith<T>(this ReadOnlySpan<T> target, T value)
+		where T : IEquatable<T>?
+	{
+		if (target.Length == 0)
+		{
+			return false;
+		}
+		var last = target[target.Length - 1];
+		return last?.Equals(value) ?? (object?) value is null;
+	}
+	/// <summary>
+	/// Determines whether the end of the span matches the specified value when compared using the specified <paramref name="comparison"/> option.
+	/// </summary>
+	public static bool EndsWith(
+		this ReadOnlySpan<char> target,
+		string other,
+		StringComparison comparison = StringComparison.CurrentCulture) =>
+		target.EndsWith(other.AsSpan(), comparison);
+	/// <summary>
+	/// Determines whether the specified sequence appears at the end of a span.
+	/// </summary>
+	public static bool EndsWith(
+		this Span<char> target,
+		string other) =>
+		target.EndsWith(other.AsSpan());
 }
 #endif

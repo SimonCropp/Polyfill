@@ -8,120 +8,120 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
-    extension(ArgumentOutOfRangeException)
-    {
-        public static void ThrowIfZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-            where T : INumberBase<T>
-        {
-            if (T.IsZero(value))
-            {
-                ThrowZero(paramName);
-            }
-        }
-        [DoesNotReturn]
-        static void ThrowZero(string? paramName) =>
-            throw new ArgumentOutOfRangeException(paramName, "Value must not be zero.");
-        public static void ThrowIfNegative<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-            where T : INumberBase<T>
-        {
-            if (T.IsNegative(value))
-            {
-                ThrowNegative(value, paramName);
-            }
-        }
-        [DoesNotReturn]
-        static void ThrowNegative<T>(T value, string? paramName) =>
-            throw new ArgumentOutOfRangeException(paramName, value, "Value must be non-negative.");
-        public static void ThrowIfNegativeOrZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-            where T : INumberBase<T>
-        {
-            if (T.IsNegative(value) || T.IsZero(value))
-            {
-                ThrowNegativeOrZero(value, paramName);
-            }
-        }
-        [DoesNotReturn]
-        static void ThrowNegativeOrZero<T>(T value, string? name) =>
-            throw new ArgumentOutOfRangeException(name, value, $"{name} ('{value}') must be a non-negative and non-zero value.");
-        public static void ThrowIfEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-            where T : IEquatable<T>?
-        {
-            if (EqualityComparer<T>.Default.Equals(value, other))
-            {
-                throw new ArgumentOutOfRangeException(paramName, value, $"Value must not be equal to {other}.");
-            }
-        }
-        public static void ThrowIfNotEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-            where T : IEquatable<T>?
-        {
-            if (!EqualityComparer<T>.Default.Equals(value, other))
-            {
-                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be equal to {other}.");
-            }
-        }
-        public static void ThrowIfGreaterThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-            where T : IComparable<T>
-        {
-            if (value.CompareTo(other) > 0)
-            {
-                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than or equal to {other}.");
-            }
-        }
-        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than <paramref name="other"/>.</summary>
-        public static void ThrowIfGreaterThan(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-        {
-            if (value > other)
-            {
-                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than or equal to {other}.");
-            }
-        }
-        public static void ThrowIfGreaterThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-            where T : IComparable<T>
-        {
-            if (value.CompareTo(other) >= 0)
-            {
-                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than {other}.");
-            }
-        }
-        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than or equal to <paramref name="other"/>.</summary>
-        public static void ThrowIfGreaterThanOrEqual(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-        {
-            if (value >= other)
-            {
-                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than or equal to {other}.");
-            }
-        }
-        public static void ThrowIfLessThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-            where T : IComparable<T>
-        {
-            if (value.CompareTo(other) < 0)
-            {
-                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than or equal to {other}.");
-            }
-        }
-        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than <paramref name="other"/>.</summary>
-        public static void ThrowIfLessThan(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-        {
-            if (value < other)
-            {
-                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than or equal to {other}.");
-            }
-        }
-        public static void ThrowIfLessThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-            where T : IComparable<T>
-        {
-            if (value.CompareTo(other) <= 0)
-            {
-                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than {other}.");
-            }
-        }
-        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than or equal to <paramref name="other"/>.</summary>
-        public static void ThrowIfLessThanOrEqual(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
-        {
-            if (value <= other)
-            {
-                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than or equal to {other}.");
-            }
-        }
-    }
+	extension(ArgumentOutOfRangeException)
+	{
+		public static void ThrowIfZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+			where T : INumberBase<T>
+		{
+			if (T.IsZero(value))
+			{
+				ThrowZero(paramName);
+			}
+		}
+		[DoesNotReturn]
+		static void ThrowZero(string? paramName) =>
+			throw new ArgumentOutOfRangeException(paramName, "Value must not be zero.");
+		public static void ThrowIfNegative<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+			where T : INumberBase<T>
+		{
+			if (T.IsNegative(value))
+			{
+				ThrowNegative(value, paramName);
+			}
+		}
+		[DoesNotReturn]
+		static void ThrowNegative<T>(T value, string? paramName) =>
+			throw new ArgumentOutOfRangeException(paramName, value, "Value must be non-negative.");
+		public static void ThrowIfNegativeOrZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+			where T : INumberBase<T>
+		{
+			if (T.IsNegative(value) || T.IsZero(value))
+			{
+				ThrowNegativeOrZero(value, paramName);
+			}
+		}
+		[DoesNotReturn]
+		static void ThrowNegativeOrZero<T>(T value, string? name) =>
+			throw new ArgumentOutOfRangeException(name, value, $"{name} ('{value}') must be a non-negative and non-zero value.");
+		public static void ThrowIfEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+			where T : IEquatable<T>?
+		{
+			if (EqualityComparer<T>.Default.Equals(value, other))
+			{
+				throw new ArgumentOutOfRangeException(paramName, value, $"Value must not be equal to {other}.");
+			}
+		}
+		public static void ThrowIfNotEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+			where T : IEquatable<T>?
+		{
+			if (!EqualityComparer<T>.Default.Equals(value, other))
+			{
+				throw new ArgumentOutOfRangeException(paramName, value, $"Value must be equal to {other}.");
+			}
+		}
+		public static void ThrowIfGreaterThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+			where T : IComparable<T>
+		{
+			if (value.CompareTo(other) > 0)
+			{
+				throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than or equal to {other}.");
+			}
+		}
+		/// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than <paramref name="other"/>.</summary>
+		public static void ThrowIfGreaterThan(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+		{
+			if (value > other)
+			{
+				throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than or equal to {other}.");
+			}
+		}
+		public static void ThrowIfGreaterThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+			where T : IComparable<T>
+		{
+			if (value.CompareTo(other) >= 0)
+			{
+				throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than {other}.");
+			}
+		}
+		/// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than or equal to <paramref name="other"/>.</summary>
+		public static void ThrowIfGreaterThanOrEqual(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+		{
+			if (value >= other)
+			{
+				throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than or equal to {other}.");
+			}
+		}
+		public static void ThrowIfLessThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+			where T : IComparable<T>
+		{
+			if (value.CompareTo(other) < 0)
+			{
+				throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than or equal to {other}.");
+			}
+		}
+		/// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than <paramref name="other"/>.</summary>
+		public static void ThrowIfLessThan(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+		{
+			if (value < other)
+			{
+				throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than or equal to {other}.");
+			}
+		}
+		public static void ThrowIfLessThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+			where T : IComparable<T>
+		{
+			if (value.CompareTo(other) <= 0)
+			{
+				throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than {other}.");
+			}
+		}
+		/// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than or equal to <paramref name="other"/>.</summary>
+		public static void ThrowIfLessThanOrEqual(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+		{
+			if (value <= other)
+			{
+				throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than or equal to {other}.");
+			}
+		}
+	}
 }

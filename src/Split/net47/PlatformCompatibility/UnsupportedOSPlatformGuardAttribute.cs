@@ -11,11 +11,11 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: Targets.Field |
-             Targets.Method |
-             Targets.Property,
-    AllowMultiple = true,
-    Inherited = false)]
+	validOn: Targets.Field |
+			 Targets.Method |
+			 Targets.Property,
+	AllowMultiple = true,
+	Inherited = false)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -23,4 +23,4 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class UnsupportedOSPlatformGuardAttribute(string platformName) :
-    OSPlatformAttribute(platformName);
+	OSPlatformAttribute(platformName);

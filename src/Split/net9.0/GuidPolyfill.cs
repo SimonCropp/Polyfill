@@ -6,19 +6,19 @@ using System;
 using System.Security.Cryptography;
 static partial class Polyfill
 {
-    extension(Guid)
-    {
+	extension(Guid)
+	{
 #if FeatureMemory
-        /// <summary>
-        /// Tries to parse a span of UTF-8 bytes into a value.
-        /// </summary>
-        public static bool TryParse(ReadOnlySpan<byte> utf8Text, out Guid result) =>
-            Guid.TryParse(Encoding.UTF8.GetString(utf8Text), out result);
-        /// <summary>
-        /// Parse a span of UTF-8 bytes into a value.
-        /// </summary>
-        public static Guid Parse(ReadOnlySpan<byte> utf8Text) =>
-            Guid.Parse(Encoding.UTF8.GetString(utf8Text));
+		/// <summary>
+		/// Tries to parse a span of UTF-8 bytes into a value.
+		/// </summary>
+		public static bool TryParse(ReadOnlySpan<byte> utf8Text, out Guid result) =>
+			Guid.TryParse(Encoding.UTF8.GetString(utf8Text), out result);
+		/// <summary>
+		/// Parse a span of UTF-8 bytes into a value.
+		/// </summary>
+		public static Guid Parse(ReadOnlySpan<byte> utf8Text) =>
+			Guid.Parse(Encoding.UTF8.GetString(utf8Text));
 #endif
-    }
+	}
 }

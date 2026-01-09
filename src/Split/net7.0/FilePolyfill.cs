@@ -10,95 +10,95 @@ using System.Threading;
 using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
-    extension(File)
-    {
-        /// <summary>
-        /// Appends the specified byte array to the end of the file at the given path.
-        /// If the file doesn't exist, this method creates a new file. If the operation is canceled, the task will return in a canceled state.
-        /// </summary>
-        public static void AppendAllBytes(string path, byte[] bytes)
-        {
-            using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
-            stream.Write(bytes, 0, bytes.Length);
-        }
-        /// <summary>
-        /// Asynchronously appends the specified byte array to the end of the file at the given path.
-        /// If the file doesn't exist, this method creates a new file. If the operation is canceled, the task will return in a canceled state.
-        /// </summary>
-        public static async Task AppendAllBytesAsync(string path, byte[] bytes, CancellationToken cancellationToken = default)
-        {
-            using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
-            await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
-        }
+	extension(File)
+	{
+		/// <summary>
+		/// Appends the specified byte array to the end of the file at the given path.
+		/// If the file doesn't exist, this method creates a new file. If the operation is canceled, the task will return in a canceled state.
+		/// </summary>
+		public static void AppendAllBytes(string path, byte[] bytes)
+		{
+			using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
+			stream.Write(bytes, 0, bytes.Length);
+		}
+		/// <summary>
+		/// Asynchronously appends the specified byte array to the end of the file at the given path.
+		/// If the file doesn't exist, this method creates a new file. If the operation is canceled, the task will return in a canceled state.
+		/// </summary>
+		public static async Task AppendAllBytesAsync(string path, byte[] bytes, CancellationToken cancellationToken = default)
+		{
+			using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
+			await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
+		}
 #if FeatureMemory
-        /// <summary>
-        /// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file using the specified encoding, and then closes the file.
-        /// </summary>
-        public static Task AppendAllTextAsync(string path, ReadOnlyMemory<char> contents, Encoding encoding, CancellationToken cancellationToken = default) =>
-            File.AppendAllTextAsync(path, contents.ToString(), encoding, cancellationToken);
-        /// <summary>
-        /// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file, and then closes the file.
-        /// </summary>
-        public static Task AppendAllTextAsync(string path, ReadOnlyMemory<char> contents, CancellationToken cancellationToken = default) =>
-            File.AppendAllTextAsync(path, contents.ToString(), cancellationToken);
-        /// <summary>
-        /// Appends the specified string to the file, creating the file if it does not already exist.
-        /// </summary>
-        public static void AppendAllText(string path, ReadOnlySpan<char> contents) =>
-            File.AppendAllText(path, contents.ToString());
-        /// <summary>
-        /// Appends the specified string to the file, creating the file if it does not already exist.
-        /// </summary>
-        public static void AppendAllText(string path, ReadOnlySpan<char> contents, Encoding encoding) =>
-            File.AppendAllText(path, contents.ToString(), encoding);
-        /// <summary>
-        /// Appends the specified byte array to the end of the file at the given path.
-        /// If the file doesn't exist, this method creates a new file. If the operation is canceled, the task will return in a canceled state.
-        /// </summary>
-        public static void AppendAllBytes(string path, ReadOnlySpan<byte> bytes)
-        {
-            using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
-            stream.Write(bytes.ToArray(), 0, bytes.Length);
-        }
-        /// <summary>
-        /// Asynchronously creates a new file, writes the specified byte array to the file, and then closes the file. If the target file already exists, it is truncated and overwritten.
-        /// </summary>
-        public static async Task WriteAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
-        {
-            using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
-            await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken);
-        }
-        /// <summary>
-        /// Creates a new file, writes the specified string to the file, and then closes the file.
-        /// If the target file already exists, it is truncated and overwritten.
-        /// </summary>
-        public static void WriteAllText(string path, ReadOnlySpan<char> contents) =>
-            File.WriteAllText(path, contents.ToString());
-        /// <summary>
-        /// Creates a new file, writes the specified string to the file using the specified encoding, and then closes the file.
-        /// If the target file already exists, it is truncated and overwritten.
-        /// </summary>
-        public static void WriteAllText(string path, ReadOnlySpan<char> contents, Encoding encoding) =>
-            File.WriteAllText(path, contents.ToString(), encoding);
-        /// <summary>
-        /// Asynchronously appends the specified byte array to the end of the file at the given path.
-        /// If the file doesn't exist, this method creates a new file. If the operation is canceled, the task will return in a canceled state.
-        /// </summary>
-        public static Task AppendAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default) =>
-            AppendAllBytesAsync(path, bytes.ToArray(), cancellationToken);
+		/// <summary>
+		/// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file using the specified encoding, and then closes the file.
+		/// </summary>
+		public static Task AppendAllTextAsync(string path, ReadOnlyMemory<char> contents, Encoding encoding, CancellationToken cancellationToken = default) =>
+			File.AppendAllTextAsync(path, contents.ToString(), encoding, cancellationToken);
+		/// <summary>
+		/// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file, and then closes the file.
+		/// </summary>
+		public static Task AppendAllTextAsync(string path, ReadOnlyMemory<char> contents, CancellationToken cancellationToken = default) =>
+			File.AppendAllTextAsync(path, contents.ToString(), cancellationToken);
+		/// <summary>
+		/// Appends the specified string to the file, creating the file if it does not already exist.
+		/// </summary>
+		public static void AppendAllText(string path, ReadOnlySpan<char> contents) =>
+			File.AppendAllText(path, contents.ToString());
+		/// <summary>
+		/// Appends the specified string to the file, creating the file if it does not already exist.
+		/// </summary>
+		public static void AppendAllText(string path, ReadOnlySpan<char> contents, Encoding encoding) =>
+			File.AppendAllText(path, contents.ToString(), encoding);
+		/// <summary>
+		/// Appends the specified byte array to the end of the file at the given path.
+		/// If the file doesn't exist, this method creates a new file. If the operation is canceled, the task will return in a canceled state.
+		/// </summary>
+		public static void AppendAllBytes(string path, ReadOnlySpan<byte> bytes)
+		{
+			using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
+			stream.Write(bytes.ToArray(), 0, bytes.Length);
+		}
+		/// <summary>
+		/// Asynchronously creates a new file, writes the specified byte array to the file, and then closes the file. If the target file already exists, it is truncated and overwritten.
+		/// </summary>
+		public static async Task WriteAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
+		{
+			using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
+			await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken);
+		}
+		/// <summary>
+		/// Creates a new file, writes the specified string to the file, and then closes the file.
+		/// If the target file already exists, it is truncated and overwritten.
+		/// </summary>
+		public static void WriteAllText(string path, ReadOnlySpan<char> contents) =>
+			File.WriteAllText(path, contents.ToString());
+		/// <summary>
+		/// Creates a new file, writes the specified string to the file using the specified encoding, and then closes the file.
+		/// If the target file already exists, it is truncated and overwritten.
+		/// </summary>
+		public static void WriteAllText(string path, ReadOnlySpan<char> contents, Encoding encoding) =>
+			File.WriteAllText(path, contents.ToString(), encoding);
+		/// <summary>
+		/// Asynchronously appends the specified byte array to the end of the file at the given path.
+		/// If the file doesn't exist, this method creates a new file. If the operation is canceled, the task will return in a canceled state.
+		/// </summary>
+		public static Task AppendAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default) =>
+			AppendAllBytesAsync(path, bytes.ToArray(), cancellationToken);
 #endif
-        /// <summary>
-        /// Moves a specified file to a new location, providing the options to specify a new file name and to replace the destination file if it already exists.
-        /// </summary>
-        public static void Move(string sourceFileName, string destFileName, bool overwrite)
-        {
-            sourceFileName = Path.GetFullPath(sourceFileName);
-            destFileName = Path.GetFullPath(destFileName);
-            if (sourceFileName == destFileName)
-            {
-                return;
-            }
-            File.Move(sourceFileName, destFileName, overwrite: overwrite);
-        }
-    }
+		/// <summary>
+		/// Moves a specified file to a new location, providing the options to specify a new file name and to replace the destination file if it already exists.
+		/// </summary>
+		public static void Move(string sourceFileName, string destFileName, bool overwrite)
+		{
+			sourceFileName = Path.GetFullPath(sourceFileName);
+			destFileName = Path.GetFullPath(destFileName);
+			if (sourceFileName == destFileName)
+			{
+				return;
+			}
+			File.Move(sourceFileName, destFileName, overwrite: overwrite);
+		}
+	}
 }

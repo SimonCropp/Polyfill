@@ -6,28 +6,28 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Returns a read-only <see cref="ReadOnlyDictionary{TKey,TValue}"/> wrapper for the current dictionary.
-    /// </summary>
-    public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> target)
-        where TKey : notnull =>
-        new(target);
-    /// <summary>
-    /// Ensures that the capacity of this dictionary is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
-    /// </summary>
-    public static void EnsureCapacity<TKey, TValue>(this Dictionary<TKey, TValue> target, int capacity)
-    {
-    }
-    /// <summary>
-    /// Sets the capacity of this dictionary to hold up a specified number of entries without any further expansion of its backing storage.
-    /// </summary>
-    public static void TrimExcess<TKey, TValue>(this Dictionary<TKey, TValue> target, int capacity)
-    {
-    }
-    /// <summary>
-    /// Sets the capacity of this dictionary to what it would be if it had been originally initialized with all its entries.
-    /// </summary>
-    public static void TrimExcess<TKey, TValue>(this Dictionary<TKey, TValue> target)
-    {
-    }
+	/// <summary>
+	/// Returns a read-only <see cref="ReadOnlyDictionary{TKey,TValue}"/> wrapper for the current dictionary.
+	/// </summary>
+	public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> target)
+		where TKey : notnull =>
+		new(target);
+	/// <summary>
+	/// Ensures that the capacity of this dictionary is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
+	/// </summary>
+	public static void EnsureCapacity<TKey, TValue>(this Dictionary<TKey, TValue> target, int capacity)
+	{
+	}
+	/// <summary>
+	/// Sets the capacity of this dictionary to hold up a specified number of entries without any further expansion of its backing storage.
+	/// </summary>
+	public static void TrimExcess<TKey, TValue>(this Dictionary<TKey, TValue> target, int capacity)
+	{
+	}
+	/// <summary>
+	/// Sets the capacity of this dictionary to what it would be if it had been originally initialized with all its entries.
+	/// </summary>
+	public static void TrimExcess<TKey, TValue>(this Dictionary<TKey, TValue> target)
+	{
+	}
 }

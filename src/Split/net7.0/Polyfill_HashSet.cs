@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Sets the capacity of a HashSet object to the specified number of entries, rounded up to a nearby, implementation-specific value.
-    /// </summary>
-    public static void TrimExcess<T>(this HashSet<T> target, int capacity)
-    {
-    }
+	/// <summary>
+	/// Sets the capacity of a HashSet object to the specified number of entries, rounded up to a nearby, implementation-specific value.
+	/// </summary>
+	public static void TrimExcess<T>(this HashSet<T> target, int capacity)
+	{
+	}
 }

@@ -17,7 +17,7 @@ using Diagnostics.CodeAnalysis;
 public
 #endif
 sealed class TargetPlatformAttribute(string platformName) :
-    OSPlatformAttribute(platformName);
+	OSPlatformAttribute(platformName);
 #else
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.TargetPlatformAttribute))]

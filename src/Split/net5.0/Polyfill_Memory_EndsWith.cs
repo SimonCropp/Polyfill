@@ -8,19 +8,19 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Determines whether the specified value appears at the end of the span.
-    /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool EndsWith<T>(this ReadOnlySpan<T> target, T value)
-        where T : IEquatable<T>?
-    {
-        if (target.Length == 0)
-        {
-            return false;
-        }
-        var last = target[target.Length - 1];
-        return last?.Equals(value) ?? (object?) value is null;
-    }
+	/// <summary>
+	/// Determines whether the specified value appears at the end of the span.
+	/// </summary>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static bool EndsWith<T>(this ReadOnlySpan<T> target, T value)
+		where T : IEquatable<T>?
+	{
+		if (target.Length == 0)
+		{
+			return false;
+		}
+		var last = target[target.Length - 1];
+		return last?.Equals(value) ?? (object?) value is null;
+	}
 }
 #endif

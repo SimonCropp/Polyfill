@@ -8,10 +8,10 @@ public
 #endif
 static partial class Polyfill
 {
-    extension(ValueTask)
-    {
-        /// <summary>Gets a task that has already completed successfully.</summary>
-        public static ValueTask CompletedTask => default;
-    }
+	extension(ValueTask)
+	{
+		/// <summary>Gets a task that has already completed successfully.</summary>
+		public static ValueTask CompletedTask => default;
+	}
 }
 #endif

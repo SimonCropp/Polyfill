@@ -6,29 +6,29 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
-    extension(ArgumentException)
-    {
-        public static void ThrowIfNullOrEmpty([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
-        {
-            if (argument is null)
-            {
-                throw new ArgumentNullException(paramName);
-            }
-            if (argument.Length == 0)
-            {
-                throw new ArgumentException("The value cannot be an empty string.", paramName);
-            }
-        }
-        public static void ThrowIfNullOrWhiteSpace([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
-        {
-            if (argument is null)
-            {
-                throw new ArgumentNullException(paramName);
-            }
-            if (string.IsNullOrWhiteSpace(argument))
-            {
-                throw new ArgumentException("The value cannot be an empty string or composed entirely of whitespace.", paramName);
-            }
-        }
-    }
+	extension(ArgumentException)
+	{
+		public static void ThrowIfNullOrEmpty([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
+		{
+			if (argument is null)
+			{
+				throw new ArgumentNullException(paramName);
+			}
+			if (argument.Length == 0)
+			{
+				throw new ArgumentException("The value cannot be an empty string.", paramName);
+			}
+		}
+		public static void ThrowIfNullOrWhiteSpace([NotNull] string? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
+		{
+			if (argument is null)
+			{
+				throw new ArgumentNullException(paramName);
+			}
+			if (string.IsNullOrWhiteSpace(argument))
+			{
+				throw new ArgumentException("The value cannot be an empty string or composed entirely of whitespace.", paramName);
+			}
+		}
+	}
 }

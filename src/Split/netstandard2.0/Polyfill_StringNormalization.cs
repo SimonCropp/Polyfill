@@ -7,23 +7,23 @@ using System.Text;
 //TODO: Add XML documentation
 static partial class Polyfill
 {
-    public static int GetNormalizedLength(this ReadOnlySpan<char> target, NormalizationForm normalizationForm = NormalizationForm.FormC) =>
-        target.ToString().Normalize(normalizationForm).Length;
-    /// <summary>
-    /// Indicates whether the specified string is in Unicode normalization form C.
-    /// </summary>
-    public static bool IsNormalized(this ReadOnlySpan<char> target, NormalizationForm normalizationForm = NormalizationForm.FormC) =>
-        target.ToString().IsNormalized(normalizationForm);
-    public static bool TryNormalize(this ReadOnlySpan<char> target, Span<char> destination, out int charsWritten, NormalizationForm normalizationForm = NormalizationForm.FormC)
-    {
-        var normalize = target.ToString().Normalize(normalizationForm).AsSpan();
-        if (normalize.TryCopyTo(destination))
-        {
-            charsWritten = normalize.Length;
-            return true;
-        }
-        charsWritten = 0;
-        return false;
-    }
+	public static int GetNormalizedLength(this ReadOnlySpan<char> target, NormalizationForm normalizationForm = NormalizationForm.FormC) =>
+		target.ToString().Normalize(normalizationForm).Length;
+	/// <summary>
+	/// Indicates whether the specified string is in Unicode normalization form C.
+	/// </summary>
+	public static bool IsNormalized(this ReadOnlySpan<char> target, NormalizationForm normalizationForm = NormalizationForm.FormC) =>
+		target.ToString().IsNormalized(normalizationForm);
+	public static bool TryNormalize(this ReadOnlySpan<char> target, Span<char> destination, out int charsWritten, NormalizationForm normalizationForm = NormalizationForm.FormC)
+	{
+		var normalize = target.ToString().Normalize(normalizationForm).AsSpan();
+		if (normalize.TryCopyTo(destination))
+		{
+			charsWritten = normalize.Length;
+			return true;
+		}
+		charsWritten = 0;
+		return false;
+	}
 }
 #endif

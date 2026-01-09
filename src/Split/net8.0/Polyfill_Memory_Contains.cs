@@ -8,11 +8,11 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Indicates whether a specified value occurs within a read-only span.
-    /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool Contains<T>(this ReadOnlySpan<T> span, T value, IEqualityComparer<T>? comparer = null) =>
-        span.IndexOf(value, comparer) >= 0;
+	/// <summary>
+	/// Indicates whether a specified value occurs within a read-only span.
+	/// </summary>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static bool Contains<T>(this ReadOnlySpan<T> span, T value, IEqualityComparer<T>? comparer = null) =>
+		span.IndexOf(value, comparer) >= 0;
 }
 #endif

@@ -6,14 +6,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Deconstructs DateOnly by Year, Month, and Day.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void Deconstruct(this DateOnly target, out int year, out int month, out int day)
-    {
-        year = target.Year;
-        month = target.Month;
-        day = target.Day;
-    }
+	/// <summary>
+	/// Deconstructs DateOnly by Year, Month, and Day.
+	/// </summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static void Deconstruct(this DateOnly target, out int year, out int month, out int day)
+	{
+		year = target.Year;
+		month = target.Month;
+		day = target.Day;
+	}
 }

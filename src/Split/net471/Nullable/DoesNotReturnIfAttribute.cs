@@ -15,18 +15,18 @@ namespace System.Diagnostics.CodeAnalysis;
 public
 #endif
 sealed class DoesNotReturnIfAttribute :
-    Attribute
+	Attribute
 {
-    /// <summary>
-    ///   Gets the condition parameter value.
-    ///   Code after the method is considered unreachable by diagnostics if the argument
-    ///   to the associated parameter matches this value.
-    /// </summary>
-    public bool ParameterValue { get; }
-    /// <summary>
-    ///   Initializes a new instance of the <see cref="DoesNotReturnIfAttribute"/>
-    ///   class with the specified parameter value.
-    /// </summary>
-    public DoesNotReturnIfAttribute(bool parameterValue) =>
-        ParameterValue = parameterValue;
+	/// <summary>
+	///   Gets the condition parameter value.
+	///   Code after the method is considered unreachable by diagnostics if the argument
+	///   to the associated parameter matches this value.
+	/// </summary>
+	public bool ParameterValue { get; }
+	/// <summary>
+	///   Initializes a new instance of the <see cref="DoesNotReturnIfAttribute"/>
+	///   class with the specified parameter value.
+	/// </summary>
+	public DoesNotReturnIfAttribute(bool parameterValue) =>
+		ParameterValue = parameterValue;
 }

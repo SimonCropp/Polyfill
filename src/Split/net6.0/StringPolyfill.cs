@@ -5,122 +5,122 @@ using System;
 using System.Collections.Generic;
 static partial class Polyfill
 {
-    extension(string)
-    {
+	extension(string)
+	{
 #if FeatureMemory
-        /// <summary>
-        /// Concatenates the string representations of a span of objects, using the specified separator between each member.
-        /// </summary>
-        public static string Join(char separator, scoped ReadOnlySpan<object?> values) =>
-            Join(separator, values.ToArray());
-        /// <summary>
-        /// Concatenates a span of strings, using the specified separator between each member.
-        /// </summary>
-        public static string Join(char separator, scoped ReadOnlySpan<string?> values)
-        {
-            if (values.Length == 0)
-            {
-                return string.Empty;
-            }
-            if (values.Length == 1)
-            {
-                return values[0] ?? string.Empty;
-            }
+		/// <summary>
+		/// Concatenates the string representations of a span of objects, using the specified separator between each member.
+		/// </summary>
+		public static string Join(char separator, scoped ReadOnlySpan<object?> values) =>
+			Join(separator, values.ToArray());
+		/// <summary>
+		/// Concatenates a span of strings, using the specified separator between each member.
+		/// </summary>
+		public static string Join(char separator, scoped ReadOnlySpan<string?> values)
+		{
+			if (values.Length == 0)
+			{
+				return string.Empty;
+			}
+			if (values.Length == 1)
+			{
+				return values[0] ?? string.Empty;
+			}
 #if AllowUnsafeBlocks
-            var length = 0;
-            foreach (var value in values)
-            {
-                length += 1;
-                if (value != null)
-                {
-                    length += value.Length;
-                }
-            }
-            length -= 1;
-            var result = new string(separator, length);
-            unsafe
-            {
-                fixed (char* strPtr = result)
-                {
-                    var span = new Span<char>(strPtr, length);
-                    for (var index = 0; index < values.Length; index++)
-                    {
-                        if (index > 0)
-                        {
-                            span = span.Slice(1);
-                        }
-                        var value = values[index];
-                        value.CopyTo(span);
-                        span = span.Slice(value.Length);
-                    }
-                }
-            }
-            return result;
+			var length = 0;
+			foreach (var value in values)
+			{
+				length += 1;
+				if (value != null)
+				{
+					length += value.Length;
+				}
+			}
+			length -= 1;
+			var result = new string(separator, length);
+			unsafe
+			{
+				fixed (char* strPtr = result)
+				{
+					var span = new Span<char>(strPtr, length);
+					for (var index = 0; index < values.Length; index++)
+					{
+						if (index > 0)
+						{
+							span = span.Slice(1);
+						}
+						var value = values[index];
+						value.CopyTo(span);
+						span = span.Slice(value.Length);
+					}
+				}
+			}
+			return result;
 #else
-            return Join(separator, values.ToArray());
+			return Join(separator, values.ToArray());
 #endif
-        }
-        /// <summary>
-        /// Concatenates a span of strings, using the specified separator between each member.
-        /// </summary>
-        public static string Join(string? separator, scoped ReadOnlySpan<string?> values)
-        {
-            if (values.Length == 0)
-            {
-                return string.Empty;
-            }
-            if (values.Length == 1)
-            {
-                return values[0] ?? string.Empty;
-            }
+		}
+		/// <summary>
+		/// Concatenates a span of strings, using the specified separator between each member.
+		/// </summary>
+		public static string Join(string? separator, scoped ReadOnlySpan<string?> values)
+		{
+			if (values.Length == 0)
+			{
+				return string.Empty;
+			}
+			if (values.Length == 1)
+			{
+				return values[0] ?? string.Empty;
+			}
 #if AllowUnsafeBlocks
-            separator ??= string.Empty;
-            var length = 0;
-            foreach (var value in values)
-            {
-                length += separator.Length;
-                if (value != null)
-                {
-                    length += value.Length;
-                }
-            }
-            length -= separator.Length;
-            var result = new string('\0', length);
-            unsafe
-            {
-                fixed (char* strPtr = result)
-                {
-                    var span = new Span<char>(strPtr, length);
-                    for (var index = 0; index < values.Length; index++)
-                    {
-                        if (index > 0 &&
-                            separator.Length > 0)
-                        {
-                            separator.CopyTo(span);
-                            span = span.Slice(separator.Length);
-                        }
-                        var value = values[index];
-                        if (value is null)
-                        {
-                            continue;
-                        }
-                        value.CopyTo(span);
-                        span = span.Slice(value.Length);
-                    }
-                }
-            }
-            return result;
+			separator ??= string.Empty;
+			var length = 0;
+			foreach (var value in values)
+			{
+				length += separator.Length;
+				if (value != null)
+				{
+					length += value.Length;
+				}
+			}
+			length -= separator.Length;
+			var result = new string('\0', length);
+			unsafe
+			{
+				fixed (char* strPtr = result)
+				{
+					var span = new Span<char>(strPtr, length);
+					for (var index = 0; index < values.Length; index++)
+					{
+						if (index > 0 &&
+							separator.Length > 0)
+						{
+							separator.CopyTo(span);
+							span = span.Slice(separator.Length);
+						}
+						var value = values[index];
+						if (value is null)
+						{
+							continue;
+						}
+						value.CopyTo(span);
+						span = span.Slice(value.Length);
+					}
+				}
+			}
+			return result;
 #else
-            return string.Join(separator, values.ToArray());
+			return string.Join(separator, values.ToArray());
 #endif
-        }
+		}
 #endif
 #if FeatureMemory
-        /// <summary>
-        /// Concatenates the string representations of a span of objects, using the specified separator between each member.
-        /// </summary>
-        public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
-            string.Join(separator, values.ToArray());
+		/// <summary>
+		/// Concatenates the string representations of a span of objects, using the specified separator between each member.
+		/// </summary>
+		public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
+			string.Join(separator, values.ToArray());
 #endif
-    }
+	}
 }

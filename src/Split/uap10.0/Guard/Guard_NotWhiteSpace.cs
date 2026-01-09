@@ -9,29 +9,29 @@ public
 #endif
 static partial class Guard
 {
-    [return: NotNullIfNotNull(nameof(value))]
-    public static string? NotWhiteSpace(
-        string? value,
-        [CallerArgumentExpression("value")] string name = "") =>
-        Ensure.NotWhiteSpace(value, name);
+	[return: NotNullIfNotNull(nameof(value))]
+	public static string? NotWhiteSpace(
+		string? value,
+		[CallerArgumentExpression("value")] string name = "") =>
+		Ensure.NotWhiteSpace(value, name);
 #if FeatureMemory
-    public static ReadOnlySpan<char> NotWhiteSpace(
-        ReadOnlySpan<char> value,
-        [CallerArgumentExpression("value")] string name = "") =>
-        Ensure.NotWhiteSpace(value, name);
-    [return: NotNullIfNotNull(nameof(value))]
-    public static Memory<char>? NotWhiteSpace(
-        Memory<char>? value,
-        [CallerArgumentExpression("value")] string name = "") =>
-        Ensure.NotWhiteSpace(value, name);
-    [return: NotNullIfNotNull(nameof(value))]
-    public static ReadOnlyMemory<char>? NotWhiteSpace(
-        ReadOnlyMemory<char>? value,
-        [CallerArgumentExpression("value")] string name = "") =>
-        Ensure.NotWhiteSpace(value, name);
-    public static Span<char> NotWhiteSpace(
-        Span<char> value,
-        [CallerArgumentExpression("value")] string name = "") =>
-        Ensure.NotWhiteSpace(value, name);
+	public static ReadOnlySpan<char> NotWhiteSpace(
+		ReadOnlySpan<char> value,
+		[CallerArgumentExpression("value")] string name = "") =>
+		Ensure.NotWhiteSpace(value, name);
+	[return: NotNullIfNotNull(nameof(value))]
+	public static Memory<char>? NotWhiteSpace(
+		Memory<char>? value,
+		[CallerArgumentExpression("value")] string name = "") =>
+		Ensure.NotWhiteSpace(value, name);
+	[return: NotNullIfNotNull(nameof(value))]
+	public static ReadOnlyMemory<char>? NotWhiteSpace(
+		ReadOnlyMemory<char>? value,
+		[CallerArgumentExpression("value")] string name = "") =>
+		Ensure.NotWhiteSpace(value, name);
+	public static Span<char> NotWhiteSpace(
+		Span<char> value,
+		[CallerArgumentExpression("value")] string name = "") =>
+		Ensure.NotWhiteSpace(value, name);
 #endif
 }

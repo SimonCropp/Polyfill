@@ -15,4 +15,4 @@ using Diagnostics.CodeAnalysis;
 public
 #endif
 sealed class DebuggerDisableUserUnhandledExceptionsAttribute :
-    Attribute;
+	Attribute;

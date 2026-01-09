@@ -6,14 +6,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Deconstructs this <see cref="DateTimeOffset"/> instance by <see cref="DateOnly"/>, <see cref="TimeOnly"/>, and <see cref="TimeSpan"/>.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void Deconstruct(this DateTimeOffset target, out DateOnly date, out TimeOnly time, out TimeSpan offset)
-    {
-        date = DateOnly.FromDateTime(target.DateTime);
-        time = TimeOnly.FromDateTime(target.DateTime);
-        offset = target.Offset;
-    }
+	/// <summary>
+	/// Deconstructs this <see cref="DateTimeOffset"/> instance by <see cref="DateOnly"/>, <see cref="TimeOnly"/>, and <see cref="TimeSpan"/>.
+	/// </summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static void Deconstruct(this DateTimeOffset target, out DateOnly date, out TimeOnly time, out TimeSpan offset)
+	{
+		date = DateOnly.FromDateTime(target.DateTime);
+		time = TimeOnly.FromDateTime(target.DateTime);
+		offset = target.Offset;
+	}
 }

@@ -6,34 +6,34 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 static partial class Polyfill
 {
-    static bool CopyToSpan(Span<char> destination, out int written, string result)
-    {
-        if (result.Length == 0)
-        {
-            written = 0;
-            return true;
-        }
-        if (result.Length > destination.Length)
-        {
-            written = 0;
-            return false;
-        }
-        written = result.Length;
-        return result.TryCopyTo(destination);
-    }
-    static bool DoFormat<T>(this T target, Span<char> destination, out int written, [StringSyntax(StringSyntaxAttribute.TimeSpanFormat)] ReadOnlySpan<char> format = default, IFormatProvider? formatProvider = null)
-        where T : IFormattable
-    {
-        string result;
-        if (format.Length == 0)
-        {
-            result = target.ToString(null, formatProvider);
-        }
-        else
-        {
-            result = target.ToString(format.ToString(), formatProvider);
-        }
-        return CopyToSpan(destination, out written, result);
-    }
+	static bool CopyToSpan(Span<char> destination, out int written, string result)
+	{
+		if (result.Length == 0)
+		{
+			written = 0;
+			return true;
+		}
+		if (result.Length > destination.Length)
+		{
+			written = 0;
+			return false;
+		}
+		written = result.Length;
+		return result.TryCopyTo(destination);
+	}
+	static bool DoFormat<T>(this T target, Span<char> destination, out int written, [StringSyntax(StringSyntaxAttribute.TimeSpanFormat)] ReadOnlySpan<char> format = default, IFormatProvider? formatProvider = null)
+		where T : IFormattable
+	{
+		string result;
+		if (format.Length == 0)
+		{
+			result = target.ToString(null, formatProvider);
+		}
+		else
+		{
+			result = target.ToString(format.ToString(), formatProvider);
+		}
+		return CopyToSpan(destination, out written, result);
+	}
 }
 #endif

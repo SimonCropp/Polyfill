@@ -8,38 +8,38 @@ using System.Threading.Tasks;
 #if FeatureHttp
 static partial class Polyfill
 {
-    /// <summary>
-    /// Serializes the HTTP content and returns a stream that represents the content.
-    /// </summary>
-    public static Task<Stream> ReadAsStreamAsync(
-        this HttpContent target,
-        CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        return target.ReadAsStreamAsync()
-            .WaitAsync(cancellationToken);
-    }
-    /// <summary>
-    /// Serializes the HTTP content to a byte array as an asynchronous operation.
-    /// </summary>
-    public static Task<byte[]> ReadAsByteArrayAsync(
-        this HttpContent target,
-        CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        return target.ReadAsByteArrayAsync()
-            .WaitAsync(cancellationToken);
-    }
-    /// <summary>
-    /// Serializes the HTTP content to a string as an asynchronous operation.
-    /// </summary>
-    public static Task<string> ReadAsStringAsync(
-        this HttpContent target,
-        CancellationToken cancellationToken = default)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        return target.ReadAsStringAsync()
-            .WaitAsync(cancellationToken);
-    }
+	/// <summary>
+	/// Serializes the HTTP content and returns a stream that represents the content.
+	/// </summary>
+	public static Task<Stream> ReadAsStreamAsync(
+		this HttpContent target,
+		CancellationToken cancellationToken = default)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		return target.ReadAsStreamAsync()
+			.WaitAsync(cancellationToken);
+	}
+	/// <summary>
+	/// Serializes the HTTP content to a byte array as an asynchronous operation.
+	/// </summary>
+	public static Task<byte[]> ReadAsByteArrayAsync(
+		this HttpContent target,
+		CancellationToken cancellationToken = default)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		return target.ReadAsByteArrayAsync()
+			.WaitAsync(cancellationToken);
+	}
+	/// <summary>
+	/// Serializes the HTTP content to a string as an asynchronous operation.
+	/// </summary>
+	public static Task<string> ReadAsStringAsync(
+		this HttpContent target,
+		CancellationToken cancellationToken = default)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		return target.ReadAsStringAsync()
+			.WaitAsync(cancellationToken);
+	}
 }
 #endif

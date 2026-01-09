@@ -8,35 +8,35 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Indicates whether a specified value is found in a read-only span. Values are compared using IEquatable{T}.Equals(T).
-    /// </summary>
-    public static bool Contains<T>(this ReadOnlySpan<T> target, T value)
-        where T : IEquatable<T>
-    {
-        for (var index = 0; index < target.Length; index++)
-        {
-            if (target[index].Equals(value))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    /// <summary>
-    /// Indicates whether a specified value is found in a only span. Values are compared using IEquatable{T}.Equals(T).
-    /// </summary>
-    public static bool Contains<T>(this Span<T> target, T value)
-        where T : IEquatable<T>
-    {
-        for (var index = 0; index < target.Length; index++)
-        {
-            if (target[index].Equals(value))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+	/// <summary>
+	/// Indicates whether a specified value is found in a read-only span. Values are compared using IEquatable{T}.Equals(T).
+	/// </summary>
+	public static bool Contains<T>(this ReadOnlySpan<T> target, T value)
+		where T : IEquatable<T>
+	{
+		for (var index = 0; index < target.Length; index++)
+		{
+			if (target[index].Equals(value))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	/// <summary>
+	/// Indicates whether a specified value is found in a only span. Values are compared using IEquatable{T}.Equals(T).
+	/// </summary>
+	public static bool Contains<T>(this Span<T> target, T value)
+		where T : IEquatable<T>
+	{
+		for (var index = 0; index < target.Length; index++)
+		{
+			if (target[index].Equals(value))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }
 #endif

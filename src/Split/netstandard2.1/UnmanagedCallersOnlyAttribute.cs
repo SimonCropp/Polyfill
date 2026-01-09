@@ -14,8 +14,8 @@ using System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    AttributeTargets.Method,
-    Inherited = false)]
+	AttributeTargets.Method,
+	Inherited = false)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -23,16 +23,16 @@ using System.Diagnostics.CodeAnalysis;
 public
 #endif
 sealed class UnmanagedCallersOnlyAttribute :
-    Attribute
+	Attribute
 {
-    /// <summary>
-    /// Optional. If omitted, the runtime will use the default platform calling convention.
-    /// </summary>
-    public Type[]? CallConvs;
-    /// <summary>
-    /// Optional. If omitted, no named export is emitted during compilation.
-    /// </summary>
-    public string? EntryPoint;
+	/// <summary>
+	/// Optional. If omitted, the runtime will use the default platform calling convention.
+	/// </summary>
+	public Type[]? CallConvs;
+	/// <summary>
+	/// Optional. If omitted, no named export is emitted during compilation.
+	/// </summary>
+	public string? EntryPoint;
 }
 #else
 using System.Runtime.CompilerServices;

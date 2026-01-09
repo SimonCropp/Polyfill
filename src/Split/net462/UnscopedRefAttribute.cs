@@ -9,10 +9,10 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: Targets.Method |
-             Targets.Property |
-             Targets.Parameter,
-    Inherited = false)]
+	validOn: Targets.Method |
+			 Targets.Property |
+			 Targets.Parameter,
+	Inherited = false)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -20,4 +20,4 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class UnscopedRefAttribute :
-    Attribute;
+	Attribute;

@@ -17,4 +17,4 @@ using Diagnostics.CodeAnalysis;
 public
 #endif
 sealed class DisableRuntimeMarshallingAttribute :
-    Attribute;
+	Attribute;

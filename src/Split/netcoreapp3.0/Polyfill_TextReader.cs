@@ -8,26 +8,26 @@ using System.Threading;
 using System.Threading.Tasks;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Reads all characters from the current position to the end of the stream asynchronously and returns them as one string.
-    /// </summary>
-    public static Task<string> ReadToEndAsync(
-        this TextReader target,
-        CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        return target.ReadToEndAsync()
-            .WaitAsync(cancellationToken);
-    }
-    /// <summary>
-    /// Reads a line of characters asynchronously and returns the data as a string.
-    /// </summary>
-    public static Task<string> ReadLineAsync(
-        this TextReader target,
-        CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        return target.ReadLineAsync()
-            .WaitAsync(cancellationToken);
-    }
+	/// <summary>
+	/// Reads all characters from the current position to the end of the stream asynchronously and returns them as one string.
+	/// </summary>
+	public static Task<string> ReadToEndAsync(
+		this TextReader target,
+		CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		return target.ReadToEndAsync()
+			.WaitAsync(cancellationToken);
+	}
+	/// <summary>
+	/// Reads a line of characters asynchronously and returns the data as a string.
+	/// </summary>
+	public static Task<string> ReadLineAsync(
+		this TextReader target,
+		CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		return target.ReadLineAsync()
+			.WaitAsync(cancellationToken);
+	}
 }

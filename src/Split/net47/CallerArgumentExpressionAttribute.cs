@@ -16,15 +16,15 @@ using Diagnostics.CodeAnalysis;
 public
 #endif
 sealed class CallerArgumentExpressionAttribute :
-    Attribute
+	Attribute
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CallerArgumentExpressionAttribute"/> class.
-    /// </summary>
-    public CallerArgumentExpressionAttribute(string parameterName) =>
-        ParameterName = parameterName;
-    /// <summary>
-    /// Gets the name of the parameter whose expression should be captured as a string.
-    /// </summary>
-    public string ParameterName { get; }
+	/// <summary>
+	/// Initializes a new instance of the <see cref="CallerArgumentExpressionAttribute"/> class.
+	/// </summary>
+	public CallerArgumentExpressionAttribute(string parameterName) =>
+		ParameterName = parameterName;
+	/// <summary>
+	/// Gets the name of the parameter whose expression should be captured as a string.
+	/// </summary>
+	public string ParameterName { get; }
 }

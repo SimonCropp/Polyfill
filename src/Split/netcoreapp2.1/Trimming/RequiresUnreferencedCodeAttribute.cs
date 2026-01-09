@@ -11,10 +11,10 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: Targets.Method |
-             Targets.Constructor |
-             Targets.Class,
-    Inherited = false)]
+	validOn: Targets.Method |
+			 Targets.Constructor |
+			 Targets.Class,
+	Inherited = false)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -22,26 +22,26 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class RequiresUnreferencedCodeAttribute :
-    Attribute
+	Attribute
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RequiresUnreferencedCodeAttribute"/> class with the specified message.
-    /// </summary>
-    public RequiresUnreferencedCodeAttribute(string message) =>
-        Message = message;
-    /// <summary>
-    /// When set to true, indicates that the annotation should not apply to static members.
-    /// </summary>
-    public bool ExcludeStatics { get; set; }
-    /// <summary>
-    /// Gets a message that contains information about the usage of unreferenced code.
-    /// </summary>
-    public string Message { get; }
-    /// <summary>
-    /// Gets or sets an optional URL that contains more information about the method,
-    /// why it requires unreferenced code, and what options a consumer has to deal with it.
-    /// </summary>
-    public string? Url { get; set; }
+	/// <summary>
+	/// Initializes a new instance of the <see cref="RequiresUnreferencedCodeAttribute"/> class with the specified message.
+	/// </summary>
+	public RequiresUnreferencedCodeAttribute(string message) =>
+		Message = message;
+	/// <summary>
+	/// When set to true, indicates that the annotation should not apply to static members.
+	/// </summary>
+	public bool ExcludeStatics { get; set; }
+	/// <summary>
+	/// Gets a message that contains information about the usage of unreferenced code.
+	/// </summary>
+	public string Message { get; }
+	/// <summary>
+	/// Gets or sets an optional URL that contains more information about the method,
+	/// why it requires unreferenced code, and what options a consumer has to deal with it.
+	/// </summary>
+	public string? Url { get; set; }
 }
 #else
 using System.Runtime.CompilerServices;

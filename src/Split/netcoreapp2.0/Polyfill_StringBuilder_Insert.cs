@@ -6,10 +6,10 @@ using System;
 using System.Text;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Inserts the sequence of characters into this instance at the specified character position.
-    /// </summary>
-    public static StringBuilder Insert(this StringBuilder target, int index, ReadOnlySpan<char> value) =>
-        target.Insert(index, value.ToString());
+	/// <summary>
+	/// Inserts the sequence of characters into this instance at the specified character position.
+	/// </summary>
+	public static StringBuilder Insert(this StringBuilder target, int index, ReadOnlySpan<char> value) =>
+		target.Insert(index, value.ToString());
 }
 #endif

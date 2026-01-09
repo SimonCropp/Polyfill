@@ -4,10 +4,10 @@ namespace Polyfills;
 using System.Collections.Generic;
 static partial class Polyfill
 {
-    /// <summary>Returns the minimum value in a generic sequence.</summary>
-    public static TSource? Min<TSource>(
-        this IEnumerable<TSource> source,
-        IComparer<TSource>? comparer) =>
-        source
-            .MinBy(_ => _, comparer);
+	/// <summary>Returns the minimum value in a generic sequence.</summary>
+	public static TSource? Min<TSource>(
+		this IEnumerable<TSource> source,
+		IComparer<TSource>? comparer) =>
+		source
+			.MinBy(_ => _, comparer);
 }

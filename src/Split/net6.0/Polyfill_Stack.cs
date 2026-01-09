@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Sets the capacity of a Stack object to a specified number of entries.
-    /// </summary>
-    public static void TrimExcess<T>(this Stack<T> target, int capacity)
-    {
-    }
+	/// <summary>
+	/// Sets the capacity of a Stack object to a specified number of entries.
+	/// </summary>
+	public static void TrimExcess<T>(this Stack<T> target, int capacity)
+	{
+	}
 }

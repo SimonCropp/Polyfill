@@ -9,104 +9,104 @@ using System.Threading;
 using System.Threading.Tasks;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Send a GET request to the specified Uri and return the response body as a stream in an asynchronous operation.
-    /// </summary>
-    public static async Task<Stream> GetStreamAsync(
-        this HttpClient target,
-        string requestUri,
-        CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            var response = await target.GetAsync(
-                requestUri,
-                HttpCompletionOption.ResponseHeadersRead,
-                cancellationToken
-            );
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadAsStreamAsync(cancellationToken);
-        }
-        catch (OperationCanceledException ex) when (
-            ex.CancellationToken != cancellationToken &&
-            cancellationToken.IsCancellationRequested)
-        {
-            throw new OperationCanceledException(ex.Message, ex.InnerException, cancellationToken);
-        }
-    }
-    /// <summary>
-    /// Send a GET request to the specified Uri and return the response body as a stream in an asynchronous operation.
-    /// </summary>
-    public static Task<Stream> GetStreamAsync(
-        this HttpClient target,
-        Uri requestUri,
-        CancellationToken cancellationToken = default) =>
-        target.GetStreamAsync(requestUri.ToString(), cancellationToken);
-    /// <summary>
-    /// Send a GET request to the specified Uri and return the response body as a byte array in an asynchronous operation.
-    /// </summary>
-    public static async Task<byte[]> GetByteArrayAsync(
-        this HttpClient target,
-        string requestUri,
-        CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            using var response = await target.GetAsync(
-                requestUri,
-                HttpCompletionOption.ResponseHeadersRead,
-                cancellationToken);
-            response.EnsureSuccessStatusCode();
-            return await response.Content
-                .ReadAsByteArrayAsync(cancellationToken);
-        }
-        catch (OperationCanceledException exception) when (
-            exception.CancellationToken != cancellationToken &&
-            cancellationToken.IsCancellationRequested)
-        {
-            throw new OperationCanceledException(exception.Message, exception.InnerException, cancellationToken);
-        }
-    }
-    /// <summary>
-    /// Send a GET request to the specified Uri and return the response body as a byte array in an asynchronous operation.
-    /// </summary>
-    public static Task<byte[]> GetByteArrayAsync(
-        this HttpClient target,
-        Uri requestUri,
-        CancellationToken cancellationToken = default) =>
-        target.GetByteArrayAsync(requestUri.ToString(), cancellationToken);
-    /// <summary>
-    /// Send a GET request to the specified Uri and return the response body as a string in an asynchronous operation.
-    /// </summary>
-    public static async Task<string> GetStringAsync(
-        this HttpClient target,
-        string requestUri,
-        CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            using var response = await target.GetAsync(
-                requestUri,
-                HttpCompletionOption.ResponseHeadersRead,
-                cancellationToken);
-            response.EnsureSuccessStatusCode();
-            return await response.Content
-                .ReadAsStringAsync(cancellationToken);
-        }
-        catch (OperationCanceledException exception) when (
-            exception.CancellationToken != cancellationToken &&
-            cancellationToken.IsCancellationRequested)
-        {
-            throw new OperationCanceledException(exception.Message, exception.InnerException, cancellationToken);
-        }
-    }
-    /// <summary>
-    /// Send a GET request to the specified Uri and return the response body as a string in an asynchronous operation.
-    /// </summary>
-    public static Task<string> GetStringAsync(
-        this HttpClient target,
-        Uri requestUri,
-        CancellationToken cancellationToken = default) =>
-        target.GetStringAsync(requestUri.ToString(), cancellationToken);
+	/// <summary>
+	/// Send a GET request to the specified Uri and return the response body as a stream in an asynchronous operation.
+	/// </summary>
+	public static async Task<Stream> GetStreamAsync(
+		this HttpClient target,
+		string requestUri,
+		CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			var response = await target.GetAsync(
+				requestUri,
+				HttpCompletionOption.ResponseHeadersRead,
+				cancellationToken
+			);
+			response.EnsureSuccessStatusCode();
+			return await response.Content.ReadAsStreamAsync(cancellationToken);
+		}
+		catch (OperationCanceledException ex) when (
+			ex.CancellationToken != cancellationToken &&
+			cancellationToken.IsCancellationRequested)
+		{
+			throw new OperationCanceledException(ex.Message, ex.InnerException, cancellationToken);
+		}
+	}
+	/// <summary>
+	/// Send a GET request to the specified Uri and return the response body as a stream in an asynchronous operation.
+	/// </summary>
+	public static Task<Stream> GetStreamAsync(
+		this HttpClient target,
+		Uri requestUri,
+		CancellationToken cancellationToken = default) =>
+		target.GetStreamAsync(requestUri.ToString(), cancellationToken);
+	/// <summary>
+	/// Send a GET request to the specified Uri and return the response body as a byte array in an asynchronous operation.
+	/// </summary>
+	public static async Task<byte[]> GetByteArrayAsync(
+		this HttpClient target,
+		string requestUri,
+		CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			using var response = await target.GetAsync(
+				requestUri,
+				HttpCompletionOption.ResponseHeadersRead,
+				cancellationToken);
+			response.EnsureSuccessStatusCode();
+			return await response.Content
+				.ReadAsByteArrayAsync(cancellationToken);
+		}
+		catch (OperationCanceledException exception) when (
+			exception.CancellationToken != cancellationToken &&
+			cancellationToken.IsCancellationRequested)
+		{
+			throw new OperationCanceledException(exception.Message, exception.InnerException, cancellationToken);
+		}
+	}
+	/// <summary>
+	/// Send a GET request to the specified Uri and return the response body as a byte array in an asynchronous operation.
+	/// </summary>
+	public static Task<byte[]> GetByteArrayAsync(
+		this HttpClient target,
+		Uri requestUri,
+		CancellationToken cancellationToken = default) =>
+		target.GetByteArrayAsync(requestUri.ToString(), cancellationToken);
+	/// <summary>
+	/// Send a GET request to the specified Uri and return the response body as a string in an asynchronous operation.
+	/// </summary>
+	public static async Task<string> GetStringAsync(
+		this HttpClient target,
+		string requestUri,
+		CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			using var response = await target.GetAsync(
+				requestUri,
+				HttpCompletionOption.ResponseHeadersRead,
+				cancellationToken);
+			response.EnsureSuccessStatusCode();
+			return await response.Content
+				.ReadAsStringAsync(cancellationToken);
+		}
+		catch (OperationCanceledException exception) when (
+			exception.CancellationToken != cancellationToken &&
+			cancellationToken.IsCancellationRequested)
+		{
+			throw new OperationCanceledException(exception.Message, exception.InnerException, cancellationToken);
+		}
+	}
+	/// <summary>
+	/// Send a GET request to the specified Uri and return the response body as a string in an asynchronous operation.
+	/// </summary>
+	public static Task<string> GetStringAsync(
+		this HttpClient target,
+		Uri requestUri,
+		CancellationToken cancellationToken = default) =>
+		target.GetStringAsync(requestUri.ToString(), cancellationToken);
 }
 #endif

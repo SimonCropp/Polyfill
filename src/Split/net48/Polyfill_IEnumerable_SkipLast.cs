@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Returns a new enumerable collection that contains the elements from source with the last count elements of the
-    /// source collection omitted.
-    /// </summary>
-    public static IEnumerable<TSource> SkipLast<TSource>(
-        this IEnumerable<TSource> target,
-        int count) =>
-        target.Reverse().Skip(count).Reverse();
+	/// <summary>
+	/// Returns a new enumerable collection that contains the elements from source with the last count elements of the
+	/// source collection omitted.
+	/// </summary>
+	public static IEnumerable<TSource> SkipLast<TSource>(
+		this IEnumerable<TSource> target,
+		int count) =>
+		target.Reverse().Skip(count).Reverse();
 }

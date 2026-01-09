@@ -10,15 +10,15 @@ public
 #endif
 static partial class Guard
 {
-    [DoesNotReturn]
-    static void ThrowNegativeOrZero<T>(T value, string? name) =>
-        throw new ArgumentOutOfRangeException(name, value, $"{name} ('{value}') must be a non-negative and non-zero value.");
-    /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is negative or zero.</summary>
-    /// <param name="value">The argument to validate as non-zero or non-negative.</param>
-    /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
-    public static T NotNegativeOrZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? name = null)
-        where T : INumberBase<T>
-    {
-        return Ensure.NotNegativeOrZero(value, name);
-    }
+	[DoesNotReturn]
+	static void ThrowNegativeOrZero<T>(T value, string? name) =>
+		throw new ArgumentOutOfRangeException(name, value, $"{name} ('{value}') must be a non-negative and non-zero value.");
+	/// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is negative or zero.</summary>
+	/// <param name="value">The argument to validate as non-zero or non-negative.</param>
+	/// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
+	public static T NotNegativeOrZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? name = null)
+		where T : INumberBase<T>
+	{
+		return Ensure.NotNegativeOrZero(value, name);
+	}
 }

@@ -19,28 +19,28 @@ public
 #endif
 sealed class UnreachableException : Exception
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UnreachableException"/> class with the default error message.
-    /// </summary>
-    public UnreachableException()
-        : base("The program executed an instruction that was thought to be unreachable.")
-    {
-    }
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UnreachableException"/>
-    /// class with a specified error message.
-    /// </summary>
-    public UnreachableException(string? message)
-        : base(message)
-    {
-    }
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UnreachableException"/>
-    /// class with a specified error message and a reference to the inner exception that is the cause of
-    /// this exception.
-    /// </summary>
-    public UnreachableException(string? message, Exception? innerException)
-        : base(message, innerException)
-    {
-    }
+	/// <summary>
+	/// Initializes a new instance of the <see cref="UnreachableException"/> class with the default error message.
+	/// </summary>
+	public UnreachableException()
+		: base("The program executed an instruction that was thought to be unreachable.")
+	{
+	}
+	/// <summary>
+	/// Initializes a new instance of the <see cref="UnreachableException"/>
+	/// class with a specified error message.
+	/// </summary>
+	public UnreachableException(string? message)
+		: base(message)
+	{
+	}
+	/// <summary>
+	/// Initializes a new instance of the <see cref="UnreachableException"/>
+	/// class with a specified error message and a reference to the inner exception that is the cause of
+	/// this exception.
+	/// </summary>
+	public UnreachableException(string? message, Exception? innerException)
+		: base(message, innerException)
+	{
+	}
 }

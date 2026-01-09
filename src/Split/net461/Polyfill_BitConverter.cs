@@ -10,85 +10,85 @@ using System.Runtime.InteropServices;
 static partial class Polyfill
 {
 #if !AllowUnsafeBlocks
-    [StructLayout(LayoutKind.Explicit)]
-    struct BitConverter_Int32_Float
-    {
-        [FieldOffset(0)]
-        public int _int;
-        [FieldOffset(0)]
-        public float _float;
-    }
+	[StructLayout(LayoutKind.Explicit)]
+	struct BitConverter_Int32_Float
+	{
+		[FieldOffset(0)]
+		public int _int;
+		[FieldOffset(0)]
+		public float _float;
+	}
 #endif
-    extension(BitConverter)
-    {
-        /// <summary>
-        /// Reinterprets the specified 32-bit integer as a single-precision floating-point value.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+	extension(BitConverter)
+	{
+		/// <summary>
+		/// Reinterprets the specified 32-bit integer as a single-precision floating-point value.
+		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 #if AllowUnsafeBlocks
-        public static unsafe float Int32BitsToSingle(int value)
-        {
-            return Unsafe.AsRef<float>(Unsafe.AsPointer(ref value));
-        }
+		public static unsafe float Int32BitsToSingle(int value)
+		{
+			return Unsafe.AsRef<float>(Unsafe.AsPointer(ref value));
+		}
 #else
-        public static float Int32BitsToSingle(int value)
-        {
-            var i = new BitConverter_Int32_Float();
-            i._int = value;
-            return i._float;
-        }
+		public static float Int32BitsToSingle(int value)
+		{
+			var i = new BitConverter_Int32_Float();
+			i._int = value;
+			return i._float;
+		}
 #endif
-        /// <summary>
-        /// Converts the specified 32-bit unsigned integer to a single-precision floating point number.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float UInt32BitsToSingle(uint value)
-        {
-            return BitConverter.Int32BitsToSingle((int)value);
-        }
-        /// <summary>
-        /// Converts the specified 64-bit unsigned integer to a double-precision floating point number.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double UInt64BitsToDouble(ulong value)
-        {
-            return BitConverter.Int64BitsToDouble((long)value);
-        }
-        /// <summary>
-        /// Converts a single-precision floating-point value into an integer.
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		/// <summary>
+		/// Converts the specified 32-bit unsigned integer to a single-precision floating point number.
+		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static float UInt32BitsToSingle(uint value)
+		{
+			return BitConverter.Int32BitsToSingle((int)value);
+		}
+		/// <summary>
+		/// Converts the specified 64-bit unsigned integer to a double-precision floating point number.
+		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static double UInt64BitsToDouble(ulong value)
+		{
+			return BitConverter.Int64BitsToDouble((long)value);
+		}
+		/// <summary>
+		/// Converts a single-precision floating-point value into an integer.
+		/// </summary>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 #if AllowUnsafeBlocks
-        public static unsafe int SingleToInt32Bits(float value)
-        {
-            return Unsafe.AsRef<int>(Unsafe.AsPointer(ref value));
-        }
+		public static unsafe int SingleToInt32Bits(float value)
+		{
+			return Unsafe.AsRef<int>(Unsafe.AsPointer(ref value));
+		}
 #else
-        public static int SingleToInt32Bits(float value)
-        {
-            var i = new BitConverter_Int32_Float();
-            i._float = value;
-            return i._int;
-        }
+		public static int SingleToInt32Bits(float value)
+		{
+			var i = new BitConverter_Int32_Float();
+			i._float = value;
+			return i._int;
+		}
 #endif
-        /// <summary>
-        /// Converts the specified single-precision floating point number to a 32-bit unsigned integer.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static uint SingleToUInt32Bits(float value)
-        {
-            return (uint)BitConverter.SingleToInt32Bits(value);
-        }
-        /// <summary>
-        /// Converts the specified double-precision floating point number to a 64-bit unsigned integer.
-        /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ulong DoubleToUInt64Bits(double value)
-        {
-            return (ulong)BitConverter.DoubleToInt64Bits(value);
-        }
-    }
+		/// <summary>
+		/// Converts the specified single-precision floating point number to a 32-bit unsigned integer.
+		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static uint SingleToUInt32Bits(float value)
+		{
+			return (uint)BitConverter.SingleToInt32Bits(value);
+		}
+		/// <summary>
+		/// Converts the specified double-precision floating point number to a 64-bit unsigned integer.
+		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public static ulong DoubleToUInt64Bits(double value)
+		{
+			return (ulong)BitConverter.DoubleToInt64Bits(value);
+		}
+	}
 }
 #endif

@@ -6,44 +6,44 @@ using System.Globalization;
 using System.Text;
 static partial class Polyfill
 {
-    extension(uint)
-    {
-        /// <summary>
-        /// Tries to parse a string into a value.
-        /// </summary>
-        public static bool TryParse(string? s, IFormatProvider? provider, out uint result) =>
-            uint.TryParse(s, NumberStyles.Integer, provider, out result);
+	extension(uint)
+	{
+		/// <summary>
+		/// Tries to parse a string into a value.
+		/// </summary>
+		public static bool TryParse(string? s, IFormatProvider? provider, out uint result) =>
+			uint.TryParse(s, NumberStyles.Integer, provider, out result);
 #if FeatureMemory
-        /// <summary>
-        /// Tries to parse a span of UTF-8 characters into a value.
-        /// </summary>
-        public static bool TryParse(ReadOnlySpan<byte> utf8Text, IFormatProvider? provider, out uint result) =>
-            uint.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, provider, out result);
-        /// <summary>
-        /// Tries to parse a span of UTF-8 characters into a value.
-        /// </summary>
-        public static bool TryParse(ReadOnlySpan<byte> utf8Text, NumberStyles style, IFormatProvider? provider, out uint result) =>
-            uint.TryParse(Encoding.UTF8.GetString(utf8Text), style, provider, out result);
-        /// <summary>
-        /// Tries to convert a UTF-8 character span containing the string representation of a number to its uint equivalent.
-        /// </summary>
-        public static bool TryParse(ReadOnlySpan<byte> utf8Text, out uint result) =>
-            uint.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, null, out result);
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its uint equivalent. A return value indicates whether the conversion succeeded.
-        /// </summary>
-        public static bool TryParse(ReadOnlySpan<char> s, out uint result) =>
-            uint.TryParse(s.ToString(), out result);
-        /// <summary>
-        /// Converts the span representation of a number in a specified style and culture-specific format to its uint equivalent. A return value indicates whether the conversion succeeded.
-        /// </summary>
-        public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out uint result) =>
-            uint.TryParse(s.ToString(), style, provider, out result);
-        /// <summary>
-        /// Tries to parse a span of characters into a value.
-        /// </summary>
-        public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out uint result) =>
-            uint.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
+		/// <summary>
+		/// Tries to parse a span of UTF-8 characters into a value.
+		/// </summary>
+		public static bool TryParse(ReadOnlySpan<byte> utf8Text, IFormatProvider? provider, out uint result) =>
+			uint.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, provider, out result);
+		/// <summary>
+		/// Tries to parse a span of UTF-8 characters into a value.
+		/// </summary>
+		public static bool TryParse(ReadOnlySpan<byte> utf8Text, NumberStyles style, IFormatProvider? provider, out uint result) =>
+			uint.TryParse(Encoding.UTF8.GetString(utf8Text), style, provider, out result);
+		/// <summary>
+		/// Tries to convert a UTF-8 character span containing the string representation of a number to its uint equivalent.
+		/// </summary>
+		public static bool TryParse(ReadOnlySpan<byte> utf8Text, out uint result) =>
+			uint.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, null, out result);
+		/// <summary>
+		/// Converts the span representation of a number in a specified style and culture-specific format to its uint equivalent. A return value indicates whether the conversion succeeded.
+		/// </summary>
+		public static bool TryParse(ReadOnlySpan<char> s, out uint result) =>
+			uint.TryParse(s.ToString(), out result);
+		/// <summary>
+		/// Converts the span representation of a number in a specified style and culture-specific format to its uint equivalent. A return value indicates whether the conversion succeeded.
+		/// </summary>
+		public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out uint result) =>
+			uint.TryParse(s.ToString(), style, provider, out result);
+		/// <summary>
+		/// Tries to parse a span of characters into a value.
+		/// </summary>
+		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out uint result) =>
+			uint.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
 #endif
-    }
+	}
 }

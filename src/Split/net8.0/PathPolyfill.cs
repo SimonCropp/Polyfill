@@ -5,19 +5,19 @@ using System;
 using System.IO;
 static partial class Polyfill
 {
-    extension(Path)
-    {
+	extension(Path)
+	{
 #if FeatureMemory
-        /// <summary>
-        /// Combines a span of strings into a path.
-        /// </summary>
-        public static string Combine(scoped ReadOnlySpan<string> paths) =>
-            Path.Combine(paths.ToArray());
+		/// <summary>
+		/// Combines a span of strings into a path.
+		/// </summary>
+		public static string Combine(scoped ReadOnlySpan<string> paths) =>
+			Path.Combine(paths.ToArray());
 #endif
-        static bool IsRoot(string path) =>
-            Path.IsPathRooted(path) && Path.GetDirectoryName(path) == null;
-        static bool IsDirectorySeparator(char c) =>
-            c == Path.DirectorySeparatorChar ||
-            c == Path.AltDirectorySeparatorChar;
-    }
+		static bool IsRoot(string path) =>
+			Path.IsPathRooted(path) && Path.GetDirectoryName(path) == null;
+		static bool IsDirectorySeparator(char c) =>
+			c == Path.DirectorySeparatorChar ||
+			c == Path.AltDirectorySeparatorChar;
+	}
 }

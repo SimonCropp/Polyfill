@@ -6,23 +6,23 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
-    extension(ArgumentNullException)
-    {
-        public static void ThrowIfNull([NotNull] object? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
-        {
-            if (argument is null)
-            {
-                throw new ArgumentNullException(paramName);
-            }
-        }
+	extension(ArgumentNullException)
+	{
+		public static void ThrowIfNull([NotNull] object? argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
+		{
+			if (argument is null)
+			{
+				throw new ArgumentNullException(paramName);
+			}
+		}
 #if AllowUnsafeBlocks
-        public static unsafe void ThrowIfNull(void* argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
-        {
-            if (argument is null)
-            {
-                throw new ArgumentNullException(paramName);
-            }
-        }
+		public static unsafe void ThrowIfNull(void* argument, [CallerArgumentExpression(nameof(argument))] string? paramName = null)
+		{
+			if (argument is null)
+			{
+				throw new ArgumentNullException(paramName);
+			}
+		}
 #endif
-    }
+	}
 }

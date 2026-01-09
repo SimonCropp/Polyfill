@@ -5,17 +5,17 @@ namespace Polyfills;
 using System.Collections.Generic;
 static partial class Polyfill
 {
-    /// <summary>
-    /// https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/overview#linq
-    /// </summary>
-    public static IEnumerable<(int Index, TSource Item)> Index<TSource>(this IEnumerable<TSource> source)
-    {
-        var index = 0;
-        foreach (var item in source)
-        {
-            yield return (index, item);
-            index++;
-        }
-    }
+	/// <summary>
+	/// https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/overview#linq
+	/// </summary>
+	public static IEnumerable<(int Index, TSource Item)> Index<TSource>(this IEnumerable<TSource> source)
+	{
+		var index = 0;
+		foreach (var item in source)
+		{
+			yield return (index, item);
+			index++;
+		}
+	}
 }
 #endif

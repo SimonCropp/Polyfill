@@ -4,16 +4,16 @@ namespace Polyfills;
 using System.Collections.Generic;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Gets the key corresponding to the specified index.
-    /// </summary>
-    public static TKey GetKeyAtIndex<TKey, TValue>(
-        this SortedList<TKey, TValue> target, int index) =>
-        target.Keys[index];
-    /// <summary>
-    /// Gets the value corresponding to the specified index.
-    /// </summary>
-    public static TValue GetValueAtIndex<TKey, TValue>(
-        this SortedList<TKey, TValue> target, int index) =>
-        target.Values[index];
+	/// <summary>
+	/// Gets the key corresponding to the specified index.
+	/// </summary>
+	public static TKey GetKeyAtIndex<TKey, TValue>(
+		this SortedList<TKey, TValue> target, int index) =>
+		target.Keys[index];
+	/// <summary>
+	/// Gets the value corresponding to the specified index.
+	/// </summary>
+	public static TValue GetValueAtIndex<TKey, TValue>(
+		this SortedList<TKey, TValue> target, int index) =>
+		target.Values[index];
 }

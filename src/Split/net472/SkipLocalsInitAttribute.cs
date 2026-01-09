@@ -12,15 +12,15 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: Targets.Module |
-             Targets.Class |
-             Targets.Struct |
-             Targets.Interface |
-             Targets.Constructor |
-             Targets.Method |
-             Targets.Property |
-             Targets.Event,
-    Inherited = false)]
+	validOn: Targets.Module |
+			 Targets.Class |
+			 Targets.Struct |
+			 Targets.Interface |
+			 Targets.Constructor |
+			 Targets.Method |
+			 Targets.Property |
+			 Targets.Event,
+	Inherited = false)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -28,7 +28,7 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class SkipLocalsInitAttribute :
-    Attribute;
+	Attribute;
 #else
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(SkipLocalsInitAttribute))]

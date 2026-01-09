@@ -17,8 +17,8 @@ public
 #endif
 static partial class Guard
 {
-    public static void FileExists(string path, [CallerArgumentExpression("path")] string name = "") =>
-        Ensure.FileExists(path, name);
-    public static void DirectoryExists(string path, [CallerArgumentExpression("path")] string name = "") =>
-        Ensure.DirectoryExists(path, name);
+	public static void FileExists(string path, [CallerArgumentExpression("path")] string name = "") =>
+		Ensure.FileExists(path, name);
+	public static void DirectoryExists(string path, [CallerArgumentExpression("path")] string name = "") =>
+		Ensure.DirectoryExists(path, name);
 }

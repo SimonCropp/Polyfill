@@ -5,15 +5,15 @@ using System.Threading;
 using System.Threading.Tasks;
 static partial class Polyfill
 {
-    /// <summary>Communicates a request for cancellation asynchronously.</summary>
-    public static Task CancelAsync(this CancellationTokenSource target)
-    {
-        if (target.IsCancellationRequested)
-        {
-            return Task.CompletedTask;
-        }
-        var task = Task.Run(target.Cancel);
-        while (!target.IsCancellationRequested) ;
-        return task;
-    }
+	/// <summary>Communicates a request for cancellation asynchronously.</summary>
+	public static Task CancelAsync(this CancellationTokenSource target)
+	{
+		if (target.IsCancellationRequested)
+		{
+			return Task.CompletedTask;
+		}
+		var task = Task.Run(target.Cancel);
+		while (!target.IsCancellationRequested) ;
+		return task;
+	}
 }

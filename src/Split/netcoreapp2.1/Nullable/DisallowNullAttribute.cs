@@ -9,9 +9,9 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: Targets.Field |
-             Targets.Parameter |
-             Targets.Property)]
+	validOn: Targets.Field |
+			 Targets.Parameter |
+			 Targets.Property)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -19,4 +19,4 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class DisallowNullAttribute :
-    Attribute;
+	Attribute;

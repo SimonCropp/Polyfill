@@ -10,8 +10,8 @@ using System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: AttributeTargets.Method,
-    Inherited = false)]
+	validOn: AttributeTargets.Method,
+	Inherited = false)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -19,7 +19,7 @@ using System.Diagnostics.CodeAnalysis;
 public
 #endif
 sealed class SuppressGCTransitionAttribute :
-    Attribute;
+	Attribute;
 #else
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Runtime.InteropServices.SuppressGCTransitionAttribute))]

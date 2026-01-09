@@ -5,19 +5,19 @@ using System;
 using System.Globalization;
 static partial class Polyfill
 {
-    extension(DateTime)
-    {
+	extension(DateTime)
+	{
 #if FeatureMemory
-        /// <summary>
-        /// Tries to parse a span of characters into a value.
-        /// </summary>
-        public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out DateTime result) =>
-            DateTime.TryParse(s.ToString(), provider, DateTimeStyles.None, out result);
-        /// <summary>
-        /// Tries to parse a span of characters into a value.
-        /// </summary>
-        public static bool TryParseExact(ReadOnlySpan<char> s, ReadOnlySpan<char> format, IFormatProvider? provider, DateTimeStyles styles, out DateTime result) =>
-            DateTime.TryParseExact(s.ToString(), format.ToString(), provider, styles, out result);
+		/// <summary>
+		/// Tries to parse a span of characters into a value.
+		/// </summary>
+		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out DateTime result) =>
+			DateTime.TryParse(s.ToString(), provider, DateTimeStyles.None, out result);
+		/// <summary>
+		/// Tries to parse a span of characters into a value.
+		/// </summary>
+		public static bool TryParseExact(ReadOnlySpan<char> s, ReadOnlySpan<char> format, IFormatProvider? provider, DateTimeStyles styles, out DateTime result) =>
+			DateTime.TryParseExact(s.ToString(), format.ToString(), provider, styles, out result);
 #endif
-    }
+	}
 }

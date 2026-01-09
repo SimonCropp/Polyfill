@@ -6,57 +6,57 @@ using System;
 using System.Security.Cryptography;
 static partial class Polyfill
 {
-    extension(Guid)
-    {
-        /// <summary>
-        /// Tries to parse a string into a value.
-        /// </summary>
-        public static bool TryParse(string? s, IFormatProvider? provider, out Guid result) =>
-            Guid.TryParse(s, out result);
-        /// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
-        public static Guid CreateVersion7() => CreateVersion7(DateTimeOffset.UtcNow);
-        /// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
-        public static Guid CreateVersion7(DateTimeOffset timestamp)
-        {
-            var unixMilliseconds = timestamp.ToUnixTimeMilliseconds();
-            var timeBytes = BitConverter.GetBytes(unixMilliseconds);
-            if (BitConverter.IsLittleEndian)
-            {
-                Array.Reverse(timeBytes);
-            }
-            var randomBytes = new byte[10];
-            using (var numberGenerator = RandomNumberGenerator.Create())
-            {
-                numberGenerator.GetBytes(randomBytes);
-            }
-            var uuidBytes = new byte[16];
-            Array.Copy(timeBytes, 2, uuidBytes, 0, 6);
-            Array.Copy(randomBytes, 0, uuidBytes, 6, 10);
-            uuidBytes[6] = (byte) ((uuidBytes[6] & 0x0F) | 0x70);
-            uuidBytes[8] = (byte) ((uuidBytes[8] & 0x3F) | 0x80);
-            return new(uuidBytes);
-        }
+	extension(Guid)
+	{
+		/// <summary>
+		/// Tries to parse a string into a value.
+		/// </summary>
+		public static bool TryParse(string? s, IFormatProvider? provider, out Guid result) =>
+			Guid.TryParse(s, out result);
+		/// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
+		public static Guid CreateVersion7() => CreateVersion7(DateTimeOffset.UtcNow);
+		/// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
+		public static Guid CreateVersion7(DateTimeOffset timestamp)
+		{
+			var unixMilliseconds = timestamp.ToUnixTimeMilliseconds();
+			var timeBytes = BitConverter.GetBytes(unixMilliseconds);
+			if (BitConverter.IsLittleEndian)
+			{
+				Array.Reverse(timeBytes);
+			}
+			var randomBytes = new byte[10];
+			using (var numberGenerator = RandomNumberGenerator.Create())
+			{
+				numberGenerator.GetBytes(randomBytes);
+			}
+			var uuidBytes = new byte[16];
+			Array.Copy(timeBytes, 2, uuidBytes, 0, 6);
+			Array.Copy(randomBytes, 0, uuidBytes, 6, 10);
+			uuidBytes[6] = (byte) ((uuidBytes[6] & 0x0F) | 0x70);
+			uuidBytes[8] = (byte) ((uuidBytes[8] & 0x3F) | 0x80);
+			return new(uuidBytes);
+		}
 #if FeatureMemory
-        /// <summary>
-        /// Tries to parse a span of UTF-8 characters into a value.
-        /// </summary>
-        public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out Guid result) =>
-            Guid.TryParse(s.ToString(), out result);
-        /// <summary>
-        /// Tries to parse a span of UTF-8 characters into a value.
-        /// </summary>
-        public static bool TryParse(ReadOnlySpan<char> input, out Guid result) =>
-            Guid.TryParse(input.ToString(), out result);
-        /// <summary>
-        /// Tries to parse a span of UTF-8 bytes into a value.
-        /// </summary>
-        public static bool TryParse(ReadOnlySpan<byte> utf8Text, out Guid result) =>
-            Guid.TryParse(Encoding.UTF8.GetString(utf8Text), out result);
-        /// <summary>
-        /// Parse a span of UTF-8 bytes into a value.
-        /// </summary>
-        public static Guid Parse(ReadOnlySpan<byte> utf8Text) =>
-            Guid.Parse(Encoding.UTF8.GetString(utf8Text));
+		/// <summary>
+		/// Tries to parse a span of UTF-8 characters into a value.
+		/// </summary>
+		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out Guid result) =>
+			Guid.TryParse(s.ToString(), out result);
+		/// <summary>
+		/// Tries to parse a span of UTF-8 characters into a value.
+		/// </summary>
+		public static bool TryParse(ReadOnlySpan<char> input, out Guid result) =>
+			Guid.TryParse(input.ToString(), out result);
+		/// <summary>
+		/// Tries to parse a span of UTF-8 bytes into a value.
+		/// </summary>
+		public static bool TryParse(ReadOnlySpan<byte> utf8Text, out Guid result) =>
+			Guid.TryParse(Encoding.UTF8.GetString(utf8Text), out result);
+		/// <summary>
+		/// Parse a span of UTF-8 bytes into a value.
+		/// </summary>
+		public static Guid Parse(ReadOnlySpan<byte> utf8Text) =>
+			Guid.Parse(Encoding.UTF8.GetString(utf8Text));
 #endif
-    }
+	}
 }

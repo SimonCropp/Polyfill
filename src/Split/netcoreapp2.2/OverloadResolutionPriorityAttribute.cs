@@ -9,10 +9,10 @@ using Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    AttributeTargets.Method |
-    AttributeTargets.Constructor |
-    AttributeTargets.Property,
-    Inherited = false)]
+	AttributeTargets.Method |
+	AttributeTargets.Constructor |
+	AttributeTargets.Property,
+	Inherited = false)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -20,14 +20,14 @@ using Diagnostics.CodeAnalysis;
 public
 #endif
 sealed class OverloadResolutionPriorityAttribute :
-    Attribute
+	Attribute
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="OverloadResolutionPriorityAttribute"/> class.
-    /// </summary>
-    public OverloadResolutionPriorityAttribute(int priority) => Priority = priority;
-    /// <summary>
-    /// The priority of the member.
-    /// </summary>
-    public int Priority { get; }
+	/// <summary>
+	/// Initializes a new instance of the <see cref="OverloadResolutionPriorityAttribute"/> class.
+	/// </summary>
+	public OverloadResolutionPriorityAttribute(int priority) => Priority = priority;
+	/// <summary>
+	/// The priority of the member.
+	/// </summary>
+	public int Priority { get; }
 }

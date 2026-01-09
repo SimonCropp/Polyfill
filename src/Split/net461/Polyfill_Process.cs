@@ -8,55 +8,55 @@ using System.Threading;
 using System.Threading.Tasks;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Immediately stops the associated process, and optionally its child/descendent processes.
-    /// Maps to <see cref="Process.Kill"/>.
-    /// </summary>
-    [SupportedOSPlatform("maccatalyst")]
-    [UnsupportedOSPlatform("ios")]
-    [UnsupportedOSPlatform("tvos")]
-    public static void Kill(this Process target, bool entireProcessTree) =>
-        target.Kill();
+	/// <summary>
+	/// Immediately stops the associated process, and optionally its child/descendent processes.
+	/// Maps to <see cref="Process.Kill"/>.
+	/// </summary>
+	[SupportedOSPlatform("maccatalyst")]
+	[UnsupportedOSPlatform("ios")]
+	[UnsupportedOSPlatform("tvos")]
+	public static void Kill(this Process target, bool entireProcessTree) =>
+		target.Kill();
 #if !NET
-    /// <summary>
-    /// Instructs the Process component to wait for the associated process to exit, or
-    /// for the <paramref name="cancellationToken"/> to be canceled.
-    /// </summary>
-    public static async Task WaitForExitAsync(this Process target, CancellationToken cancellationToken = default)
-    {
-        if (!target.HasExited)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-        }
-        try
-        {
-            target.EnableRaisingEvents = true;
-        }
-        catch (InvalidOperationException)
-        {
-            if (target.HasExited)
-            {
-                return;
-            }
-            throw;
-        }
-        var tcs = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
-        EventHandler handler = (_, _) => tcs.TrySetResult(null);
-        target.Exited += handler;
-        try
-        {
-            if (!target.HasExited)
-            {
-                using (cancellationToken.UnsafeRegister(static (s, cancellationToken) => ((TaskCompletionSource<object>) s!).TrySetCanceled(cancellationToken), tcs))
-                {
-                    await tcs.Task;
-                }
-            }
-        }
-        finally
-        {
-            target.Exited -= handler;
-        }
-    }
+	/// <summary>
+	/// Instructs the Process component to wait for the associated process to exit, or
+	/// for the <paramref name="cancellationToken"/> to be canceled.
+	/// </summary>
+	public static async Task WaitForExitAsync(this Process target, CancellationToken cancellationToken = default)
+	{
+		if (!target.HasExited)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+		}
+		try
+		{
+			target.EnableRaisingEvents = true;
+		}
+		catch (InvalidOperationException)
+		{
+			if (target.HasExited)
+			{
+				return;
+			}
+			throw;
+		}
+		var tcs = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
+		EventHandler handler = (_, _) => tcs.TrySetResult(null);
+		target.Exited += handler;
+		try
+		{
+			if (!target.HasExited)
+			{
+				using (cancellationToken.UnsafeRegister(static (s, cancellationToken) => ((TaskCompletionSource<object>) s!).TrySetCanceled(cancellationToken), tcs))
+				{
+					await tcs.Task;
+				}
+			}
+		}
+		finally
+		{
+			target.Exited -= handler;
+		}
+	}
 #endif
 }

@@ -4,14 +4,14 @@ namespace Polyfills;
 using System.Collections.Concurrent;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Removes all values from the <see cref="ConcurrentBag{T}"/>.
-    /// </summary>
-    public static void Clear<T>(this ConcurrentBag<T> target)
-    {
-        while (!target.IsEmpty)
-        {
-            target.TryTake(out _);
-        }
-    }
+	/// <summary>
+	/// Removes all values from the <see cref="ConcurrentBag{T}"/>.
+	/// </summary>
+	public static void Clear<T>(this ConcurrentBag<T> target)
+	{
+		while (!target.IsEmpty)
+		{
+			target.TryTake(out _);
+		}
+	}
 }

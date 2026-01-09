@@ -7,27 +7,27 @@ using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 static partial class Polyfill
 {
-    //https://github.com/bbartels/runtime/blob/master/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.cs
-    /// <summary>
-    /// Returns a type that allows for enumeration of each element within a split span
-    /// using the provided separator character.
-    /// </summary>
-    public static SpanSplitEnumerator<T> Split<T>(this ReadOnlySpan<T> source, T separator)
-        where T : IEquatable<T> =>
-        new(source, separator);
-    /// <summary>
-    /// Returns a type that allows for enumeration of each element within a split span
-    /// using the provided separator span.
-    /// </summary>
-    public static SpanSplitEnumerator<T> Split<T>(this ReadOnlySpan<T> source, ReadOnlySpan<T> separator)
-        where T : IEquatable<T> =>
-        new(source, separator, treatAsSingleSeparator: true);
-    /// <summary>
-    /// Returns a type that allows for enumeration of each element within a split span
-    /// using any of the provided elements.
-    /// </summary>
-    public static SpanSplitEnumerator<T> SplitAny<T>(this ReadOnlySpan<T> source, [UnscopedRef] params ReadOnlySpan<T> separators)
-        where T : IEquatable<T> =>
-        new(source, separators);
+	//https://github.com/bbartels/runtime/blob/master/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.cs
+	/// <summary>
+	/// Returns a type that allows for enumeration of each element within a split span
+	/// using the provided separator character.
+	/// </summary>
+	public static SpanSplitEnumerator<T> Split<T>(this ReadOnlySpan<T> source, T separator)
+		where T : IEquatable<T> =>
+		new(source, separator);
+	/// <summary>
+	/// Returns a type that allows for enumeration of each element within a split span
+	/// using the provided separator span.
+	/// </summary>
+	public static SpanSplitEnumerator<T> Split<T>(this ReadOnlySpan<T> source, ReadOnlySpan<T> separator)
+		where T : IEquatable<T> =>
+		new(source, separator, treatAsSingleSeparator: true);
+	/// <summary>
+	/// Returns a type that allows for enumeration of each element within a split span
+	/// using any of the provided elements.
+	/// </summary>
+	public static SpanSplitEnumerator<T> SplitAny<T>(this ReadOnlySpan<T> source, [UnscopedRef] params ReadOnlySpan<T> separators)
+		where T : IEquatable<T> =>
+		new(source, separators);
 }
 #endif

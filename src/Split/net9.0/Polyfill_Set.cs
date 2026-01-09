@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Returns a read-only <see cref="ReadOnlySet"/> wrapper for the specified set.
-    /// </summary>
-    public static ReadOnlySet<T> AsReadOnly<T>(this ISet<T> target) => new(target);
+	/// <summary>
+	/// Returns a read-only <see cref="ReadOnlySet"/> wrapper for the specified set.
+	/// </summary>
+	public static ReadOnlySet<T> AsReadOnly<T>(this ISet<T> target) => new(target);
 }

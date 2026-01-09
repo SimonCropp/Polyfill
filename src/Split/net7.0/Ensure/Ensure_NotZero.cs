@@ -11,19 +11,19 @@ public
 #endif
 static partial class Ensure
 {
-    [DoesNotReturn]
-    static void ThrowZero(string? name) =>
-        throw new ArgumentOutOfRangeException(name, $"{name} must be a non-zero value.");
-    /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
-    /// <param name="value">The argument to validate as non-zero.</param>
-    /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
-    public static T NotZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? name = null)
-        where T : INumberBase<T>
-    {
-        if (T.IsZero(value))
-        {
-            ThrowZero(name);
-        }
-        return value;
-    }
+	[DoesNotReturn]
+	static void ThrowZero(string? name) =>
+		throw new ArgumentOutOfRangeException(name, $"{name} must be a non-zero value.");
+	/// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
+	/// <param name="value">The argument to validate as non-zero.</param>
+	/// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
+	public static T NotZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? name = null)
+		where T : INumberBase<T>
+	{
+		if (T.IsZero(value))
+		{
+			ThrowZero(name);
+		}
+		return value;
+	}
 }

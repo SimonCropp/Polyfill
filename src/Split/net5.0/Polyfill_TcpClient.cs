@@ -9,38 +9,38 @@ using System.Threading;
 using System.Threading.Tasks;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Connects the client to a remote TCP host using the specified endpoint as an asynchronous operation.
-    /// </summary>
-    public static ValueTask ConnectAsync(
-        this TcpClient target,
-        IPEndPoint remoteEP,
-        CancellationToken cancellationToken = default)
-    {
-        if (cancellationToken.IsCancellationRequested)
-        {
-            return new ValueTask(Task.FromCanceled(cancellationToken));
-        }
-        return new ValueTask(ConnectWithCancellationIPEndPointAsync(target, remoteEP, cancellationToken));
-    }
-    static async Task ConnectWithCancellationIPEndPointAsync(
-        TcpClient target,
-        IPEndPoint remoteEP,
-        CancellationToken cancellationToken)
-    {
-        using var registration = cancellationToken.Register(() => target.Close());
-        try
-        {
-            await target.ConnectAsync(remoteEP.Address, remoteEP.Port);
-        }
-        catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
-        {
-            throw new OperationCanceledException(cancellationToken);
-        }
-        catch (SocketException) when (cancellationToken.IsCancellationRequested)
-        {
-            throw new OperationCanceledException(cancellationToken);
-        }
-    }
+	/// <summary>
+	/// Connects the client to a remote TCP host using the specified endpoint as an asynchronous operation.
+	/// </summary>
+	public static ValueTask ConnectAsync(
+		this TcpClient target,
+		IPEndPoint remoteEP,
+		CancellationToken cancellationToken = default)
+	{
+		if (cancellationToken.IsCancellationRequested)
+		{
+			return new ValueTask(Task.FromCanceled(cancellationToken));
+		}
+		return new ValueTask(ConnectWithCancellationIPEndPointAsync(target, remoteEP, cancellationToken));
+	}
+	static async Task ConnectWithCancellationIPEndPointAsync(
+		TcpClient target,
+		IPEndPoint remoteEP,
+		CancellationToken cancellationToken)
+	{
+		using var registration = cancellationToken.Register(() => target.Close());
+		try
+		{
+			await target.ConnectAsync(remoteEP.Address, remoteEP.Port);
+		}
+		catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
+		{
+			throw new OperationCanceledException(cancellationToken);
+		}
+		catch (SocketException) when (cancellationToken.IsCancellationRequested)
+		{
+			throw new OperationCanceledException(cancellationToken);
+		}
+	}
 }
 #endif

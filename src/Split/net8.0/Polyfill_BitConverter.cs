@@ -9,8 +9,8 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 static partial class Polyfill
 {
-    extension(BitConverter)
-    {
-    }
+	extension(BitConverter)
+	{
+	}
 }
 #endif

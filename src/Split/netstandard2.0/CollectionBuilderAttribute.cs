@@ -15,15 +15,15 @@ public
 #endif
 sealed class CollectionBuilderAttribute : Attribute
 {
-    /// <summary>Initialize the attribute to refer to the <paramref name="methodName"/> method on the <paramref name="builderType"/> type.</summary>
-    public CollectionBuilderAttribute(Type builderType, string methodName)
-    {
-        BuilderType = builderType;
-        MethodName = methodName;
-    }
-    /// <summary>Gets the type of the builder to use to construct the collection.</summary>
-    public Type BuilderType { get; }
-    /// <summary>Gets the name of the method on the builder to use to construct the collection.</summary>
-    public string MethodName { get; }
+	/// <summary>Initialize the attribute to refer to the <paramref name="methodName"/> method on the <paramref name="builderType"/> type.</summary>
+	public CollectionBuilderAttribute(Type builderType, string methodName)
+	{
+		BuilderType = builderType;
+		MethodName = methodName;
+	}
+	/// <summary>Gets the type of the builder to use to construct the collection.</summary>
+	public Type BuilderType { get; }
+	/// <summary>Gets the name of the method on the builder to use to construct the collection.</summary>
+	public string MethodName { get; }
 }
 #endif

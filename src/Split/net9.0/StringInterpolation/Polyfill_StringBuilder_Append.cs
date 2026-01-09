@@ -6,15 +6,15 @@ using System.Runtime.CompilerServices;
 using System.Text;
 static partial class Polyfill
 {
-    /// <summary>Appends the specified interpolated string to this instance.</summary>
-    public static StringBuilder Append(
-        StringBuilder target,
-        [InterpolatedStringHandlerArgument(nameof(target))] ref StringBuilder.AppendInterpolatedStringHandler handler) =>
-        target.Append(ref handler);
-    /// <summary>Appends the specified interpolated string to this instance.</summary>
-    public static StringBuilder Append(
-        StringBuilder target,
-        IFormatProvider? provider,
-        [InterpolatedStringHandlerArgument(nameof(target), nameof(provider))] ref StringBuilder.AppendInterpolatedStringHandler handler) =>
-        target.Append(provider, ref handler);
+	/// <summary>Appends the specified interpolated string to this instance.</summary>
+	public static StringBuilder Append(
+		StringBuilder target,
+		[InterpolatedStringHandlerArgument(nameof(target))] ref StringBuilder.AppendInterpolatedStringHandler handler) =>
+		target.Append(ref handler);
+	/// <summary>Appends the specified interpolated string to this instance.</summary>
+	public static StringBuilder Append(
+		StringBuilder target,
+		IFormatProvider? provider,
+		[InterpolatedStringHandlerArgument(nameof(target), nameof(provider))] ref StringBuilder.AppendInterpolatedStringHandler handler) =>
+		target.Append(provider, ref handler);
 }

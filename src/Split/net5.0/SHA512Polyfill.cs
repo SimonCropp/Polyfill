@@ -18,94 +18,94 @@ public
 #endif
 static partial class SHA512Polyfill
 {
-    extension(SHA512)
-    {
+	extension(SHA512)
+	{
 #if !NET
-        /// <summary>
-        /// Computes the hash of data using the SHA-512 algorithm.
-        /// </summary>
-        public static byte[] HashData(byte[] source)
-        {
-            using var hasher = SHA512.Create();
-            return hasher.ComputeHash(source);
-        }
+		/// <summary>
+		/// Computes the hash of data using the SHA-512 algorithm.
+		/// </summary>
+		public static byte[] HashData(byte[] source)
+		{
+			using var hasher = SHA512.Create();
+			return hasher.ComputeHash(source);
+		}
 #endif
-        /// <summary>
-        /// Computes the hash of a stream using the SHA-512 algorithm.
-        /// </summary>
-        public static byte[] HashData(Stream source)
-        {
-            using var hasher = SHA512.Create();
-            return hasher.ComputeHash(source);
-        }
+		/// <summary>
+		/// Computes the hash of a stream using the SHA-512 algorithm.
+		/// </summary>
+		public static byte[] HashData(Stream source)
+		{
+			using var hasher = SHA512.Create();
+			return hasher.ComputeHash(source);
+		}
 #if FeatureValueTask
-        /// <summary>
-        /// Asynchronously computes the hash of a stream using the SHA-512 algorithm.
-        /// </summary>
-        public static ValueTask<byte[]> HashDataAsync(Stream source, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            using var hasher = SHA512.Create();
-            return new(hasher.ComputeHash(source));
-        }
+		/// <summary>
+		/// Asynchronously computes the hash of a stream using the SHA-512 algorithm.
+		/// </summary>
+		public static ValueTask<byte[]> HashDataAsync(Stream source, CancellationToken cancellationToken = default)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			using var hasher = SHA512.Create();
+			return new(hasher.ComputeHash(source));
+		}
 #endif
 #if FeatureMemory
 #if !NET
-        /// <summary>
-        /// Computes the hash of a stream using the SHA-512 algorithm.
-        /// </summary>
-        public static byte[] HashData(ReadOnlySpan<byte> source)
-        {
-            using var hasher = SHA512.Create();
-            return hasher.ComputeHash(source.ToArray());
-        }
-        /// <summary>
-        /// Attempts to compute the hash of data using the SHA-512 algorithm.
-        /// </summary>
-        public static bool TryHashData(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
-        {
-            using var hasher = SHA512.Create();
-            var hash = hasher.ComputeHash(source.ToArray());
-            if (destination.Length < hash.Length)
-            {
-                bytesWritten = 0;
-                return false;
-            }
-            hash.CopyTo(destination);
-            bytesWritten = hash.Length;
-            return true;
-        }
-        /// <summary>
-        /// Computes the hash of a stream using the SHA-512 algorithm.
-        /// </summary>
-        public static int HashData(ReadOnlySpan<byte> source, Span<byte> destination)
-        {
-            var hash = HashData(source);
-            hash.CopyTo(destination);
-            return hash.Length;
-        }
+		/// <summary>
+		/// Computes the hash of a stream using the SHA-512 algorithm.
+		/// </summary>
+		public static byte[] HashData(ReadOnlySpan<byte> source)
+		{
+			using var hasher = SHA512.Create();
+			return hasher.ComputeHash(source.ToArray());
+		}
+		/// <summary>
+		/// Attempts to compute the hash of data using the SHA-512 algorithm.
+		/// </summary>
+		public static bool TryHashData(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
+		{
+			using var hasher = SHA512.Create();
+			var hash = hasher.ComputeHash(source.ToArray());
+			if (destination.Length < hash.Length)
+			{
+				bytesWritten = 0;
+				return false;
+			}
+			hash.CopyTo(destination);
+			bytesWritten = hash.Length;
+			return true;
+		}
+		/// <summary>
+		/// Computes the hash of a stream using the SHA-512 algorithm.
+		/// </summary>
+		public static int HashData(ReadOnlySpan<byte> source, Span<byte> destination)
+		{
+			var hash = HashData(source);
+			hash.CopyTo(destination);
+			return hash.Length;
+		}
 #endif
-        /// <summary>
-        /// Computes the hash of a stream using the SHA-512 algorithm.
-        /// </summary>
-        public static int HashData(Stream source, Span<byte> destination)
-        {
-            var hash = HashData(source);
-            hash.CopyTo(destination);
-            return hash.Length;
-        }
+		/// <summary>
+		/// Computes the hash of a stream using the SHA-512 algorithm.
+		/// </summary>
+		public static int HashData(Stream source, Span<byte> destination)
+		{
+			var hash = HashData(source);
+			hash.CopyTo(destination);
+			return hash.Length;
+		}
 #if FeatureValueTask
-        /// <summary>
-        /// Asynchronously computes the hash of a stream using the SHA-512 algorithm.
-        /// </summary>
-        public static ValueTask<int> HashDataAsync(Stream source, Memory<byte> destination, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            var hash = HashData(source);
-            hash.CopyTo(destination);
-            return new(hash.Length);
-        }
+		/// <summary>
+		/// Asynchronously computes the hash of a stream using the SHA-512 algorithm.
+		/// </summary>
+		public static ValueTask<int> HashDataAsync(Stream source, Memory<byte> destination, CancellationToken cancellationToken = default)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			var hash = HashData(source);
+			hash.CopyTo(destination);
+			return new(hash.Length);
+		}
 #endif
 #endif
-    }
+	}
 }

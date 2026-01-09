@@ -10,24 +10,24 @@ using ValueMatchEnumerator = System.Text.RegularExpressions.Regex.ValueMatchEnum
 #endif
 static partial class Polyfill
 {
-    extension(Regex)
-    {
+	extension(Regex)
+	{
 #if FeatureMemory && FeatureValueTuple
-        public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern)
-        {
-            var regex = new Regex(pattern);
-            return new ValueSplitEnumerator(input, regex, 0, 0);
-        }
-        public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options)
-        {
-            var regex = new Regex(pattern, options);
-            return new ValueSplitEnumerator(input, regex, 0, 0);
-        }
-        public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan matchTimeout)
-        {
-            var regex = new Regex(pattern, options, matchTimeout);
-            return new ValueSplitEnumerator(input, regex, 0, 0);
-        }
+		public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern)
+		{
+			var regex = new Regex(pattern);
+			return new ValueSplitEnumerator(input, regex, 0, 0);
+		}
+		public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options)
+		{
+			var regex = new Regex(pattern, options);
+			return new ValueSplitEnumerator(input, regex, 0, 0);
+		}
+		public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan matchTimeout)
+		{
+			var regex = new Regex(pattern, options, matchTimeout);
+			return new ValueSplitEnumerator(input, regex, 0, 0);
+		}
 #endif
-    }
+	}
 }

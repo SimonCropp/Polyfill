@@ -15,7 +15,7 @@ using Diagnostics.CodeAnalysis;
 public
 #endif
 abstract class OSPlatformAttribute(string platformName) :
-    Attribute
+	Attribute
 {
-    public string PlatformName { get; } = platformName;
+	public string PlatformName { get; } = platformName;
 }

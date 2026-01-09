@@ -12,19 +12,19 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: Targets.Assembly |
-             Targets.Class |
-             Targets.Constructor |
-             Targets.Enum |
-             Targets.Event |
-             Targets.Field |
-             Targets.Interface |
-             Targets.Method |
-             Targets.Module |
-             Targets.Property |
-             Targets.Struct,
-    AllowMultiple = true,
-    Inherited = false)]
+	validOn: Targets.Assembly |
+			 Targets.Class |
+			 Targets.Constructor |
+			 Targets.Enum |
+			 Targets.Event |
+			 Targets.Field |
+			 Targets.Interface |
+			 Targets.Method |
+			 Targets.Module |
+			 Targets.Property |
+			 Targets.Struct,
+	AllowMultiple = true,
+	Inherited = false)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -32,16 +32,16 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class UnsupportedOSPlatformAttribute :
-    OSPlatformAttribute
+	OSPlatformAttribute
 {
-    public UnsupportedOSPlatformAttribute(string platformName) :
-        base(platformName)
-    {
-    }
-    public UnsupportedOSPlatformAttribute(string platformName, string? message) :
-        base(platformName) =>
-        Message = message;
-    public string? Message { get; }
+	public UnsupportedOSPlatformAttribute(string platformName) :
+		base(platformName)
+	{
+	}
+	public UnsupportedOSPlatformAttribute(string platformName, string? message) :
+		base(platformName) =>
+		Message = message;
+	public string? Message { get; }
 }
 #else
 using System.Runtime.CompilerServices;

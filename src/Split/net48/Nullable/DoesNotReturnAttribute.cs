@@ -7,8 +7,8 @@ namespace System.Diagnostics.CodeAnalysis;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: AttributeTargets.Method,
-    Inherited = false)]
+	validOn: AttributeTargets.Method,
+	Inherited = false)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -16,4 +16,4 @@ namespace System.Diagnostics.CodeAnalysis;
 public
 #endif
 sealed class DoesNotReturnAttribute :
-    Attribute;
+	Attribute;

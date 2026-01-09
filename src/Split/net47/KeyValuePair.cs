@@ -16,9 +16,9 @@ public
 #endif
 static class KeyValuePair
 {
-    /// <summary>
-    /// Creates a new key/value pair instance using provided values.
-    /// </summary>
-    public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value) =>
-        new(key, value);
+	/// <summary>
+	/// Creates a new key/value pair instance using provided values.
+	/// </summary>
+	public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value) =>
+		new(key, value);
 }

@@ -12,64 +12,64 @@ using System.Buffers;
 #endif
 static partial class Polyfill
 {
-    //https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/IO/TextWriter.cs#L670
-    /// <summary>
-    /// Asynchronously clears all buffers for the current writer and causes any buffered data to
-    /// be written to the underlying device.
-    /// </summary>
-    public static Task FlushAsync(this TextWriter target, CancellationToken cancellationToken)
-    {
-        if (cancellationToken.IsCancellationRequested)
-        {
-            return Task.FromCanceled(cancellationToken);
-        }
-        return target.FlushAsync()
-            .WaitAsync(cancellationToken);
-    }
-    /// <summary>
-    /// Equivalent to Write(stringBuilder.ToString()) however it uses the
-    /// StringBuilder.GetChunks() method to avoid creating the intermediate string
-    /// </summary>
-    public static void Write(this TextWriter target, StringBuilder? value)
-    {
-        if (value == null)
-        {
-            return;
-        }
+	//https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/IO/TextWriter.cs#L670
+	/// <summary>
+	/// Asynchronously clears all buffers for the current writer and causes any buffered data to
+	/// be written to the underlying device.
+	/// </summary>
+	public static Task FlushAsync(this TextWriter target, CancellationToken cancellationToken)
+	{
+		if (cancellationToken.IsCancellationRequested)
+		{
+			return Task.FromCanceled(cancellationToken);
+		}
+		return target.FlushAsync()
+			.WaitAsync(cancellationToken);
+	}
+	/// <summary>
+	/// Equivalent to Write(stringBuilder.ToString()) however it uses the
+	/// StringBuilder.GetChunks() method to avoid creating the intermediate string
+	/// </summary>
+	public static void Write(this TextWriter target, StringBuilder? value)
+	{
+		if (value == null)
+		{
+			return;
+		}
 #if FeatureMemory
-        foreach (var chunk in value.GetChunks())
-        {
-            target.Write(chunk.Span);
-        }
+		foreach (var chunk in value.GetChunks())
+		{
+			target.Write(chunk.Span);
+		}
 #else
-        target.Write(value.ToString());
+		target.Write(value.ToString());
 #endif
-    }
-    /// <summary>
-    /// Equivalent to WriteAsync(stringBuilder.ToString()) however it uses the
-    /// StringBuilder.GetChunks() method to avoid creating the intermediate string
-    /// </summary>
-    public static Task WriteAsync(this TextWriter target, StringBuilder? value, CancellationToken cancellationToken = default)
-    {
-        if (cancellationToken.IsCancellationRequested)
-        {
-            return Task.FromCanceled(cancellationToken);
-        }
-        if (value == null)
-        {
-            return Task.CompletedTask;
-        }
+	}
+	/// <summary>
+	/// Equivalent to WriteAsync(stringBuilder.ToString()) however it uses the
+	/// StringBuilder.GetChunks() method to avoid creating the intermediate string
+	/// </summary>
+	public static Task WriteAsync(this TextWriter target, StringBuilder? value, CancellationToken cancellationToken = default)
+	{
+		if (cancellationToken.IsCancellationRequested)
+		{
+			return Task.FromCanceled(cancellationToken);
+		}
+		if (value == null)
+		{
+			return Task.CompletedTask;
+		}
 #if FeatureValueTask && FeatureMemory
-        return WriteAsyncCore(target, value, cancellationToken);
-        static async Task WriteAsyncCore(TextWriter target, StringBuilder builder, CancellationToken cancel)
-        {
-            foreach (var chunk in builder.GetChunks())
-            {
-                await target.WriteAsync(chunk, cancel);
-            }
-        }
+		return WriteAsyncCore(target, value, cancellationToken);
+		static async Task WriteAsyncCore(TextWriter target, StringBuilder builder, CancellationToken cancel)
+		{
+			foreach (var chunk in builder.GetChunks())
+			{
+				await target.WriteAsync(chunk, cancel);
+			}
+		}
 #else
-        return target.WriteAsync(value.ToString());
+		return target.WriteAsync(value.ToString());
 #endif
-    }
+	}
 }

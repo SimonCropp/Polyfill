@@ -21,40 +21,40 @@ public
 #endif
 ref struct ValueMatchEnumerator
 {
-    ReadOnlySpan<char> _input;
-    ValueMatch _current;
-    MatchCollection matchCollection;
-    int index = 0;
-    /// <summary>
-    /// Creates an instance of the <see cref="ValueMatchEnumerator"/> for the passed in <paramref name="regex"/> which iterates over <paramref name="input"/>.
-    /// </summary>
-    internal ValueMatchEnumerator(Regex regex, ReadOnlySpan<char> input, int startAt)
-    {
-        matchCollection = regex.Matches(input.ToString(), startAt);
-        _input = input;
-        _current = default;
-    }
-    /// <summary>
-    /// Provides an enumerator that iterates through the matches in the input span.
-    /// </summary>
-    public readonly ValueMatchEnumerator GetEnumerator() => this;
-    /// <summary>
-    /// Advances the enumerator to the next match in the span.
-    /// </summary>
-    public bool MoveNext()
-    {
-        if (index == matchCollection.Count)
-        {
-            return false;
-        }
-        var match = matchCollection[index];
-        _current = new ValueMatch(match.Index, match.Length);
-        index++;
-        return true;
-    }
-    /// <summary>
-    /// Gets the <see cref="ValueMatch"/> element at the current position of the enumerator.
-    /// </summary>
-    public readonly ValueMatch Current => _current;
+	ReadOnlySpan<char> _input;
+	ValueMatch _current;
+	MatchCollection matchCollection;
+	int index = 0;
+	/// <summary>
+	/// Creates an instance of the <see cref="ValueMatchEnumerator"/> for the passed in <paramref name="regex"/> which iterates over <paramref name="input"/>.
+	/// </summary>
+	internal ValueMatchEnumerator(Regex regex, ReadOnlySpan<char> input, int startAt)
+	{
+		matchCollection = regex.Matches(input.ToString(), startAt);
+		_input = input;
+		_current = default;
+	}
+	/// <summary>
+	/// Provides an enumerator that iterates through the matches in the input span.
+	/// </summary>
+	public readonly ValueMatchEnumerator GetEnumerator() => this;
+	/// <summary>
+	/// Advances the enumerator to the next match in the span.
+	/// </summary>
+	public bool MoveNext()
+	{
+		if (index == matchCollection.Count)
+		{
+			return false;
+		}
+		var match = matchCollection[index];
+		_current = new ValueMatch(match.Index, match.Length);
+		index++;
+		return true;
+	}
+	/// <summary>
+	/// Gets the <see cref="ValueMatch"/> element at the current position of the enumerator.
+	/// </summary>
+	public readonly ValueMatch Current => _current;
 }
 #endif

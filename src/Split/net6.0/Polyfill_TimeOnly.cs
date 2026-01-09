@@ -5,34 +5,34 @@ using System;
 using System.ComponentModel;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Deconstructs this TimeOnly instance.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void Deconstruct(this TimeOnly target, out int hour, out int minute, out int second, out int millisecond)
-    {
-        hour = target.Hour;
-        minute = target.Minute;
-        second = target.Second;
-        millisecond = target.Millisecond;
-    }
-    /// <summary>
-    /// Deconstructs this TimeOnly instance.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void Deconstruct(this TimeOnly target, out int hour, out int minute, out int second)
-    {
-        hour = target.Hour;
-        minute = target.Minute;
-        second = target.Second;
-    }
-    /// <summary>
-    /// Deconstructs this TimeOnly instance.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void Deconstruct(this TimeOnly target, out int hour, out int minute)
-    {
-        hour = target.Hour;
-        minute = target.Minute;
-    }
+	/// <summary>
+	/// Deconstructs this TimeOnly instance.
+	/// </summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static void Deconstruct(this TimeOnly target, out int hour, out int minute, out int second, out int millisecond)
+	{
+		hour = target.Hour;
+		minute = target.Minute;
+		second = target.Second;
+		millisecond = target.Millisecond;
+	}
+	/// <summary>
+	/// Deconstructs this TimeOnly instance.
+	/// </summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static void Deconstruct(this TimeOnly target, out int hour, out int minute, out int second)
+	{
+		hour = target.Hour;
+		minute = target.Minute;
+		second = target.Second;
+	}
+	/// <summary>
+	/// Deconstructs this TimeOnly instance.
+	/// </summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static void Deconstruct(this TimeOnly target, out int hour, out int minute)
+	{
+		hour = target.Hour;
+		minute = target.Minute;
+	}
 }

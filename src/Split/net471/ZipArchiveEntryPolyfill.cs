@@ -6,16 +6,16 @@ using System.IO.Compression;
 using System;
 static partial class Polyfill
 {
-    extension(ZipArchiveEntry target)
-    {
-        /// <summary>
-        /// OS and application specific file attributes.
-        /// </summary>
-        public int ExternalAttributes
-        {
-            get => 0;
-            set {  }
-        }
-    }
+	extension(ZipArchiveEntry target)
+	{
+		/// <summary>
+		/// OS and application specific file attributes.
+		/// </summary>
+		public int ExternalAttributes
+		{
+			get => 0;
+			set {  }
+		}
+	}
 }
 #endif

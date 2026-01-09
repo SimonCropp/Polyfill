@@ -9,18 +9,18 @@ public
 #endif
 static partial class Guard
 {
-    public static string NotNullOrWhiteSpace(
-        [NotNull] string? value,
-        [CallerArgumentExpression("value")] string name = "") =>
-        Ensure.NotNullOrWhiteSpace(value, name);
+	public static string NotNullOrWhiteSpace(
+		[NotNull] string? value,
+		[CallerArgumentExpression("value")] string name = "") =>
+		Ensure.NotNullOrWhiteSpace(value, name);
 #if FeatureMemory
-    public static Memory<char> NotNullOrWhiteSpace(
-        [NotNull] Memory<char>? value,
-        [CallerArgumentExpression("value")] string name = "") =>
-        Ensure.NotNullOrWhiteSpace(value, name);
-    public static ReadOnlyMemory<char> NotNullOrWhiteSpace(
-        [NotNull] ReadOnlyMemory<char>? value,
-        [CallerArgumentExpression("value")] string name = "") =>
-        Ensure.NotNullOrWhiteSpace(value, name);
+	public static Memory<char> NotNullOrWhiteSpace(
+		[NotNull] Memory<char>? value,
+		[CallerArgumentExpression("value")] string name = "") =>
+		Ensure.NotNullOrWhiteSpace(value, name);
+	public static ReadOnlyMemory<char> NotNullOrWhiteSpace(
+		[NotNull] ReadOnlyMemory<char>? value,
+		[CallerArgumentExpression("value")] string name = "") =>
+		Ensure.NotNullOrWhiteSpace(value, name);
 #endif
 }

@@ -17,12 +17,12 @@ public
 #endif
 sealed class ConstantExpectedAttribute : Attribute
 {
-    /// <summary>
-    /// Indicates the minimum bound of the expected constant, inclusive.
-    /// </summary>
-    public object? Min { get; set; }
-    /// <summary>
-    /// Indicates the maximum bound of the expected constant, inclusive.
-    /// </summary>
-    public object? Max { get; set; }
+	/// <summary>
+	/// Indicates the minimum bound of the expected constant, inclusive.
+	/// </summary>
+	public object? Min { get; set; }
+	/// <summary>
+	/// Indicates the maximum bound of the expected constant, inclusive.
+	/// </summary>
+	public object? Max { get; set; }
 }

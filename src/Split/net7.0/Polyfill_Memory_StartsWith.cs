@@ -8,12 +8,12 @@ using System;
 using System.Text;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Determines whether the specified value appears at the start of the span.
-    /// </summary>
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool StartsWith<T>(this ReadOnlySpan<T> target, T value)
-        where T : IEquatable<T>? =>
-        target.Length != 0 && (target[0]?.Equals(value) ?? (object?)value is null);
+	/// <summary>
+	/// Determines whether the specified value appears at the start of the span.
+	/// </summary>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static bool StartsWith<T>(this ReadOnlySpan<T> target, T value)
+		where T : IEquatable<T>? =>
+		target.Length != 0 && (target[0]?.Equals(value) ?? (object?)value is null);
 }
 #endif

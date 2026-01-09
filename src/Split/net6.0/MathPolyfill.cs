@@ -5,7 +5,7 @@ using System;
 using System.Diagnostics;
 static partial class Polyfill
 {
-    extension(Math)
-    {
-    }
+	extension(Math)
+	{
+	}
 }

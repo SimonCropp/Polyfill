@@ -10,11 +10,11 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: Targets.Class |
-             Targets.Struct |
-             Targets.Field |
-             Targets.Property,
-    Inherited = false)]
+	validOn: Targets.Class |
+			 Targets.Struct |
+			 Targets.Field |
+			 Targets.Property,
+	Inherited = false)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -22,4 +22,4 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class RequiredMemberAttribute :
-    Attribute;
+	Attribute;

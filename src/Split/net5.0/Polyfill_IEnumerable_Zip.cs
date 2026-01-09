@@ -5,18 +5,18 @@ namespace Polyfills;
 using System.Collections.Generic;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Produces a sequence of tuples with elements from the three specified sequences.
-    /// </summary>
-    public static IEnumerable<(TFirst First, TSecond Second, TThird Third)> Zip<TFirst, TSecond, TThird>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
-    {
-        using var e1 = first.GetEnumerator();
-        using var e2 = second.GetEnumerator();
-        using var e3 = third.GetEnumerator();
-        while (e1.MoveNext() && e2.MoveNext() && e3.MoveNext())
-        {
-            yield return (e1.Current, e2.Current, e3.Current);
-        }
-    }
+	/// <summary>
+	/// Produces a sequence of tuples with elements from the three specified sequences.
+	/// </summary>
+	public static IEnumerable<(TFirst First, TSecond Second, TThird Third)> Zip<TFirst, TSecond, TThird>(this IEnumerable<TFirst> first, IEnumerable<TSecond> second, IEnumerable<TThird> third)
+	{
+		using var e1 = first.GetEnumerator();
+		using var e2 = second.GetEnumerator();
+		using var e3 = third.GetEnumerator();
+		while (e1.MoveNext() && e2.MoveNext() && e3.MoveNext())
+		{
+			yield return (e1.Current, e2.Current, e3.Current);
+		}
+	}
 }
 #endif

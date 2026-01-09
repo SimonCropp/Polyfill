@@ -6,54 +6,54 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 static partial class Polyfill
 {
-    static bool CopyToSpan(Span<char> destination, out int written, string result)
-    {
-        if (result.Length == 0)
-        {
-            written = 0;
-            return true;
-        }
-        if (result.Length > destination.Length)
-        {
-            written = 0;
-            return false;
-        }
-        written = result.Length;
-        return result.TryCopyTo(destination);
-    }
-    static bool DoFormat<T>(this T target, Span<char> destination, out int written, [StringSyntax(StringSyntaxAttribute.TimeSpanFormat)] ReadOnlySpan<char> format = default, IFormatProvider? formatProvider = null)
-        where T : IFormattable
-    {
-        string result;
-        if (format.Length == 0)
-        {
-            result = target.ToString(null, formatProvider);
-        }
-        else
-        {
-            result = target.ToString(format.ToString(), formatProvider);
-        }
-        return CopyToSpan(destination, out written, result);
-    }
-    /// <summary>
-    /// Tries to format the value of the current instance into the provided span of characters.
-    /// </summary>
-    public static bool TryFormat(this DateTimeOffset target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.DateTimeFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default) =>
-        target.DoFormat(destination, out charsWritten, format, provider);
-    /// <summary>
-    /// Tries to format the value of the current instance into the provided span of characters.
-    /// </summary>
-    public static bool TryFormat(this DateTime target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.DateOnlyFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default) =>
-        target.DoFormat(destination, out charsWritten, format, provider);
-    /// <summary>
-    /// Tries to format the value of the current instance into the provided span of characters.
-    /// </summary>
-    public static bool TryFormat(this DateOnly target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.DateOnlyFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default) =>
-        target.DoFormat(destination, out charsWritten, format, provider);
-    /// <summary>
-    /// Tries to format the value of the current instance into the provided span of characters.
-    /// </summary>
-    public static bool TryFormat(this TimeOnly target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.TimeOnlyFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default) =>
-        target.DoFormat(destination, out charsWritten, format, provider);
+	static bool CopyToSpan(Span<char> destination, out int written, string result)
+	{
+		if (result.Length == 0)
+		{
+			written = 0;
+			return true;
+		}
+		if (result.Length > destination.Length)
+		{
+			written = 0;
+			return false;
+		}
+		written = result.Length;
+		return result.TryCopyTo(destination);
+	}
+	static bool DoFormat<T>(this T target, Span<char> destination, out int written, [StringSyntax(StringSyntaxAttribute.TimeSpanFormat)] ReadOnlySpan<char> format = default, IFormatProvider? formatProvider = null)
+		where T : IFormattable
+	{
+		string result;
+		if (format.Length == 0)
+		{
+			result = target.ToString(null, formatProvider);
+		}
+		else
+		{
+			result = target.ToString(format.ToString(), formatProvider);
+		}
+		return CopyToSpan(destination, out written, result);
+	}
+	/// <summary>
+	/// Tries to format the value of the current instance into the provided span of characters.
+	/// </summary>
+	public static bool TryFormat(this DateTimeOffset target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.DateTimeFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default) =>
+		target.DoFormat(destination, out charsWritten, format, provider);
+	/// <summary>
+	/// Tries to format the value of the current instance into the provided span of characters.
+	/// </summary>
+	public static bool TryFormat(this DateTime target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.DateOnlyFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default) =>
+		target.DoFormat(destination, out charsWritten, format, provider);
+	/// <summary>
+	/// Tries to format the value of the current instance into the provided span of characters.
+	/// </summary>
+	public static bool TryFormat(this DateOnly target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.DateOnlyFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default) =>
+		target.DoFormat(destination, out charsWritten, format, provider);
+	/// <summary>
+	/// Tries to format the value of the current instance into the provided span of characters.
+	/// </summary>
+	public static bool TryFormat(this TimeOnly target, Span<char> destination, out int charsWritten, [StringSyntax(StringSyntaxAttribute.TimeOnlyFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = default) =>
+		target.DoFormat(destination, out charsWritten, format, provider);
 }
 #endif

@@ -7,16 +7,16 @@ using System.Text;
 static partial class Polyfill
 {
 #if FeatureMemory
-    /// <summary>Appends the specified interpolated string to this instance.</summary>
-    public static StringBuilder Append(
-        StringBuilder target,
-        [InterpolatedStringHandlerArgument(nameof(target))]
-        ref AppendInterpolatedStringHandler handler) => target;
-    /// <summary>Appends the specified interpolated string to this instance.</summary>
-    public static StringBuilder Append(
-        StringBuilder target,
-        IFormatProvider? provider,
-        [InterpolatedStringHandlerArgument(nameof(target), nameof(provider))]
-        ref AppendInterpolatedStringHandler handler) => target;
+	/// <summary>Appends the specified interpolated string to this instance.</summary>
+	public static StringBuilder Append(
+		StringBuilder target,
+		[InterpolatedStringHandlerArgument(nameof(target))]
+		ref AppendInterpolatedStringHandler handler) => target;
+	/// <summary>Appends the specified interpolated string to this instance.</summary>
+	public static StringBuilder Append(
+		StringBuilder target,
+		IFormatProvider? provider,
+		[InterpolatedStringHandlerArgument(nameof(target), nameof(provider))]
+		ref AppendInterpolatedStringHandler handler) => target;
 #endif
 }

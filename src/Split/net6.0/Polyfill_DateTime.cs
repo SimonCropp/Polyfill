@@ -6,23 +6,23 @@ using System.Collections.Generic;
 using System.ComponentModel;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Deconstructs this <see cref="DateTime"/> instance by <see cref="DateOnly"/> and <see cref="TimeOnly"/>.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void Deconstruct(this DateTime target, out DateOnly date, out TimeOnly time)
-    {
-        date = DateOnly.FromDateTime(target);
-        time = TimeOnly.FromDateTime(target);
-    }
-    /// <summary>
-    ///  Deconstructs <see cref="DateTime"/> by <see cref="DateTime.Year"/>, <see cref="DateTime.Month"/> and <see cref="DateTime.Day"/>.
-    /// </summary>
-    [EditorBrowsable(EditorBrowsableState.Never)]
-    public static void Deconstruct(this DateTime target, out int year, out int month, out int day)
-    {
-        year = target.Year;
-        month = target.Month;
-        day = target.Day;
-    }
+	/// <summary>
+	/// Deconstructs this <see cref="DateTime"/> instance by <see cref="DateOnly"/> and <see cref="TimeOnly"/>.
+	/// </summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static void Deconstruct(this DateTime target, out DateOnly date, out TimeOnly time)
+	{
+		date = DateOnly.FromDateTime(target);
+		time = TimeOnly.FromDateTime(target);
+	}
+	/// <summary>
+	///  Deconstructs <see cref="DateTime"/> by <see cref="DateTime.Year"/>, <see cref="DateTime.Month"/> and <see cref="DateTime.Day"/>.
+	/// </summary>
+	[EditorBrowsable(EditorBrowsableState.Never)]
+	public static void Deconstruct(this DateTime target, out int year, out int month, out int day)
+	{
+		year = target.Year;
+		month = target.Month;
+		day = target.Day;
+	}
 }

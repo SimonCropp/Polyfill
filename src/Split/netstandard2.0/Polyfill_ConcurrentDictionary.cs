@@ -5,25 +5,25 @@ using System;
 using System.Collections.Concurrent;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Adds a key/value pair to the <see cref="ConcurrentDictionary{TKey,TValue}"/>
-    /// if the key does not already exist.
-    /// </summary>
-    public static TValue GetOrAdd<TKey, TValue, TArg>(this ConcurrentDictionary<TKey, TValue> target, TKey key, Func<TKey, TArg, TValue> valueFactory, TArg factoryArgument)
-        where TKey : notnull
-    {
-        while (true)
-        {
-            TValue value;
-            if (target.TryGetValue(key, out value))
-            {
-                return value;
-            }
-            value = valueFactory(key, factoryArgument);
-            if (target.TryAdd(key, value))
-            {
-                return value;
-            }
-        }
-    }
+	/// <summary>
+	/// Adds a key/value pair to the <see cref="ConcurrentDictionary{TKey,TValue}"/>
+	/// if the key does not already exist.
+	/// </summary>
+	public static TValue GetOrAdd<TKey, TValue, TArg>(this ConcurrentDictionary<TKey, TValue> target, TKey key, Func<TKey, TArg, TValue> valueFactory, TArg factoryArgument)
+		where TKey : notnull
+	{
+		while (true)
+		{
+			TValue value;
+			if (target.TryGetValue(key, out value))
+			{
+				return value;
+			}
+			value = valueFactory(key, factoryArgument);
+			if (target.TryAdd(key, value))
+			{
+				return value;
+			}
+		}
+	}
 }

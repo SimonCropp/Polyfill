@@ -6,10 +6,10 @@ using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Returns a read-only <see cref="ReadOnlyDictionary{TKey,TValue}"/> wrapper for the current dictionary.
-    /// </summary>
-    public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> target)
-        where TKey : notnull =>
-        new(target);
+	/// <summary>
+	/// Returns a read-only <see cref="ReadOnlyDictionary{TKey,TValue}"/> wrapper for the current dictionary.
+	/// </summary>
+	public static ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> target)
+		where TKey : notnull =>
+		new(target);
 }

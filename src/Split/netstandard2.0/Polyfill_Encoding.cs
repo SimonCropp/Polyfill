@@ -7,36 +7,36 @@ using System.Runtime.InteropServices;
 using System.Text;
 static partial class Polyfill
 {
-    /// <summary>Encodes into a span of bytes a set of characters from the specified read-only span.</summary>
+	/// <summary>Encodes into a span of bytes a set of characters from the specified read-only span.</summary>
 #if AllowUnsafeBlocks
-    public static unsafe int GetBytes(this Encoding target, ReadOnlySpan<char> chars, Span<byte> bytes)
-    {
-        fixed (char* charsPtr = chars)
-        fixed (byte* bytesPtr = bytes)
-        {
-            return target.GetBytes(charsPtr, chars.Length, bytesPtr, bytes.Length);
-        }
-    }
+	public static unsafe int GetBytes(this Encoding target, ReadOnlySpan<char> chars, Span<byte> bytes)
+	{
+		fixed (char* charsPtr = chars)
+		fixed (byte* bytesPtr = bytes)
+		{
+			return target.GetBytes(charsPtr, chars.Length, bytesPtr, bytes.Length);
+		}
+	}
 #else
-    public static int GetBytes(this Encoding target, ReadOnlySpan<char> chars, Span<byte> bytes)
-    {
-        var result = target.GetBytes(chars.ToArray());
-        result.CopyTo(bytes);
-        return result.Length;
-    }
+	public static int GetBytes(this Encoding target, ReadOnlySpan<char> chars, Span<byte> bytes)
+	{
+		var result = target.GetBytes(chars.ToArray());
+		result.CopyTo(bytes);
+		return result.Length;
+	}
 #endif
-    /// <summary>When overridden in a derived class, decodes all the bytes in the specified byte span into a string.</summary>
+	/// <summary>When overridden in a derived class, decodes all the bytes in the specified byte span into a string.</summary>
 #if AllowUnsafeBlocks
-    public static unsafe string GetString(this Encoding target, ReadOnlySpan<byte> bytes)
-    {
-        fixed (byte* bytesPtr = bytes)
-        {
-            return target.GetString(bytesPtr, bytes.Length);
-        }
-    }
+	public static unsafe string GetString(this Encoding target, ReadOnlySpan<byte> bytes)
+	{
+		fixed (byte* bytesPtr = bytes)
+		{
+			return target.GetString(bytesPtr, bytes.Length);
+		}
+	}
 #else
-    public static string GetString(this Encoding target, ReadOnlySpan<byte> bytes) =>
-        target.GetString(bytes.ToArray());
+	public static string GetString(this Encoding target, ReadOnlySpan<byte> bytes) =>
+		target.GetString(bytes.ToArray());
 #endif
 }
 #endif

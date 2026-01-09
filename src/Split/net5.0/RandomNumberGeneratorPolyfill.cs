@@ -5,128 +5,128 @@ using System;
 using System.Security.Cryptography;
 static partial class Polyfill
 {
-    extension(RandomNumberGenerator)
-    {
-        /// <summary>
-        /// Creates an array of bytes with a cryptographically strong random sequence of values.
-        /// </summary>
-        public static byte[] GetBytes(int count)
-        {
-            if (count < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(count), "Value is negative.");
-            }
-            using var generator = RandomNumberGenerator.Create();
-            var bytes = new byte[count];
-            generator.GetBytes(bytes);
-            return bytes;
-        }
+	extension(RandomNumberGenerator)
+	{
+		/// <summary>
+		/// Creates an array of bytes with a cryptographically strong random sequence of values.
+		/// </summary>
+		public static byte[] GetBytes(int count)
+		{
+			if (count < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(count), "Value is negative.");
+			}
+			using var generator = RandomNumberGenerator.Create();
+			var bytes = new byte[count];
+			generator.GetBytes(bytes);
+			return bytes;
+		}
 #if FeatureMemory
-        /// <summary>
-        ///   Fills the elements of a specified span with items chosen at random from the provided set of choices.
-        /// </summary>
-        public static void GetItems<T>(ReadOnlySpan<T> choices, Span<T> destination)
-        {
-            if (choices.IsEmpty)
-            {
-                throw new ArgumentException("Empty span", nameof(choices));
-            }
-            for (var i = 0; i < destination.Length; i++)
-            {
-                destination[i] = choices[RandomNumberGenerator.GetInt32(choices.Length)];
-            }
-        }
-        /// <summary>
-        ///   Creates an array populated with items chosen at random from choices.
-        /// </summary>
-        public static T[] GetItems<T>(ReadOnlySpan<T> choices, int length)
-        {
-            var result = new T[length];
-            GetItems(choices, result);
-            return result;
-        }
-        /// <summary>
-        ///   Creates a string populated with characters chosen at random from choices.
-        /// </summary>
-        public static string GetString(ReadOnlySpan<char> choices, int length)
-        {
-            var result = new char[length];
-            GetItems(choices, result);
-            return new(result);
-        }
-        /// <summary>
-        ///   Fills a buffer with cryptographically random hexadecimal characters.
-        /// </summary>
-        public static void GetHexString(Span<char> destination, bool lowercase = false)
-        {
-            if (destination.IsEmpty)
-            {
-                return;
-            }
-            // Each byte gives two hex chars
-            var byteCount = (destination.Length + 1) / 2;
-            Span<byte> bytes = stackalloc byte[byteCount];
-            RandomNumberGenerator.Fill(bytes);
-            ReadOnlySpan<char> hex = lowercase
-                ? "0123456789abcdef".AsSpan()
-                : "0123456789ABCDEF".AsSpan();
-            var charIndex = 0;
-            for (var i = 0; i < bytes.Length && charIndex < destination.Length; i++)
-            {
-                var b = bytes[i];
-                destination[charIndex++] = hex[b >> 4];
-                if (charIndex < destination.Length)
-                {
-                    destination[charIndex++] = hex[b & 0xF];
-                }
-            }
-        }
-        /// <summary>
-        ///   Performs an in-place shuffle of a span using cryptographically random number generation.
-        /// </summary>
-        public static void Shuffle<T>(Span<T> values)
-        {
-            var n = values.Length;
-            for (int i = 0; i < n - 1; i++)
-            {
-                var j = RandomNumberGenerator.GetInt32(i, n);
-                if (i != j)
-                {
-                    var temp = values[i];
-                    values[i] = values[j];
-                    values[j] = temp;
-                }
-            }
-        }
+		/// <summary>
+		///   Fills the elements of a specified span with items chosen at random from the provided set of choices.
+		/// </summary>
+		public static void GetItems<T>(ReadOnlySpan<T> choices, Span<T> destination)
+		{
+			if (choices.IsEmpty)
+			{
+				throw new ArgumentException("Empty span", nameof(choices));
+			}
+			for (var i = 0; i < destination.Length; i++)
+			{
+				destination[i] = choices[RandomNumberGenerator.GetInt32(choices.Length)];
+			}
+		}
+		/// <summary>
+		///   Creates an array populated with items chosen at random from choices.
+		/// </summary>
+		public static T[] GetItems<T>(ReadOnlySpan<T> choices, int length)
+		{
+			var result = new T[length];
+			GetItems(choices, result);
+			return result;
+		}
+		/// <summary>
+		///   Creates a string populated with characters chosen at random from choices.
+		/// </summary>
+		public static string GetString(ReadOnlySpan<char> choices, int length)
+		{
+			var result = new char[length];
+			GetItems(choices, result);
+			return new(result);
+		}
+		/// <summary>
+		///   Fills a buffer with cryptographically random hexadecimal characters.
+		/// </summary>
+		public static void GetHexString(Span<char> destination, bool lowercase = false)
+		{
+			if (destination.IsEmpty)
+			{
+				return;
+			}
+			// Each byte gives two hex chars
+			var byteCount = (destination.Length + 1) / 2;
+			Span<byte> bytes = stackalloc byte[byteCount];
+			RandomNumberGenerator.Fill(bytes);
+			ReadOnlySpan<char> hex = lowercase
+				? "0123456789abcdef".AsSpan()
+				: "0123456789ABCDEF".AsSpan();
+			var charIndex = 0;
+			for (var i = 0; i < bytes.Length && charIndex < destination.Length; i++)
+			{
+				var b = bytes[i];
+				destination[charIndex++] = hex[b >> 4];
+				if (charIndex < destination.Length)
+				{
+					destination[charIndex++] = hex[b & 0xF];
+				}
+			}
+		}
+		/// <summary>
+		///   Performs an in-place shuffle of a span using cryptographically random number generation.
+		/// </summary>
+		public static void Shuffle<T>(Span<T> values)
+		{
+			var n = values.Length;
+			for (int i = 0; i < n - 1; i++)
+			{
+				var j = RandomNumberGenerator.GetInt32(i, n);
+				if (i != j)
+				{
+					var temp = values[i];
+					values[i] = values[j];
+					values[j] = temp;
+				}
+			}
+		}
 #endif
-        /// <summary>
-        ///   Creates a string filled with cryptographically random hexadecimal characters.
-        /// </summary>
-        public static string GetHexString(int stringLength, bool lowercase = false)
-        {
-            if (stringLength == 0)
-            {
-                return string.Empty;
-            }
-            if (stringLength < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(stringLength), "Value is negative.");
-            }
-            var byteCount = (stringLength + 1) / 2;
-            var bytes = RandomNumberGenerator.GetBytes(byteCount);
-            var hexChars = new char[stringLength];
-            var hexAlphabet = lowercase ? "0123456789abcdef" : "0123456789ABCDEF";
-            var charIndex = 0;
-            for (var i = 0; i < bytes.Length && charIndex < stringLength; i++)
-            {
-                var b = bytes[i];
-                hexChars[charIndex++] = hexAlphabet[b >> 4];
-                if (charIndex < stringLength)
-                {
-                    hexChars[charIndex++] = hexAlphabet[b & 0xF];
-                }
-            }
-            return new(hexChars);
-        }
-    }
+		/// <summary>
+		///   Creates a string filled with cryptographically random hexadecimal characters.
+		/// </summary>
+		public static string GetHexString(int stringLength, bool lowercase = false)
+		{
+			if (stringLength == 0)
+			{
+				return string.Empty;
+			}
+			if (stringLength < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(stringLength), "Value is negative.");
+			}
+			var byteCount = (stringLength + 1) / 2;
+			var bytes = RandomNumberGenerator.GetBytes(byteCount);
+			var hexChars = new char[stringLength];
+			var hexAlphabet = lowercase ? "0123456789abcdef" : "0123456789ABCDEF";
+			var charIndex = 0;
+			for (var i = 0; i < bytes.Length && charIndex < stringLength; i++)
+			{
+				var b = bytes[i];
+				hexChars[charIndex++] = hexAlphabet[b >> 4];
+				if (charIndex < stringLength)
+				{
+					hexChars[charIndex++] = hexAlphabet[b & 0xF];
+				}
+			}
+			return new(hexChars);
+		}
+	}
 }

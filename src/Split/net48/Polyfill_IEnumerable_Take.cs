@@ -8,143 +8,143 @@ using System.Runtime.CompilerServices;
 using System.Collections.Generic;
 static partial class Polyfill
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    static bool IsEmptyArray<TSource>(IEnumerable<TSource> source) =>
-        source is TSource[] { Length: 0 };
-    static IEnumerable<TSource> TakeRangeFromEndIterator<TSource>(IEnumerable<TSource> source, bool isStartIndexFromEnd, int startIndex, bool isEndIndexFromEnd, int endIndex)
-    {
-        if (source.TryGetNonEnumeratedCount(out var count))
-        {
-            startIndex = CalculateStartIndex(isStartIndexFromEnd, startIndex, count);
-            endIndex = CalculateEndIndex(isEndIndexFromEnd, endIndex, count);
-            if (startIndex < endIndex)
-            {
-                foreach (var element in TakeRangeIterator(source, startIndex, endIndex))
-                {
-                    yield return element;
-                }
-            }
-            yield break;
-        }
-        Queue<TSource> queue;
-        if (isStartIndexFromEnd)
-        {
-            using (var e = source.GetEnumerator())
-            {
-                if (!e.MoveNext())
-                {
-                    yield break;
-                }
-                queue = new();
-                queue.Enqueue(e.Current);
-                count = 1;
-                while (e.MoveNext())
-                {
-                    if (count < startIndex)
-                    {
-                        queue.Enqueue(e.Current);
-                        ++count;
-                    }
-                    else
-                    {
-                        do
-                        {
-                            queue.Dequeue();
-                            queue.Enqueue(e.Current);
-                            checked
-                            {
-                                ++count;
-                            }
-                        } while (e.MoveNext());
-                        break;
-                    }
-                }
-            }
-            startIndex = CalculateStartIndex(isStartIndexFromEnd: true, startIndex, count);
-            endIndex = CalculateEndIndex(isEndIndexFromEnd, endIndex, count);
-            for (int rangeIndex = startIndex; rangeIndex < endIndex; rangeIndex++)
-            {
-                yield return queue.Dequeue();
-            }
-        }
-        else
-        {
-            using var e = source.GetEnumerator();
-            count = 0;
-            while (count < startIndex && e.MoveNext())
-            {
-                ++count;
-            }
-            if (count == startIndex)
-            {
-                queue = new();
-                while (e.MoveNext())
-                {
-                    if (queue.Count == endIndex)
-                    {
-                        do
-                        {
-                            queue.Enqueue(e.Current);
-                            yield return queue.Dequeue();
-                        } while (e.MoveNext());
-                        break;
-                    }
-                    queue.Enqueue(e.Current);
-                }
-            }
-        }
-        static int CalculateStartIndex(bool isStartIndexFromEnd, int startIndex, int count) =>
-            Math.Max(0, isStartIndexFromEnd ? count - startIndex : startIndex);
-        static int CalculateEndIndex(bool isEndIndexFromEnd, int endIndex, int count) =>
-            Math.Min(count, isEndIndexFromEnd ? count - endIndex : endIndex);
-    }
-    static IEnumerable<TSource> TakeRangeIterator<TSource>(IEnumerable<TSource> source, int startIndex, int endIndex)
-    {
-        using var e = source.GetEnumerator();
-        var index = 0;
-        while (index < startIndex && e.MoveNext())
-        {
-            ++index;
-        }
-        if (index < startIndex)
-        {
-            yield break;
-        }
-        while (index < endIndex && e.MoveNext())
-        {
-            yield return e.Current;
-            ++index;
-        }
-    }
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	static bool IsEmptyArray<TSource>(IEnumerable<TSource> source) =>
+		source is TSource[] { Length: 0 };
+	static IEnumerable<TSource> TakeRangeFromEndIterator<TSource>(IEnumerable<TSource> source, bool isStartIndexFromEnd, int startIndex, bool isEndIndexFromEnd, int endIndex)
+	{
+		if (source.TryGetNonEnumeratedCount(out var count))
+		{
+			startIndex = CalculateStartIndex(isStartIndexFromEnd, startIndex, count);
+			endIndex = CalculateEndIndex(isEndIndexFromEnd, endIndex, count);
+			if (startIndex < endIndex)
+			{
+				foreach (var element in TakeRangeIterator(source, startIndex, endIndex))
+				{
+					yield return element;
+				}
+			}
+			yield break;
+		}
+		Queue<TSource> queue;
+		if (isStartIndexFromEnd)
+		{
+			using (var e = source.GetEnumerator())
+			{
+				if (!e.MoveNext())
+				{
+					yield break;
+				}
+				queue = new();
+				queue.Enqueue(e.Current);
+				count = 1;
+				while (e.MoveNext())
+				{
+					if (count < startIndex)
+					{
+						queue.Enqueue(e.Current);
+						++count;
+					}
+					else
+					{
+						do
+						{
+							queue.Dequeue();
+							queue.Enqueue(e.Current);
+							checked
+							{
+								++count;
+							}
+						} while (e.MoveNext());
+						break;
+					}
+				}
+			}
+			startIndex = CalculateStartIndex(isStartIndexFromEnd: true, startIndex, count);
+			endIndex = CalculateEndIndex(isEndIndexFromEnd, endIndex, count);
+			for (int rangeIndex = startIndex; rangeIndex < endIndex; rangeIndex++)
+			{
+				yield return queue.Dequeue();
+			}
+		}
+		else
+		{
+			using var e = source.GetEnumerator();
+			count = 0;
+			while (count < startIndex && e.MoveNext())
+			{
+				++count;
+			}
+			if (count == startIndex)
+			{
+				queue = new();
+				while (e.MoveNext())
+				{
+					if (queue.Count == endIndex)
+					{
+						do
+						{
+							queue.Enqueue(e.Current);
+							yield return queue.Dequeue();
+						} while (e.MoveNext());
+						break;
+					}
+					queue.Enqueue(e.Current);
+				}
+			}
+		}
+		static int CalculateStartIndex(bool isStartIndexFromEnd, int startIndex, int count) =>
+			Math.Max(0, isStartIndexFromEnd ? count - startIndex : startIndex);
+		static int CalculateEndIndex(bool isEndIndexFromEnd, int endIndex, int count) =>
+			Math.Min(count, isEndIndexFromEnd ? count - endIndex : endIndex);
+	}
+	static IEnumerable<TSource> TakeRangeIterator<TSource>(IEnumerable<TSource> source, int startIndex, int endIndex)
+	{
+		using var e = source.GetEnumerator();
+		var index = 0;
+		while (index < startIndex && e.MoveNext())
+		{
+			++index;
+		}
+		if (index < startIndex)
+		{
+			yield break;
+		}
+		while (index < endIndex && e.MoveNext())
+		{
+			yield return e.Current;
+			++index;
+		}
+	}
 #if FeatureValueTuple
-    //https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Take.cs
-    /// <summary>Returns a specified range of contiguous elements from a sequence.</summary>
-    public static IEnumerable<TSource> Take<TSource>(
-        this IEnumerable<TSource> target,
-        Range range)
-    {
-        if (IsEmptyArray(target))
-        {
-            return [];
-        }
-        var start = range.Start;
-        var end = range.End;
-        var isStartIndexFromEnd = start.IsFromEnd;
-        var isEndIndexFromEnd = end.IsFromEnd;
-        var startIndex = start.Value;
-        var endIndex = end.Value;
-        if (isStartIndexFromEnd)
-        {
-            if (startIndex == 0 || (isEndIndexFromEnd && endIndex >= startIndex))
-            {
-                return [];
-            }
-        }
-        else if (!isEndIndexFromEnd)
-        {
-            return startIndex >= endIndex ? [] : TakeRangeIterator(target, startIndex, endIndex);
-        }
-        return TakeRangeFromEndIterator(target, isStartIndexFromEnd, startIndex, isEndIndexFromEnd, endIndex);
-    }
+	//https://github.com/dotnet/runtime/blob/main/src/libraries/System.Linq/src/System/Linq/Take.cs
+	/// <summary>Returns a specified range of contiguous elements from a sequence.</summary>
+	public static IEnumerable<TSource> Take<TSource>(
+		this IEnumerable<TSource> target,
+		Range range)
+	{
+		if (IsEmptyArray(target))
+		{
+			return [];
+		}
+		var start = range.Start;
+		var end = range.End;
+		var isStartIndexFromEnd = start.IsFromEnd;
+		var isEndIndexFromEnd = end.IsFromEnd;
+		var startIndex = start.Value;
+		var endIndex = end.Value;
+		if (isStartIndexFromEnd)
+		{
+			if (startIndex == 0 || (isEndIndexFromEnd && endIndex >= startIndex))
+			{
+				return [];
+			}
+		}
+		else if (!isEndIndexFromEnd)
+		{
+			return startIndex >= endIndex ? [] : TakeRangeIterator(target, startIndex, endIndex);
+		}
+		return TakeRangeFromEndIterator(target, isStartIndexFromEnd, startIndex, isEndIndexFromEnd, endIndex);
+	}
 #endif
 }

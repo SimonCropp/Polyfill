@@ -15,16 +15,16 @@ namespace System.Diagnostics.CodeAnalysis;
 public
 #endif
 sealed class MaybeNullWhenAttribute :
-    Attribute
+	Attribute
 {
-    /// <summary>
-    ///   Gets the return value condition.
-    ///   If the method returns this value, the associated parameter may be <see langword="null"/>.
-    /// </summary>
-    public bool ReturnValue { get; }
-    /// <summary>
-    ///    Initializes the attribute with the specified return value condition.
-    /// </summary>
-    public MaybeNullWhenAttribute(bool returnValue) =>
-        ReturnValue = returnValue;
+	/// <summary>
+	///   Gets the return value condition.
+	///   If the method returns this value, the associated parameter may be <see langword="null"/>.
+	/// </summary>
+	public bool ReturnValue { get; }
+	/// <summary>
+	///    Initializes the attribute with the specified return value condition.
+	/// </summary>
+	public MaybeNullWhenAttribute(bool returnValue) =>
+		ReturnValue = returnValue;
 }

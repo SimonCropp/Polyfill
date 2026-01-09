@@ -8,10 +8,10 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
-    extension(ArgumentOutOfRangeException)
-    {
-        [DoesNotReturn]
-        static void ThrowNegativeOrZero<T>(T value, string? name) =>
-            throw new ArgumentOutOfRangeException(name, value, $"{name} ('{value}') must be a non-negative and non-zero value.");
-    }
+	extension(ArgumentOutOfRangeException)
+	{
+		[DoesNotReturn]
+		static void ThrowNegativeOrZero<T>(T value, string? name) =>
+			throw new ArgumentOutOfRangeException(name, value, $"{name} ('{value}') must be a non-negative and non-zero value.");
+	}
 }

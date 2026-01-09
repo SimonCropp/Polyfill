@@ -9,13 +9,13 @@ public
 #endif
 static partial class Guard
 {
-    public static T NotNull<T>(
-        [NotNull] T? argument,
-        [CallerArgumentExpression("argument")] string? name = null)
-        where T : class =>
-        Ensure.NotNull(argument, name);
-    public static string NotNull(
-        [NotNull] string? argument,
-        [CallerArgumentExpression("argument")] string? name = null) =>
-        Ensure.NotNull(argument, name);
+	public static T NotNull<T>(
+		[NotNull] T? argument,
+		[CallerArgumentExpression("argument")] string? name = null)
+		where T : class =>
+		Ensure.NotNull(argument, name);
+	public static string NotNull(
+		[NotNull] string? argument,
+		[CallerArgumentExpression("argument")] string? name = null) =>
+		Ensure.NotNull(argument, name);
 }

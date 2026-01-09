@@ -5,10 +5,10 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: Targets.Parameter |
-             Targets.Property |
-             Targets.ReturnValue,
-    AllowMultiple = true)]
+	validOn: Targets.Parameter |
+			 Targets.Property |
+			 Targets.ReturnValue,
+	AllowMultiple = true)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -16,17 +16,17 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class NotNullIfNotNullAttribute :
-    Attribute
+	Attribute
 {
-    /// <summary>
-    ///   Gets the associated parameter name.
-    ///   The output will be non-<see langword="null"/> if the argument to the
-    ///   parameter specified is non-<see langword="null"/>.
-    /// </summary>
-    public string ParameterName { get; }
-    /// <summary>
-    ///   Initializes the attribute with the associated parameter name.
-    /// </summary>
-    public NotNullIfNotNullAttribute(string parameterName) =>
-        ParameterName = parameterName;
+	/// <summary>
+	///   Gets the associated parameter name.
+	///   The output will be non-<see langword="null"/> if the argument to the
+	///   parameter specified is non-<see langword="null"/>.
+	/// </summary>
+	public string ParameterName { get; }
+	/// <summary>
+	///   Initializes the attribute with the associated parameter name.
+	/// </summary>
+	public NotNullIfNotNullAttribute(string parameterName) =>
+		ParameterName = parameterName;
 }

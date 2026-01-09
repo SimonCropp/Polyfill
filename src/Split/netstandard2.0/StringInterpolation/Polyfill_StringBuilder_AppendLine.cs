@@ -7,18 +7,18 @@ using System.Text;
 static partial class Polyfill
 {
 #if FeatureMemory
-    /// <summary>Appends the specified interpolated string followed by the default line terminator to the end of the current StringBuilder object.</summary>
-    public static StringBuilder AppendLine(
-        StringBuilder target,
-        [InterpolatedStringHandlerArgument(nameof(target))]
-        ref AppendInterpolatedStringHandler handler) =>
-        target.AppendLine();
-    /// <summary>Appends the specified interpolated string followed by the default line terminator to the end of the current StringBuilder object.</summary>
-    public static StringBuilder AppendLine(
-        StringBuilder target,
-        IFormatProvider? provider,
-        [InterpolatedStringHandlerArgument(nameof(target), nameof(provider))]
-        ref AppendInterpolatedStringHandler handler) =>
-        target.AppendLine();
+	/// <summary>Appends the specified interpolated string followed by the default line terminator to the end of the current StringBuilder object.</summary>
+	public static StringBuilder AppendLine(
+		StringBuilder target,
+		[InterpolatedStringHandlerArgument(nameof(target))]
+		ref AppendInterpolatedStringHandler handler) =>
+		target.AppendLine();
+	/// <summary>Appends the specified interpolated string followed by the default line terminator to the end of the current StringBuilder object.</summary>
+	public static StringBuilder AppendLine(
+		StringBuilder target,
+		IFormatProvider? provider,
+		[InterpolatedStringHandlerArgument(nameof(target), nameof(provider))]
+		ref AppendInterpolatedStringHandler handler) =>
+		target.AppendLine();
 #endif
 }

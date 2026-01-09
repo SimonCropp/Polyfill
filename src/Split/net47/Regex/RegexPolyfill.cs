@@ -10,56 +10,56 @@ using ValueMatchEnumerator = System.Text.RegularExpressions.ValueMatchEnumerator
 #endif
 static partial class Polyfill
 {
-    extension(Regex)
-    {
+	extension(Regex)
+	{
 #if FeatureMemory
-        /// <summary>
-        /// Indicates whether the specified regular expression finds a match in the specified input span, using the specified matching options and time-out interval.
-        /// </summary>
-        public static bool IsMatch(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan timeout) =>
-            Regex.IsMatch(input.ToString(), pattern, options, timeout);
-        /// <summary>
-        /// Indicates whether the specified regular expression finds a match in the specified input span, using the specified matching options.
-        /// </summary>
-        public static bool IsMatch(ReadOnlySpan<char> input, string pattern, RegexOptions options) =>
-            Regex.IsMatch(input.ToString(), pattern, options);
-        /// <summary>
-        /// Indicates whether the specified regular expression finds a match in the specified input span.
-        /// </summary>
-        public static bool IsMatch(ReadOnlySpan<char> input, string pattern) =>
-            Regex.IsMatch(input.ToString(), pattern);
-        /// <summary>
-        /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
-        /// </summary>
-        public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern) =>
-            RegexCache.GetOrAdd(pattern).EnumerateMatches(input);
-        /// <summary>
-        /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
-        /// </summary>
-        public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan timeout) =>
-            RegexCache.GetOrAdd(pattern, options, timeout).EnumerateMatches(input);
-        /// <summary>
-        /// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
-        /// </summary>
-        public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern, RegexOptions options) =>
-            RegexCache.GetOrAdd(pattern, options, TimeSpan.MaxValue).EnumerateMatches(input);
+		/// <summary>
+		/// Indicates whether the specified regular expression finds a match in the specified input span, using the specified matching options and time-out interval.
+		/// </summary>
+		public static bool IsMatch(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan timeout) =>
+			Regex.IsMatch(input.ToString(), pattern, options, timeout);
+		/// <summary>
+		/// Indicates whether the specified regular expression finds a match in the specified input span, using the specified matching options.
+		/// </summary>
+		public static bool IsMatch(ReadOnlySpan<char> input, string pattern, RegexOptions options) =>
+			Regex.IsMatch(input.ToString(), pattern, options);
+		/// <summary>
+		/// Indicates whether the specified regular expression finds a match in the specified input span.
+		/// </summary>
+		public static bool IsMatch(ReadOnlySpan<char> input, string pattern) =>
+			Regex.IsMatch(input.ToString(), pattern);
+		/// <summary>
+		/// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
+		/// </summary>
+		public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern) =>
+			RegexCache.GetOrAdd(pattern).EnumerateMatches(input);
+		/// <summary>
+		/// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
+		/// </summary>
+		public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan timeout) =>
+			RegexCache.GetOrAdd(pattern, options, timeout).EnumerateMatches(input);
+		/// <summary>
+		/// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
+		/// </summary>
+		public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern, RegexOptions options) =>
+			RegexCache.GetOrAdd(pattern, options, TimeSpan.MaxValue).EnumerateMatches(input);
 #endif
 #if FeatureMemory && FeatureValueTuple
-        public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern)
-        {
-            var regex = new Regex(pattern);
-            return new ValueSplitEnumerator(input, regex, 0, 0);
-        }
-        public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options)
-        {
-            var regex = new Regex(pattern, options);
-            return new ValueSplitEnumerator(input, regex, 0, 0);
-        }
-        public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan matchTimeout)
-        {
-            var regex = new Regex(pattern, options, matchTimeout);
-            return new ValueSplitEnumerator(input, regex, 0, 0);
-        }
+		public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern)
+		{
+			var regex = new Regex(pattern);
+			return new ValueSplitEnumerator(input, regex, 0, 0);
+		}
+		public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options)
+		{
+			var regex = new Regex(pattern, options);
+			return new ValueSplitEnumerator(input, regex, 0, 0);
+		}
+		public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan matchTimeout)
+		{
+			var regex = new Regex(pattern, options, matchTimeout);
+			return new ValueSplitEnumerator(input, regex, 0, 0);
+		}
 #endif
-    }
+	}
 }

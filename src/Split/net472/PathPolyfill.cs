@@ -5,100 +5,100 @@ using System;
 using System.IO;
 static partial class Polyfill
 {
-    extension(Path)
-    {
+	extension(Path)
+	{
 #if FeatureMemory
-        /// <summary>
-        /// Returns the directory information for the specified path represented by a character span.
-        /// </summary>
-        public static ReadOnlySpan<char> GetDirectoryName(ReadOnlySpan<char> path) =>
-            Path.GetDirectoryName(path.ToString()).AsSpan();
-        /// <summary>
-        /// Returns the file name and extension of a file path that is represented by a read-only character span.
-        /// </summary>
-        public static ReadOnlySpan<char> GetFileName(ReadOnlySpan<char> path) =>
-            Path.GetFileName(path.ToString()).AsSpan();
-        /// <summary>
-        /// Returns the file name without the extension of a file path that is represented by a read-only character span.
-        /// </summary>
-        public static ReadOnlySpan<char> GetFileNameWithoutExtension(ReadOnlySpan<char> path) =>
-            Path.GetFileNameWithoutExtension(path.ToString()).AsSpan();
-        /// <summary>
-        /// Determines whether the path represented by the specified character span includes a file name extension.
-        /// </summary>
-        public static bool HasExtension(ReadOnlySpan<char> path) =>
-            Path.HasExtension(path.ToString());
-        /// <summary>
-        /// Returns the extension of the given path.
-        /// </summary>
-        public static ReadOnlySpan<char> GetExtension(ReadOnlySpan<char> path) =>
-            Path.GetExtension(path.ToString()).AsSpan();
-        /// <summary>
-        /// Combines a span of strings into a path.
-        /// </summary>
-        public static string Combine(scoped ReadOnlySpan<string> paths) =>
-            Path.Combine(paths.ToArray());
-        /// <summary>
-        /// Returns a value that indicates whether the path, specified as a read-only span, ends in a directory separator.
-        /// </summary>
-        public static bool EndsInDirectorySeparator (ReadOnlySpan<char> path) =>
-            EndsInDirectorySeparator(path.ToString());
-        /// <summary>
-        /// Trims one trailing directory separator beyond the root of the specified path.
-        /// </summary>
-        public static ReadOnlySpan<char> TrimEndingDirectorySeparator(ReadOnlySpan<char> path) =>
-            TrimEndingDirectorySeparator(path.ToString()).AsSpan();
+		/// <summary>
+		/// Returns the directory information for the specified path represented by a character span.
+		/// </summary>
+		public static ReadOnlySpan<char> GetDirectoryName(ReadOnlySpan<char> path) =>
+			Path.GetDirectoryName(path.ToString()).AsSpan();
+		/// <summary>
+		/// Returns the file name and extension of a file path that is represented by a read-only character span.
+		/// </summary>
+		public static ReadOnlySpan<char> GetFileName(ReadOnlySpan<char> path) =>
+			Path.GetFileName(path.ToString()).AsSpan();
+		/// <summary>
+		/// Returns the file name without the extension of a file path that is represented by a read-only character span.
+		/// </summary>
+		public static ReadOnlySpan<char> GetFileNameWithoutExtension(ReadOnlySpan<char> path) =>
+			Path.GetFileNameWithoutExtension(path.ToString()).AsSpan();
+		/// <summary>
+		/// Determines whether the path represented by the specified character span includes a file name extension.
+		/// </summary>
+		public static bool HasExtension(ReadOnlySpan<char> path) =>
+			Path.HasExtension(path.ToString());
+		/// <summary>
+		/// Returns the extension of the given path.
+		/// </summary>
+		public static ReadOnlySpan<char> GetExtension(ReadOnlySpan<char> path) =>
+			Path.GetExtension(path.ToString()).AsSpan();
+		/// <summary>
+		/// Combines a span of strings into a path.
+		/// </summary>
+		public static string Combine(scoped ReadOnlySpan<string> paths) =>
+			Path.Combine(paths.ToArray());
+		/// <summary>
+		/// Returns a value that indicates whether the path, specified as a read-only span, ends in a directory separator.
+		/// </summary>
+		public static bool EndsInDirectorySeparator (ReadOnlySpan<char> path) =>
+			EndsInDirectorySeparator(path.ToString());
+		/// <summary>
+		/// Trims one trailing directory separator beyond the root of the specified path.
+		/// </summary>
+		public static ReadOnlySpan<char> TrimEndingDirectorySeparator(ReadOnlySpan<char> path) =>
+			TrimEndingDirectorySeparator(path.ToString()).AsSpan();
 #endif
-        /// <summary>
-        /// Returns a value that indicates whether the specified path ends in a directory separator.
-        /// </summary>
-        public static bool EndsInDirectorySeparator(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                return false;
-            }
-            return IsDirectorySeparator(path[path.Length - 1]);
-        }
-        /// <summary>
-        /// Trims one trailing directory separator beyond the root of the specified path.
-        /// </summary>
-        public static string TrimEndingDirectorySeparator(string path)
-        {
-            if (EndsInDirectorySeparator(path) &&
-                !IsRoot(path))
-            {
-                return path!.Substring(0, path.Length - 1);
-            }
-            return path;
-        }
-        static bool IsRoot(string path) =>
-            Path.IsPathRooted(path) && Path.GetDirectoryName(path) == null;
-        static bool IsDirectorySeparator(char c) =>
-            c == Path.DirectorySeparatorChar ||
-            c == Path.AltDirectorySeparatorChar;
-        /// <summary>
-        /// Determines whether the specified file or directory exists.
-        /// </summary>
-        public static bool Exists(string? path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                return false;
-            }
-            string? fullPath;
-            try
-            {
-                fullPath = Path.GetFullPath(path);
-            }
-            catch (Exception ex)
-                when (ex is ArgumentException or
-                          IOException or
-                          UnauthorizedAccessException)
-            {
-                return false;
-            }
-            return File.Exists(fullPath) || Directory.Exists(fullPath);
-        }
-    }
+		/// <summary>
+		/// Returns a value that indicates whether the specified path ends in a directory separator.
+		/// </summary>
+		public static bool EndsInDirectorySeparator(string path)
+		{
+			if (string.IsNullOrEmpty(path))
+			{
+				return false;
+			}
+			return IsDirectorySeparator(path[path.Length - 1]);
+		}
+		/// <summary>
+		/// Trims one trailing directory separator beyond the root of the specified path.
+		/// </summary>
+		public static string TrimEndingDirectorySeparator(string path)
+		{
+			if (EndsInDirectorySeparator(path) &&
+				!IsRoot(path))
+			{
+				return path!.Substring(0, path.Length - 1);
+			}
+			return path;
+		}
+		static bool IsRoot(string path) =>
+			Path.IsPathRooted(path) && Path.GetDirectoryName(path) == null;
+		static bool IsDirectorySeparator(char c) =>
+			c == Path.DirectorySeparatorChar ||
+			c == Path.AltDirectorySeparatorChar;
+		/// <summary>
+		/// Determines whether the specified file or directory exists.
+		/// </summary>
+		public static bool Exists(string? path)
+		{
+			if (string.IsNullOrEmpty(path))
+			{
+				return false;
+			}
+			string? fullPath;
+			try
+			{
+				fullPath = Path.GetFullPath(path);
+			}
+			catch (Exception ex)
+				when (ex is ArgumentException or
+						  IOException or
+						  UnauthorizedAccessException)
+			{
+				return false;
+			}
+			return File.Exists(fullPath) || Directory.Exists(fullPath);
+		}
+	}
 }

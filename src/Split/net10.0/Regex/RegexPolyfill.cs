@@ -10,7 +10,7 @@ using ValueMatchEnumerator = System.Text.RegularExpressions.Regex.ValueMatchEnum
 #endif
 static partial class Polyfill
 {
-    extension(Regex)
-    {
-    }
+	extension(Regex)
+	{
+	}
 }

@@ -6,27 +6,27 @@ using System.Text.RegularExpressions;
 static partial class Polyfill
 {
 #if FeatureMemory && FeatureValueTuple
-    public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input) =>
-        new(input, regex, 0, 0);
-    public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input, int count)
-    {
-        if (count < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(count), "Count must be non-negative.");
-        }
-        return new ValueSplitEnumerator(input, regex, count, 0);
-    }
-    public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input, int count, int startat)
-    {
-        if (count < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(count), "Count must be non-negative.");
-        }
-        if (startat < 0 || startat > input.Length)
-        {
-            throw new ArgumentOutOfRangeException(nameof(startat), "Start position must be within the input span.");
-        }
-        return new ValueSplitEnumerator(input, regex, count, startat);
-    }
+	public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input) =>
+		new(input, regex, 0, 0);
+	public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input, int count)
+	{
+		if (count < 0)
+		{
+			throw new ArgumentOutOfRangeException(nameof(count), "Count must be non-negative.");
+		}
+		return new ValueSplitEnumerator(input, regex, count, 0);
+	}
+	public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input, int count, int startat)
+	{
+		if (count < 0)
+		{
+			throw new ArgumentOutOfRangeException(nameof(count), "Count must be non-negative.");
+		}
+		if (startat < 0 || startat > input.Length)
+		{
+			throw new ArgumentOutOfRangeException(nameof(startat), "Start position must be within the input span.");
+		}
+		return new ValueSplitEnumerator(input, regex, count, startat);
+	}
 #endif
 }

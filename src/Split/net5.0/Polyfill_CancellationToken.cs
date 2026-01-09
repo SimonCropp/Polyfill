@@ -6,39 +6,39 @@ using System;
 using System.Threading;
 static partial class Polyfill
 {
-    /// <summary>Registers a delegate that will be called when this <see cref="CancellationToken">CancellationToken</see> is canceled.</summary>
-    public static CancellationTokenRegistration Register(this CancellationToken target, Action<object?, CancellationToken> callback, object? state)
-    {
-        if (callback is null)
-        {
-            throw new ArgumentNullException(nameof(callback));
-        }
-        return target.Register(data => callback(data, target), state, useSynchronizationContext: false);
-    }
-    /// <summary>Registers a delegate that will be called when this <see cref="CancellationToken">CancellationToken</see> is canceled.</summary>
-    public static CancellationTokenRegistration UnsafeRegister(this CancellationToken target, Action<object?, CancellationToken> callback, object? state)
-    {
-        if (callback is null)
-        {
-            throw new ArgumentNullException(nameof(callback));
-        }
-        var restoreFlow = false;
-        if (!ExecutionContext.IsFlowSuppressed())
-        {
-            ExecutionContext.SuppressFlow();
-            restoreFlow = true;
-        }
-        try
-        {
-            Action<object> internalCallback = data => callback(data, target);
-            return target.Register(internalCallback, state, false);
-        }
-        finally
-        {
-            if (restoreFlow)
-            {
-                ExecutionContext.RestoreFlow();
-            }
-        }
-    }
+	/// <summary>Registers a delegate that will be called when this <see cref="CancellationToken">CancellationToken</see> is canceled.</summary>
+	public static CancellationTokenRegistration Register(this CancellationToken target, Action<object?, CancellationToken> callback, object? state)
+	{
+		if (callback is null)
+		{
+			throw new ArgumentNullException(nameof(callback));
+		}
+		return target.Register(data => callback(data, target), state, useSynchronizationContext: false);
+	}
+	/// <summary>Registers a delegate that will be called when this <see cref="CancellationToken">CancellationToken</see> is canceled.</summary>
+	public static CancellationTokenRegistration UnsafeRegister(this CancellationToken target, Action<object?, CancellationToken> callback, object? state)
+	{
+		if (callback is null)
+		{
+			throw new ArgumentNullException(nameof(callback));
+		}
+		var restoreFlow = false;
+		if (!ExecutionContext.IsFlowSuppressed())
+		{
+			ExecutionContext.SuppressFlow();
+			restoreFlow = true;
+		}
+		try
+		{
+			Action<object> internalCallback = data => callback(data, target);
+			return target.Register(internalCallback, state, false);
+		}
+		finally
+		{
+			if (restoreFlow)
+			{
+				ExecutionContext.RestoreFlow();
+			}
+		}
+	}
 }

@@ -9,69 +9,69 @@ public
 #endif
 static partial class Ensure
 {
-    public static string NotNullOrWhiteSpace(
-        [NotNull] string? value,
-        [CallerArgumentExpression("value")] string name = "")
-    {
-        if (value == null)
-        {
-            throw new ArgumentNullException(name);
-        }
-        if (value.Length == 0)
-        {
-            throw new ArgumentException("Argument cannot be empty.", name);
-        }
-        foreach (var ch in value)
-        {
-            if (!char.IsWhiteSpace(ch))
-            {
-                return value;
-            }
-        }
-        throw new ArgumentException("Argument cannot be whitespace.", name);
-    }
+	public static string NotNullOrWhiteSpace(
+		[NotNull] string? value,
+		[CallerArgumentExpression("value")] string name = "")
+	{
+		if (value == null)
+		{
+			throw new ArgumentNullException(name);
+		}
+		if (value.Length == 0)
+		{
+			throw new ArgumentException("Argument cannot be empty.", name);
+		}
+		foreach (var ch in value)
+		{
+			if (!char.IsWhiteSpace(ch))
+			{
+				return value;
+			}
+		}
+		throw new ArgumentException("Argument cannot be whitespace.", name);
+	}
 #if FeatureMemory
-    public static Memory<char> NotNullOrWhiteSpace(
-        [NotNull] Memory<char>? value,
-        [CallerArgumentExpression("value")] string name = "")
-    {
-        if (value == null)
-        {
-            throw new ArgumentNullException(name);
-        }
-        if (value.Value.Length == 0)
-        {
-            throw new ArgumentException("Argument cannot be empty.", name);
-        }
-        foreach (var ch in value.Value.Span)
-        {
-            if (!char.IsWhiteSpace(ch))
-            {
-                return value.Value;
-            }
-        }
-        throw new ArgumentException("Argument cannot be whitespace.", name);
-    }
-    public static ReadOnlyMemory<char> NotNullOrWhiteSpace(
-        [NotNull] ReadOnlyMemory<char>? value,
-        [CallerArgumentExpression("value")] string name = "")
-    {
-        if (value == null)
-        {
-            throw new ArgumentNullException(name);
-        }
-        if (value.Value.Length == 0)
-        {
-            throw new ArgumentException("Argument cannot be empty.", name);
-        }
-        foreach (var ch in value.Value.Span)
-        {
-            if (!char.IsWhiteSpace(ch))
-            {
-                return value.Value;
-            }
-        }
-        throw new ArgumentException("Argument cannot be whitespace.", name);
-    }
+	public static Memory<char> NotNullOrWhiteSpace(
+		[NotNull] Memory<char>? value,
+		[CallerArgumentExpression("value")] string name = "")
+	{
+		if (value == null)
+		{
+			throw new ArgumentNullException(name);
+		}
+		if (value.Value.Length == 0)
+		{
+			throw new ArgumentException("Argument cannot be empty.", name);
+		}
+		foreach (var ch in value.Value.Span)
+		{
+			if (!char.IsWhiteSpace(ch))
+			{
+				return value.Value;
+			}
+		}
+		throw new ArgumentException("Argument cannot be whitespace.", name);
+	}
+	public static ReadOnlyMemory<char> NotNullOrWhiteSpace(
+		[NotNull] ReadOnlyMemory<char>? value,
+		[CallerArgumentExpression("value")] string name = "")
+	{
+		if (value == null)
+		{
+			throw new ArgumentNullException(name);
+		}
+		if (value.Value.Length == 0)
+		{
+			throw new ArgumentException("Argument cannot be empty.", name);
+		}
+		foreach (var ch in value.Value.Span)
+		{
+			if (!char.IsWhiteSpace(ch))
+			{
+				return value.Value;
+			}
+		}
+		throw new ArgumentException("Argument cannot be whitespace.", name);
+	}
 #endif
 }

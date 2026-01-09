@@ -6,19 +6,19 @@ using System;
 using System.Globalization;
 static partial class Polyfill
 {
-    extension(DateTimeOffset)
-    {
-        /// <summary>
-        /// Tries to parse a string into a value.
-        /// </summary>
-        public static bool TryParse(string? s, IFormatProvider? provider, out DateTimeOffset result) =>
-            DateTimeOffset.TryParse(s, provider, DateTimeStyles.None, out result);
+	extension(DateTimeOffset)
+	{
+		/// <summary>
+		/// Tries to parse a string into a value.
+		/// </summary>
+		public static bool TryParse(string? s, IFormatProvider? provider, out DateTimeOffset result) =>
+			DateTimeOffset.TryParse(s, provider, DateTimeStyles.None, out result);
 #if FeatureMemory
-        /// <summary>
-        /// Tries to parse a span of characters into a value.
-        /// </summary>
-        public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out DateTimeOffset result) =>
-            DateTimeOffset.TryParse(s.ToString(), provider, DateTimeStyles.None, out result);
+		/// <summary>
+		/// Tries to parse a span of characters into a value.
+		/// </summary>
+		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out DateTimeOffset result) =>
+			DateTimeOffset.TryParse(s.ToString(), provider, DateTimeStyles.None, out result);
 #endif
-    }
+	}
 }

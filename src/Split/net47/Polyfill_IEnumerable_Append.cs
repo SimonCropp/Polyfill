@@ -4,17 +4,17 @@ namespace Polyfills;
 using System.Collections.Generic;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Appends a value to the end of the sequence.
-    /// </summary>
-    public static IEnumerable<TSource> Append<TSource>(
-        this IEnumerable<TSource> target,
-        TSource element)
-    {
-        foreach (var item in target)
-        {
-            yield return item;
-        }
-        yield return element;
-    }
+	/// <summary>
+	/// Appends a value to the end of the sequence.
+	/// </summary>
+	public static IEnumerable<TSource> Append<TSource>(
+		this IEnumerable<TSource> target,
+		TSource element)
+	{
+		foreach (var item in target)
+		{
+			yield return item;
+		}
+		yield return element;
+	}
 }

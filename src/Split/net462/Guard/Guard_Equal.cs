@@ -8,10 +8,10 @@ public
 #endif
 static partial class Guard
 {
-    /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is not equal to <paramref name="other"/>.</summary>
-    /// <param name="value">The argument to validate as equal to <paramref name="other"/>.</param>
-    /// <param name="other">The value to compare with <paramref name="value"/>.</param>
-    /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
-    public static T Equal<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? name = null) =>
-        Ensure.Equal(value, other, name);
+	/// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is not equal to <paramref name="other"/>.</summary>
+	/// <param name="value">The argument to validate as equal to <paramref name="other"/>.</param>
+	/// <param name="other">The value to compare with <paramref name="value"/>.</param>
+	/// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
+	public static T Equal<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? name = null) =>
+		Ensure.Equal(value, other, name);
 }

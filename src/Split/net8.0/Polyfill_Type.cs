@@ -7,31 +7,31 @@ using System.Reflection;
 using System.Linq;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Searches for the specified method whose parameters match the specified generic parameter count, argument types and modifiers, using the specified binding constraints.
-    /// </summary>
-    public static MethodInfo? GetMethod([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types) =>
-        target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);
-    /// <summary>
-    /// Gets a value that indicates whether the current Type represents a type parameter in the definition of a generic method.
-    /// </summary>
-    public static bool IsGenericMethodParameter(this Type target) =>
-        target.IsGenericMethodParameter;
-    /// <summary>
-    /// Generic version of Type.IsAssignableTo https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto.
-    /// </summary>
-    public static bool IsAssignableTo<T>(this Type target) =>
-        typeof(T).IsAssignableFrom(target);
-    /// <summary>
-    /// Generic version of Type.IsAssignableFrom https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignablefrom.
-    /// </summary>
-    public static bool IsAssignableFrom<T>(this Type target) =>
-        target.IsAssignableFrom(typeof(T));
+	/// <summary>
+	/// Searches for the specified method whose parameters match the specified generic parameter count, argument types and modifiers, using the specified binding constraints.
+	/// </summary>
+	public static MethodInfo? GetMethod([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types) =>
+		target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);
+	/// <summary>
+	/// Gets a value that indicates whether the current Type represents a type parameter in the definition of a generic method.
+	/// </summary>
+	public static bool IsGenericMethodParameter(this Type target) =>
+		target.IsGenericMethodParameter;
+	/// <summary>
+	/// Generic version of Type.IsAssignableTo https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto.
+	/// </summary>
+	public static bool IsAssignableTo<T>(this Type target) =>
+		typeof(T).IsAssignableFrom(target);
+	/// <summary>
+	/// Generic version of Type.IsAssignableFrom https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignablefrom.
+	/// </summary>
+	public static bool IsAssignableFrom<T>(this Type target) =>
+		target.IsAssignableFrom(typeof(T));
 #if !NET
-    /// <summary>
-    /// Determines whether the current type can be assigned to a variable of the specified targetType.
-    /// </summary>
-    public static bool IsAssignableTo(this Type target, [NotNullWhen(true)] Type? targetType) =>
-        targetType?.IsAssignableFrom(target) ?? false;
+	/// <summary>
+	/// Determines whether the current type can be assigned to a variable of the specified targetType.
+	/// </summary>
+	public static bool IsAssignableTo(this Type target, [NotNullWhen(true)] Type? targetType) =>
+		targetType?.IsAssignableFrom(target) ?? false;
 #endif
 }

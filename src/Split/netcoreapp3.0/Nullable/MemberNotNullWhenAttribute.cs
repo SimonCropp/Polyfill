@@ -10,10 +10,10 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: Targets.Method |
-             Targets.Property,
-    Inherited = false,
-    AllowMultiple = true)]
+	validOn: Targets.Method |
+			 Targets.Property,
+	Inherited = false,
+	AllowMultiple = true)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -21,33 +21,33 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class MemberNotNullWhenAttribute :
-    Attribute
+	Attribute
 {
-    /// <summary>
-    ///   Gets the return value condition.
-    /// </summary>
-    public bool ReturnValue { get; }
-    /// <summary>
-    ///   Gets field or property member names.
-    /// </summary>
-    public string[] Members { get; }
-    /// <summary>
-    ///   Initializes the attribute with the specified return value condition and a field or property member.
-    /// </summary>
-    public MemberNotNullWhenAttribute(bool returnValue, string member)
-    {
-        ReturnValue = returnValue;
-        Members = [member];
-    }
-    /// <summary>
-    ///   Initializes the attribute with the specified return value condition and list
-    ///   of field and property members.
-    /// </summary>
-    public MemberNotNullWhenAttribute(bool returnValue, params string[] members)
-    {
-        ReturnValue = returnValue;
-        Members = members;
-    }
+	/// <summary>
+	///   Gets the return value condition.
+	/// </summary>
+	public bool ReturnValue { get; }
+	/// <summary>
+	///   Gets field or property member names.
+	/// </summary>
+	public string[] Members { get; }
+	/// <summary>
+	///   Initializes the attribute with the specified return value condition and a field or property member.
+	/// </summary>
+	public MemberNotNullWhenAttribute(bool returnValue, string member)
+	{
+		ReturnValue = returnValue;
+		Members = [member];
+	}
+	/// <summary>
+	///   Initializes the attribute with the specified return value condition and list
+	///   of field and property members.
+	/// </summary>
+	public MemberNotNullWhenAttribute(bool returnValue, params string[] members)
+	{
+		ReturnValue = returnValue;
+		Members = members;
+	}
 }
 #else
 using System.Runtime.CompilerServices;

@@ -5,24 +5,24 @@ namespace Polyfills;
 using System.Collections.Generic;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Tries to get the value associated with the specified key in the dictionary.
-    /// </summary>
-    public static TValue? GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> target, TKey key) =>
-        target.GetValueOrDefault(key, default!);
-    /// <summary>
-    /// Tries to get the value associated with the specified key in the dictionary.
-    /// </summary>
-    public static TValue GetValueOrDefault<TKey, TValue>(
-        this IReadOnlyDictionary<TKey, TValue> target,
-        TKey key,
-        TValue defaultValue)
-        where TKey : notnull
-    {
-        if (target.TryGetValue(key, out var result))
-        {
-            return result!;
-        }
-        return defaultValue;
-    }
+	/// <summary>
+	/// Tries to get the value associated with the specified key in the dictionary.
+	/// </summary>
+	public static TValue? GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> target, TKey key) =>
+		target.GetValueOrDefault(key, default!);
+	/// <summary>
+	/// Tries to get the value associated with the specified key in the dictionary.
+	/// </summary>
+	public static TValue GetValueOrDefault<TKey, TValue>(
+		this IReadOnlyDictionary<TKey, TValue> target,
+		TKey key,
+		TValue defaultValue)
+		where TKey : notnull
+	{
+		if (target.TryGetValue(key, out var result))
+		{
+			return result!;
+		}
+		return defaultValue;
+	}
 }

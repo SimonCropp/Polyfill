@@ -5,123 +5,123 @@ using System;
 using System.Text;
 static partial class Polyfill
 {
-    extension(Convert)
-    {
+	extension(Convert)
+	{
 #if !NET
-        /// <summary>
-        /// Converts a subset of an array of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
-        /// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
-        /// </summary>
-        public static string ToHexString(byte[] inArray, int offset, int length) =>
-            ToHexString(inArray, offset, length, "X2");
+		/// <summary>
+		/// Converts a subset of an array of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
+		/// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
+		/// </summary>
+		public static string ToHexString(byte[] inArray, int offset, int length) =>
+			ToHexString(inArray, offset, length, "X2");
 #endif
-        /// <summary>
-        /// Converts a subset of an array of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
-        /// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
-        /// </summary>
-        public static string ToHexStringLower(byte[] inArray, int offset, int length) =>
-            ToHexString(inArray, offset, length, "x2");
-        /// <summary>
-        /// Converts an array of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
-        /// </summary>
-        public static string ToHexStringLower(byte[] inArray) =>
-            Polyfill.ToHexStringLower(inArray, 0, inArray.Length);
+		/// <summary>
+		/// Converts a subset of an array of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
+		/// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
+		/// </summary>
+		public static string ToHexStringLower(byte[] inArray, int offset, int length) =>
+			ToHexString(inArray, offset, length, "x2");
+		/// <summary>
+		/// Converts an array of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
+		/// </summary>
+		public static string ToHexStringLower(byte[] inArray) =>
+			Polyfill.ToHexStringLower(inArray, 0, inArray.Length);
 #if !NET
-        /// <summary>
-        /// Converts an array of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
-        /// </summary>
-        public static string ToHexString(byte[] inArray) =>
-            Polyfill.ToHexString(inArray, 0, inArray.Length);
-        /// <summary>
-        /// Converts the specified string, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
-        /// </summary>
-        public static byte[] FromHexString(string hexString)
-        {
-            if (hexString.Length % 2 != 0)
-                throw new FormatException("Hex string must have an even length.");
-            var result = new byte[hexString.Length / 2];
-            for (int i = 0; i < result.Length; i++)
-            {
-                result[i] = (byte) ((GetHexValue(hexString[i * 2]) << 4) + GetHexValue(hexString[i * 2 + 1]));
-            }
-            return result;
-            static int GetHexValue(char hex)
-            {
-                return hex switch
-                {
-                    >= '0' and <= '9' => hex - '0',
-                    >= 'A' and <= 'F' => hex - 'A' + 10,
-                    >= 'a' and <= 'f' => hex - 'a' + 10,
-                    _ => throw new FormatException($"Invalid hex character: {hex}")
-                };
-            }
-        }
+		/// <summary>
+		/// Converts an array of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
+		/// </summary>
+		public static string ToHexString(byte[] inArray) =>
+			Polyfill.ToHexString(inArray, 0, inArray.Length);
+		/// <summary>
+		/// Converts the specified string, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
+		/// </summary>
+		public static byte[] FromHexString(string hexString)
+		{
+			if (hexString.Length % 2 != 0)
+				throw new FormatException("Hex string must have an even length.");
+			var result = new byte[hexString.Length / 2];
+			for (int i = 0; i < result.Length; i++)
+			{
+				result[i] = (byte) ((GetHexValue(hexString[i * 2]) << 4) + GetHexValue(hexString[i * 2 + 1]));
+			}
+			return result;
+			static int GetHexValue(char hex)
+			{
+				return hex switch
+				{
+					>= '0' and <= '9' => hex - '0',
+					>= 'A' and <= 'F' => hex - 'A' + 10,
+					>= 'a' and <= 'f' => hex - 'a' + 10,
+					_ => throw new FormatException($"Invalid hex character: {hex}")
+				};
+			}
+		}
 #endif
 #if FeatureMemory
 #if !NET
-        /// <summary>
-        /// Converts the span, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
-        /// </summary>
-        public static byte[] FromHexString(ReadOnlySpan<char> chars) =>
-            Polyfill.FromHexString(chars.ToString());
-        /// <summary>
-        /// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
-        /// </summary>
-        public static string ToHexString(ReadOnlySpan<byte> bytes) =>
-            Polyfill.ToHexString(bytes.ToArray());
+		/// <summary>
+		/// Converts the span, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
+		/// </summary>
+		public static byte[] FromHexString(ReadOnlySpan<char> chars) =>
+			Polyfill.FromHexString(chars.ToString());
+		/// <summary>
+		/// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
+		/// </summary>
+		public static string ToHexString(ReadOnlySpan<byte> bytes) =>
+			Polyfill.ToHexString(bytes.ToArray());
 #endif
-        /// <summary>
-        /// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
-        /// </summary>
-        public static string ToHexStringLower(ReadOnlySpan<byte> bytes) =>
-            Polyfill.ToHexStringLower(bytes.ToArray());
-        /// <summary>
-        /// Converts a span of 8-bit unsigned integers to its equivalent span representation that is encoded with uppercase hex characters.
-        /// </summary>
-        public static bool TryToHexString(ReadOnlySpan<byte> source, Span<char> destination, out int charsWritten)
-        {
-            if (source.Length > destination.Length / 2)
-            {
-                charsWritten = 0;
-                return false;
-            }
-            var hexString = Convert.ToHexString(source);
-            hexString.CopyTo(destination);
-            charsWritten = hexString.Length;
-            return true;
-        }
-        /// <summary>
-        /// Converts a span of 8-bit unsigned integers to its equivalent span representation that is encoded with lowercase hex characters.
-        /// </summary>
-        public static bool TryToHexStringLower(ReadOnlySpan<byte> source, Span<char> destination, out int charsWritten)
-        {
-            if (source.Length > destination.Length / 2)
-            {
-                charsWritten = 0;
-                return false;
-            }
-            var hexString = Convert.ToHexStringLower(source);
-            hexString.CopyTo(destination);
-            charsWritten = hexString.Length;
-            return true;
-        }
+		/// <summary>
+		/// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
+		/// </summary>
+		public static string ToHexStringLower(ReadOnlySpan<byte> bytes) =>
+			Polyfill.ToHexStringLower(bytes.ToArray());
+		/// <summary>
+		/// Converts a span of 8-bit unsigned integers to its equivalent span representation that is encoded with uppercase hex characters.
+		/// </summary>
+		public static bool TryToHexString(ReadOnlySpan<byte> source, Span<char> destination, out int charsWritten)
+		{
+			if (source.Length > destination.Length / 2)
+			{
+				charsWritten = 0;
+				return false;
+			}
+			var hexString = Convert.ToHexString(source);
+			hexString.CopyTo(destination);
+			charsWritten = hexString.Length;
+			return true;
+		}
+		/// <summary>
+		/// Converts a span of 8-bit unsigned integers to its equivalent span representation that is encoded with lowercase hex characters.
+		/// </summary>
+		public static bool TryToHexStringLower(ReadOnlySpan<byte> source, Span<char> destination, out int charsWritten)
+		{
+			if (source.Length > destination.Length / 2)
+			{
+				charsWritten = 0;
+				return false;
+			}
+			var hexString = Convert.ToHexStringLower(source);
+			hexString.CopyTo(destination);
+			charsWritten = hexString.Length;
+			return true;
+		}
 #endif
-        static string ToHexString(byte[] inArray, int offset, int length, string format)
-        {
-            if (length < 0)
-                throw new ArgumentOutOfRangeException(nameof(length));
-            if (offset < 0)
-                throw new ArgumentOutOfRangeException(nameof(offset));
-            if (offset > (inArray.Length - length))
-                throw new ArgumentOutOfRangeException(nameof(offset));
-            var builder = new StringBuilder(length * 2);
-            var end = length + offset;
-            for (int i = offset; i < end; i++)
-            {
-                var item = inArray[i];
-                builder.Append(item.ToString(format));
-            }
-            return builder.ToString();
-        }
-    }
+		static string ToHexString(byte[] inArray, int offset, int length, string format)
+		{
+			if (length < 0)
+				throw new ArgumentOutOfRangeException(nameof(length));
+			if (offset < 0)
+				throw new ArgumentOutOfRangeException(nameof(offset));
+			if (offset > (inArray.Length - length))
+				throw new ArgumentOutOfRangeException(nameof(offset));
+			var builder = new StringBuilder(length * 2);
+			var end = length + offset;
+			for (int i = offset; i < end; i++)
+			{
+				var item = inArray[i];
+				builder.Append(item.ToString(format));
+			}
+			return builder.ToString();
+		}
+	}
 }

@@ -5,18 +5,18 @@ namespace System.Runtime.Versioning;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 [AttributeUsage(AttributeTargets.Assembly |
-                AttributeTargets.Module |
-                AttributeTargets.Class |
-                AttributeTargets.Interface |
-                AttributeTargets.Delegate |
-                AttributeTargets.Struct |
-                AttributeTargets.Enum |
-                AttributeTargets.Constructor |
-                AttributeTargets.Method |
-                AttributeTargets.Property |
-                AttributeTargets.Field |
-                AttributeTargets.Event,
-    Inherited = false)]
+				AttributeTargets.Module |
+				AttributeTargets.Class |
+				AttributeTargets.Interface |
+				AttributeTargets.Delegate |
+				AttributeTargets.Struct |
+				AttributeTargets.Enum |
+				AttributeTargets.Constructor |
+				AttributeTargets.Method |
+				AttributeTargets.Property |
+				AttributeTargets.Field |
+				AttributeTargets.Event,
+	Inherited = false)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -26,25 +26,25 @@ using System.Diagnostics.CodeAnalysis;
 public
 #endif
 sealed class RequiresPreviewFeaturesAttribute :
-    Attribute
+	Attribute
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RequiresPreviewFeaturesAttribute"/> class.
-    /// </summary>
-    public RequiresPreviewFeaturesAttribute()
-    {
-    }
-    /// <summary>
-    /// Initializes a new instance of the <see cref="RequiresPreviewFeaturesAttribute"/> class with the specified message.
-    /// </summary>
-    public RequiresPreviewFeaturesAttribute(string? message) =>
-        Message = message;
-    /// <summary>
-    /// Returns the optional message associated with this attribute instance.
-    /// </summary>
-    public string? Message { get; }
-    /// <summary>
-    /// Returns the optional URL associated with this attribute instance.
-    /// </summary>
-    public string? Url { get; set; }
+	/// <summary>
+	/// Initializes a new instance of the <see cref="RequiresPreviewFeaturesAttribute"/> class.
+	/// </summary>
+	public RequiresPreviewFeaturesAttribute()
+	{
+	}
+	/// <summary>
+	/// Initializes a new instance of the <see cref="RequiresPreviewFeaturesAttribute"/> class with the specified message.
+	/// </summary>
+	public RequiresPreviewFeaturesAttribute(string? message) =>
+		Message = message;
+	/// <summary>
+	/// Returns the optional message associated with this attribute instance.
+	/// </summary>
+	public string? Message { get; }
+	/// <summary>
+	/// Returns the optional URL associated with this attribute instance.
+	/// </summary>
+	public string? Url { get; set; }
 }

@@ -20,32 +20,32 @@ public
 #endif
 static partial class XDocumentPolyfill
 {
-    extension(XDocument)
-    {
-        /// <summary>
-        /// Asynchronously creates a new XDocument and initializes its underlying XML tree using the specified stream, optionally preserving white space.
-        /// </summary>
-        public static Task<XDocument> LoadAsync(Stream stream, LoadOptions options, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            return Task.FromResult(XDocument.Load(stream, options));
-        }
-        /// <summary>
-        /// Asynchronously creates a new XDocument and initializes its underlying XML tree using the specified text reader, optionally preserving white space.
-        /// </summary>
-        public static Task<XDocument> LoadAsync(TextReader textReader, LoadOptions options, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            return Task.FromResult(XDocument.Load(textReader, options));
-        }
-        /// <summary>
-        /// Asynchronously creates a new XDocument and initializes its underlying XML tree using the specified text reader, optionally preserving white space.
-        /// </summary>
-        public static Task<XDocument> LoadAsync(XmlReader reader, LoadOptions options, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            return Task.FromResult(XDocument.Load(reader, options));
-        }
-    }
+	extension(XDocument)
+	{
+		/// <summary>
+		/// Asynchronously creates a new XDocument and initializes its underlying XML tree using the specified stream, optionally preserving white space.
+		/// </summary>
+		public static Task<XDocument> LoadAsync(Stream stream, LoadOptions options, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			return Task.FromResult(XDocument.Load(stream, options));
+		}
+		/// <summary>
+		/// Asynchronously creates a new XDocument and initializes its underlying XML tree using the specified text reader, optionally preserving white space.
+		/// </summary>
+		public static Task<XDocument> LoadAsync(TextReader textReader, LoadOptions options, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			return Task.FromResult(XDocument.Load(textReader, options));
+		}
+		/// <summary>
+		/// Asynchronously creates a new XDocument and initializes its underlying XML tree using the specified text reader, optionally preserving white space.
+		/// </summary>
+		public static Task<XDocument> LoadAsync(XmlReader reader, LoadOptions options, CancellationToken cancellationToken)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			return Task.FromResult(XDocument.Load(reader, options));
+		}
+	}
 }
 #endif

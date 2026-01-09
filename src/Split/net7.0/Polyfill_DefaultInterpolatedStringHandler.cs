@@ -5,7 +5,7 @@ namespace Polyfills;
 using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
-    public static void Clear(this DefaultInterpolatedStringHandler target) =>
-        target.ToStringAndClear();
+	public static void Clear(this DefaultInterpolatedStringHandler target) =>
+		target.ToStringAndClear();
 }
 #endif

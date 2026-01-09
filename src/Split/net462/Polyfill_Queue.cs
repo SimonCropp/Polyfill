@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Ensures that the capacity of this queue is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
-    /// </summary>
-    public static void EnsureCapacity<T>(this Queue<T> target, int capacity)
-    {
-    }
-    /// <summary>
-    /// Sets the capacity of a Queue object to the specified number of entries.
-    /// </summary>
-    public static void TrimExcess<T>(this Queue<T> target, int capacity)
-    {
-    }
+	/// <summary>
+	/// Ensures that the capacity of this queue is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
+	/// </summary>
+	public static void EnsureCapacity<T>(this Queue<T> target, int capacity)
+	{
+	}
+	/// <summary>
+	/// Sets the capacity of a Queue object to the specified number of entries.
+	/// </summary>
+	public static void TrimExcess<T>(this Queue<T> target, int capacity)
+	{
+	}
 }

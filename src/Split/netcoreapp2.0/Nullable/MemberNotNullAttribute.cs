@@ -10,10 +10,10 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: Targets.Method |
-             Targets.Property,
-    Inherited = false,
-    AllowMultiple = true)]
+	validOn: Targets.Method |
+			 Targets.Property,
+	Inherited = false,
+	AllowMultiple = true)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -21,22 +21,22 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class MemberNotNullAttribute :
-    Attribute
+	Attribute
 {
-    /// <summary>
-    ///   Gets field or property member names.
-    /// </summary>
-    public string[] Members { get; }
-    /// <summary>
-    ///   Initializes the attribute with a field or property member.
-    /// </summary>
-    public MemberNotNullAttribute(string member) =>
-        Members = [member];
-    /// <summary>
-    ///   Initializes the attribute with the list of field and property members.
-    /// </summary>
-    public MemberNotNullAttribute(params string[] members) =>
-        Members = members;
+	/// <summary>
+	///   Gets field or property member names.
+	/// </summary>
+	public string[] Members { get; }
+	/// <summary>
+	///   Initializes the attribute with a field or property member.
+	/// </summary>
+	public MemberNotNullAttribute(string member) =>
+		Members = [member];
+	/// <summary>
+	///   Initializes the attribute with the list of field and property members.
+	/// </summary>
+	public MemberNotNullAttribute(params string[] members) =>
+		Members = members;
 }
 #else
 using System.Runtime.CompilerServices;

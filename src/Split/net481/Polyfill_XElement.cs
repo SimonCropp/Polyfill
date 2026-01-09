@@ -8,42 +8,42 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Output this <see cref="XElement"/> to an <see cref="XmlWriter"/>.
-    /// </summary>
-    public static Task SaveAsync(
-        this XElement target,
-        XmlWriter writer,
-        CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        target.Save(writer);
-        return Task.CompletedTask;
-    }
-    /// <summary>
-    /// Output this <see cref="XElement"/> to a <see cref="Stream"/>.
-    /// </summary>
-    public static Task SaveAsync(
-        this XElement target,
-        Stream stream,
-        SaveOptions options,
-        CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        target.Save(stream, options);
-        return Task.CompletedTask;
-    }
-    /// <summary>
-    /// Output this <see cref="XElement"/> to a <see cref="TextWriter"/>.
-    /// </summary>
-    public static Task SaveAsync(
-        this XElement target,
-        TextWriter textWriter,
-        SaveOptions options,
-        CancellationToken cancellationToken)
-    {
-        cancellationToken.ThrowIfCancellationRequested();
-        target.Save(textWriter, options);
-        return Task.CompletedTask;
-    }
+	/// <summary>
+	/// Output this <see cref="XElement"/> to an <see cref="XmlWriter"/>.
+	/// </summary>
+	public static Task SaveAsync(
+		this XElement target,
+		XmlWriter writer,
+		CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		target.Save(writer);
+		return Task.CompletedTask;
+	}
+	/// <summary>
+	/// Output this <see cref="XElement"/> to a <see cref="Stream"/>.
+	/// </summary>
+	public static Task SaveAsync(
+		this XElement target,
+		Stream stream,
+		SaveOptions options,
+		CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		target.Save(stream, options);
+		return Task.CompletedTask;
+	}
+	/// <summary>
+	/// Output this <see cref="XElement"/> to a <see cref="TextWriter"/>.
+	/// </summary>
+	public static Task SaveAsync(
+		this XElement target,
+		TextWriter textWriter,
+		SaveOptions options,
+		CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		target.Save(textWriter, options);
+		return Task.CompletedTask;
+	}
 }

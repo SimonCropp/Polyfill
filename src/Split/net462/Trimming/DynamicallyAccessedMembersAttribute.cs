@@ -10,16 +10,16 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: Targets.Class |
-             Targets.Field |
-             Targets.GenericParameter |
-             Targets.Interface |
-             Targets.Method |
-             Targets.Parameter |
-             Targets.Property |
-             Targets.ReturnValue |
-             Targets.Struct,
-    Inherited = false)]
+	validOn: Targets.Class |
+			 Targets.Field |
+			 Targets.GenericParameter |
+			 Targets.Interface |
+			 Targets.Method |
+			 Targets.Parameter |
+			 Targets.Property |
+			 Targets.ReturnValue |
+			 Targets.Struct,
+	Inherited = false)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -27,19 +27,19 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class DynamicallyAccessedMembersAttribute :
-    Attribute
+	Attribute
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DynamicallyAccessedMembersAttribute"/> class
-    /// with the specified member types.
-    /// </summary>
-    public DynamicallyAccessedMembersAttribute(DynamicallyAccessedMemberTypes memberTypes) =>
-        MemberTypes = memberTypes;
-    /// <summary>
-    /// Gets the <see cref="DynamicallyAccessedMemberTypes"/> which specifies the type
-    /// of members dynamically accessed.
-    /// </summary>
-    public DynamicallyAccessedMemberTypes MemberTypes { get; }
+	/// <summary>
+	/// Initializes a new instance of the <see cref="DynamicallyAccessedMembersAttribute"/> class
+	/// with the specified member types.
+	/// </summary>
+	public DynamicallyAccessedMembersAttribute(DynamicallyAccessedMemberTypes memberTypes) =>
+		MemberTypes = memberTypes;
+	/// <summary>
+	/// Gets the <see cref="DynamicallyAccessedMemberTypes"/> which specifies the type
+	/// of members dynamically accessed.
+	/// </summary>
+	public DynamicallyAccessedMemberTypes MemberTypes { get; }
 }
 #else
 using System.Runtime.CompilerServices;

@@ -10,9 +10,9 @@ using Targets = AttributeTargets;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(
-    validOn: Targets.Class |
-             Targets.Struct,
-    Inherited = false)]
+	validOn: Targets.Class |
+			 Targets.Struct,
+	Inherited = false)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
@@ -20,4 +20,4 @@ using Targets = AttributeTargets;
 public
 #endif
 sealed class InterpolatedStringHandlerAttribute :
-    Attribute;
+	Attribute;

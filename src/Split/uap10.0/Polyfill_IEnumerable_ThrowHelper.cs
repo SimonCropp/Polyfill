@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System;
 static partial class Polyfill
 {
-    [DoesNotReturn]
-    static void ThrowNoElementsException() =>
-        throw new InvalidOperationException("Sequence contains no elements");
+	[DoesNotReturn]
+	static void ThrowNoElementsException() =>
+		throw new InvalidOperationException("Sequence contains no elements");
 }

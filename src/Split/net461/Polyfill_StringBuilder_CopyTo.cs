@@ -6,30 +6,30 @@ using System;
 using System.Text;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Copies the characters from a specified segment of this instance to a destination Char span.
-    /// </summary>
-    public static void CopyTo(
-        this StringBuilder target,
-        int sourceIndex,
-        Span<char> destination,
-        int count)
-    {
-        var destinationIndex = 0;
-        while (true)
-        {
-            if (sourceIndex == target.Length)
-            {
-                break;
-            }
-            if (destinationIndex == count)
-            {
-                break;
-            }
-            destination[destinationIndex] = target[sourceIndex];
-            destinationIndex++;
-            sourceIndex++;
-        }
-    }
+	/// <summary>
+	/// Copies the characters from a specified segment of this instance to a destination Char span.
+	/// </summary>
+	public static void CopyTo(
+		this StringBuilder target,
+		int sourceIndex,
+		Span<char> destination,
+		int count)
+	{
+		var destinationIndex = 0;
+		while (true)
+		{
+			if (sourceIndex == target.Length)
+			{
+				break;
+			}
+			if (destinationIndex == count)
+			{
+				break;
+			}
+			destination[destinationIndex] = target[sourceIndex];
+			destinationIndex++;
+			sourceIndex++;
+		}
+	}
 }
 #endif

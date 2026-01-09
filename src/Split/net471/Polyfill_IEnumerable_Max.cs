@@ -4,10 +4,10 @@ namespace Polyfills;
 using System.Collections.Generic;
 static partial class Polyfill
 {
-    /// <summary>Returns the maximum value in a generic sequence.</summary>
-    public static TSource? Max<TSource>(
-        this IEnumerable<TSource> source,
-        IComparer<TSource>? comparer) =>
-        source
-            .MaxBy(_ => _, comparer);
+	/// <summary>Returns the maximum value in a generic sequence.</summary>
+	public static TSource? Max<TSource>(
+		this IEnumerable<TSource> source,
+		IComparer<TSource>? comparer) =>
+		source
+			.MaxBy(_ => _, comparer);
 }

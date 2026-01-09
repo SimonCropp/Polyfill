@@ -6,13 +6,13 @@ using System;
 using System.Text;
 static partial class Polyfill
 {
-    /// <summary>
-    /// Returns an enumeration of lines over the provided span.
-    /// </summary>
-    public static SpanLineEnumerator EnumerateLines(this ReadOnlySpan<char> target) => new(target);
-    /// <summary>
-    /// Returns an enumeration of lines over the provided span.
-    /// </summary>
-    public static SpanLineEnumerator EnumerateLines(this Span<char> target) => new(target);
+	/// <summary>
+	/// Returns an enumeration of lines over the provided span.
+	/// </summary>
+	public static SpanLineEnumerator EnumerateLines(this ReadOnlySpan<char> target) => new(target);
+	/// <summary>
+	/// Returns an enumeration of lines over the provided span.
+	/// </summary>
+	public static SpanLineEnumerator EnumerateLines(this Span<char> target) => new(target);
 }
 #endif
