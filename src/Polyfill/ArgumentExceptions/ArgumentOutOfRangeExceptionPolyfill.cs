@@ -31,6 +31,17 @@ static partial class Polyfill
         }
 #endif
 
+#if !NET7_0_OR_GREATER
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
+        public static void ThrowIfZero(nint value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+        {
+           if (value == (nint)0)
+            {
+                ThrowZero(paramName);
+            }
+        }
+#endif
+
         [DoesNotReturn]
         static void ThrowZero(string? paramName) =>
             throw new ArgumentOutOfRangeException(paramName, "Value must not be zero.");
@@ -149,6 +160,17 @@ static partial class Polyfill
 #endif
 
 #if !NET8_0_OR_GREATER
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than <paramref name="other"/>.</summary>
+        public static void ThrowIfGreaterThan(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+        {
+            if (value > other)
+            {
+                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than or equal to {other}.");
+            }
+        }
+#endif
+
+#if !NET8_0_OR_GREATER
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthanorequal?view=net-10.0#system-argumentoutofrangeexception-throwifgreaterthanorequal-1(-0-0-system-string)
         public static void ThrowIfGreaterThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IComparable<T>
@@ -156,6 +178,17 @@ static partial class Polyfill
             if (value.CompareTo(other) >= 0)
             {
                 throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than {other}.");
+            }
+        }
+#endif
+
+#if !NET8_0_OR_GREATER
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than or equal to <paramref name="other"/>.</summary>
+        public static void ThrowIfGreaterThanOrEqual(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+        {
+            if (value >= other)
+            {
+                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than or equal to {other}.");
             }
         }
 #endif
@@ -173,6 +206,17 @@ static partial class Polyfill
 #endif
 
 #if !NET8_0_OR_GREATER
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than <paramref name="other"/>.</summary>
+        public static void ThrowIfLessThan(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+        {
+            if (value < other)
+            {
+                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than or equal to {other}.");
+            }
+        }
+#endif
+
+#if !NET8_0_OR_GREATER
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthanorequal?view=net-10.0#system-argumentoutofrangeexception-throwiflessthanorequal-1(-0-0-system-string)
         public static void ThrowIfLessThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IComparable<T>
@@ -180,6 +224,17 @@ static partial class Polyfill
             if (value.CompareTo(other) <= 0)
             {
                 throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than {other}.");
+            }
+        }
+#endif
+
+#if !NET8_0_OR_GREATER
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than or equal to <paramref name="other"/>.</summary>
+        public static void ThrowIfLessThanOrEqual(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+        {
+            if (value <= other)
+            {
+                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than or equal to {other}.");
             }
         }
 #endif
