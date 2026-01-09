@@ -26,4 +26,15 @@ static partial class Ensure
         }
         return value;
     }
+    /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
+    /// <param name="value">The argument to validate as non-zero.</param>
+    /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
+    public static nint NotZero(nint value, [CallerArgumentExpression(nameof(value))] string? name = null)
+    {
+        if(value == (nint)0)
+        {
+            ThrowZero(name);
+        }
+        return value;
+    }
 }

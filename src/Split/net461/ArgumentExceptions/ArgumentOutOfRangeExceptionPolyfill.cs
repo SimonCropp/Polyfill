@@ -18,6 +18,14 @@ static partial class Polyfill
                 ThrowZero(paramName);
             }
         }
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
+        public static void ThrowIfZero(nint value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+        {
+           if (value == (nint)0)
+            {
+                ThrowZero(paramName);
+            }
+        }
         [DoesNotReturn]
         static void ThrowZero(string? paramName) =>
             throw new ArgumentOutOfRangeException(paramName, "Value must not be zero.");
@@ -83,12 +91,28 @@ static partial class Polyfill
                 throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than or equal to {other}.");
             }
         }
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than <paramref name="other"/>.</summary>
+        public static void ThrowIfGreaterThan(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+        {
+            if (value > other)
+            {
+                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than or equal to {other}.");
+            }
+        }
         public static void ThrowIfGreaterThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IComparable<T>
         {
             if (value.CompareTo(other) >= 0)
             {
                 throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than {other}.");
+            }
+        }
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is greater than or equal to <paramref name="other"/>.</summary>
+        public static void ThrowIfGreaterThanOrEqual(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+        {
+            if (value >= other)
+            {
+                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than or equal to {other}.");
             }
         }
         public static void ThrowIfLessThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
@@ -99,12 +123,28 @@ static partial class Polyfill
                 throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than or equal to {other}.");
             }
         }
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than <paramref name="other"/>.</summary>
+        public static void ThrowIfLessThan(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+        {
+            if (value < other)
+            {
+                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than or equal to {other}.");
+            }
+        }
         public static void ThrowIfLessThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IComparable<T>
         {
             if (value.CompareTo(other) <= 0)
             {
                 throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than {other}.");
+            }
+        }
+        /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than or equal to <paramref name="other"/>.</summary>
+        public static void ThrowIfLessThanOrEqual(nint value, nint other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
+        {
+            if (value <= other)
+            {
+                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than or equal to {other}.");
             }
         }
     }

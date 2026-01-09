@@ -15,15 +15,20 @@
 #### ArgumentOutOfRangeException
 
  * `void ThrowIfEqual<T>(T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifequal?view=net-10.0#system-argumentoutofrangeexception-throwifequal-1(-0-0-system-string))
+ * `void ThrowIfGreaterThan(nint, nint)`
  * `void ThrowIfGreaterThan<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthan?view=net-10.0#system-argumentoutofrangeexception-throwifgreaterthan-1(-0-0-system-string))
+ * `void ThrowIfGreaterThanOrEqual(nint, nint)`
  * `void ThrowIfGreaterThanOrEqual<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthanorequal?view=net-10.0#system-argumentoutofrangeexception-throwifgreaterthanorequal-1(-0-0-system-string))
+ * `void ThrowIfLessThan(nint, nint)`
  * `void ThrowIfLessThan<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthan?view=net-10.0#system-argumentoutofrangeexception-throwiflessthan-1(-0-0-system-string))
+ * `void ThrowIfLessThanOrEqual(nint, nint)`
  * `void ThrowIfLessThanOrEqual<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthanorequal?view=net-10.0#system-argumentoutofrangeexception-throwiflessthanorequal-1(-0-0-system-string))
  * `void ThrowIfNegative(nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegative?view=net-10.0#system-argumentoutofrangeexception-throwifnegative-1(-0-system-string))
  * `void ThrowIfNegative<T>(T) where T : struct, IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegative?view=net-10.0#system-argumentoutofrangeexception-throwifnegative-1(-0-system-string))
  * `void ThrowIfNegativeOrZero(nint)`
  * `void ThrowIfNegativeOrZero<T>(T) where T : struct, IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegativeorzero?view=net-10.0#system-argumentoutofrangeexception-throwifnegativeorzero-1(-0-system-string))
  * `void ThrowIfNotEqual<T>(T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnotequal?view=net-10.0#system-argumentoutofrangeexception-throwifnotequal-1(-0-0-system-string))
+ * `void ThrowIfZero(nint)`
  * `void ThrowIfZero<T>(T) where T : struct, IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifzero?view=net-10.0#system-argumentoutofrangeexception-throwifzero-1(-0-system-string))
 
 
@@ -993,9 +998,13 @@
  * `Span<T> NotEmpty<T>(Span<T>)`
  * `T? NotEmpty<T>(T?) where T : IEnumerable`
  * `T NotEqual<T>(T, T)`
+ * `nint NotGreaterThan(nint, nint)`
  * `T NotGreaterThan<T>(T, T) where T : IComparable<T>`
+ * `nint NotGreaterThanOrEqual(nint, nint)`
  * `T NotGreaterThanOrEqual<T>(T, T) where T : IComparable<T>`
+ * `nint NotLessThan(nint, nint)`
  * `T NotLessThan<T>(T, T) where T : IComparable<T>`
+ * `nint NotLessThanOrEqual(nint, nint)`
  * `T NotLessThanOrEqual<T>(T, T) where T : IComparable<T>`
  * `nint NotNegative(nint)`
  * `T NotNegative<T>(T) where T : struct, IComparable<T>`
@@ -1015,6 +1024,7 @@
  * `ReadOnlySpan<char> NotWhiteSpace(ReadOnlySpan<char>)`
  * `Span<char> NotWhiteSpace(Span<char>)`
  * `string? NotWhiteSpace(string?)`
+ * `nint NotZero(nint)`
  * `T NotZero<T>(T) where T : struct, IEquatable<T>`
 
 

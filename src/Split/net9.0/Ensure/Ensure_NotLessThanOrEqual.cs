@@ -11,7 +11,7 @@ public
 static partial class Ensure
 {
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than or equal <paramref name="other"/>.</summary>
-    /// <param name="value">The argument to validate as greater than than <paramref name="other"/>.</param>
+    /// <param name="value">The argument to validate as greater than <paramref name="other"/>.</param>
     /// <param name="other">The value to compare with <paramref name="value"/>.</param>
     /// <param name="name">The name of the parameter with which <paramref name="value"/> corresponds.</param>
     public static T NotLessThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? name = null)
