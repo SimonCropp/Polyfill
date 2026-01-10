@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 699**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 711**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -917,6 +917,12 @@ The class `Polyfill` includes the following extension methods:
  * `T CreateDelegate<T>() where T : Delegate` [reference](https://learn.microsoft.com/en-us/dotnet/api/System.Reflection.MethodInfo.CreateDelegate?view=net-10.0#system-reflection-methodinfo-createdelegate-1)
 
 
+#### ObjectDisposedException
+
+ * `void ThrowIf(bool, object)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.objectdisposedexception.throwif?view=net-10.0##system-objectdisposedexception-throwif(system-boolean-system-object))
+ * `void ThrowIf(bool, Type)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.objectdisposedexception.throwif?view=net-10.0##system-objectdisposedexception-throwif(system-boolean-system-type))
+
+
 #### OperatingSystem
 
  * `bool IsAndroid()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isandroid?view=net-10.0)
@@ -1443,9 +1449,13 @@ The class `Polyfill` includes the following extension methods:
  * `Span<T> NotEmpty<T>(Span<T>)`
  * `T? NotEmpty<T>(T?) where T : IEnumerable`
  * `T NotEqual<T>(T, T)`
+ * `nint NotGreaterThan(nint, nint)`
  * `T NotGreaterThan<T>(T, T) where T : IComparable<T>`
+ * `nint NotGreaterThanOrEqual(nint, nint)`
  * `T NotGreaterThanOrEqual<T>(T, T) where T : IComparable<T>`
+ * `nint NotLessThan(nint, nint)`
  * `T NotLessThan<T>(T, T) where T : IComparable<T>`
+ * `nint NotLessThanOrEqual(nint, nint)`
  * `T NotLessThanOrEqual<T>(T, T) where T : IComparable<T>`
  * `nint NotNegative(nint)`
  * `T NotNegative<T>(T) where T : struct, IComparable<T>`
@@ -1465,6 +1475,7 @@ The class `Polyfill` includes the following extension methods:
  * `ReadOnlySpan<char> NotWhiteSpace(ReadOnlySpan<char>)`
  * `Span<char> NotWhiteSpace(Span<char>)`
  * `string? NotWhiteSpace(string?)`
+ * `nint NotZero(nint)`
  * `T NotZero<T>(T) where T : struct, IEquatable<T>`
 
 
@@ -1665,8 +1676,14 @@ void ArgumentExceptionExample(Order order, Customer customer, string customerId,
     this.discountPercentage = discountPercentage;
     this.quantity = quantity;
 }
+
+void ObjectDisposedExceptionExample(bool isDisposed)
+{
+    ObjectDisposedException.ThrowIf(isDisposed, this);
+    ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
+}
 ```
-<sup><a href='/src/Consume/Consume.cs#L467-L485' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L467-L491' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -1685,7 +1702,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L491-L503' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L497-L509' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
