@@ -482,6 +482,12 @@ class Consume
         this.quantity = quantity;
     }
 
+    void ObjectDisposedExceptionExample(bool isDisposed)
+    {
+        ObjectDisposedException.ThrowIf(isDisposed, this);
+        ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
+    }
+
     #endregion
 
     #endif

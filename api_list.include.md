@@ -472,6 +472,12 @@
  * `T CreateDelegate<T>() where T : Delegate` [reference](https://learn.microsoft.com/en-us/dotnet/api/System.Reflection.MethodInfo.CreateDelegate?view=net-10.0#system-reflection-methodinfo-createdelegate-1)
 
 
+#### ObjectDisposedException
+
+ * `void ThrowIf(bool, object)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.objectdisposedexception.throwif?view=net-10.0##system-objectdisposedexception-throwif(system-boolean-system-object))
+ * `void ThrowIf(bool, Type)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.objectdisposedexception.throwif?view=net-10.0##system-objectdisposedexception-throwif(system-boolean-system-type))
+
+
 #### OperatingSystem
 
  * `bool IsAndroid()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isandroid?view=net-10.0)
