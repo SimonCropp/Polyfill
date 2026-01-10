@@ -15,7 +15,7 @@ static partial class Polyfill
 		/// Indicates whether the current application is running as WASI.
 		/// </summary>
 		public static bool IsWasi() =>
-			RuntimeInformation.FrameworkDescription.ToLower().Contains("wasi");
+			RuntimeInformation.IsOSPlatform(OSPlatform.Create("WASI"));
 #if !NET
 		/// <summary>
 		/// Checks if the macOS version (returned by libobjc.get_operatingSystemVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified macOS version.
@@ -118,7 +118,7 @@ static partial class Polyfill
 		/// Indicates whether the current application is running as WASM in a browser.
 		/// </summary>
 		public static bool IsBrowser() =>
-			RuntimeInformation.FrameworkDescription.Contains(".NET WebAssembly");
+			RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER"));
 #endif
 	}
 }

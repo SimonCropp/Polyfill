@@ -15,7 +15,7 @@ static partial class Polyfill
 		/// Indicates whether the current application is running as WASI.
 		/// </summary>
 		public static bool IsWasi() =>
-			RuntimeInformation.FrameworkDescription.ToLower().Contains("wasi");
+			RuntimeInformation.IsOSPlatform(OSPlatform.Create("WASI"));
 		/// <summary>
 		/// Indicates whether the current application is running on Mac Catalyst.
 		/// </summary>
@@ -130,7 +130,7 @@ static partial class Polyfill
 		/// Indicates whether the current application is running as WASM in a browser.
 		/// </summary>
 		public static bool IsBrowser() =>
-			RuntimeInformation.FrameworkDescription.Contains(".NET WebAssembly");
+			RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER"));
 #endif
 	}
 }
