@@ -3,6 +3,9 @@ public class BuildApiTest
     static string polyfillDir = Path.Combine(ProjectFiles.SolutionDirectory, "Polyfill");
 
     [Test]
+#if RELEASE
+    [Explicit]
+#endif
     public Task RunWithRoslyn()
     {
         var md = Path.Combine(ProjectFiles.SolutionDirectory, "..", "api_list.include.md");

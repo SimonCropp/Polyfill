@@ -25,7 +25,9 @@ public class AssemblySizeTest
     ];
 
     [Test]
+#if RELEASE
     [Explicit]
+#endif
     public void MeasureAssemblySizes()
     {
         var tempDir = Path.Combine(Path.GetTempPath(), $"PolyfillSizeTest_{Guid.NewGuid():N}");

@@ -1,6 +1,9 @@
 public class SplitterTests
 {
     [Test]
+#if RELEASE
+    [Explicit]
+#endif
     public Task Run() => Splitter.Run();
 
     [Test]
