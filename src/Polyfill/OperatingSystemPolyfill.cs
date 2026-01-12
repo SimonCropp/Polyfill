@@ -20,7 +20,7 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.iswasi?view=net-10.0
         public static bool IsWasi() =>
-            RuntimeInformation.FrameworkDescription.ToLower().Contains("wasi");
+            RuntimeInformation.IsOSPlatform(OSPlatform.Create("WASI"));
 
 #endif
 
@@ -182,7 +182,7 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isbrowser?view=net-10.0
         public static bool IsBrowser() =>
-            RuntimeInformation.FrameworkDescription.Contains(".NET WebAssembly");
+            RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER"));
 
 #endif
     }
