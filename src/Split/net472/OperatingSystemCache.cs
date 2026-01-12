@@ -89,17 +89,7 @@ static class OperatingSystemCache
 	{
 		if (!isAndroid.HasValue)
 		{
-			try
-			{
-				isAndroid = RunProcess("uname", "-o")
-					.Replace(" ", string.Empty)
-					.ToLower()
-					.Equals("android");
-			}
-			catch
-			{
-				isAndroid = false;
-			}
+			isAndroid = RuntimeInformation.IsOSPlatform(OSPlatform.Create("Android"));
 		}
 		return isAndroid.Value;
 	}
