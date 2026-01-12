@@ -8,5 +8,5 @@ obj/
 *.received.*
 nugets/
 src/msbuild.binlog
-*.claude*
+*claude*
 nul
