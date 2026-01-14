@@ -104,7 +104,7 @@ static class OperatingSystemCache
     {
         if (!isAndroid.HasValue)
         {
-            isAndroid = RuntimeInformation.IsOSPlatform(OSPlatform.Create("Android"));
+            isAndroid = RuntimeInformation.IsOSPlatform(OSPlatform.Create("ANDROID"));
         }
 
         return isAndroid.Value;
