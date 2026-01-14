@@ -79,14 +79,8 @@ static partial class Polyfill
 		/// <summary>
 		/// Indicates whether the current application is running on iOS or MacCatalyst.
 		/// </summary>
-		public static bool IsIOS()
-		{
-			var description = RuntimeInformation.OSDescription.ToLower();
-			return description.Contains("ios") ||
-				   description.Contains("ipados") ||
-				   (description.Contains("iphone") &&
-					description.Contains("os"));
-		}
+        public static bool IsIOS() =>
+            RuntimeInformation.IsOSPlatform(OSPlatform.Create("IOS"));
 		/// <summary>
 		/// Indicates whether the current application is running on Linux.
 		/// </summary>
@@ -113,7 +107,7 @@ static partial class Polyfill
 		/// Indicates whether the current application is running on tvOS.
 		/// </summary>
 		public static bool IsTvOS() =>
-			RuntimeInformation.OSDescription.ToLower().Contains("tvos");
+			RuntimeInformation.IsOSPlatform(OSPlatform.Create("TVOS"));
 		/// <summary>
 		/// Indicates whether the current application is running on watchOS.
 		/// </summary>
