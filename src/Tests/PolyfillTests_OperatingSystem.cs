@@ -65,7 +65,7 @@ partial class PolyfillTests
     public async Task IsOperatingSystemAndroid()
     {
         bool actual = OperatingSystem.IsAndroid();
-        bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("Android"));
+        bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("ANDROID"));
 
         await Assert.That(actual).IsEqualTo(expected);
     }
@@ -74,7 +74,7 @@ partial class PolyfillTests
     public async Task IsOperatingSystemTvOS()
     {
         bool actual = OperatingSystem.IsTvOS();
-        bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("tvOS"));
+        bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("TVOS"));
 
         await Assert.That(actual).IsEqualTo(expected);
     }
@@ -83,7 +83,7 @@ partial class PolyfillTests
     public async Task IsOperatingSystemWatchOS()
     {
         bool actual = OperatingSystem.IsWatchOS();
-        bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("watchOS"));
+        bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("WATCHOS"));
 
         await Assert.That(actual).IsEqualTo(expected);
     }
@@ -92,7 +92,7 @@ partial class PolyfillTests
     public async Task IsOperatingSystemBrowser()
     {
         bool actual = OperatingSystem.IsBrowser();
-        bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("Browser"));
+        bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER"));
 
         await Assert.That(actual).IsEqualTo(expected);
     }
@@ -101,7 +101,7 @@ partial class PolyfillTests
     public async Task IsOperatingSystemWasi()
     {
         bool actual = OperatingSystem.IsWasi();
-        bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("wasi"));
+        bool expected = RuntimeInformation.IsOSPlatform(OSPlatform.Create("WASI"));
 
         await Assert.That(actual).IsEqualTo(expected);
     }
