@@ -625,6 +625,12 @@
  * `bool IsMatch(ReadOnlySpan<char>, string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-10.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string))
 
 
+#### RSA
+
+ * `void ImportEncryptedPkcs8PrivateKey(ReadOnlySpan<byte>, ReadOnlySpan<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.rsa.importencryptedpkcs8privatekey#system-security-cryptography-rsa-importencryptedpkcs8privatekey(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-int32@))
+ * `void ImportEncryptedPkcs8PrivateKey(ReadOnlySpan<char>, ReadOnlySpan<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.rsa.importencryptedpkcs8privatekey#system-security-cryptography-rsa-importencryptedpkcs8privatekey(system-readonlyspan((system-char))-system-readonlyspan((system-byte))-system-int32@))
+
+
 #### SByte
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryformat?view=net-10.0#system-sbyte-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
