@@ -164,7 +164,7 @@ public class AssemblySizeTest
                           {polyOptions}
                         </PropertyGroup>
                         <ItemGroup>
-                          <PackageReference Include="System.Memory" Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" Version="4.5.5" />
+                          <PackageReference Include="System.Memory" Condition="'$(TargetFrameworkIdentifier)' == '.NETStandard' or '$(TargetFrameworkIdentifier)' == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" Version="4.5.4" />
                           <PackageReference Include="System.ValueTuple" Condition="$(TargetFramework.StartsWith('net46'))" Version="4.5.0" />
                           <PackageReference Include="System.Net.Http" Condition="$(TargetFramework.StartsWith('net4'))" Version="4.3.4" />
                           <PackageReference Include="System.Threading.Tasks.Extensions" Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netcoreapp2.0' or '$(TargetFrameworkIdentifier)' == '.NETFramework'" Version="4.5.4" />

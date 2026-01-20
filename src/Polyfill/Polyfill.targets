@@ -88,7 +88,7 @@ For example:
       <MemoryVersion>@(ResolvedCompileFileDefinitions->WithMetadataValue('NuGetPackageId', 'System.Memory')->Metadata('NuGetPackageVersion'))</MemoryVersion>
       
       <DefineConstants
-        Condition="'$(MemoryVersion)' != '' AND $([MSBuild]::VersionGreaterThanOrEquals($(MemoryVersion), '4.5.5'))">$(DefineConstants);FeatureMemory</DefineConstants>
+        Condition="'$(MemoryVersion)' != '' AND $([MSBuild]::VersionGreaterThanOrEquals($(MemoryVersion), '4.5.4'))">$(DefineConstants);FeatureMemory</DefineConstants>
       
       <DefineConstants
         Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Runtime.InteropServices.RuntimeInformation'))">$(DefineConstants);FeatureRuntimeInformation</DefineConstants>
