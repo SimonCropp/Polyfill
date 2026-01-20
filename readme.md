@@ -317,7 +317,7 @@ struct UnscopedRefUsage
     [UnscopedRef] ref int Prop1 => ref field1;
 }
 ```
-<sup><a href='/src/Consume/UnscopedRefUsage.cs#L5-L12' title='Snippet source file'>snippet source</a> | <a href='#snippet-UnscopedRefUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/UnscopedRefUsage.cs#L7-L14' title='Snippet source file'>snippet source</a> | <a href='#snippet-UnscopedRefUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -1683,7 +1683,7 @@ void ObjectDisposedExceptionExample(bool isDisposed)
     ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L467-L491' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L469-L493' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -1702,7 +1702,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L497-L509' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L499-L511' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

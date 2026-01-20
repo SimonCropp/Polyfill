@@ -29,7 +29,7 @@ public class TypeForwardedToTests
             // Find all TypeForwardedTo attributes
             var attributes = root.DescendantNodes()
                 .OfType<AttributeSyntax>()
-                .Where(attr => attr.Name.ToString().Contains("TypeForwardedTo"))
+                .Where(_ => _.Name.ToString().Contains("TypeForwardedTo"))
                 .ToList();
 
             foreach (var attribute in attributes)
@@ -61,11 +61,11 @@ public class TypeForwardedToTests
             }
         }
 
-        if (errors.Count > 0)
+        if (errors.Count <= 0)
         {
-            var message = $"Found {errors.Count} TypeForwardedTo attributes that are not fully qualified:\n" +
-                         string.Join("\n", errors);
-            throw new Exception(message);
+            return;
         }
+
+        throw new($"Found {errors.Count} TypeForwardedTo attributes that are not fully qualified:\n" + string.Join('\n', errors));
     }
 }

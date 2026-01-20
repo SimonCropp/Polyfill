@@ -21,7 +21,7 @@ static partial class Polyfill
 		/// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
 		public static void ThrowIfZero(nint value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
 		{
-		   if (value == (nint)0)
+			if (value == (nint)0)
 			{
 				ThrowZero(paramName);
 			}
