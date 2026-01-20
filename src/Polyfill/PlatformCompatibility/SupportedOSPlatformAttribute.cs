@@ -1,4 +1,4 @@
-﻿#if !NET
+#if !NET
 
 namespace System.Runtime.Versioning;
 
@@ -36,6 +36,5 @@ public
 sealed class SupportedOSPlatformAttribute(string platformName) :
     OSPlatformAttribute(platformName);
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.SupportedOSPlatformAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.Versioning.SupportedOSPlatformAttribute))]
 #endif

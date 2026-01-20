@@ -1,4 +1,4 @@
-﻿#if FeatureMemory
+#if FeatureMemory
 #if !NET8_0_OR_GREATER
 
 namespace System.Runtime.CompilerServices;
@@ -32,7 +32,6 @@ sealed class CollectionBuilderAttribute : Attribute
     public string MethodName { get; }
 }
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(CollectionBuilderAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.CollectionBuilderAttribute))]
 #endif
 #endif

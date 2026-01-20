@@ -52,6 +52,5 @@ sealed class CompilerFeatureRequiredAttribute :
 }
 
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(CompilerFeatureRequiredAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute))]
 #endif

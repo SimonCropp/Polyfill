@@ -31,6 +31,5 @@ sealed class FeatureSwitchDefinitionAttribute : Attribute
     public string SwitchName { get; }
 }
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.FeatureSwitchDefinitionAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.FeatureSwitchDefinitionAttribute))]
 #endif

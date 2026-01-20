@@ -50,6 +50,5 @@ sealed class UnreachableException : Exception
     }
 }
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Diagnostics.UnreachableException))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Diagnostics.UnreachableException))]
 #endif

@@ -34,6 +34,5 @@ enum UnixFileMode
 }
 
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.IO.UnixFileMode))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.IO.UnixFileMode))]
 #endif

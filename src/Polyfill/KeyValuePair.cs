@@ -26,6 +26,5 @@ static class KeyValuePair
         new(key, value);
 }
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Collections.Generic.KeyValuePair))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Collections.Generic.KeyValuePair))]
 #endif

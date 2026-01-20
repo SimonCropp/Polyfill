@@ -80,6 +80,5 @@ class Lock
 }
 
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Threading.Lock))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Threading.Lock))]
 #endif

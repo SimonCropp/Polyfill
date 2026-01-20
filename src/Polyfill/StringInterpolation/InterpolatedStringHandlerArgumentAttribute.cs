@@ -1,4 +1,4 @@
-﻿#if !NET6_0_OR_GREATER
+#if !NET6_0_OR_GREATER
 
 namespace System.Runtime.CompilerServices;
 
@@ -36,6 +36,5 @@ sealed class InterpolatedStringHandlerArgumentAttribute :
 }
 
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(InterpolatedStringHandlerArgumentAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.InterpolatedStringHandlerArgumentAttribute))]
 #endif

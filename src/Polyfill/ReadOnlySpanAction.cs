@@ -18,7 +18,6 @@ public
 delegate void ReadOnlySpanAction<T, in TArg>(ReadOnlySpan<T> span, TArg arg);
 #else
 using System.Buffers;
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(ReadOnlySpanAction<,>))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Buffers.ReadOnlySpanAction<,>))]
 #endif
 #endif

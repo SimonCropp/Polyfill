@@ -34,6 +34,5 @@ sealed class CallerArgumentExpressionAttribute :
 }
 
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(CallerArgumentExpressionAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.CallerArgumentExpressionAttribute))]
 #endif

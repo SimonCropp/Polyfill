@@ -1,4 +1,4 @@
-﻿#if !NET5_0_OR_GREATER
+#if !NET5_0_OR_GREATER
 
 namespace System.Runtime.Versioning;
 
@@ -22,6 +22,5 @@ abstract class OSPlatformAttribute(string platformName) :
     public string PlatformName { get; } = platformName;
 }
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.OSPlatformAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.Versioning.OSPlatformAttribute))]
 #endif

@@ -1,4 +1,4 @@
-﻿#if !NET6_0 && !NET5_0
+#if !NET6_0 && !NET5_0
 
 #if !NET7_0_OR_GREATER
 
@@ -52,7 +52,6 @@ sealed class ObsoletedOSPlatformAttribute :
     public string? Url { get; set; }
 }
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.ObsoletedOSPlatformAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.Versioning.ObsoletedOSPlatformAttribute))]
 #endif
 #endif

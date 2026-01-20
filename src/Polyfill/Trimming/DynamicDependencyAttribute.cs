@@ -1,4 +1,4 @@
-﻿#if !NET
+#if !NET
 
 #nullable enable
 
@@ -106,6 +106,5 @@ sealed class DynamicDependencyAttribute :
     public string? Condition { get; set; }
 }
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.DynamicDependencyAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.DynamicDependencyAttribute))]
 #endif

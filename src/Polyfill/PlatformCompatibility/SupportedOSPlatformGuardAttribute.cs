@@ -1,4 +1,4 @@
-﻿#if !NET6_0 && !NET5_0
+#if !NET6_0 && !NET5_0
 #if !NET6_0_OR_GREATER
 
 namespace System.Runtime.Versioning;
@@ -29,7 +29,6 @@ public
 sealed class SupportedOSPlatformGuardAttribute(string platformName) :
     OSPlatformAttribute(platformName);
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.SupportedOSPlatformGuardAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.Versioning.SupportedOSPlatformGuardAttribute))]
 #endif
 #endif

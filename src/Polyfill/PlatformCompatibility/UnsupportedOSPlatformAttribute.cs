@@ -1,4 +1,4 @@
-﻿#if !NET
+#if !NET
 
 #nullable enable
 
@@ -49,6 +49,5 @@ sealed class UnsupportedOSPlatformAttribute :
     public string? Message { get; }
 }
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.UnsupportedOSPlatformAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.Versioning.UnsupportedOSPlatformAttribute))]
 #endif
