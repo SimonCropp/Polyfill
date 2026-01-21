@@ -1,12 +1,11 @@
+namespace Fake;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 class Program
 {
-    private static void Main()
-    {
+    private static void Main() =>
         Test<Program>();
-    }
 
     public void MethodA<T>() { }
 
