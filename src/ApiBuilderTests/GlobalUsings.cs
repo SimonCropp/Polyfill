@@ -3,6 +3,7 @@ global using TUnit.Assertions;
 global using TUnit.Assertions.Extensions;
 global using System;
 global using System.Diagnostics.CodeAnalysis;
+global using System.Globalization;
 global using System.IO.Compression;
 global using System.Text.RegularExpressions;
 global using Microsoft.CodeAnalysis;
