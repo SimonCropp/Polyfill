@@ -123,7 +123,12 @@ For example:
       <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.1'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureCompression;FeatureAsyncInterfaces</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.0'))">$(DefineConstants);FeatureValueTuple;FeatureRuntimeInformation;FeatureCompression</DefineConstants>
     </PropertyGroup>
-  
+
+    <Warning
+      Code="PolyfillMemoryVersion"
+      Text="Polyfill: System.Memory version $(MemoryVersion) is installed, but 4.5.5 or newer is required to enable FeatureMemory."
+      Condition="'$(MemoryVersion)' != '' AND !$([MSBuild]::VersionGreaterThanOrEquals($(MemoryVersion), '4.5.5'))" />
+
     <!-- The whole point of EmbeddedAttribute is to avoid the exposing the internal polyfilled APIs to consuming projects via IVT. -->
     <Error Text="PolyPublic and PolyUseEmbeddedAttribute shouldn't be used together." Condition="'$(PolyPublic)' == 'true' AND '$(PolyUseEmbeddedAttribute)' == 'true'" />
 
