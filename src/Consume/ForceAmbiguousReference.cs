@@ -117,10 +117,6 @@ public class NullabilityInfo;
 public enum NullabilityState;
 
 public class NullabilityInfoContext;
-
-public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
-public delegate void ReadOnlySpanAction<T, in TArg>(ReadOnlySpan<T> span, TArg arg);
-
 public ref struct SpanLineEnumerator;
 
 public ref struct ValueMatch;
@@ -128,3 +124,8 @@ public ref struct ValueMatch;
 public readonly struct Index;
 
 public readonly struct Range;
+
+#if FeatureMemory
+public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
+public delegate void ReadOnlySpanAction<T, in TArg>(ReadOnlySpan<T> span, TArg arg);
+#endif
