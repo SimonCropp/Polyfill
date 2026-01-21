@@ -11,7 +11,7 @@ The main project that produces the nuget.
 
 ### Tests project
 
-A NUnit test project that verifies all the APIs.
+A TUnit test project that verifies all the APIs.
 
 
 ### NoRefsTests project
