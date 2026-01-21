@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿namespace Consumes;
+
+using System.Diagnostics.CodeAnalysis;
 #pragma warning disable CS0169 // Field is never used
 
 // ReSharper disable once ReplaceWithFieldKeyword

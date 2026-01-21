@@ -24,6 +24,5 @@ public
 sealed class NotNullAttribute :
     Attribute;
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.NotNullAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.NotNullAttribute))]
 #endif

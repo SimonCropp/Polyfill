@@ -1,4 +1,4 @@
-﻿#if !NET7_0_OR_GREATER
+#if !NET7_0_OR_GREATER
 
 #nullable enable
 
@@ -50,6 +50,5 @@ sealed class RequiresDynamicCodeAttribute :
     public string? Url { get; set; }
 }
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute))]
 #endif

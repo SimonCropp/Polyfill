@@ -155,11 +155,10 @@ public
 sealed class ModuleInitializerAttribute :
     Attribute;
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(ModuleInitializerAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.ModuleInitializerAttribute))]
 #endif
 ```
-<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L29' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

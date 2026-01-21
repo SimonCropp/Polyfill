@@ -1,6 +1,6 @@
-using System.Diagnostics.CodeAnalysis;
-
 namespace ConsumeEmbeddedLib;
+
+using System.Diagnostics.CodeAnalysis;
 
 internal class UsageOfConstantExpected
 {

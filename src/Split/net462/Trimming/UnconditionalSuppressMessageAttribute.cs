@@ -57,6 +57,5 @@ sealed class UnconditionalSuppressMessageAttribute :
 	public string? Justification { get; set; }
 }
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessageAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessageAttribute))]
 #endif

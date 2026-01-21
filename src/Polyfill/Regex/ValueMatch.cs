@@ -42,7 +42,6 @@ readonly ref struct ValueMatch
     public int Length { get; }
 }
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Text.RegularExpressions.ValueMatch))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Text.RegularExpressions.ValueMatch))]
 #endif
 #endif

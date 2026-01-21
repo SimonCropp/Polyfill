@@ -2,6 +2,5 @@
 #pragma warning disable
 #if FeatureMemory
 using System.Buffers;
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(SpanAction<,>))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Buffers.SpanAction<,>))]
 #endif

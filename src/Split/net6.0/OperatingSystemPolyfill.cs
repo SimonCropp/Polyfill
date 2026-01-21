@@ -67,8 +67,8 @@ static partial class Polyfill
 		/// <summary>
 		/// Indicates whether the current application is running on iOS or MacCatalyst.
 		/// </summary>
-        public static bool IsIOS() =>
-            RuntimeInformation.IsOSPlatform(OSPlatform.Create("IOS"));
+		public static bool IsIOS() =>
+			RuntimeInformation.IsOSPlatform(OSPlatform.Create("IOS"));
 		/// <summary>
 		/// Indicates whether the current application is running on Linux.
 		/// </summary>

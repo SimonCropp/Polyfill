@@ -129,7 +129,6 @@ readonly struct Index : IEquatable<Index>
         '^' + Value.ToString();
 }
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Index))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Index))]
 #endif
 #endif

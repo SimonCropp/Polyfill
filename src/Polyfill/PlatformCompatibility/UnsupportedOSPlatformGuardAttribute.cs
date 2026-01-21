@@ -30,7 +30,6 @@ public
 sealed class UnsupportedOSPlatformGuardAttribute(string platformName) :
     OSPlatformAttribute(platformName);
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.UnsupportedOSPlatformGuardAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.Versioning.UnsupportedOSPlatformGuardAttribute))]
 #endif
 #endif

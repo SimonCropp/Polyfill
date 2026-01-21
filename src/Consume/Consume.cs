@@ -12,6 +12,8 @@
 
 #nullable enable
 
+namespace Consumes;
+
 using System;
 using System.Collections;
 using System.Collections.Concurrent;

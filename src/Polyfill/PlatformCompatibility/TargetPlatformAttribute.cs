@@ -1,4 +1,4 @@
-﻿#if !NET
+#if !NET
 
 namespace System.Runtime.Versioning;
 
@@ -20,6 +20,5 @@ public
 sealed class TargetPlatformAttribute(string platformName) :
     OSPlatformAttribute(platformName);
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.TargetPlatformAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.Versioning.TargetPlatformAttribute))]
 #endif

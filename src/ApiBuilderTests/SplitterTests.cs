@@ -809,7 +809,7 @@ public class SplitterTests
             #if !NETCOREAPP3_0_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
             class NotNullAttribute : Attribute { }
             #else
-            [assembly: TypeForwardedTo(typeof(NotNullAttribute))]
+            [assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(NotNullAttribute))]
             #endif
             """;
 

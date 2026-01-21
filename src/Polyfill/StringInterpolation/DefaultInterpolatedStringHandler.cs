@@ -1,4 +1,4 @@
-﻿#if FeatureMemory
+#if FeatureMemory
 #if !NET6_0_OR_GREATER
 
 #nullable enable
@@ -447,7 +447,6 @@ ref struct DefaultInterpolatedStringHandler
 }
 
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.DefaultInterpolatedStringHandler))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.DefaultInterpolatedStringHandler))]
 #endif
 #endif

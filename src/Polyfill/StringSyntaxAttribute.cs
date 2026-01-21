@@ -80,6 +80,5 @@ sealed class StringSyntaxAttribute :
     public const string Xml = nameof(Xml);
 }
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.StringSyntaxAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.StringSyntaxAttribute))]
 #endif

@@ -1,4 +1,4 @@
-﻿#if !NET7_0_OR_GREATER
+#if !NET7_0_OR_GREATER
 
 #nullable enable
 namespace System.Diagnostics.CodeAnalysis;
@@ -30,6 +30,5 @@ sealed class ConstantExpectedAttribute : Attribute
     public object? Max { get; set; }
 }
 #else
-using System.Runtime.CompilerServices;
-[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute))]
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute))]
 #endif
