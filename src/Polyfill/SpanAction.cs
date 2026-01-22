@@ -17,7 +17,6 @@ public
 #endif
 delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
 #else
-using System.Buffers;
 [assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Buffers.SpanAction<,>))]
 #endif
 #endif

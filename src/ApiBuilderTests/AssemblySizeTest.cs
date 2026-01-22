@@ -308,11 +308,11 @@ public class AssemblySizeTest
     {
         if (bytes < 1024)
         {
-            return $"{bytes:N0} bytes";
+            return string.Create(CultureInfo.InvariantCulture, $"{bytes:N0} bytes");
         }
 
         var kb = bytes / 1024.0;
-        return $"{kb:N1} KB";
+        return string.Create(CultureInfo.InvariantCulture, $"{kb:N1} KB");
     }
 
     static string FormatSizeDiff(long bytes)
