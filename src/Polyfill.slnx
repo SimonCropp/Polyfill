@@ -28,6 +28,8 @@
   <Project Path="ConsumeCsLatest/ConsumeCsLatest.csproj" />
   <Project Path="ConsumeCsLatestMajor/ConsumeCsLatestMajor.csproj" />
   <Project Path="ConsumeEmbeddedLib/ConsumeEmbeddedLib.csproj" />
+  <Project Path="ConsumeIncorrectVersions/ConsumeIncorrectVersions.csproj" />
+  <Project Path="ConsumeIncorrectVersionsSuppress/ConsumeIncorrectVersionsSuppress.csproj" />
   <Project Path="ConsumeIndirect/ConsumeIndirect.csproj" />
   <Project Path="ConsumeLib/ConsumeLib.csproj" />
   <Project Path="ConsumeNoOptional/ConsumeNoOptional.csproj" />
