@@ -107,22 +107,30 @@ public class AssemblySizeTest
                 var frameworkDir = Path.Combine(splitDir, framework);
                 if (Directory.Exists(frameworkDir))
                 {
-                    var allFiles = Directory.GetFiles(frameworkDir, "*.cs", SearchOption.AllDirectories).ToList();
+                    IEnumerable<string> allFiles = Directory.GetFiles(frameworkDir, "*.cs", SearchOption.AllDirectories);
 
                     // Exclude directories based on polyOptions (matching Polyfill.targets logic)
                     if (!polyOptions.Contains("<PolyEnsure>true</PolyEnsure>"))
-                        allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}Ensure{Path.DirectorySeparatorChar}")).ToList();
+                    {
+                        allFiles = allFiles.Where(_ => !_.Contains($"{Path.DirectorySeparatorChar}Ensure{Path.DirectorySeparatorChar}"));
+                    }
                     if (!polyOptions.Contains("<PolyArgumentExceptions>true</PolyArgumentExceptions>"))
-                        allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}ArgumentExceptions{Path.DirectorySeparatorChar}")).ToList();
+                    {
+                        allFiles = allFiles.Where(_ => !_.Contains($"{Path.DirectorySeparatorChar}ArgumentExceptions{Path.DirectorySeparatorChar}"));
+                    }
                     if (!polyOptions.Contains("<PolyStringInterpolation>true</PolyStringInterpolation>"))
-                        allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}StringInterpolation{Path.DirectorySeparatorChar}")).ToList();
+                    {
+                        allFiles = allFiles.Where(_ => !_.Contains($"{Path.DirectorySeparatorChar}StringInterpolation{Path.DirectorySeparatorChar}"));
+                    }
                     if (!polyOptions.Contains("<PolyNullability>true</PolyNullability>"))
-                        allFiles = allFiles.Where(f => !f.Contains($"{Path.DirectorySeparatorChar}Nullability{Path.DirectorySeparatorChar}")).ToList();
+                    {
+                        allFiles = allFiles.Where(_ => !_.Contains($"{Path.DirectorySeparatorChar}Nullability{Path.DirectorySeparatorChar}"));
+                    }
 
                     // Calculate compressed size (EmbedUntrackedSources uses deflate compression)
-                    sourceSize = allFiles.Sum(f =>
+                    sourceSize = allFiles.Sum(_ =>
                     {
-                        var content = File.ReadAllBytes(f);
+                        var content = File.ReadAllBytes(_);
                         using var output = new MemoryStream();
                         using (var deflate = new DeflateStream(output, CompressionLevel.Optimal, leaveOpen: true))
                         {
@@ -161,6 +169,7 @@ public class AssemblySizeTest
                           <LangVersion>preview</LangVersion>
                           <DebugType>embedded</DebugType>
                           <DebugSymbols>true</DebugSymbols>
+                          <Deterministic>true</Deterministic>
                           {polyOptions}
                         </PropertyGroup>
                         <ItemGroup>
