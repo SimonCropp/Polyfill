@@ -128,9 +128,9 @@ public class AssemblySizeTest
                     }
 
                     // Calculate compressed size (EmbedUntrackedSources uses deflate compression)
-                    sourceSize = allFiles.Sum(_ =>
+                    sourceSize = allFiles.Sum(file =>
                     {
-                        var content = File.ReadAllBytes(_);
+                        var content = File.ReadAllBytes(file);
                         using var output = new MemoryStream();
                         using (var deflate = new DeflateStream(output, CompressionLevel.Optimal, leaveOpen: true))
                         {
