@@ -38,15 +38,14 @@ jobs:
             const milestoneNumber = milestone.number;
             const eventAction = context.payload.action;
 
-            // Find existing release by tag
+            // Find existing release by tag_name (includes drafts)
             let release = null;
-            try {
-              const { data } = await github.rest.repos.getReleaseByTag({
-                owner, repo, tag: milestoneTitle
-              });
-              release = data;
-            } catch (e) {
-              if (e.status !== 404) throw e;
+            for await (const response of github.paginate.iterator(
+              github.rest.repos.listReleases,
+              { owner, repo, per_page: 100 }
+            )) {
+              release = response.data.find(r => r.tag_name === milestoneTitle);
+              if (release) break;
             }
 
             // Handle milestone deleted
