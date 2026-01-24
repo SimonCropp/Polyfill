@@ -8,6 +8,9 @@ on:
   pull_request:
     types: [opened, edited, closed, reopened, milestoned, demilestoned]
 
+permissions:
+  contents: write
+
 jobs:
   sync-release:
     runs-on: ubuntu-latest
