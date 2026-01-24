@@ -1528,6 +1528,18 @@ If using Span APIs and consuming in a project that targets `netstandard`, `netfr
                              $(TargetFramework.StartsWith('netcoreapp2'))" />
 ```
 
+#### Version Warning
+
+If System.Memory is installed but the version is older than 4.5.5, a build warning `PolyfillMemoryVersion` will be raised. This is because older versions lack the required types for FeatureMemory to be enabled, which can cause polyfills to silently fail.
+
+To suppress this warning:
+
+```xml
+<PropertyGroup>
+  <PolyfillNoWarnIncorrectVersion>true</PolyfillNoWarnIncorrectVersion>
+</PropertyGroup>
+```
+
 
 ### System.Threading.Tasks.Extensions
 
