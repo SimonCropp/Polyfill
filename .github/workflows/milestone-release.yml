@@ -1,0 +1,99 @@
+name: milestone-release
+
+on:
+  milestone:
+    types: [created, edited, deleted, closed, opened]
+  issues:
+    types: [opened, edited, closed, reopened, deleted, milestoned, demilestoned]
+  pull_request:
+    types: [opened, edited, closed, reopened, milestoned, demilestoned]
+
+jobs:
+  sync-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sync Release with Milestone
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+
+            // Get milestone from event
+            let milestone = context.payload.milestone;
+            if (!milestone && context.payload.issue?.milestone) {
+              milestone = context.payload.issue.milestone;
+            }
+            if (!milestone && context.payload.pull_request?.milestone) {
+              milestone = context.payload.pull_request.milestone;
+            }
+            if (!milestone) {
+              console.log('No milestone associated with this event');
+              return;
+            }
+
+            const milestoneTitle = milestone.title;
+            const milestoneNumber = milestone.number;
+            const eventAction = context.payload.action;
+
+            // Find existing release by tag
+            let release = null;
+            try {
+              const { data } = await github.rest.repos.getReleaseByTag({
+                owner, repo, tag: milestoneTitle
+              });
+              release = data;
+            } catch (e) {
+              if (e.status !== 404) throw e;
+            }
+
+            // Handle milestone deleted
+            if (context.eventName === 'milestone' && eventAction === 'deleted') {
+              if (release) {
+                await github.rest.repos.deleteRelease({
+                  owner, repo, release_id: release.id
+                });
+                console.log(`Deleted release for milestone: ${milestoneTitle}`);
+              }
+              return;
+            }
+
+            // Fetch all issues and PRs in milestone
+            const items = [];
+            for await (const response of github.paginate.iterator(
+              github.rest.issues.listForRepo,
+              { owner, repo, milestone: milestoneNumber, state: 'all', per_page: 100 }
+            )) {
+              items.push(...response.data);
+            }
+
+            // Sort by number and generate body
+            items.sort((a, b) => a.number - b.number);
+            const body = items.map(item => {
+              const checkbox = item.state === 'closed' ? '[x]' : '[ ]';
+              return `- ${checkbox} [#${item.number}](${item.html_url}) ${item.title}`;
+            }).join('\n');
+
+            // Determine if release should be draft or published
+            const isDraft = milestone.state === 'open';
+
+            if (release) {
+              // Update existing release
+              await github.rest.repos.updateRelease({
+                owner, repo,
+                release_id: release.id,
+                name: milestoneTitle,
+                body: body || 'No issues in this milestone yet.',
+                draft: isDraft
+              });
+              console.log(`Updated release: ${milestoneTitle}`);
+            } else {
+              // Create new release
+              await github.rest.repos.createRelease({
+                owner, repo,
+                tag_name: milestoneTitle,
+                name: milestoneTitle,
+                body: body || 'No issues in this milestone yet.',
+                draft: isDraft
+              });
+              console.log(`Created release: ${milestoneTitle}`);
+            }
