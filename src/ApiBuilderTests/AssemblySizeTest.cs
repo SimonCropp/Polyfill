@@ -170,6 +170,7 @@ public class AssemblySizeTest
                           <DebugType>embedded</DebugType>
                           <DebugSymbols>true</DebugSymbols>
                           <Deterministic>true</Deterministic>
+                          <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
                           {polyOptions}
                         </PropertyGroup>
                         <ItemGroup>

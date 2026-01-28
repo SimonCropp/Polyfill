@@ -2,11 +2,10 @@
 #pragma warning disable
 #if !NET
 #nullable enable
-namespace System.Diagnostics;
+namespace System.Threading.Tasks;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 /// <summary>
 /// Represents the producer side of a <see cref="Task"/> unbound to a
