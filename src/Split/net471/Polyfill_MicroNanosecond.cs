@@ -5,36 +5,45 @@ using System;
 static partial class Polyfill
 {
 	const long TicksPerMicrosecond = TimeSpan.TicksPerMillisecond * 1000;
-	/// <summary>
-	/// Gets the nanosecond component of the time represented by the current <see cref="TimeSpan"/> object.
-	/// </summary>
-	public static int Nanoseconds(this TimeSpan target) =>
-		(int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
-	/// <summary>
-	/// Gets the nanosecond component of the time represented by the current <see cref="DateTime"/> object.
-	/// </summary>
-	public static int Nanosecond(this DateTime target) =>
-		(int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
-	/// <summary>
-	/// Gets the nanosecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
-	/// </summary>
-	public static int Nanosecond(this DateTimeOffset target) =>
-		(int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
-	/// <summary>
-	/// Gets the microsecond component of the time represented by the current <see cref="TimeSpan"/> object.
-	/// </summary>
-	public static int Microseconds(this TimeSpan target) =>
-		(int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
-	/// <summary>
-	/// Gets the microsecond component of the time represented by the current <see cref="DateTime"/> object.
-	/// </summary>
-	public static int Microsecond(this DateTime target) =>
-		(int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
-	/// <summary>
-	/// Gets the microsecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
-	/// </summary>
-	public static int Microsecond(this DateTimeOffset target) =>
-		(int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
+	extension(TimeSpan target)
+	{
+		/// <summary>
+		/// Gets the nanosecond component of the time represented by the current <see cref="TimeSpan"/> object.
+		/// </summary>
+		public int Nanoseconds =>
+			(int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
+		/// <summary>
+		/// Gets the microsecond component of the time represented by the current <see cref="TimeSpan"/> object.
+		/// </summary>
+		public int Microseconds =>
+			(int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
+	}
+	extension(DateTime target)
+	{
+		/// <summary>
+		/// Gets the nanosecond component of the time represented by the current <see cref="DateTime"/> object.
+		/// </summary>
+		public int Nanosecond =>
+			(int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
+		/// <summary>
+		/// Gets the microsecond component of the time represented by the current <see cref="DateTime"/> object.
+		/// </summary>
+		public int Microsecond =>
+			(int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
+	}
+	extension(DateTimeOffset target)
+	{
+		/// <summary>
+		/// Gets the nanosecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
+		/// </summary>
+		public int Nanosecond =>
+			(int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
+		/// <summary>
+		/// Gets the microsecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
+		/// </summary>
+		public int Microsecond =>
+			(int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
+	}
 	static long TicksComponent(this TimeSpan target)
 	{
 		var noSeconds = new TimeSpan(target.Days, target.Hours, target.Minutes, 0);
