@@ -7,6 +7,33 @@ using System.Globalization;
 
 static partial class Polyfill
 {
+#if !NET7_0_OR_GREATER
+    extension(DateTime target)
+    {
+        /// <summary>
+        /// Gets the nanosecond component of the time represented by the current <see cref="DateTime"/> object.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.nanosecond?view=net-10.0
+        public int Nanosecond =>
+            (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
+
+        /// <summary>
+        /// Gets the microsecond component of the time represented by the current <see cref="DateTime"/> object.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.microsecond?view=net-10.0
+        public int Microsecond =>
+            (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
+
+        long TicksComponent()
+        {
+            var noSeconds = new DateTime(target.Year, target.Month, target.Day, target.Hour, target.Minute, 0, target.Kind);
+            var secondsPart = target - noSeconds;
+            return secondsPart.Ticks;
+        }
+    }
+
+#endif
+
     extension(DateTime)
     {
 #if !NET7_0_OR_GREATER
