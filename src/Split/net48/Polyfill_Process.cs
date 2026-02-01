@@ -17,7 +17,6 @@ static partial class Polyfill
 	[UnsupportedOSPlatform("tvos")]
 	public static void Kill(this Process target, bool entireProcessTree) =>
 		target.Kill();
-#if !NET
 	/// <summary>
 	/// Instructs the Process component to wait for the associated process to exit, or
 	/// for the <paramref name="cancellationToken"/> to be canceled.
@@ -58,5 +57,4 @@ static partial class Polyfill
 			target.Exited -= handler;
 		}
 	}
-#endif
 }

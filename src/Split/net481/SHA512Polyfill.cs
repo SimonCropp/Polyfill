@@ -20,7 +20,6 @@ static partial class SHA512Polyfill
 {
 	extension(SHA512)
 	{
-#if !NET
 		/// <summary>
 		/// Computes the hash of data using the SHA-512 algorithm.
 		/// </summary>
@@ -29,7 +28,6 @@ static partial class SHA512Polyfill
 			using var hasher = SHA512.Create();
 			return hasher.ComputeHash(source);
 		}
-#endif
 		/// <summary>
 		/// Computes the hash of a stream using the SHA-512 algorithm.
 		/// </summary>
@@ -50,7 +48,6 @@ static partial class SHA512Polyfill
 		}
 #endif
 #if FeatureMemory
-#if !NET
 		/// <summary>
 		/// Computes the hash of a stream using the SHA-512 algorithm.
 		/// </summary>
@@ -84,7 +81,6 @@ static partial class SHA512Polyfill
 			hash.CopyTo(destination);
 			return hash.Length;
 		}
-#endif
 		/// <summary>
 		/// Computes the hash of a stream using the SHA-512 algorithm.
 		/// </summary>

@@ -43,6 +43,7 @@ public class Splitter
     {
         var symbols = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
+            "NET",
             "NETCOREAPP2X",
             "NETCOREAPP3X",
             "NETCOREAPPX",
@@ -226,6 +227,8 @@ public class Splitter
             var match = Regex.Match(versionStr, @"^(\d+)");
             if (match.Success && int.TryParse(match.Groups[1].Value, out var majorVersion) && majorVersion >= 5)
             {
+                symbols.Add("NET");
+
                 var netSymbol = $"NET{versionStr.Replace("_0", "_0")}";
                 if (!netSymbol.Contains("_"))
                 {
@@ -290,17 +293,23 @@ public class Splitter
                 lines = RemoveEmptyConditionalBlocks(lines);
                 lines = RemoveLinkComments(lines);
                 lines = RemoveEmptyLines(lines);
-                if (lines.Count == 0 || !ContainsTypes(lines) || IsEmptyPolyfillClass(lines))
+
+                // Extract ALL TypeForwardedTo lines first, before checking if file should be skipped
+                var forwardedToLines = lines.Where(l => l.TrimStart().Contains("TypeForwardedTo")).ToList();
+                if (forwardedToLines.Count > 0)
                 {
-                    continue;
+                    typeForwardedToLines.AddRange(forwardedToLines);
+                    // Remove TypeForwardedTo lines from the file
+                    lines = lines.Where(l => !l.TrimStart().Contains("TypeForwardedTo")).ToList();
+
+                    // Clean up again after removing TypeForwardedTo lines
+                    lines = RemoveEmptyConditionalBlocks(lines);
+                    lines = RemoveEmptyLines(lines);
                 }
 
-                // Check if this file only contains TypeForwardedTo attributes
-                if (IsOnlyTypeForwardedTo(lines))
+                // If file is now empty or only contains empty Polyfill class, skip it
+                if (lines.Count == 0 || !ContainsTypes(lines) || IsEmptyPolyfillClass(lines))
                 {
-                    // Extract TypeForwardedTo lines and collect them
-                    var forwardedToLines = lines.Where(l => l.TrimStart().Contains("TypeForwardedTo")).ToList();
-                    typeForwardedToLines.AddRange(forwardedToLines);
                     continue;
                 }
 
@@ -357,7 +366,7 @@ public class Splitter
         }).ToList();
 
     /// <summary>
-    /// Checks if the lines contain any type declarations (class, struct, record, interface, enum, delegate) or TypeForwardedTo attributes.
+    /// Checks if the lines contain any type declarations (class, struct, record, interface, enum, delegate).
     /// </summary>
     public static bool ContainsTypes(List<string> lines) =>
         lines.Any(line =>
@@ -368,8 +377,7 @@ public class Splitter
                    trimmed.Contains("record ") ||
                    trimmed.Contains("interface ") ||
                    trimmed.Contains("enum ") ||
-                   trimmed.Contains("delegate ") ||
-                   trimmed.Contains("TypeForwardedTo");
+                   trimmed.Contains("delegate ");
         });
 
     /// <summary>

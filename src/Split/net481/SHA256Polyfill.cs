@@ -20,7 +20,6 @@ static class SHA256Polyfill
 {
 	extension(SHA256)
 	{
-#if !NET
 		/// <summary>
 		/// Computes the hash of data using the SHA-256 algorithm.
 		/// </summary>
@@ -29,7 +28,6 @@ static class SHA256Polyfill
 			using var hasher = SHA256.Create();
 			return hasher.ComputeHash(source);
 		}
-#endif
 		/// <summary>
 		/// Computes the hash of a stream using the SHA-256 algorithm.
 		/// </summary>
@@ -58,7 +56,6 @@ static class SHA256Polyfill
 			hash.CopyTo(destination);
 			return hash.Length;
 		}
-#if !NET
 		/// <summary>
 		/// Computes the hash of a stream using the SHA-256 algorithm.
 		/// </summary>
@@ -67,7 +64,6 @@ static class SHA256Polyfill
 			using var hasher = SHA256.Create();
 			return hasher.ComputeHash(source.ToArray());
 		}
-#endif
 #if FeatureValueTask
 		/// <summary>
 		/// Asynchronously computes the hash of a stream using the SHA-256 algorithm.
@@ -80,7 +76,6 @@ static class SHA256Polyfill
 			return new(hash.Length);
 		}
 #endif
-#if !NET
 		/// <summary>
 		/// Computes the hash of a stream using the SHA-256 algorithm.
 		/// </summary>
@@ -106,7 +101,6 @@ static class SHA256Polyfill
 			bytesWritten = hash.Length;
 			return true;
 		}
-#endif
 #endif
 	}
 }

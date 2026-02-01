@@ -7,7 +7,6 @@ static partial class Polyfill
 {
 	extension(Enum)
 	{
-#if !NET
 		/// <summary>
 		/// Retrieves an array of the values of the constants in a specified enumeration type.
 		/// </summary>
@@ -30,7 +29,6 @@ static partial class Polyfill
 		public static string[] GetNames<TEnum>()
 			where TEnum : struct, Enum =>
 			Enum.GetNames(typeof(TEnum));
-#endif
 		/// <summary>
 		/// Converts the string representation of the name or numeric value of one or more enumerated constants specified by TEnum to an equivalent enumerated object.
 		/// </summary>

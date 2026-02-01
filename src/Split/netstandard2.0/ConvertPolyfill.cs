@@ -7,14 +7,12 @@ static partial class Polyfill
 {
 	extension(Convert)
 	{
-#if !NET
 		/// <summary>
 		/// Converts a subset of an array of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
 		/// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
 		/// </summary>
 		public static string ToHexString(byte[] inArray, int offset, int length) =>
 			ToHexString(inArray, offset, length, "X2");
-#endif
 		/// <summary>
 		/// Converts a subset of an array of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
 		/// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
@@ -26,7 +24,6 @@ static partial class Polyfill
 		/// </summary>
 		public static string ToHexStringLower(byte[] inArray) =>
 			Polyfill.ToHexStringLower(inArray, 0, inArray.Length);
-#if !NET
 		/// <summary>
 		/// Converts an array of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
 		/// </summary>
@@ -56,9 +53,7 @@ static partial class Polyfill
 				};
 			}
 		}
-#endif
 #if FeatureMemory
-#if !NET
 		/// <summary>
 		/// Converts the span, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
 		/// </summary>
@@ -69,7 +64,6 @@ static partial class Polyfill
 		/// </summary>
 		public static string ToHexString(ReadOnlySpan<byte> bytes) =>
 			Polyfill.ToHexString(bytes.ToArray());
-#endif
 		/// <summary>
 		/// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
 		/// </summary>

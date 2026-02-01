@@ -26,10 +26,10 @@ public class TypeForwardedToTests
             var tree = CSharpSyntaxTree.ParseText(content);
             var root = tree.GetRoot();
 
-            // Check if this is a TypeForwardeds.cs file with the appropriate using statement
-            var isTypeForwardedsFile = Path.GetFileName(file) == "TypeForwardeds.cs";
+            // Check if file has the appropriate using statement (allow simplified form in Split directory with using)
+            var isSplitFile = file.Contains("Split");
             var hasUsingStatement = content.Contains("using System.Runtime.CompilerServices;");
-            var allowSimplifiedForm = isTypeForwardedsFile && hasUsingStatement;
+            var allowSimplifiedForm = isSplitFile && hasUsingStatement;
 
             // Find all TypeForwardedTo attributes
             var attributes = root.DescendantNodes()

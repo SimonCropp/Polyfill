@@ -424,11 +424,7 @@ sealed class NullabilityInfoContext
 	{
 		Debug.Assert(genericParameter.IsGenericParameter);
 		if (reflectedType is not null
-#if NET
 			&& !genericParameter.IsGenericMethodParameter
-#else
-			&& !genericParameter.IsGenericMethodParameter()
-#endif
 			&& TryUpdateGenericTypeParameterNullabilityFromReflectedType(nullability, genericParameter, reflectedType, reflectedType))
 		{
 			return true;
@@ -455,11 +451,7 @@ sealed class NullabilityInfoContext
 	private bool TryUpdateGenericTypeParameterNullabilityFromReflectedType(NullabilityInfo nullability, Type genericParameter, Type context, Type reflectedType)
 	{
 		Debug.Assert(genericParameter.IsGenericParameter &&
-#if NET
 			!genericParameter.IsGenericMethodParameter);
-#else
-			!genericParameter.IsGenericMethodParameter());
-#endif
 		Type contextTypeDefinition = context.IsGenericType && !context.IsGenericTypeDefinition ? context.GetGenericTypeDefinition() : context;
 		if (genericParameter.DeclaringType == contextTypeDefinition)
 		{

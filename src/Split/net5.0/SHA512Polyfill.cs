@@ -20,16 +20,6 @@ static partial class SHA512Polyfill
 {
 	extension(SHA512)
 	{
-#if !NET
-		/// <summary>
-		/// Computes the hash of data using the SHA-512 algorithm.
-		/// </summary>
-		public static byte[] HashData(byte[] source)
-		{
-			using var hasher = SHA512.Create();
-			return hasher.ComputeHash(source);
-		}
-#endif
 		/// <summary>
 		/// Computes the hash of a stream using the SHA-512 algorithm.
 		/// </summary>
@@ -50,41 +40,6 @@ static partial class SHA512Polyfill
 		}
 #endif
 #if FeatureMemory
-#if !NET
-		/// <summary>
-		/// Computes the hash of a stream using the SHA-512 algorithm.
-		/// </summary>
-		public static byte[] HashData(ReadOnlySpan<byte> source)
-		{
-			using var hasher = SHA512.Create();
-			return hasher.ComputeHash(source.ToArray());
-		}
-		/// <summary>
-		/// Attempts to compute the hash of data using the SHA-512 algorithm.
-		/// </summary>
-		public static bool TryHashData(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
-		{
-			using var hasher = SHA512.Create();
-			var hash = hasher.ComputeHash(source.ToArray());
-			if (destination.Length < hash.Length)
-			{
-				bytesWritten = 0;
-				return false;
-			}
-			hash.CopyTo(destination);
-			bytesWritten = hash.Length;
-			return true;
-		}
-		/// <summary>
-		/// Computes the hash of a stream using the SHA-512 algorithm.
-		/// </summary>
-		public static int HashData(ReadOnlySpan<byte> source, Span<byte> destination)
-		{
-			var hash = HashData(source);
-			hash.CopyTo(destination);
-			return hash.Length;
-		}
-#endif
 		/// <summary>
 		/// Computes the hash of a stream using the SHA-512 algorithm.
 		/// </summary>
