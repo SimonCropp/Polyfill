@@ -7,7 +7,7 @@
     <PolyUseEmbeddedAttribute>true</PolyUseEmbeddedAttribute>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="..\Tests\*.cs" />
+    <Compile Include="..\Tests\*.cs" Exclude="..\Tests\PolyfillTests_EnumerationOptions.cs;..\Tests\PolyfillTests_Directory.cs;..\Tests\PolyfillTests_DirectoryInfo.cs" />
     <PackageReference Include="TUnit" />
     <PackageReference Include="ProjectFiles" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />

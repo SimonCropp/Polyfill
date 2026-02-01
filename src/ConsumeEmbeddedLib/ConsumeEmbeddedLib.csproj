@@ -2,12 +2,7 @@
   <PropertyGroup>
     <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <!--
-      TODO: move back to 14  
-      <LangVersion>14.0</LangVersion>
-    -->
-    <LangVersion>preview</LangVersion>
-
+    <LangVersion>14.0</LangVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PolyUseEmbeddedAttribute>true</PolyUseEmbeddedAttribute>
   </PropertyGroup>
