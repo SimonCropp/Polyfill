@@ -3,7 +3,6 @@
 namespace Polyfills;
 using System;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
 	/// <summary>
