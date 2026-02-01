@@ -166,7 +166,7 @@ public class AssemblySizeTest
                           <OutputType>Library</OutputType>
                           <EnableDefaultItems>false</EnableDefaultItems>
                           <NoWarn>$(NoWarn);NU1902;NU1903;PolyfillTargetsForNuget</NoWarn>
-                          <LangVersion>preview</LangVersion>
+                          <LangVersion>14.0</LangVersion>
                           <DebugType>embedded</DebugType>
                           <DebugSymbols>true</DebugSymbols>
                           <Deterministic>true</Deterministic>
