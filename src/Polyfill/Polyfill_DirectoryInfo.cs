@@ -63,53 +63,8 @@ static partial class Polyfill
     public static FileSystemInfo[] GetFileSystemInfos(this DirectoryInfo target, string searchPattern, EnumerationOptions enumerationOptions) =>
         target.EnumerateFileSystemInfos(searchPattern, enumerationOptions).ToArray();
 
-    static IEnumerable<FileInfo> ApplyEnumerationOptions(IEnumerable<FileInfo> source, EnumerationOptions options)
-    {
-        foreach (var item in source)
-        {
-            FileAttributes attributes;
-            try
-            {
-                attributes = item.Attributes;
-            }
-            catch (Exception) when (options.IgnoreInaccessible)
-            {
-                continue;
-            }
-
-            if ((attributes & options.AttributesToSkip) != 0)
-            {
-                continue;
-            }
-
-            yield return item;
-        }
-    }
-
-    static IEnumerable<DirectoryInfo> ApplyEnumerationOptions(IEnumerable<DirectoryInfo> source, EnumerationOptions options)
-    {
-        foreach (var item in source)
-        {
-            FileAttributes attributes;
-            try
-            {
-                attributes = item.Attributes;
-            }
-            catch (Exception) when (options.IgnoreInaccessible)
-            {
-                continue;
-            }
-
-            if ((attributes & options.AttributesToSkip) != 0)
-            {
-                continue;
-            }
-
-            yield return item;
-        }
-    }
-
-    static IEnumerable<FileSystemInfo> ApplyEnumerationOptions(IEnumerable<FileSystemInfo> source, EnumerationOptions options)
+    static IEnumerable<T> ApplyEnumerationOptions<T>(IEnumerable<T> source, EnumerationOptions options)
+        where T : FileSystemInfo
     {
         foreach (var item in source)
         {
