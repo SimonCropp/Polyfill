@@ -30,4 +30,6 @@ enum MatchType
     /// </summary>
     Win32 = 1
 }
+#else
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.IO.MatchType))]
 #endif

@@ -91,4 +91,6 @@ class EnumerationOptions
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.returnspecialdirectories?view=net-10.0
     public bool ReturnSpecialDirectories { get; set; }
 }
+#else
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.IO.EnumerationOptions))]
 #endif

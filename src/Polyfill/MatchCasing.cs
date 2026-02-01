@@ -33,4 +33,6 @@ enum MatchCasing
     /// </summary>
     CaseInsensitive = 2
 }
+#else
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.IO.MatchCasing))]
 #endif
