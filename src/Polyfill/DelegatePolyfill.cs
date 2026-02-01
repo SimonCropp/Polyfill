@@ -4,12 +4,9 @@ namespace Polyfills;
 
 using System;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 static partial class Polyfill
 {
-#if !NET9_0_OR_GREATER
-
     /// <summary>
     /// Provides an enumerator for the invocation list of a delegate.
     /// </summary>
@@ -65,7 +62,5 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.delegate.hassingletarget?view=net-10.0
         public bool HasSingleTarget => target.GetInvocationList().Length == 1;
     }
-
-#endif
 }
 #endif
