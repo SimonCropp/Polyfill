@@ -972,4 +972,63 @@ public class SplitterTests
         await Assert.That(resultUwp).Contains("netstandard_code");
         await Assert.That(resultUwp).DoesNotContain("#if");
     }
+
+    [Test]
+    public async Task IsOnlyTypeForwardedTo_WithOnlyTypeForwardedTo_ReturnsTrue()
+    {
+        var lines = new List<string>
+        {
+            "[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.CallerArgumentExpressionAttribute))]"
+        };
+
+        var result = Splitter.IsOnlyTypeForwardedTo(lines);
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
+    public async Task IsOnlyTypeForwardedTo_WithTypeDefinition_ReturnsFalse()
+    {
+        var lines = new List<string>
+        {
+            "#if !NET",
+            "class CallerArgumentExpressionAttribute : Attribute { }",
+            "#else",
+            "[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.CallerArgumentExpressionAttribute))]",
+            "#endif"
+        };
+
+        var result = Splitter.IsOnlyTypeForwardedTo(lines);
+
+        await Assert.That(result).IsFalse();
+    }
+
+    [Test]
+    public async Task IsOnlyTypeForwardedTo_WithNoTypeForwardedTo_ReturnsFalse()
+    {
+        var lines = new List<string>
+        {
+            "namespace System.Runtime.CompilerServices;",
+            "class SomeClass { }"
+        };
+
+        var result = Splitter.IsOnlyTypeForwardedTo(lines);
+
+        await Assert.That(result).IsFalse();
+    }
+
+    [Test]
+    public async Task IsOnlyTypeForwardedTo_WithEmptyLines_ReturnsTrue()
+    {
+        var lines = new List<string>
+        {
+            "",
+            "[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.CallerArgumentExpressionAttribute))]",
+            ""
+        };
+
+        var result = Splitter.IsOnlyTypeForwardedTo(lines);
+
+        await Assert.That(result).IsTrue();
+    }
 }
