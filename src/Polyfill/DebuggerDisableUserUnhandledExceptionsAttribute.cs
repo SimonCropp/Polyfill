@@ -9,7 +9,7 @@ using Diagnostics.CodeAnalysis;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-[AttributeUsage(System.AttributeTargets.Method)]
+[AttributeUsage(AttributeTargets.Method)]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
