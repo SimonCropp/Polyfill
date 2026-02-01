@@ -1,10 +1,8 @@
 
 namespace Polyfills;
 
-using System.Numerics;
 using System.Runtime.CompilerServices;
 using System;
-using System.Diagnostics.CodeAnalysis;
 
 #if PolyPublic
 public

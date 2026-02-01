@@ -4,7 +4,6 @@ namespace Polyfills;
 
 using System;
 using System.Runtime.CompilerServices;
-using System.Threading;
 
 static partial class Polyfill
 {
