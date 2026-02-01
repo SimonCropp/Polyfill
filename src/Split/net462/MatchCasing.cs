@@ -4,6 +4,9 @@ namespace System.IO;
 /// <summary>
 /// Specifies the type of character casing to match.
 /// </summary>
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif

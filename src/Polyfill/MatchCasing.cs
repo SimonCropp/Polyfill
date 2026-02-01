@@ -6,6 +6,9 @@ namespace System.IO;
 /// Specifies the type of character casing to match.
 /// </summary>
 //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.matchcasing?view=net-10.0
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif

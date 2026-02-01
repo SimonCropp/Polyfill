@@ -4,6 +4,9 @@ namespace System.IO;
 /// <summary>
 /// Specifies the type of wildcard matching to use.
 /// </summary>
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif

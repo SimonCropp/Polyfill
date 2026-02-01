@@ -11,6 +11,9 @@ using Diagnostics.CodeAnalysis;
 //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions?view=net-10.0
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
 #if PolyPublic
 public
 #endif
