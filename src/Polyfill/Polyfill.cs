@@ -2,6 +2,7 @@ global using global::Polyfills;
 
 namespace Polyfills;
 
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -15,4 +16,7 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public
 #endif
-static partial class Polyfill;
+static partial class Polyfill
+{
+    const long TicksPerMicrosecond = TimeSpan.TicksPerMillisecond * 1000;
+}

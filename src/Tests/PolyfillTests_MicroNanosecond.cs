@@ -20,17 +20,17 @@ partial class PolyfillTests
     [Test]
     public async Task Nanoseconds()
     {
-        await Assert.That(dateTimeOffset.Nanosecond()).IsEqualTo(dateTimeOffset.Nanosecond);
-        await Assert.That(timeSpan.Nanoseconds()).IsEqualTo(timeSpan.Nanoseconds);
-        await Assert.That(dateTime.Nanosecond()).IsEqualTo(dateTime.Nanosecond);
+        await Assert.That(dateTimeOffset.Nanosecond).IsEqualTo(dateTimeOffset.Nanosecond);
+        await Assert.That(timeSpan.Nanoseconds).IsEqualTo(timeSpan.Nanoseconds);
+        await Assert.That(dateTime.Nanosecond).IsEqualTo(dateTime.Nanosecond);
     }
 
     [Test]
     public async Task Microsecond()
     {
-        await Assert.That(dateTimeOffset.Microsecond()).IsEqualTo(dateTimeOffset.Microsecond);
-        await Assert.That(timeSpan.Microseconds()).IsEqualTo(timeSpan.Microseconds);
-        await Assert.That(dateTime.Microsecond()).IsEqualTo(dateTime.Microsecond);
+        await Assert.That(dateTimeOffset.Microsecond).IsEqualTo(dateTimeOffset.Microsecond);
+        await Assert.That(timeSpan.Microseconds).IsEqualTo(timeSpan.Microseconds);
+        await Assert.That(dateTime.Microsecond).IsEqualTo(dateTime.Microsecond);
     }
 #endif
 
