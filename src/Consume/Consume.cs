@@ -564,6 +564,54 @@ class Consume
         var special = options.ReturnSpecialDirectories;
     }
 
+#if NETFRAMEWORK || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER) || NETCOREAPP2_0
+    void Directory_Methods_WithEnumerationOptions()
+    {
+        var options = new EnumerationOptions();
+        var files = Polyfill.EnumerateFiles(".", "*", options);
+        var dirs = Polyfill.EnumerateDirectories(".", "*", options);
+        var entries = Polyfill.EnumerateFileSystemEntries(".", "*", options);
+        var filesArray = Polyfill.GetFiles(".", "*", options);
+        var dirsArray = Polyfill.GetDirectories(".", "*", options);
+        var entriesArray = Polyfill.GetFileSystemEntries(".", "*", options);
+    }
+
+    void DirectoryInfo_Methods_WithEnumerationOptions()
+    {
+        var dirInfo = new DirectoryInfo(".");
+        var options = new EnumerationOptions();
+        var files = dirInfo.EnumerateFiles("*", options);
+        var dirs = dirInfo.EnumerateDirectories("*", options);
+        var entries = dirInfo.EnumerateFileSystemInfos("*", options);
+        var filesArray = dirInfo.GetFiles("*", options);
+        var dirsArray = dirInfo.GetDirectories("*", options);
+        var entriesArray = dirInfo.GetFileSystemInfos("*", options);
+    }
+#else
+    void Directory_Methods_WithEnumerationOptions()
+    {
+        var options = new EnumerationOptions();
+        var files = Directory.EnumerateFiles(".", "*", options);
+        var dirs = Directory.EnumerateDirectories(".", "*", options);
+        var entries = Directory.EnumerateFileSystemEntries(".", "*", options);
+        var filesArray = Directory.GetFiles(".", "*", options);
+        var dirsArray = Directory.GetDirectories(".", "*", options);
+        var entriesArray = Directory.GetFileSystemEntries(".", "*", options);
+    }
+
+    void DirectoryInfo_Methods_WithEnumerationOptions()
+    {
+        var dirInfo = new DirectoryInfo(".");
+        var options = new EnumerationOptions();
+        var files = dirInfo.EnumerateFiles("*", options);
+        var dirs = dirInfo.EnumerateDirectories("*", options);
+        var entries = dirInfo.EnumerateFileSystemInfos("*", options);
+        var filesArray = dirInfo.GetFiles("*", options);
+        var dirsArray = dirInfo.GetDirectories("*", options);
+        var entriesArray = dirInfo.GetFileSystemInfos("*", options);
+    }
+#endif
+
     void File_Methods()
     {
         const string TestFilePath = "testfile.txt";
