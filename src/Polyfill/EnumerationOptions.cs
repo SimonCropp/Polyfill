@@ -1,10 +1,3 @@
-#pragma warning disable
-
-// ReSharper disable RedundantUsingDirective
-// ReSharper disable UnusedMember.Global
-
-// EnumerationOptions was added in .NET Core 2.1 and .NET Standard 2.1
-// Only polyfill for .NET Framework, .NET Standard 2.0, and .NET Core 2.0
 #if NETFRAMEWORK || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER) || NETCOREAPP2_0
 
 namespace System.IO;
