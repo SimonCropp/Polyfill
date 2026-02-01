@@ -113,6 +113,9 @@ class Consume
         type = typeof(RequiresUnreferencedCodeAttribute);
         type = typeof(UnreachableException);
         type = typeof(DebuggerDisableUserUnhandledExceptionsAttribute);
+        type = typeof(EnumerationOptions);
+        type = typeof(MatchType);
+        type = typeof(MatchCasing);
 
         var (key, value) = KeyValuePair.Create("a", "b");
 
@@ -540,6 +543,25 @@ class Consume
     {
         var entry = new DictionaryEntry("key", "value");
         var (key, value) = entry;
+    }
+
+    void EnumerationOptions_Methods()
+    {
+        var options = new EnumerationOptions
+        {
+            RecurseSubdirectories = true,
+            BufferSize = 4096,
+            AttributesToSkip = FileAttributes.ReadOnly,
+            MatchType = MatchType.Win32,
+            MatchCasing = MatchCasing.CaseInsensitive,
+            ReturnSpecialDirectories = true
+        };
+        var recurse = options.RecurseSubdirectories;
+        var buffer = options.BufferSize;
+        var attrs = options.AttributesToSkip;
+        var matchType = options.MatchType;
+        var matchCasing = options.MatchCasing;
+        var special = options.ReturnSpecialDirectories;
     }
 
     void File_Methods()
