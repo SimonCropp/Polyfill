@@ -89,7 +89,7 @@ static partial class Polyfill
         var value = enumerator.Current;
         if (value != null)
         {
-            target.Append(value.ToString());
+            target.Append(value);
         }
 
         while (enumerator.MoveNext())
@@ -98,7 +98,7 @@ static partial class Polyfill
             value = enumerator.Current;
             if (value != null)
             {
-                target.Append(value.ToString());
+                target.Append(value);
             }
         }
 
@@ -118,7 +118,7 @@ static partial class Polyfill
         var first = values[0];
         if (first != null)
         {
-            target.Append(first.ToString());
+            target.Append(first);
         }
 
         for (var i = 1; i < values.Length; i++)
@@ -127,7 +127,7 @@ static partial class Polyfill
             var value = values[i];
             if (value != null)
             {
-                target.Append(value.ToString());
+                target.Append(value);
             }
         }
 
@@ -148,7 +148,7 @@ static partial class Polyfill
         T value = enumerator.Current;
         if (value != null)
         {
-            target.Append(value.ToString());
+            target.Append(value);
         }
 
         while (enumerator.MoveNext())
@@ -157,7 +157,7 @@ static partial class Polyfill
             value = enumerator.Current;
             if (value != null)
             {
-                target.Append(value.ToString());
+                target.Append(value);
             }
         }
 
@@ -177,7 +177,7 @@ static partial class Polyfill
         var first = values[0];
         if (first != null)
         {
-            target.Append(first.ToString());
+            target.Append(first);
         }
 
         for (var i = 1; i < values.Length; i++)
@@ -186,7 +186,7 @@ static partial class Polyfill
             var value = values[i];
             if (value != null)
             {
-                target.Append(value.ToString());
+                target.Append(value);
             }
         }
 
