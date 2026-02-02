@@ -40,117 +40,57 @@ static partial class Polyfill
 				UseShellExecute = false,
 				CreateNoWindow = true,
 			};
-			using var process = Process.Start(startInfo);
+			using var process = Process.Start(startInfo)!;
 			process.WaitForExit();
 			var output = process.StandardOutput.ReadToEnd();
 			output = output.Length == 4 ? output : output.Insert(0, "0");
-			UnixFileMode mode;
 			// Digit 1 (out of 4) is for Special permissions
-			switch (output[0])
+			var mode = output[0] switch
 			{
-				case '1':
-					mode = UnixFileMode.StickyBit;
-					break;
-				case '2':
-					mode = UnixFileMode.SetUser;
-					break;
-				case '4':
-					mode = UnixFileMode.SetGroup;
-					break;
-				default:
-					mode = UnixFileMode.None;
-					break;
-			}
+				'1' => UnixFileMode.StickyBit,
+				'2' => UnixFileMode.SetUser,
+				'4' => UnixFileMode.SetGroup,
+				_ => UnixFileMode.None
+			};
 			// Digit 2 (out of 4) for Users
-			switch (output[1])
+			mode = output[1] switch
 			{
-				case '0':
-					mode = mode | UnixFileMode.None;
-					break;
-				case '1':
-					mode = mode | UnixFileMode.UserExecute;
-					break;
-				case '2':
-					mode = mode | UnixFileMode.UserWrite;
-					break;
-				case '3':
-					mode = mode | UnixFileMode.UserExecute | UnixFileMode.UserWrite;
-					break;
-				case '4':
-					mode = mode | UnixFileMode.UserRead;
-					break;
-				case '5':
-					mode = mode | UnixFileMode.UserRead | UnixFileMode.UserExecute;
-					break;
-				case '6':
-					mode = mode | UnixFileMode.UserRead | UnixFileMode.UserWrite;
-					break;
-				case '7':
-					mode = mode | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute;
-					break;
-				default:
-					throw new("Invalid octal notation detected");
-			}
+				'0' => mode | UnixFileMode.None,
+				'1' => mode | UnixFileMode.UserExecute,
+				'2' => mode | UnixFileMode.UserWrite,
+				'3' => mode | UnixFileMode.UserExecute | UnixFileMode.UserWrite,
+				'4' => mode | UnixFileMode.UserRead,
+				'5' => mode | UnixFileMode.UserRead | UnixFileMode.UserExecute,
+				'6' => mode | UnixFileMode.UserRead | UnixFileMode.UserWrite,
+				'7' => mode | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute,
+				_ => throw new("Invalid octal notation detected")
+			};
 			// Digit 3 (out of 4) for Groups
-			switch (output[2])
+			mode = output[2] switch
 			{
-				case '0':
-					mode = mode | UnixFileMode.None;
-					break;
-				case '1':
-					mode = mode | UnixFileMode.GroupExecute;
-					break;
-				case '2':
-					mode = mode | UnixFileMode.GroupWrite;
-					break;
-				case '3':
-					mode = mode | UnixFileMode.GroupExecute | UnixFileMode.GroupWrite;
-					break;
-				case '4':
-					mode = mode | UnixFileMode.GroupRead;
-					break;
-				case '5':
-					mode = mode | UnixFileMode.GroupRead | UnixFileMode.GroupExecute;
-					break;
-				case '6':
-					mode = mode | UnixFileMode.GroupRead | UnixFileMode.GroupWrite;
-					break;
-				case '7':
-					mode = mode | UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute;
-					break;
-				default:
-					throw new("Invalid octal notation detected");
-			}
+				'0' => mode | UnixFileMode.None,
+				'1' => mode | UnixFileMode.GroupExecute,
+				'2' => mode | UnixFileMode.GroupWrite,
+				'3' => mode | UnixFileMode.GroupExecute | UnixFileMode.GroupWrite,
+				'4' => mode | UnixFileMode.GroupRead,
+				'5' => mode | UnixFileMode.GroupRead | UnixFileMode.GroupExecute,
+				'6' => mode | UnixFileMode.GroupRead | UnixFileMode.GroupWrite,
+				'7' => mode | UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute,
+				_ => throw new("Invalid octal notation detected")
+			};
 			// Digit 4 (out of 4) for Others
-			switch (output[3])
+			mode = output[3] switch
 			{
-				case '0':
-					mode = mode | UnixFileMode.None;
-					break;
-				case '1':
-					mode = mode | UnixFileMode.OtherExecute;
-					break;
-				case '2':
-					mode = mode | UnixFileMode.OtherWrite;
-					break;
-				case '3':
-					mode = mode | UnixFileMode.OtherExecute | UnixFileMode.OtherWrite;
-					break;
-				case '4':
-					mode = mode | UnixFileMode.OtherRead;
-					break;
-				case '5':
-					mode = mode | UnixFileMode.OtherRead | UnixFileMode.OtherExecute;
-					break;
-				case '6':
-					mode = mode | UnixFileMode.OtherRead | UnixFileMode.OtherWrite;
-					break;
-				case '7':
-					mode = mode | UnixFileMode.OtherRead | UnixFileMode.OtherWrite | UnixFileMode.OtherExecute;
-					break;
-				default:
-					throw new("Invalid octal notation detected");
-			}
+				'0' => mode | UnixFileMode.None,
+				'1' => mode | UnixFileMode.OtherExecute,
+				'2' => mode | UnixFileMode.OtherWrite,
+				'3' => mode | UnixFileMode.OtherExecute | UnixFileMode.OtherWrite,
+				'4' => mode | UnixFileMode.OtherRead,
+				'5' => mode | UnixFileMode.OtherRead | UnixFileMode.OtherExecute,
+				'6' => mode | UnixFileMode.OtherRead | UnixFileMode.OtherWrite,
+				'7' => mode | UnixFileMode.OtherRead | UnixFileMode.OtherWrite | UnixFileMode.OtherExecute,
+				_ => throw new("Invalid octal notation detected")
+			};
 			return mode;
 		}
 		/// <summary>
@@ -196,40 +136,40 @@ static partial class Polyfill
 					case "none":
 						break;
 					case "userread":
-						octal[1] = octal[1] + 4;
+						octal[1] += 4;
 						break;
 					case "userwrite":
-						octal[1] = octal[1] + 2;
+						octal[1] += 2;
 						break;
 					case "userexecute":
-						octal[1] = octal[1] + 1;
+						octal[1] += 1;
 						break;
 					case "groupread":
-						octal[2] = octal[2] + 4;
+						octal[2] += 4;
 						break;
 					case "groupwrite":
-						octal[2] = octal[2] + 2;
+						octal[2] += 2;
 						break;
 					case "groupexecute":
-						octal[2] = octal[2] + 1;
+						octal[2] += 1;
 						break;
 					case "otherread":
-						octal[3] = octal[3] + 4;
+						octal[3] += 4;
 						break;
 					case "otherwrite":
-						octal[3] = octal[3] + 2;
+						octal[3] += 2;
 						break;
 					case "otherexecute":
-						octal[3] = octal[3] + 1;
+						octal[3] += 1;
 						break;
 					case "setuser":
-						octal[0] = octal[0] + 2;
+						octal[0] += 2;
 						break;
 					case "stickybit":
-						octal[0] = octal[0] + 1;
+						octal[0] += 1;
 						break;
 					case "setgroup":
-						octal[0] = octal[0] + 4;
+						octal[0] += 4;
 						break;
 					default:
 						throw new("Invalid notation detected");

@@ -54,11 +54,8 @@ ref struct DefaultInterpolatedStringHandler
 		_pos = 0;
 		_hasCustomFormatter = provider is not null && HasCustomFormatter(provider);
 	}
-	/// <summary>Derives a default length with which to seed the handler.</summary>
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	internal static int GetDefaultLength(int literalLength, int formattedCount) =>
 		Math.Max(MinimumArrayPoolLength, literalLength + (formattedCount * GuessedLengthPerHole));
-	/// <summary>Gets the built <see cref="string"/>.</summary>
 	public override string ToString() => Text.ToString();
 	/// <summary>Gets the built <see cref="string"/> and clears the handler.</summary>
 	public string ToStringAndClear()
@@ -67,7 +64,6 @@ ref struct DefaultInterpolatedStringHandler
 		Clear();
 		return result;
 	}
-	/// <summary>Clears the handler.</summary>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public void Clear()
 	{
@@ -232,7 +228,6 @@ ref struct DefaultInterpolatedStringHandler
 	/// <summary>Writes the specified value to the handler.</summary>
 	public void AppendFormatted(string? value)
 	{
-		// Fast-path for no custom formatter and a non-null string that fits in the current destination buffer.
 		if (!_hasCustomFormatter &&
 			value is not null &&
 			value.TryCopyTo(_chars.Slice(_pos)))

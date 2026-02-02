@@ -30,33 +30,22 @@ public class AssemblySizeTest
 #endif
     public void MeasureAssemblySizes()
     {
-        var tempDir = Path.Combine(Path.GetTempPath(), $"PolyfillSizeTest_{Guid.NewGuid():N}");
-        Directory.CreateDirectory(tempDir);
+        using var tempDir = new TempDirectory();
 
-        try
-        {
-            Console.WriteLine("Building variants...");
-            var (sizes, sourceSizes) = MeasureAllVariants(tempDir);
-            var results = ConvertToSizeResults(sizes);
+        var (sizes, sourceSizes) = MeasureAllVariants(tempDir);
+        var results = ConvertToSizeResults(sizes);
 
-            // Compute EmbedUntrackedSources results by adding source file sizes
-            var resultsWithEmbed = ConvertToSizeResultsWithEmbed(sizes, sourceSizes);
+        // Compute EmbedUntrackedSources results by adding source file sizes
+        var resultsWithEmbed = ConvertToSizeResultsWithEmbed(sizes, sourceSizes);
 
-            // Generate markdown
-            var mdPath = Path.Combine(ProjectFiles.SolutionDirectory, "..", "assemblySize.include.md");
-            using var writer = File.CreateText(mdPath);
+        // Generate markdown
+        var mdPath = Path.Combine(ProjectFiles.SolutionDirectory, "..", "assemblySize.include.md");
+        using var writer = File.CreateText(mdPath);
 
-            WriteTable(writer, results, "Assembly Sizes");
-            writer.WriteLine();
-            writer.WriteLine();
-            WriteTable(writer, resultsWithEmbed, "Assembly Sizes with EmbedUntrackedSources");
-
-            Console.WriteLine($"Results written to {mdPath}");
-        }
-        finally
-        {
-            Directory.Delete(tempDir, recursive: true);
-        }
+        WriteTable(writer, results, "Assembly Sizes");
+        writer.WriteLine();
+        writer.WriteLine();
+        WriteTable(writer, resultsWithEmbed, "Assembly Sizes with EmbedUntrackedSources");
     }
 
     static (Dictionary<string, Dictionary<string, long>> assemblySizes, Dictionary<string, Dictionary<string, long>> sourceSizes) MeasureAllVariants(string baseDir)
@@ -318,11 +307,11 @@ public class AssemblySizeTest
     {
         if (bytes < 1024)
         {
-            return string.Create(CultureInfo.InvariantCulture, $"{bytes:N0} bytes");
+            return string.Create(CultureInfo.InvariantCulture, $"{bytes:N0}bytes");
         }
 
         var kb = bytes / 1024.0;
-        return string.Create(CultureInfo.InvariantCulture, $"{kb:N1} KB");
+        return string.Create(CultureInfo.InvariantCulture, $"{kb:N1}KB");
     }
 
     static string FormatSizeDiff(long bytes)
