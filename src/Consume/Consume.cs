@@ -564,7 +564,7 @@ class Consume
         var special = options.ReturnSpecialDirectories;
     }
 
-#if NETFRAMEWORK || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER) || NETCOREAPP2_0
+#if NETFRAMEWORK || NETSTANDARD && !NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0
     void Directory_Methods_WithEnumerationOptions()
     {
         var options = new EnumerationOptions();
@@ -658,9 +658,9 @@ class Consume
     {
         using var client = new TcpClient();
         await client.ConnectAsync(IPAddress.Loopback, 12345, CancellationToken.None);
-        await client.ConnectAsync(new[] { IPAddress.Loopback }, 12345, CancellationToken.None);
+        await client.ConnectAsync([IPAddress.Loopback], 12345, CancellationToken.None);
         await client.ConnectAsync("localhost", 12345, CancellationToken.None);
-        await client.ConnectAsync(new IPEndPoint(IPAddress.Loopback, 12345), CancellationToken.None);
+        await client.ConnectAsync(new(IPAddress.Loopback, 12345), CancellationToken.None);
     }
 
     async Task UdpClient_Methods()
@@ -668,10 +668,10 @@ class Consume
         using var client = new UdpClient(0);
         await client.ReceiveAsync(CancellationToken.None);
 #if FeatureMemory
-        var data = new ReadOnlyMemory<byte>(new byte[] { 1, 2, 3 });
+        var data = new ReadOnlyMemory<byte>([1, 2, 3]);
         using var connectedClient = new UdpClient("localhost", 12345);
         await connectedClient.SendAsync(data, CancellationToken.None);
-        await client.SendAsync(data, new IPEndPoint(IPAddress.Loopback, 12345), CancellationToken.None);
+        await client.SendAsync(data, new(IPAddress.Loopback, 12345), CancellationToken.None);
         await client.SendAsync(data, "localhost", 12345, CancellationToken.None);
 #endif
     }
