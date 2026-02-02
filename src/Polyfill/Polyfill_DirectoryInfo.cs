@@ -1,7 +1,3 @@
-// ReSharper disable RedundantUsingDirective
-// ReSharper disable UnusedMember.Global
-
-// DirectoryInfo methods with EnumerationOptions were added in .NET Core 2.1
 #if NETFRAMEWORK || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER) || NETCOREAPP2_0
 
 namespace Polyfills;
