@@ -37,21 +37,19 @@ static partial class Polyfill
 			if (hexString.Length % 2 != 0)
 				throw new FormatException("Hex string must have an even length.");
 			var result = new byte[hexString.Length / 2];
-			for (int i = 0; i < result.Length; i++)
+			for (var i = 0; i < result.Length; i++)
 			{
-				result[i] = (byte) ((GetHexValue(hexString[i * 2]) << 4) + GetHexValue(hexString[i * 2 + 1]));
+				result[i] = (byte)((GetHexValue(hexString[i * 2]) << 4) + GetHexValue(hexString[i * 2 + 1]));
 			}
 			return result;
-			static int GetHexValue(char hex)
-			{
-				return hex switch
+			static int GetHexValue(char hex) =>
+				hex switch
 				{
 					>= '0' and <= '9' => hex - '0',
 					>= 'A' and <= 'F' => hex - 'A' + 10,
 					>= 'a' and <= 'f' => hex - 'a' + 10,
 					_ => throw new FormatException($"Invalid hex character: {hex}")
 				};
-			}
 		}
 #if FeatureMemory
 		/// <summary>
@@ -106,11 +104,11 @@ static partial class Polyfill
 				throw new ArgumentOutOfRangeException(nameof(length));
 			if (offset < 0)
 				throw new ArgumentOutOfRangeException(nameof(offset));
-			if (offset > (inArray.Length - length))
+			if (offset > inArray.Length - length)
 				throw new ArgumentOutOfRangeException(nameof(offset));
 			var builder = new StringBuilder(length * 2);
 			var end = length + offset;
-			for (int i = offset; i < end; i++)
+			for (var i = offset; i < end; i++)
 			{
 				var item = inArray[i];
 				builder.Append(item.ToString(format));

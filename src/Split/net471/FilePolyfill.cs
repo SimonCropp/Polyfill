@@ -249,7 +249,7 @@ static partial class Polyfill
 		static StreamReader AsyncStreamReader(string path, Encoding encoding)
 		{
 			var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, FileOptions.Asynchronous | FileOptions.SequentialScan);
-			return new StreamReader(stream, encoding, detectEncodingFromByteOrderMarks: true);
+			return new(stream, encoding, detectEncodingFromByteOrderMarks: true);
 		}
 #if FeatureAsyncInterfaces
 		/// <summary>

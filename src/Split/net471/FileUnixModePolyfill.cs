@@ -33,7 +33,7 @@ static partial class Polyfill
 			{
 				throw new ArgumentException("path is a zero-length string, or contains one or more invalid characters. Query for invalid characters by using the GetInvalidPathChars() method.");
 			}
-			var startInfo = new ProcessStartInfo()
+			var startInfo = new ProcessStartInfo
 			{
 				FileName = "stat",
 				Arguments = $"-c %a {Path.GetFullPath(path)}",
@@ -91,7 +91,7 @@ static partial class Polyfill
 					mode = mode | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute;
 					break;
 				default:
-					throw new Exception("Invalid octal notation detected");
+					throw new("Invalid octal notation detected");
 			}
 			// Digit 3 (out of 4) for Groups
 			switch (output[2])
@@ -121,7 +121,7 @@ static partial class Polyfill
 					mode = mode | UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute;
 					break;
 				default:
-					throw new Exception("Invalid octal notation detected");
+					throw new("Invalid octal notation detected");
 			}
 			// Digit 4 (out of 4) for Others
 			switch (output[3])
@@ -151,7 +151,7 @@ static partial class Polyfill
 					mode = mode | UnixFileMode.OtherRead | UnixFileMode.OtherWrite | UnixFileMode.OtherExecute;
 					break;
 				default:
-					throw new Exception("Invalid octal notation detected");
+					throw new("Invalid octal notation detected");
 			}
 			return mode;
 		}
@@ -185,7 +185,7 @@ static partial class Polyfill
 				0,
 				0
 			};
-			string[] fileModeStrings = mode.ToString()
+			var fileModeStrings = mode.ToString()
 				.Replace("UnixFileMode.", "")
 				.Replace(",", string.Empty)
 				.Replace(Environment.NewLine, string.Empty)
@@ -234,10 +234,10 @@ static partial class Polyfill
 						octal[0] = octal[0] + 4;
 						break;
 					default:
-						throw new Exception("Invalid notation detected");
+						throw new("Invalid notation detected");
 				}
 			}
-			var startInfo = new ProcessStartInfo()
+			var startInfo = new ProcessStartInfo
 			{
 				FileName = "chmod",
 				Arguments = $"{string.Concat(octal)} {Path.GetFullPath(path)}",
@@ -246,7 +246,7 @@ static partial class Polyfill
 				UseShellExecute = false,
 				CreateNoWindow = true,
 			};
-			using var process = Process.Start(startInfo);
+			using var process = Process.Start(startInfo)!;
 			process.WaitForExit();
 		}
 	}

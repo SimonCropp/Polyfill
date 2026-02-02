@@ -61,11 +61,11 @@ static partial class Polyfill
 				throw new ArgumentOutOfRangeException(nameof(length));
 			if (offset < 0)
 				throw new ArgumentOutOfRangeException(nameof(offset));
-			if (offset > (inArray.Length - length))
+			if (offset > inArray.Length - length)
 				throw new ArgumentOutOfRangeException(nameof(offset));
 			var builder = new StringBuilder(length * 2);
 			var end = length + offset;
-			for (int i = offset; i < end; i++)
+			for (var i = offset; i < end; i++)
 			{
 				var item = inArray[i];
 				builder.Append(item.ToString(format));
