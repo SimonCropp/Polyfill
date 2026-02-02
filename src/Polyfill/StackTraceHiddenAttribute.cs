@@ -6,8 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using Targets = AttributeTargets;
 
 /// <summary>
-/// Types and Methods attributed with StackTraceHidden will be omitted from the stack trace text shown in StackTrace.ToString()
-/// and Exception.StackTrace
+/// Types and Methods attributed with StackTraceHidden will be omitted from the stack trace text shown in StackTrace.ToString() and Exception.StackTrace
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]

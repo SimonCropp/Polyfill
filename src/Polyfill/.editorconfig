@@ -2,3 +2,6 @@ root = false
 
 [*.cs]
 resharper_redundant_using_directive_highlighting = warning
+resharper_swap_via_deconstruction_highlighting = none
+resharper_replace_slice_with_range_indexer_highlighting = none
+resharper_redundant_name_qualifier_highlighting = warning

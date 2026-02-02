@@ -3,6 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <NuSpecFile>Polyfill.nuspec</NuSpecFile>
     <Description>Source only packages that exposes newer .net and C# features to older runtimes.</Description>
+    <NoWarn>$(NoWarn);IDE0180</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
