@@ -19,6 +19,7 @@ partial class PolyfillTests
             {
                 a[i] = 10 * (i + 1);
             }
+
             var span = new ReadOnlySpan<int>(a);
 
             for (var targetIndex = 0; targetIndex < length; targetIndex++)
@@ -26,9 +27,12 @@ partial class PolyfillTests
                 var target = a[targetIndex];
                 var found = span.Contains(target);
                 if (!found)
-                    throw new Exception($"Expected to find {target} in span");
+                {
+                    throw new($"Expected to find {target} in span");
+                }
             }
         }
+
         return Task.CompletedTask;
     }
 
@@ -49,8 +53,11 @@ partial class PolyfillTests
             var span = new ReadOnlySpan<int>(a);
             var found = span.Contains(5555);
             if (!found)
-                throw new Exception("Expected to find 5555 in span");
+            {
+                throw new("Expected to find 5555 in span");
+            }
         }
+
         return Task.CompletedTask;
     }
 
@@ -97,9 +104,12 @@ partial class PolyfillTests
                 var target = a[targetIndex];
                 var found = span.Contains(target);
                 if (!found)
-                    throw new Exception($"Expected to find {target} in span");
+                {
+                    throw new($"Expected to find {target} in span");
+                }
             }
         }
+
         return Task.CompletedTask;
     }
 
@@ -116,12 +126,16 @@ partial class PolyfillTests
                 var val = (i + 1).ToString();
                 a[i] = val == target ? target + 1 : val;
             }
+
             var span = new ReadOnlySpan<string>(a);
 
             var found = span.Contains(target);
             if (found)
-                throw new Exception($"Expected not to find {target} in span");
+            {
+                throw new($"Expected not to find {target} in span");
+            }
         }
+
         return Task.CompletedTask;
     }
 
@@ -142,8 +156,11 @@ partial class PolyfillTests
             var span = new ReadOnlySpan<string>(a);
             var found = span.Contains("5555");
             if (!found)
-                throw new Exception("Expected to find '5555' in span");
+            {
+                throw new("Expected to find '5555' in span");
+            }
         }
+
         return Task.CompletedTask;
     }
 
@@ -166,6 +183,7 @@ partial class PolyfillTests
             {
                 a[i] = 10 * (i + 1);
             }
+
             var span = new Span<int>(a);
 
             for (var targetIndex = 0; targetIndex < length; targetIndex++)
@@ -173,9 +191,12 @@ partial class PolyfillTests
                 var target = a[targetIndex];
                 var found = span.Contains(target);
                 if (!found)
-                    throw new Exception($"Expected to find {target} in span");
+                {
+                    throw new($"Expected to find {target} in span");
+                }
             }
         }
+
         return Task.CompletedTask;
     }
 
@@ -196,8 +217,11 @@ partial class PolyfillTests
             var span = new Span<int>(a);
             var found = span.Contains(5555);
             if (!found)
-                throw new Exception("Expected to find 5555 in span");
+            {
+                throw new("Expected to find 5555 in span");
+            }
         }
+
         return Task.CompletedTask;
     }
 
@@ -219,6 +243,7 @@ partial class PolyfillTests
             {
                 a[i] = (10 * (i + 1)).ToString();
             }
+
             var span = new Span<string>(a);
 
             for (var targetIndex = 0; targetIndex < length; targetIndex++)
@@ -226,9 +251,12 @@ partial class PolyfillTests
                 var target = a[targetIndex];
                 var found = span.Contains(target);
                 if (!found)
-                    throw new Exception($"Expected to find {target} in span");
+                {
+                    throw new($"Expected to find {target} in span");
+                }
             }
         }
+
         return Task.CompletedTask;
     }
 
@@ -245,12 +273,16 @@ partial class PolyfillTests
                 var val = (i + 1).ToString();
                 a[i] = val == target ? target + 1 : val;
             }
+
             var span = new Span<string>(a);
 
             var found = span.Contains(target);
             if (found)
-                throw new Exception($"Expected not to find {target} in span");
+            {
+                throw new($"Expected not to find {target} in span");
+            }
         }
+
         return Task.CompletedTask;
     }
 
@@ -271,27 +303,48 @@ partial class PolyfillTests
             var span = new Span<string>(a);
             var found = span.Contains("5555");
             if (!found)
-                throw new Exception("Expected to find '5555' in span");
+            {
+                throw new("Expected to find '5555' in span");
+            }
         }
+
         return Task.CompletedTask;
     }
 
     [Test]
     public Task Span_SequenceEqual()
     {
-        if (!"value".AsSpan().SequenceEqual("value"))
-            throw new Exception("Expected SequenceEqual to be true");
-        if ("value".AsSpan().SequenceEqual("value2"))
-            throw new Exception("Expected SequenceEqual to be false");
-        if ("value".AsSpan().SequenceEqual("v"))
-            throw new Exception("Expected SequenceEqual to be false");
+        if (!("value".AsSpan() is "value"))
+        {
+            throw new("Expected SequenceEqual to be true");
+        }
+
+        if ("value".AsSpan() is "value2")
+        {
+            throw new("Expected SequenceEqual to be false");
+        }
+
+        if ("value".AsSpan() is "v")
+        {
+            throw new("Expected SequenceEqual to be false");
+        }
+
         var span = new Span<char>("value".ToCharArray());
-        if (!span.SequenceEqual("value"))
-            throw new Exception("Expected SequenceEqual to be true");
-        if (span.SequenceEqual("value2"))
-            throw new Exception("Expected SequenceEqual to be false");
-        if (span.SequenceEqual("v"))
-            throw new Exception("Expected SequenceEqual to be false");
+        if (!(span is "value"))
+        {
+            throw new("Expected SequenceEqual to be true");
+        }
+
+        if (span is "value2")
+        {
+            throw new("Expected SequenceEqual to be false");
+        }
+
+        if (span is "v")
+        {
+            throw new("Expected SequenceEqual to be false");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -299,24 +352,51 @@ partial class PolyfillTests
     public Task Span_StartsWith()
     {
         if (!"value".AsSpan().StartsWith("value"))
-            throw new Exception("Expected StartsWith to be true");
+        {
+            throw new("Expected StartsWith to be true");
+        }
+
         if ("value".AsSpan().StartsWith("value2"))
-            throw new Exception("Expected StartsWith to be false");
+        {
+            throw new("Expected StartsWith to be false");
+        }
+
         if (!"value".AsSpan().StartsWith("v"))
-            throw new Exception("Expected StartsWith to be true");
+        {
+            throw new("Expected StartsWith to be true");
+        }
+
         if (!"value".AsSpan().StartsWith('v'))
-            throw new Exception("Expected StartsWith char to be true");
+        {
+            throw new("Expected StartsWith char to be true");
+        }
+
         var span = new Span<char>("value".ToCharArray());
         if (!span.StartsWith("value"))
-            throw new Exception("Expected StartsWith to be true");
+        {
+            throw new("Expected StartsWith to be true");
+        }
+
         if (!span.StartsWith('v'))
-            throw new Exception("Expected StartsWith char to be true");
+        {
+            throw new("Expected StartsWith char to be true");
+        }
+
         if (span.StartsWith('a'))
-            throw new Exception("Expected StartsWith char to be false");
+        {
+            throw new("Expected StartsWith char to be false");
+        }
+
         if (span.StartsWith("value2"))
-            throw new Exception("Expected StartsWith to be false");
+        {
+            throw new("Expected StartsWith to be false");
+        }
+
         if (!span.StartsWith("val"))
-            throw new Exception("Expected StartsWith to be true");
+        {
+            throw new("Expected StartsWith to be true");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -324,24 +404,51 @@ partial class PolyfillTests
     public Task Span_EndsWith()
     {
         if (!"value".AsSpan().EndsWith("value"))
-            throw new Exception("Expected EndsWith to be true");
+        {
+            throw new("Expected EndsWith to be true");
+        }
+
         if ("value".AsSpan().EndsWith("value2"))
-            throw new Exception("Expected EndsWith to be false");
+        {
+            throw new("Expected EndsWith to be false");
+        }
+
         if (!"value".AsSpan().EndsWith("e"))
-            throw new Exception("Expected EndsWith to be true");
+        {
+            throw new("Expected EndsWith to be true");
+        }
+
         if (!"value".AsSpan().EndsWith('e'))
-            throw new Exception("Expected EndsWith char to be true");
+        {
+            throw new("Expected EndsWith char to be true");
+        }
+
         var span = new Span<char>("value".ToCharArray());
         if (!span.EndsWith("value"))
-            throw new Exception("Expected EndsWith to be true");
+        {
+            throw new("Expected EndsWith to be true");
+        }
+
         if (span.EndsWith("value2"))
-            throw new Exception("Expected EndsWith to be false");
+        {
+            throw new("Expected EndsWith to be false");
+        }
+
         if (!span.EndsWith("lue"))
-            throw new Exception("Expected EndsWith to be true");
+        {
+            throw new("Expected EndsWith to be true");
+        }
+
         if (!span.EndsWith('e'))
-            throw new Exception("Expected EndsWith char to be true");
+        {
+            throw new("Expected EndsWith char to be true");
+        }
+
         if (span.EndsWith('w'))
-            throw new Exception("Expected EndsWith char to be false");
+        {
+            throw new("Expected EndsWith char to be false");
+        }
+
         return Task.CompletedTask;
     }
 

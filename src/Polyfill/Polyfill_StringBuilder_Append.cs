@@ -34,7 +34,7 @@ static partial class Polyfill
 
 #endif
 
-#if FeatureMemory && (!NETSTANDARD2_1_OR_GREATER && !NETCOREAPP2_1_OR_GREATER)
+#if FeatureMemory && !NETSTANDARD2_1_OR_GREATER && !NETCOREAPP2_1_OR_GREATER
 
     /// <summary>
     /// Appends the string representation of a specified read-only character span to this instance.

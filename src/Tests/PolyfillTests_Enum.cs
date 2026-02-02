@@ -56,7 +56,12 @@ partial class PolyfillTests
         await Assert.That(result).IsTrue();
     }
 
-    enum Colors { Red, Green, Blue }
+    enum Colors
+    {
+        Red,
+        Green,
+        Blue
+    }
 
     [Test]
     public Task EnumTryFormat_ValidValue()
@@ -64,9 +69,15 @@ partial class PolyfillTests
         Span<char> buffer = stackalloc char[10];
         var result = Enum.TryFormat(Colors.Green, buffer, out var charsWritten);
         if (!result)
-            throw new Exception("Expected result to be true");
+        {
+            throw new("Expected result to be true");
+        }
+
         if (buffer[..charsWritten].ToString() != "Green")
-            throw new Exception($"Expected 'Green' but got '{buffer[..charsWritten].ToString()}'");
+        {
+            throw new($"Expected 'Green' but got '{buffer[..charsWritten].ToString()}'");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -76,9 +87,15 @@ partial class PolyfillTests
         Span<char> buffer = stackalloc char[3];
         var result = Enum.TryFormat(Colors.Blue, buffer, out var charsWritten);
         if (result)
-            throw new Exception("Expected result to be false");
+        {
+            throw new("Expected result to be false");
+        }
+
         if (charsWritten != 0)
-            throw new Exception($"Expected 0 but got {charsWritten}");
+        {
+            throw new($"Expected 0 but got {charsWritten}");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -88,9 +105,13 @@ partial class PolyfillTests
         Span<char> buffer = stackalloc char[10];
         var result = Enum.TryFormat(Colors.Red, buffer, out var charsWritten, "G");
         if (!result)
-            throw new Exception("Expected result to be true");
+        {
+            throw new("Expected result to be true");
+        }
         if (buffer[..charsWritten].ToString() != "Red")
-            throw new Exception($"Expected 'Red' but got '{buffer[..charsWritten].ToString()}'");
+        {
+            throw new($"Expected 'Red' but got '{buffer[..charsWritten].ToString()}'");
+        }
         return Task.CompletedTask;
     }
 

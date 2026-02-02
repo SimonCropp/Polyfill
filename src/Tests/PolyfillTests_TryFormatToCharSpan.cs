@@ -3,11 +3,19 @@ partial class PolyfillTests
     static void AssertCharSpanFormat(bool result, bool expectedResult, Span<char> buffer, string expectedString, int written, int expectedWritten)
     {
         if (result != expectedResult)
-            throw new Exception($"Expected result {expectedResult} but got {result}");
+        {
+            throw new($"Expected result {expectedResult} but got {result}");
+        }
+
         if (buffer.ToString() != expectedString)
-            throw new Exception($"Expected '{expectedString}' but got '{buffer.ToString()}'");
+        {
+            throw new($"Expected '{expectedString}' but got '{buffer.ToString()}'");
+        }
+
         if (written != expectedWritten)
-            throw new Exception($"Expected written {expectedWritten} but got {written}");
+        {
+            throw new($"Expected written {expectedWritten} but got {written}");
+        }
     }
 
     [Test]

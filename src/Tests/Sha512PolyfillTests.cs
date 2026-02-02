@@ -76,9 +76,15 @@ public class Sha512PolyfillTests
         var length = SHA512.HashData(stream, destination);
 
         if (length != expected.Length)
-            throw new Exception($"Expected length {expected.Length} but got {length}");
+        {
+            throw new($"Expected length {expected.Length} but got {length}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -90,9 +96,15 @@ public class Sha512PolyfillTests
         var length = SHA512.HashData(data, destination);
 
         if (length != expected.Length)
-            throw new Exception($"Expected length {expected.Length} but got {length}");
+        {
+            throw new($"Expected length {expected.Length} but got {length}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -132,11 +144,20 @@ public class Sha512PolyfillTests
         var result = SHA512.TryHashData(data, destination, out var bytesWritten);
 
         if (!result)
-            throw new Exception("Expected true");
+        {
+            throw new("Expected true");
+        }
+
         if (bytesWritten != expected.Length)
-            throw new Exception($"Expected bytesWritten {expected.Length} but got {bytesWritten}");
+        {
+            throw new($"Expected bytesWritten {expected.Length} but got {bytesWritten}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -148,9 +169,15 @@ public class Sha512PolyfillTests
         var result = SHA512.TryHashData(data, destination, out var bytesWritten);
 
         if (result)
-            throw new Exception("Expected false");
+        {
+            throw new("Expected false");
+        }
+
         if (bytesWritten != 0)
-            throw new Exception($"Expected bytesWritten 0 but got {bytesWritten}");
+        {
+            throw new($"Expected bytesWritten 0 but got {bytesWritten}");
+        }
+
         return Task.CompletedTask;
     }
 #endif

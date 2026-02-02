@@ -8,7 +8,7 @@ public class ConvertPolyfillTests
         await Assert.That(result).IsEqualTo("0FA35C");
         result = Convert.ToHexString(input);
         await Assert.That(result).IsEqualTo("0FA35C");
-#if  FeatureMemory
+#if FeatureMemory
         result = Convert.ToHexString(input.AsSpan());
         await Assert.That(result).IsEqualTo("0FA35C");
 #endif
@@ -51,7 +51,7 @@ public class ConvertPolyfillTests
         await Assert.That(result).IsEqualTo("0FA35C");
         result = Convert.ToHexStringLower(input);
         await Assert.That(result).IsEqualTo("0fa35c");
-#if  FeatureMemory
+#if FeatureMemory
         result = Convert.ToHexStringLower(input.AsSpan());
         await Assert.That(result).IsEqualTo("0fa35c");
 #endif
@@ -95,11 +95,17 @@ public class ConvertPolyfillTests
         Span<char> destination = stackalloc char[6];
         var result = Convert.TryToHexString(source, destination, out var charsWritten);
         if (!result)
-            throw new Exception("Expected true");
+            throw new("Expected true");
         if (charsWritten != 6)
-            throw new Exception($"Expected charsWritten 6 but got {charsWritten}");
+        {
+            throw new($"Expected charsWritten 6 but got {charsWritten}");
+        }
+
         if (destination.Slice(0, charsWritten).ToString() != "0FA35C")
-            throw new Exception("Expected 0FA35C");
+        {
+            throw new("Expected 0FA35C");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -110,7 +116,7 @@ public class ConvertPolyfillTests
         Span<char> destination = stackalloc char[4];
         var result = Convert.TryToHexString(source, destination, out var charsWritten);
         if (result)
-            throw new Exception("Expected false");
+            throw new("Expected false");
         if (charsWritten != 0)
             throw new Exception($"Expected charsWritten 0 but got {charsWritten}");
         return Task.CompletedTask;
@@ -123,9 +129,9 @@ public class ConvertPolyfillTests
         Span<char> destination = [];
         var result = Convert.TryToHexString(source, destination, out var charsWritten);
         if (!result)
-            throw new Exception("Expected true");
+            throw new("Expected true");
         if (charsWritten != 0)
-            throw new Exception($"Expected charsWritten 0 but got {charsWritten}");
+            throw new($"Expected charsWritten 0 but got {charsWritten}");
         return Task.CompletedTask;
     }
 
@@ -136,11 +142,11 @@ public class ConvertPolyfillTests
         Span<char> destination = stackalloc char[6];
         var result = Convert.TryToHexStringLower(source, destination, out var charsWritten);
         if (!result)
-            throw new Exception("Expected true");
+            throw new("Expected true");
         if (charsWritten != 6)
-            throw new Exception($"Expected charsWritten 6 but got {charsWritten}");
+            throw new($"Expected charsWritten 6 but got {charsWritten}");
         if (destination.Slice(0, charsWritten).ToString() != "0fa35c")
-            throw new Exception("Expected 0fa35c");
+            throw new("Expected 0fa35c");
         return Task.CompletedTask;
     }
 
@@ -151,9 +157,9 @@ public class ConvertPolyfillTests
         Span<char> destination = stackalloc char[4];
         var result = Convert.TryToHexStringLower(source, destination, out var charsWritten);
         if (result)
-            throw new Exception("Expected false");
+            throw new("Expected false");
         if (charsWritten != 0)
-            throw new Exception($"Expected charsWritten 0 but got {charsWritten}");
+            throw new($"Expected charsWritten 0 but got {charsWritten}");
         return Task.CompletedTask;
     }
 
@@ -164,9 +170,9 @@ public class ConvertPolyfillTests
         Span<char> destination = [];
         var result = Convert.TryToHexStringLower(source, destination, out var charsWritten);
         if (!result)
-            throw new Exception("Expected true");
+            throw new("Expected true");
         if (charsWritten != 0)
-            throw new Exception($"Expected charsWritten 0 but got {charsWritten}");
+            throw new($"Expected charsWritten 0 but got {charsWritten}");
         return Task.CompletedTask;
     }
 
@@ -177,7 +183,12 @@ public class ConvertPolyfillTests
     {
         var hexString = "0FA35C";
         var result = Convert.FromHexString(hexString);
-        await Assert.That(result.SequenceEqual(new byte[] { 0x0F, 0xA3, 0x5C })).IsTrue();
+        await Assert.That(result.SequenceEqual(new byte[]
+        {
+            0x0F,
+            0xA3,
+            0x5C
+        })).IsTrue();
     }
 
     [Test]
@@ -207,6 +218,11 @@ public class ConvertPolyfillTests
     {
         var hexString = "0fa35c";
         var result = Convert.FromHexString(hexString);
-        await Assert.That(result.SequenceEqual(new byte[] { 0x0F, 0xA3, 0x5C })).IsTrue();
+        await Assert.That(result.SequenceEqual(new byte[]
+        {
+            0x0F,
+            0xA3,
+            0x5C
+        })).IsTrue();
     }
 }

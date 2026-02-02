@@ -10,7 +10,7 @@ partial class PolyfillTests
 
         source.CopyTo(dest);
 
-        await Assert.That(destArr.SequenceEqual(new[] { 2, 3 })).IsTrue();
+        await Assert.That(destArr.SequenceEqual([2, 3])).IsTrue();
     }
 
     [Test]
@@ -32,7 +32,7 @@ partial class PolyfillTests
 
         source.CopyTo(dest, 1);
 
-        await Assert.That(dest.SequenceEqual(new[] { '\0', 'y', 'z', '\0' })).IsTrue();
+        await Assert.That(dest.SequenceEqual(['\0', 'y', 'z', '\0'])).IsTrue();
     }
 
     [Test]
@@ -63,7 +63,7 @@ partial class PolyfillTests
             result.Add(enumerator.Current);
         }
 
-        await Assert.That(result.SequenceEqual(new[] { 2, 3 })).IsTrue();
+        await Assert.That(result.SequenceEqual([2, 3])).IsTrue();
     }
 
     [Test]

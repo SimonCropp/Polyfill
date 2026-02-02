@@ -260,10 +260,10 @@ partial class PolyfillTests
 
         var chunks = enumerable.Chunk(3).ToList();
 
-        await Assert.That(chunks[0].SequenceEqual(new[] {1, 2, 3})).IsTrue();
-        await Assert.That(chunks[1].SequenceEqual(new[] {4, 5, 6})).IsTrue();
-        await Assert.That(chunks[2].SequenceEqual(new[] {7, 8, 9})).IsTrue();
-        await Assert.That(chunks[3].SequenceEqual(new[] {10, 11})).IsTrue();
+        await Assert.That(chunks[0].SequenceEqual([1, 2, 3])).IsTrue();
+        await Assert.That(chunks[1].SequenceEqual([4, 5, 6])).IsTrue();
+        await Assert.That(chunks[2].SequenceEqual([7, 8, 9])).IsTrue();
+        await Assert.That(chunks[3].SequenceEqual([10, 11])).IsTrue();
     }
 
     [Test]
@@ -273,8 +273,8 @@ partial class PolyfillTests
 
         var chunks = enumerable.Chunk(8).ToList();
 
-        await Assert.That(chunks[0].SequenceEqual(new[] {1, 2, 3, 4, 5, 6, 7, 8})).IsTrue();
-        await Assert.That(chunks[1].SequenceEqual(new[] {9, 10, 11})).IsTrue();
+        await Assert.That(chunks[0].SequenceEqual([1, 2, 3, 4, 5, 6, 7, 8])).IsTrue();
+        await Assert.That(chunks[1].SequenceEqual([9, 10, 11])).IsTrue();
     }
 
     [Test]

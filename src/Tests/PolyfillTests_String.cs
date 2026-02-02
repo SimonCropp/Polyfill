@@ -28,6 +28,7 @@ partial class PolyfillTests
         {
             await Assert.That("a\rb\nc\r\nd".ReplaceLineEndings()).IsEqualTo("a\r\nb\r\nc\r\nd");
         }
+
         await Assert.That("a\rb\nc\r\nd".ReplaceLineEndings("_")).IsEqualTo("a_b_c_d");
     }
 
@@ -37,7 +38,10 @@ partial class PolyfillTests
         var span = new Span<char>(new char[1]);
         "a".CopyTo(span);
         if (span.ToString() != "a")
-            throw new Exception($"Expected 'a' but got '{span.ToString()}'");
+        {
+            throw new($"Expected 'a' but got '{span.ToString()}'");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -46,9 +50,15 @@ partial class PolyfillTests
     {
         var span = new Span<char>(new char[1]);
         if (!"a".TryCopyTo(span))
-            throw new Exception("Expected TryCopyTo to return true");
+        {
+            throw new("Expected TryCopyTo to return true");
+        }
+
         if (span.ToString() != "a")
-            throw new Exception($"Expected 'a' but got '{span.ToString()}'");
+        {
+            throw new($"Expected 'a' but got '{span.ToString()}'");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -67,11 +77,27 @@ partial class PolyfillTests
     [Test]
     public async Task Split()
     {
-        await Assert.That("a b".Split(' ', StringSplitOptions.RemoveEmptyEntries).SequenceEqual(new []{"a","b"})).IsTrue();
-        await Assert.That("a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries).SequenceEqual(new []{"a","b"})).IsTrue();
+        await Assert.That("a b".Split(' ', StringSplitOptions.RemoveEmptyEntries).SequenceEqual(new[]
+        {
+            "a",
+            "b"
+        })).IsTrue();
+        await Assert.That("a b".Split(' ', 2, StringSplitOptions.RemoveEmptyEntries).SequenceEqual(new[]
+        {
+            "a",
+            "b"
+        })).IsTrue();
 
-        await Assert.That("a b".Split(" ", StringSplitOptions.RemoveEmptyEntries).SequenceEqual(new []{"a","b"})).IsTrue();
-        await Assert.That("a b".Split(" ", 2, StringSplitOptions.RemoveEmptyEntries).SequenceEqual(new []{"a","b"})).IsTrue();
+        await Assert.That("a b".Split(" ", StringSplitOptions.RemoveEmptyEntries).SequenceEqual(new[]
+        {
+            "a",
+            "b"
+        })).IsTrue();
+        await Assert.That("a b".Split(" ", 2, StringSplitOptions.RemoveEmptyEntries).SequenceEqual(new[]
+        {
+            "a",
+            "b"
+        })).IsTrue();
     }
 
     [Test]

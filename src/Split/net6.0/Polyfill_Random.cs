@@ -55,7 +55,7 @@ static partial class Polyfill
 			throw new ArgumentException("Choices cannot be null or empty.", nameof(choices));
 		}
 		var result = new T[length];
-		for (int i = 0; i < length; i++)
+		for (var i = 0; i < length; i++)
 		{
 			result[i] = choices[target.Next(choices.Length)];
 		}
@@ -74,9 +74,7 @@ static partial class Polyfill
 			var j = target.Next(i, n);
 			if (j != i)
 			{
-				T temp = values[i];
-				values[i] = values[j];
-				values[j] = temp;
+				(values[i], values[j]) = (values[j], values[i]);
 			}
 		}
 	}

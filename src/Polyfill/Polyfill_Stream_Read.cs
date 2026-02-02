@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
-#if (!NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1) && FeatureMemory
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1 && FeatureMemory
     /// <summary>
     /// Reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.
     /// </summary>
@@ -90,10 +90,10 @@ static partial class Polyfill
             throw new ArgumentOutOfRangeException(nameof(count), "InvalidOffLen");
         }
 
-        int totalRead = 0;
+        var totalRead = 0;
         while (totalRead < count)
         {
-            int read = target.Read(buffer, offset + totalRead, count - totalRead);
+            var read = target.Read(buffer, offset + totalRead, count - totalRead);
 
             if (read == 0)
             {

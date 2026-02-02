@@ -58,10 +58,10 @@ static partial class Polyfill
 		{
 			throw new ArgumentOutOfRangeException(nameof(count), "InvalidOffLen");
 		}
-		int totalRead = 0;
+		var totalRead = 0;
 		while (totalRead < count)
 		{
-			int read = target.Read(buffer, offset + totalRead, count - totalRead);
+			var read = target.Read(buffer, offset + totalRead, count - totalRead);
 			if (read == 0)
 			{
 				throw new EndOfStreamException();

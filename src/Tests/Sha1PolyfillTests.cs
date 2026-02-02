@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 public class Sha1PolyfillTests
 {
     static byte[] data = [1, 2, 3, 4, 5];
+
     // SHA1 hash of [1, 2, 3, 4, 5]
     static byte[] expected = [17, 150, 106, 185, 192, 153, 248, 250, 190, 250, 197, 76, 8, 213, 190, 43, 216, 201, 3, 175];
 
@@ -77,9 +78,15 @@ public class Sha1PolyfillTests
         var length = SHA1.HashData(stream, destination);
 
         if (length != expected.Length)
-            throw new Exception($"Expected length {expected.Length} but got {length}");
+        {
+            throw new($"Expected length {expected.Length} but got {length}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -91,9 +98,15 @@ public class Sha1PolyfillTests
         var length = SHA1.HashData(data, destination);
 
         if (length != expected.Length)
-            throw new Exception($"Expected length {expected.Length} but got {length}");
+        {
+            throw new($"Expected length {expected.Length} but got {length}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -134,11 +147,20 @@ public class Sha1PolyfillTests
         var result = SHA1.TryHashData(data, destination, out var written);
 
         if (!result)
-            throw new Exception("Expected true");
+        {
+            throw new("Expected true");
+        }
+
         if (written != expected.Length)
-            throw new Exception($"Expected written {expected.Length} but got {written}");
+        {
+            throw new($"Expected written {expected.Length} but got {written}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -150,9 +172,15 @@ public class Sha1PolyfillTests
         var result = SHA1.TryHashData(data, destination, out var written);
 
         if (result)
-            throw new Exception("Expected false");
+        {
+            throw new("Expected false");
+        }
+
         if (written != 0)
-            throw new Exception($"Expected written 0 but got {written}");
+        {
+            throw new($"Expected written 0 but got {written}");
+        }
+
         return Task.CompletedTask;
     }
 #endif

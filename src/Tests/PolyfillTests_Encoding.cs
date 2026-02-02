@@ -47,9 +47,15 @@ partial class PolyfillTests
         var byteCount = encoding.GetBytes(chars, bytes);
 
         if (byteCount != encoding.GetByteCount(chars))
-            throw new Exception($"Expected {encoding.GetByteCount(chars)} but got {byteCount}");
+        {
+            throw new($"Expected {encoding.GetByteCount(chars)} but got {byteCount}");
+        }
+
         if (!bytes.ToArray().SequenceEqual(encoding.GetBytes("Hello, World!")))
-            throw new Exception("Bytes do not match expected");
+        {
+            throw new("Bytes do not match expected");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -68,9 +74,15 @@ partial class PolyfillTests
 
         // Assert
         if (!result)
-            throw new Exception("Expected result to be true");
+        {
+            throw new("Expected result to be true");
+        }
+
         if (charSpan.Slice(0, written).ToString() != "Hello, World!")
-            throw new Exception("Expected 'Hello, World!'");
+        {
+            throw new("Expected 'Hello, World!'");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -90,9 +102,15 @@ partial class PolyfillTests
 
         // Assert
         if (result)
-            throw new Exception("Expected result to be false");
+        {
+            throw new("Expected result to be false");
+        }
+
         if (written != 0)
-            throw new Exception($"Expected written to be 0 but got {written}");
+        {
+            throw new($"Expected written to be 0 but got {written}");
+        }
+
         return Task.CompletedTask;
     }
 #endif

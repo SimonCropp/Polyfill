@@ -8,7 +8,7 @@ using System.Threading;
 
 static partial class Polyfill
 {
-    static ThreadSafeRandom threadSafeRandom = new ThreadSafeRandom();
+    static ThreadSafeRandom threadSafeRandom = new();
 
     sealed class ThreadSafeRandom : Random
     {
@@ -16,7 +16,7 @@ static partial class Polyfill
         static Random? random;
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        static Random Create() => random = new Random();
+        static Random Create() => random = new();
 
         static Random LocalRandom => random ?? Create();
 

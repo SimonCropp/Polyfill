@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 public class Md5PolyfillTests
 {
     static byte[] data = [1, 2, 3, 4, 5];
+
     // MD5 hash of [1, 2, 3, 4, 5]
     static byte[] expected = [124, 253, 208, 120, 137, 179, 41, 93, 106, 85, 9, 20, 171, 53, 224, 104];
 
@@ -77,9 +78,15 @@ public class Md5PolyfillTests
         var length = MD5.HashData(stream, destination);
 
         if (length != expected.Length)
-            throw new Exception($"Expected length {expected.Length} but got {length}");
+        {
+            throw new($"Expected length {expected.Length} but got {length}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -91,9 +98,15 @@ public class Md5PolyfillTests
         var length = MD5.HashData(data, destination);
 
         if (length != expected.Length)
-            throw new Exception($"Expected length {expected.Length} but got {length}");
+        {
+            throw new($"Expected length {expected.Length} but got {length}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -134,11 +147,20 @@ public class Md5PolyfillTests
         var result = MD5.TryHashData(data, destination, out var written);
 
         if (!result)
-            throw new Exception("Expected true");
+        {
+            throw new("Expected true");
+        }
+
         if (written != expected.Length)
-            throw new Exception($"Expected written {expected.Length} but got {written}");
+        {
+            throw new($"Expected written {expected.Length} but got {written}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -150,9 +172,15 @@ public class Md5PolyfillTests
         var result = MD5.TryHashData(data, destination, out var written);
 
         if (result)
-            throw new Exception("Expected false");
+        {
+            throw new("Expected false");
+        }
+
         if (written != 0)
-            throw new Exception($"Expected written 0 but got {written}");
+        {
+            throw new($"Expected written 0 but got {written}");
+        }
+
         return Task.CompletedTask;
     }
 #endif

@@ -145,7 +145,7 @@ static partial class Polyfill
             return target;
         }
 
-        T value = enumerator.Current;
+        var value = enumerator.Current;
         if (value != null)
         {
             target.Append(value);

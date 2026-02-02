@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 public class Sha384PolyfillTests
 {
     static byte[] data = [1, 2, 3, 4, 5];
+
     // SHA384 hash of [1, 2, 3, 4, 5]
     static byte[] expected = [216, 136, 117, 219, 15, 119, 170, 216, 243, 217, 148, 254, 104, 205, 28, 199, 236, 58, 79, 241, 67, 120, 183, 254, 185, 145, 229, 71, 132, 133, 1, 146, 20, 88, 84, 195, 110, 90, 64, 160, 194, 232, 13, 162, 0, 45, 124, 200];
 
@@ -77,9 +78,15 @@ public class Sha384PolyfillTests
         var length = SHA384.HashData(stream, destination);
 
         if (length != expected.Length)
-            throw new Exception($"Expected length {expected.Length} but got {length}");
+        {
+            throw new($"Expected length {expected.Length} but got {length}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -91,9 +98,15 @@ public class Sha384PolyfillTests
         var length = SHA384.HashData(data, destination);
 
         if (length != expected.Length)
-            throw new Exception($"Expected length {expected.Length} but got {length}");
+        {
+            throw new($"Expected length {expected.Length} but got {length}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -117,14 +130,14 @@ public class Sha384PolyfillTests
     public async Task HashData_ReadOnlySpanAndSpan_ShorterDestination()
     {
         var exception = await Assert.That(() =>
-        {
-            Span<byte> destination = stackalloc byte[expected.Length - 1];
-            SHA384.HashData(data, destination);
-        }).Throws<ArgumentException>();
+            {
+                Span<byte> destination = stackalloc byte[expected.Length - 1];
+                SHA384.HashData(data, destination);
+            })
+            .Throws<ArgumentException>();
 
         await Assert.That(exception!.Message.StartsWith("Destination is too short.")).IsTrue();
     }
-
 
     [Test]
     public Task TryHashData_ValidInput_ReturnsTrueAndCorrectHash()
@@ -134,11 +147,20 @@ public class Sha384PolyfillTests
         var result = SHA384.TryHashData(data, destination, out var written);
 
         if (!result)
-            throw new Exception("Expected true");
+        {
+            throw new("Expected true");
+        }
+
         if (written != expected.Length)
-            throw new Exception($"Expected written {expected.Length} but got {written}");
+        {
+            throw new($"Expected written {expected.Length} but got {written}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -150,9 +172,15 @@ public class Sha384PolyfillTests
         var result = SHA384.TryHashData(data, destination, out var written);
 
         if (result)
-            throw new Exception("Expected false");
+        {
+            throw new("Expected false");
+        }
+
         if (written != 0)
-            throw new Exception($"Expected written 0 but got {written}");
+        {
+            throw new($"Expected written 0 but got {written}");
+        }
+
         return Task.CompletedTask;
     }
 #endif

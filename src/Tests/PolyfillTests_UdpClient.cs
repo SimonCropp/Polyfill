@@ -21,7 +21,7 @@ partial class PolyfillTests
         // Arrange
         var cancel = new Cancel(true);
         using var client = new UdpClient("localhost", 12345);
-        var data = new ReadOnlyMemory<byte>(new byte[] { 1, 2, 3 });
+        var data = new ReadOnlyMemory<byte>([1, 2, 3]);
 
         // Act & Assert
         await Assert.ThrowsAsync<OperationCanceledException>(
@@ -34,7 +34,7 @@ partial class PolyfillTests
         // Arrange
         var cancel = new Cancel(true);
         using var client = new UdpClient(0);
-        var data = new ReadOnlyMemory<byte>(new byte[] { 1, 2, 3 });
+        var data = new ReadOnlyMemory<byte>([1, 2, 3]);
         var endpoint = new IPEndPoint(IPAddress.Loopback, 12345);
 
         // Act & Assert
@@ -48,7 +48,7 @@ partial class PolyfillTests
         // Arrange
         var cancel = new Cancel(true);
         using var client = new UdpClient(0);
-        var data = new ReadOnlyMemory<byte>(new byte[] { 1, 2, 3 });
+        var data = new ReadOnlyMemory<byte>([1, 2, 3]);
 
         // Act & Assert
         await Assert.ThrowsAsync<OperationCanceledException>(

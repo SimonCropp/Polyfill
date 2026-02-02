@@ -68,7 +68,7 @@ static partial class Polyfill
         }
 
         var result = new T[length];
-        for (int i = 0; i < length; i++)
+        for (var i = 0; i < length; i++)
         {
             result[i] = choices[target.Next(choices.Length)];
         }
@@ -112,9 +112,7 @@ static partial class Polyfill
 
             if (j != i)
             {
-                T temp = values[i];
-                values[i] = values[j];
-                values[j] = temp;
+                (values[i], values[j]) = (values[j], values[i]);
             }
         }
     }

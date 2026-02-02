@@ -1,6 +1,6 @@
 partial class PolyfillTests
 {
-#if NETFRAMEWORK || (NETSTANDARD && !NETSTANDARD2_1_OR_GREATER) || NETCOREAPP2_0
+#if NETFRAMEWORK || NETSTANDARD && !NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0
     [Test]
     public async Task Directory_EnumerateFiles_WithEnumerationOptions()
     {

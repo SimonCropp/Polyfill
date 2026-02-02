@@ -3,11 +3,19 @@ partial class PolyfillTests
     static void AssertByteSpanFormat(bool result, bool expectedResult, Span<byte> buffer, string expectedString, int written, int expectedWritten)
     {
         if (result != expectedResult)
-            throw new Exception($"Expected result {expectedResult} but got {result}");
+        {
+            throw new($"Expected result {expectedResult} but got {result}");
+        }
+
         if (Encoding.UTF8.GetString(buffer) != expectedString)
-            throw new Exception($"Expected '{expectedString}' but got '{Encoding.UTF8.GetString(buffer)}'");
+        {
+            throw new($"Expected '{expectedString}' but got '{Encoding.UTF8.GetString(buffer)}'");
+        }
+
         if (written != expectedWritten)
-            throw new Exception($"Expected written {expectedWritten} but got {written}");
+        {
+            throw new($"Expected written {expectedWritten} but got {written}");
+        }
     }
 
     [Test]

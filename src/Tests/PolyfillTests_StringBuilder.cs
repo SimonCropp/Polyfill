@@ -114,7 +114,7 @@ partial class PolyfillTests
 
         async Task AssertAsync()
         {
-            await TUnit.Assertions.Assert.That(builder.ToString()).IsEqualTo("value1,value2");
+            await Assert.That(builder.ToString()).IsEqualTo("value1,value2");
             builder.Clear();
         }
     }

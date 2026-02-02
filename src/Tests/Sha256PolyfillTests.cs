@@ -76,9 +76,15 @@ public class Sha256PolyfillTests
         var length = SHA256.HashData(stream, destination);
 
         if (length != expected.Length)
-            throw new Exception($"Expected length {expected.Length} but got {length}");
+        {
+            throw new($"Expected length {expected.Length} but got {length}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -90,9 +96,15 @@ public class Sha256PolyfillTests
         var length = SHA256.HashData(data, destination);
 
         if (length != expected.Length)
-            throw new Exception($"Expected length {expected.Length} but got {length}");
+        {
+            throw new($"Expected length {expected.Length} but got {length}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -133,11 +145,20 @@ public class Sha256PolyfillTests
         var result = SHA256.TryHashData(data, destination, out var written);
 
         if (!result)
-            throw new Exception("Expected true");
+        {
+            throw new("Expected true");
+        }
+
         if (written != expected.Length)
-            throw new Exception($"Expected written {expected.Length} but got {written}");
+        {
+            throw new($"Expected written {expected.Length} but got {written}");
+        }
+
         if (!expected.AsSpan().SequenceEqual(destination.Slice(0, expected.Length)))
-            throw new Exception("Hash mismatch");
+        {
+            throw new("Hash mismatch");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -149,9 +170,15 @@ public class Sha256PolyfillTests
         var result = SHA256.TryHashData(data, destination, out var written);
 
         if (result)
-            throw new Exception("Expected false");
+        {
+            throw new("Expected false");
+        }
+
         if (written != 0)
-            throw new Exception($"Expected written 0 but got {written}");
+        {
+            throw new($"Expected written 0 but got {written}");
+        }
+
         return Task.CompletedTask;
     }
 #endif

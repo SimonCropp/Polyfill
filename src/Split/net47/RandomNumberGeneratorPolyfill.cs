@@ -27,7 +27,7 @@ static partial class Polyfill
 			}
 			// Create a mask for the bits that we care about for the range. The other bits will be
 			// masked away.
-			uint mask = range;
+			var mask = range;
 			mask |= mask >> 1;
 			mask |= mask >> 2;
 			mask |= mask >> 4;

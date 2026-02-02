@@ -18,13 +18,21 @@ partial class PolyfillTests
         {
             found = true;
             if (match.Index != 1)
-                throw new Exception($"Expected Index 1 but got {match.Index}");
+            {
+                throw new($"Expected Index 1 but got {match.Index}");
+            }
+
             if (match.Length != 2)
-                throw new Exception($"Expected Length 2 but got {match.Length}");
+            {
+                throw new($"Expected Length 2 but got {match.Length}");
+            }
         }
 
         if (!found)
-            throw new Exception("Expected to find a match");
+        {
+            throw new("Expected to find a match");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -37,19 +45,27 @@ partial class PolyfillTests
         {
             found = true;
             if (match.Index != 1)
-                throw new Exception($"Expected Index 1 but got {match.Index}");
+            {
+                throw new($"Expected Index 1 but got {match.Index}");
+            }
+
             if (match.Length != 2)
-                throw new Exception($"Expected Length 2 but got {match.Length}");
+            {
+                throw new($"Expected Length 2 but got {match.Length}");
+            }
         }
 
         if (!found)
-            throw new Exception("Expected to find a match");
+        {
+            throw new("Expected to find a match");
+        }
+
         return Task.CompletedTask;
     }
 
 #if FeatureMemory
 
-   [Test]
+    [Test]
     public async Task EnumerateSplits_InstanceMethod_BasicSplit()
     {
         var regex = new Regex(@"[,\s]+");
@@ -61,7 +77,7 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        await Assert.That(results.SequenceEqual(new[] { "one", "two", "three", "four" })).IsTrue();
+        await Assert.That(results.SequenceEqual(["one", "two", "three", "four"])).IsTrue();
     }
 
     [Test]
@@ -165,7 +181,7 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        await Assert.That(results.SequenceEqual(new[] { "one", "two", "three" })).IsTrue();
+        await Assert.That(results.SequenceEqual(["one", "two", "three"])).IsTrue();
     }
 
     [Test]
@@ -193,7 +209,12 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        await Assert.That(results.SequenceEqual(new[] { "one", "two", "three" })).IsTrue();
+        await Assert.That(results.SequenceEqual(new[]
+        {
+            "one",
+            "two",
+            "three"
+        })).IsTrue();
     }
 
     [Test]
@@ -207,7 +228,12 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        await Assert.That(results.SequenceEqual(new[] { "abc", "def", "ghi" })).IsTrue();
+        await Assert.That(results.SequenceEqual(new[]
+        {
+            "abc",
+            "def",
+            "ghi"
+        })).IsTrue();
     }
 
     [Test]
@@ -221,7 +247,12 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        await Assert.That(results.SequenceEqual(new[] { "Hello", "World", "Test" })).IsTrue();
+        await Assert.That(results.SequenceEqual(new[]
+        {
+            "Hello",
+            "World",
+            "Test"
+        })).IsTrue();
     }
 
     [Test]
@@ -235,7 +266,12 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        await Assert.That(results.SequenceEqual(new[] { "a", "", "b" })).IsTrue();
+        await Assert.That(results.SequenceEqual(new[]
+        {
+            "a",
+            "",
+            "b"
+        })).IsTrue();
     }
 
     [Test]
@@ -249,7 +285,12 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        await Assert.That(results.SequenceEqual(new[] { "", "a", "b" })).IsTrue();
+        await Assert.That(results.SequenceEqual(new[]
+        {
+            "",
+            "a",
+            "b"
+        })).IsTrue();
     }
 
     [Test]
@@ -263,7 +304,12 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        await Assert.That(results.SequenceEqual(new[] { "a", "b", "" })).IsTrue();
+        await Assert.That(results.SequenceEqual(new[]
+        {
+            "a",
+            "b",
+            ""
+        })).IsTrue();
     }
 
     [Test]
@@ -277,7 +323,12 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        await Assert.That(results.SequenceEqual(new[] { "user@example.com", "admin@test.org", "guest@domain.net" })).IsTrue();
+        await Assert.That(results.SequenceEqual(new[]
+        {
+            "user@example.com",
+            "admin@test.org",
+            "guest@domain.net"
+        })).IsTrue();
     }
 
     [Test]
@@ -292,7 +343,13 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        await Assert.That(results.SequenceEqual(new[] { "a", "b", "c", "d" })).IsTrue();
+        await Assert.That(results.SequenceEqual(new[]
+        {
+            "a",
+            "b",
+            "c",
+            "d"
+        })).IsTrue();
     }
 
     [Test]
@@ -306,7 +363,12 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        await Assert.That(results.SequenceEqual(new[] { "one", "two", "three" })).IsTrue();
+        await Assert.That(results.SequenceEqual(new[]
+        {
+            "one",
+            "two",
+            "three"
+        })).IsTrue();
     }
 
     [Test]
@@ -334,7 +396,13 @@ partial class PolyfillTests
             results.Add(input[range].ToString());
         }
 
-        await Assert.That(results.SequenceEqual(new[] { "α", "β", "γ", "δ" })).IsTrue();
+        await Assert.That(results.SequenceEqual(new[]
+        {
+            "α",
+            "β",
+            "γ",
+            "δ"
+        })).IsTrue();
     }
 
 #endif

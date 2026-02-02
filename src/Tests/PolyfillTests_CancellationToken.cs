@@ -35,7 +35,9 @@ partial class PolyfillTests
                 invoked++;
                 var expected = flowExecutionContext ? (int) s! : 0;
                 if (asyncLocal.Value != expected)
-                    throw new Exception($"Expected {expected} but got {asyncLocal.Value}");
+                {
+                    throw new($"Expected {expected} but got {asyncLocal.Value}");
+                }
             };
 
             var token = cancelSource.Token;
@@ -45,7 +47,9 @@ partial class PolyfillTests
                     (s, t) =>
                     {
                         if (!token.Equals(t))
-                            throw new Exception("Token mismatch");
+                        {
+                            throw new("Token mismatch");
+                        }
                         callback(s);
                     },
                     i);
@@ -60,7 +64,9 @@ partial class PolyfillTests
                     (s, t) =>
                     {
                         if (!token.Equals(t))
-                            throw new Exception("Token mismatch");
+                        {
+                            throw new("Token mismatch");
+                        }
                         callback(s);
                     },
                     i);

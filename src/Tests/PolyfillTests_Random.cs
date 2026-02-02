@@ -21,13 +21,19 @@ partial class PolyfillTests
         random.GetItems(choices, destination);
 
         if (destination.Length != 10)
-            throw new Exception($"Expected destination length 10 but got {destination.Length}");
+        {
+            throw new($"Expected destination length 10 but got {destination.Length}");
+        }
+
         var choicesArray = choices.ToArray();
         foreach (var item in destination)
         {
             if (!choicesArray.Contains(item))
-                throw new Exception($"Item {item} not found in choices");
+            {
+                throw new($"Item {item} not found in choices");
+            }
         }
+
         return Task.CompletedTask;
     }
 
@@ -47,6 +53,7 @@ partial class PolyfillTests
             if (!choicesArray.Contains(item))
                 throw new Exception($"Item {item} not found in choices");
         }
+
         return Task.CompletedTask;
     }
 

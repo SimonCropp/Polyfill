@@ -52,7 +52,7 @@ static partial class Polyfill
             throw new TimeoutException();
         }
 
-        using CancellationTokenSource cancelSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        using var cancelSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         cancelSource.CancelAfter(timeout);
 
         var cancelTask = new TaskCompletionSource<bool>();

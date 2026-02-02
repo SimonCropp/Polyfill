@@ -76,7 +76,7 @@ static partial class Polyfill
             startIndex = CalculateStartIndex(isStartIndexFromEnd: true, startIndex, count);
             endIndex = CalculateEndIndex(isEndIndexFromEnd, endIndex, count);
 
-            for (int rangeIndex = startIndex; rangeIndex < endIndex; rangeIndex++)
+            for (var rangeIndex = startIndex; rangeIndex < endIndex; rangeIndex++)
             {
                 yield return queue.Dequeue();
             }

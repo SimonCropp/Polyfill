@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-
 public class PathTests
 {
 #if FeatureMemory
@@ -64,15 +62,15 @@ public class PathTests
 
     [Test]
     [Arguments(@"C:\folder\", @"C:\folder")]
-    [Arguments(@"C:/folder/", @"C:/folder")]
-    [Arguments(@"/folder/", @"/folder")]
+    [Arguments("C:/folder/", "C:/folder")]
+    [Arguments("/folder/", "/folder")]
     [Arguments(@"\folder\", @"\folder")]
-    [Arguments(@"folder\", @"folder")]
-    [Arguments(@"folder/", @"folder")]
+    [Arguments(@"folder\", "folder")]
+    [Arguments("folder/", "folder")]
     [Arguments(@"C:\", @"C:\")]
-    [Arguments(@"C:/", @"C:/")]
-    [Arguments(@"", @"")]
-    [Arguments(@"/", @"/")]
+    [Arguments("C:/", "C:/")]
+    [Arguments("", "")]
+    [Arguments("/", "/")]
     [Arguments(@"\", @"\")]
     [Arguments(@"\\server\share\", @"\\server\share")]
     [Arguments(@"\\server\share\folder\", @"\\server\share\folder")]
@@ -94,10 +92,10 @@ public class PathTests
     }
 
     [Test]
-    [Arguments(@"/folder/", @"/folder")]
-    [Arguments(@"folder/", @"folder")]
-    [Arguments(@"", @"")]
-    [Arguments(@"/", @"/")]
+    [Arguments("/folder/", "/folder")]
+    [Arguments("folder/", "folder")]
+    [Arguments("", "")]
+    [Arguments("/", "/")]
     public async Task TrimEndingDirectorySeparator_Unix(string input, string expected)
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

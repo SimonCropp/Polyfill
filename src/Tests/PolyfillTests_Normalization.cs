@@ -17,11 +17,17 @@ partial class PolyfillTests
         var success = source.TryNormalize(destination, out var charsWritten, NormalizationForm.FormC);
 
         if (!success)
-            throw new Exception("Expected success to be true");
+            throw new("Expected success to be true");
         if (charsWritten != 4)
-            throw new Exception($"Expected charsWritten 4 but got {charsWritten}");
+        {
+            throw new($"Expected charsWritten 4 but got {charsWritten}");
+        }
+
         if (destination.Slice(0, charsWritten).ToString() != "Café")
-            throw new Exception("Expected 'Café'");
+        {
+            throw new("Expected 'Café'");
+        }
+
         return Task.CompletedTask;
     }
 
@@ -33,9 +39,15 @@ partial class PolyfillTests
         var success = source.TryNormalize(destination, out var charsWritten, NormalizationForm.FormC);
 
         if (success)
-            throw new Exception("Expected success to be false");
+        {
+            throw new("Expected success to be false");
+        }
+
         if (charsWritten != 0)
-            throw new Exception($"Expected charsWritten 0 but got {charsWritten}");
+        {
+            throw new($"Expected charsWritten 0 but got {charsWritten}");
+        }
+
         return Task.CompletedTask;
     }
 }
