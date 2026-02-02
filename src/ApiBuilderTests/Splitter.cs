@@ -444,6 +444,12 @@ public class Splitter
                 continue;
             }
 
+            // Skip empty extension blocks (e.g., "extension(Math)")
+            if (trimmed.StartsWith("extension("))
+            {
+                continue;
+            }
+
             // Any other content means it's not empty
             return false;
         }

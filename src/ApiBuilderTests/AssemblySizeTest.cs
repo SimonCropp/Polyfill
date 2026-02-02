@@ -1,6 +1,6 @@
 public class AssemblySizeTest
 {
-    static readonly string[] TargetFrameworks =
+    static readonly string[] targetFrameworks =
     [
         "netstandard2.0",
         "netstandard2.1",
@@ -88,7 +88,7 @@ public class AssemblySizeTest
 
         // Calculate source file size per framework based on what's included
         var sourceSizes = new Dictionary<string, long>();
-        foreach (var framework in TargetFrameworks)
+        foreach (var framework in targetFrameworks)
         {
             long sourceSize = 0;
             if (polyfillImport)
@@ -146,7 +146,7 @@ public class AssemblySizeTest
                """
             : "";
 
-        var allFrameworks = string.Join(";", TargetFrameworks);
+        var allFrameworks = string.Join(";", targetFrameworks);
 
         var csproj = $"""
                       <Project Sdk="Microsoft.NET.Sdk">
@@ -221,7 +221,7 @@ public class AssemblySizeTest
         var sizes = new Dictionary<string, long>();
         var binPath = Path.Combine(variantDir, "bin", "Release");
 
-        foreach (var framework in TargetFrameworks)
+        foreach (var framework in targetFrameworks)
         {
             var dllPath = Path.Combine(binPath, framework, "TestProject.dll");
             if (File.Exists(dllPath))
@@ -243,7 +243,7 @@ public class AssemblySizeTest
     {
         var results = new List<SizeResult>();
 
-        foreach (var framework in TargetFrameworks)
+        foreach (var framework in targetFrameworks)
         {
             results.Add(new()
             {
@@ -264,7 +264,7 @@ public class AssemblySizeTest
     {
         var results = new List<SizeResult>();
 
-        foreach (var framework in TargetFrameworks)
+        foreach (var framework in targetFrameworks)
         {
             results.Add(new()
             {

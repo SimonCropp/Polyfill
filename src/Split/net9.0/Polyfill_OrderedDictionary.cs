@@ -3,7 +3,6 @@
 namespace Polyfills;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-//TODO: fix links and docs
 static partial class Polyfill
 {
 	public static bool TryAdd<TKey, TValue>(this OrderedDictionary<TKey, TValue> target, TKey key, TValue value, out int index)
