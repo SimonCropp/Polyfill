@@ -972,4 +972,305 @@ public class SplitterTests
         await Assert.That(resultUwp).Contains("netstandard_code");
         await Assert.That(resultUwp).DoesNotContain("#if");
     }
+
+    [Test]
+    public async Task NetSymbol_DefinedForNet5Plus()
+    {
+        // NET symbol should be defined for .NET 5+
+        var symbolsNet5 = Splitter.GetPreprocessorSymbolsForFramework("net5.0");
+        var symbolsNet6 = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
+        var symbolsNet10 = Splitter.GetPreprocessorSymbolsForFramework("net10.0");
+
+        await Assert.That(symbolsNet5.Contains("NET")).IsTrue();
+        await Assert.That(symbolsNet6.Contains("NET")).IsTrue();
+        await Assert.That(symbolsNet10.Contains("NET")).IsTrue();
+    }
+
+    [Test]
+    public async Task NetSymbol_NotDefinedForNetFramework()
+    {
+        // NET symbol should NOT be defined for .NET Framework
+        var symbolsNet461 = Splitter.GetPreprocessorSymbolsForFramework("net461");
+        var symbolsNet48 = Splitter.GetPreprocessorSymbolsForFramework("net48");
+
+        await Assert.That(symbolsNet461.Contains("NET")).IsFalse();
+        await Assert.That(symbolsNet48.Contains("NET")).IsFalse();
+    }
+
+    [Test]
+    public async Task NetSymbol_NotDefinedForNetCoreApp()
+    {
+        // NET symbol should NOT be defined for .NET Core (pre-.NET 5)
+        var symbolsNetCoreApp21 = Splitter.GetPreprocessorSymbolsForFramework("netcoreapp2.1");
+        var symbolsNetCoreApp31 = Splitter.GetPreprocessorSymbolsForFramework("netcoreapp3.1");
+
+        await Assert.That(symbolsNetCoreApp21.Contains("NET")).IsFalse();
+        await Assert.That(symbolsNetCoreApp31.Contains("NET")).IsFalse();
+    }
+
+    [Test]
+    public async Task NotNetConditional_EvaluatedForNet5Plus()
+    {
+        // #if !NET should be false for .NET 5+, so content inside is excluded
+        var source = """
+            #if !NET
+            class_definition
+            #else
+            type_forward
+            #endif
+            """;
+
+        var symbolsNet10 = Splitter.GetPreprocessorSymbolsForFramework("net10.0");
+        var result = string.Join("\n", Splitter.ProcessFile(source, symbolsNet10));
+
+        await Assert.That(result).DoesNotContain("class_definition");
+        await Assert.That(result).Contains("type_forward");
+        await Assert.That(result).DoesNotContain("#if");
+        await Assert.That(result).DoesNotContain("#else");
+    }
+
+    [Test]
+    public async Task NotNetConditional_EvaluatedForNetFramework()
+    {
+        // #if !NET should be true for .NET Framework, so content inside is included
+        var source = """
+            #if !NET
+            class_definition
+            #else
+            type_forward
+            #endif
+            """;
+
+        var symbolsNet461 = Splitter.GetPreprocessorSymbolsForFramework("net461");
+        var result = string.Join("\n", Splitter.ProcessFile(source, symbolsNet461));
+
+        await Assert.That(result).Contains("class_definition");
+        await Assert.That(result).DoesNotContain("type_forward");
+        await Assert.That(result).DoesNotContain("#if");
+        await Assert.That(result).DoesNotContain("#else");
+    }
+
+    [Test]
+    public async Task TypeForwardedToExtraction_RemovesFromOriginalLines()
+    {
+        // When TypeForwardedTo is extracted, it should be removed from the lines
+        var source = """
+            namespace Test;
+            class MyClass { }
+            [assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.String))]
+            """;
+
+        var lines = source.Split('\n').Select(l => l.TrimEnd('\r')).ToList();
+        var forwardedToLines = lines.Where(l => l.TrimStart().Contains("TypeForwardedTo")).ToList();
+        var remainingLines = lines.Where(l => !l.TrimStart().Contains("TypeForwardedTo")).ToList();
+
+        await Assert.That(forwardedToLines.Count).IsEqualTo(1);
+        await Assert.That(forwardedToLines[0]).Contains("TypeForwardedTo");
+        await Assert.That(remainingLines.Count).IsEqualTo(2);
+        await Assert.That(string.Join("\n", remainingLines)).DoesNotContain("TypeForwardedTo");
+    }
+
+    [Test]
+    public async Task TypeForwardedToExtraction_HandlesMultipleAttributes()
+    {
+        // Multiple TypeForwardedTo attributes should all be extracted
+        var source = """
+            [assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.String))]
+            [assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Int32))]
+            [assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Boolean))]
+            """;
+
+        var lines = source.Split('\n').Select(l => l.TrimEnd('\r')).ToList();
+        var forwardedToLines = lines.Where(l => l.TrimStart().Contains("TypeForwardedTo")).ToList();
+
+        await Assert.That(forwardedToLines.Count).IsEqualTo(3);
+        await Assert.That(forwardedToLines[0]).Contains("String");
+        await Assert.That(forwardedToLines[1]).Contains("Int32");
+        await Assert.That(forwardedToLines[2]).Contains("Boolean");
+    }
+
+    [Test]
+    public async Task ContainsTypes_DoesNotIncludeTypeForwardedTo()
+    {
+        // ContainsTypes should return false if only TypeForwardedTo is present
+        var linesWithOnlyTypeForwardedTo = new List<string>
+        {
+            "[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.String))]"
+        };
+
+        var linesWithClass = new List<string>
+        {
+            "class MyClass { }"
+        };
+
+        var linesWithBoth = new List<string>
+        {
+            "class MyClass { }",
+            "[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.String))]"
+        };
+
+        await Assert.That(Splitter.ContainsTypes(linesWithOnlyTypeForwardedTo)).IsFalse();
+        await Assert.That(Splitter.ContainsTypes(linesWithClass)).IsTrue();
+        await Assert.That(Splitter.ContainsTypes(linesWithBoth)).IsTrue();
+    }
+
+    [Test]
+    public async Task IsExternalInit_Net10_ExtractedToTypeForwardeds()
+    {
+        // For .NET 10, IsExternalInit should only have TypeForwardedTo (extracted to TypeForwardeds.cs)
+        var isExternalInitPath = Path.Combine(Splitter.SplitOutputDir, "net10.0", "IsExternalInit.cs");
+        var typeForwardedsPath = Path.Combine(Splitter.SplitOutputDir, "net10.0", "TypeForwardeds.cs");
+
+        // IsExternalInit.cs should NOT exist for net10.0
+        await Assert.That(File.Exists(isExternalInitPath)).IsFalse();
+
+        // TypeForwardeds.cs should exist and contain IsExternalInit
+        await Assert.That(File.Exists(typeForwardedsPath)).IsTrue();
+        var typeForwardedsContent = await File.ReadAllTextAsync(typeForwardedsPath);
+        await Assert.That(typeForwardedsContent).Contains("IsExternalInit");
+        await Assert.That(typeForwardedsContent).Contains("using System.Runtime.CompilerServices;");
+    }
+
+    [Test]
+    public async Task IsExternalInit_Net461_HasClassDefinition()
+    {
+        // For .NET Framework 4.6.1, IsExternalInit should have the class definition (not TypeForwardedTo)
+        var isExternalInitPath = Path.Combine(Splitter.SplitOutputDir, "net461", "IsExternalInit.cs");
+        var typeForwardedsPath = Path.Combine(Splitter.SplitOutputDir, "net461", "TypeForwardeds.cs");
+
+        // IsExternalInit.cs should exist with class definition
+        await Assert.That(File.Exists(isExternalInitPath)).IsTrue();
+        var isExternalInitContent = await File.ReadAllTextAsync(isExternalInitPath);
+        await Assert.That(isExternalInitContent).Contains("static class IsExternalInit");
+        await Assert.That(isExternalInitContent).DoesNotContain("TypeForwardedTo");
+
+        // TypeForwardeds.cs should NOT exist for net461
+        await Assert.That(File.Exists(typeForwardedsPath)).IsFalse();
+    }
+
+    [Test]
+    public async Task TypeForwardeds_HasSimplifiedAttributeName()
+    {
+        // TypeForwardeds.cs should use simplified attribute name (TypeForwardedTo instead of System.Runtime.CompilerServices.TypeForwardedTo)
+        var typeForwardedsPath = Path.Combine(Splitter.SplitOutputDir, "net10.0", "TypeForwardeds.cs");
+
+        await Assert.That(File.Exists(typeForwardedsPath)).IsTrue();
+        var content = await File.ReadAllTextAsync(typeForwardedsPath);
+
+        // Should have using statement
+        await Assert.That(content).Contains("using System.Runtime.CompilerServices;");
+
+        // Should use simplified form
+        await Assert.That(content).Contains("[assembly: TypeForwardedTo(typeof(");
+
+        // Should NOT have the full namespace prefix for the attribute
+        var lines = content.Split('\n');
+        var assemblyLines = lines.Where(l => l.Contains("[assembly:")).ToList();
+        foreach (var line in assemblyLines)
+        {
+            await Assert.That(line).DoesNotContain("System.Runtime.CompilerServices.TypeForwardedTo");
+        }
+    }
+
+    [Test]
+    public async Task TypeForwardeds_CountsByFramework()
+    {
+        // Verify that different frameworks have different numbers of TypeForwardedTo attributes
+        var net10Path = Path.Combine(Splitter.SplitOutputDir, "net10.0", "TypeForwardeds.cs");
+        var net5Path = Path.Combine(Splitter.SplitOutputDir, "net5.0", "TypeForwardeds.cs");
+
+        if (File.Exists(net10Path) && File.Exists(net5Path))
+        {
+            var net10Content = await File.ReadAllTextAsync(net10Path);
+            var net5Content = await File.ReadAllTextAsync(net5Path);
+
+            var net10Count = net10Content.Split('\n').Count(l => l.Contains("TypeForwardedTo"));
+            var net5Count = net5Content.Split('\n').Count(l => l.Contains("TypeForwardedTo"));
+
+            // .NET 10 should have more TypeForwardedTo than .NET 5
+            await Assert.That(net10Count).IsGreaterThan(net5Count);
+        }
+    }
+
+    [Test]
+    public async Task NoTypeForwardedTo_InNonTypeForwardedsFiles()
+    {
+        // Verify that no files except TypeForwardeds.cs contain TypeForwardedTo
+        var net10Dir = Path.Combine(Splitter.SplitOutputDir, "net10.0");
+
+        if (Directory.Exists(net10Dir))
+        {
+            var csFiles = Directory.GetFiles(net10Dir, "*.cs", SearchOption.AllDirectories)
+                .Where(f => Path.GetFileName(f) != "TypeForwardeds.cs")
+                .ToList();
+
+            foreach (var file in csFiles)
+            {
+                var content = await File.ReadAllTextAsync(file);
+                if (content.Contains("TypeForwardedTo"))
+                {
+                    throw new($"File {Path.GetFileName(file)} should not contain TypeForwardedTo");
+                }
+            }
+        }
+    }
+
+    [Test]
+    public async Task IsOnlyTypeForwardedTo_WithOnlyTypeForwardedTo_ReturnsTrue()
+    {
+        var lines = new List<string>
+        {
+            "[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.CallerArgumentExpressionAttribute))]"
+        };
+
+        var result = Splitter.IsOnlyTypeForwardedTo(lines);
+
+        await Assert.That(result).IsTrue();
+    }
+
+    [Test]
+    public async Task IsOnlyTypeForwardedTo_WithTypeDefinition_ReturnsFalse()
+    {
+        var lines = new List<string>
+        {
+            "#if !NET",
+            "class CallerArgumentExpressionAttribute : Attribute { }",
+            "#else",
+            "[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.CallerArgumentExpressionAttribute))]",
+            "#endif"
+        };
+
+        var result = Splitter.IsOnlyTypeForwardedTo(lines);
+
+        await Assert.That(result).IsFalse();
+    }
+
+    [Test]
+    public async Task IsOnlyTypeForwardedTo_WithNoTypeForwardedTo_ReturnsFalse()
+    {
+        var lines = new List<string>
+        {
+            "namespace System.Runtime.CompilerServices;",
+            "class SomeClass { }"
+        };
+
+        var result = Splitter.IsOnlyTypeForwardedTo(lines);
+
+        await Assert.That(result).IsFalse();
+    }
+
+    [Test]
+    public async Task IsOnlyTypeForwardedTo_WithEmptyLines_ReturnsTrue()
+    {
+        var lines = new List<string>
+        {
+            "",
+            "[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.CallerArgumentExpressionAttribute))]",
+            ""
+        };
+
+        var result = Splitter.IsOnlyTypeForwardedTo(lines);
+
+        await Assert.That(result).IsTrue();
+    }
 }

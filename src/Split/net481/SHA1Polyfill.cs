@@ -20,7 +20,6 @@ static class SHA1Polyfill
 {
 	extension(SHA1)
 	{
-#if !NET
 		/// <summary>
 		/// Computes the hash of data using the SHA-1 algorithm.
 		/// </summary>
@@ -29,7 +28,6 @@ static class SHA1Polyfill
 			using var hasher = SHA1.Create();
 			return hasher.ComputeHash(source);
 		}
-#endif
 		/// <summary>
 		/// Computes the hash of a stream using the SHA-1 algorithm.
 		/// </summary>
@@ -59,7 +57,6 @@ static class SHA1Polyfill
 			hash.CopyTo(destination);
 			return hash.Length;
 		}
-#if !NET
 		/// <summary>
 		/// Computes the hash of data using the SHA-1 algorithm.
 		/// </summary>
@@ -68,7 +65,6 @@ static class SHA1Polyfill
 			using var hasher = SHA1.Create();
 			return hasher.ComputeHash(source.ToArray());
 		}
-#endif
 #if FeatureValueTask
 		/// <summary>
 		/// Asynchronously computes the hash of a stream using the SHA-1 algorithm.
@@ -81,7 +77,6 @@ static class SHA1Polyfill
 			return new(hash.Length);
 		}
 #endif
-#if !NET
 		/// <summary>
 		/// Computes the hash of data using the SHA-1 algorithm.
 		/// </summary>
@@ -107,7 +102,6 @@ static class SHA1Polyfill
 			bytesWritten = hash.Length;
 			return true;
 		}
-#endif
 #endif
 	}
 }

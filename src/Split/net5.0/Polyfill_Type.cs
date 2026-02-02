@@ -27,13 +27,6 @@ static partial class Polyfill
 	/// </summary>
 	public static bool IsAssignableFrom<T>(this Type target) =>
 		target.IsAssignableFrom(typeof(T));
-#if !NET
-	/// <summary>
-	/// Determines whether the current type can be assigned to a variable of the specified targetType.
-	/// </summary>
-	public static bool IsAssignableTo(this Type target, [NotNullWhen(true)] Type? targetType) =>
-		targetType?.IsAssignableFrom(target) ?? false;
-#endif
 	/// <summary>
 	/// Searches for the MemberInfo on the current Type that matches the specified MemberInfo.
 	/// </summary>

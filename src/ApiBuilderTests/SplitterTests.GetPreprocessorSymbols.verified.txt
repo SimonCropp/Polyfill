@@ -1,5 +1,6 @@
 ﻿{
   net10.0: [
+    NET,
     NET10_0,
     NET10_0_OR_GREATER,
     NET5_0_OR_GREATER,
@@ -77,6 +78,7 @@
     NET48_OR_GREATER
   ],
   net5.0: [
+    NET,
     NET5_0,
     NET5_0_OR_GREATER,
     NETCOREAPP,
@@ -86,6 +88,7 @@
     NETCOREAPP3_1_OR_GREATER
   ],
   net6.0: [
+    NET,
     NET6_0,
     NET6_0_OR_GREATER,
     NET5_0_OR_GREATER,
@@ -96,6 +99,7 @@
     NETCOREAPP3_1_OR_GREATER
   ],
   net7.0: [
+    NET,
     NET7_0,
     NET7_0_OR_GREATER,
     NET5_0_OR_GREATER,
@@ -107,6 +111,7 @@
     NETCOREAPP3_1_OR_GREATER
   ],
   net8.0: [
+    NET,
     NET8_0,
     NET8_0_OR_GREATER,
     NET5_0_OR_GREATER,
@@ -119,6 +124,7 @@
     NETCOREAPP3_1_OR_GREATER
   ],
   net9.0: [
+    NET,
     NET9_0,
     NET9_0_OR_GREATER,
     NET5_0_OR_GREATER,

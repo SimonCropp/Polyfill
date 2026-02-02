@@ -28,7 +28,6 @@ static partial class Polyfill
 		public static bool IsMacCatalystVersionAtLeast(int major, int minor = 0, int build = 0) =>
 			IsMacCatalyst() &&
 			IsOsVersionAtLeast(major, minor, build);
-#if !NET
 		/// <summary>
 		/// Checks if the macOS version (returned by libobjc.get_operatingSystemVersion) is greater than or equal to the specified version. This method can be used to guard APIs that were added in the specified macOS version.
 		/// </summary>
@@ -125,7 +124,6 @@ static partial class Polyfill
 		/// </summary>
 		public static bool IsBrowser() =>
 			RuntimeInformation.IsOSPlatform(OSPlatform.Create("BROWSER"));
-#endif
 	}
 }
 #endif

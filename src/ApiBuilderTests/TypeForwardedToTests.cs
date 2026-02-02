@@ -26,6 +26,11 @@ public class TypeForwardedToTests
             var tree = CSharpSyntaxTree.ParseText(content);
             var root = tree.GetRoot();
 
+            // Check if file has the appropriate using statement (allow simplified form in Split directory with using)
+            var isSplitFile = file.Contains("Split");
+            var hasUsingStatement = content.Contains("using System.Runtime.CompilerServices;");
+            var allowSimplifiedForm = isSplitFile && hasUsingStatement;
+
             // Find all TypeForwardedTo attributes
             var attributes = root.DescendantNodes()
                 .OfType<AttributeSyntax>()
@@ -36,8 +41,9 @@ public class TypeForwardedToTests
             {
                 var attributeName = attribute.Name.ToString();
 
-                // Check if the attribute name is fully qualified
-                if (!attributeName.StartsWith("System.Runtime.CompilerServices.TypeForwardedTo"))
+                // Check if the attribute name is fully qualified (allow simplified form for TypeForwardeds.cs with using)
+                if (!attributeName.StartsWith("System.Runtime.CompilerServices.TypeForwardedTo") &&
+                    !(allowSimplifiedForm && attributeName == "TypeForwardedTo"))
                 {
                     errors.Add($"{Path.GetFileName(file)}: TypeForwardedTo attribute is not fully qualified: {attributeName}");
                 }

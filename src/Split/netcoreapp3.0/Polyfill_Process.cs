@@ -8,7 +8,6 @@ using System.Threading;
 using System.Threading.Tasks;
 static partial class Polyfill
 {
-#if !NET
 	/// <summary>
 	/// Instructs the Process component to wait for the associated process to exit, or
 	/// for the <paramref name="cancellationToken"/> to be canceled.
@@ -49,5 +48,4 @@ static partial class Polyfill
 			target.Exited -= handler;
 		}
 	}
-#endif
 }

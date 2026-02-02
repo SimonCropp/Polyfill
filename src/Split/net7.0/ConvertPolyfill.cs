@@ -7,14 +7,6 @@ static partial class Polyfill
 {
 	extension(Convert)
 	{
-#if !NET
-		/// <summary>
-		/// Converts a subset of an array of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
-		/// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
-		/// </summary>
-		public static string ToHexString(byte[] inArray, int offset, int length) =>
-			ToHexString(inArray, offset, length, "X2");
-#endif
 		/// <summary>
 		/// Converts a subset of an array of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
 		/// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
@@ -26,50 +18,7 @@ static partial class Polyfill
 		/// </summary>
 		public static string ToHexStringLower(byte[] inArray) =>
 			Polyfill.ToHexStringLower(inArray, 0, inArray.Length);
-#if !NET
-		/// <summary>
-		/// Converts an array of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
-		/// </summary>
-		public static string ToHexString(byte[] inArray) =>
-			Polyfill.ToHexString(inArray, 0, inArray.Length);
-		/// <summary>
-		/// Converts the specified string, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
-		/// </summary>
-		public static byte[] FromHexString(string hexString)
-		{
-			if (hexString.Length % 2 != 0)
-				throw new FormatException("Hex string must have an even length.");
-			var result = new byte[hexString.Length / 2];
-			for (int i = 0; i < result.Length; i++)
-			{
-				result[i] = (byte) ((GetHexValue(hexString[i * 2]) << 4) + GetHexValue(hexString[i * 2 + 1]));
-			}
-			return result;
-			static int GetHexValue(char hex)
-			{
-				return hex switch
-				{
-					>= '0' and <= '9' => hex - '0',
-					>= 'A' and <= 'F' => hex - 'A' + 10,
-					>= 'a' and <= 'f' => hex - 'a' + 10,
-					_ => throw new FormatException($"Invalid hex character: {hex}")
-				};
-			}
-		}
-#endif
 #if FeatureMemory
-#if !NET
-		/// <summary>
-		/// Converts the span, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
-		/// </summary>
-		public static byte[] FromHexString(ReadOnlySpan<char> chars) =>
-			Polyfill.FromHexString(chars.ToString());
-		/// <summary>
-		/// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
-		/// </summary>
-		public static string ToHexString(ReadOnlySpan<byte> bytes) =>
-			Polyfill.ToHexString(bytes.ToArray());
-#endif
 		/// <summary>
 		/// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
 		/// </summary>

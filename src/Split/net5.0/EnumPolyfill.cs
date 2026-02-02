@@ -7,30 +7,6 @@ static partial class Polyfill
 {
 	extension(Enum)
 	{
-#if !NET
-		/// <summary>
-		/// Retrieves an array of the values of the constants in a specified enumeration type.
-		/// </summary>
-		public static TEnum[] GetValues<TEnum>()
-			where TEnum : struct, Enum
-		{
-			var values = Enum.GetValues(typeof(TEnum));
-			var result = new TEnum[values.Length];
-			Array.Copy(values, result, values.Length);
-			return result;
-		}
-		/// <summary>Returns a <see cref="bool"/> telling whether a given integral value exists in a specified enumeration.</summary>
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public static bool IsDefined<TEnum>(TEnum value)
-			where TEnum : struct, Enum =>
-			Enum.IsDefined(typeof(TEnum), value);
-		/// <summary>
-		/// Retrieves an array of the names of the constants in a specified enumeration type.
-		/// </summary>
-		public static string[] GetNames<TEnum>()
-			where TEnum : struct, Enum =>
-			Enum.GetNames(typeof(TEnum));
-#endif
 #if FeatureMemory
 		/// <summary>
 		/// Converts the span of characters representation of the name or numeric value of one or more enumerated constants specified by TEnum to an equivalent enumerated object.

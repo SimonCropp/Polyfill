@@ -20,7 +20,6 @@ static class SHA384Polyfill
 {
 	extension(SHA384)
 	{
-#if !NET
 		/// <summary>
 		/// Computes the hash of data using the SHA-384 algorithm.
 		/// </summary>
@@ -29,7 +28,6 @@ static class SHA384Polyfill
 			using var hasher = SHA384.Create();
 			return hasher.ComputeHash(source);
 		}
-#endif
 		/// <summary>
 		/// Computes the hash of a stream using the SHA-384 algorithm.
 		/// </summary>
@@ -59,7 +57,6 @@ static class SHA384Polyfill
 			hash.CopyTo(destination);
 			return hash.Length;
 		}
-#if !NET
 		/// <summary>
 		/// Computes the hash of data using the SHA-384 algorithm.
 		/// </summary>
@@ -68,7 +65,6 @@ static class SHA384Polyfill
 			using var hasher = SHA384.Create();
 			return hasher.ComputeHash(source.ToArray());
 		}
-#endif
 #if FeatureValueTask
 		/// <summary>
 		/// Asynchronously computes the hash of a stream using the SHA-384 algorithm.
@@ -81,7 +77,6 @@ static class SHA384Polyfill
 			return new(hash.Length);
 		}
 #endif
-#if !NET
 		/// <summary>
 		/// Computes the hash of data using the SHA-384 algorithm.
 		/// </summary>
@@ -107,7 +102,6 @@ static class SHA384Polyfill
 			bytesWritten = hash.Length;
 			return true;
 		}
-#endif
 #endif
 	}
 }

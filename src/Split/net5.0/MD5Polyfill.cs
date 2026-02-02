@@ -20,16 +20,6 @@ static class MD5Polyfill
 {
 	extension(MD5)
 	{
-#if !NET
-		/// <summary>
-		/// Computes the hash of data using the MD5 algorithm.
-		/// </summary>
-		public static byte[] HashData(byte[] source)
-		{
-			using var hasher = MD5.Create();
-			return hasher.ComputeHash(source);
-		}
-#endif
 		/// <summary>
 		/// Computes the hash of a stream using the MD5 algorithm.
 		/// </summary>
@@ -59,16 +49,6 @@ static class MD5Polyfill
 			hash.CopyTo(destination);
 			return hash.Length;
 		}
-#if !NET
-		/// <summary>
-		/// Computes the hash of data using the MD5 algorithm.
-		/// </summary>
-		public static byte[] HashData(ReadOnlySpan<byte> source)
-		{
-			using var hasher = MD5.Create();
-			return hasher.ComputeHash(source.ToArray());
-		}
-#endif
 #if FeatureValueTask
 		/// <summary>
 		/// Asynchronously computes the hash of a stream using the MD5 algorithm.
@@ -79,33 +59,6 @@ static class MD5Polyfill
 			var hash = HashData(source);
 			hash.CopyTo(destination);
 			return new(hash.Length);
-		}
-#endif
-#if !NET
-		/// <summary>
-		/// Computes the hash of data using the MD5 algorithm.
-		/// </summary>
-		public static int HashData(ReadOnlySpan<byte> source, Span<byte> destination)
-		{
-			var hash = HashData(source);
-			hash.CopyTo(destination);
-			return hash.Length;
-		}
-		/// <summary>
-		/// Attempts to compute the hash of data using the MD5 algorithm.
-		/// </summary>
-		public static bool TryHashData(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
-		{
-			using var hasher = MD5.Create();
-			var hash = hasher.ComputeHash(source.ToArray());
-			if (destination.Length < hash.Length)
-			{
-				bytesWritten = 0;
-				return false;
-			}
-			hash.CopyTo(destination);
-			bytesWritten = hash.Length;
-			return true;
 		}
 #endif
 #endif
