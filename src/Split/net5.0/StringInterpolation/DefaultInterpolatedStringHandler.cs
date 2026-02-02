@@ -68,12 +68,6 @@ ref struct DefaultInterpolatedStringHandler
 		return result;
 	}
 	/// <summary>Clears the handler.</summary>
-	/// <remarks>
-	/// This releases any resources used by the handler. The method should be invoked only
-	/// once and as the last thing performed on the handler. Subsequent use is erroneous, ill-defined,
-	/// and may destabilize the process, as may using any other copies of the handler after <see cref="Clear"/>
-	/// is called on any one of them.
-	/// </remarks>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public void Clear()
 	{

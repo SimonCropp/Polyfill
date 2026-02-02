@@ -70,10 +70,6 @@ class EnumerationOptions
     /// <summary>
     /// Gets or sets a value that indicates the maximum directory depth to recurse while enumerating, when <see cref="RecurseSubdirectories"/> is set to <see langword="true"/>.
     /// </summary>
-    /// <remarks>
-    /// If <see cref="MaxRecursionDepth"/> is set to a negative number, the default value <see cref="int.MaxValue"/> is used.
-    /// If <see cref="MaxRecursionDepth"/> is set to zero, enumeration returns the contents of the initial directory.
-    /// </remarks>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.maxrecursiondepth?view=net-10.0
     public int MaxRecursionDepth
     {

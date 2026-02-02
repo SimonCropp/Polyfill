@@ -17,47 +17,24 @@ static partial class Polyfill
 	public ref struct SpanSplitEnumerator<T> : IEnumerator<Range>
 		where T : IEquatable<T>
 	{
-		/// <summary>The input span being split.</summary>
 		private readonly ReadOnlySpan<T> _source;
-		/// <summary>A single separator to use when <see cref="_splitMode"/> is <see cref="SpanSplitEnumeratorMode.SingleElement"/>.</summary>
 		private readonly T _separator = default!;
-		/// <summary>
-		/// A separator span to use when <see cref="_splitMode"/> is <see cref="SpanSplitEnumeratorMode.Sequence"/> (in which case
-		/// it's treated as a single separator) or <see cref="SpanSplitEnumeratorMode.Any"/> (in which case it's treated as a set of separators).
-		/// </summary>
 		private readonly ReadOnlySpan<T> _separatorBuffer;
-		/// <summary>A set of separators to use when <see cref="_splitMode"/> is <see cref="SpanSplitEnumeratorMode.SearchValues"/>.</summary>
 		private readonly SearchValues<T> _searchValues = default!;
-		/// <summary>Mode that dictates how the instance was configured and how its fields should be used in <see cref="MoveNext"/>.</summary>
 		private SpanSplitEnumeratorMode _splitMode;
-		/// <summary>The inclusive starting index in <see cref="_source"/> of the current range.</summary>
 		private int _startCurrent = 0;
-		/// <summary>The exclusive ending index in <see cref="_source"/> of the current range.</summary>
 		private int _endCurrent = 0;
-		/// <summary>The index in <see cref="_source"/> from which the next separator search should start.</summary>
 		private int _startNext = 0;
-		/// <summary>Gets an enumerator that allows for iteration over the split span.</summary>
-		/// <returns>Returns a <see cref="SpanSplitEnumerator{T}"/> that can be used to iterate over the split span.</returns>
 		public SpanSplitEnumerator<T> GetEnumerator() => this;
 		/// <summary>Gets the source span being enumerated.</summary>
-		/// <returns>Returns the <see cref="ReadOnlySpan{T}"/> that was provided when creating this enumerator.</returns>
 		public readonly ReadOnlySpan<T> Source => _source;
-		/// <summary>Gets the current element of the enumeration.</summary>
-		/// <returns>Returns a <see cref="Range"/> instance that indicates the bounds of the current element withing the source span.</returns>
 		public Range Current => new Range(_startCurrent, _endCurrent);
-		/// <summary>Initializes the enumerator for <see cref="SpanSplitEnumeratorMode.SearchValues"/>.</summary>
 		internal SpanSplitEnumerator(ReadOnlySpan<T> source, SearchValues<T> searchValues)
 		{
 			_source = source;
 			_splitMode = SpanSplitEnumeratorMode.SearchValues;
 			_searchValues = searchValues;
 		}
-		/// <summary>Initializes the enumerator for <see cref="SpanSplitEnumeratorMode.Any"/>.</summary>
-		/// <remarks>
-		/// If <paramref name="separators"/> is empty and <typeparamref name="T"/> is <see cref="char"/>, as an optimization
-		/// it will instead use <see cref="SpanSplitEnumeratorMode.SearchValues"/> with a cached <see cref="SearchValues{Char}"/>
-		/// for all whitespace characters.
-		/// </remarks>
 		internal SpanSplitEnumerator(ReadOnlySpan<T> source, ReadOnlySpan<T> separators)
 		{
 			_source = source;
@@ -70,25 +47,18 @@ static partial class Polyfill
 			_separatorBuffer = separators;
 			_splitMode = SpanSplitEnumeratorMode.Any;
 		}
-		/// <summary>Initializes the enumerator for <see cref="SpanSplitEnumeratorMode.Sequence"/> (or <see cref="SpanSplitEnumeratorMode.EmptySequence"/> if the separator is empty).</summary>
-		/// <remarks><paramref name="treatAsSingleSeparator"/> must be true.</remarks>
 		internal SpanSplitEnumerator(ReadOnlySpan<T> source, ReadOnlySpan<T> separator, bool treatAsSingleSeparator)
 		{
 			_source = source;
 			_separatorBuffer = separator;
 			_splitMode = separator.Length == 0 ? SpanSplitEnumeratorMode.EmptySequence : SpanSplitEnumeratorMode.Sequence;
 		}
-		/// <summary>Initializes the enumerator for <see cref="SpanSplitEnumeratorMode.SingleElement"/>.</summary>
 		internal SpanSplitEnumerator(ReadOnlySpan<T> source, T separator)
 		{
 			_source = source;
 			_separator = separator;
 			_splitMode = SpanSplitEnumeratorMode.SingleElement;
 		}
-		/// <summary>
-		/// Advances the enumerator to the next element of the enumeration.
-		/// </summary>
-		/// <returns><see langword="true"/> if the enumerator was successfully advanced to the next element; <see langword="false"/> if the enumerator has passed the end of the enumeration.</returns>
 		public bool MoveNext()
 		{
 			// Search for the next separator index.
@@ -136,11 +106,8 @@ static partial class Polyfill
 			}
 			return true;
 		}
-		/// <inheritdoc />
 		object IEnumerator.Current => Current;
-		/// <inheritdoc />
 		void IEnumerator.Reset() => throw new NotSupportedException();
-		/// <inheritdoc />
 		void IDisposable.Dispose()
 		{
 		}

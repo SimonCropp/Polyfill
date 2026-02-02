@@ -13,8 +13,6 @@ static partial class Polyfill
 		/// <summary>
 		/// Gets the UnixFileMode of the file on the path.
 		/// </summary>
-		/// <param name="path">The path to the file.</param>
-		/// <returns>The UnixFileMode of the file handle.</returns>
 		[UnsupportedOSPlatform("windows")]
 		public static UnixFileMode GetUnixFileMode(string path)
 		{

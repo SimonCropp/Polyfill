@@ -57,8 +57,6 @@ static partial class Polyfill
 		/// <summary>
 		/// Converts a single-precision floating-point value into an integer.
 		/// </summary>
-		/// <param name="value"></param>
-		/// <returns></returns>
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 #if AllowUnsafeBlocks
 		public static unsafe int SingleToInt32Bits(float value)

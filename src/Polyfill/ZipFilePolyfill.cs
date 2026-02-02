@@ -19,10 +19,6 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously extracts all the files in the specified archive to a directory on the file system.
         /// </summary>
-        /// <param name="sourceArchiveFileName">The path to the archive to extract.</param>
-        /// <param name="destinationDirectoryName">The path to the directory in which to place the extracted files.</param>
-        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-        /// <returns>A task that represents the asynchronous extract operation.</returns>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0
         public static Task ExtractToDirectoryAsync(
             string sourceArchiveFileName,
@@ -33,11 +29,6 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously extracts all the files in the specified archive to a directory on the file system.
         /// </summary>
-        /// <param name="sourceArchiveFileName">The path to the archive to extract.</param>
-        /// <param name="destinationDirectoryName">The path to the directory in which to place the extracted files.</param>
-        /// <param name="overwriteFiles">true to overwrite existing files; false otherwise.</param>
-        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-        /// <returns>A task that represents the asynchronous extract operation.</returns>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0
         public static Task ExtractToDirectoryAsync(
             string sourceArchiveFileName,
@@ -49,11 +40,6 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously extracts all the files in the specified archive to a directory on the file system and uses the specified character encoding for entry names.
         /// </summary>
-        /// <param name="sourceArchiveFileName">The path to the archive to extract.</param>
-        /// <param name="destinationDirectoryName">The path to the directory in which to place the extracted files.</param>
-        /// <param name="entryNameEncoding">The encoding to use when reading entry names in this archive.</param>
-        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-        /// <returns>A task that represents the asynchronous extract operation.</returns>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0
         public static Task ExtractToDirectoryAsync(
             string sourceArchiveFileName,
@@ -65,12 +51,6 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously extracts all the files in the specified archive to a directory on the file system and uses the specified character encoding for entry names.
         /// </summary>
-        /// <param name="sourceArchiveFileName">The path to the archive to extract.</param>
-        /// <param name="destinationDirectoryName">The path to the directory in which to place the extracted files.</param>
-        /// <param name="entryNameEncoding">The encoding to use when reading entry names in this archive.</param>
-        /// <param name="overwriteFiles">true to overwrite existing files; false otherwise.</param>
-        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-        /// <returns>A task that represents the asynchronous extract operation.</returns>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0
         public static Task ExtractToDirectoryAsync(
             string sourceArchiveFileName,
@@ -97,7 +77,6 @@ static partial class Polyfill
 #endif
         }
 
-        // Helper method to handle overwriteFiles polyfill for pre-.NET 8.0 with encoding
         static void ExtractToDirectoryPolyfill(
             string sourceArchiveFile,
             string destinationDirectory,
@@ -118,10 +97,6 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously creates a zip archive that contains the files and directories from the specified directory.
         /// </summary>
-        /// <param name="sourceDirectoryName">The path to the directory to archive.</param>
-        /// <param name="destinationArchiveFileName">The path of the archive to create.</param>
-        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-        /// <returns>A task that represents the asynchronous create operation.</returns>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0
         public static Task CreateFromDirectoryAsync(
             string sourceDirectoryName,
@@ -132,12 +107,6 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously creates a zip archive that contains the files and directories from the specified directory and uses the specified compression level.
         /// </summary>
-        /// <param name="sourceDirectoryName">The path to the directory to archive.</param>
-        /// <param name="destinationArchiveFileName">The path of the archive to create.</param>
-        /// <param name="compressionLevel">The compression level to use.</param>
-        /// <param name="includeBaseDirectory">true to include the directory name from sourceDirectoryName at the root of the archive; false otherwise.</param>
-        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-        /// <returns>A task that represents the asynchronous create operation.</returns>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0
         public static Task CreateFromDirectoryAsync(
             string sourceDirectoryName,
@@ -150,13 +119,6 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously creates a zip archive that contains the files and directories from the specified directory, uses the specified compression level and character encoding for entry names.
         /// </summary>
-        /// <param name="sourceDirectoryName">The path to the directory to archive.</param>
-        /// <param name="destinationArchiveFileName">The path of the archive to create.</param>
-        /// <param name="compressionLevel">The compression level to use.</param>
-        /// <param name="includeBaseDirectory">true to include the directory name from sourceDirectoryName at the root of the archive; false otherwise.</param>
-        /// <param name="entryNameEncoding">The encoding to use when reading or writing entry names in this archive.</param>
-        /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
-        /// <returns>A task that represents the asynchronous create operation.</returns>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0
         public static Task CreateFromDirectoryAsync(
             string sourceDirectoryName,
