@@ -74,7 +74,9 @@ static partial class Polyfill
 			var j = target.Next(i, n);
 			if (j != i)
 			{
-				(values[i], values[j]) = (values[j], values[i]);
+				var temp = values[i];
+				values[i] = values[j];
+				values[j] = temp;
 			}
 		}
 	}

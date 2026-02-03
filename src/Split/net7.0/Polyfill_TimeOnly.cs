@@ -5,9 +5,6 @@ using System;
 using System.ComponentModel;
 static partial class Polyfill
 {
-	/// <summary>
-	/// Deconstructs this TimeOnly instance.
-	/// </summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static void Deconstruct(this TimeOnly target, out int hour, out int minute, out int second, out int millisecond, out int microsecond)
 	{
@@ -17,9 +14,6 @@ static partial class Polyfill
 		millisecond = target.Millisecond;
 		microsecond = target.Microsecond;
 	}
-	/// <summary>
-	/// Deconstructs this TimeOnly instance.
-	/// </summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static void Deconstruct(this TimeOnly target, out int hour, out int minute, out int second, out int millisecond)
 	{
@@ -28,9 +22,6 @@ static partial class Polyfill
 		second = target.Second;
 		millisecond = target.Millisecond;
 	}
-	/// <summary>
-	/// Deconstructs this TimeOnly instance.
-	/// </summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static void Deconstruct(this TimeOnly target, out int hour, out int minute, out int second)
 	{
@@ -38,9 +29,6 @@ static partial class Polyfill
 		minute = target.Minute;
 		second = target.Second;
 	}
-	/// <summary>
-	/// Deconstructs this TimeOnly instance.
-	/// </summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static void Deconstruct(this TimeOnly target, out int hour, out int minute)
 	{

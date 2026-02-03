@@ -8,7 +8,6 @@ using Diagnostics;
 using Diagnostics.CodeAnalysis;
 using Runtime.CompilerServices;
 //https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Text/StringBuilder.cs
-/// <summary>Provides a handler used by the language compiler to append interpolated strings into <see cref="StringBuilder"/> instances.</summary>
 [EditorBrowsable(EditorBrowsableState.Never)]
 [InterpolatedStringHandler]
 [ExcludeFromCodeCoverage]

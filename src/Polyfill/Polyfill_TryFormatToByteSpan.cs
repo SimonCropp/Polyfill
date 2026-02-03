@@ -9,18 +9,18 @@ static partial class Polyfill
 {
 #if !NET8_0_OR_GREATER
 
-    static bool DoFormat<T>(this T target, Span<byte> destination, out int written, [StringSyntax(StringSyntaxAttribute.TimeSpanFormat)] ReadOnlySpan<char> format = default, IFormatProvider? formatProvider = null)
+    static bool DoFormat<T>(this T target, Span<byte> destination, out int written, [StringSyntax(StringSyntaxAttribute.TimeSpanFormat)] ReadOnlySpan<char> format = default, IFormatProvider? provider = null)
         where T : IFormattable
     {
         string result;
 
         if (format.Length == 0)
         {
-            result = target.ToString(null, formatProvider);
+            result = target.ToString(null, provider);
         }
         else
         {
-            result = target.ToString(format.ToString(), formatProvider);
+            result = target.ToString(format.ToString(), provider);
         }
 
         if (result.Length == 0)

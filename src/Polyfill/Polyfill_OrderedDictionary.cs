@@ -1,14 +1,13 @@
-#if NET9_0_OR_GREATER
+#if NET9_0
 
 namespace Polyfills;
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-//TODO: fix links and docs
 static partial class Polyfill
 {
-    //Link: https://github.com/dotnet/core/blob/main/release-notes/10.0/preview/preview1/libraries.md#additional-tryadd-and-trygetvalue-overloads-for-ordereddictionarytkey-tvalue?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ordereddictionary-2.tryadd?view=net-10.0#system-collections-generic-ordereddictionary-2-tryadd(-0-1-system-int32@)
     public static bool TryAdd<TKey, TValue>(this OrderedDictionary<TKey, TValue> target, TKey key, TValue value, out int index)
         where TKey : notnull
     {
@@ -17,7 +16,7 @@ static partial class Polyfill
         return result;
     }
 
-    //Link: https://github.com/dotnet/core/blob/main/release-notes/10.0/preview/preview1/libraries.md#additional-tryadd-and-trygetvalue-overloads-for-ordereddictionarytkey-tvalue?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ordereddictionary-2.trygetvalue?view=net-10.0#system-collections-generic-ordereddictionary-2-trygetvalue(-0-1@-system-int32@)
     public static bool TryGetValue<TKey, TValue>(this OrderedDictionary<TKey, TValue> target, TKey key, [MaybeNullWhen(false)] out TValue value, out int index)
         where TKey : notnull
     {

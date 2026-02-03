@@ -29,29 +29,7 @@ static partial class Polyfill
 	/// <summary>
 	/// GetChunks returns ChunkEnumerator that follows the IEnumerable pattern and
 	/// thus can be used in a C# 'foreach' statements to retrieve the data in the StringBuilder
-	/// as chunks (ReadOnlyMemory) of characters.  An example use is:
-	///
-	///      foreach (ReadOnlyMemory&lt;char&gt; chunk in sb.GetChunks())
-	///         foreach (char c in chunk.Span)
-	///             { /* operation on c }
-	///
-	/// It is undefined what happens if the StringBuilder is modified while the chunk
-	/// enumeration is incomplete.  StringBuilder is also not thread-safe, so operating
-	/// on it with concurrent threads is illegal.  Finally the ReadOnlyMemory chunks returned
-	/// are NOT guaranteed to remain unchanged if the StringBuilder is modified, so do
-	/// not cache them for later use either.  This API's purpose is efficiently extracting
-	/// the data of a CONSTANT StringBuilder.
-	///
-	/// Creating a ReadOnlySpan from a ReadOnlyMemory  (the .Span property) is expensive
-	/// compared to the fetching of the character, so create a local variable for the SPAN
-	/// if you need to use it in a nested for statement.  For example
-	///
-	///    foreach (ReadOnlyMemory&lt;char&gt; chunk in sb.GetChunks())
-	///    {
-	///         var span = chunk.Span;
-	///         for (int i = 0; i &lt; span.Length; i++)
-	///             { /* operation on span[i] */ }
-	///    }
+	/// as chunks (ReadOnlyMemory) of characters.
 	/// </summary>
 	public static ChunkEnumerator GetChunks(this StringBuilder target) =>
 		new(target);
@@ -66,9 +44,6 @@ static partial class Polyfill
 		StringBuilder _firstChunk;
 		StringBuilder? _currentChunk;
 		ManyChunkInfo? _manyChunks;
-		/// <summary>
-		/// Implement IEnumerable.GetEnumerator() to return  'this' as the IEnumerator
-		/// </summary>
 		[EditorBrowsable(EditorBrowsableState.Never)]
 		public ChunkEnumerator GetEnumerator() =>
 			this;

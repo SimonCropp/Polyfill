@@ -112,7 +112,9 @@ static partial class Polyfill
 
             if (j != i)
             {
-                (values[i], values[j]) = (values[j], values[i]);
+                var temp = values[i];
+                values[i] = values[j];
+                values[j] = temp;
             }
         }
     }

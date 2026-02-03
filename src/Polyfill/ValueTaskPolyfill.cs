@@ -4,9 +4,6 @@ namespace Polyfills;
 
 using System.Threading.Tasks;
 
-#if PolyPublic
-public
-#endif
 static partial class Polyfill
 {
     extension(ValueTask)

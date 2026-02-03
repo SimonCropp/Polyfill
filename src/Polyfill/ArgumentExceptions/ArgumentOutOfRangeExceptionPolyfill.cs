@@ -119,9 +119,11 @@ static partial class Polyfill
         }
 #endif
 
+#if !NET8_0_OR_GREATER
         [DoesNotReturn]
         static void ThrowNegativeOrZero<T>(T value, string? name) =>
             throw new ArgumentOutOfRangeException(name, value, $"{name} ('{value}') must be a non-negative and non-zero value.");
+#endif
 
 #if !NET8_0_OR_GREATER
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifequal?view=net-10.0#system-argumentoutofrangeexception-throwifequal-1(-0-0-system-string)

@@ -6,9 +6,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 static partial class Polyfill
 {
-	/// <summary>
-	/// Deconstructs the current <see cref="KeyValuePair{TKey,TValue}"/>
-	/// </summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static void Deconstruct<TKey, TValue>(
 		this KeyValuePair<TKey, TValue> target,

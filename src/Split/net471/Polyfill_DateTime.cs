@@ -6,9 +6,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 static partial class Polyfill
 {
-	/// <summary>
-	///  Deconstructs <see cref="DateTime"/> by <see cref="DateTime.Year"/>, <see cref="DateTime.Month"/> and <see cref="DateTime.Day"/>.
-	/// </summary>
 	[EditorBrowsable(EditorBrowsableState.Never)]
 	public static void Deconstruct(this DateTime target, out int year, out int month, out int day)
 	{

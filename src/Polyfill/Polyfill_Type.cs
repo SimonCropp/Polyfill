@@ -84,18 +84,6 @@ static partial class Polyfill
 #endif
 
     /// <summary>
-    /// Gets a value that indicates whether the current Type represents a type parameter in the definition of a generic method.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter?view=net-10.0
-    public static bool IsGenericMethodParameter(this Type target) =>
-#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        target.IsGenericMethodParameter;
-#else
-        target.IsGenericParameter &&
-        target.DeclaringMethod != null;
-#endif
-
-    /// <summary>
     /// Generic version of Type.IsAssignableTo https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto.
     /// </summary>
     public static bool IsAssignableTo<T>(this Type target) =>

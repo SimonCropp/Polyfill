@@ -7,9 +7,6 @@ using System.ComponentModel;
 
 static partial class Polyfill
 {
-    /// <summary>
-    /// Deconstructs DateOnly by Year, Month, and Day.
-    /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.dateonly.deconstruct?view=net-10.0
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct(this DateOnly target, out int year, out int month, out int day)

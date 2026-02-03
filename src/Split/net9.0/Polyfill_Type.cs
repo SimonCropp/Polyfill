@@ -8,11 +8,6 @@ using System.Linq;
 static partial class Polyfill
 {
 	/// <summary>
-	/// Gets a value that indicates whether the current Type represents a type parameter in the definition of a generic method.
-	/// </summary>
-	public static bool IsGenericMethodParameter(this Type target) =>
-		target.IsGenericMethodParameter;
-	/// <summary>
 	/// Generic version of Type.IsAssignableTo https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto.
 	/// </summary>
 	public static bool IsAssignableTo<T>(this Type target) =>

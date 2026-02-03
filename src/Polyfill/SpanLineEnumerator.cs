@@ -34,19 +34,10 @@ ref struct SpanLineEnumerator
         isActive = true;
     }
 
-    /// <summary>
-    /// Gets the line at the current position of the enumerator.
-    /// </summary>
     public ReadOnlySpan<char> Current { get; private set; }
 
-    /// <summary>
-    /// Returns this instance as an enumerator.
-    /// </summary>
     public SpanLineEnumerator GetEnumerator() => this;
 
-    /// <summary>
-    /// Advances the enumerator to the next line of the span.
-    /// </summary>
     public bool MoveNext()
     {
         if (!isActive)
@@ -69,11 +60,8 @@ ref struct SpanLineEnumerator
                 stride = 2;
             }
 
-            // ReSharper disable ReplaceSliceWithRangeIndexer
-            //Dont use range indexer here since https://github.com/SimonCropp/Polyfill/pull/159
             Current = remaining.Slice(0, index);
             remaining = remaining.Slice(index + stride);
-            // ReSharper restore ReplaceSliceWithRangeIndexer
             return true;
         }
 
