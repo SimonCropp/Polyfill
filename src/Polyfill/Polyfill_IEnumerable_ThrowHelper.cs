@@ -1,3 +1,5 @@
+#if !NET6_0_OR_GREATER
+
 namespace Polyfills;
 
 using System.Diagnostics.CodeAnalysis;
@@ -9,3 +11,5 @@ static partial class Polyfill
     static void ThrowNoElementsException() =>
         throw new InvalidOperationException("Sequence contains no elements");
 }
+
+#endif
