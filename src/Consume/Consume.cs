@@ -1086,7 +1086,7 @@ class Consume
     {
         var result = typeof(List<string>).IsAssignableTo(typeof(string));
         result = typeof(List<string>).IsAssignableTo(null);
-        result = typeof(string).IsGenericMethodParameter();
+        result = typeof(string).IsGenericMethodParameter;
         var member = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
     }
 
