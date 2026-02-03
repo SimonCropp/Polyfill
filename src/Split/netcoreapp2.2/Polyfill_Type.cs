@@ -13,11 +13,6 @@ static partial class Polyfill
 	public static MethodInfo? GetMethod([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types) =>
 		target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);
 	/// <summary>
-	/// Gets a value that indicates whether the current Type represents a type parameter in the definition of a generic method.
-	/// </summary>
-	public static bool IsGenericMethodParameter(this Type target) =>
-		target.IsGenericMethodParameter;
-	/// <summary>
 	/// Generic version of Type.IsAssignableTo https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto.
 	/// </summary>
 	public static bool IsAssignableTo<T>(this Type target) =>
