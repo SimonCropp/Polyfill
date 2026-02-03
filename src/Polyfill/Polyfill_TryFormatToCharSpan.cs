@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 static partial class Polyfill
 {
+#if !NETCOREAPP3_0_OR_GREATER || NET6_0
     static bool CopyToSpan(Span<char> destination, out int written, string result)
     {
         if (result.Length == 0)
@@ -40,6 +41,7 @@ static partial class Polyfill
 
         return CopyToSpan(destination, out written, result);
     }
+#endif
 
 #if !NETCOREAPP3_0_OR_GREATER
 
