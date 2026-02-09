@@ -8,6 +8,5 @@ obj/
 *.received.*
 nugets/
 src/msbuild.binlog
-*claude*
 nul
 .DS_Store
