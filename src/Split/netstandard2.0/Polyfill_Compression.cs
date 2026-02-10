@@ -3,7 +3,6 @@
 #if FeatureCompression
 namespace Polyfills;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.IO;
@@ -99,14 +98,14 @@ static partial class Polyfill
 			source.ExtractToFile(fileDestinationPath, overwrite: overwriteFiles);
 		}
 	}
+	static readonly char[] invalidPathChars = Path.GetInvalidPathChars();
 	static string SanitizeEntryFilePath(string fullName)
 	{
 		var sanitized = new char[fullName.Length];
 		for (var index = 0; index < fullName.Length; index++)
 		{
 			var ch = fullName[index];
-			var chars = Path.GetInvalidPathChars();
-			if (chars.Contains(ch))
+			if (Array.IndexOf(invalidPathChars, ch) >= 0)
 			{
 				sanitized[index] = '_';
 				continue;

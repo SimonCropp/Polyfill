@@ -25,7 +25,7 @@ static partial class Polyfill
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static string ReplaceLineEndings(this string target, string replacementText)
 	{
-		var builder = new StringBuilder();
+		var builder = new StringBuilder(target.Length);
 		using var reader = new StringReader(target);
 		while (true)
 		{

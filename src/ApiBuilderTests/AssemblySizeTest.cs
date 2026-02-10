@@ -194,7 +194,7 @@ public class AssemblySizeTest
         var startInfo = new ProcessStartInfo
         {
             FileName = "dotnet",
-            Arguments = "build -c Release",
+            Arguments = $"build -c Release /maxcpucount:{Math.Max(1, Environment.ProcessorCount / 2)}",
             WorkingDirectory = variantDir,
             RedirectStandardOutput = true,
             RedirectStandardError = true,

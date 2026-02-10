@@ -2,7 +2,6 @@
 #pragma warning disable
 namespace Polyfills;
 using System;
-using System.Text;
 static partial class Polyfill
 {
 	extension(Convert)
@@ -106,14 +105,17 @@ static partial class Polyfill
 				throw new ArgumentOutOfRangeException(nameof(offset));
 			if (offset > inArray.Length - length)
 				throw new ArgumentOutOfRangeException(nameof(offset));
-			var builder = new StringBuilder(length * 2);
+			var hexAlphabet = format == "x2" ? "0123456789abcdef" : "0123456789ABCDEF";
+			var chars = new char[length * 2];
 			var end = length + offset;
+			var charIndex = 0;
 			for (var i = offset; i < end; i++)
 			{
-				var item = inArray[i];
-				builder.Append(item.ToString(format));
+				var b = inArray[i];
+				chars[charIndex++] = hexAlphabet[b >> 4];
+				chars[charIndex++] = hexAlphabet[b & 0xF];
 			}
-			return builder.ToString();
+			return new string(chars);
 		}
 	}
 }
