@@ -10,3 +10,4 @@ nugets/
 src/msbuild.binlog
 nul
 .DS_Store
+.claude/settings.local.json
