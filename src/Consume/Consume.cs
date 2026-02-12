@@ -623,6 +623,10 @@ class Consume
 
         // Use the | bitwise OR operator to combine multiple file modes
         File.SetUnixFileMode(TestFilePath, UnixFileMode.OtherRead | UnixFileMode.OtherWrite);
+
+        FileSystemInfo hardLink = File.CreateHardLink("hardlink.txt", TestFilePath);
+        var fileInfo = new FileInfo("hardlink2.txt");
+        fileInfo.CreateAsHardLink(TestFilePath);
     }
 
     void HashSet_Methods()
