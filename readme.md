@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 723**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 725**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -717,6 +717,12 @@ The class `Polyfill` includes the following extension methods:
  * `void WriteAllText(string, ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltext?view=net-10.0#system-io-file-writealltext(system-string-system-readonlyspan((system-char))))
  * `Task WriteAllTextAsync(string, string?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltextasync?view=net-10.0#system-io-file-writealltextasync(system-string-system-string-system-text-encoding-system-threading-cancellationtoken))
  * `Task WriteAllTextAsync(string, string?, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltextasync?view=net-10.0#system-io-file-writealltextasync(system-string-system-string-system-text-encoding-system-threading-cancellationtoken))
+
+
+#### FileHardLink
+
+ * `void CreateAsHardLink(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.fileinfo.createashardlink?view=net-10.0)
+ * `FileSystemInfo CreateHardLink(string, string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.createhardlink?view=net-10.0)
 
 
 #### FileUnixMode
