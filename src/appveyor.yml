@@ -13,6 +13,8 @@ build_script:
       ./dotnet-install.ps1 -JSonFile src/global.json -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
       ./dotnet-install.ps1 -Version 3.1.426 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
       ./dotnet-install.ps1 -Version 5.0.408 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
+      ./dotnet-install.ps1 -Version 9.0.306 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
+      ./dotnet-install.ps1 -Version 10.0.103 -Architecture x64 -InstallDir 'C:\Program Files\dotnet'
     }
     else {
       Invoke-WebRequest "https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh" -OutFile "./dotnet-install.sh"
@@ -21,6 +23,7 @@ build_script:
         sudo ./dotnet-install.sh --jsonfile src/global.json --architecture x64 --install-dir '/usr/local/share/dotnet'
         sudo ./dotnet-install.sh --version 3.1.426 --architecture x64 --install-dir '/usr/local/share/dotnet'
         sudo ./dotnet-install.sh --version 9.0.306 --architecture x64 --install-dir '/usr/local/share/dotnet'
+        sudo ./dotnet-install.sh --version 10.0.103 --architecture x64 --install-dir '/usr/local/share/dotnet'
       } else {
         sudo ./dotnet-install.sh --jsonfile src/global.json --architecture x64 --install-dir '/usr/share/dotnet'
       }
