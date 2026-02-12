@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <PolyEnsure>false</PolyEnsure>
     <PolyGuard>false</PolyGuard>
     <PolyArgumentExceptions>false</PolyArgumentExceptions>

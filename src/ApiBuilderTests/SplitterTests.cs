@@ -11,7 +11,7 @@ public class SplitterTests
     {
         // This tests the specific file that was reported as having empty conditionals
         var source = await File.ReadAllTextAsync(Path.Combine(Splitter.SplitOutputDir, "..", "Polyfill", "ConvertPolyfill.cs"));
-        var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net10.0");
+        var definedSymbols = Splitter.GetPreprocessorSymbolsForFramework("net11.0");
         var resultLines = Splitter.ProcessFile(source, definedSymbols);
         resultLines = Splitter.RemoveEmptyConditionalBlocks(resultLines);
         resultLines = Splitter.RemoveEmptyLines(resultLines);
@@ -980,10 +980,12 @@ public class SplitterTests
         var symbolsNet5 = Splitter.GetPreprocessorSymbolsForFramework("net5.0");
         var symbolsNet6 = Splitter.GetPreprocessorSymbolsForFramework("net6.0");
         var symbolsNet10 = Splitter.GetPreprocessorSymbolsForFramework("net10.0");
+        var symbolsNet11 = Splitter.GetPreprocessorSymbolsForFramework("net11.0");
 
         await Assert.That(symbolsNet5.Contains("NET")).IsTrue();
         await Assert.That(symbolsNet6.Contains("NET")).IsTrue();
         await Assert.That(symbolsNet10.Contains("NET")).IsTrue();
+        await Assert.That(symbolsNet11.Contains("NET")).IsTrue();
     }
 
     [Test]
@@ -1184,8 +1186,8 @@ public class SplitterTests
             var net10Content = await File.ReadAllTextAsync(net10Path);
             var net5Content = await File.ReadAllTextAsync(net5Path);
 
-            var net10Count = net10Content.Split('\n').Count(l => l.Contains("TypeForwardedTo"));
-            var net5Count = net5Content.Split('\n').Count(l => l.Contains("TypeForwardedTo"));
+            var net10Count = net10Content.Split('\n').Count(_ => _.Contains("TypeForwardedTo"));
+            var net5Count = net5Content.Split('\n').Count(_ => _.Contains("TypeForwardedTo"));
 
             // .NET 10 should have more TypeForwardedTo than .NET 5
             await Assert.That(net10Count).IsGreaterThan(net5Count);
@@ -1201,7 +1203,7 @@ public class SplitterTests
         if (Directory.Exists(net10Dir))
         {
             var csFiles = Directory.GetFiles(net10Dir, "*.cs", SearchOption.AllDirectories)
-                .Where(f => Path.GetFileName(f) != "TypeForwardeds.cs")
+                .Where(_ => Path.GetFileName(_) != "TypeForwardeds.cs")
                 .ToList();
 
             foreach (var file in csFiles)

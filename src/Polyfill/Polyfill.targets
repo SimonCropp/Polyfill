@@ -107,6 +107,7 @@ For example:
       <DefineConstants
         Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'Microsoft.Bcl.AsyncInterfaces'))">$(DefineConstants);FeatureAsyncInterfaces</DefineConstants>
 
+      <DefineConstants Condition="$(LowerFramework.StartsWith('net11'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression;FeatureAsyncInterfaces</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net10'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression;FeatureAsyncInterfaces</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net9'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression;FeatureAsyncInterfaces</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net8'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression;FeatureAsyncInterfaces</DefineConstants>
