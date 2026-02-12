@@ -7,6 +7,7 @@ obj/
 .idea/
 *.received.*
 nugets/
+TestResults/
 src/msbuild.binlog
 nul
 .DS_Store

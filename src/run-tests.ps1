@@ -19,7 +19,7 @@ Get-ChildItem -Recurse -Filter "*Tests.csproj" -Path . | ForEach-Object {
 
     foreach ($fw in $frameworks) {
         Write-Host "Running $projName [$fw]" -ForegroundColor Cyan
-        dotnet run --project $proj --configuration Release --framework $fw --no-build
+        dotnet run --project $proj --configuration Release --framework $fw --no-build -- --report-trx
         if ($LASTEXITCODE -ne 0) { throw "Tests failed for $projName [$fw]" }
     }
 }

@@ -31,6 +31,11 @@ build_script:
 #- msbuild.exe src/PolyfillUwp.sln /p:Configuration=Release -verbosity:quiet -restore
 #- msbuild.exe src/PolyfillUwp.sln /p:Configuration=Release -verbosity:quiet
 
+on_finish:
+  - ps: |
+      Get-ChildItem -Recurse -Filter "*.trx" | ForEach-Object {
+        (New-Object 'System.Net.WebClient').UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", $_.FullName)
+      }
 on_failure:
   - ps: Get-ChildItem *.received.* -recurse | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 test: off
