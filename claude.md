@@ -79,7 +79,7 @@ Polyfill uses extensive `#if` directives. Key constants:
 
 ## Technical Details
 
-- SDK: .NET 10.0 (`src/global.json`)
+- SDK: .NET 11.0 (`src/global.json`)
 - LangVersion: 14.0
 - Central Package Management: `src/Directory.Packages.props`
 - `TreatWarningsAsErrors` is enabled

@@ -30,6 +30,7 @@ public class Splitter
         "net8.0",
         "net9.0",
         "net10.0",
+        "net11.0",
         "uap10.0"
     ];
 

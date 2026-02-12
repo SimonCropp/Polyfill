@@ -119,6 +119,22 @@ public class Identifiers
 
             new()
             {
+                Moniker = "net11.0",
+                Directives =
+                [
+                    "NET11_0",
+                    "NET11_0_OR_GREATER",
+                    "NET10_0_OR_GREATER",
+                    "NET9_0_OR_GREATER",
+                    "NET8_0_OR_GREATER",
+                    "NET7_0_OR_GREATER",
+                    "NET6_0_OR_GREATER",
+                    "NET5_0_OR_GREATER"
+                ]
+            },
+
+            new()
+            {
                 Moniker = "net461",
                 Directives =
                 [
@@ -270,6 +286,22 @@ public class Identifiers
                 Directives =
                 [
                     "NET10_0",
+                    "NET10_0_OR_GREATER",
+                    "NET9_0_OR_GREATER",
+                    "NET8_0_OR_GREATER",
+                    "NET7_0_OR_GREATER",
+                    "NET6_0_OR_GREATER",
+                    "NET5_0_OR_GREATER",
+                ]
+            },
+
+            new()
+            {
+                Moniker = "net11.0",
+                Directives =
+                [
+                    "NET11_0",
+                    "NET11_0_OR_GREATER",
                     "NET10_0_OR_GREATER",
                     "NET9_0_OR_GREATER",
                     "NET8_0_OR_GREATER",
