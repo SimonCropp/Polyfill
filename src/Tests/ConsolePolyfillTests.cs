@@ -1,4 +1,3 @@
-#if !NET11_0_OR_GREATER
 public class ConsolePolyfillTests
 {
     [Test]
@@ -28,4 +27,3 @@ public class ConsolePolyfillTests
         await Assert.That(handle.IsClosed).IsFalse();
     }
 }
-#endif

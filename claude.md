@@ -86,6 +86,8 @@ Polyfill uses extensive `#if` directives. Key constants:
    ```
    The `Splitter.Run` and `RunWithRoslyn` tests are `[Explicit]` in Release mode, so they only execute in Debug.
 
+**Test `#if` guard rules:** Tests should run on **all** target frameworks, not just the ones where the polyfill is active. On older frameworks the test exercises the polyfill; on newer frameworks it exercises the real BCL method. This validates that the polyfill behavior matches the native implementation. Do **not** use framework-excluding guards like `#if !NETx_0_OR_GREATER` in tests. Only use feature guards (`#if FeatureMemory`, `#if FeatureAsyncInterfaces`, etc.) when the test code requires types/APIs from those feature packages to compile.
+
 ## Technical Details
 
 - SDK: .NET 11.0 (`src/global.json`)
