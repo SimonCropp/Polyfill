@@ -83,6 +83,28 @@ static partial class Polyfill
     }
 #endif
 
+#if !NET11_0_OR_GREATER
+
+    /// <summary>
+    /// Opens the entry from the zip archive with the specified access mode.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.open?view=net-10.0
+    public static Stream Open(this ZipArchiveEntry target, FileAccess access) =>
+        target.Open();
+
+#if FeatureValueTask
+    /// <summary>
+    /// Asynchronously opens the entry from the zip archive with the specified access mode.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.openasync?view=net-10.0
+    public static ValueTask<Stream> OpenAsync(this ZipArchiveEntry target, FileAccess access, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return new ValueTask<Stream>(target.Open());
+    }
+#endif
+#endif
+
 #if !NETSTANDARD2_1_OR_GREATER && !NETCOREAPP2_0_OR_GREATER
 
     /// <summary>

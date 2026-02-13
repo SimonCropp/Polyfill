@@ -1156,6 +1156,10 @@ class Consume
 #if FeatureCompression
     void ZipArchiveEntry_Methods(ZipArchive zip, ZipArchiveEntry entry)
     {
+        entry.Open(FileAccess.Read);
+#if FeatureValueTask
+        entry.OpenAsync(FileAccess.Read);
+#endif
         entry.OpenAsync();
         zip.CreateEntryFromFile("file.txt", "entry.txt");
         zip.CreateEntryFromFile("file.txt", "entry.txt", CompressionLevel.Optimal);
