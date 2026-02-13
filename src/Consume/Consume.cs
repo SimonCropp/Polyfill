@@ -624,6 +624,10 @@ class Consume
         // Use the | bitwise OR operator to combine multiple file modes
         File.SetUnixFileMode(TestFilePath, UnixFileMode.OtherRead | UnixFileMode.OtherWrite);
 
+#if !NET11_0_OR_GREATER
+        using var nullHandle = File.OpenNullHandle();
+#endif
+
         FileSystemInfo hardLink = File.CreateHardLink("hardlink.txt", TestFilePath);
         var fileInfo = new FileInfo("hardlink2.txt");
         fileInfo.CreateAsHardLink(TestFilePath);

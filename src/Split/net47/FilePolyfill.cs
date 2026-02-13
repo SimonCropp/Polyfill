@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
 static partial class Polyfill
 {
 	extension(File)
@@ -293,6 +294,29 @@ static partial class Polyfill
 			HardLinkHelper.ValidatePath(pathToTarget, nameof(pathToTarget));
 			HardLinkHelper.CreateHardLink(fullPath, Path.GetFullPath(pathToTarget));
 			return new FileInfo(path);
+		}
+		/// <summary>
+		/// Opens a handle to the operating system's null device.
+		/// </summary>
+		public static SafeFileHandle OpenNullHandle()
+		{
+			string path;
+#if FeatureRuntimeInformation
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+#else
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+#endif
+			{
+				path = "NUL";
+			}
+			else
+			{
+				path = "/dev/null";
+			}
+			var stream = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+			var rawHandle = stream.SafeFileHandle.DangerousGetHandle();
+			stream.SafeFileHandle.SetHandleAsInvalid();
+			return new SafeFileHandle(rawHandle, ownsHandle: true);
 		}
 	}
 	[ExcludeFromCodeCoverage]

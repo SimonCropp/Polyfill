@@ -306,6 +306,17 @@ public class FilePolyfillTests
 
 #endif
 
+#if !NET11_0_OR_GREATER
+    [Test]
+    public async Task OpenNullHandle()
+    {
+        using var handle = File.OpenNullHandle();
+
+        await Assert.That(handle.IsInvalid).IsFalse();
+        await Assert.That(handle.IsClosed).IsFalse();
+    }
+#endif
+
     [Test]
     public async Task CreateHardLink_CreatesLinkToExistingFile()
     {
