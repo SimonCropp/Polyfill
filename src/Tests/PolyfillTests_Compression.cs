@@ -3,7 +3,6 @@ using System.IO.Compression;
 
 partial class PolyfillTests
 {
-#if !NET11_0_OR_GREATER
     [Test]
     public async Task ZipArchiveEntry_Open_WithFileAccess()
     {
@@ -48,7 +47,6 @@ partial class PolyfillTests
         var result = await reader.ReadToEndAsync();
         await Assert.That(result).IsEqualTo("content");
     }
-#endif
 #endif
 
     [Test]
