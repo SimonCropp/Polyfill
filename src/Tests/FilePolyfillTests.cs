@@ -307,6 +307,15 @@ public class FilePolyfillTests
 #endif
 
     [Test]
+    public async Task OpenNullHandle()
+    {
+        using var handle = File.OpenNullHandle();
+
+        await Assert.That(handle.IsInvalid).IsFalse();
+        await Assert.That(handle.IsClosed).IsFalse();
+    }
+
+    [Test]
     public async Task CreateHardLink_CreatesLinkToExistingFile()
     {
         var content = "Hard link test content";

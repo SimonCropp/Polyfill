@@ -612,6 +612,15 @@ class Consume
     }
 #endif
 
+#if !NET11_0_OR_GREATER
+    void Console_Methods()
+    {
+        using var stdin = Console.OpenStandardInputHandle();
+        using var stdout = Console.OpenStandardOutputHandle();
+        using var stderr = Console.OpenStandardErrorHandle();
+    }
+#endif
+
     void File_Methods()
     {
         const string TestFilePath = "testfile.txt";
@@ -623,6 +632,10 @@ class Consume
 
         // Use the | bitwise OR operator to combine multiple file modes
         File.SetUnixFileMode(TestFilePath, UnixFileMode.OtherRead | UnixFileMode.OtherWrite);
+
+#if !NET11_0_OR_GREATER
+        using var nullHandle = File.OpenNullHandle();
+#endif
 
         FileSystemInfo hardLink = File.CreateHardLink("hardlink.txt", TestFilePath);
         var fileInfo = new FileInfo("hardlink2.txt");

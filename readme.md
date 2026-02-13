@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 727**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 728**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -530,6 +530,13 @@ The class `Polyfill` includes the following extension methods:
  * `void Clear<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentqueue-1.clear?view=net-10.0)
 
 
+#### Console
+
+ * `SafeFileHandle OpenStandardErrorHandle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandarderrorhandle?view=net-10.0)
+ * `SafeFileHandle OpenStandardInputHandle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandardinputhandle?view=net-10.0)
+ * `SafeFileHandle OpenStandardOutputHandle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandardoutputhandle?view=net-10.0)
+
+
 #### Convert
 
  * `byte[] FromHexString(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-10.0#system-convert-fromhexstring(system-readonlyspan((system-char))))
@@ -703,6 +710,7 @@ The class `Polyfill` includes the following extension methods:
  * `Task AppendAllTextAsync(string, string?, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendalltextasync?view=net-10.0#system-io-file-appendalltextasync(system-string-system-string-system-text-encoding-system-threading-cancellationtoken))
  * `FileSystemInfo CreateHardLink(string, string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.createhardlink?view=net-10.0)
  * `void Move(string, string, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.move?view=net-10.0#system-io-file-move(system-string-system-string-system-boolean))
+ * `SafeFileHandle OpenNullHandle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.opennullhandle?view=net-10.0)
  * `Task<byte[]> ReadAllBytesAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readallbytesasync?view=net-10.0)
  * `Task<string[]> ReadAllLinesAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readalllinesasync?view=net-10.0#system-io-file-readalllinesasync(system-string-system-threading-cancellationtoken))
  * `Task<string[]> ReadAllLinesAsync(string, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readalllinesasync?view=net-10.0#system-io-file-readalllinesasync(system-string-system-text-encoding-system-threading-cancellationtoken))
