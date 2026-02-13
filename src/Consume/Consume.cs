@@ -612,6 +612,15 @@ class Consume
     }
 #endif
 
+#if !NET11_0_OR_GREATER
+    void Console_Methods()
+    {
+        using var stdin = Console.OpenStandardInputHandle();
+        using var stdout = Console.OpenStandardOutputHandle();
+        using var stderr = Console.OpenStandardErrorHandle();
+    }
+#endif
+
     void File_Methods()
     {
         const string TestFilePath = "testfile.txt";

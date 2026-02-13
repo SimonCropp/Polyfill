@@ -85,6 +85,13 @@
  * `void Clear<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentqueue-1.clear?view=net-10.0)
 
 
+#### Console
+
+ * `SafeFileHandle OpenStandardErrorHandle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandarderrorhandle?view=net-10.0)
+ * `SafeFileHandle OpenStandardInputHandle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandardinputhandle?view=net-10.0)
+ * `SafeFileHandle OpenStandardOutputHandle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandardoutputhandle?view=net-10.0)
+
+
 #### Convert
 
  * `byte[] FromHexString(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-10.0#system-convert-fromhexstring(system-readonlyspan((system-char))))

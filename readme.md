@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 726**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 728**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -528,6 +528,13 @@ The class `Polyfill` includes the following extension methods:
 #### ConcurrentQueue<T>
 
  * `void Clear<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentqueue-1.clear?view=net-10.0)
+
+
+#### Console
+
+ * `SafeFileHandle OpenStandardErrorHandle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandarderrorhandle?view=net-10.0)
+ * `SafeFileHandle OpenStandardInputHandle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandardinputhandle?view=net-10.0)
+ * `SafeFileHandle OpenStandardOutputHandle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandardoutputhandle?view=net-10.0)
 
 
 #### Convert
