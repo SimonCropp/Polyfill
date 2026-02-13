@@ -157,23 +157,7 @@ static partial class Polyfill
 		/// </summary>
 		public static SafeFileHandle OpenNullHandle()
 		{
-			string path;
-#if FeatureRuntimeInformation
-			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-#else
-			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
-#endif
-			{
-				path = "NUL";
-			}
-			else
-			{
-				path = "/dev/null";
-			}
-			var stream = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
-			var rawHandle = stream.SafeFileHandle.DangerousGetHandle();
-			stream.SafeFileHandle.SetHandleAsInvalid();
-			return new SafeFileHandle(rawHandle, ownsHandle: true);
+			return NullDeviceHelper.Open();
 		}
 	}
 	[ExcludeFromCodeCoverage]
@@ -223,5 +207,57 @@ static partial class Polyfill
 		static extern bool CreateHardLinkW(string lpFileName, string lpExistingFileName, IntPtr lpSecurityAttributes);
 		[DllImport("libc", SetLastError = true)]
 		static extern int link(string oldpath, string newpath);
+	}
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+	[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
+	static class NullDeviceHelper
+	{
+		internal static SafeFileHandle Open()
+		{
+#if FeatureRuntimeInformation
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+#else
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+#endif
+			{
+				const uint GENERIC_READ = 0x80000000;
+				const uint GENERIC_WRITE = 0x40000000;
+				const uint FILE_SHARE_READ = 1;
+				const uint FILE_SHARE_WRITE = 2;
+				const uint OPEN_EXISTING = 3;
+				var handle = CreateFileW(
+					"NUL",
+					GENERIC_READ | GENERIC_WRITE,
+					FILE_SHARE_READ | FILE_SHARE_WRITE,
+					IntPtr.Zero,
+					OPEN_EXISTING,
+					0,
+					IntPtr.Zero);
+				if (handle.IsInvalid)
+				{
+					throw new IOException("Unable to open null device.", Marshal.GetHRForLastWin32Error());
+				}
+				return handle;
+			}
+			else
+			{
+				var stream = new FileStream("/dev/null", FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
+				var rawHandle = stream.SafeFileHandle.DangerousGetHandle();
+				stream.SafeFileHandle.SetHandleAsInvalid();
+				return new SafeFileHandle(rawHandle, ownsHandle: true);
+			}
+		}
+		[DllImport("kernel32.dll", EntryPoint = "CreateFileW", CharSet = CharSet.Unicode, SetLastError = true)]
+		static extern SafeFileHandle CreateFileW(
+			string lpFileName,
+			uint dwDesiredAccess,
+			uint dwShareMode,
+			IntPtr lpSecurityAttributes,
+			uint dwCreationDisposition,
+			uint dwFlagsAndAttributes,
+			IntPtr hTemplateFile);
 	}
 }
