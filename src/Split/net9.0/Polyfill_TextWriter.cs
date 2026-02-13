@@ -48,18 +48,4 @@ static partial class Polyfill
 		return target.WriteLineAsync(value)
 			.WaitAsync(cancellationToken);
 	}
-	//https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/IO/TextWriter.cs#L670
-	/// <summary>
-	/// Asynchronously clears all buffers for the current writer and causes any buffered data to
-	/// be written to the underlying device.
-	/// </summary>
-	public static Task FlushAsync(this TextWriter target, CancellationToken cancellationToken)
-	{
-		if (cancellationToken.IsCancellationRequested)
-		{
-			return Task.FromCanceled(cancellationToken);
-		}
-		return target.FlushAsync()
-			.WaitAsync(cancellationToken);
-	}
 }

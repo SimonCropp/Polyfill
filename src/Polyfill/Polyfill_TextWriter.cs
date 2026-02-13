@@ -12,6 +12,55 @@ using System.Buffers;
 
 static partial class Polyfill
 {
+#if !NET11_0_OR_GREATER
+
+    /// <summary>
+    /// Asynchronously writes a string to the stream, with a cancellation token.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-10.0#system-io-textwriter-writeasync(system-string-system-threading-cancellationtoken)
+    public static Task WriteAsync(this TextWriter target, string? value, CancellationToken cancellationToken)
+    {
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return Task.FromCanceled(cancellationToken);
+        }
+
+        return target.WriteAsync(value)
+            .WaitAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously writes a line terminator to the stream, with a cancellation token.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-10.0#system-io-textwriter-writelineasync(system-threading-cancellationtoken)
+    public static Task WriteLineAsync(this TextWriter target, CancellationToken cancellationToken)
+    {
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return Task.FromCanceled(cancellationToken);
+        }
+
+        return target.WriteLineAsync()
+            .WaitAsync(cancellationToken);
+    }
+
+    /// <summary>
+    /// Asynchronously writes a string followed by a line terminator to the stream, with a cancellation token.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-10.0#system-io-textwriter-writelineasync(system-string-system-threading-cancellationtoken)
+    public static Task WriteLineAsync(this TextWriter target, string? value, CancellationToken cancellationToken)
+    {
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return Task.FromCanceled(cancellationToken);
+        }
+
+        return target.WriteLineAsync(value)
+            .WaitAsync(cancellationToken);
+    }
+
+#endif
+
 #if !NET8_0_OR_GREATER
 
     //https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/IO/TextWriter.cs#L670

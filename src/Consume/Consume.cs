@@ -1090,6 +1090,9 @@ class Consume
         target.Write(new StringBuilder());
         await target.FlushAsync(CancellationToken.None);
         await target.WriteAsync(new StringBuilder());
+        await target.WriteAsync("a", CancellationToken.None);
+        await target.WriteLineAsync(CancellationToken.None);
+        await target.WriteLineAsync("a", CancellationToken.None);
 #if FeatureMemory && FeatureValueTask
         target.WriteLine("a".AsSpan());
         target.Write("a".AsSpan());
