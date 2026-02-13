@@ -7,6 +7,7 @@ public class FilePolyfillTests
     const string sourceFilePath = "source.txt";
     const string destinationFilePath = "destination.txt";
     const string restFilePath = "testfile.txt";
+    const string hardLinkFilePath = "hardlink.txt";
 
     [Before(Test)]
     public void SetUp()
@@ -14,6 +15,7 @@ public class FilePolyfillTests
         File.Delete(restFilePath);
         File.Delete(sourceFilePath);
         File.Delete(destinationFilePath);
+        File.Delete(hardLinkFilePath);
     }
 
     [After(Test)]
@@ -22,6 +24,7 @@ public class FilePolyfillTests
         File.Delete(restFilePath);
         File.Delete(sourceFilePath);
         File.Delete(destinationFilePath);
+        File.Delete(hardLinkFilePath);
     }
 
 #if FeatureMemory
@@ -302,4 +305,65 @@ public class FilePolyfillTests
     }
 
 #endif
+
+    [Test]
+    public async Task CreateHardLink_CreatesLinkToExistingFile()
+    {
+        var content = "Hard link test content";
+        File.WriteAllText(sourceFilePath, content);
+
+        var result = File.CreateHardLink(hardLinkFilePath, sourceFilePath);
+
+        await Assert.That(result).IsNotNull();
+        await Assert.That(File.Exists(hardLinkFilePath)).IsTrue();
+        await Assert.That(File.ReadAllText(hardLinkFilePath)).IsEqualTo(content);
+    }
+
+    [Test]
+    public async Task CreateHardLink_ReturnsFileInfo()
+    {
+        File.WriteAllText(sourceFilePath, "test");
+
+        var result = File.CreateHardLink(hardLinkFilePath, sourceFilePath);
+
+        await Assert.That(result).IsTypeOf<FileInfo>();
+    }
+
+    [Test]
+    public async Task CreateHardLink_SharesFileContent()
+    {
+        File.WriteAllText(sourceFilePath, "original");
+
+        File.CreateHardLink(hardLinkFilePath, sourceFilePath);
+        File.WriteAllText(sourceFilePath, "modified");
+
+        await Assert.That(File.ReadAllText(hardLinkFilePath)).IsEqualTo("modified");
+    }
+
+    [Test]
+    public async Task CreateHardLink_ThrowsIfTargetNotFound() =>
+        await Assert.That(() =>
+            File.CreateHardLink(hardLinkFilePath, "nonexistent.txt")).Throws<IOException>();
+
+    [Test]
+    public async Task FileInfo_CreateAsHardLink()
+    {
+        var content = "FileInfo hard link test";
+        File.WriteAllText(sourceFilePath, content);
+
+        var fileInfo = new FileInfo(hardLinkFilePath);
+        fileInfo.CreateAsHardLink(sourceFilePath);
+
+        await Assert.That(File.Exists(hardLinkFilePath)).IsTrue();
+        await Assert.That(File.ReadAllText(hardLinkFilePath)).IsEqualTo(content);
+    }
+
+    [Test]
+    public async Task FileInfo_CreateAsHardLink_ThrowsIfTargetNotFound()
+    {
+        var fileInfo = new FileInfo(hardLinkFilePath);
+
+        await Assert.That(() =>
+            fileInfo.CreateAsHardLink("nonexistent.txt")).Throws<IOException>();
+    }
 }
