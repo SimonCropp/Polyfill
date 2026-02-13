@@ -1099,6 +1099,45 @@ class Consume
 #endif
     }
 
+#if NETCOREAPP3_0_OR_GREATER
+    void Rune_String_Methods()
+    {
+        var rune = new Rune('a');
+        var contains = "hello".Contains(rune);
+        contains = "hello".Contains(rune, StringComparison.OrdinalIgnoreCase);
+        var indexOf = "hello".IndexOf(rune);
+        var startsWith = "hello".StartsWith(rune);
+        var endsWith = "hello".EndsWith(rune);
+        var replace = "hello".Replace(new Rune('l'), new Rune('r'));
+        var split = "a-b".Split(new Rune('-'));
+        var trim = "-hello-".Trim(new Rune('-'));
+    }
+
+    void Rune_StringBuilder_Methods()
+    {
+        var builder = new StringBuilder();
+        builder.Append(new Rune('a'));
+        builder.Insert(0, new Rune('b'));
+        builder.Replace(new Rune('a'), new Rune('c'));
+    }
+
+    void Rune_TextWriter_Methods()
+    {
+        TextWriter target = new StringWriter();
+        target.Write(new Rune('a'));
+        target.WriteLine(new Rune('a'));
+    }
+
+#if !NET11_0_OR_GREATER
+    async Task Rune_TextWriter_AsyncMethods()
+    {
+        TextWriter target = new StringWriter();
+        await target.WriteAsync(new Rune('a'), CancellationToken.None);
+        await target.WriteLineAsync(new Rune('a'), CancellationToken.None);
+    }
+#endif
+#endif
+
     void Type_Methods(MemberInfo info)
     {
         var result = typeof(List<string>).IsAssignableTo(typeof(string));
