@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 728**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 733**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -871,6 +871,12 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryParse(ReadOnlySpan<char>, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse?view=net-10.0#system-int64-tryparse(system-readonlyspan((system-char))-system-int64@))
  * `bool TryParse(ReadOnlySpan<char>, NumberStyles, IFormatProvider?, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse?view=net-10.0#system-int64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-int64@))
  * `bool TryParse(string?, IFormatProvider?, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse?view=net-10.0#system-int64-tryparse(system-string-system-iformatprovider-system-int64@))
+
+
+#### Interlocked
+
+ * `T And<T>(T, T) where T : struct` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.and?view=net-10.0)
+ * `T Or<T>(T, T) where T : struct` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.or?view=net-10.0)
 
 
 #### IReadOnlyDictionary<TKey, TValue>
