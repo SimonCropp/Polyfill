@@ -3,6 +3,54 @@ using System.IO.Compression;
 
 partial class PolyfillTests
 {
+#if !NET11_0_OR_GREATER
+    [Test]
+    public async Task ZipArchiveEntry_Open_WithFileAccess()
+    {
+        using var memStream = new MemoryStream();
+        using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
+        {
+            var entry = archive.CreateEntry("test.txt");
+            using var stream = entry.Open();
+            using var writer = new StreamWriter(stream);
+            await writer.WriteAsync("content");
+        }
+
+        memStream.Position = 0;
+        using var readArchive = new ZipArchive(memStream, ZipArchiveMode.Read);
+        var readEntry = readArchive.Entries[0];
+
+        using var readStream = readEntry.Open(FileAccess.Read);
+        using var reader = new StreamReader(readStream);
+        var result = await reader.ReadToEndAsync();
+        await Assert.That(result).IsEqualTo("content");
+    }
+
+#if FeatureValueTask
+    [Test]
+    public async Task ZipArchiveEntry_OpenAsync_WithFileAccess()
+    {
+        using var memStream = new MemoryStream();
+        using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
+        {
+            var entry = archive.CreateEntry("test.txt");
+            using var stream = entry.Open();
+            using var writer = new StreamWriter(stream);
+            await writer.WriteAsync("content");
+        }
+
+        memStream.Position = 0;
+        using var readArchive = new ZipArchive(memStream, ZipArchiveMode.Read);
+        var readEntry = readArchive.Entries[0];
+
+        using var readStream = await readEntry.OpenAsync(FileAccess.Read);
+        using var reader = new StreamReader(readStream);
+        var result = await reader.ReadToEndAsync();
+        await Assert.That(result).IsEqualTo("content");
+    }
+#endif
+#endif
+
     [Test]
     public async Task ExtractToDirectory_Extracts_All_Entries()
     {
