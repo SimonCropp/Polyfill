@@ -428,6 +428,12 @@
  * `bool TryParse(string?, IFormatProvider?, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse?view=net-11.0#system-int64-tryparse(system-string-system-iformatprovider-system-int64@))
 
 
+#### Interlocked
+
+ * `T And<T>(T, T) where T : struct` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.and?view=net-10.0)
+ * `T Or<T>(T, T) where T : struct` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.or?view=net-10.0)
+
+
 #### IReadOnlyDictionary<TKey, TValue>
 
  * `TValue GetValueOrDefault<TKey, TValue>(TKey, TValue) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault?view=net-11.0#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0-1))

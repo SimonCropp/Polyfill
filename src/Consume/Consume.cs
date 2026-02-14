@@ -732,6 +732,19 @@ class Consume
         ilist.AsReadOnly();
     }
 
+#if FeatureMemory && FeatureUnsafe
+    void Interlocked_Methods()
+    {
+        var intValue = 0xFF;
+        Interlocked.And(ref intValue, 0x0F);
+        Interlocked.Or(ref intValue, 0xF0);
+
+        var longValue = 0xFFL;
+        Interlocked.And(ref longValue, 0x0FL);
+        Interlocked.Or(ref longValue, 0xF0L);
+    }
+#endif
+
     void Int_Methods()
     {
         int.TryParse(s: "1", provider: null, result: out _);
