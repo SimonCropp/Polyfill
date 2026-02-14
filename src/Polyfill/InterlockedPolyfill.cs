@@ -1,11 +1,13 @@
 #pragma warning disable
 
-#if !NET11_0_OR_GREATER && FeatureMemory
+#if !NET11_0_OR_GREATER && FeatureMemory && AllowUnsafeBlocks
 
 namespace Polyfills;
 
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System;
+using System.Runtime.InteropServices;
 
 static partial class Polyfill
 {
