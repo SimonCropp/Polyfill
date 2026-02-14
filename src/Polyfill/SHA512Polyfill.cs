@@ -27,7 +27,7 @@ static partial class SHA512Polyfill
         /// <summary>
         /// Computes the hash of data using the SHA-512 algorithm.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-10.0#system-security-cryptography-sha512-hashdata(system-byte())
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-11.0#system-security-cryptography-sha512-hashdata(system-byte())
         public static byte[] HashData(byte[] source)
         {
             using var hasher = SHA512.Create();
@@ -41,7 +41,7 @@ static partial class SHA512Polyfill
         /// <summary>
         /// Computes the hash of a stream using the SHA-512 algorithm.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-10.0#system-security-cryptography-sha512-hashdata(system-io-stream)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-11.0#system-security-cryptography-sha512-hashdata(system-io-stream)
         public static byte[] HashData(Stream source)
         {
             using var hasher = SHA512.Create();
@@ -55,7 +55,7 @@ static partial class SHA512Polyfill
         /// <summary>
         /// Asynchronously computes the hash of a stream using the SHA-512 algorithm.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdataasync?view=net-10.0#system-security-cryptography-sha512-hashdataasync(system-io-stream-system-threading-cancellationtoken)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdataasync?view=net-11.0#system-security-cryptography-sha512-hashdataasync(system-io-stream-system-threading-cancellationtoken)
         public static ValueTask<byte[]> HashDataAsync(Stream source, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -72,7 +72,7 @@ static partial class SHA512Polyfill
         /// <summary>
         /// Computes the hash of a stream using the SHA-512 algorithm.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-10.0#system-security-cryptography-sha512-hashdata(system-readonlyspan((system-byte)))
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-11.0#system-security-cryptography-sha512-hashdata(system-readonlyspan((system-byte)))
         public static byte[] HashData(ReadOnlySpan<byte> source)
         {
             using var hasher = SHA512.Create();
@@ -82,7 +82,7 @@ static partial class SHA512Polyfill
         /// <summary>
         /// Attempts to compute the hash of data using the SHA-512 algorithm.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.tryhashdata?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.tryhashdata?view=net-11.0
         public static bool TryHashData(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
         {
             using var hasher = SHA512.Create();
@@ -102,7 +102,7 @@ static partial class SHA512Polyfill
         /// <summary>
         /// Computes the hash of a stream using the SHA-512 algorithm.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-10.0#system-security-cryptography-sha512-hashdata(system-readonlyspan((system-byte))-system-span((system-byte)))
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-11.0#system-security-cryptography-sha512-hashdata(system-readonlyspan((system-byte))-system-span((system-byte)))
         public static int HashData(ReadOnlySpan<byte> source, Span<byte> destination)
         {
             var hash = HashData(source);
@@ -117,7 +117,7 @@ static partial class SHA512Polyfill
         /// <summary>
         /// Computes the hash of a stream using the SHA-512 algorithm.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-10.0#system-security-cryptography-sha512-hashdata(system-io-stream-system-span((system-byte)))
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdata?view=net-11.0#system-security-cryptography-sha512-hashdata(system-io-stream-system-span((system-byte)))
         public static int HashData(Stream source, Span<byte> destination)
         {
             var hash = HashData(source);
@@ -132,7 +132,7 @@ static partial class SHA512Polyfill
         /// <summary>
         /// Asynchronously computes the hash of a stream using the SHA-512 algorithm.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdataasync?view=net-10.0#system-security-cryptography-sha512-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha512.hashdataasync?view=net-11.0#system-security-cryptography-sha512-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)
         public static ValueTask<int> HashDataAsync(Stream source, Memory<byte> destination, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();

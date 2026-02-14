@@ -16,7 +16,7 @@ static partial class Polyfill
 	/// <summary>
 	/// Sorts the elements in the entire <see cref="Span{T}"/> using the specified <see cref="Comparison{T}"/>.
 	/// </summary>
-	/// Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-1(system-span((-0))-system-comparison((-0)))
+	/// Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-1(system-span((-0))-system-comparison((-0)))
 	public static void Sort<T>(this Span<T> source, Comparison<T> comparison)
 	{
 		if((Comparison<T>?)comparison is null)

@@ -12,7 +12,7 @@ static partial class Polyfill
         /// <summary>
         /// Returns value clamped to the inclusive range of min and max.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Clamp(float value, float min, float max)
         {
@@ -37,7 +37,7 @@ static partial class Polyfill
         /// <summary>
         /// Returns value clamped to the inclusive range of min and max.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static nuint Clamp(nuint value, nuint min, nuint max)
         {
@@ -62,7 +62,7 @@ static partial class Polyfill
         /// <summary>
         /// Returns value clamped to the inclusive range of min and max.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong Clamp(ulong value, ulong min, ulong max)
         {
@@ -87,7 +87,7 @@ static partial class Polyfill
         /// <summary>
         /// Returns value clamped to the inclusive range of min and max.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint Clamp(uint value, uint min, uint max)
         {
@@ -112,7 +112,7 @@ static partial class Polyfill
         /// <summary>
         /// Returns value clamped to the inclusive range of min and max.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort Clamp(ushort value, ushort min, ushort max)
         {
@@ -137,7 +137,7 @@ static partial class Polyfill
         /// <summary>
         /// Returns value clamped to the inclusive range of min and max.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static sbyte Clamp(sbyte value, sbyte min, sbyte max)
         {
@@ -162,7 +162,7 @@ static partial class Polyfill
         /// <summary>
         /// Returns value clamped to the inclusive range of min and max.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Clamp(int value, int min, int max)
         {
@@ -187,7 +187,7 @@ static partial class Polyfill
         /// <summary>
         /// Returns value clamped to the inclusive range of min and max.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long Clamp(long value, long min, long max)
         {
@@ -212,7 +212,7 @@ static partial class Polyfill
         /// <summary>
         /// Returns value clamped to the inclusive range of min and max.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static short Clamp(short value, short min, short max)
         {
@@ -237,7 +237,7 @@ static partial class Polyfill
         /// <summary>
         /// Returns value clamped to the inclusive range of min and max.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static double Clamp(double value, double min, double max)
         {
@@ -262,7 +262,7 @@ static partial class Polyfill
         /// <summary>
         /// Returns value clamped to the inclusive range of min and max.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static decimal Clamp(decimal value, decimal min, decimal max)
         {
@@ -287,7 +287,7 @@ static partial class Polyfill
         /// <summary>
         /// Returns value clamped to the inclusive range of min and max.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static byte Clamp(byte value, byte min, byte max)
         {
@@ -312,7 +312,7 @@ static partial class Polyfill
         /// <summary>
         /// Returns value clamped to the inclusive range of min and max.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0
         //[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static nint Clamp(nint value, nint min, nint max)
         {

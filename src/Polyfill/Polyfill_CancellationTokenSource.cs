@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 static partial class Polyfill
 {
     /// <summary>Communicates a request for cancellation asynchronously.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancelasync?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancelasync?view=net-11.0
     public static Task CancelAsync(this CancellationTokenSource target)
     {
         if (target.IsCancellationRequested)

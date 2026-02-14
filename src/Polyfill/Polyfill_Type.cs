@@ -8,7 +8,7 @@ using System.Linq;
 static partial class Polyfill
 {
 #if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas?view=net-11.0
     public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other) =>
         target.MetadataToken == other.MetadataToken &&
         target.Module.Equals(other.Module);
@@ -18,7 +18,7 @@ static partial class Polyfill
     /// <summary>
     /// Searches for the specified method whose parameters match the specified generic parameter count, argument types and modifiers, using the specified binding constraints.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod?view=net-10.0#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-reflection-binder-system-type()-system-reflection-parametermodifier())
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod?view=net-11.0#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-reflection-binder-system-type()-system-reflection-parametermodifier())
     public static MethodInfo? GetMethod(
         [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target,
         string name,
@@ -78,7 +78,7 @@ static partial class Polyfill
     /// <summary>
     /// Searches for the specified method whose parameters match the specified generic parameter count, argument types and modifiers, using the specified binding constraints.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod?view=net-10.0#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-type())
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmethod?view=net-11.0#system-type-getmethod(system-string-system-int32-system-reflection-bindingflags-system-type())
     public static MethodInfo? GetMethod([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods | DynamicallyAccessedMemberTypes.NonPublicMethods)] this Type target, string name, int genericParameterCount, BindingFlags bindingAttr, Type[] types) =>
         target.GetMethod(name, genericParameterCount, bindingAttr, null, types, null);
 #endif
@@ -99,7 +99,7 @@ static partial class Polyfill
     /// <summary>
     /// Determines whether the current type can be assigned to a variable of the specified targetType.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto?view=net-11.0
     public static bool IsAssignableTo(this Type target, [NotNullWhen(true)] Type? targetType) =>
         targetType?.IsAssignableFrom(target) ?? false;
 #endif
@@ -109,7 +109,7 @@ static partial class Polyfill
     /// <summary>
     /// Searches for the MemberInfo on the current Type that matches the specified MemberInfo.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmemberwithsamemetadatadefinitionas?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.type.getmemberwithsamemetadatadefinitionas?view=net-11.0
     public static MemberInfo GetMemberWithSameMetadataDefinitionAs(
         this Type type,
         MemberInfo member)

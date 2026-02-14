@@ -15,7 +15,7 @@ static partial class Polyfill
         /// <summary>
         /// Creates an async-enumerable that yields completed tasks from the provided collection as they complete.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.wheneach?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.wheneach?view=net-11.0
         public static async IAsyncEnumerable<Task> WhenEach(
             IEnumerable<Task> tasks,
             [EnumeratorCancellation] CancellationToken cancellationToken = default)
@@ -44,7 +44,7 @@ static partial class Polyfill
         /// <summary>
         /// Creates an async-enumerable that yields completed tasks from the provided collection as they complete.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.wheneach?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.wheneach?view=net-11.0
         public static async IAsyncEnumerable<Task<TResult>> WhenEach<TResult>(
             IEnumerable<Task<TResult>> tasks,
             [EnumeratorCancellation] CancellationToken cancellationToken = default)

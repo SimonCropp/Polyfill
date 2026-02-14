@@ -13,7 +13,7 @@ static partial class Polyfill
     /// <summary>
     /// Returns a new enumerable collection that contains the last count elements from source.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.takelast?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.takelast?view=net-11.0
     public static IEnumerable<TSource> TakeLast<TSource>(this IEnumerable<TSource> source, int count)
     {
         if (count <= 0 || IsEmptyArray(source))

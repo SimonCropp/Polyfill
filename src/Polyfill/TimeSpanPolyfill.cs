@@ -10,14 +10,14 @@ static partial class Polyfill
         /// <summary>
         /// Gets the nanosecond component of the time represented by the current <see cref="TimeSpan"/> object.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds?view=net-11.0
         public int Nanoseconds =>
             (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
 
         /// <summary>
         /// Gets the microsecond component of the time represented by the current <see cref="TimeSpan"/> object.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds?view=net-11.0
         public int Microseconds =>
             (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
 

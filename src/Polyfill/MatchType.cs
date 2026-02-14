@@ -5,7 +5,7 @@ namespace System.IO;
 /// <summary>
 /// Specifies the type of wildcard matching to use.
 /// </summary>
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.matchtype?view=net-10.0
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.matchtype?view=net-11.0
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif

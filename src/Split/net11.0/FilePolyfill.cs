@@ -14,22 +14,6 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 static partial class Polyfill
 {
-	extension(File)
-	{
-		/// <summary>
-		/// Creates a hard link located in <paramref name="path"/> that refers to the same file content as <paramref name="pathToTarget"/>.
-		/// </summary>
-		/// <param name="path">The path where the hard link should be created.</param>
-		/// <param name="pathToTarget">The path of the hard link target.</param>
-		/// <returns>A <see cref="FileInfo"/> instance that wraps the newly created file.</returns>
-		public static FileSystemInfo CreateHardLink(string path, string pathToTarget)
-		{
-			var fullPath = Path.GetFullPath(path);
-			HardLinkHelper.ValidatePath(pathToTarget, nameof(pathToTarget));
-			HardLinkHelper.CreateHardLink(fullPath, Path.GetFullPath(pathToTarget));
-			return new FileInfo(path);
-		}
-	}
 #if !NET12_0_OR_GREATER
 	extension(File)
 	{

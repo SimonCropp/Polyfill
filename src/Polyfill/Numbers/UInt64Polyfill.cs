@@ -15,7 +15,7 @@ static partial class Polyfill
         /// <summary>
         /// Tries to parse a string into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-10.0#system-uint64-tryparse(system-string-system-iformatprovider-system-uint64@)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-string-system-iformatprovider-system-uint64@)
         public static bool TryParse(string? s, IFormatProvider? provider, out ulong result) =>
             ulong.TryParse(s, NumberStyles.Integer, provider, out result);
 
@@ -28,21 +28,21 @@ static partial class Polyfill
         /// <summary>
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-10.0#system-uint64-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint64@)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint64@)
         public static bool TryParse(ReadOnlySpan<byte> utf8Text, IFormatProvider? provider, out ulong result) =>
             ulong.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, provider, out result);
 
         /// <summary>
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-10.0#system-uint64-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uint64@)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uint64@)
         public static bool TryParse(ReadOnlySpan<byte>utf8Text, NumberStyles style, IFormatProvider? provider, out ulong result) =>
             ulong.TryParse(Encoding.UTF8.GetString(utf8Text), style, provider, out result);
 
         /// <summary>
         /// Tries to convert a UTF-8 character span containing the string representation of a number to its ulong equivalent.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-10.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint64@)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint64@)
         public static bool TryParse(ReadOnlySpan<byte> utf8Text, out ulong result) =>
             ulong.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, null, out result);
 
@@ -53,14 +53,14 @@ static partial class Polyfill
         /// <summary>
         /// Converts the span representation of a number in a specified style and culture-specific format to its ulong equivalent. A return value indicates whether the conversion succeeded.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-10.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-uint64@)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-uint64@)
         public static bool TryParse(ReadOnlySpan<char> s, out ulong result) =>
             ulong.TryParse(s.ToString(), out result);
 
         /// <summary>
         /// Converts the span representation of a number in a specified style and culture-specific format to its ulong equivalent. A return value indicates whether the conversion succeeded.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-10.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint64@)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint64@)
         public static bool TryParse(ReadOnlySpan<char> s, NumberStyles style, IFormatProvider? provider, out ulong result) =>
             ulong.TryParse(s.ToString(), style, provider, out result);
 
@@ -71,7 +71,7 @@ static partial class Polyfill
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-10.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint64@)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uint64@)
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out ulong result) =>
             ulong.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
 

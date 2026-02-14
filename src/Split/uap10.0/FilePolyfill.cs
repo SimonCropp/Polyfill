@@ -299,6 +299,10 @@ static partial class Polyfill
 			HardLinkHelper.CreateHardLink(fullPath, Path.GetFullPath(pathToTarget));
 			return new FileInfo(path);
 		}
+	}
+#if !NET12_0_OR_GREATER
+	extension(File)
+	{
 		/// <summary>
 		/// Opens a handle to the operating system's null device.
 		/// </summary>
@@ -407,4 +411,5 @@ static partial class Polyfill
 			uint dwFlagsAndAttributes,
 			IntPtr hTemplateFile);
 	}
+#endif
 }

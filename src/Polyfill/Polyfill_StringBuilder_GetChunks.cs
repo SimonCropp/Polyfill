@@ -38,7 +38,7 @@ static partial class Polyfill
     /// thus can be used in a C# 'foreach' statements to retrieve the data in the StringBuilder
     /// as chunks (ReadOnlyMemory) of characters.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.getchunks?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.getchunks?view=net-11.0
     public static ChunkEnumerator GetChunks(this StringBuilder target) =>
         new(target);
 

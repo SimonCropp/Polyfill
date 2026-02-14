@@ -16,7 +16,7 @@ static partial class Polyfill
         /// <summary>
         /// Tries to parse a string into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-10.0#system-guid-tryparse(system-string-system-iformatprovider-system-guid@)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-11.0#system-guid-tryparse(system-string-system-iformatprovider-system-guid@)
         public static bool TryParse(string? s, IFormatProvider? provider, out Guid result) =>
             Guid.TryParse(s, out result);
 
@@ -25,11 +25,11 @@ static partial class Polyfill
 #if !NET9_0_OR_GREATER
 
         /// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.createversion7?view=net-10.0#system-guid-createversion7
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.createversion7?view=net-11.0#system-guid-createversion7
         public static Guid CreateVersion7() => CreateVersion7(DateTimeOffset.UtcNow);
 
         /// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.createversion7?view=net-10.0#system-guid-createversion7(system-datetimeoffset)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.createversion7?view=net-11.0#system-guid-createversion7(system-datetimeoffset)
         public static Guid CreateVersion7(DateTimeOffset timestamp)
         {
             var unixMilliseconds = timestamp.ToUnixTimeMilliseconds();
@@ -85,7 +85,7 @@ static partial class Polyfill
         /// <summary>
         /// Converts span of characters representing the GUID to the equivalent Guid structure, provided that the string is in the specified format.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparseexact?view=net-10.0#system-guid-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-guid@)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparseexact?view=net-11.0#system-guid-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-guid@)
         public static bool TryParseExact(ReadOnlySpan<char> input, ReadOnlySpan<char> format, out Guid result) =>
             Guid.TryParseExact(input.ToString(), format.ToString(), out result);
 
@@ -96,7 +96,7 @@ static partial class Polyfill
         /// <summary>
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-10.0#system-guid-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-guid@)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-11.0#system-guid-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-guid@)
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out Guid result) =>
             Guid.TryParse(s.ToString(), out result);
 
@@ -107,7 +107,7 @@ static partial class Polyfill
         /// <summary>
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-10.0#system-guid-tryparse(system-readonlyspan((system-char))-system-guid@)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-11.0#system-guid-tryparse(system-readonlyspan((system-char))-system-guid@)
         public static bool TryParse(ReadOnlySpan<char> input, out Guid result) =>
             Guid.TryParse(input.ToString(), out result);
 
@@ -117,14 +117,14 @@ static partial class Polyfill
         /// <summary>
         /// Tries to parse a span of UTF-8 bytes into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-10.0#system-guid-tryparse(system-readonlyspan((system-byte))-system-guid@)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-11.0#system-guid-tryparse(system-readonlyspan((system-byte))-system-guid@)
         public static bool TryParse(ReadOnlySpan<byte> utf8Text, out Guid result) =>
             Guid.TryParse(Encoding.UTF8.GetString(utf8Text), out result);
 
         /// <summary>
         /// Parse a span of UTF-8 bytes into a value.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.parse?view=net-10.0#system-guid-parse(system-readonlyspan((system-byte)))
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.parse?view=net-11.0#system-guid-parse(system-readonlyspan((system-byte)))
         public static Guid Parse(ReadOnlySpan<byte> utf8Text) =>
             Guid.Parse(Encoding.UTF8.GetString(utf8Text));
 

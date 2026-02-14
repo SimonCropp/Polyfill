@@ -8,7 +8,7 @@ using System.Collections.Generic;
 static partial class Polyfill
 {
     /// <summary>Returns the last element of a sequence, or a default value if the sequence contains no elements.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.lastordefault?view=net-10.0#system-linq-enumerable-lastordefault-1(system-collections-generic-ienumerable((-0))-0)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.lastordefault?view=net-11.0#system-linq-enumerable-lastordefault-1(system-collections-generic-ienumerable((-0))-0)
     public static TSource LastOrDefault<TSource>(this IEnumerable<TSource> source, TSource defaultValue)
     {
         var last = source.TryGetLast(out var found);
@@ -16,7 +16,7 @@ static partial class Polyfill
     }
 
     /// <summary>Returns the last element of a sequence that satisfies a condition or a default value if no such element is found.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.lastordefault?view=net-10.0#system-linq-enumerable-lastordefault-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-boolean))-0)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.lastordefault?view=net-11.0#system-linq-enumerable-lastordefault-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-boolean))-0)
     public static TSource LastOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate, TSource defaultValue)
     {
         var last = source.TryGetLast(predicate, out var found);

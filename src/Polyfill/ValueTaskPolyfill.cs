@@ -9,7 +9,7 @@ static partial class Polyfill
     extension(ValueTask)
     {
         /// <summary>Gets a task that has already completed successfully.</summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask.completedtask?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask.completedtask?view=net-11.0
         public static ValueTask CompletedTask => default;
     }
 }
