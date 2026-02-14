@@ -190,7 +190,7 @@ static partial class Polyfill
     /// <summary>
     /// Asynchronously writes a string to the stream, with a cancellation token.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-10.0#system-io-textwriter-writeasync(system-string-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-11.0#system-io-textwriter-writeasync(system-string-system-threading-cancellationtoken)
     public static Task WriteAsync(this TextWriter target, string? value, CancellationToken cancellationToken)
     {
         if (cancellationToken.IsCancellationRequested)
@@ -205,7 +205,7 @@ static partial class Polyfill
     /// <summary>
     /// Asynchronously writes a line terminator to the stream, with a cancellation token.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-10.0#system-io-textwriter-writelineasync(system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-11.0#system-io-textwriter-writelineasync(system-threading-cancellationtoken)
     public static Task WriteLineAsync(this TextWriter target, CancellationToken cancellationToken)
     {
         if (cancellationToken.IsCancellationRequested)
@@ -220,7 +220,7 @@ static partial class Polyfill
     /// <summary>
     /// Asynchronously writes a string followed by a line terminator to the stream, with a cancellation token.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-10.0#system-io-textwriter-writelineasync(system-string-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-11.0#system-io-textwriter-writelineasync(system-string-system-threading-cancellationtoken)
     public static Task WriteLineAsync(this TextWriter target, string? value, CancellationToken cancellationToken)
     {
         if (cancellationToken.IsCancellationRequested)

@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 731**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 734**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -873,12 +873,6 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryParse(string?, IFormatProvider?, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse?view=net-11.0#system-int64-tryparse(system-string-system-iformatprovider-system-int64@))
 
 
-#### Interlocked
-
- * `T And<T>(T, T) where T : struct` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.and?view=net-11.0)
- * `T Or<T>(T, T) where T : struct` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.or?view=net-11.0)
-
-
 #### IReadOnlyDictionary<TKey, TValue>
 
  * `TValue GetValueOrDefault<TKey, TValue>(TKey, TValue) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault?view=net-11.0#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0-1))
@@ -1689,9 +1683,9 @@ Enable by adding an MSBuild property `PolyEnsure`
 
 `Ensure` is designed to be an alternative to the `Argument*Exception.ThrowIf*` APIs added in net7.
 
- * `ArgumentException.ThrowIf*` [reference](https://learn.microsoft.com/en-us/dotnet/api/?view=net-11.0&term=ArgumentException.ThrowIf)
- * `ArgumentNullException.ThrowIf*` [reference](https://learn.microsoft.com/en-us/dotnet/api/?view=net-11.0&term=ArgumentNullException.ThrowIf)
- * `ArgumentOutOfRangeException.ThrowIf*` [reference](https://learn.microsoft.com/en-us/dotnet/api/?view=net-11.0&term=ArgumentOutOfRangeException.ThrowIf)
+ * `ArgumentException.ThrowIf*` [reference](https://learn.microsoft.com/en-us/dotnet/api/?view=net-10.0&term=ArgumentException.ThrowIf)
+ * `ArgumentNullException.ThrowIf*` [reference](https://learn.microsoft.com/en-us/dotnet/api/?view=net-10.0&term=ArgumentNullException.ThrowIf)
+ * `ArgumentOutOfRangeException.ThrowIf*` [reference](https://learn.microsoft.com/en-us/dotnet/api/?view=net-10.0&term=ArgumentOutOfRangeException.ThrowIf)
 
 With the equivalent Ensure APIs:
 
