@@ -13,7 +13,7 @@ static partial class Polyfill
     /// <summary>
     /// Returns a UDP datagram asynchronously that was sent by a remote host.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.receiveasync?view=net-10.0#system-net-sockets-udpclient-receiveasync(system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.receiveasync?view=net-11.0#system-net-sockets-udpclient-receiveasync(system-threading-cancellationtoken)
     public static ValueTask<UdpReceiveResult> ReceiveAsync(
         this UdpClient target,
         CancellationToken cancellationToken = default)
@@ -50,7 +50,7 @@ static partial class Polyfill
     /// <summary>
     /// Sends a UDP datagram asynchronously to a remote host.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.sendasync?view=net-10.0#system-net-sockets-udpclient-sendasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.sendasync?view=net-11.0#system-net-sockets-udpclient-sendasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken)
     public static ValueTask<int> SendAsync(
         this UdpClient target,
         ReadOnlyMemory<byte> datagram,
@@ -67,7 +67,7 @@ static partial class Polyfill
     /// <summary>
     /// Sends a UDP datagram asynchronously to a remote host.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.sendasync?view=net-10.0#system-net-sockets-udpclient-sendasync(system-readonlymemory((system-byte))-system-net-ipendpoint-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.sendasync?view=net-11.0#system-net-sockets-udpclient-sendasync(system-readonlymemory((system-byte))-system-net-ipendpoint-system-threading-cancellationtoken)
     public static ValueTask<int> SendAsync(
         this UdpClient target,
         ReadOnlyMemory<byte> datagram,
@@ -85,7 +85,7 @@ static partial class Polyfill
     /// <summary>
     /// Sends a UDP datagram asynchronously to a remote host.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.sendasync?view=net-10.0#system-net-sockets-udpclient-sendasync(system-readonlymemory((system-byte))-system-string-system-int32-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.sendasync?view=net-11.0#system-net-sockets-udpclient-sendasync(system-readonlymemory((system-byte))-system-string-system-int32-system-threading-cancellationtoken)
     public static ValueTask<int> SendAsync(
         this UdpClient target,
         ReadOnlyMemory<byte> datagram,

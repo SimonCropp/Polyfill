@@ -13,7 +13,7 @@ static partial class Polyfill
     /// <summary>
     /// Output this <see cref="XDocument"/> to an <see cref="XmlWriter"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync?view=net-10.0#system-xml-linq-xdocument-saveasync(system-xml-xmlwriter-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync?view=net-11.0#system-xml-linq-xdocument-saveasync(system-xml-xmlwriter-system-threading-cancellationtoken)
     public static Task SaveAsync(
         this XDocument target,
         XmlWriter writer,
@@ -27,7 +27,7 @@ static partial class Polyfill
     /// <summary>
     /// Output this <see cref="XDocument"/> to a <see cref="Stream"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync?view=net-10.0#system-xml-linq-xdocument-saveasync(system-io-stream-system-xml-linq-saveoptions-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync?view=net-11.0#system-xml-linq-xdocument-saveasync(system-io-stream-system-xml-linq-saveoptions-system-threading-cancellationtoken)
     public static Task SaveAsync(
         this XDocument target,
         Stream stream,
@@ -42,7 +42,7 @@ static partial class Polyfill
     /// <summary>
     /// Output this <see cref="XDocument"/> to a <see cref="TextWriter"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync?view=net-10.0#system-xml-linq-xdocument-saveasync(system-io-textwriter-system-xml-linq-saveoptions-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync?view=net-11.0#system-xml-linq-xdocument-saveasync(system-io-textwriter-system-xml-linq-saveoptions-system-threading-cancellationtoken)
     public static Task SaveAsync(
         this XDocument target,
         TextWriter textWriter,

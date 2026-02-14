@@ -14,7 +14,7 @@ using Diagnostics.CodeAnalysis;
 /// </summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.spanlineenumerator?view=net-10.0
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.spanlineenumerator?view=net-11.0
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif

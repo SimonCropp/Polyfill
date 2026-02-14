@@ -5,7 +5,7 @@ namespace System.IO;
 /// <summary>
 /// Specifies the type of character casing to match.
 /// </summary>
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.matchcasing?view=net-10.0
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.matchcasing?view=net-11.0
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif

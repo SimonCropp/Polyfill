@@ -12,7 +12,7 @@ static partial class Polyfill
         /// <summary>
         /// OS and application specific file attributes.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.externalattributes?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.externalattributes?view=net-11.0
         public int ExternalAttributes
         {
             get => 0;

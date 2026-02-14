@@ -8,7 +8,7 @@ using System.Collections.Generic;
 static partial class Polyfill
 {
     /// <summary>Returns the only element of a sequence that satisfies a specified condition or a default value if no such element exists; this method throws an exception if more than one element satisfies the condition.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.singleordefault?view=net-10.0#system-linq-enumerable-singleordefault-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-boolean))-0)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.singleordefault?view=net-11.0#system-linq-enumerable-singleordefault-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-boolean))-0)
     public static TSource SingleOrDefault<TSource>(this IEnumerable<TSource> source, Func<TSource, bool> predicate, TSource defaultValue)
     {
         var single = source.TryGetSingle(predicate, out var found);
@@ -40,7 +40,7 @@ static partial class Polyfill
     }
 
     /// <summary>Returns the only element of a sequence, or a default value if the sequence is empty; this method throws an exception if there is more than one element in the sequence.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.singleordefault?view=net-10.0#system-linq-enumerable-singleordefault-1(system-collections-generic-ienumerable((-0))-0)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.singleordefault?view=net-11.0#system-linq-enumerable-singleordefault-1(system-collections-generic-ienumerable((-0))-0)
     public static TSource SingleOrDefault<TSource>(this IEnumerable<TSource> source, TSource defaultValue)
     {
         var single = source.TryGetSingle(out var found);

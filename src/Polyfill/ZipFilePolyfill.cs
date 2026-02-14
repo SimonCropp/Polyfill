@@ -16,7 +16,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously extracts all the files in the specified archive to a directory on the file system.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0
         public static Task ExtractToDirectoryAsync(
             string sourceArchiveFileName,
             string destinationDirectoryName,
@@ -26,7 +26,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously extracts all the files in the specified archive to a directory on the file system.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0
         public static Task ExtractToDirectoryAsync(
             string sourceArchiveFileName,
             string destinationDirectoryName,
@@ -37,7 +37,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously extracts all the files in the specified archive to a directory on the file system and uses the specified character encoding for entry names.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0
         public static Task ExtractToDirectoryAsync(
             string sourceArchiveFileName,
             string destinationDirectoryName,
@@ -48,7 +48,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously extracts all the files in the specified archive to a directory on the file system and uses the specified character encoding for entry names.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0
         public static Task ExtractToDirectoryAsync(
             string sourceArchiveFileName,
             string destinationDirectoryName,
@@ -94,7 +94,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously creates a zip archive that contains the files and directories from the specified directory.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-11.0
         public static Task CreateFromDirectoryAsync(
             string sourceDirectoryName,
             string destinationArchiveFileName,
@@ -104,7 +104,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously creates a zip archive that contains the files and directories from the specified directory and uses the specified compression level.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-11.0
         public static Task CreateFromDirectoryAsync(
             string sourceDirectoryName,
             string destinationArchiveFileName,
@@ -116,7 +116,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously creates a zip archive that contains the files and directories from the specified directory, uses the specified compression level and character encoding for entry names.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-11.0
         public static Task CreateFromDirectoryAsync(
             string sourceDirectoryName,
             string destinationArchiveFileName,

@@ -11,19 +11,19 @@ static partial class Polyfill
     const uint MaxSupportedTimeout = 0xfffffffe;
 
     /// <summary>Gets a <see cref="Task"/> that will complete when this <see cref="Task"/> completes or when the specified <see cref="CancellationToken"/> has cancellation requested.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-10.0#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)
     public static Task WaitAsync(this Task target, CancellationToken cancellationToken) =>
         target.WaitAsync(Timeout.InfiniteTimeSpan, cancellationToken);
 
     /// <summary>Gets a <see cref="Task"/> that will complete when this <see cref="Task"/> completes or when the specified timeout expires.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-10.0#system-threading-tasks-task-waitasync(system-timespan)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-timespan)
     public static Task WaitAsync(
         this Task target,
         TimeSpan timeout) =>
         target.WaitAsync(timeout, default);
 
     /// <summary>Gets a <see cref="Task"/> that will complete when this <see cref="Task"/> completes, when the specified timeout expires, or when the specified <see cref="CancellationToken"/> has cancellation requested.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-10.0#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken)
     public static async Task WaitAsync(
         this Task target,
         TimeSpan timeout,
@@ -77,7 +77,7 @@ static partial class Polyfill
     /// <summary>
     /// Gets a <see cref="Task"/> that will complete when this <see cref="Task"/> completes, or when the specified <see cref="CancellationToken"/> has cancellation requested.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-10.0#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-threading-cancellationtoken)
     public static Task<TResult> WaitAsync<TResult>(
         this Task<TResult> target,
         CancellationToken cancellationToken) =>
@@ -86,7 +86,7 @@ static partial class Polyfill
     /// <summary>
     /// Gets a <see cref="Task"/> that will complete when this <see cref="Task"/> completes, or when the specified timeout expires.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync?view=net-10.0#system-threading-tasks-task-1-waitasync(system-timespan)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync?view=net-11.0#system-threading-tasks-task-1-waitasync(system-timespan)
     public static Task<TResult> WaitAsync<TResult>(
         this Task<TResult> target,
         TimeSpan timeout) =>
@@ -95,7 +95,7 @@ static partial class Polyfill
     /// <summary>
     /// Gets a <see cref="Task"/> that will complete when this <see cref="Task"/> completes, when the specified timeout expires, or when the specified <see cref="CancellationToken"/> has cancellation requested.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync?view=net-10.0#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync?view=net-11.0#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken)
     public static async Task<TResult> WaitAsync<TResult>(
         this Task<TResult> target,
         TimeSpan timeout,

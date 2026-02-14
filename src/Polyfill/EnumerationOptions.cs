@@ -8,7 +8,7 @@ using Diagnostics.CodeAnalysis;
 /// <summary>
 /// Provides file and directory enumeration options.
 /// </summary>
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions?view=net-10.0
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions?view=net-11.0
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyUseEmbeddedAttribute
@@ -32,37 +32,37 @@ class EnumerationOptions
     /// <summary>
     /// Gets or sets a value that indicates whether to recurse into subdirectories while enumerating. The default is <see langword="false"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.recursesubdirectories?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.recursesubdirectories?view=net-11.0
     public bool RecurseSubdirectories { get; set; }
 
     /// <summary>
     /// Gets or sets a value that indicates whether to skip files or directories when access is denied (for example, <see cref="UnauthorizedAccessException"/> or <see cref="System.Security.SecurityException"/>). The default is <see langword="true"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.ignoreinaccessible?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.ignoreinaccessible?view=net-11.0
     public bool IgnoreInaccessible { get; set; }
 
     /// <summary>
     /// Gets or sets the suggested buffer size, in bytes. The default is 0 (no suggestion).
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.buffersize?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.buffersize?view=net-11.0
     public int BufferSize { get; set; }
 
     /// <summary>
     /// Gets or sets the attributes to skip. The default is <c>FileAttributes.Hidden | FileAttributes.System</c>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.attributestoskip?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.attributestoskip?view=net-11.0
     public FileAttributes AttributesToSkip { get; set; }
 
     /// <summary>
     /// Gets or sets the match type. The default is <see cref="MatchType.Simple"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.matchtype?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.matchtype?view=net-11.0
     public MatchType MatchType { get; set; }
 
     /// <summary>
     /// Gets or sets the case matching behavior. The default is <see cref="MatchCasing.PlatformDefault"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.matchcasing?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.matchcasing?view=net-11.0
     public MatchCasing MatchCasing { get; set; }
 
     int maxRecursionDepth;
@@ -70,7 +70,7 @@ class EnumerationOptions
     /// <summary>
     /// Gets or sets a value that indicates the maximum directory depth to recurse while enumerating, when <see cref="RecurseSubdirectories"/> is set to <see langword="true"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.maxrecursiondepth?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.maxrecursiondepth?view=net-11.0
     public int MaxRecursionDepth
     {
         get => maxRecursionDepth;
@@ -80,7 +80,7 @@ class EnumerationOptions
     /// <summary>
     /// Gets or sets a value that indicates whether to return the special directory entries "." and "..".
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.returnspecialdirectories?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.returnspecialdirectories?view=net-11.0
     public bool ReturnSpecialDirectories { get; set; }
 }
 #else

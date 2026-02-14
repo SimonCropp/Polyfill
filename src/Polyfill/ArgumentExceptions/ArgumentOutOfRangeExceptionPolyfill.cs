@@ -11,7 +11,7 @@ static partial class Polyfill
     extension(ArgumentOutOfRangeException)
     {
 #if !NET8_0_OR_GREATER
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifzero?view=net-10.0#system-argumentoutofrangeexception-throwifzero-1(-0-system-string)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifzero?view=net-11.0#system-argumentoutofrangeexception-throwifzero-1(-0-system-string)
         public static void ThrowIfZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
 #if NET7_0_OR_GREATER
             where T : INumberBase<T>
@@ -48,7 +48,7 @@ static partial class Polyfill
 #endif
 
 #if !NET8_0_OR_GREATER
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegative?view=net-10.0#system-argumentoutofrangeexception-throwifnegative-1(-0-system-string)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegative?view=net-11.0#system-argumentoutofrangeexception-throwifnegative-1(-0-system-string)
         public static void ThrowIfNegative<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
 #if NET7_0_OR_GREATER
             where T : INumberBase<T>
@@ -69,7 +69,7 @@ static partial class Polyfill
 #endif
 
 #if !NET7_0_OR_GREATER
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegative?view=net-10.0#system-argumentoutofrangeexception-throwifnegative-1(-0-system-string)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegative?view=net-11.0#system-argumentoutofrangeexception-throwifnegative-1(-0-system-string)
         /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is negative.</summary>
         public static void ThrowIfNegative(nint value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
         {
@@ -87,7 +87,7 @@ static partial class Polyfill
 #endif
 
 #if !NET8_0_OR_GREATER
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegativeorzero?view=net-10.0#system-argumentoutofrangeexception-throwifnegativeorzero-1(-0-system-string)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnegativeorzero?view=net-11.0#system-argumentoutofrangeexception-throwifnegativeorzero-1(-0-system-string)
         public static void ThrowIfNegativeOrZero<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
 #if NET7_0_OR_GREATER
             where T : INumberBase<T>
@@ -126,7 +126,7 @@ static partial class Polyfill
 #endif
 
 #if !NET8_0_OR_GREATER
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifequal?view=net-10.0#system-argumentoutofrangeexception-throwifequal-1(-0-0-system-string)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifequal?view=net-11.0#system-argumentoutofrangeexception-throwifequal-1(-0-0-system-string)
         public static void ThrowIfEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IEquatable<T>?
         {
@@ -138,7 +138,7 @@ static partial class Polyfill
 #endif
 
 #if !NET8_0_OR_GREATER
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnotequal?view=net-10.0#system-argumentoutofrangeexception-throwifnotequal-1(-0-0-system-string)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifnotequal?view=net-11.0#system-argumentoutofrangeexception-throwifnotequal-1(-0-0-system-string)
         public static void ThrowIfNotEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IEquatable<T>?
         {
@@ -150,7 +150,7 @@ static partial class Polyfill
 #endif
 
 #if !NET8_0_OR_GREATER
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthan?view=net-10.0#system-argumentoutofrangeexception-throwifgreaterthan-1(-0-0-system-string)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthan?view=net-11.0#system-argumentoutofrangeexception-throwifgreaterthan-1(-0-0-system-string)
         public static void ThrowIfGreaterThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IComparable<T>
         {
@@ -173,7 +173,7 @@ static partial class Polyfill
 #endif
 
 #if !NET8_0_OR_GREATER
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthanorequal?view=net-10.0#system-argumentoutofrangeexception-throwifgreaterthanorequal-1(-0-0-system-string)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifgreaterthanorequal?view=net-11.0#system-argumentoutofrangeexception-throwifgreaterthanorequal-1(-0-0-system-string)
         public static void ThrowIfGreaterThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IComparable<T>
         {
@@ -196,7 +196,7 @@ static partial class Polyfill
 #endif
 
 #if !NET8_0_OR_GREATER
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthan?view=net-10.0#system-argumentoutofrangeexception-throwiflessthan-1(-0-0-system-string)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthan?view=net-11.0#system-argumentoutofrangeexception-throwiflessthan-1(-0-0-system-string)
         public static void ThrowIfLessThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IComparable<T>
         {
@@ -219,7 +219,7 @@ static partial class Polyfill
 #endif
 
 #if !NET8_0_OR_GREATER
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthanorequal?view=net-10.0#system-argumentoutofrangeexception-throwiflessthanorequal-1(-0-0-system-string)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwiflessthanorequal?view=net-11.0#system-argumentoutofrangeexception-throwiflessthanorequal-1(-0-0-system-string)
         public static void ThrowIfLessThanOrEqual<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
             where T : IComparable<T>
         {

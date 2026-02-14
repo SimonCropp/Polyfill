@@ -9,7 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
 // Encapsulates a method that receives a read-only span of objects of type T and a state object of type TArg.
-// https://learn.microsoft.com/en-us/dotnet/api/system.buffers.readonlyspanaction-2?view=net-10.0
+// https://learn.microsoft.com/en-us/dotnet/api/system.buffers.readonlyspanaction-2?view=net-11.0
 #if PolyPublic
 public
 #endif

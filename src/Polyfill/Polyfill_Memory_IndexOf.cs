@@ -14,7 +14,7 @@ static partial class Polyfill
     /// <summary>
     /// Searches for the specified value and returns the index of its first occurrence. If not found, returns -1. Values are compared using IEquatable{T}.Equals(T).
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexof?view=net-10.0#system-memoryextensions-indexof-1(system-readonlyspan((-0))-0-system-collections-generic-iequalitycomparer((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexof?view=net-11.0#system-memoryextensions-indexof-1(system-readonlyspan((-0))-0-system-collections-generic-iequalitycomparer((-0)))
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int IndexOf<T>(this ReadOnlySpan<T> span, T value, IEqualityComparer<T>? comparer = null)
     {
