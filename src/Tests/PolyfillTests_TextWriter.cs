@@ -103,4 +103,38 @@ partial class PolyfillTests
         var s = Encoding.UTF8.GetString(stream.ToArray());
         await Assert.That(s).IsEqualTo("value" + Environment.NewLine);
     }
+
+    [Test]
+    public async Task TextWriterWriteAsyncStringWithCancellation()
+    {
+        using var stream = new MemoryStream();
+        using var writer = new StreamWriter(stream);
+        await writer.WriteAsync("value", Cancel.None);
+        await writer.FlushAsync();
+        var s = Encoding.UTF8.GetString(stream.ToArray());
+        await Assert.That(s).IsEqualTo("value");
+    }
+
+    [Test]
+    public async Task TextWriterWriteLineAsyncWithCancellation()
+    {
+        using var stream = new MemoryStream();
+        using var writer = new StreamWriter(stream);
+        await writer.WriteAsync("value");
+        await writer.WriteLineAsync(Cancel.None);
+        await writer.FlushAsync();
+        var s = Encoding.UTF8.GetString(stream.ToArray());
+        await Assert.That(s).IsEqualTo("value" + Environment.NewLine);
+    }
+
+    [Test]
+    public async Task TextWriterWriteLineAsyncStringWithCancellation()
+    {
+        using var stream = new MemoryStream();
+        using var writer = new StreamWriter(stream);
+        await writer.WriteLineAsync("value", Cancel.None);
+        await writer.FlushAsync();
+        var s = Encoding.UTF8.GetString(stream.ToArray());
+        await Assert.That(s).IsEqualTo("value" + Environment.NewLine);
+    }
 }
