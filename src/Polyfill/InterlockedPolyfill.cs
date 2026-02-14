@@ -1,6 +1,6 @@
 #pragma warning disable
 
-#if !NET11_0_OR_GREATER && FeatureMemory && AllowUnsafeBlocks
+#if !NET11_0_OR_GREATER && !NETCOREAPP2X && FeatureMemory && AllowUnsafeBlocks
 
 namespace Polyfills;
 
