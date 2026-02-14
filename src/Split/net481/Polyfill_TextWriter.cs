@@ -12,6 +12,42 @@ using System.Buffers;
 #endif
 static partial class Polyfill
 {
+	/// <summary>
+	/// Asynchronously writes a string to the stream, with a cancellation token.
+	/// </summary>
+	public static Task WriteAsync(this TextWriter target, string? value, CancellationToken cancellationToken)
+	{
+		if (cancellationToken.IsCancellationRequested)
+		{
+			return Task.FromCanceled(cancellationToken);
+		}
+		return target.WriteAsync(value)
+			.WaitAsync(cancellationToken);
+	}
+	/// <summary>
+	/// Asynchronously writes a line terminator to the stream, with a cancellation token.
+	/// </summary>
+	public static Task WriteLineAsync(this TextWriter target, CancellationToken cancellationToken)
+	{
+		if (cancellationToken.IsCancellationRequested)
+		{
+			return Task.FromCanceled(cancellationToken);
+		}
+		return target.WriteLineAsync()
+			.WaitAsync(cancellationToken);
+	}
+	/// <summary>
+	/// Asynchronously writes a string followed by a line terminator to the stream, with a cancellation token.
+	/// </summary>
+	public static Task WriteLineAsync(this TextWriter target, string? value, CancellationToken cancellationToken)
+	{
+		if (cancellationToken.IsCancellationRequested)
+		{
+			return Task.FromCanceled(cancellationToken);
+		}
+		return target.WriteLineAsync(value)
+			.WaitAsync(cancellationToken);
+	}
 	//https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/IO/TextWriter.cs#L670
 	/// <summary>
 	/// Asynchronously clears all buffers for the current writer and causes any buffered data to
