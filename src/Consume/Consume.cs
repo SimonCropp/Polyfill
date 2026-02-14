@@ -732,7 +732,7 @@ class Consume
         ilist.AsReadOnly();
     }
 
-#if FeatureMemory && !NETCOREAPP2X
+#if FeatureMemory && FeatureUnsafe
     void Interlocked_Methods()
     {
         var intValue = 0xFF;
