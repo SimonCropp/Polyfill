@@ -11,7 +11,7 @@ static partial class Polyfill
     /// <summary>
     /// Sorts the elements in the entire <see cref="Span{T}"/> using the <see cref="IComparable{T}"/> implementation of each element of the <see cref="Span{T}"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-1(system-span((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-1(system-span((-0)))
     public static void Sort<T>(this Span<T> source)
         where T : IComparable<T>
         => Sort(source, (x, y) => x.CompareTo(y));
@@ -19,7 +19,7 @@ static partial class Polyfill
     /// <summary>
     /// Sorts the elements in the entire <see cref="Span{T}"/> using the specified <see cref="Comparison{T}"/>.
     /// </summary>
-    /// Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-1(system-span((-0))-system-comparison((-0)))
+    /// Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-1(system-span((-0))-system-comparison((-0)))
     public static void Sort<T>(this Span<T> source, Comparison<T> comparison)
     {
         if((Comparison<T>?)comparison is null)
@@ -43,7 +43,7 @@ static partial class Polyfill
     /// <summary>
     /// Sorts a pair of spans (one containing the keys and the other containing the corresponding items) based on the keys in the first <see cref="Span{T}"/> using the <see cref=" IComparable{T}"/> implementation of each key.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-2(system-span((-0))-system-span((-1)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-2(system-span((-0))-system-span((-1)))
     public static void Sort<TKey, TValue>(this Span<TKey> keys, Span<TValue> values)
         => Sort(keys, values, Comparer<TKey>.Default);
 
@@ -51,7 +51,7 @@ static partial class Polyfill
     /// <summary>
     /// Sorts a pair of spans (one containing the keys and the other containing the corresponding items) based on the keys in the first <see cref="Span{T}"/>  using the specified comparer.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-3(system-span((-0))-system-span((-1))-2)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-3(system-span((-0))-system-span((-1))-2)
     public static void Sort<TKey, TValue, TComparer>(this Span<TKey> keys, Span<TValue> values, TComparer comparer)
         where TComparer : IComparer<TKey>
     {
@@ -83,7 +83,7 @@ static partial class Polyfill
     /// <summary>
     /// Sorts a pair of spans (one containing the keys and the other containing the corresponding items) based on the keys in the first <see cref="Span{T}"/> using the specified comparison.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-10.0#system-memoryextensions-sort-2(system-span((-0))-system-span((-1))-system-comparison((-0)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-2(system-span((-0))-system-span((-1))-system-comparison((-0)))
     public static void Sort<TKey, TValue>(this Span<TKey> keys, Span<TValue> items, Comparison<TKey> comparison)
         => Sort(keys, items, new ComparerWrapper<TKey>(comparison));
 

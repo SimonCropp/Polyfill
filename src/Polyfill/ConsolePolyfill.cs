@@ -1,4 +1,5 @@
-#if !NET11_0_OR_GREATER
+//TODO: cehck this again in net11 preview 2
+#if !NET12_0_OR_GREATER
 namespace Polyfills;
 
 using System;
@@ -12,21 +13,21 @@ static partial class Polyfill
         /// <summary>
         /// Gets a <see cref="SafeFileHandle"/> that wraps the operating system handle for standard input.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandardinputhandle?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandardinputhandle?view=net-11.0
         public static SafeFileHandle OpenStandardInputHandle() =>
             StandardHandleHelper.GetStandardHandle(StandardHandleHelper.StdInput);
 
         /// <summary>
         /// Gets a <see cref="SafeFileHandle"/> that wraps the operating system handle for standard output.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandardoutputhandle?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandardoutputhandle?view=net-11.0
         public static SafeFileHandle OpenStandardOutputHandle() =>
             StandardHandleHelper.GetStandardHandle(StandardHandleHelper.StdOutput);
 
         /// <summary>
         /// Gets a <see cref="SafeFileHandle"/> that wraps the operating system handle for standard error.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandarderrorhandle?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandarderrorhandle?view=net-11.0
         public static SafeFileHandle OpenStandardErrorHandle() =>
             StandardHandleHelper.GetStandardHandle(StandardHandleHelper.StdError);
     }
@@ -45,19 +46,17 @@ static partial class Polyfill
             if (Environment.OSVersion.Platform == PlatformID.Win32NT)
 #endif
             {
-                return new SafeFileHandle(GetStdHandle(stdHandle), ownsHandle: false);
+                return new(GetStdHandle(stdHandle), ownsHandle: false);
             }
-            else
+
+            var fd = stdHandle switch
             {
-                var fd = stdHandle switch
-                {
-                    StdInput => 0,
-                    StdOutput => 1,
-                    StdError => 2,
-                    _ => throw new ArgumentOutOfRangeException(nameof(stdHandle))
-                };
-                return new SafeFileHandle(new IntPtr(fd), ownsHandle: false);
-            }
+                StdInput => 0,
+                StdOutput => 1,
+                StdError => 2,
+                _ => throw new ArgumentOutOfRangeException(nameof(stdHandle))
+            };
+            return new(new(fd), ownsHandle: false);
         }
 
         [DllImport("kernel32.dll", SetLastError = true)]

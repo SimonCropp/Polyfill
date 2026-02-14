@@ -12,7 +12,7 @@ static partial class Polyfill
     /// <summary>
     /// Decodes all the bytes in the specified read-only byte span into a character span.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getchars?view=net-10.0#system-text-encoding-getchars(system-readonlyspan((system-byte))-system-span((system-char)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getchars?view=net-11.0#system-text-encoding-getchars(system-readonlyspan((system-byte))-system-span((system-char)))
 #if AllowUnsafeBlocks
     public static unsafe int GetChars(this Encoding target, ReadOnlySpan<byte> bytes, Span<char> chars)
     {

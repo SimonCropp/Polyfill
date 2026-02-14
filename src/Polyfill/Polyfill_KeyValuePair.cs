@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 static partial class Polyfill
 {
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct?view=net-11.0
     [EditorBrowsable(EditorBrowsableState.Never)]
     public static void Deconstruct<TKey, TValue>(
         this KeyValuePair<TKey, TValue> target,

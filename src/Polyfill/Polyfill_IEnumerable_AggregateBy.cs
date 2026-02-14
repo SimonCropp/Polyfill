@@ -10,7 +10,7 @@ static partial class Polyfill
     /// <summary>
     /// https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/overview#linq
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.aggregateby?view=net-10.0#system-linq-enumerable-aggregateby-3(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-func((-1-2))-system-func((-2-0-2))-system-collections-generic-iequalitycomparer((-1)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.aggregateby?view=net-11.0#system-linq-enumerable-aggregateby-3(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-func((-1-2))-system-func((-2-0-2))-system-collections-generic-iequalitycomparer((-1)))
     public static IEnumerable<KeyValuePair<TKey, TAccumulate>> AggregateBy<TSource, TKey, TAccumulate>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,
@@ -30,7 +30,7 @@ static partial class Polyfill
     /// <summary>
     /// https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-9/overview#linq
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.aggregateby?view=net-10.0#system-linq-enumerable-aggregateby-3(system-collections-generic-ienumerable((-0))-system-func((-0-1))-2-system-func((-2-0-2))-system-collections-generic-iequalitycomparer((-1)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.aggregateby?view=net-11.0#system-linq-enumerable-aggregateby-3(system-collections-generic-ienumerable((-0))-system-func((-0-1))-2-system-func((-2-0-2))-system-collections-generic-iequalitycomparer((-1)))
     public static IEnumerable<KeyValuePair<TKey, TAccumulate>> AggregateBy<TSource, TKey, TAccumulate>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,

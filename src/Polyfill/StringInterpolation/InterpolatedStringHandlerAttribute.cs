@@ -9,7 +9,7 @@ using Targets = AttributeTargets;
 /// <summary>
 /// Indicates the attributed type is to be used as an interpolated string handler.
 /// </summary>
-//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.interpolatedstringhandlerargumentattribute?view=net-10.0
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.interpolatedstringhandlerargumentattribute?view=net-11.0
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 [AttributeUsage(

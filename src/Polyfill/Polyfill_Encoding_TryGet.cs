@@ -11,7 +11,7 @@ static partial class Polyfill
 #if !NET8_0_OR_GREATER
 
     /// <summary>Decodes into a span of chars a set of bytes from the specified read-only span if the destination is large enough.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetchars?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetchars?view=net-11.0
     public static bool TryGetChars(this Encoding target, ReadOnlySpan<byte> bytes, Span<char> chars, out int charsWritten)
     {
         int required = target.GetCharCount(bytes);
@@ -26,7 +26,7 @@ static partial class Polyfill
     }
 
     /// <summary>Encodes into a span of bytes a set of characters from the specified read-only span if the destination is large enough.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetbytes?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetbytes?view=net-11.0
     public static bool TryGetBytes(this Encoding target, ReadOnlySpan<char> chars, Span<byte> bytes, out int bytesWritten)
     {
         int required = target.GetByteCount(chars);

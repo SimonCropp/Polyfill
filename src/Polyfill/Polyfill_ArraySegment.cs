@@ -14,7 +14,7 @@ static partial class Polyfill
     /// <summary>
     /// Copies the contents of this instance into the specified destination array segment of the same type T.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.copyto?view=net-10.0#system-arraysegment-1-copyto(-0())
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.copyto?view=net-11.0#system-arraysegment-1-copyto(-0())
     public static void CopyTo<T>(this ArraySegment<T> target, ArraySegment<T> destination)
     {
         if (target.Count > destination.Count)
@@ -33,14 +33,14 @@ static partial class Polyfill
     /// <summary>
     /// Copies the contents of this instance into the specified destination array of the same type T.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.copyto?view=net-10.0#system-arraysegment-1-copyto(-0())
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.copyto?view=net-11.0#system-arraysegment-1-copyto(-0())
     public static void CopyTo<T>(this ArraySegment<T> target, T[] destination) =>
         CopyTo<T>(target, destination, 0);
 
     /// <summary>
     /// Copies the contents of this instance into the specified destination array of the same type T, starting at the specified destination index.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.copyto?view=net-10.0#system-arraysegment-1-copyto(-0()-system-int32)
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.copyto?view=net-11.0#system-arraysegment-1-copyto(-0()-system-int32)
     public static void CopyTo<T>(this ArraySegment<T> target, T[] destination, int destinationIndex)
     {
         if (target.Array == null)
@@ -54,14 +54,14 @@ static partial class Polyfill
     /// <summary>
     /// Copies the contents of this instance into the specified destination array of the same type T, starting at the specified destination index.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.getenumerator?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.getenumerator?view=net-11.0
     public static ArraySegmentEnumerator<T> GetEnumerator<T>(this ArraySegment<T> target) =>
         new(target);
 
     /// <summary>
     /// Provides an enumerator for the elements of an <see cref="ArraySegment{T}"/>.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.enumerator?view=net-10.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.enumerator?view=net-11.0
     public struct ArraySegmentEnumerator<T> : IEnumerator<T>
     {
         readonly T[]? _array;

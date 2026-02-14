@@ -10,14 +10,14 @@ static partial class Polyfill
     /// <summary>
     /// Returns the minimum value in a generic sequence according to a specified key selector function.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.minby?view=net-10.0#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.minby?view=net-11.0#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1)))
     public static TSource? MinBy<TSource, TKey>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector) =>
         MinBy(source, keySelector, null);
 
     /// <summary>Returns the minimum value in a generic sequence according to a specified key selector function.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.minby?view=net-10.0#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.minby?view=net-11.0#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1)))
     public static TSource? MinBy<TSource, TKey>(
         this IEnumerable<TSource> source,
         Func<TSource, TKey> keySelector,

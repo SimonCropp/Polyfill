@@ -12,7 +12,7 @@ static partial class Polyfill
     /// <summary>
     /// Calculates the number of characters produced by decoding the provided read-only byte span.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getcharcount?view=net-10.0#system-text-encoding-getcharcount(system-readonlyspan((system-byte)))
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getcharcount?view=net-11.0#system-text-encoding-getcharcount(system-readonlyspan((system-byte)))
 #if AllowUnsafeBlocks
     public static unsafe int GetCharCount(this Encoding target, ReadOnlySpan<byte> bytes)
     {

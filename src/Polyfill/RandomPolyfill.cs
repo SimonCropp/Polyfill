@@ -33,7 +33,7 @@ static partial class Polyfill
         /// <summary>
         /// Provides a thread-safe Random instance that may be used concurrently from any thread.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.shared?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.shared?view=net-11.0
         public static Random Shared => threadSafeRandom;
     }
 }
