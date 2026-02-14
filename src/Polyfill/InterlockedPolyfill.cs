@@ -16,7 +16,7 @@ static partial class Polyfill
         /// <summary>
         /// Bitwise "ands" two values and replaces the first value with the result, as an atomic operation.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.and?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.and?view=net-11.0
         public static T And<T>(ref T location1, T value)
             where T : struct
         {
@@ -42,7 +42,7 @@ static partial class Polyfill
         /// <summary>
         /// Bitwise "ors" two values and replaces the first value with the result, as an atomic operation.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.or?view=net-10.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.or?view=net-11.0
         public static T Or<T>(ref T location1, T value)
             where T : struct
         {

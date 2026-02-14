@@ -1,4 +1,4 @@
-#if FeatureMemory
+#if FeatureMemory && AllowUnsafeBlocks
 
 partial class PolyfillTests
 {
