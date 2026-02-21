@@ -8,6 +8,20 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task EnumGetValuesAsUnderlyingType()
+    {
+        var values = Enum.GetValuesAsUnderlyingType(typeof(DayOfWeek));
+        await Assert.That(values).IsTypeOf<int[]>();
+        var intValues = (int[]) values;
+        await Assert.That(intValues[0]).IsEqualTo(0);
+
+        var genericValues = Enum.GetValuesAsUnderlyingType<DayOfWeek>();
+        await Assert.That(genericValues).IsTypeOf<int[]>();
+        var genericIntValues = (int[]) genericValues;
+        await Assert.That(genericIntValues[0]).IsEqualTo(0);
+    }
+
+    [Test]
     public async Task EnumGetNames()
     {
         var dayOfWeeks = Enum.GetNames<DayOfWeek>();
