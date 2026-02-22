@@ -41,6 +41,37 @@ static partial class Polyfill
 
 #endif
 
+#if !NET7_0_OR_GREATER
+
+        /// <summary>
+        /// Retrieves an array of the values of the constants in a specified enumeration type.
+        /// The values are returned as the underlying type of the enum.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.enum.getvaluesasunderlyingtype?view=net-11.0#system-enum-getvaluesasunderlyingtype(system-type)
+        public static Array GetValuesAsUnderlyingType(Type enumType)
+        {
+            var values = Enum.GetValues(enumType);
+            var underlyingType = Enum.GetUnderlyingType(enumType);
+            var result = Array.CreateInstance(underlyingType, values.Length);
+            for (var i = 0; i < values.Length; i++)
+            {
+                result.SetValue(Convert.ChangeType(values.GetValue(i)!, underlyingType), i);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Retrieves an array of the values of the constants in a specified enumeration type.
+        /// The values are returned as the underlying type of the enum.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.enum.getvaluesasunderlyingtype?view=net-11.0#system-enum-getvaluesasunderlyingtype-1
+        public static Array GetValuesAsUnderlyingType<TEnum>()
+            where TEnum : struct, Enum =>
+            GetValuesAsUnderlyingType(typeof(TEnum));
+
+#endif
+
 #if NETFRAMEWORK || NETSTANDARD
 
         /// <summary>

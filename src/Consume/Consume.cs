@@ -545,6 +545,12 @@ class Consume
         var (key, value) = entry;
     }
 
+    void Enum_Methods()
+    {
+        var values = Enum.GetValuesAsUnderlyingType(typeof(DayOfWeek));
+        values = Enum.GetValuesAsUnderlyingType<DayOfWeek>();
+    }
+
     void EnumerationOptions_Methods()
     {
         var options = new EnumerationOptions
