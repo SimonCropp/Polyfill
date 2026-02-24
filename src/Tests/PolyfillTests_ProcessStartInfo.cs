@@ -79,11 +79,90 @@ partial class PolyfillTests
         await Assert.That(info.ArgumentList[1]).IsEqualTo("dir");
     }
 
+    [Test]
+    public async Task ProcessStartInfoCtorArgumentsThenAccessArgumentList()
+    {
+        var info = new ProcessStartInfo("cmd.exe", "/c dir");
+
+        // ArgumentList is always empty regardless of constructor arguments
+        await Assert.That(info.ArgumentList.Count).IsEqualTo(0);
+        // The constructor-supplied Arguments string is preserved
+        await Assert.That(info.Arguments).IsEqualTo("/c dir");
+    }
+
+    [Test]
+    public async Task ProcessStartInfoCtorArgumentsThenAddToArgumentList()
+    {
+        var info = new ProcessStartInfo("cmd.exe", "/c dir");
+
+        info.ArgumentList.Add("--verbose");
+
+        await Assert.That(info.ArgumentList.Count).IsEqualTo(1);
+        await Assert.That(info.ArgumentList[0]).IsEqualTo("--verbose");
+    }
+
+    [Test]
+    public async Task ProcessStartInfoCtorArgumentsThenClearArgumentList()
+    {
+        var info = new ProcessStartInfo("cmd.exe", "/c dir");
+
+        // Clearing an already-empty ArgumentList should be harmless
+        info.ArgumentList.Clear();
+
+        await Assert.That(info.ArgumentList.Count).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task ProcessStartInfoCtorArgumentsFileNamePreserved()
+    {
+        var info = new ProcessStartInfo("cmd.exe", "/c dir");
+
+        info.ArgumentList.Add("--flag");
+
+        await Assert.That(info.FileName).IsEqualTo("cmd.exe");
+    }
+
     // On old frameworks the polyfill eagerly syncs ArgumentList to Arguments so
     // that Process.Start respects the list.  On new frameworks the runtime does
     // this internally at start time, so Arguments stays empty.  The tests below
     // verify the polyfill-specific syncing behaviour.
 #if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
+
+    [Test]
+    public async Task ProcessStartInfoCtorArgumentsOverwrittenByArgumentListSync()
+    {
+        var info = new ProcessStartInfo("cmd.exe", "/c dir");
+
+        // Adding to ArgumentList syncs and overwrites the constructor-supplied Arguments
+        info.ArgumentList.Add("--verbose");
+
+        await Assert.That(info.Arguments).IsEqualTo("--verbose");
+    }
+
+    [Test]
+    public async Task ProcessStartInfoCtorArgumentsClearedByArgumentListClear()
+    {
+        var info = new ProcessStartInfo("cmd.exe", "/c dir");
+
+        // Access list, add something, then clear
+        info.ArgumentList.Add("--flag");
+        info.ArgumentList.Clear();
+
+        await Assert.That(info.Arguments).IsEmpty();
+    }
+
+    [Test]
+    public async Task ProcessStartInfoCtorArgumentsThenMultipleArgumentListMutations()
+    {
+        var info = new ProcessStartInfo("cmd.exe", "/c dir");
+
+        info.ArgumentList.Add("one");
+        info.ArgumentList.Add("two");
+        info.ArgumentList[0] = "replaced";
+        info.ArgumentList.Add("three");
+
+        await Assert.That(info.Arguments).IsEqualTo("replaced two three");
+    }
 
     [Test]
     public async Task ProcessStartInfoArgumentListSyncsToArguments()
