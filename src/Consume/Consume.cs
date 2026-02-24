@@ -846,6 +846,13 @@ class Consume
         process.Kill(true);
     }
 
+    void ProcessStartInfo_Methods()
+    {
+        var info = new ProcessStartInfo("cmd.exe");
+        var argumentList = info.ArgumentList;
+        argumentList.Add("/c");
+    }
+
     void Random_Methods()
     {
         var random = new Random();
