@@ -214,6 +214,8 @@
 
  * `string[] GetNames<TEnum>() where TEnum : struct, Enum` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.getnames?view=net-11.0)
  * `TEnum[] GetValues<TEnum>() where TEnum : struct, Enum` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.getvalues?view=net-11.0)
+ * `Array GetValuesAsUnderlyingType(Type)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.getvaluesasunderlyingtype?view=net-11.0#system-enum-getvaluesasunderlyingtype(system-type))
+ * `Array GetValuesAsUnderlyingType<TEnum>() where TEnum : struct, Enum` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.getvaluesasunderlyingtype?view=net-11.0#system-enum-getvaluesasunderlyingtype-1)
  * `bool IsDefined<TEnum>(TEnum) where TEnum : struct, Enum` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.isdefined?view=net-11.0#system-enum-isdefined-1(-0))
  * `TEnum Parse<TEnum>(ReadOnlySpan<char>, bool) where TEnum : struct, Enum` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse?view=net-11.0#system-enum-parse-1(system-readonlyspan((system-char))-system-boolean))
  * `TEnum Parse<TEnum>(ReadOnlySpan<char>) where TEnum : struct, Enum` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.enum.parse?view=net-11.0#system-enum-parse-1(system-readonlyspan((system-char))))
@@ -430,8 +432,6 @@
 
 #### Interlocked
 
- * `T And<T>(T, T) where T : struct` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.and?view=net-10.0)
- * `T Or<T>(T, T) where T : struct` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.or?view=net-10.0)
 
 
 #### IReadOnlyDictionary<TKey, TValue>

@@ -1,0 +1,136 @@
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
+#pragma warning disable
+
+namespace Polyfills;
+
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Text;
+
+static partial class Polyfill
+{
+    static ConditionalWeakTable<ProcessStartInfo, SyncingArgumentList> argumentListTable = new();
+
+    extension(ProcessStartInfo target)
+    {
+        /// <summary>
+        /// Gets a collection of command-line arguments to use when starting the application.
+        /// Strings added to the list don't need to be previously escaped.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo.argumentlist?view=net-11.0
+        public Collection<string> ArgumentList =>
+            argumentListTable.GetValue(target, key => new SyncingArgumentList(key));
+    }
+
+    internal sealed class SyncingArgumentList : Collection<string>
+    {
+        ProcessStartInfo owner;
+
+        internal SyncingArgumentList(ProcessStartInfo owner) =>
+            this.owner = owner;
+
+        protected override void InsertItem(int index, string item)
+        {
+            base.InsertItem(index, item);
+            Sync();
+        }
+
+        protected override void SetItem(int index, string item)
+        {
+            base.SetItem(index, item);
+            Sync();
+        }
+
+        protected override void RemoveItem(int index)
+        {
+            base.RemoveItem(index);
+            Sync();
+        }
+
+        protected override void ClearItems()
+        {
+            base.ClearItems();
+            Sync();
+        }
+
+        internal void Sync()
+        {
+            var builder = new StringBuilder();
+
+            foreach (var argument in this)
+            {
+                if (builder.Length != 0)
+                {
+                    builder.Append(' ');
+                }
+
+                if (argument.Length != 0 && !ContainsWhitespaceOrQuotes(argument))
+                {
+                    builder.Append(argument);
+                }
+                else
+                {
+                    builder.Append('"');
+                    var index = 0;
+                    while (index < argument.Length)
+                    {
+                        var c = argument[index++];
+                        if (c == '\\')
+                        {
+                            var numBackSlash = 1;
+                            while (index < argument.Length && argument[index] == '\\')
+                            {
+                                index++;
+                                numBackSlash++;
+                            }
+
+                            if (index == argument.Length)
+                            {
+                                builder.Append('\\', numBackSlash * 2);
+                            }
+                            else if (argument[index] == '"')
+                            {
+                                builder.Append('\\', numBackSlash * 2 + 1);
+                                builder.Append('"');
+                                index++;
+                            }
+                            else
+                            {
+                                builder.Append('\\', numBackSlash);
+                            }
+                        }
+                        else if (c == '"')
+                        {
+                            builder.Append('\\');
+                            builder.Append('"');
+                        }
+                        else
+                        {
+                            builder.Append(c);
+                        }
+                    }
+
+                    builder.Append('"');
+                }
+            }
+
+            owner.Arguments = builder.ToString();
+        }
+
+        static bool ContainsWhitespaceOrQuotes(string s)
+        {
+            for (var i = 0; i < s.Length; i++)
+            {
+                var c = s[i];
+                if (char.IsWhiteSpace(c) || c == '"')
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+}
+#endif
