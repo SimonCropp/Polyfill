@@ -609,7 +609,6 @@ partial class PolyfillTests
 
     #endregion
 
-#if NET5_0_OR_GREATER || NETCOREAPP3_0_OR_GREATER
 #if FeatureAsyncInterfaces
     #region WhenEach Tests
 
