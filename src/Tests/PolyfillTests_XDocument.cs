@@ -32,6 +32,17 @@ partial class PolyfillTests
         await Assert.That(result).IsEqualTo("<?xml version=\"1.0\" encoding=\"utf-8\"?><Child />");
     }
 
+    [Test]
+    public async Task XDocumentSaveAsyncTextWriter()
+    {
+        var document = GetXDocument();
+        using var writer = new StringWriter();
+
+        await document.SaveAsync(writer, SaveOptions.DisableFormatting, Cancel.None);
+
+        await Assert.That(writer.ToString()).IsEqualTo("<?xml version=\"1.0\" encoding=\"utf-16\"?><Child />");
+    }
+
     static XDocument GetXDocument() =>
         new(new XElement("Child"));
 }
