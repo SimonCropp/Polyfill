@@ -92,6 +92,37 @@ static partial class Polyfill
         }
 
         /// <summary>
+        /// Asynchronously opens a ZipArchive on the specified archiveFileName in the specified ZipArchiveMode mode.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.openasync?view=net-11.0
+        public static Task<ZipArchive> OpenAsync(
+            string archiveFileName,
+            ZipArchiveMode mode,
+            CancellationToken cancellationToken = default) =>
+            Task.Run(() => ZipFile.Open(archiveFileName, mode), cancellationToken);
+
+        /// <summary>
+        /// Asynchronously opens a ZipArchive on the specified archiveFileName in the specified ZipArchiveMode mode.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.openasync?view=net-11.0
+        public static Task<ZipArchive> OpenAsync(
+            string archiveFileName,
+            ZipArchiveMode mode,
+            Encoding? entryNameEncoding,
+            CancellationToken cancellationToken = default) =>
+            Task.Run(() => ZipFile.Open(archiveFileName, mode, entryNameEncoding), cancellationToken);
+
+        /// <summary>
+        /// Asynchronously opens a ZipArchive on the specified path for reading.
+        /// The specified file is opened with FileMode.Open.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.openreadasync?view=net-11.0
+        public static Task<ZipArchive> OpenReadAsync(
+            string archiveFileName,
+            CancellationToken cancellationToken = default) =>
+            Task.Run(() => ZipFile.OpenRead(archiveFileName), cancellationToken);
+
+        /// <summary>
         /// Asynchronously creates a zip archive that contains the files and directories from the specified directory.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-11.0

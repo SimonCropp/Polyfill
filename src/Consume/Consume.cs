@@ -1248,6 +1248,14 @@ class Consume
         await ZipFile.CreateFromDirectoryAsync("source", "archive.zip", CompressionLevel.Optimal, includeBaseDirectory: false, CancellationToken.None);
         await ZipFile.CreateFromDirectoryAsync("source", "archive.zip", CompressionLevel.Optimal, includeBaseDirectory: false, Encoding.UTF8);
         await ZipFile.CreateFromDirectoryAsync("source", "archive.zip", CompressionLevel.Optimal, includeBaseDirectory: false, Encoding.UTF8, CancellationToken.None);
+
+        await ZipFile.OpenAsync("archive.zip", ZipArchiveMode.Read);
+        await ZipFile.OpenAsync("archive.zip", ZipArchiveMode.Read, CancellationToken.None);
+        await ZipFile.OpenAsync("archive.zip", ZipArchiveMode.Read, Encoding.UTF8);
+        await ZipFile.OpenAsync("archive.zip", ZipArchiveMode.Read, Encoding.UTF8, CancellationToken.None);
+
+        await ZipFile.OpenReadAsync("archive.zip");
+        await ZipFile.OpenReadAsync("archive.zip", CancellationToken.None);
     }
 #endif
 }
