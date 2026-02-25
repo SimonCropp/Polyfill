@@ -25,10 +25,12 @@ static partial class XElementPolyfill
 		/// <summary>
 		/// Asynchronously creates a new XElement and initializes its underlying XML tree using the specified stream, optionally preserving white space.
 		/// </summary>
-		public static Task<XElement> LoadAsync(Stream stream, LoadOptions options, CancellationToken cancellationToken)
+		public static async Task<XElement> LoadAsync(Stream stream, LoadOptions options, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			return Task.FromResult(XElement.Load(stream, options));
+			using var reader = new StreamReader(stream);
+			var content = await reader.ReadToEndAsync();
+			return XElement.Parse(content, options);
 		}
 		/// <summary>
 		/// Asynchronously creates a new XElement and initializes its underlying XML tree using the specified text reader, optionally preserving white space.
@@ -37,7 +39,7 @@ static partial class XElementPolyfill
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			var content = await textReader.ReadToEndAsync();
-			return XElement.Load(content, options);
+			return XElement.Parse(content, options);
 		}
 		/// <summary>
 		/// Asynchronously creates a new XElement and initializes its underlying XML tree using the specified text reader, optionally preserving white space.
