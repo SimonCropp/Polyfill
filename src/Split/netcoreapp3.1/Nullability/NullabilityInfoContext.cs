@@ -2,13 +2,10 @@
 #pragma warning disable
 #nullable enable
 namespace System.Reflection;
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
 using Collections.Generic;
 using Collections.ObjectModel;
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
-//https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Reflection/NullabilityInfoContext.cs
 /// <summary>
 /// Provides APIs for populating nullability information/context from reflection members:
 /// <see cref="ParameterInfo"/>, <see cref="FieldInfo"/>, <see cref="PropertyInfo"/> and <see cref="EventInfo"/>.
@@ -412,8 +409,6 @@ sealed class NullabilityInfoContext
 			{
 				CheckGenericParameters(elementNullability, metaMember, metaType.GetElementType()!, reflectedType);
 			}
-			// We could also follow this branch for metaType.IsPointer, but since pointers must be unmanaged this
-			// will be a no-op regardless
 			else if (metaType.IsByRef)
 			{
 				CheckGenericParameters(nullability, metaMember, metaType.GetElementType()!, reflectedType);

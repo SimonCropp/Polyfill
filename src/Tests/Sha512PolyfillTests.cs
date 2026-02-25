@@ -23,6 +23,7 @@ public class Sha512PolyfillTests
 
         stream.Position = 0;
 
+        // ReSharper disable once MethodHasAsyncOverload
         var actualHash = SHA512.HashData(stream);
         await Assert.That(actualHash.SequenceEqual(expected)).IsTrue();
     }

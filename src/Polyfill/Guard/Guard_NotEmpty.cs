@@ -1,9 +1,11 @@
 namespace Polyfills;
 
 using System.Runtime.CompilerServices;
+// ReSharper disable RedundantUsingDirective
 using System;
-using System.Collections;
 using System.Collections.Generic;
+// ReSharper restore RedundantUsingDirective
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 
 #if PolyPublic

@@ -68,6 +68,7 @@ partial class PolyfillTests
         using var stream = new MemoryStream(data);
         var buffer = new byte[5];
 
+        // ReSharper disable once MethodHasAsyncOverload
         stream.ReadExactly(buffer, 0, 5);
 
         await Assert.That(buffer.SequenceEqual(data)).IsTrue();
@@ -91,6 +92,7 @@ partial class PolyfillTests
         var data = new byte[] {10, 20, 30, 40, 50};
         using var stream = new MemoryStream(data);
         var buffer = new byte[10];
+        // ReSharper disable once MethodHasAsyncOverload
         stream.ReadExactly(buffer, 2, 5);
 
         await Assert.That(buffer.SequenceEqual(new byte[] {0, 0, 10, 20, 30, 40, 50, 0, 0, 0})).IsTrue();

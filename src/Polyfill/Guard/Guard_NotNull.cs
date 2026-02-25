@@ -1,5 +1,6 @@
 namespace Polyfills;
 
+// ReSharper disable once RedundantUsingDirective
 using System;
 using System.Runtime.CompilerServices;
 using System.Diagnostics.CodeAnalysis;

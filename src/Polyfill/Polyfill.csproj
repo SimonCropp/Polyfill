@@ -12,6 +12,8 @@
     <PackageReference Include="System.Threading.Tasks.Extensions" />
     <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" />
     <PackageReference Include="System.IO.Compression" />
+    <Using Remove="System.Threading.CancellationToken" />
+    <Using Remove="System.Threading.CancellationTokenSource" />
   </ItemGroup>
   <Target Name="SetPackageDependencies" BeforeTargets="GenerateNuspec">
     <PropertyGroup>

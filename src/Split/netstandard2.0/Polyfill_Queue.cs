@@ -2,7 +2,6 @@
 #pragma warning disable
 namespace Polyfills;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 static partial class Polyfill
 {
 	/// <summary>

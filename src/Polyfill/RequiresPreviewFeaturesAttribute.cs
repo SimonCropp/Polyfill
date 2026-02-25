@@ -4,8 +4,10 @@
 
 namespace System.Runtime.Versioning;
 
+// ReSharper disable RedundantNameQualifier
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+// ReSharper restore RedundantNameQualifier
 
 [AttributeUsage(AttributeTargets.Assembly |
                 AttributeTargets.Module |

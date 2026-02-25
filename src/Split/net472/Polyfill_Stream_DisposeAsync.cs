@@ -7,7 +7,6 @@ using System.IO;
 using System.Threading.Tasks;
 static partial class Polyfill
 {
-	//https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/IO/Stream.cs#L174
 	/// <summary>
 	/// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources asynchronously.
 	/// </summary>

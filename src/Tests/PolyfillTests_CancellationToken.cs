@@ -6,11 +6,13 @@ partial class PolyfillTests
         Cancel token = default;
 
 #nullable disable
+        // ReSharper disable AssignNullToNotNullAttribute
         await Assert.That(() => token.Register((Action<object, Cancel>) null, null)).Throws<ArgumentNullException>();
 
         // ReSharper disable once RedundantCast
         await Assert.That(() => token.UnsafeRegister((Action<object>) null, null)).Throws<ArgumentNullException>();
         await Assert.That(() => token.UnsafeRegister((Action<object, Cancel>) null, null)).Throws<ArgumentNullException>();
+        // ReSharper restore AssignNullToNotNullAttribute
 #nullable enable
     }
 

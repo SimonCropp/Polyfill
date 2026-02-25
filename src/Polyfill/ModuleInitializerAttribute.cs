@@ -2,8 +2,10 @@
 
 namespace System.Runtime.CompilerServices;
 
+// ReSharper disable RedundantNameQualifier
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+// ReSharper restore RedundantNameQualifier
 
 /// <summary>
 /// Used to indicate to the compiler that a method should be called

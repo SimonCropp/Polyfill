@@ -25,6 +25,7 @@ public class Sha1PolyfillTests
 
         stream.Position = 0;
 
+        // ReSharper disable once MethodHasAsyncOverload
         var actualHash = SHA1.HashData(stream);
         await Assert.That(actualHash.SequenceEqual(expected)).IsTrue();
     }

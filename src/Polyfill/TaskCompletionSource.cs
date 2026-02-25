@@ -5,9 +5,11 @@
 namespace System.Threading.Tasks;
 
 using System;
+// ReSharper disable RedundantNameQualifier
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+// ReSharper restore RedundantNameQualifier
 
 /// <summary>
 /// Represents the producer side of a <see cref="Task"/> unbound to a

@@ -13,7 +13,6 @@ static partial class Polyfill
 	/// <summary>
 	/// Enables enumerating each split within a <see cref="ReadOnlySpan{T}"/> that has been divided using one or more separators.
 	/// </summary>
-	//https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.cs
 	public ref struct SpanSplitEnumerator<T> : IEnumerator<Range>
 		where T : IEquatable<T>
 	{
@@ -54,7 +53,6 @@ static partial class Polyfill
 		}
 		public bool MoveNext()
 		{
-			// Search for the next separator index.
 			int separatorIndex, separatorLength;
 			switch (_splitMode)
 			{
@@ -67,7 +65,6 @@ static partial class Polyfill
 					break;
 				case SpanSplitEnumeratorMode.Any:
 					separatorLength = 1;
-					//https://github.com/dotnet/coreclr/pull/25075
 					if (_separatorBuffer.Length == 0)
 					{
 						separatorIndex = -1;
@@ -96,7 +93,6 @@ static partial class Polyfill
 			else
 			{
 				_startNext = _endCurrent = _source.Length;
-				// Set _splitMode to None so that subsequent MoveNext calls will return false.
 				_splitMode = SpanSplitEnumeratorMode.None;
 			}
 			return true;

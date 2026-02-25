@@ -29,8 +29,6 @@ static partial class Polyfill
 		{
 			if (T.IsPositive(step))
 			{
-				// Presumed to be the most common case, step > 0. Validate that endInclusive >= start, as otherwise we can't easily
-				// guarantee that the sequence will terminate.
 				if (endInclusive < start)
 				{
 					throw new ArgumentOutOfRangeException("endInclusive < start");
@@ -39,7 +37,6 @@ static partial class Polyfill
 			}
 			else
 			{
-				// step < 0. Validate that endInclusive <= start, as otherwise we can't easily guarantee that the sequence will terminate.
 				if (endInclusive > start)
 				{
 					throw new ArgumentOutOfRangeException("endInclusive > start");
@@ -52,7 +49,6 @@ static partial class Polyfill
 				while (true)
 				{
 					T next = current + step;
-					// handle overflow and saturation
 					if (next >= endInclusive || next <= current)
 					{
 						if (next == endInclusive && current != next)
@@ -71,7 +67,6 @@ static partial class Polyfill
 				while (true)
 				{
 					T next = current + step;
-					// handle overflow and saturation
 					if (next <= endInclusive || next >= current)
 					{
 						if (next == endInclusive && current != next)

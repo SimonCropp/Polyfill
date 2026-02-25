@@ -3,6 +3,7 @@
 
 namespace Polyfills;
 
+// ReSharper disable once RedundantUsingDirective
 using System;
 using System.Collections.Generic;
 

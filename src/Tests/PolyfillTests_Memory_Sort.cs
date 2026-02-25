@@ -95,6 +95,7 @@ partial class PolyfillTests
 
         await Assert.ThrowsAsync<ArgumentNullException>(async () =>
         {
+            // ReSharper disable once RedundantCast
             numbers.AsSpan().Sort((Comparison<int>)null!);
             await Task.CompletedTask;
         });
@@ -134,6 +135,7 @@ partial class PolyfillTests
 
         await Assert.ThrowsAsync<ArgumentNullException>(async () =>
         {
+            // ReSharper disable once RedundantCast
             keys.AsSpan().Sort(values, (Comparison<int>)null!);
             await Task.CompletedTask;
         });

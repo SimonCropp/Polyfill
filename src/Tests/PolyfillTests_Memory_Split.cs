@@ -22,24 +22,33 @@ partial class PolyfillTests
     {
         var charSpanEnumerator = new MemoryExtensions.SpanSplitEnumerator<char>();
         var stringSpanEnumerator = new MemoryExtensions.SpanSplitEnumerator<string>();
-        AssertRangeEquals(charSpanEnumerator.Current, new Range(0, 0));
+        AssertRangeEquals(charSpanEnumerator.Current!, new Range(0, 0));
         if (charSpanEnumerator.MoveNext())
+        {
             throw new Exception("Expected MoveNext to return false");
+        }
 
         // Implicit DoesNotThrow assertion
+        // ReSharper disable once GenericEnumeratorNotDisposed
         charSpanEnumerator.GetEnumerator();
 
-        AssertRangeEquals(stringSpanEnumerator.Current, new Range(0, 0));
+        AssertRangeEquals(stringSpanEnumerator.Current!, new Range(0, 0));
         if (stringSpanEnumerator.MoveNext())
+        {
             throw new Exception("Expected MoveNext to return false");
+        }
+        // ReSharper disable once GenericEnumeratorNotDisposed
         stringSpanEnumerator.GetEnumerator();
         return Task.CompletedTask;
     }
 
     static void AssertRangeEquals(Range actual, Range expected)
     {
-        if (actual.Start.Value != expected.Start.Value || actual.End.Value != expected.End.Value)
+        if (actual.Start.Value != expected.Start.Value ||
+            actual.End.Value != expected.End.Value)
+        {
             throw new Exception($"Expected Range({expected.Start}..{expected.End}) but got Range({actual.Start}..{actual.End})");
+        }
     }
 
     [Test]

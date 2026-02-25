@@ -44,7 +44,6 @@ static partial class Polyfill
 			process.WaitForExit();
 			var output = process.StandardOutput.ReadToEnd();
 			output = output.Length == 4 ? output : output.Insert(0, "0");
-			// Digit 1 (out of 4) is for Special permissions
 			var mode = output[0] switch
 			{
 				'1' => UnixFileMode.StickyBit,
@@ -52,7 +51,6 @@ static partial class Polyfill
 				'4' => UnixFileMode.SetGroup,
 				_ => UnixFileMode.None
 			};
-			// Digit 2 (out of 4) for Users
 			mode = output[1] switch
 			{
 				'0' => mode | UnixFileMode.None,
@@ -65,7 +63,6 @@ static partial class Polyfill
 				'7' => mode | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute,
 				_ => throw new("Invalid octal notation detected")
 			};
-			// Digit 3 (out of 4) for Groups
 			mode = output[2] switch
 			{
 				'0' => mode | UnixFileMode.None,
@@ -78,7 +75,6 @@ static partial class Polyfill
 				'7' => mode | UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute,
 				_ => throw new("Invalid octal notation detected")
 			};
-			// Digit 4 (out of 4) for Others
 			mode = output[3] switch
 			{
 				'0' => mode | UnixFileMode.None,
@@ -132,7 +128,6 @@ static partial class Polyfill
 			{
 				switch (fileModeString.ToLower())
 				{
-					//The digits are set to 0 by default, so we don't need to do anything.
 					case "none":
 						break;
 					case "userread":

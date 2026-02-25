@@ -5,6 +5,7 @@
 namespace System.Diagnostics;
 
 using System;
+// ReSharper disable RedundantNameQualifier
 using System.Diagnostics.CodeAnalysis;
 
 /// <summary>

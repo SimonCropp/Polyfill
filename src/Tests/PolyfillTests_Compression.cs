@@ -10,7 +10,7 @@ partial class PolyfillTests
         using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
         {
             var entry = archive.CreateEntry("test.txt");
-            using var stream = entry.Open();
+            using var stream = await entry.OpenAsync();
             using var writer = new StreamWriter(stream);
             await writer.WriteAsync("content");
         }
@@ -19,6 +19,7 @@ partial class PolyfillTests
         using var readArchive = new ZipArchive(memStream, ZipArchiveMode.Read);
         var readEntry = readArchive.Entries[0];
 
+        // ReSharper disable once MethodHasAsyncOverload
         using var readStream = readEntry.Open(FileAccess.Read);
         using var reader = new StreamReader(readStream);
         var result = await reader.ReadToEndAsync();
@@ -33,6 +34,8 @@ partial class PolyfillTests
         using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
         {
             var entry = archive.CreateEntry("test.txt");
+            // ReSharper disable once MethodHasAsyncOverload
+            // ReSharper disable once MethodHasAsyncOverload
             using var stream = entry.Open();
             using var writer = new StreamWriter(stream);
             await writer.WriteAsync("content");
@@ -56,7 +59,7 @@ partial class PolyfillTests
         using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
         {
             var entry = archive.CreateEntry("test.txt");
-            using var stream = entry.Open();
+            using var stream = await entry.OpenAsync();
             using var writer = new StreamWriter(stream);
             await writer.WriteAsync("content");
         }
@@ -68,10 +71,11 @@ partial class PolyfillTests
 
         try
         {
+            // ReSharper disable once MethodHasAsyncOverload
             extractArchive.ExtractToDirectory(tempDir, overwriteFiles: false);
             var filePath = Path.Combine(tempDir, "test.txt");
             await Assert.That(File.Exists(filePath)).IsTrue();
-            await Assert.That(File.ReadAllText(filePath)).IsEqualTo("content");
+            await Assert.That(await File.ReadAllTextAsync(filePath)).IsEqualTo("content");
         }
         finally
         {
@@ -86,6 +90,7 @@ partial class PolyfillTests
         using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
         {
             var entry = archive.CreateEntry("test.txt");
+            // ReSharper disable once MethodHasAsyncOverload
             using var stream = entry.Open();
             using var writer = new StreamWriter(stream);
             await writer.WriteAsync("new content");
@@ -100,6 +105,7 @@ partial class PolyfillTests
 
         try
         {
+            // ReSharper disable once MethodHasAsyncOverload
             extractArchive.ExtractToDirectory(tempDir, overwriteFiles: true);
             await Assert.That(await File.ReadAllTextAsync(filePath)).IsEqualTo("new content");
         }
@@ -144,10 +150,10 @@ partial class PolyfillTests
         try
         {
             // Create a test archive
-            using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create))
+            using (var archive = await ZipFile.OpenAsync(tempArchive, ZipArchiveMode.Create))
             {
                 var entry = archive.CreateEntry("test.txt");
-                using var stream = entry.Open();
+                using var stream = await entry.OpenAsync();
                 using var writer = new StreamWriter(stream);
                 await writer.WriteAsync("async content");
             }
@@ -158,7 +164,7 @@ partial class PolyfillTests
             // Assert
             var filePath = Path.Combine(tempDir, "test.txt");
             await Assert.That(File.Exists(filePath)).IsTrue();
-            await Assert.That(File.ReadAllText(filePath)).IsEqualTo("async content");
+            await Assert.That(await File.ReadAllTextAsync(filePath)).IsEqualTo("async content");
         }
         finally
         {
@@ -187,12 +193,12 @@ partial class PolyfillTests
         try
         {
             // Create a test archive
-            using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create))
+            using (var archive = await ZipFile.OpenAsync(tempArchive, ZipArchiveMode.Create))
             {
                 var entry = archive.CreateEntry("test.txt");
-                using var stream = entry.Open();
+                using var stream = await entry.OpenAsync();
                 using var writer = new StreamWriter(stream);
-                writer.Write("new content");
+                await writer.WriteAsync("new content");
             }
 
             // Act
@@ -225,10 +231,10 @@ partial class PolyfillTests
         try
         {
             // Create a test archive
-            using (var archive = ZipFile.Open(tempArchive, ZipArchiveMode.Create, Encoding.UTF8))
+            using (var archive = await ZipFile.OpenAsync(tempArchive, ZipArchiveMode.Create, Encoding.UTF8))
             {
                 var entry = archive.CreateEntry("test.txt");
-                using var stream = entry.Open();
+                using var stream = await entry.OpenAsync();
                 using var writer = new StreamWriter(stream);
                 await writer.WriteAsync("encoded content");
             }
@@ -271,10 +277,10 @@ partial class PolyfillTests
                 var entry = archive.CreateEntry("test.txt");
                 using var stream = entry.Open();
                 using var writer = new StreamWriter(stream);
-                writer.Write("content");
+                await writer.WriteAsync("content");
             }
 
-            cancelSource.Cancel();
+            await cancelSource.CancelAsync();
 
             // Act & Assert - Polyfill throws TaskCanceledException, native .NET 10+ throws OperationCanceledException
             await Assert.That(async () => await ZipFile.ExtractToDirectoryAsync(tempArchive, tempDir, cancelSource.Token))
@@ -301,7 +307,7 @@ partial class PolyfillTests
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".zip");
         Directory.CreateDirectory(tempDir);
-        File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
+        await File.WriteAllTextAsync(Path.Combine(tempDir, "test.txt"), "content");
 
         try
         {
@@ -310,7 +316,7 @@ partial class PolyfillTests
 
             // Assert
             await Assert.That(File.Exists(tempArchive)).IsTrue();
-            using var archive = ZipFile.OpenRead(tempArchive);
+            using var archive = await ZipFile.OpenReadAsync(tempArchive);
             await Assert.That(archive.Entries.Count).IsEqualTo(1);
             await Assert.That(archive.Entries[0].Name).IsEqualTo("test.txt");
         }
@@ -335,7 +341,7 @@ partial class PolyfillTests
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".zip");
         Directory.CreateDirectory(tempDir);
-        File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
+        await File.WriteAllTextAsync(Path.Combine(tempDir, "test.txt"), "content");
 
         try
         {
@@ -348,7 +354,7 @@ partial class PolyfillTests
 
             // Assert
             await Assert.That(File.Exists(tempArchive)).IsTrue();
-            using var archive = ZipFile.OpenRead(tempArchive);
+            using var archive = await ZipFile.OpenReadAsync(tempArchive);
             await Assert.That(archive.Entries.Count).IsEqualTo(1);
         }
         finally
@@ -372,7 +378,7 @@ partial class PolyfillTests
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".zip");
         Directory.CreateDirectory(tempDir);
-        File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
+        await File.WriteAllTextAsync(Path.Combine(tempDir, "test.txt"), "content");
 
         try
         {
@@ -386,7 +392,7 @@ partial class PolyfillTests
 
             // Assert
             await Assert.That(File.Exists(tempArchive)).IsTrue();
-            using var archive = ZipFile.OpenRead(tempArchive);
+            using var archive = await ZipFile.OpenReadAsync(tempArchive);
             await Assert.That(archive.Entries.Count).IsEqualTo(1);
         }
         finally
@@ -410,12 +416,12 @@ partial class PolyfillTests
         var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
         var tempArchive = Path.Combine(Path.GetTempPath(), Guid.NewGuid() + ".zip");
         Directory.CreateDirectory(tempDir);
-        File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
+        await File.WriteAllTextAsync(Path.Combine(tempDir, "test.txt"), "content");
         var cancelSource = new CancelSource();
 
         try
         {
-            cancelSource.Cancel();
+            await cancelSource.CancelAsync();
 
             // Act & Assert - Polyfill throws TaskCanceledException, native .NET 10+ throws OperationCanceledException
             await Assert.That(async () =>

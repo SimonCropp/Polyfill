@@ -7,7 +7,6 @@ using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
 static partial class Polyfill
 {
-	//https://github.com/bbartels/runtime/blob/master/src/libraries/System.Private.CoreLib/src/System/MemoryExtensions.cs
 	/// <summary>
 	/// Returns a type that allows for enumeration of each element within a split span
 	/// using the provided separator character.

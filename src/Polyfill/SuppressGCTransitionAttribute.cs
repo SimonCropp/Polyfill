@@ -2,8 +2,10 @@
 
 namespace System.Runtime.InteropServices;
 
+// ReSharper disable RedundantNameQualifier
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+// ReSharper restore RedundantNameQualifier
 
 /// <summary>
 /// An attribute used to indicate a GC transition should be skipped when making an unmanaged function call.

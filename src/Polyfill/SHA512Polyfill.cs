@@ -2,9 +2,11 @@
 
 namespace Polyfills;
 
+// ReSharper disable RedundantUsingDirective
 using System.Threading.Tasks;
 using System.Threading;
 using System;
+// ReSharper restore RedundantUsingDirective
 using System.IO;
 using System.Security.Cryptography;
 using System.Diagnostics;

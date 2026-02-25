@@ -4,8 +4,10 @@
 
 namespace System.Runtime.InteropServices;
 
+// ReSharper disable RedundantNameQualifier
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+// ReSharper restore RedundantNameQualifier
 
 /// <summary>
 /// Any method marked with <see cref="System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute" /> can be directly called from

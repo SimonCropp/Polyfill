@@ -290,7 +290,7 @@ public class Splitter
                 // Process file and clean up - all operations work on List<string> to avoid repeated split/join
                 var lines = ProcessFile(sourceCode, definedSymbols);
                 lines = RemoveEmptyConditionalBlocks(lines);
-                lines = RemoveLinkComments(lines);
+                lines = RemoveComments(lines);
                 lines = RemoveEmptyLines(lines);
 
                 // Extract ALL TypeForwardedTo lines first, before checking if file should be skipped
@@ -349,10 +349,14 @@ public class Splitter
         lines.Where(l => !string.IsNullOrWhiteSpace(l)).ToList();
 
     /// <summary>
-    /// Removes lines that are //Link: comments.
+    /// Removes lines that are single-line comments (starting with //) but not XML doc comments (///).
     /// </summary>
-    public static List<string> RemoveLinkComments(List<string> lines) =>
-        lines.Where(l => !l.TrimStart().StartsWith("//Link:")).ToList();
+    public static List<string> RemoveComments(List<string> lines) =>
+        lines.Where(l =>
+        {
+            var trimmed = l.TrimStart();
+            return !trimmed.StartsWith("//") || trimmed.StartsWith("///");
+        }).ToList();
 
     /// <summary>
     /// Converts leading spaces to tabs (4 spaces = 1 tab).

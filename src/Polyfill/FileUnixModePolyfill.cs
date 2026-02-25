@@ -4,6 +4,7 @@ namespace Polyfills;
 using System;
 using System.IO;
 using System.Diagnostics;
+// ReSharper disable once RedundantUsingDirective
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 

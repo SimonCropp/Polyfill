@@ -196,7 +196,7 @@ partial class PolyfillTests
         Directory.CreateDirectory(tempDir);
         try
         {
-            File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
+            await File.WriteAllTextAsync(Path.Combine(tempDir, "test.txt"), "content");
             var options = new EnumerationOptions { RecurseSubdirectories = false };
             var files = Directory.EnumerateFiles(tempDir, "*.txt", options).ToList();
             await Assert.That(files.Count).IsEqualTo(1);
@@ -214,7 +214,7 @@ partial class PolyfillTests
         Directory.CreateDirectory(tempDir);
         try
         {
-            File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
+            await File.WriteAllTextAsync(Path.Combine(tempDir, "test.txt"), "content");
             var options = new EnumerationOptions { RecurseSubdirectories = false };
             var files = Directory.GetFiles(tempDir, "*.txt", options);
             await Assert.That(files.Length).IsEqualTo(1);
@@ -270,7 +270,7 @@ partial class PolyfillTests
         Directory.CreateDirectory(tempDir);
         try
         {
-            File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
+            await File.WriteAllTextAsync(Path.Combine(tempDir, "test.txt"), "content");
             Directory.CreateDirectory(Path.Combine(tempDir, "subdir"));
             var options = new EnumerationOptions { RecurseSubdirectories = false };
             var entries = Directory.EnumerateFileSystemEntries(tempDir, "*", options).ToList();
@@ -289,7 +289,7 @@ partial class PolyfillTests
         Directory.CreateDirectory(tempDir);
         try
         {
-            File.WriteAllText(Path.Combine(tempDir, "test.txt"), "content");
+            await File.WriteAllTextAsync(Path.Combine(tempDir, "test.txt"), "content");
             Directory.CreateDirectory(Path.Combine(tempDir, "subdir"));
             var options = new EnumerationOptions { RecurseSubdirectories = false };
             var entries = Directory.GetFileSystemEntries(tempDir, "*", options);
@@ -308,10 +308,10 @@ partial class PolyfillTests
         Directory.CreateDirectory(tempDir);
         try
         {
-            File.WriteAllText(Path.Combine(tempDir, "root.txt"), "content");
+            await File.WriteAllTextAsync(Path.Combine(tempDir, "root.txt"), "content");
             var subDir = Path.Combine(tempDir, "subdir");
             Directory.CreateDirectory(subDir);
-            File.WriteAllText(Path.Combine(subDir, "nested.txt"), "content");
+            await File.WriteAllTextAsync(Path.Combine(subDir, "nested.txt"), "content");
 
             var optionsNoRecurse = new EnumerationOptions { RecurseSubdirectories = false };
             var filesNoRecurse = Directory.EnumerateFiles(tempDir, "*.txt", optionsNoRecurse).ToList();
@@ -336,8 +336,8 @@ partial class PolyfillTests
         {
             var normalFile = Path.Combine(tempDir, "normal.txt");
             var hiddenFile = Path.Combine(tempDir, "hidden.txt");
-            File.WriteAllText(normalFile, "content");
-            File.WriteAllText(hiddenFile, "content");
+            await File.WriteAllTextAsync(normalFile, "content");
+            await File.WriteAllTextAsync(hiddenFile, "content");
             File.SetAttributes(hiddenFile, FileAttributes.Hidden);
 
             var optionsSkipHidden = new EnumerationOptions { AttributesToSkip = FileAttributes.Hidden };

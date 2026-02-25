@@ -6,6 +6,7 @@ namespace Polyfills;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+// ReSharper disable once RedundantUsingDirective
 using System;
 using System.IO;
 using System.Xml.Linq;

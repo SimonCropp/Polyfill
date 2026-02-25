@@ -9,8 +9,6 @@ using System.Diagnostics.CodeAnalysis;
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
-// Provides the Create factory method for KeyValuePair<TKey, TValue>.
-// https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair?view=net-11.0
 #if PolyPublic
 public
 #endif

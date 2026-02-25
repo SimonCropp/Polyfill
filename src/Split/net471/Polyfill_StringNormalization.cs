@@ -4,7 +4,6 @@
 namespace Polyfills;
 using System;
 using System.Text;
-//TODO: Add XML documentation
 static partial class Polyfill
 {
 	public static int GetNormalizedLength(this ReadOnlySpan<char> target, NormalizationForm normalizationForm = NormalizationForm.FormC) =>

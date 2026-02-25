@@ -5,7 +5,6 @@ namespace Polyfills;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 static partial class Polyfill
 {
 	/// <summary>
@@ -57,7 +56,6 @@ static partial class Polyfill
 		{
 			_array = arraySegment.Array;
 			_start = arraySegment.Offset;
-			// cache Offset + Count, since it's a little slow
 			_end = arraySegment.Offset + arraySegment.Count;
 			_current = arraySegment.Offset - 1;
 		}

@@ -1,6 +1,7 @@
 namespace Polyfills;
 
 using System.Diagnostics.CodeAnalysis;
+// ReSharper disable once RedundantUsingDirective
 using System.Numerics;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ static partial class Polyfill
 #else
             where T : struct, IEquatable<T>
         {
-            if (value.Equals(default(T)))
+            if (value.Equals(default))
             {
                 ThrowZero(paramName);
             }
@@ -35,7 +36,7 @@ static partial class Polyfill
         /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
         public static void ThrowIfZero(nint value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
         {
-            if (value == (nint)0)
+            if (value == 0)
             {
                 ThrowZero(paramName);
             }
@@ -73,7 +74,7 @@ static partial class Polyfill
         /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is negative.</summary>
         public static void ThrowIfNegative(nint value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
         {
-            if (value < (nint) 0)
+            if (value < 0)
             {
                 ThrowNegative(value, paramName);
             }
@@ -112,7 +113,7 @@ static partial class Polyfill
         /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is negative or zero.</summary>
         public static void ThrowIfNegativeOrZero(nint value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
         {
-            if (value <= (nint) 0)
+            if (value <= 0)
             {
                 ThrowNegativeOrZero(value, paramName);
             }

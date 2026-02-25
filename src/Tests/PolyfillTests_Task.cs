@@ -127,6 +127,7 @@ partial class PolyfillTests
         await Assert.That(assert3.IsCompleted).IsFalse();
         await Assert.That(assert4.IsCompleted).IsFalse();
 
+        // ReSharper disable once MethodHasAsyncOverload
         cancelSource.Cancel();
         await Assert.That(() => assert1).Throws<TaskCanceledException>();
         await Assert.That(() => assert2).Throws<TaskCanceledException>();
@@ -221,7 +222,7 @@ partial class PolyfillTests
     {
         // Arrange
         var cancelSource = new CancelSource();
-        cancelSource.Cancel();
+        await cancelSource.CancelAsync();
         var task = Task.Delay(5000);
 
         // Act & Assert
@@ -463,7 +464,7 @@ partial class PolyfillTests
     {
         // Arrange
         var cancelSource = new CancelSource();
-        cancelSource.Cancel();
+        await cancelSource.CancelAsync();
         var cancelledTask = Task.FromCanceled(cancelSource.Token);
 
         // Act & Assert
@@ -548,7 +549,7 @@ partial class PolyfillTests
         var cancelSource = new CancelSource();
 
         // Cancel immediately
-        cancelSource.Cancel();
+        await cancelSource.CancelAsync();
 
         var task = Task.Delay(10000);
 

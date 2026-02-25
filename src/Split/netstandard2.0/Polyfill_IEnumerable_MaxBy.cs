@@ -18,7 +18,6 @@ static partial class Polyfill
 		Func<TSource, TKey> keySelector,
 		IComparer<TKey>? comparer)
 	{
-		// Simplified from https://github.com/dotnet/runtime/blob/5d09a8f94c72ca4ef0a9c79eb9c58d06198e3ba9/src/libraries/System.Linq/src/System/Linq/Max.cs#L445-L526
 		comparer ??= Comparer<TKey>.Default;
 		using var e = source.GetEnumerator();
 		if (!e.MoveNext())

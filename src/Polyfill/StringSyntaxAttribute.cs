@@ -4,6 +4,7 @@
 
 namespace System.Diagnostics.CodeAnalysis;
 
+// ReSharper disable once RedundantNameQualifier
 using System.Diagnostics;
 using Targets = AttributeTargets;
 

@@ -63,7 +63,6 @@ static partial class Polyfill
 			{
 				return;
 			}
-			// Each byte gives two hex chars
 			var byteCount = (destination.Length + 1) / 2;
 			Span<byte> bytes = stackalloc byte[byteCount];
 			RandomNumberGenerator.Fill(bytes);

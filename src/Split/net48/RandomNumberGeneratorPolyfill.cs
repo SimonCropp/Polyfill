@@ -16,17 +16,11 @@ static partial class Polyfill
 			{
 				throw new ArgumentException("toExclusive must be greater than fromInclusive.");
 			}
-			// The total possible range is [0, 4,294,967,295).
-			// Subtract one to account for zero being an actual possibility.
 			var range = (uint) toExclusive - (uint) fromInclusive - 1;
-			// If there is only one possible choice, nothing random will actually happen, so return
-			// the only possibility.
 			if (range == 0)
 			{
 				return fromInclusive;
 			}
-			// Create a mask for the bits that we care about for the range. The other bits will be
-			// masked away.
 			var mask = range;
 			mask |= mask >> 1;
 			mask |= mask >> 2;
@@ -120,7 +114,6 @@ static partial class Polyfill
 			{
 				return;
 			}
-			// Each byte gives two hex chars
 			var byteCount = (destination.Length + 1) / 2;
 			Span<byte> bytes = stackalloc byte[byteCount];
 			RandomNumberGenerator.Fill(bytes);

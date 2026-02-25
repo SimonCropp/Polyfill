@@ -1,7 +1,6 @@
 namespace Polyfills;
 
 using System;
-using System.Diagnostics;
 
 static partial class Polyfill
 {

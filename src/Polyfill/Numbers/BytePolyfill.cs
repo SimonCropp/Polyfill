@@ -6,6 +6,7 @@ namespace Polyfills;
 
 using System;
 using System.Globalization;
+// ReSharper disable once RedundantUsingDirective
 using System.Text;
 
 static partial class Polyfill

@@ -12,7 +12,7 @@ partial class PolyfillTests
         var ex = await Assert.That(async () => await process.WaitForExitAsync(cancel)).Throws<OperationCanceledException>();
 
         await Assert.That(ex).IsNotNull();
-        await Assert.That(ex.CancellationToken).IsEqualTo(cancel);
+        await Assert.That(ex!.CancellationToken).IsEqualTo(cancel);
         await Assert.That(process.HasExited).IsFalse();
     }
 

@@ -7,7 +7,6 @@ using ComponentModel;
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
 using Runtime.CompilerServices;
-//https://github.com/dotnet/runtime/blob/main/src/libraries/System.Private.CoreLib/src/System/Text/StringBuilder.cs
 [EditorBrowsable(EditorBrowsableState.Never)]
 [InterpolatedStringHandler]
 [ExcludeFromCodeCoverage]

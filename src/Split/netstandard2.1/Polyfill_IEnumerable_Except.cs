@@ -13,15 +13,6 @@ static partial class Polyfill
 		this IEnumerable<TSource> target,
 		TSource item) =>
 		Except<TSource>(target, item, null);
-	//TODO: removed due to R# and Rider issue https://youtrack.jetbrains.com/issue/RSRP-496127/Intelisense-incorrectly-ignores-strong-name-mismatch
-	// /// <summary>
-	// /// Produces the set difference of two sequences by using the default equality comparer to compare values.
-	// /// </summary>
-	// //Link: https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.except?view=net-11.0#system-linq-enumerable-except-1(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-0)))
-	// public static IEnumerable<TSource> Except<TSource>(
-	//     this IEnumerable<TSource> target,
-	//     params TSource[] items) =>
-	//     target.Except((IEnumerable<TSource>)items);
 	/// <summary>
 	/// Produces a set items excluding <paramref name="item"/> by using <paramref name="comparer"/> to compare values.
 	/// </summary>

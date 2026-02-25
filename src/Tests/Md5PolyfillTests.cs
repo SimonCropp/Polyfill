@@ -25,6 +25,7 @@ public class Md5PolyfillTests
 
         stream.Position = 0;
 
+        // ReSharper disable once MethodHasAsyncOverload
         var actualHash = MD5.HashData(stream);
         await Assert.That(actualHash.SequenceEqual(expected)).IsTrue();
     }

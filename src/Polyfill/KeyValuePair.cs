@@ -3,8 +3,10 @@
 
 namespace System.Collections.Generic;
 
+// ReSharper disable RedundantNameQualifier
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+// ReSharper restore RedundantNameQualifier
 
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]

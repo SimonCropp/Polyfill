@@ -190,8 +190,6 @@ static partial class Polyfill
 			try
 			{
 				var span = chars.AsSpan(0, length);
-				// IMPORTANT: Clear the span to avoid garbage data from pooled buffer
-				// ArrayPool doesn't clear buffers for performance
 				span.Clear();
 				action(span, state);
 				return new string(chars, 0, length);

@@ -48,7 +48,6 @@ static partial class Polyfill
 			bool overwriteFiles,
 			CancellationToken cancellationToken = default) =>
 			Task.Run(() => ExtractToDirectoryPolyfill(sourceArchiveFileName, destinationDirectoryName, entryNameEncoding, overwriteFiles), cancellationToken);
-		// Helper method to handle overwriteFiles polyfill for pre-.NET 8.0
 		static void ExtractToDirectoryPolyfill(
 			string sourceArchiveFile,
 			string destinationDirectory,

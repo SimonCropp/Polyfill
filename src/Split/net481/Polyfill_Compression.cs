@@ -107,7 +107,6 @@ static partial class Polyfill
 					throw new IOException("Zip entry name ends in directory separator character but contains data.");
 				}
 				Directory.CreateDirectory(fileDestinationPath);
-				// It is a directory
 				continue;
 			}
 			source.ExtractToFile(fileDestinationPath, overwrite: overwriteFiles);

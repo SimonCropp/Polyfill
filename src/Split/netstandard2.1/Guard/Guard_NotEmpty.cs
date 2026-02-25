@@ -3,8 +3,8 @@
 namespace Polyfills;
 using System.Runtime.CompilerServices;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 #if PolyPublic
 public

@@ -2,8 +2,10 @@
 
 namespace System.Runtime.CompilerServices;
 
+// ReSharper disable RedundantNameQualifier
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+// ReSharper restore RedundantNameQualifier
 
 using Targets = AttributeTargets;
 
