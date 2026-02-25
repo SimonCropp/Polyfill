@@ -38,10 +38,11 @@ static partial class XDocumentPolyfill
         /// Asynchronously creates a new XDocument and initializes its underlying XML tree using the specified text reader, optionally preserving white space.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.loadasync?view=net-11.0#system-xml-linq-xdocument-loadasync(system-io-textreader-system-xml-linq-loadoptions-system-threading-cancellationtoken)
-        public static Task<XDocument> LoadAsync(TextReader textReader, LoadOptions options, CancellationToken cancellationToken)
+        public static async Task<XDocument> LoadAsync(TextReader textReader, LoadOptions options, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return Task.FromResult(XDocument.Load(textReader, options));
+            var content = await textReader.ReadToEndAsync();
+            return XDocument.Load(content, options);
         }
 
         /// <summary>
