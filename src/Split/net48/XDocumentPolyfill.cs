@@ -33,10 +33,11 @@ static partial class XDocumentPolyfill
 		/// <summary>
 		/// Asynchronously creates a new XDocument and initializes its underlying XML tree using the specified text reader, optionally preserving white space.
 		/// </summary>
-		public static Task<XDocument> LoadAsync(TextReader textReader, LoadOptions options, CancellationToken cancellationToken)
+		public static async Task<XDocument> LoadAsync(TextReader textReader, LoadOptions options, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			return Task.FromResult(XDocument.Load(textReader, options));
+			var content = await textReader.ReadToEndAsync();
+			return XDocument.Load(content, options);
 		}
 		/// <summary>
 		/// Asynchronously creates a new XDocument and initializes its underlying XML tree using the specified text reader, optionally preserving white space.
