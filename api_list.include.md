@@ -1034,6 +1034,9 @@
  * `Task ExtractToDirectoryAsync(string, string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0)
  * `Task ExtractToDirectoryAsync(string, string, Encoding, bool, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0)
  * `Task ExtractToDirectoryAsync(string, string, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0)
+ * `Task<ZipArchive> OpenAsync(string, ZipArchiveMode, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.openasync?view=net-11.0)
+ * `Task<ZipArchive> OpenAsync(string, ZipArchiveMode, Encoding?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.openasync?view=net-11.0)
+ * `Task<ZipArchive> OpenReadAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.openreadasync?view=net-11.0)
 
 
 #### Ensure
