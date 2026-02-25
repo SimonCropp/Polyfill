@@ -133,8 +133,10 @@ Example:
 
 namespace System.Runtime.CompilerServices;
 
+// ReSharper disable RedundantNameQualifier
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+// ReSharper restore RedundantNameQualifier
 
 /// <summary>
 /// Used to indicate to the compiler that a method should be called
@@ -158,7 +160,7 @@ sealed class ModuleInitializerAttribute :
 [assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Runtime.CompilerServices.ModuleInitializerAttribute))]
 #endif
 ```
-<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L28' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/ModuleInitializerAttribute.cs#L1-L30' title='Snippet source file'>snippet source</a> | <a href='#snippet-ModuleInitializerAttribute.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
