@@ -609,7 +609,7 @@ partial class PolyfillTests
 
     #endregion
 
-#if FeatureAsyncInterfaces
+#if FeatureAsyncInterfaces && !NET9_0_OR_GREATER
     #region WhenEach Tests
 
     [Test]
