@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 736**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 738**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -68,15 +68,15 @@ This project uses features from the current stable SDK and C# language. As such 
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       227.5KB |  +219.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netstandard2.1 |          8.5KB |       179.5KB |  +171.0KB |   +12.0KB |             +9.5KB |             +12.0KB |     +14.0KB |
-| net461         |          8.5KB |       234.0KB |  +225.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net462         |          7.0KB |       232.5KB |  +225.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net47          |          7.0KB |       232.5KB |  +225.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net471         |          8.5KB |       232.5KB |  +224.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net472         |          8.5KB |       231.0KB |  +222.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net48          |          8.5KB |       231.0KB |  +222.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net481         |          8.5KB |       231.0KB |  +222.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netstandard2.0 |          8.0KB |       228.0KB |  +220.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netstandard2.1 |          8.5KB |       180.0KB |  +171.5KB |   +12.0KB |             +9.5KB |             +12.0KB |     +17.0KB |
+| net461         |          8.5KB |       234.5KB |  +226.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net462         |          7.0KB |       233.0KB |  +226.0KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.0KB |
+| net47          |          7.0KB |       233.0KB |  +226.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net471         |          8.5KB |       233.0KB |  +224.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net472         |          8.5KB |       231.5KB |  +223.0KB |    +9.5KB |             +7.0KB |              +9.5KB |     +14.0KB |
+| net48          |          8.5KB |       231.5KB |  +223.0KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.0KB |
+| net481         |          8.5KB |       231.5KB |  +223.0KB |    +9.5KB |             +7.0KB |              +9.5KB |     +14.0KB |
 | netcoreapp2.0  |          9.0KB |       208.5KB |  +199.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
 | netcoreapp2.1  |          9.0KB |       187.0KB |  +178.0KB |   +12.0KB |            +10.0KB |             +12.0KB |     +17.0KB |
 | netcoreapp2.2  |          9.0KB |       187.0KB |  +178.0KB |   +12.0KB |            +10.0KB |             +12.5KB |     +17.0KB |
@@ -95,15 +95,15 @@ This project uses features from the current stable SDK and C# language. As such 
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       343.1KB |  +335.1KB |   +16.7KB |             +8.2KB |             +14.0KB |     +19.2KB |
-| netstandard2.1 |          8.5KB |       270.5KB |  +262.0KB |   +19.7KB |            +11.2KB |             +17.0KB |     +19.7KB |
-| net461         |          8.5KB |       350.0KB |  +341.5KB |   +16.7KB |             +8.2KB |             +14.0KB |     +19.2KB |
-| net462         |          7.0KB |       348.5KB |  +341.5KB |   +16.7KB |             +8.2KB |             +14.0KB |     +19.7KB |
-| net47          |          7.0KB |       348.3KB |  +341.3KB |   +16.7KB |             +8.2KB |             +14.0KB |     +19.2KB |
-| net471         |          8.5KB |       348.3KB |  +339.8KB |   +16.7KB |             +8.2KB |             +14.0KB |     +19.2KB |
-| net472         |          8.5KB |       345.7KB |  +337.2KB |   +16.7KB |             +8.2KB |             +14.0KB |     +19.7KB |
-| net48          |          8.5KB |       345.7KB |  +337.2KB |   +16.7KB |             +8.2KB |             +14.0KB |     +19.7KB |
-| net481         |          8.5KB |       345.7KB |  +337.2KB |   +16.7KB |             +8.2KB |             +14.0KB |     +19.7KB |
+| netstandard2.0 |          8.0KB |       344.3KB |  +336.3KB |   +16.7KB |             +8.2KB |             +14.0KB |     +19.7KB |
+| netstandard2.1 |          8.5KB |       271.4KB |  +262.9KB |   +19.7KB |            +11.2KB |             +17.0KB |     +22.7KB |
+| net461         |          8.5KB |       351.3KB |  +342.8KB |   +16.7KB |             +8.2KB |             +14.0KB |     +19.7KB |
+| net462         |          7.0KB |       349.8KB |  +342.8KB |   +16.7KB |             +8.7KB |             +14.5KB |     +19.7KB |
+| net47          |          7.0KB |       349.5KB |  +342.5KB |   +16.7KB |             +8.2KB |             +14.0KB |     +19.7KB |
+| net471         |          8.5KB |       349.5KB |  +341.0KB |   +16.7KB |             +8.2KB |             +14.0KB |     +19.7KB |
+| net472         |          8.5KB |       346.9KB |  +338.4KB |   +17.2KB |             +8.7KB |             +14.5KB |     +19.7KB |
+| net48          |          8.5KB |       346.9KB |  +338.4KB |   +16.7KB |             +8.7KB |             +14.5KB |     +19.7KB |
+| net481         |          8.5KB |       346.9KB |  +338.4KB |   +17.2KB |             +8.7KB |             +14.5KB |     +19.7KB |
 | netcoreapp2.0  |          9.0KB |       314.8KB |  +305.8KB |   +16.7KB |             +8.2KB |             +14.0KB |     +19.2KB |
 | netcoreapp2.1  |          9.0KB |       282.9KB |  +273.9KB |   +19.7KB |            +11.7KB |             +17.0KB |     +22.7KB |
 | netcoreapp2.2  |          9.0KB |       282.9KB |  +273.9KB |   +19.7KB |            +11.7KB |             +17.5KB |     +22.7KB |
@@ -1501,6 +1501,12 @@ The class `Polyfill` includes the following extension methods:
  * `Task<XElement> LoadAsync(Stream, LoadOptions, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xelement.loadasync?view=net-11.0#system-xml-linq-xelement-loadasync(system-io-stream-system-xml-linq-loadoptions-system-threading-cancellationtoken))
  * `Task<XElement> LoadAsync(TextReader, LoadOptions, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xelement.loadasync?view=net-11.0#system-xml-linq-xelement-loadasync(system-io-textreader-system-xml-linq-loadoptions-system-threading-cancellationtoken))
  * `Task<XElement> LoadAsync(XmlReader, LoadOptions, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xelement.loadasync?view=net-11.0#system-xml-linq-xelement-loadasync(system-xml-xmlreader-system-xml-linq-loadoptions-system-threading-cancellationtoken))
+
+
+#### XNode
+
+ * `Task WriteToAsync(XmlWriter, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xnode.writetoasync?view=net-11.0)
+ * `Task<XNode> ReadFromAsync(XmlReader, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xnode.readfromasync?view=net-11.0)
 
 
 #### ZipArchive
