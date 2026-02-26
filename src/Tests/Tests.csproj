@@ -11,6 +11,7 @@
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
     <PackageReference Include="ProjectFiles" />
     <PackageReference Include="System.Memory" Condition="$(TargetFrameworkIdentifier) == '.NETStandard' or $(TargetFrameworkIdentifier) == '.NETFramework' or $(TargetFramework.StartsWith('netcoreapp'))" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Condition="$(TargetFramework.StartsWith('net4')) OR $(TargetFramework) == 'netstandard2.0'"/>
     <PackageReference Include="System.ValueTuple" Condition="$(TargetFramework.StartsWith('net46'))" />
     <PackageReference Include="System.Net.Http" Condition="$(TargetFramework.StartsWith('net4'))" />
     <PackageReference Include="System.Threading.Tasks.Extensions" Condition="$(TargetFramework) == 'netstandard2.0' or $(TargetFramework) == 'netcoreapp2.0' or $(TargetFrameworkIdentifier) == '.NETFramework'" />
