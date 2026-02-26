@@ -1068,7 +1068,7 @@ class Consume
         new Task<int>(func).WaitAsync(TimeSpan.Zero, CancellationToken.None);
     }
 
-#if NET5_0_OR_GREATER || NETCOREAPP3_0_OR_GREATER
+#if FeatureAsyncInterfaces
     async Task Task_WhenEach_Methods()
     {
         var tasks = new[] { Task.CompletedTask, Task.CompletedTask };
