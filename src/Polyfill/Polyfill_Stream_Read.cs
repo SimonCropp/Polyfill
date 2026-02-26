@@ -154,14 +154,14 @@ static partial class Polyfill
     /// <summary>
     /// Asynchronously reads bytes from the current stream, advances the position within the stream until the buffer is filled, and monitors cancellation requests
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readatleastasync?view=net-11.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync?view=net-11.0#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken)
     public static async ValueTask ReadExactlyAsync(this Stream target, Memory<byte> buffer, CancellationToken cancellationToken = default) =>
         await target.ReadAtLeastAsync(buffer, buffer.Length, true, cancellationToken);
 
     /// <summary>
     /// Asynchronously reads at least a minimum number of bytes from the current stream, advances the position within the stream by the number of bytes read, and monitors cancellation requests.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readatleastasync?view=net-11.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readatleastasync?view=net-11.0#system-io-stream-readatleastasync(system-memory((system-byte))-system-int32-system-boolean-system-threading-cancellationtoken)
     public static async ValueTask<int> ReadAtLeastAsync(this Stream target, Memory<byte> buffer, int minimumBytes, bool throwOnEndOfStream = true, CancellationToken cancellationToken = default)
     {
         if (minimumBytes < 0)

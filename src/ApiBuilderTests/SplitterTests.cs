@@ -24,7 +24,9 @@ public class SplitterTests
             var next = lines[i + 1];
 
             // Check for empty #if...#endif
-            if ((current.StartsWith("#if ") || current.StartsWith("#if(")) && next == "#endif")
+            if ((current.StartsWith("#if ") ||
+                 current.StartsWith("#if(")) &&
+                next == "#endif")
             {
                 throw new($"Empty conditional block found: {current} followed by {next}");
             }

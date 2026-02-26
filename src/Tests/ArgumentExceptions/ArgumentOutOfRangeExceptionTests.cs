@@ -1,4 +1,5 @@
 // ReSharper disable ObjectCreationAsStatement
+
 public class ArgumentOutOfRangeExceptionTests
 {
     #region ThrowIfZero Tests

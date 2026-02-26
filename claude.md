@@ -62,7 +62,7 @@ Polyfill uses extensive `#if` directives. Key constants:
 **Important constraints:**
 - Each `*Polyfill.cs` file must contain exactly **one top-level type** (the `Polyfill` partial class). Helper classes must be **nested** inside `Polyfill`, otherwise `ReadMethodsForFiles` in `BuildApiTest` will throw.
 - The filename of static polyfill files directly determines the `api_list.include.md` section header: `{TypeName}Polyfill.cs` → `#### {TypeName}`. For example, `FilePolyfill.cs` → `#### File`. Choose filenames to match the type being extended.
-- `//Link:` comments on public methods must use `?view=net-10.0` for learn.microsoft.com URLs (enforced by `LinkReader`).
+- `//Link:` comments on public methods must use `?view=net-11.0` for learn.microsoft.com URLs (enforced by `LinkReader`). For overloaded methods, include the `#fragment` anchor pointing to the specific overload (e.g., `#system-type-method(system-string-system-int32)`).
 
 ### Test Projects
 

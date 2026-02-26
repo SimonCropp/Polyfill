@@ -14,7 +14,7 @@ static partial class Polyfill
     /// <summary>
     /// Opens the entry from the zip archive.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.openasync?view=net-11.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.openasync?view=net-11.0#system-io-compression-ziparchiveentry-openasync(system-threading-cancellationtoken)
     public static Task<Stream> OpenAsync(this ZipArchiveEntry target, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -24,7 +24,7 @@ static partial class Polyfill
     /// <summary>
     /// Archives a file by compressing it and adding it to the zip archive.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.createentryfromfileasync?view=net-11.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.createentryfromfileasync?view=net-11.0#system-io-compression-zipfileextensions-createentryfromfileasync(system-io-compression-ziparchive-system-string-system-string-system-threading-cancellationtoken)
     public static Task<ZipArchiveEntry> CreateEntryFromFileAsync(this ZipArchive target, string sourceFileName, string entryName, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -34,7 +34,7 @@ static partial class Polyfill
     /// <summary>
     /// Archives a file by compressing it and adding it to the zip archive.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.createentryfromfileasync?view=net-11.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.createentryfromfileasync?view=net-11.0#system-io-compression-zipfileextensions-createentryfromfileasync(system-io-compression-ziparchive-system-string-system-string-system-io-compression-compressionlevel-system-threading-cancellationtoken)
     public static Task<ZipArchiveEntry> CreateEntryFromFileAsync(this ZipArchive target, string sourceFileName, string entryName, CompressionLevel compressionLevel, CancellationToken cancellationToken = default) =>
         Task.FromResult(target.CreateEntryFromFile(sourceFileName, entryName, compressionLevel));
 
@@ -96,7 +96,7 @@ static partial class Polyfill
     /// <summary>
     /// Asynchronously opens the entry from the zip archive with the specified access mode.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.openasync?view=net-11.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.openasync?view=net-11.0#system-io-compression-ziparchiveentry-openasync(system-io-fileaccess-system-threading-cancellationtoken)
     public static ValueTask<Stream> OpenAsync(this ZipArchiveEntry target, FileAccess access, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();

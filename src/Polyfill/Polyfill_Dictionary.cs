@@ -72,7 +72,7 @@ static partial class Polyfill
     /// <summary>
     /// Sets the capacity of this dictionary to what it would be if it had been originally initialized with all its entries.
     /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity?view=net-11.0
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-11.0#system-collections-generic-dictionary-2-trimexcess
     public static void TrimExcess<TKey, TValue>(this Dictionary<TKey, TValue> target)
     {
     }

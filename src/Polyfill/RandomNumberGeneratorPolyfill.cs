@@ -138,7 +138,7 @@ static partial class Polyfill
         /// <summary>
         ///   Creates a string populated with characters chosen at random from choices.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getstring?view=net-11.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getstring?view=net-11.0#system-security-cryptography-randomnumbergenerator-getstring(system-readonlyspan((system-char))-system-int32)
         public static string GetString(ReadOnlySpan<char> choices, int length)
         {
             var result = new char[length];
@@ -149,7 +149,7 @@ static partial class Polyfill
         /// <summary>
         ///   Fills a buffer with cryptographically random hexadecimal characters.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.getstring?view=net-11.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.randomnumbergenerator.gethexstring?view=net-11.0#system-security-cryptography-randomnumbergenerator-gethexstring(system-span((system-char))-system-boolean)
         public static void GetHexString(Span<char> destination, bool lowercase = false)
         {
             if (destination.IsEmpty)

@@ -16,7 +16,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously extracts all the files in the specified archive to a directory on the file system.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0#system-io-compression-zipfile-extracttodirectoryasync(system-string-system-string-system-threading-cancellationtoken)
         public static Task ExtractToDirectoryAsync(
             string sourceArchiveFileName,
             string destinationDirectoryName,
@@ -26,7 +26,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously extracts all the files in the specified archive to a directory on the file system.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0#system-io-compression-zipfile-extracttodirectoryasync(system-string-system-string-system-boolean-system-threading-cancellationtoken)
         public static Task ExtractToDirectoryAsync(
             string sourceArchiveFileName,
             string destinationDirectoryName,
@@ -37,7 +37,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously extracts all the files in the specified archive to a directory on the file system and uses the specified character encoding for entry names.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0#system-io-compression-zipfile-extracttodirectoryasync(system-string-system-string-system-text-encoding-system-threading-cancellationtoken)
         public static Task ExtractToDirectoryAsync(
             string sourceArchiveFileName,
             string destinationDirectoryName,
@@ -48,7 +48,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously extracts all the files in the specified archive to a directory on the file system and uses the specified character encoding for entry names.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.extracttodirectoryasync?view=net-11.0#system-io-compression-zipfile-extracttodirectoryasync(system-string-system-string-system-text-encoding-system-boolean-system-threading-cancellationtoken)
         public static Task ExtractToDirectoryAsync(
             string sourceArchiveFileName,
             string destinationDirectoryName,
@@ -94,7 +94,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously opens a ZipArchive on the specified archiveFileName in the specified ZipArchiveMode mode.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.openasync?view=net-11.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.openasync?view=net-11.0#system-io-compression-zipfile-openasync(system-string-system-io-compression-ziparchivemode-system-threading-cancellationtoken)
         public static Task<ZipArchive> OpenAsync(
             string archiveFileName,
             ZipArchiveMode mode,
@@ -104,7 +104,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously opens a ZipArchive on the specified archiveFileName in the specified ZipArchiveMode mode.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.openasync?view=net-11.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.openasync?view=net-11.0#system-io-compression-zipfile-openasync(system-string-system-io-compression-ziparchivemode-system-text-encoding-system-threading-cancellationtoken)
         public static Task<ZipArchive> OpenAsync(
             string archiveFileName,
             ZipArchiveMode mode,
@@ -116,7 +116,7 @@ static partial class Polyfill
         /// Asynchronously opens a ZipArchive on the specified path for reading.
         /// The specified file is opened with FileMode.Open.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.openreadasync?view=net-11.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.openreadasync?view=net-11.0#system-io-compression-zipfile-openreadasync(system-string-system-threading-cancellationtoken)
         public static Task<ZipArchive> OpenReadAsync(
             string archiveFileName,
             CancellationToken cancellationToken = default) =>
@@ -125,7 +125,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously creates a zip archive that contains the files and directories from the specified directory.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-11.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-11.0#system-io-compression-zipfile-createfromdirectoryasync(system-string-system-string-system-threading-cancellationtoken)
         public static Task CreateFromDirectoryAsync(
             string sourceDirectoryName,
             string destinationArchiveFileName,
@@ -135,7 +135,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously creates a zip archive that contains the files and directories from the specified directory and uses the specified compression level.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-11.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-11.0#system-io-compression-zipfile-createfromdirectoryasync(system-string-system-string-system-io-compression-compressionlevel-system-boolean-system-threading-cancellationtoken)
         public static Task CreateFromDirectoryAsync(
             string sourceDirectoryName,
             string destinationArchiveFileName,
@@ -147,7 +147,7 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously creates a zip archive that contains the files and directories from the specified directory, uses the specified compression level and character encoding for entry names.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-11.0
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfile.createfromdirectoryasync?view=net-11.0#system-io-compression-zipfile-createfromdirectoryasync(system-string-system-string-system-io-compression-compressionlevel-system-boolean-system-text-encoding-system-threading-cancellationtoken)
         public static Task CreateFromDirectoryAsync(
             string sourceDirectoryName,
             string destinationArchiveFileName,
