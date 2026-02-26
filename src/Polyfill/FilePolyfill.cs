@@ -510,8 +510,9 @@ static partial class Polyfill
             }
 
             var stream = new FileStream("/dev/null", FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
-            var rawHandle = stream.SafeFileHandle.DangerousGetHandle();
-            stream.SafeFileHandle.SetHandleAsInvalid();
+            // SafeFileHandle is always non-null for a successfully opened FileStream
+            var rawHandle = stream.SafeFileHandle!.DangerousGetHandle();
+            stream.SafeFileHandle!.SetHandleAsInvalid();
             return new(rawHandle, ownsHandle: true);
         }
 
