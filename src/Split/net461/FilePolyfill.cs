@@ -390,8 +390,8 @@ static partial class Polyfill
 				return handle;
 			}
 			var stream = new FileStream("/dev/null", FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
-			var rawHandle = stream.SafeFileHandle.DangerousGetHandle();
-			stream.SafeFileHandle.SetHandleAsInvalid();
+			var rawHandle = stream.SafeFileHandle!.DangerousGetHandle();
+			stream.SafeFileHandle!.SetHandleAsInvalid();
 			return new(rawHandle, ownsHandle: true);
 		}
 		[DllImport("kernel32.dll", EntryPoint = "CreateFileW", CharSet = CharSet.Unicode, SetLastError = true)]
