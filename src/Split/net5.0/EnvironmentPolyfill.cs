@@ -5,25 +5,6 @@ using System;
 using System.Diagnostics;
 static partial class Polyfill
 {
-	static int processId;
-	extension(Environment)
-	{
-		/// <summary>
-		/// Gets the unique identifier for the current process.
-		/// </summary>
-		public static int ProcessId
-		{
-			get
-			{
-				if (processId == 0)
-				{
-					using var process = Process.GetCurrentProcess();
-					processId = process.Id;
-				}
-				return processId;
-			}
-		}
-	}
 	static string? processPath;
 	extension(Environment)
 	{
