@@ -735,6 +735,13 @@ class Consume
 #endif
         var takeLast = enumerable.TakeLast(3);
         var unionBy = enumerable.UnionBy(["c"], _ => _, comparer: default);
+        var order = enumerable.Order();
+        var orderComparer = enumerable.Order(StringComparer.Ordinal);
+        var orderDescending = enumerable.OrderDescending();
+        var orderDescendingComparer = enumerable.OrderDescending(StringComparer.Ordinal);
+        IEnumerable<int> lengths = [1];
+        var intersectBy = enumerable.IntersectBy(lengths, _ => _.Length);
+        var intersectByComparer = enumerable.IntersectBy(lengths, _ => _.Length, EqualityComparer<int>.Default);
     }
 
     void IList_Methods()

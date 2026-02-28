@@ -374,4 +374,56 @@ partial class PolyfillTests
         result = firstList.UnionBy(secondList, _ => _[0..1], comparer: StringComparer.Ordinal).ToList();
         await Assert.That(result.SequenceEqual(["banana", "apple", "Apple2"])).IsTrue();
     }
+
+    [Test]
+    public async Task IEnumerableOrder()
+    {
+        IEnumerable<int> enumerable = [3, 1, 2];
+        var result = enumerable.Order().ToList();
+        await Assert.That(result.SequenceEqual([1, 2, 3])).IsTrue();
+    }
+
+    [Test]
+    public async Task IEnumerableOrderWithComparer()
+    {
+        IEnumerable<string> enumerable = ["banana", "apple", "cherry"];
+        var result = enumerable.Order(StringComparer.Ordinal).ToList();
+        await Assert.That(result.SequenceEqual(["apple", "banana", "cherry"])).IsTrue();
+    }
+
+    [Test]
+    public async Task IEnumerableOrderDescending()
+    {
+        IEnumerable<int> enumerable = [1, 3, 2];
+        var result = enumerable.OrderDescending().ToList();
+        await Assert.That(result.SequenceEqual([3, 2, 1])).IsTrue();
+    }
+
+    [Test]
+    public async Task IEnumerableOrderDescendingWithComparer()
+    {
+        IEnumerable<string> enumerable = ["banana", "apple", "cherry"];
+        var result = enumerable.OrderDescending(StringComparer.Ordinal).ToList();
+        await Assert.That(result.SequenceEqual(["cherry", "banana", "apple"])).IsTrue();
+    }
+
+    [Test]
+    public async Task IEnumerableIntersectBy()
+    {
+        IEnumerable<string> firstList = ["banana", "apple", "cherry"];
+        IEnumerable<int> secondList = [6, 5];
+
+        var result = firstList.IntersectBy(secondList, _ => _.Length).ToList();
+        await Assert.That(result.SequenceEqual(["banana", "apple"])).IsTrue();
+    }
+
+    [Test]
+    public async Task IEnumerableIntersectByWithComparer()
+    {
+        IEnumerable<string> firstList = ["banana", "apple", "cherry"];
+        IEnumerable<int> secondList = [6, 5];
+
+        var result = firstList.IntersectBy(secondList, _ => _.Length, EqualityComparer<int>.Default).ToList();
+        await Assert.That(result.SequenceEqual(["banana", "apple"])).IsTrue();
+    }
 }
