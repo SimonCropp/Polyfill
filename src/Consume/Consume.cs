@@ -551,6 +551,11 @@ class Consume
         values = Enum.GetValuesAsUnderlyingType<DayOfWeek>();
     }
 
+    void Environment_Methods()
+    {
+        var processPath = Environment.ProcessPath;
+    }
+
     void EnumerationOptions_Methods()
     {
         var options = new EnumerationOptions
