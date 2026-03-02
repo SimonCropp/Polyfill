@@ -6,7 +6,7 @@ static partial class Polyfill
     {
 #if !NET6_0_OR_GREATER || NETSTANDARD
         /// <summary>
-        ///
+        /// Indicates whether a character is categorized as an ASCII character.
         /// </summary>
         /// <returns>Link: https://learn.microsoft.com/en-us/dotnet/api/system.char.isascii?view=net-11.0</returns>
         public static bool IsAscii(char c) =>
@@ -29,11 +29,11 @@ static partial class Polyfill
             c is >= '\u0030' and <= '\u0039';
 
         /// <summary>
-        ///
+        ///         /// Indicates whether a character is categorized as an ASCII hexadecimal digit.
         /// </summary>
         /// <returns>Link: https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciihexdigit?view=net-11.0</returns>
         public static bool IsAsciiHexDigit(char c) =>
-            char.IsAsciiDigit(c) || c is >= '\u0041' and <= '\u0046' || char.IsAsciiHexDigitLower(c);
+            char.IsAsciiHexDigitUpper(c) || char.IsAsciiHexDigitLower(c);
 
         /// <summary>
         /// Indicates whether a character is categorized as an ASCII lower-case hexadecimal digit.
@@ -64,7 +64,7 @@ static partial class Polyfill
             c is >= '\u0041' and <= '\u005a';
 
         /// <summary>
-        ///         /// Indicates whether a character is categorized as a lower case ASCII letter.
+        /// Indicates whether a character is categorized as a lower case ASCII letter.
         /// </summary>
         /// <returns>Link: https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterlower?view=net-11.0</returns>
         public static bool IsAsciiLetterLower(char c) =>
