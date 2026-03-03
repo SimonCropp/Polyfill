@@ -153,12 +153,6 @@ static partial class Polyfill
                 return ".";
             }
 
-            // Ensure relativeTo is treated as a directory
-            if (!IsDirectorySeparator(relativeTo[relativeTo.Length - 1]))
-            {
-                relativeTo += Path.DirectorySeparatorChar;
-            }
-
             // Check if paths share the same root
             var rootFrom = Path.GetPathRoot(relativeTo);
             var rootTo = Path.GetPathRoot(path);
@@ -166,6 +160,17 @@ static partial class Polyfill
             if (!string.Equals(rootFrom, rootTo, comparison))
             {
                 return path;
+            }
+
+            // Ensure both paths end with a separator so Uri treats them as directories
+            if (!IsDirectorySeparator(relativeTo[relativeTo.Length - 1]))
+            {
+                relativeTo += Path.DirectorySeparatorChar;
+            }
+
+            if (!IsDirectorySeparator(path[path.Length - 1]))
+            {
+                path += Path.DirectorySeparatorChar;
             }
 
             var fromUri = new Uri(relativeTo);
@@ -177,6 +182,12 @@ static partial class Polyfill
             if (Path.DirectorySeparatorChar != '/')
             {
                 result = result.Replace('/', Path.DirectorySeparatorChar);
+            }
+
+            // Remove trailing separator from result
+            if (result.Length > 0 && IsDirectorySeparator(result[result.Length - 1]))
+            {
+                result = result.Substring(0, result.Length - 1);
             }
 
             if (result.Length == 0)

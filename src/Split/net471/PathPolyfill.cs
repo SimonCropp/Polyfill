@@ -107,15 +107,19 @@ static partial class Polyfill
 			{
 				return ".";
 			}
-			if (!IsDirectorySeparator(relativeTo[relativeTo.Length - 1]))
-			{
-				relativeTo += Path.DirectorySeparatorChar;
-			}
 			var rootFrom = Path.GetPathRoot(relativeTo);
 			var rootTo = Path.GetPathRoot(path);
 			if (!string.Equals(rootFrom, rootTo, comparison))
 			{
 				return path;
+			}
+			if (!IsDirectorySeparator(relativeTo[relativeTo.Length - 1]))
+			{
+				relativeTo += Path.DirectorySeparatorChar;
+			}
+			if (!IsDirectorySeparator(path[path.Length - 1]))
+			{
+				path += Path.DirectorySeparatorChar;
 			}
 			var fromUri = new Uri(relativeTo);
 			var toUri = new Uri(path);
@@ -124,6 +128,10 @@ static partial class Polyfill
 			if (Path.DirectorySeparatorChar != '/')
 			{
 				result = result.Replace('/', Path.DirectorySeparatorChar);
+			}
+			if (result.Length > 0 && IsDirectorySeparator(result[result.Length - 1]))
+			{
+				result = result.Substring(0, result.Length - 1);
 			}
 			if (result.Length == 0)
 			{

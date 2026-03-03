@@ -48,12 +48,37 @@ public class PathTests
             return;
         }
 
+        // Sibling directories
         await Assert.That(Path.GetRelativePath(@"C:\Program Files\Common Files", @"C:\Program Files\Microsoft"))
             .IsEqualTo(@"..\Microsoft");
+
+        // Child directory
         await Assert.That(Path.GetRelativePath(@"C:\Program Files\", @"C:\Program Files\Microsoft"))
             .IsEqualTo("Microsoft");
+
+        // Same path
         await Assert.That(Path.GetRelativePath(@"C:\folder", @"C:\folder"))
             .IsEqualTo(".");
+
+        // Same path with trailing separator
+        await Assert.That(Path.GetRelativePath(@"C:\folder\", @"C:\folder"))
+            .IsEqualTo(".");
+
+        // Multiple levels up
+        await Assert.That(Path.GetRelativePath(@"C:\a\b\c", @"C:\a"))
+            .IsEqualTo(@"..\..");
+
+        // Deeply nested child
+        await Assert.That(Path.GetRelativePath(@"C:\a", @"C:\a\b\c\d"))
+            .IsEqualTo(@"b\c\d");
+
+        // Case-insensitive on Windows
+        await Assert.That(Path.GetRelativePath(@"C:\Folder", @"C:\folder"))
+            .IsEqualTo(".");
+
+        // Different roots returns path as-is
+        var result = Path.GetRelativePath(@"C:\folder", @"D:\other");
+        await Assert.That(result).IsEqualTo(@"D:\other");
     }
 
     [Test]
