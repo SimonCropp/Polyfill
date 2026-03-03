@@ -287,7 +287,7 @@ static partial class Polyfill
 		/// </summary>
 		/// <param name="path">The path where the hard link should be created.</param>
 		/// <param name="pathToTarget">The path of the hard link target.</param>
-		/// <returns>A <see cref="FileInfo"/> instance that wraps the newly created file.</returns>
+		/// <returns>A <see cref="FileInfo"/> instance that wraps the newly created file.
 		public static FileSystemInfo CreateHardLink(string path, string pathToTarget)
 		{
 			var fullPath = Path.GetFullPath(path);
