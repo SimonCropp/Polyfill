@@ -2,6 +2,7 @@
 #pragma warning disable
 namespace Polyfills;
 using System;
+using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
 	extension(Convert)
@@ -10,22 +11,26 @@ static partial class Polyfill
 		/// Converts a subset of an array of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
 		/// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static string ToHexString(byte[] inArray, int offset, int length) =>
 			ToHexString(inArray, offset, length, "X2");
 		/// <summary>
 		/// Converts a subset of an array of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
 		/// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static string ToHexStringLower(byte[] inArray, int offset, int length) =>
 			ToHexString(inArray, offset, length, "x2");
 		/// <summary>
 		/// Converts an array of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static string ToHexStringLower(byte[] inArray) =>
 			Polyfill.ToHexStringLower(inArray, 0, inArray.Length);
 		/// <summary>
 		/// Converts an array of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static string ToHexString(byte[] inArray) =>
 			Polyfill.ToHexString(inArray, 0, inArray.Length);
 		/// <summary>
@@ -54,16 +59,19 @@ static partial class Polyfill
 		/// <summary>
 		/// Converts the span, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static byte[] FromHexString(ReadOnlySpan<char> chars) =>
 			Polyfill.FromHexString(chars.ToString());
 		/// <summary>
 		/// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static string ToHexString(ReadOnlySpan<byte> bytes) =>
 			Polyfill.ToHexString(bytes.ToArray());
 		/// <summary>
 		/// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static string ToHexStringLower(ReadOnlySpan<byte> bytes) =>
 			Polyfill.ToHexStringLower(bytes.ToArray());
 		/// <summary>

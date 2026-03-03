@@ -4,6 +4,7 @@
 namespace System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyUseEmbeddedAttribute
@@ -17,6 +18,7 @@ static class KeyValuePair
 	/// <summary>
 	/// Creates a new key/value pair instance using provided values.
 	/// </summary>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value) =>
 		new(key, value);
 }

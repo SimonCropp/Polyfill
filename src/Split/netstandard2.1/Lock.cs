@@ -5,6 +5,7 @@
 namespace System.Threading;
 using Diagnostics;
 using Diagnostics.CodeAnalysis;
+using Runtime.CompilerServices;
 /// <summary>
 /// Provides a way to get mutual exclusion in regions of code between different threads. A lock may be held by one thread at
 /// a time.
@@ -23,26 +24,31 @@ class Lock
 	/// <summary>
 	/// Enters the lock. Once the method returns, the calling thread would be the only thread that holds the lock.
 	/// </summary>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public void Enter() => Monitor.Enter(this);
 	/// <summary>
 	/// Tries to enter the lock without waiting. If the lock is entered, the calling thread would be the only thread that
 	/// holds the lock.
 	/// </summary>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public bool TryEnter() => Monitor.TryEnter(this);
 	/// <summary>
 	/// Tries to enter the lock, waiting for roughly the specified duration. If the lock is entered, the calling thread
 	/// would be the only thread that holds the lock.
 	/// </summary>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public bool TryEnter(TimeSpan timeout) => Monitor.TryEnter(this, timeout);
 	/// <summary>
 	/// Tries to enter the lock, waiting for roughly the specified duration. If the lock is entered, the calling thread
 	/// would be the only thread that holds the lock.
 	/// </summary>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public bool TryEnter(int millisecondsTimeout) =>
 		TryEnter(TimeSpan.FromMilliseconds(millisecondsTimeout));
 	/// <summary>
 	/// Exits the lock.
 	/// </summary>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public void Exit() => Monitor.Exit(this);
 	/// <summary>
 	/// Enters the lock and returns a <see cref="Scope"/> that may be disposed to exit the lock. Once the method returns,

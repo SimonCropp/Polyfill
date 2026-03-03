@@ -3,6 +3,7 @@
 #if FeatureRuntimeInformation
 namespace Polyfills;
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 static partial class Polyfill
@@ -14,17 +15,20 @@ static partial class Polyfill
 		/// <summary>
 		/// Indicates whether the current application is running as WASI.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool IsWasi() =>
 			RuntimeInformation.IsOSPlatform(OSPlatform.Create("WASI"));
 		/// <summary>
 		/// Indicates whether the current application is running on Mac Catalyst.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool IsMacCatalyst() =>
 			OperatingSystem.IsMacOS() ||
 			OperatingSystem.IsIOS();
 		/// <summary>
 		/// Check for the Mac Catalyst version (iOS version as presented in Apple documentation) with a ≤ version comparison. Used to guard APIs that were added in the given Mac Catalyst release.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool IsMacCatalystVersionAtLeast(int major, int minor = 0, int build = 0) =>
 			IsMacCatalyst() &&
 			IsOsVersionAtLeast(major, minor, build);

@@ -4,6 +4,7 @@
 namespace Polyfills;
 using System;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
 	extension(DateTimeOffset target)
@@ -30,32 +31,38 @@ static partial class Polyfill
 		/// <summary>
 		/// Tries to parse a string into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(string? s, IFormatProvider? provider, out DateTimeOffset result) =>
 			DateTimeOffset.TryParse(s, provider, DateTimeStyles.None, out result);
 #if FeatureMemory
 		/// <summary>
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out DateTimeOffset result) =>
 			DateTimeOffset.TryParse(s.ToString(), provider, DateTimeStyles.None, out result);
 		/// <summary>
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(ReadOnlySpan<char> input, out DateTimeOffset result) =>
 			DateTimeOffset.TryParse(input.ToString(), null, DateTimeStyles.None, out result);
 		/// <summary>
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, DateTimeStyles styles, out DateTimeOffset result) =>
 			DateTimeOffset.TryParse(s.ToString(), provider, styles, out result);
 		/// <summary>
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParseExact(ReadOnlySpan<char> input, string format, IFormatProvider? provider, DateTimeStyles styles, out DateTimeOffset result) =>
 			DateTimeOffset.TryParseExact(input.ToString(), format, provider, styles, out result);
 		/// <summary>
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParseExact(ReadOnlySpan<char> input, ReadOnlySpan<char> format, IFormatProvider? provider, DateTimeStyles styles, out DateTimeOffset result) =>
 			DateTimeOffset.TryParseExact(input.ToString(), format.ToString(), provider, styles, out result);
 #endif

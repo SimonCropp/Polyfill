@@ -4,6 +4,7 @@
 namespace Polyfills;
 using System;
 using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 using Microsoft.Win32.SafeHandles;
 static partial class Polyfill
 {
@@ -12,16 +13,19 @@ static partial class Polyfill
 		/// <summary>
 		/// Gets a <see cref="SafeFileHandle"/> that wraps the operating system handle for standard input.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static SafeFileHandle OpenStandardInputHandle() =>
 			StandardHandleHelper.GetStandardHandle(StandardHandleHelper.StdInput);
 		/// <summary>
 		/// Gets a <see cref="SafeFileHandle"/> that wraps the operating system handle for standard output.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static SafeFileHandle OpenStandardOutputHandle() =>
 			StandardHandleHelper.GetStandardHandle(StandardHandleHelper.StdOutput);
 		/// <summary>
 		/// Gets a <see cref="SafeFileHandle"/> that wraps the operating system handle for standard error.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static SafeFileHandle OpenStandardErrorHandle() =>
 			StandardHandleHelper.GetStandardHandle(StandardHandleHelper.StdError);
 	}

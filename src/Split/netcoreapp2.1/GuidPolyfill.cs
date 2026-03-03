@@ -4,6 +4,7 @@ namespace Polyfills;
 using System.Text;
 using System;
 using System.Security.Cryptography;
+using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
 	extension(Guid)
@@ -11,9 +12,11 @@ static partial class Polyfill
 		/// <summary>
 		/// Tries to parse a string into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(string? s, IFormatProvider? provider, out Guid result) =>
 			Guid.TryParse(s, out result);
 		/// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Guid CreateVersion7() => CreateVersion7(DateTimeOffset.UtcNow);
 		/// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
 		public static Guid CreateVersion7(DateTimeOffset timestamp)
@@ -40,21 +43,25 @@ static partial class Polyfill
 		/// <summary>
 		/// Tries to parse a span of UTF-8 characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out Guid result) =>
 			Guid.TryParse(s.ToString(), out result);
 		/// <summary>
 		/// Tries to parse a span of UTF-8 characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(ReadOnlySpan<char> input, out Guid result) =>
 			Guid.TryParse(input.ToString(), out result);
 		/// <summary>
 		/// Tries to parse a span of UTF-8 bytes into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(ReadOnlySpan<byte> utf8Text, out Guid result) =>
 			Guid.TryParse(Encoding.UTF8.GetString(utf8Text), out result);
 		/// <summary>
 		/// Parse a span of UTF-8 bytes into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Guid Parse(ReadOnlySpan<byte> utf8Text) =>
 			Guid.Parse(Encoding.UTF8.GetString(utf8Text));
 #endif

@@ -3,6 +3,7 @@
 #if FeatureRuntimeInformation
 namespace Polyfills;
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 static partial class Polyfill
@@ -14,6 +15,7 @@ static partial class Polyfill
 		/// <summary>
 		/// Indicates whether the current application is running as WASI.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool IsWasi() =>
 			RuntimeInformation.IsOSPlatform(OSPlatform.Create("WASI"));
 	}

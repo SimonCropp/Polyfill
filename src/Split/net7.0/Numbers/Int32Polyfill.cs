@@ -3,6 +3,7 @@
 namespace Polyfills;
 using System;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Text;
 static partial class Polyfill
 {
@@ -12,16 +13,19 @@ static partial class Polyfill
 		/// <summary>
 		/// Tries to parse a span of UTF-8 characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(ReadOnlySpan<byte> utf8Text, IFormatProvider? provider, out int result) =>
 			int.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, provider, out result);
 		/// <summary>
 		/// Tries to parse a span of UTF-8 characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(ReadOnlySpan<byte> utf8Text, NumberStyles style, IFormatProvider? provider, out int result) =>
 			int.TryParse(Encoding.UTF8.GetString(utf8Text), style, provider, out result);
 		/// <summary>
 		/// Tries to convert a UTF-8 character span containing the string representation of a number to its 32-bit signed integer equivalent.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(ReadOnlySpan<byte> utf8Text, out int result) =>
 			int.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, null, out result);
 #endif
