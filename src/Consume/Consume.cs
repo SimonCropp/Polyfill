@@ -29,7 +29,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+#if FeatureMemory
 using System.Buffers.Binary;
+#endif
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Net;
