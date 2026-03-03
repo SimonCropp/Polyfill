@@ -7,7 +7,6 @@ namespace Polyfills;
 using System.Text;
 using System;
 using System.Security.Cryptography;
-using System.Runtime.CompilerServices;
 
 static partial class Polyfill
 {
@@ -19,7 +18,6 @@ static partial class Polyfill
         /// Tries to parse a string into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-11.0#system-guid-tryparse(system-string-system-iformatprovider-system-guid@)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryParse(string? s, IFormatProvider? provider, out Guid result) =>
             Guid.TryParse(s, out result);
 
@@ -29,7 +27,6 @@ static partial class Polyfill
 
         /// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.createversion7?view=net-11.0#system-guid-createversion7
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Guid CreateVersion7() => CreateVersion7(DateTimeOffset.UtcNow);
 
         /// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
@@ -90,7 +87,6 @@ static partial class Polyfill
         /// Converts span of characters representing the GUID to the equivalent Guid structure, provided that the string is in the specified format.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparseexact?view=net-11.0#system-guid-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-guid@)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryParseExact(ReadOnlySpan<char> input, ReadOnlySpan<char> format, out Guid result) =>
             Guid.TryParseExact(input.ToString(), format.ToString(), out result);
 
@@ -102,7 +98,6 @@ static partial class Polyfill
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-11.0#system-guid-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-guid@)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out Guid result) =>
             Guid.TryParse(s.ToString(), out result);
 
@@ -114,7 +109,6 @@ static partial class Polyfill
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-11.0#system-guid-tryparse(system-readonlyspan((system-char))-system-guid@)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryParse(ReadOnlySpan<char> input, out Guid result) =>
             Guid.TryParse(input.ToString(), out result);
 
@@ -125,7 +119,6 @@ static partial class Polyfill
         /// Tries to parse a span of UTF-8 bytes into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-11.0#system-guid-tryparse(system-readonlyspan((system-byte))-system-guid@)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryParse(ReadOnlySpan<byte> utf8Text, out Guid result) =>
             Guid.TryParse(Encoding.UTF8.GetString(utf8Text), out result);
 
@@ -133,7 +126,6 @@ static partial class Polyfill
         /// Parse a span of UTF-8 bytes into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.parse?view=net-11.0#system-guid-parse(system-readonlyspan((system-byte)))
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Guid Parse(ReadOnlySpan<byte> utf8Text) =>
             Guid.Parse(Encoding.UTF8.GetString(utf8Text));
 

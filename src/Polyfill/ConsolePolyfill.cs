@@ -4,7 +4,6 @@ namespace Polyfills;
 
 using System;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
 using Microsoft.Win32.SafeHandles;
 
 static partial class Polyfill
@@ -15,7 +14,6 @@ static partial class Polyfill
         /// Gets a <see cref="SafeFileHandle"/> that wraps the operating system handle for standard input.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandardinputhandle?view=net-11.0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static SafeFileHandle OpenStandardInputHandle() =>
             StandardHandleHelper.GetStandardHandle(StandardHandleHelper.StdInput);
 
@@ -23,7 +21,6 @@ static partial class Polyfill
         /// Gets a <see cref="SafeFileHandle"/> that wraps the operating system handle for standard output.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandardoutputhandle?view=net-11.0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static SafeFileHandle OpenStandardOutputHandle() =>
             StandardHandleHelper.GetStandardHandle(StandardHandleHelper.StdOutput);
 
@@ -31,7 +28,6 @@ static partial class Polyfill
         /// Gets a <see cref="SafeFileHandle"/> that wraps the operating system handle for standard error.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandarderrorhandle?view=net-11.0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static SafeFileHandle OpenStandardErrorHandle() =>
             StandardHandleHelper.GetStandardHandle(StandardHandleHelper.StdError);
     }

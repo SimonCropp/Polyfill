@@ -6,7 +6,6 @@ namespace System.Collections.Generic;
 // ReSharper disable RedundantNameQualifier
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.CompilerServices;
 // ReSharper restore RedundantNameQualifier
 
 [ExcludeFromCodeCoverage]
@@ -25,7 +24,6 @@ static class KeyValuePair
     /// Creates a new key/value pair instance using provided values.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair.create?view=net-11.0
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey key, TValue value) =>
         new(key, value);
 }

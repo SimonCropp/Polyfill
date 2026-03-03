@@ -6,7 +6,6 @@ namespace Polyfills;
 
 using System;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 
 static partial class Polyfill
 {
@@ -46,7 +45,6 @@ static partial class Polyfill
         /// Tries to parse a string into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparse?view=net-11.0#system-datetimeoffset-tryparse(system-string-system-iformatprovider-system-datetimeoffset@)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryParse(string? s, IFormatProvider? provider, out DateTimeOffset result) =>
             DateTimeOffset.TryParse(s, provider, DateTimeStyles.None, out result);
 #endif
@@ -58,7 +56,6 @@ static partial class Polyfill
         /// Tries to parse a span of characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparse?view=net-11.0#system-datetimeoffset-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-datetimeoffset@)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out DateTimeOffset result) =>
             DateTimeOffset.TryParse(s.ToString(), provider, DateTimeStyles.None, out result);
 #endif
@@ -68,7 +65,6 @@ static partial class Polyfill
         /// Tries to parse a span of characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparse?view=net-11.0#system-datetimeoffset-tryparse(system-readonlyspan((system-char))-system-datetimeoffset@)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryParse(ReadOnlySpan<char> input, out DateTimeOffset result) =>
             DateTimeOffset.TryParse(input.ToString(), null, DateTimeStyles.None, out result);
 
@@ -76,7 +72,6 @@ static partial class Polyfill
         /// Tries to parse a span of characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparse?view=net-11.0#system-datetimeoffset-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetimeoffset@)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, DateTimeStyles styles, out DateTimeOffset result) =>
             DateTimeOffset.TryParse(s.ToString(), provider, styles, out result);
 
@@ -84,7 +79,6 @@ static partial class Polyfill
         /// Tries to parse a span of characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparseexact?view=net-11.0#system-datetimeoffset-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetimeoffset@)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryParseExact(ReadOnlySpan<char> input, string format, IFormatProvider? provider, DateTimeStyles styles, out DateTimeOffset result) =>
             DateTimeOffset.TryParseExact(input.ToString(), format, provider, styles, out result);
 #endif
@@ -94,7 +88,6 @@ static partial class Polyfill
         /// Tries to parse a span of characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparseexact?view=net-11.0#system-datetimeoffset-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetimeoffset@)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool TryParseExact(ReadOnlySpan<char> input, ReadOnlySpan<char> format, IFormatProvider? provider, DateTimeStyles styles, out DateTimeOffset result) =>
             DateTimeOffset.TryParseExact(input.ToString(), format.ToString(), provider, styles, out result);
 #endif

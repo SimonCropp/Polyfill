@@ -65,7 +65,6 @@ static partial class Polyfill
         /// Appends the specified string to the file, creating the file if it does not already exist.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendalltext?view=net-11.0#system-io-file-appendalltext(system-string-system-readonlyspan((system-char)))
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AppendAllText(string path, ReadOnlySpan<char> contents) =>
             File.AppendAllText(path, contents.ToString());
 
@@ -73,7 +72,6 @@ static partial class Polyfill
         /// Appends the specified string to the file, creating the file if it does not already exist.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendalltext?view=net-11.0#system-io-file-appendalltext(system-string-system-readonlyspan((system-char))-system-text-encoding)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void AppendAllText(string path, ReadOnlySpan<char> contents, Encoding encoding) =>
             File.AppendAllText(path, contents.ToString(), encoding);
 
@@ -103,7 +101,6 @@ static partial class Polyfill
         /// If the target file already exists, it is truncated and overwritten.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltext?view=net-11.0#system-io-file-writealltext(system-string-system-readonlyspan((system-char)))
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void WriteAllText(string path, ReadOnlySpan<char> contents) =>
             File.WriteAllText(path, contents.ToString());
 
@@ -112,7 +109,6 @@ static partial class Polyfill
         /// If the target file already exists, it is truncated and overwritten.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltext?view=net-11.0#system-io-file-writealltext(system-string-system-readonlyspan((system-char))-system-text-encoding)
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void WriteAllText(string path, ReadOnlySpan<char> contents, Encoding encoding) =>
             File.WriteAllText(path, contents.ToString(), encoding);
 
