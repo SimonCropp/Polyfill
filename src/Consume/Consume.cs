@@ -1272,5 +1272,16 @@ class Consume
         await ZipFile.OpenReadAsync("archive.zip");
         await ZipFile.OpenReadAsync("archive.zip", CancellationToken.None);
     }
+
+    void ZLibStream_Methods()
+    {
+        using var compressStream = new MemoryStream();
+        var zlibCompress1 = new ZLibStream(compressStream, CompressionMode.Compress);
+        var zlibCompress2 = new ZLibStream(compressStream, CompressionMode.Compress, true);
+        var zlibCompress3 = new ZLibStream(compressStream, CompressionLevel.Fastest);
+        var zlibCompress4 = new ZLibStream(compressStream, CompressionLevel.Fastest, true);
+        var zlibDecompress = new ZLibStream(compressStream, CompressionMode.Decompress);
+        _ = zlibCompress1.BaseStream;
+    }
 #endif
 }
