@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 748**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 749**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -1290,6 +1290,7 @@ The class `Polyfill` includes the following extension methods:
  * `void ReadExactly(Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactly?view=net-11.0#system-io-stream-readexactly(system-span((system-byte))))
  * `ValueTask ReadExactlyAsync(byte[], int, int, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync?view=net-11.0#system-io-stream-readexactlyasync(system-byte()-system-int32-system-int32-system-threading-cancellationtoken))
  * `ValueTask ReadExactlyAsync(Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync?view=net-11.0#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken))
+ * `void Write(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.write?view=net-11.0#system-io-stream-write(system-readonlyspan((system-byte))))
  * `ValueTask WriteAsync(ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync?view=net-11.0#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
 
 

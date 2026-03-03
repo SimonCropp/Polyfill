@@ -156,6 +156,23 @@ partial class PolyfillTests
 
 #if FeatureMemory
     [Test]
+    public async Task StreamWriteSpan()
+    {
+        using var stream = new MemoryStream();
+        var data = new byte[] {1, 2, 3, 4, 5};
+        stream.Write((ReadOnlySpan<byte>)data);
+        await Assert.That(stream.ToArray().SequenceEqual(data)).IsTrue();
+    }
+
+    [Test]
+    public async Task StreamWriteSpan_Empty()
+    {
+        using var stream = new MemoryStream();
+        stream.Write(ReadOnlySpan<byte>.Empty);
+        await Assert.That(stream.ToArray()).IsEmpty();
+    }
+
+    [Test]
     public async Task ReadExactlySpan_ReadsExactBytes()
     {
         var data = new byte[] {1, 2, 3, 4, 5};

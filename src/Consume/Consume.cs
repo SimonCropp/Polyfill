@@ -648,7 +648,7 @@ class Consume
         using var nullHandle = File.OpenNullHandle();
 #endif
 
-        FileSystemInfo hardLink = File.CreateHardLink("hardlink.txt", TestFilePath);
+        var hardLink = File.CreateHardLink("hardlink.txt", TestFilePath);
         var fileInfo = new FileInfo("hardlink2.txt");
         fileInfo.CreateAsHardLink(TestFilePath);
     }
@@ -1005,6 +1005,9 @@ class Consume
         var input = new byte[] {1, 2};
         using var stream = new MemoryStream(input);
         var result = new byte[2];
+#if FeatureMemory
+        ((Stream)stream).Write((ReadOnlySpan<byte>)input);
+#endif
 #if FeatureMemory && FeatureValueTask
         var memory = new Memory<byte>(result);
         var read = await stream.ReadAsync(memory);
