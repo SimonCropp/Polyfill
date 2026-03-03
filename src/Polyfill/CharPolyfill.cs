@@ -4,7 +4,7 @@ static partial class Polyfill
 {
     extension(char)
     {
-#if !NET6_0_OR_GREATER || NETSTANDARD
+#if !NET6_0_OR_GREATER
         /// <summary>
         /// Indicates whether a character is categorized as an ASCII character.
         /// </summary>
@@ -13,7 +13,7 @@ static partial class Polyfill
             c is >= '\u0000' and <= '\u007F';
 #endif
 
-#if !NET7_0_OR_GREATER || NETSTANDARD
+#if !NET7_0_OR_GREATER
         /// <summary>
         /// Indicates whether a character is categorized as an ASCII letter or an ASCII digit.
         /// </summary>
