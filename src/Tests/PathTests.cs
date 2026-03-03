@@ -79,6 +79,16 @@ public class PathTests
         // Different roots returns path as-is
         var result = Path.GetRelativePath(@"C:\folder", @"D:\other");
         await Assert.That(result).IsEqualTo(@"D:\other");
+
+        // Path with spaces
+        await Assert.That(Path.GetRelativePath(@"C:\my folder", @"C:\my folder\sub dir"))
+            .IsEqualTo(@"sub dir");
+
+        // Path with special characters (# ? %)
+        await Assert.That(Path.GetRelativePath(@"C:\base", @"C:\base\file#1"))
+            .IsEqualTo(@"file#1");
+        await Assert.That(Path.GetRelativePath(@"C:\base", @"C:\base\file%20name"))
+            .IsEqualTo(@"file%20name");
     }
 
     [Test]

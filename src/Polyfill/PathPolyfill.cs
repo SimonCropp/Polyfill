@@ -141,7 +141,7 @@ static partial class Polyfill
             relativeTo = Path.GetFullPath(relativeTo);
             path = Path.GetFullPath(path);
 
-            // On Windows, path comparison is case-insensitive
+            // Hardcoded case-insensitive since this polyfill only compiles on Windows targets (netfx/netstandard2.0)
             var comparison = StringComparison.OrdinalIgnoreCase;
 
             // Normalize: strip trailing separator for comparison
