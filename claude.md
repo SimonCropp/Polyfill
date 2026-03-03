@@ -96,4 +96,5 @@ Polyfill uses extensive `#if` directives. Key constants:
 - `TreatWarningsAsErrors` is enabled
 - `ImplicitUsings` is **disabled** — all `using` statements must be explicit
 - `Nullable` is enabled
+- **Line endings: LF** (`\n`) — do not use CRLF
 - CI: AppVeyor (Windows), builds solution then runs `run-tests.ps1`

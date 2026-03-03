@@ -16,6 +16,7 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.StackTraceHiddenAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.InteropServices.SuppressGCTransitionAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.InteropServices.UnmanagedCallersOnlyAttribute))]
+[assembly: TypeForwardedTo(typeof(System.IO.Compression.ZLibStream))]
 [assembly: TypeForwardedTo(typeof(System.Index))]
 [assembly: TypeForwardedTo(typeof(System.Range))]
 [assembly: TypeForwardedTo(typeof(System.Reflection.NullabilityInfo))]

@@ -40,6 +40,26 @@
  * `ArraySegmentEnumerator<T> GetEnumerator<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.getenumerator?view=net-11.0)
 
 
+#### BinaryPrimitives
+
+ * `double ReadDoubleBigEndian(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.readdoublebigendian?view=net-11.0)
+ * `double ReadDoubleLittleEndian(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.readdoublelittleendian?view=net-11.0)
+ * `float ReadSingleBigEndian(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.readsinglebigendian?view=net-11.0)
+ * `float ReadSingleLittleEndian(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.readsinglelittleendian?view=net-11.0)
+ * `bool TryReadDoubleBigEndian(ReadOnlySpan<byte>, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.tryreaddoublebigendian?view=net-11.0)
+ * `bool TryReadDoubleLittleEndian(ReadOnlySpan<byte>, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.tryreaddoublelittleendian?view=net-11.0)
+ * `bool TryReadSingleBigEndian(ReadOnlySpan<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.tryreadsinglebigendian?view=net-11.0)
+ * `bool TryReadSingleLittleEndian(ReadOnlySpan<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.tryreadsinglelittleendian?view=net-11.0)
+ * `bool TryWriteDoubleBigEndian(Span<byte>, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.trywritedoublebigendian?view=net-11.0)
+ * `bool TryWriteDoubleLittleEndian(Span<byte>, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.trywritedoublelittleendian?view=net-11.0)
+ * `bool TryWriteSingleBigEndian(Span<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.trywritesinglebigendian?view=net-11.0)
+ * `bool TryWriteSingleLittleEndian(Span<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.trywritesinglelittleendian?view=net-11.0)
+ * `void WriteDoubleBigEndian(Span<byte>, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.writedoublebigendian?view=net-11.0)
+ * `void WriteDoubleLittleEndian(Span<byte>, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.writedoublelittleendian?view=net-11.0)
+ * `void WriteSingleBigEndian(Span<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.writesinglebigendian?view=net-11.0)
+ * `void WriteSingleLittleEndian(Span<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.writesinglelittleendian?view=net-11.0)
+
+
 #### Boolean
 
  * `bool TryFormat(Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.boolean.tryformat?view=net-11.0)
@@ -208,6 +228,7 @@
  * `string GetString(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getstring?view=net-11.0#system-text-encoding-getstring(system-readonlyspan((system-byte))))
  * `bool TryGetBytes(ReadOnlySpan<char>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetbytes?view=net-11.0)
  * `bool TryGetChars(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetchars?view=net-11.0)
+ * `Latin1` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.latin1?view=net-11.0)
 
 
 #### Enum
@@ -787,6 +808,7 @@
  * `void ReadExactly(Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactly?view=net-11.0#system-io-stream-readexactly(system-span((system-byte))))
  * `ValueTask ReadExactlyAsync(byte[], int, int, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync?view=net-11.0#system-io-stream-readexactlyasync(system-byte()-system-int32-system-int32-system-threading-cancellationtoken))
  * `ValueTask ReadExactlyAsync(Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync?view=net-11.0#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken))
+ * `void Write(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.write?view=net-11.0#system-io-stream-write(system-readonlyspan((system-byte))))
  * `ValueTask WriteAsync(ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync?view=net-11.0#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
 
 

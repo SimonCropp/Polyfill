@@ -1,5 +1,13 @@
 partial class PolyfillTests
 {
+    [Test]
+    public async Task Encoding_Latin1()
+    {
+        var latin1 = Encoding.Latin1;
+        await Assert.That(latin1).IsNotNull();
+        await Assert.That(latin1.CodePage).IsEqualTo(28591);
+    }
+
 #if FeatureMemory
     [Test]
     public async Task Encoding_GetByteCount()

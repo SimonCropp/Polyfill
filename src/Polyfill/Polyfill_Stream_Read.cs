@@ -3,12 +3,37 @@ namespace Polyfills;
 using System;
 using System.IO;
 // ReSharper disable RedundantUsingDirective
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 // ReSharper restore RedundantUsingDirective
 
 static partial class Polyfill
 {
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
+#if FeatureMemory && FeatureValueTask
+
+    /// <summary>
+    /// Asynchronously reads a sequence of bytes from the current stream, advances the position within the stream by
+    /// the number of bytes read, and monitors cancellation requests.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readasync?view=net-11.0#system-io-stream-readasync(system-memory((system-byte))-system-threading-cancellationtoken)
+    public static ValueTask<int> ReadAsync(
+        this Stream target,
+        Memory<byte> buffer,
+        CancellationToken cancellationToken = default)
+    {
+        if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>) buffer, out var segment))
+        {
+            segment = new(buffer.ToArray());
+        }
+
+        var task = target.ReadAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken);
+        return new(task);
+    }
+
+#endif
+#endif
 #if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1 && FeatureMemory
     /// <summary>
     /// Reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.
