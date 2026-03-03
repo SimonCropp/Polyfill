@@ -40,6 +40,26 @@
  * `ArraySegmentEnumerator<T> GetEnumerator<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.getenumerator?view=net-11.0)
 
 
+#### BinaryPrimitives
+
+ * `double ReadDoubleBigEndian(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.readdoublebigendian?view=net-11.0)
+ * `double ReadDoubleLittleEndian(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.readdoublelittleendian?view=net-11.0)
+ * `float ReadSingleBigEndian(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.readsinglebigendian?view=net-11.0)
+ * `float ReadSingleLittleEndian(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.readsinglelittleendian?view=net-11.0)
+ * `bool TryReadDoubleBigEndian(ReadOnlySpan<byte>, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.tryreaddoublebigendian?view=net-11.0)
+ * `bool TryReadDoubleLittleEndian(ReadOnlySpan<byte>, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.tryreaddoublelittleendian?view=net-11.0)
+ * `bool TryReadSingleBigEndian(ReadOnlySpan<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.tryreadsinglebigendian?view=net-11.0)
+ * `bool TryReadSingleLittleEndian(ReadOnlySpan<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.tryreadsinglelittleendian?view=net-11.0)
+ * `bool TryWriteDoubleBigEndian(Span<byte>, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.trywritedoublebigendian?view=net-11.0)
+ * `bool TryWriteDoubleLittleEndian(Span<byte>, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.trywritedoublelittleendian?view=net-11.0)
+ * `bool TryWriteSingleBigEndian(Span<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.trywritesinglebigendian?view=net-11.0)
+ * `bool TryWriteSingleLittleEndian(Span<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.trywritesinglelittleendian?view=net-11.0)
+ * `void WriteDoubleBigEndian(Span<byte>, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.writedoublebigendian?view=net-11.0)
+ * `void WriteDoubleLittleEndian(Span<byte>, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.writedoublelittleendian?view=net-11.0)
+ * `void WriteSingleBigEndian(Span<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.writesinglebigendian?view=net-11.0)
+ * `void WriteSingleLittleEndian(Span<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.writesinglelittleendian?view=net-11.0)
+
+
 #### Boolean
 
  * `bool TryFormat(Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.boolean.tryformat?view=net-11.0)
@@ -208,6 +228,7 @@
  * `string GetString(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getstring?view=net-11.0#system-text-encoding-getstring(system-readonlyspan((system-byte))))
  * `bool TryGetBytes(ReadOnlySpan<char>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetbytes?view=net-11.0)
  * `bool TryGetChars(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetchars?view=net-11.0)
+ * `Latin1` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.latin1?view=net-11.0)
 
 
 #### Enum
@@ -235,6 +256,7 @@
 #### Environment
 
  * `ProcessId` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.environment.processid?view=net-11.0#system-environment-processid)
+ * `ProcessPath` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.environment.processpath?view=net-11.0#system-environment-processpath)
 
 
 #### EventInfo
@@ -341,6 +363,14 @@
  * `bool TryAdd<TKey, TValue>(TKey, TValue) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.tryadd?view=net-11.0)
 
 
+#### IEnumerable<T>
+
+ * `IOrderedEnumerable<T> Order<T>(IComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.order?view=net-11.0#system-linq-enumerable-order-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0))))
+ * `IOrderedEnumerable<T> Order<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.order?view=net-11.0#system-linq-enumerable-order-1(system-collections-generic-ienumerable((-0))))
+ * `IOrderedEnumerable<T> OrderDescending<T>(IComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.orderdescending?view=net-11.0#system-linq-enumerable-orderdescending-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0))))
+ * `IOrderedEnumerable<T> OrderDescending<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.orderdescending?view=net-11.0#system-linq-enumerable-orderdescending-1(system-collections-generic-ienumerable((-0))))
+
+
 #### IEnumerable<TFirst>
 
  * `IEnumerable<(TFirst First, TSecond Second, TThird Third)> Zip<TFirst, TSecond, TThird>(IEnumerable<TSecond>, IEnumerable<TThird>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip?view=net-11.0#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-collections-generic-ienumerable((-2))))
@@ -366,6 +396,8 @@
  * `TSource FirstOrDefault<TSource>(Func<TSource, bool>, TSource)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.firstordefault?view=net-11.0#system-linq-enumerable-firstordefault-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-boolean))-0))
  * `TSource FirstOrDefault<TSource>(TSource)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.firstordefault?view=net-11.0#system-linq-enumerable-firstordefault-1(system-collections-generic-ienumerable((-0))-0))
  * `IEnumerable<(int Index, TSource Item)> Index<TSource>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.index?view=net-11.0#system-linq-enumerable-index-1(system-collections-generic-ienumerable((-0))))
+ * `IEnumerable<TSource> IntersectBy<TSource, TKey>(IEnumerable<TKey>, Func<TSource, TKey>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.intersectby?view=net-11.0#system-linq-enumerable-intersectby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1))-system-collections-generic-iequalitycomparer((-1))))
+ * `IEnumerable<TSource> IntersectBy<TSource, TKey>(IEnumerable<TKey>, Func<TSource, TKey>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.intersectby?view=net-11.0#system-linq-enumerable-intersectby-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-1))))
  * `TSource LastOrDefault<TSource>(Func<TSource, bool>, TSource)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.lastordefault?view=net-11.0#system-linq-enumerable-lastordefault-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-boolean))-0))
  * `TSource LastOrDefault<TSource>(TSource)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.lastordefault?view=net-11.0#system-linq-enumerable-lastordefault-1(system-collections-generic-ienumerable((-0))-0))
  * `TSource? Max<TSource>(IComparer<TSource>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.max?view=net-11.0#system-linq-enumerable-max-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0))))
@@ -776,6 +808,7 @@
  * `void ReadExactly(Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactly?view=net-11.0#system-io-stream-readexactly(system-span((system-byte))))
  * `ValueTask ReadExactlyAsync(byte[], int, int, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync?view=net-11.0#system-io-stream-readexactlyasync(system-byte()-system-int32-system-int32-system-threading-cancellationtoken))
  * `ValueTask ReadExactlyAsync(Memory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync?view=net-11.0#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken))
+ * `void Write(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.write?view=net-11.0#system-io-stream-write(system-readonlyspan((system-byte))))
  * `ValueTask WriteAsync(ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync?view=net-11.0#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken))
 
 

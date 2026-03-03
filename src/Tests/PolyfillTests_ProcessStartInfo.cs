@@ -450,5 +450,167 @@ partial class PolyfillTests
         await Assert.That(info.Arguments).IsEqualTo("\"a\\\\\\\\\\\"b\"");
     }
 
+    [Test]
+    public async Task SyncArgumentWithOnlySpaces()
+    {
+        var info = new ProcessStartInfo();
+        var list = new Polyfill.SyncingArgumentList(info);
+        list.Add("   ");
+        list.Sync();
+
+        await Assert.That(info.Arguments).IsEqualTo("\"   \"");
+    }
+
+    [Test]
+    public async Task SyncArgumentWithLeadingSpace()
+    {
+        var info = new ProcessStartInfo();
+        var list = new Polyfill.SyncingArgumentList(info);
+        list.Add(" leading");
+        list.Sync();
+
+        await Assert.That(info.Arguments).IsEqualTo("\" leading\"");
+    }
+
+    [Test]
+    public async Task SyncArgumentWithTrailingSpace()
+    {
+        var info = new ProcessStartInfo();
+        var list = new Polyfill.SyncingArgumentList(info);
+        list.Add("trailing ");
+        list.Sync();
+
+        await Assert.That(info.Arguments).IsEqualTo("\"trailing \"");
+    }
+
+    [Test]
+    public async Task SyncArgumentWithMultipleQuotes()
+    {
+        var info = new ProcessStartInfo();
+        var list = new Polyfill.SyncingArgumentList(info);
+        list.Add("\"\"\"");
+        list.Sync();
+
+        await Assert.That(info.Arguments).IsEqualTo("\"\\\"\\\"\\\"\"");
+    }
+
+    [Test]
+    public async Task SyncArgumentStartingWithQuote()
+    {
+        var info = new ProcessStartInfo();
+        var list = new Polyfill.SyncingArgumentList(info);
+        list.Add("\"hello");
+        list.Sync();
+
+        await Assert.That(info.Arguments).IsEqualTo("\"\\\"hello\"");
+    }
+
+    [Test]
+    public async Task SyncArgumentEndingWithQuote()
+    {
+        var info = new ProcessStartInfo();
+        var list = new Polyfill.SyncingArgumentList(info);
+        list.Add("hello\"");
+        list.Sync();
+
+        await Assert.That(info.Arguments).IsEqualTo("\"hello\\\"\"");
+    }
+
+    [Test]
+    public async Task SyncArgumentWithSpacesAndQuotes()
+    {
+        var info = new ProcessStartInfo();
+        var list = new Polyfill.SyncingArgumentList(info);
+        list.Add("she said \"hi there\"");
+        list.Sync();
+
+        await Assert.That(info.Arguments).IsEqualTo("\"she said \\\"hi there\\\"\"");
+    }
+
+    [Test]
+    public async Task SyncArgumentWithNewline()
+    {
+        var info = new ProcessStartInfo();
+        var list = new Polyfill.SyncingArgumentList(info);
+        list.Add("line1\nline2");
+        list.Sync();
+
+        // Newline is whitespace, so the argument gets quoted
+        await Assert.That(info.Arguments).IsEqualTo("\"line1\nline2\"");
+    }
+
+    [Test]
+    public async Task SyncArgumentWithSingleQuotes()
+    {
+        var info = new ProcessStartInfo();
+        var list = new Polyfill.SyncingArgumentList(info);
+        list.Add("it's");
+        list.Sync();
+
+        // Single quotes don't trigger quoting or escaping
+        await Assert.That(info.Arguments).IsEqualTo("it's");
+    }
+
+    [Test]
+    public async Task SyncArgumentKeyValueWithSpaces()
+    {
+        var info = new ProcessStartInfo();
+        var list = new Polyfill.SyncingArgumentList(info);
+        list.Add("--path=C:\\Program Files\\app");
+        list.Sync();
+
+        await Assert.That(info.Arguments).IsEqualTo("\"--path=C:\\Program Files\\app\"");
+    }
+
+    [Test]
+    public async Task SyncArgumentWithBackslashQuoteBackslash()
+    {
+        var info = new ProcessStartInfo();
+        var list = new Polyfill.SyncingArgumentList(info);
+        list.Add("a\\\"\\b");
+        list.Sync();
+
+        // backslash before quote is doubled+1, backslash not before quote is kept
+        await Assert.That(info.Arguments).IsEqualTo("\"a\\\\\\\"\\b\"");
+    }
+
+    [Test]
+    public async Task SyncMultipleArgumentsWithQuotesAndSpaces()
+    {
+        var info = new ProcessStartInfo();
+        var list = new Polyfill.SyncingArgumentList(info);
+        list.Add("--name");
+        list.Add("John \"Johnny\" Doe");
+        list.Add("--path");
+        list.Add("C:\\My Documents\\file.txt");
+        list.Sync();
+
+        await Assert.That(info.Arguments).IsEqualTo(
+            "--name \"John \\\"Johnny\\\" Doe\" --path \"C:\\My Documents\\file.txt\"");
+    }
+
+    [Test]
+    public async Task SyncArgumentThatIsJustBackslash()
+    {
+        var info = new ProcessStartInfo();
+        var list = new Polyfill.SyncingArgumentList(info);
+        list.Add("\\");
+        list.Sync();
+
+        // Single backslash, no quotes or spaces, passed through as-is
+        await Assert.That(info.Arguments).IsEqualTo("\\");
+    }
+
+    [Test]
+    public async Task SyncArgumentWithConsecutiveSpaces()
+    {
+        var info = new ProcessStartInfo();
+        var list = new Polyfill.SyncingArgumentList(info);
+        list.Add("a  b");
+        list.Sync();
+
+        await Assert.That(info.Arguments).IsEqualTo("\"a  b\"");
+    }
+
 #endif
 }

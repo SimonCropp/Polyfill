@@ -29,6 +29,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+#if FeatureMemory
+using System.Buffers.Binary;
+#endif
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Net;
@@ -349,6 +352,33 @@ class Consume
         var doubleFromULong = BitConverter.UInt64BitsToDouble(0x3FF0000000000000ul);
         var ulongFromDouble = BitConverter.DoubleToUInt64Bits(1.0);
     }
+
+    void BinaryPrimitives_Methods()
+    {
+        var buffer = new byte[8];
+        Span<byte> span = buffer;
+        ReadOnlySpan<byte> roSpan = buffer;
+
+        var d1 = BinaryPrimitives.ReadDoubleBigEndian(roSpan);
+        var d2 = BinaryPrimitives.ReadDoubleLittleEndian(roSpan);
+        var f1 = BinaryPrimitives.ReadSingleBigEndian(roSpan);
+        var f2 = BinaryPrimitives.ReadSingleLittleEndian(roSpan);
+
+        BinaryPrimitives.TryReadDoubleBigEndian(roSpan, out _);
+        BinaryPrimitives.TryReadDoubleLittleEndian(roSpan, out _);
+        BinaryPrimitives.TryReadSingleBigEndian(roSpan, out _);
+        BinaryPrimitives.TryReadSingleLittleEndian(roSpan, out _);
+
+        BinaryPrimitives.WriteDoubleBigEndian(span, 1.0);
+        BinaryPrimitives.WriteDoubleLittleEndian(span, 1.0);
+        BinaryPrimitives.WriteSingleBigEndian(span, 1.0f);
+        BinaryPrimitives.WriteSingleLittleEndian(span, 1.0f);
+
+        BinaryPrimitives.TryWriteDoubleBigEndian(span, 1.0);
+        BinaryPrimitives.TryWriteDoubleLittleEndian(span, 1.0);
+        BinaryPrimitives.TryWriteSingleBigEndian(span, 1.0f);
+        BinaryPrimitives.TryWriteSingleLittleEndian(span, 1.0f);
+    }
 #endif
 
     void Byte_Methods()
@@ -551,6 +581,16 @@ class Consume
         values = Enum.GetValuesAsUnderlyingType<DayOfWeek>();
     }
 
+    void Encoding_Methods()
+    {
+        var latin1 = Encoding.Latin1;
+    }
+
+    void Environment_Methods()
+    {
+        var processPath = Environment.ProcessPath;
+    }
+
     void EnumerationOptions_Methods()
     {
         var options = new EnumerationOptions
@@ -643,7 +683,7 @@ class Consume
         using var nullHandle = File.OpenNullHandle();
 #endif
 
-        FileSystemInfo hardLink = File.CreateHardLink("hardlink.txt", TestFilePath);
+        var hardLink = File.CreateHardLink("hardlink.txt", TestFilePath);
         var fileInfo = new FileInfo("hardlink2.txt");
         fileInfo.CreateAsHardLink(TestFilePath);
     }
@@ -730,6 +770,13 @@ class Consume
 #endif
         var takeLast = enumerable.TakeLast(3);
         var unionBy = enumerable.UnionBy(["c"], _ => _, comparer: default);
+        var order = enumerable.Order();
+        var orderComparer = enumerable.Order(StringComparer.Ordinal);
+        var orderDescending = enumerable.OrderDescending();
+        var orderDescendingComparer = enumerable.OrderDescending(StringComparer.Ordinal);
+        IEnumerable<int> lengths = [1];
+        var intersectBy = enumerable.IntersectBy(lengths, _ => _.Length);
+        var intersectByComparer = enumerable.IntersectBy(lengths, _ => _.Length, EqualityComparer<int>.Default);
     }
 
     void IList_Methods()
@@ -993,6 +1040,9 @@ class Consume
         var input = new byte[] {1, 2};
         using var stream = new MemoryStream(input);
         var result = new byte[2];
+#if FeatureMemory
+        ((Stream)stream).Write((ReadOnlySpan<byte>)input);
+#endif
 #if FeatureMemory && FeatureValueTask
         var memory = new Memory<byte>(result);
         var read = await stream.ReadAsync(memory);
@@ -1256,6 +1306,17 @@ class Consume
 
         await ZipFile.OpenReadAsync("archive.zip");
         await ZipFile.OpenReadAsync("archive.zip", CancellationToken.None);
+    }
+
+    void ZLibStream_Methods()
+    {
+        using var compressStream = new MemoryStream();
+        var zlibCompress1 = new ZLibStream(compressStream, CompressionMode.Compress);
+        var zlibCompress2 = new ZLibStream(compressStream, CompressionMode.Compress, true);
+        var zlibCompress3 = new ZLibStream(compressStream, CompressionLevel.Fastest);
+        var zlibCompress4 = new ZLibStream(compressStream, CompressionLevel.Fastest, true);
+        var zlibDecompress = new ZLibStream(compressStream, CompressionMode.Decompress);
+        _ = zlibCompress1.BaseStream;
     }
 #endif
 }

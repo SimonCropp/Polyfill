@@ -24,4 +24,23 @@ static partial class Polyfill
 			}
 		}
 	}
+	static string? processPath;
+	extension(Environment)
+	{
+		/// <summary>
+		/// Gets the path of the executable that started the currently executing process.
+		/// </summary>
+		public static string? ProcessPath
+		{
+			get
+			{
+				if (processPath is null)
+				{
+					using var process = Process.GetCurrentProcess();
+					processPath = process.MainModule?.FileName;
+				}
+				return processPath;
+			}
+		}
+	}
 }

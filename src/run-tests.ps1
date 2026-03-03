@@ -19,7 +19,20 @@ Get-ChildItem -Recurse -Filter "*Tests.csproj" -Path . | ForEach-Object {
 
     foreach ($fw in $frameworks) {
         Write-Host "Running $projName [$fw]" -ForegroundColor Cyan
-        dotnet run --project $proj --configuration Release --framework $fw --no-build
-        if ($LASTEXITCODE -ne 0) { throw "Tests failed for $projName [$fw]" }
+        $trxName = "$($projName -replace '\.csproj$','')_${fw}.trx"
+        $trxDir = Join-Path $PSScriptRoot "TestResults"
+        dotnet run --project $proj --configuration Release --framework $fw --no-build -- --report-trx --report-trx-filename $trxName --results-directory $trxDir
+        $testExitCode = $LASTEXITCODE
+
+        if ($env:APPVEYOR_JOB_ID) {
+            $trxFile = Join-Path $trxDir $trxName
+            if (Test-Path $trxFile) {
+                Write-Host "Uploading $trxName to AppVeyor" -ForegroundColor Green
+                $wc = New-Object 'System.Net.WebClient'
+                $wc.UploadFile("https://ci.appveyor.com/api/testresults/mstest/$($env:APPVEYOR_JOB_ID)", $trxFile)
+            }
+        }
+
+        if ($testExitCode -ne 0) { throw "Tests failed for $projName [$fw]" }
     }
 }

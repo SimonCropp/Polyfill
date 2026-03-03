@@ -1,0 +1,46 @@
+#if FeatureMemory
+namespace Polyfills;
+
+using System;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
+
+static partial class Polyfill
+{
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1
+    /// <summary>
+    /// When overridden in a derived class, writes a sequence of bytes to the current stream and advances the current
+    /// position within this stream by the number of bytes written.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.write?view=net-11.0#system-io-stream-write(system-readonlyspan((system-byte)))
+    public static void Write(this Stream target, ReadOnlySpan<byte> buffer)
+    {
+        var sharedBuffer = buffer.ToArray();
+        target.Write(sharedBuffer, 0, sharedBuffer.Length);
+    }
+#endif
+
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER && FeatureValueTask
+    /// <summary>
+    /// Asynchronously writes a sequence of bytes to the current stream, advances the current position
+    /// within this stream by the number of bytes written, and monitors cancellation requests.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.writeasync?view=net-11.0#system-io-stream-writeasync(system-readonlymemory((system-byte))-system-threading-cancellationtoken)
+    public static ValueTask WriteAsync(
+        this Stream target,
+        ReadOnlyMemory<byte> buffer,
+        CancellationToken cancellationToken = default)
+    {
+        if (!MemoryMarshal.TryGetArray(buffer, out var segment))
+        {
+            segment = new(buffer.ToArray());
+        }
+
+        var task = target.WriteAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken);
+        return new(task);
+    }
+#endif
+}
+#endif
