@@ -412,6 +412,18 @@ class Consume
         await source.CancelAsync();
     }
 
+    void Char_Methods()
+    {
+        var isAscii = char.IsAscii('\u0000');
+        var isAsciiLetterOrDigit = char.IsAsciiLetterOrDigit('\u0061');
+        var isAsciiLetter = char.IsAsciiLetter('\u007a');
+        var isAsciiLetterUpper = char.IsAsciiLetterUpper('\u0045');
+        var isAsciiLetterLower = char.IsAsciiLetterLower('\u0040');
+        var isAsciiDigit = char.IsAsciiDigit('\u0035');
+        var isAsciiHexDigit = char.IsAsciiHexDigit('\u0066');
+        var isAsciiHexDigitLower = char.IsAsciiHexDigitLower('\u0063');
+        var isAsciiHexDigitUpper = char.IsAsciiHexDigitUpper('\u0041');
+    }
 
     class WithMethods
     {
