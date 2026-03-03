@@ -42,6 +42,7 @@ public class AssemblySizeTest
         // Generate markdown
         var mdPath = Path.Combine(ProjectFiles.SolutionDirectory, "..", "assemblySize.include.md");
         using var writer = File.CreateText(mdPath);
+        writer.NewLine = "\n";
 
         WriteTable(writer, results, "Assembly Sizes");
         writer.WriteLine();
