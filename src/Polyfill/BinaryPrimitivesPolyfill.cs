@@ -18,40 +18,60 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.readdoublebigendian?view=net-11.0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double ReadDoubleBigEndian(ReadOnlySpan<byte> source) =>
-            !BitConverter.IsLittleEndian ?
-                MemoryMarshal.Read<double>(source) :
-                BitConverter.Int64BitsToDouble(BinaryPrimitives.ReverseEndianness(MemoryMarshal.Read<long>(source)));
+        public static double ReadDoubleBigEndian(ReadOnlySpan<byte> source)
+        {
+            if (BitConverter.IsLittleEndian)
+            {
+                return BitConverter.Int64BitsToDouble(BinaryPrimitives.ReverseEndianness(MemoryMarshal.Read<long>(source)));
+            }
+
+            return MemoryMarshal.Read<double>(source);
+        }
 
         /// <summary>
         /// Reads a <see cref="double"/> from the beginning of a read-only span of bytes, as little endian.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.readdoublelittleendian?view=net-11.0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double ReadDoubleLittleEndian(ReadOnlySpan<byte> source) =>
-            BitConverter.IsLittleEndian ?
-                MemoryMarshal.Read<double>(source) :
-                BitConverter.Int64BitsToDouble(BinaryPrimitives.ReverseEndianness(MemoryMarshal.Read<long>(source)));
+        public static double ReadDoubleLittleEndian(ReadOnlySpan<byte> source)
+        {
+            if (BitConverter.IsLittleEndian)
+            {
+                return MemoryMarshal.Read<double>(source);
+            }
+
+            return BitConverter.Int64BitsToDouble(BinaryPrimitives.ReverseEndianness(MemoryMarshal.Read<long>(source)));
+        }
 
         /// <summary>
         /// Reads a <see cref="float"/> from the beginning of a read-only span of bytes, as big endian.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.readsinglebigendian?view=net-11.0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float ReadSingleBigEndian(ReadOnlySpan<byte> source) =>
-            !BitConverter.IsLittleEndian ?
-                MemoryMarshal.Read<float>(source) :
-                BitConverter.Int32BitsToSingle(BinaryPrimitives.ReverseEndianness(MemoryMarshal.Read<int>(source)));
+        public static float ReadSingleBigEndian(ReadOnlySpan<byte> source)
+        {
+            if (BitConverter.IsLittleEndian)
+            {
+                return BitConverter.Int32BitsToSingle(BinaryPrimitives.ReverseEndianness(MemoryMarshal.Read<int>(source)));
+            }
+
+            return MemoryMarshal.Read<float>(source);
+        }
 
         /// <summary>
         /// Reads a <see cref="float"/> from the beginning of a read-only span of bytes, as little endian.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.readsinglelittleendian?view=net-11.0
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float ReadSingleLittleEndian(ReadOnlySpan<byte> source) =>
-            BitConverter.IsLittleEndian ?
-                MemoryMarshal.Read<float>(source) :
-                BitConverter.Int32BitsToSingle(BinaryPrimitives.ReverseEndianness(MemoryMarshal.Read<int>(source)));
+        public static float ReadSingleLittleEndian(ReadOnlySpan<byte> source)
+        {
+            if (BitConverter.IsLittleEndian)
+            {
+                return MemoryMarshal.Read<float>(source);
+            }
+
+            return BitConverter.Int32BitsToSingle(BinaryPrimitives.ReverseEndianness(MemoryMarshal.Read<int>(source)));
+        }
 
         /// <summary>
         /// Reads a <see cref="double"/> from the beginning of a read-only span of bytes, as big endian.
@@ -62,7 +82,7 @@ static partial class Polyfill
         {
             if (source.Length < sizeof(double))
             {
-                value = default;
+                value = 0;
                 return false;
             }
 
@@ -79,7 +99,7 @@ static partial class Polyfill
         {
             if (source.Length < sizeof(double))
             {
-                value = default;
+                value = 0;
                 return false;
             }
 
@@ -96,7 +116,7 @@ static partial class Polyfill
         {
             if (source.Length < sizeof(float))
             {
-                value = default;
+                value = 0;
                 return false;
             }
 
@@ -113,7 +133,7 @@ static partial class Polyfill
         {
             if (source.Length < sizeof(float))
             {
-                value = default;
+                value = 0;
                 return false;
             }
 
@@ -128,14 +148,14 @@ static partial class Polyfill
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void WriteDoubleBigEndian(Span<byte> destination, double value)
         {
-            if (!BitConverter.IsLittleEndian)
-            {
-                MemoryMarshal.Write(destination, ref value);
-            }
-            else
+            if (BitConverter.IsLittleEndian)
             {
                 var tmp = BinaryPrimitives.ReverseEndianness(BitConverter.DoubleToInt64Bits(value));
                 MemoryMarshal.Write(destination, ref tmp);
+            }
+            else
+            {
+                MemoryMarshal.Write(destination, ref value);
             }
         }
 
@@ -164,14 +184,14 @@ static partial class Polyfill
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void WriteSingleBigEndian(Span<byte> destination, float value)
         {
-            if (!BitConverter.IsLittleEndian)
-            {
-                MemoryMarshal.Write(destination, ref value);
-            }
-            else
+            if (BitConverter.IsLittleEndian)
             {
                 var tmp = BinaryPrimitives.ReverseEndianness(BitConverter.SingleToInt32Bits(value));
                 MemoryMarshal.Write(destination, ref tmp);
+            }
+            else
+            {
+                MemoryMarshal.Write(destination, ref value);
             }
         }
 
