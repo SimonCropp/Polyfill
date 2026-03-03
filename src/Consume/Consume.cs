@@ -658,6 +658,11 @@ class Consume
     }
 #endif
 
+    void Path_Methods()
+    {
+        var relative = Path.GetRelativePath("/folder1/folder2", "/folder1/folder3");
+    }
+
 #if !NET11_0_OR_GREATER
     void Console_Methods()
     {

@@ -78,6 +78,60 @@ static partial class Polyfill
 			c == Path.DirectorySeparatorChar ||
 			c == Path.AltDirectorySeparatorChar;
 		/// <summary>
+		/// Returns a relative path from one path to another.
+		/// </summary>
+		public static string GetRelativePath(string relativeTo, string path)
+		{
+			if (relativeTo is null)
+			{
+				throw new ArgumentNullException(nameof(relativeTo));
+			}
+			if (path is null)
+			{
+				throw new ArgumentNullException(nameof(path));
+			}
+			if (relativeTo.Length == 0)
+			{
+				throw new ArgumentException("The path is empty.", nameof(relativeTo));
+			}
+			if (path.Length == 0)
+			{
+				throw new ArgumentException("The path is empty.", nameof(path));
+			}
+			relativeTo = Path.GetFullPath(relativeTo);
+			path = Path.GetFullPath(path);
+			var comparison = StringComparison.OrdinalIgnoreCase;
+			var normalizedFrom = relativeTo.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+			var normalizedTo = path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+			if (string.Equals(normalizedFrom, normalizedTo, comparison))
+			{
+				return ".";
+			}
+			if (!IsDirectorySeparator(relativeTo[relativeTo.Length - 1]))
+			{
+				relativeTo += Path.DirectorySeparatorChar;
+			}
+			var rootFrom = Path.GetPathRoot(relativeTo);
+			var rootTo = Path.GetPathRoot(path);
+			if (!string.Equals(rootFrom, rootTo, comparison))
+			{
+				return path;
+			}
+			var fromUri = new Uri(relativeTo);
+			var toUri = new Uri(path);
+			var relativeUri = fromUri.MakeRelativeUri(toUri);
+			var result = Uri.UnescapeDataString(relativeUri.ToString());
+			if (Path.DirectorySeparatorChar != '/')
+			{
+				result = result.Replace('/', Path.DirectorySeparatorChar);
+			}
+			if (result.Length == 0)
+			{
+				return ".";
+			}
+			return result;
+		}
+		/// <summary>
 		/// Determines whether the specified file or directory exists.
 		/// </summary>
 		public static bool Exists(string? path)

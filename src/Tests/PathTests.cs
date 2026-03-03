@@ -41,6 +41,36 @@ public class PathTests
 #endif
 
     [Test]
+    public async Task GetRelativePath()
+    {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
+
+        await Assert.That(Path.GetRelativePath(@"C:\Program Files\Common Files", @"C:\Program Files\Microsoft"))
+            .IsEqualTo(@"..\Microsoft");
+        await Assert.That(Path.GetRelativePath(@"C:\Program Files\", @"C:\Program Files\Microsoft"))
+            .IsEqualTo("Microsoft");
+        await Assert.That(Path.GetRelativePath(@"C:\folder", @"C:\folder"))
+            .IsEqualTo(".");
+    }
+
+    [Test]
+    public async Task GetRelativePath_ThrowsOnNull()
+    {
+        await Assert.That(() => Path.GetRelativePath(null!, "path")).Throws<ArgumentNullException>();
+        await Assert.That(() => Path.GetRelativePath("path", null!)).Throws<ArgumentNullException>();
+    }
+
+    [Test]
+    public async Task GetRelativePath_ThrowsOnEmpty()
+    {
+        await Assert.That(() => Path.GetRelativePath("", "path")).Throws<ArgumentException>();
+        await Assert.That(() => Path.GetRelativePath("path", "")).Throws<ArgumentException>();
+    }
+
+    [Test]
     public async Task EndsInDirectorySeparator()
     {
         #if FeatureMemory

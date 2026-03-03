@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 766**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 767**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -68,16 +68,16 @@ This project uses features from the current stable SDK and C# language. As such 
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       245.0KB |  +237.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netstandard2.0 |          8.0KB |       245.5KB |  +237.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
 | netstandard2.1 |          8.5KB |       199.5KB |  +191.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net461         |          8.5KB |       251.0KB |  +242.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net462         |          7.0KB |       250.0KB |  +243.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net47          |          7.0KB |       250.0KB |  +243.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net471         |          8.5KB |       250.0KB |  +241.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net472         |          8.5KB |       248.5KB |  +240.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net48          |          8.5KB |       248.5KB |  +240.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net481         |          8.5KB |       248.5KB |  +240.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.0  |          9.0KB |       225.0KB |  +216.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net461         |          8.5KB |       252.0KB |  +243.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net462         |          7.0KB |       250.5KB |  +243.5KB |    +9.5KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net47          |          7.0KB |       250.5KB |  +243.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net471         |          8.5KB |       250.5KB |  +242.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net472         |          8.5KB |       249.0KB |  +240.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +13.5KB |
+| net48          |          8.5KB |       249.0KB |  +240.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net481         |          8.5KB |       249.0KB |  +240.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +13.5KB |
+| netcoreapp2.0  |          9.0KB |       225.0KB |  +216.0KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
 | netcoreapp2.1  |          9.0KB |       207.0KB |  +198.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | netcoreapp2.2  |          9.0KB |       207.0KB |  +198.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | netcoreapp3.0  |          9.5KB |       197.5KB |  +188.0KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
@@ -95,20 +95,20 @@ This project uses features from the current stable SDK and C# language. As such 
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       363.4KB |  +355.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netstandard2.0 |          8.0KB |       364.3KB |  +356.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
 | netstandard2.1 |          8.5KB |       293.4KB |  +284.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net461         |          8.5KB |       369.9KB |  +361.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net462         |          7.0KB |       368.9KB |  +361.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net47          |          7.0KB |       368.6KB |  +361.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net471         |          8.5KB |       368.7KB |  +360.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net472         |          8.5KB |       366.1KB |  +357.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net48          |          8.5KB |       366.1KB |  +357.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net481         |          8.5KB |       366.1KB |  +357.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.0  |          9.0KB |       333.6KB |  +324.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net461         |          8.5KB |       371.2KB |  +362.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net462         |          7.0KB |       369.7KB |  +362.7KB |   +17.2KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net47          |          7.0KB |       369.5KB |  +362.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net471         |          8.5KB |       369.5KB |  +361.0KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net472         |          8.5KB |       366.9KB |  +358.4KB |   +16.7KB |             +8.2KB |             +14.4KB |     +18.9KB |
+| net48          |          8.5KB |       366.9KB |  +358.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net481         |          8.5KB |       366.9KB |  +358.4KB |   +16.7KB |             +8.2KB |             +14.4KB |     +18.9KB |
+| netcoreapp2.0  |          9.0KB |       333.7KB |  +324.7KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | netcoreapp2.1  |          9.0KB |       305.1KB |  +296.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | netcoreapp2.2  |          9.0KB |       305.1KB |  +296.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | netcoreapp3.0  |          9.5KB |       286.5KB |  +277.0KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| netcoreapp3.1  |          9.5KB |       284.9KB |  +275.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp3.1  |          9.5KB |       285.0KB |  +275.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | net5.0         |          9.5KB |       231.9KB |  +222.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | net6.0         |         10.0KB |       170.1KB |  +160.1KB |   +17.7KB |             +8.7KB |              +1.1KB |      +4.2KB |
 | net7.0         |         10.0KB |       124.6KB |  +114.6KB |   +17.1KB |             +7.4KB |              +1.6KB |      +4.2KB |
@@ -1091,6 +1091,7 @@ The class `Polyfill` includes the following extension methods:
  * `ReadOnlySpan<char> GetExtension(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getextension?view=net-11.0#system-io-path-getextension(system-readonlyspan((system-char))))
  * `ReadOnlySpan<char> GetFileName(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getfilename?view=net-11.0#system-io-path-getfilename(system-readonlyspan((system-char))))
  * `ReadOnlySpan<char> GetFileNameWithoutExtension(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getfilenamewithoutextension?view=net-11.0#system-io-path-getfilenamewithoutextension(system-readonlyspan((system-char))))
+ * `string GetRelativePath(string, string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getrelativepath?view=net-11.0)
  * `bool HasExtension(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getfilenamewithoutextension?view=net-11.0#system-io-path-getfilenamewithoutextension(system-readonlyspan((system-char))))
  * `ReadOnlySpan<char> TrimEndingDirectorySeparator(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.trimendingdirectoryseparator?view=net-11.0#system-io-path-trimendingdirectoryseparator(system-readonlyspan((system-char))))
  * `string TrimEndingDirectorySeparator(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.trimendingdirectoryseparator?view=net-11.0#system-io-path-trimendingdirectoryseparator(system-string))
