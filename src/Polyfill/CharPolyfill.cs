@@ -29,7 +29,7 @@ static partial class Polyfill
             c is >= '\u0030' and <= '\u0039';
 
         /// <summary>
-        ///         /// Indicates whether a character is categorized as an ASCII hexadecimal digit.
+        /// Indicates whether a character is categorized as an ASCII hexadecimal digit.
         /// </summary>
         /// <returns>Link: https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciihexdigit?view=net-11.0</returns>
         public static bool IsAsciiHexDigit(char c) =>
