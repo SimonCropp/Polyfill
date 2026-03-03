@@ -593,6 +593,19 @@ The class `Polyfill` includes the following extension methods:
  * `Task CancelAsync()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancelasync?view=net-11.0)
 
 
+#### Char
+
+ * `bool IsAscii(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isascii?view=net-11.0)
+ * `bool IsAsciiDigit(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciidigit?view=net-11.0)
+ * `bool IsAsciiHexDigit(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciihexdigit?view=net-11.0)
+ * `bool IsAsciiHexDigitLower(char)` [reference]( https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciihexdigitlower?view=net-11.0)
+ * `bool IsAsciiHexDigitUpper(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciihexdigitupper?view=net-11.0)
+ * `bool IsAsciiLetter(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletter?view=net-11.0)
+ * `bool IsAsciiLetterLower(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterlower?view=net-11.0)
+ * `bool IsAsciiLetterOrDigit(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterordigit?view=net-11.0)
+ * `bool IsAsciiLetterUpper(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterupper?view=net-11.0)
+
+
 #### ConcurrentBag<T>
 
  * `void Clear<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentbag-1.clear?view=net-11.0)
@@ -1836,7 +1849,7 @@ void ObjectDisposedExceptionExample(bool isDisposed)
     ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L502-L526' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L514-L538' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -1855,7 +1868,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L532-L544' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L544-L556' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
