@@ -3,10 +3,29 @@
 namespace Polyfills;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 static partial class Polyfill
 {
+#if FeatureMemory && FeatureValueTask
+	/// <summary>
+	/// Asynchronously reads a sequence of bytes from the current stream, advances the position within the stream by
+	/// the number of bytes read, and monitors cancellation requests.
+	/// </summary>
+	public static ValueTask<int> ReadAsync(
+		this Stream target,
+		Memory<byte> buffer,
+		CancellationToken cancellationToken = default)
+	{
+		if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>) buffer, out var segment))
+		{
+			segment = new(buffer.ToArray());
+		}
+		var task = target.ReadAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken);
+		return new(task);
+	}
+#endif
 #if FeatureMemory
 	/// <summary>
 	/// Reads a sequence of bytes from the current stream and advances the position within the stream by the number of bytes read.
