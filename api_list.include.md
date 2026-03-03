@@ -208,6 +208,7 @@
  * `string GetString(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getstring?view=net-11.0#system-text-encoding-getstring(system-readonlyspan((system-byte))))
  * `bool TryGetBytes(ReadOnlySpan<char>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetbytes?view=net-11.0)
  * `bool TryGetChars(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetchars?view=net-11.0)
+ * `Latin1` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.latin1?view=net-11.0)
 
 
 #### Enum
