@@ -382,6 +382,18 @@ class Consume
         await source.CancelAsync();
     }
 
+    void Char_Methods()
+    {
+        bool isAscii = char.IsAscii('\u0000');
+        bool isAsciiLetterOrDigit = char.IsAsciiLetterOrDigit('\u0061');
+        bool isAsciiLetter = char.IsAsciiLetter('\u007a');
+        bool isAsciiLetterUpper = char.IsAsciiLetterUpper('\u0045');
+        bool isAsciiLetterLower = char.IsAsciiLetterLower('\u0040');
+        bool isAsciiDigit = char.IsAsciiDigit('\u0035');
+        bool isAsciiHexDigit = char.IsAsciiHexDigit('\u0066');
+        bool isAsciiHexDigitLower = char.IsAsciiHexDigitLower('\u0063');
+        bool isAsciiHexDigitUpper = char.IsAsciiHexDigitUpper('\u0041');
+    }
 
     class WithMethods
     {
