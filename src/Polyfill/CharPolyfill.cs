@@ -8,7 +8,7 @@ static partial class Polyfill
         /// <summary>
         /// Indicates whether a character is categorized as an ASCII character.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.char.isascii?view=net-11.0
+        // Link: https://learn.microsoft.com/en-us/dotnet/api/system.char.isascii?view=net-11.0
         public static bool IsAscii(char c) =>
             c is >= '\u0000' and <= '\u007F';
 #endif
