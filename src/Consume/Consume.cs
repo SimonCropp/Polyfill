@@ -29,6 +29,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Buffers.Binary;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Net;
@@ -348,6 +349,33 @@ class Consume
         var uintFromFloat = BitConverter.SingleToUInt32Bits(1.0f);
         var doubleFromULong = BitConverter.UInt64BitsToDouble(0x3FF0000000000000ul);
         var ulongFromDouble = BitConverter.DoubleToUInt64Bits(1.0);
+    }
+
+    void BinaryPrimitives_Methods()
+    {
+        var buffer = new byte[8];
+        Span<byte> span = buffer;
+        ReadOnlySpan<byte> roSpan = buffer;
+
+        var d1 = BinaryPrimitives.ReadDoubleBigEndian(roSpan);
+        var d2 = BinaryPrimitives.ReadDoubleLittleEndian(roSpan);
+        var f1 = BinaryPrimitives.ReadSingleBigEndian(roSpan);
+        var f2 = BinaryPrimitives.ReadSingleLittleEndian(roSpan);
+
+        BinaryPrimitives.TryReadDoubleBigEndian(roSpan, out _);
+        BinaryPrimitives.TryReadDoubleLittleEndian(roSpan, out _);
+        BinaryPrimitives.TryReadSingleBigEndian(roSpan, out _);
+        BinaryPrimitives.TryReadSingleLittleEndian(roSpan, out _);
+
+        BinaryPrimitives.WriteDoubleBigEndian(span, 1.0);
+        BinaryPrimitives.WriteDoubleLittleEndian(span, 1.0);
+        BinaryPrimitives.WriteSingleBigEndian(span, 1.0f);
+        BinaryPrimitives.WriteSingleLittleEndian(span, 1.0f);
+
+        BinaryPrimitives.TryWriteDoubleBigEndian(span, 1.0);
+        BinaryPrimitives.TryWriteDoubleLittleEndian(span, 1.0);
+        BinaryPrimitives.TryWriteSingleBigEndian(span, 1.0f);
+        BinaryPrimitives.TryWriteSingleLittleEndian(span, 1.0f);
     }
 #endif
 
