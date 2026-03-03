@@ -8,7 +8,7 @@ static partial class Polyfill
         /// <summary>
         /// Indicates whether a character is categorized as an ASCII character.
         /// </summary>
-        /// <returns>Link: https://learn.microsoft.com/en-us/dotnet/api/system.char.isascii?view=net-11.0</returns>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.char.isascii?view=net-11.0
         public static bool IsAscii(char c) =>
             c is >= '\u0000' and <= '\u007F';
 #endif
@@ -29,7 +29,7 @@ static partial class Polyfill
             c is >= '\u0030' and <= '\u0039';
 
         /// <summary>
-        ///         /// Indicates whether a character is categorized as an ASCII hexadecimal digit.
+        /// Indicates whether a character is categorized as an ASCII hexadecimal digit.
         /// </summary>
         /// <returns>Link: https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciihexdigit?view=net-11.0</returns>
         public static bool IsAsciiHexDigit(char c) =>
