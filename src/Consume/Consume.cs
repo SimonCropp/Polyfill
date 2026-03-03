@@ -1253,15 +1253,11 @@ class Consume
         await XNode.ReadFromAsync(xmlReader, CancellationToken.None);
     }
 
-    void XComment_Methods(XComment comment)
-    {
+    void XComment_Methods(XComment comment) =>
         comment.WriteToAsync(XmlWriter.Create(TextWriter.Null), CancellationToken.None);
-    }
 
-    void XCData_Methods(XCData cdata)
-    {
+    void XCData_Methods(XCData cdata) =>
         cdata.WriteToAsync(XmlWriter.Create(TextWriter.Null), CancellationToken.None);
-    }
 
 #if FeatureCompression
     void ZipArchiveEntry_Methods(ZipArchive zip, ZipArchiveEntry entry)
