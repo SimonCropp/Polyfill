@@ -143,4 +143,39 @@ partial class PolyfillTests
         IDictionary<string, string> dictionary = new Dictionary<string, string>();
         await Assert.That(() => dictionary.Remove(null!, out _)).Throws<ArgumentNullException>();
     }
+
+    [Test]
+    public async Task Dictionary_EnsureCapacity()
+    {
+        var dictionary = new Dictionary<string, int>();
+        dictionary.EnsureCapacity(100);
+        // Should not throw - capacity is a hint
+        await Assert.That(dictionary.Count).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task Dictionary_TrimExcess_WithCapacity()
+    {
+        var dictionary = new Dictionary<string, int>
+        {
+            { "a", 1 },
+            { "b", 2 }
+        };
+        dictionary.TrimExcess(100);
+        // Should not throw
+        await Assert.That(dictionary.Count).IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task Dictionary_TrimExcess()
+    {
+        var dictionary = new Dictionary<string, int>
+        {
+            { "a", 1 },
+            { "b", 2 }
+        };
+        dictionary.TrimExcess();
+        // Should not throw
+        await Assert.That(dictionary.Count).IsEqualTo(2);
+    }
 }

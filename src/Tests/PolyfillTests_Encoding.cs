@@ -95,6 +95,60 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task Encoding_GetCharCount()
+    {
+        var encoding = Encoding.UTF8;
+        var utf8Bytes = "Hello, World!"u8.ToArray();
+        var byteSpan = new ReadOnlySpan<byte>(utf8Bytes);
+        var charCount = encoding.GetCharCount(byteSpan);
+        await Assert.That(charCount).IsEqualTo(13);
+    }
+
+    [Test]
+    public Task TryGetBytes_WithValidInput_ReturnsTrue()
+    {
+        var encoding = Encoding.UTF8;
+        var chars = "Hello, World!".AsSpan();
+        var bytes = new byte[encoding.GetByteCount(chars)].AsSpan();
+
+        var result = encoding.TryGetBytes(chars, bytes, out var written);
+
+        if (!result)
+        {
+            throw new("Expected result to be true");
+        }
+
+        if (written != 13)
+        {
+            throw new($"Expected 13 bytes written but got {written}");
+        }
+
+        return Task.CompletedTask;
+    }
+
+    [Test]
+    public Task TryGetBytes_WithSmallDestination_ReturnsFalse()
+    {
+        var encoding = Encoding.UTF8;
+        var chars = "Hello, World!".AsSpan();
+        var bytes = new byte[2].AsSpan();
+
+        var result = encoding.TryGetBytes(chars, bytes, out var written);
+
+        if (result)
+        {
+            throw new("Expected result to be false");
+        }
+
+        if (written != 0)
+        {
+            throw new($"Expected written to be 0 but got {written}");
+        }
+
+        return Task.CompletedTask;
+    }
+
+    [Test]
     public Task TryGetChars_WithSmallDestination_ReturnsFalse()
     {
         // Arrange

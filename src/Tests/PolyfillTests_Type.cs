@@ -1,6 +1,37 @@
 partial class PolyfillTests
 {
     [Test]
+    public async Task HasSameMetadataDefinitionAs()
+    {
+        var method1 = typeof(string).GetMethod("Contains", [typeof(string)])!;
+        var method2 = typeof(string).GetMethod("Contains", [typeof(string)])!;
+        await Assert.That(method1.HasSameMetadataDefinitionAs(method2)).IsTrue();
+
+        var method3 = typeof(string).GetMethod("StartsWith", [typeof(string)])!;
+        await Assert.That(method1.HasSameMetadataDefinitionAs(method3)).IsFalse();
+    }
+
+    [Test]
+    public async Task GetMemberWithSameMetadataDefinitionAs()
+    {
+        var method = typeof(string).GetMethod("Contains", [typeof(string)])!;
+        var found = typeof(string).GetMemberWithSameMetadataDefinitionAs(method);
+        await Assert.That(found.Name).IsEqualTo("Contains");
+    }
+
+    [Test]
+    public async Task IsGenericMethodParameter()
+    {
+        var method = typeof(List<>).GetMethod("Add")!;
+        var paramType = method.GetParameters()[0].ParameterType;
+        await Assert.That(paramType.IsGenericMethodParameter).IsFalse();
+
+        var genericMethod = typeof(Array).GetMethod("Empty")!;
+        var genericParam = genericMethod.GetGenericArguments()[0];
+        await Assert.That(genericParam.IsGenericMethodParameter).IsTrue();
+    }
+
+    [Test]
     public async Task IsAssignableTo()
     {
         await Assert.That(typeof(List<string>).IsAssignableTo(typeof(IList))).IsTrue();
