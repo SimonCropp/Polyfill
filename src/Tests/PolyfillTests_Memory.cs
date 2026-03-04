@@ -312,6 +312,68 @@ partial class PolyfillTests
     }
 
     [Test]
+    public Task Span_TrimStart()
+    {
+        var chars = "  hello  ".ToCharArray();
+        var span = new Span<char>(chars);
+        var trimmed = span.TrimStart();
+        if (trimmed.ToString() != "hello  ")
+        {
+            throw new($"Expected 'hello  ' but got '{trimmed.ToString()}'");
+        }
+
+        return Task.CompletedTask;
+    }
+
+    [Test]
+    public Task Span_TrimEnd()
+    {
+        var chars = "  hello  ".ToCharArray();
+        var span = new Span<char>(chars);
+        var trimmed = span.TrimEnd();
+        if (trimmed.ToString() != "  hello")
+        {
+            throw new($"Expected '  hello' but got '{trimmed.ToString()}'");
+        }
+
+        return Task.CompletedTask;
+    }
+
+    [Test]
+    public Task Span_StartsWith_StringComparison()
+    {
+        var span = (ReadOnlySpan<char>)"Hello World".AsSpan();
+        if (!span.StartsWith("hello", StringComparison.OrdinalIgnoreCase))
+        {
+            throw new("Expected case-insensitive StartsWith to be true");
+        }
+
+        if (span.StartsWith("hello", StringComparison.Ordinal))
+        {
+            throw new("Expected case-sensitive StartsWith to be false");
+        }
+
+        return Task.CompletedTask;
+    }
+
+    [Test]
+    public Task Span_EndsWith_StringComparison()
+    {
+        var span = (ReadOnlySpan<char>)"Hello World".AsSpan();
+        if (!span.EndsWith("world", StringComparison.OrdinalIgnoreCase))
+        {
+            throw new("Expected case-insensitive EndsWith to be true");
+        }
+
+        if (span.EndsWith("world", StringComparison.Ordinal))
+        {
+            throw new("Expected case-sensitive EndsWith to be false");
+        }
+
+        return Task.CompletedTask;
+    }
+
+    [Test]
     public Task Span_SequenceEqual()
     {
         if (!("value".AsSpan() is "value"))

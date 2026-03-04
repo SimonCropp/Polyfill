@@ -91,6 +91,23 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task StringBuilder_Insert_ReadOnlySpan()
+    {
+        var builder = new StringBuilder("ac");
+        builder.Insert(1, "b".AsSpan());
+        await Assert.That(builder.ToString()).IsEqualTo("abc");
+    }
+
+    [Test]
+    public async Task StringBuilder_Append_StringBuilder()
+    {
+        var source = new StringBuilder("hello");
+        var target = new StringBuilder();
+        target.Append(source, 1, 3);
+        await Assert.That(target.ToString()).IsEqualTo("ell");
+    }
+
+    [Test]
     public async Task AppendJoin()
     {
         var builder = new StringBuilder();

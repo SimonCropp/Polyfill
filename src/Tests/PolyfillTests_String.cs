@@ -103,4 +103,18 @@ partial class PolyfillTests
     [Test]
     public async Task ContainsChar() =>
         await Assert.That("value".Contains('v')).IsTrue();
+
+    [Test]
+    public async Task ContainsCharStringComparison()
+    {
+        await Assert.That("Value".Contains('v', StringComparison.OrdinalIgnoreCase)).IsTrue();
+        await Assert.That("Value".Contains('v', StringComparison.Ordinal)).IsFalse();
+    }
+
+    [Test]
+    public async Task IndexOfCharStringComparison()
+    {
+        await Assert.That("Value".IndexOf('v', StringComparison.OrdinalIgnoreCase)).IsEqualTo(0);
+        await Assert.That("Value".IndexOf('v', StringComparison.Ordinal)).IsEqualTo(-1);
+    }
 }

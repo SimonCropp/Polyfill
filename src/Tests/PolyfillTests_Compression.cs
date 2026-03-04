@@ -141,6 +141,191 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task ZipArchiveEntry_ExtractToFileAsync()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        Directory.CreateDirectory(tempDir);
+
+        try
+        {
+            using var memStream = new MemoryStream();
+            using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
+            {
+                var entry = archive.CreateEntry("test.txt");
+                using var stream = await entry.OpenAsync();
+                using var writer = new StreamWriter(stream);
+                await writer.WriteAsync("extract content");
+            }
+
+            memStream.Position = 0;
+            using var readArchive = new ZipArchive(memStream, ZipArchiveMode.Read);
+            var readEntry = readArchive.Entries[0];
+            var destFile = Path.Combine(tempDir, "extracted.txt");
+
+            await readEntry.ExtractToFileAsync(destFile);
+
+            await Assert.That(File.Exists(destFile)).IsTrue();
+            await Assert.That(await File.ReadAllTextAsync(destFile)).IsEqualTo("extract content");
+        }
+        finally
+        {
+            Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Test]
+    public async Task ZipArchiveEntry_ExtractToFileAsync_WithOverwrite()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        Directory.CreateDirectory(tempDir);
+        var destFile = Path.Combine(tempDir, "extracted.txt");
+        await File.WriteAllTextAsync(destFile, "old");
+
+        try
+        {
+            using var memStream = new MemoryStream();
+            using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
+            {
+                var entry = archive.CreateEntry("test.txt");
+                using var stream = await entry.OpenAsync();
+                using var writer = new StreamWriter(stream);
+                await writer.WriteAsync("new");
+            }
+
+            memStream.Position = 0;
+            using var readArchive = new ZipArchive(memStream, ZipArchiveMode.Read);
+            var readEntry = readArchive.Entries[0];
+
+            await readEntry.ExtractToFileAsync(destFile, overwrite: true);
+
+            await Assert.That(await File.ReadAllTextAsync(destFile)).IsEqualTo("new");
+        }
+        finally
+        {
+            Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Test]
+    public async Task ZipArchive_CreateEntryFromFileAsync()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        Directory.CreateDirectory(tempDir);
+        var sourceFile = Path.Combine(tempDir, "source.txt");
+        await File.WriteAllTextAsync(sourceFile, "source content");
+
+        try
+        {
+            using var memStream = new MemoryStream();
+            using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
+            {
+                var entry = await archive.CreateEntryFromFileAsync(sourceFile, "archived.txt");
+                await Assert.That(entry.Name).IsEqualTo("archived.txt");
+            }
+
+            memStream.Position = 0;
+            using var readArchive = new ZipArchive(memStream, ZipArchiveMode.Read);
+            await Assert.That(readArchive.Entries.Count).IsEqualTo(1);
+            using var reader = new StreamReader(readArchive.Entries[0].Open());
+            await Assert.That(await reader.ReadToEndAsync()).IsEqualTo("source content");
+        }
+        finally
+        {
+            Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Test]
+    public async Task ZipArchive_CreateEntryFromFileAsync_WithCompressionLevel()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        Directory.CreateDirectory(tempDir);
+        var sourceFile = Path.Combine(tempDir, "source.txt");
+        await File.WriteAllTextAsync(sourceFile, "source content");
+
+        try
+        {
+            using var memStream = new MemoryStream();
+            using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
+            {
+                var entry = await archive.CreateEntryFromFileAsync(sourceFile, "archived.txt", CompressionLevel.Fastest);
+                await Assert.That(entry.Name).IsEqualTo("archived.txt");
+            }
+
+            memStream.Position = 0;
+            using var readArchive = new ZipArchive(memStream, ZipArchiveMode.Read);
+            await Assert.That(readArchive.Entries.Count).IsEqualTo(1);
+        }
+        finally
+        {
+            Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Test]
+    public async Task ZipArchive_ExtractToDirectoryAsync()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+
+        try
+        {
+            using var memStream = new MemoryStream();
+            using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
+            {
+                var entry = archive.CreateEntry("test.txt");
+                using var stream = await entry.OpenAsync();
+                using var writer = new StreamWriter(stream);
+                await writer.WriteAsync("async content");
+            }
+
+            memStream.Position = 0;
+            using var readArchive = new ZipArchive(memStream, ZipArchiveMode.Read);
+            await readArchive.ExtractToDirectoryAsync(tempDir);
+
+            var filePath = Path.Combine(tempDir, "test.txt");
+            await Assert.That(File.Exists(filePath)).IsTrue();
+            await Assert.That(await File.ReadAllTextAsync(filePath)).IsEqualTo("async content");
+        }
+        finally
+        {
+            if (Directory.Exists(tempDir))
+            {
+                Directory.Delete(tempDir, true);
+            }
+        }
+    }
+
+    [Test]
+    public async Task ZipArchive_ExtractToDirectoryAsync_WithOverwrite()
+    {
+        var tempDir = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+        Directory.CreateDirectory(tempDir);
+        await File.WriteAllTextAsync(Path.Combine(tempDir, "test.txt"), "old");
+
+        try
+        {
+            using var memStream = new MemoryStream();
+            using (var archive = new ZipArchive(memStream, ZipArchiveMode.Create, true))
+            {
+                var entry = archive.CreateEntry("test.txt");
+                using var stream = await entry.OpenAsync();
+                using var writer = new StreamWriter(stream);
+                await writer.WriteAsync("new");
+            }
+
+            memStream.Position = 0;
+            using var readArchive = new ZipArchive(memStream, ZipArchiveMode.Read);
+            await readArchive.ExtractToDirectoryAsync(tempDir, overwriteFiles: true);
+
+            await Assert.That(await File.ReadAllTextAsync(Path.Combine(tempDir, "test.txt"))).IsEqualTo("new");
+        }
+        finally
+        {
+            Directory.Delete(tempDir, true);
+        }
+    }
+
+    [Test]
     public async Task ZipFile_ExtractToDirectoryAsync_ExtractsAllEntries()
     {
         // Arrange

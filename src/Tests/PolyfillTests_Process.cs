@@ -22,4 +22,24 @@ partial class PolyfillTests
         var process = new Process();
         await Assert.That(async () => await process.WaitForExitAsync()).Throws<InvalidOperationException>();
     }
+
+    [Test]
+    public async Task Process_Kill_EntireProcessTree()
+    {
+        var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = "dotnet",
+                Arguments = "--list-runtimes",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+            }
+        };
+        process.Start();
+        process.Kill(entireProcessTree: true);
+        await process.WaitForExitAsync();
+        await Assert.That(process.HasExited).IsTrue();
+    }
 }
