@@ -6,6 +6,7 @@
     <NoWarn>$(NoWarn);IDE0180</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Sbom.Targets" PrivateAssets="all" Condition="'$(CI)' == 'true'" />
     <PackageReference Include="ProjectDefaults" PrivateAssets="all" />
     <PackageReference Include="System.Memory" />
     <PackageReference Include="System.ValueTuple" />
