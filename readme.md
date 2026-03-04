@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 776**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 784**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -69,7 +69,7 @@ This project uses features from the current stable SDK and C# language. As such 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
 | netstandard2.0 |          8.0KB |       247.0KB |  +239.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netstandard2.1 |          8.5KB |       200.5KB |  +192.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netstandard2.1 |          8.5KB |       200.5KB |  +192.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
 | net461         |          8.5KB |       253.5KB |  +245.0KB |    +9.0KB |             +6.0KB |              +9.0KB |     +13.5KB |
 | net462         |          7.0KB |       252.0KB |  +245.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
 | net47          |          7.0KB |       252.0KB |  +245.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
@@ -96,7 +96,7 @@ This project uses features from the current stable SDK and C# language. As such 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
 | netstandard2.0 |          8.0KB |       366.3KB |  +358.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netstandard2.1 |          8.5KB |       294.8KB |  +286.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netstandard2.1 |          8.5KB |       294.8KB |  +286.3KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | net461         |          8.5KB |       373.2KB |  +364.7KB |   +16.7KB |             +7.7KB |             +13.9KB |     +18.9KB |
 | net462         |          7.0KB |       371.7KB |  +364.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
 | net47          |          7.0KB |       371.5KB |  +364.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
@@ -595,6 +595,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### Char
 
+ * `bool Equals(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.equals?view=net-11.0#system-char-equals(system-char-system-stringcomparison))
  * `bool IsAscii(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isascii?view=net-11.0)
  * `bool IsAsciiDigit(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciidigit?view=net-11.0)
  * `bool IsAsciiHexDigit(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciihexdigit?view=net-11.0)
@@ -1335,6 +1336,7 @@ The class `Polyfill` includes the following extension methods:
  * `bool Contains(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-11.0#system-string-contains(system-char))
  * `bool Contains(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-11.0#system-string-contains(system-string-system-stringcomparison))
  * `void CopyTo(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.copyto?view=net-11.0)
+ * `bool EndsWith(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.endswith?view=net-11.0#system-string-endswith(system-char-system-stringcomparison))
  * `bool EndsWith(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.endswith?view=net-11.0#system-string-endswith(system-char))
  * `IEnumerable<string> EnumerateDirectories(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.enumeratedirectories?view=net-11.0#system-io-directory-enumeratedirectories(system-string-system-string-system-io-enumerationoptions))
  * `IEnumerable<string> EnumerateFiles(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.enumeratefiles?view=net-11.0#system-io-directory-enumeratefiles(system-string-system-string-system-io-enumerationoptions))
@@ -1343,13 +1345,19 @@ The class `Polyfill` includes the following extension methods:
  * `string[] GetFiles(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.getfiles?view=net-11.0#system-io-directory-getfiles(system-string-system-string-system-io-enumerationoptions))
  * `string[] GetFileSystemEntries(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.getfilesystementries?view=net-11.0#system-io-directory-getfilesystementries(system-string-system-string-system-io-enumerationoptions))
  * `int GetHashCode(StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-11.0#system-string-gethashcode(system-stringcomparison))
+ * `int IndexOf(char, int, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-char-system-int32-system-int32-system-stringcomparison))
+ * `int IndexOf(char, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-char-system-int32-system-stringcomparison))
  * `int IndexOf(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-char-system-stringcomparison))
+ * `int LastIndexOf(char, int, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-char-system-int32-system-int32-system-stringcomparison))
+ * `int LastIndexOf(char, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-char-system-int32-system-stringcomparison))
+ * `int LastIndexOf(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-char-system-stringcomparison))
  * `string ReplaceLineEndings(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.replacelineendings?view=net-11.0#system-string-replacelineendings(system-string))
  * `string ReplaceLineEndings()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.replacelineendings?view=net-11.0#system-string-replacelineendings)
  * `string[] Split(char, int, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-char-system-int32-system-stringsplitoptions))
  * `string[] Split(char, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-char-system-stringsplitoptions))
  * `string[] Split(string, int, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-string-system-int32-system-stringsplitoptions))
  * `string[] Split(string, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-string-system-stringsplitoptions))
+ * `bool StartsWith(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char-system-stringcomparison))
  * `bool StartsWith(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char))
  * `bool TryCopyTo(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.trycopyto?view=net-11.0)
  * `string Create<TState>(int, TState, System.Buffers.SpanAction<char, TState>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.create?view=net-11.0#system-string-create-1(system-int32-0-system-buffers-spanaction((system-char-0))))
@@ -1850,7 +1858,7 @@ void ObjectDisposedExceptionExample(bool isDisposed)
     ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L514-L538' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L524-L548' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -1869,7 +1877,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L544-L556' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L554-L566' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

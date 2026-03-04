@@ -89,6 +89,11 @@ class Consume
         type = typeof(InterpolatedStringHandlerAttribute);
 #endif
         type = typeof(StringSyntaxAttribute);
+#if !NET7_0_OR_GREATER || NET11_0_OR_GREATER
+        var csharpSyntax = StringSyntaxAttribute.CSharp;
+        var fsharpSyntax = StringSyntaxAttribute.FSharp;
+        var vbSyntax = StringSyntaxAttribute.VisualBasic;
+#endif
         type = typeof(DynamicallyAccessedMembersAttribute);
         type = typeof(DynamicDependencyAttribute);
         type = typeof(RequiresDynamicCodeAttribute);
@@ -423,6 +428,7 @@ class Consume
         var isAsciiHexDigit = char.IsAsciiHexDigit('\u0066');
         var isAsciiHexDigitLower = char.IsAsciiHexDigitLower('\u0063');
         var isAsciiHexDigitUpper = char.IsAsciiHexDigitUpper('\u0041');
+        var charEquals = 'A'.Equals('a', StringComparison.OrdinalIgnoreCase);
     }
 
     class WithMethods
@@ -1093,7 +1099,16 @@ class Consume
 
         var splitString = "a b".Split(" ", StringSplitOptions.RemoveEmptyEntries);
         splitString = "a b".Split(" ", 2, StringSplitOptions.RemoveEmptyEntries);
+
+        var startsWithChar = "value".StartsWith('v', StringComparison.Ordinal);
+        var endsWithChar = "value".EndsWith('e', StringComparison.Ordinal);
+        var indexOfChar = "value".IndexOf('a', 1, StringComparison.Ordinal);
+        var indexOfCharCount = "value".IndexOf('a', 1, 3, StringComparison.Ordinal);
+        var lastIndexOfChar = "value".LastIndexOf('a', StringComparison.Ordinal);
+        var lastIndexOfCharStart = "value".LastIndexOf('a', 3, StringComparison.Ordinal);
+        var lastIndexOfCharStartCount = "value".LastIndexOf('a', 3, 2, StringComparison.Ordinal);
     }
+
 
 #if !NoStringInterpolation && FeatureMemory
     void DefaultInterpolatedStringHandler_Methods()
