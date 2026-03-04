@@ -20,6 +20,50 @@ static partial class Polyfill
 		target.AsSpan().TryCopyTo(destination);
 #endif
 	/// <summary>
+	/// Determines whether this string instance starts with the specified character when compared using the specified comparison option.
+	/// </summary>
+	public static bool StartsWith(this string target, char value, StringComparison comparisonType) =>
+		target.Length != 0 && target.StartsWith(value.ToString(), comparisonType);
+	/// <summary>
+	/// Determines whether the end of this string instance matches the specified character when compared using the specified comparison option.
+	/// </summary>
+	public static bool EndsWith(this string target, char value, StringComparison comparisonType) =>
+		target.Length != 0 && target.EndsWith(value.ToString(), comparisonType);
+	/// <summary>
+	/// Reports the zero-based index of the first occurrence of the specified character in this string.
+	/// The search starts at a specified character position.
+	/// A parameter specifies the type of search to use.
+	/// </summary>
+	public static int IndexOf(this string target, char value, int startIndex, StringComparison comparisonType) =>
+		target.IndexOf(value.ToString(), startIndex, comparisonType);
+	/// <summary>
+	/// Reports the zero-based index of the first occurrence of the specified character in this string.
+	/// The search starts at a specified character position and examines a specified number of character positions.
+	/// A parameter specifies the type of search to use.
+	/// </summary>
+	public static int IndexOf(this string target, char value, int startIndex, int count, StringComparison comparisonType) =>
+		target.IndexOf(value.ToString(), startIndex, count, comparisonType);
+	/// <summary>
+	/// Reports the zero-based index of the last occurrence of a specified character within the current string.
+	/// A parameter specifies the type of search to use.
+	/// </summary>
+	public static int LastIndexOf(this string target, char value, StringComparison comparisonType) =>
+		target.LastIndexOf(value.ToString(), comparisonType);
+	/// <summary>
+	/// Reports the zero-based index of the last occurrence of a specified character within the current string.
+	/// The search starts at a specified character position and proceeds backward toward the beginning of the string.
+	/// A parameter specifies the type of search to use.
+	/// </summary>
+	public static int LastIndexOf(this string target, char value, int startIndex, StringComparison comparisonType) =>
+		target.LastIndexOf(value.ToString(), startIndex, comparisonType);
+	/// <summary>
+	/// Reports the zero-based index of the last occurrence of a specified character within the current string.
+	/// The search starts at a specified character position and proceeds backward toward the beginning of the string for a specified number of character positions.
+	/// A parameter specifies the type of search to use.
+	/// </summary>
+	public static int LastIndexOf(this string target, char value, int startIndex, int count, StringComparison comparisonType) =>
+		target.LastIndexOf(value.ToString(), startIndex, count, comparisonType);
+	/// <summary>
 	/// Replaces all newline sequences in the current string with <paramref name="replacementText"/>.
 	/// </summary>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]

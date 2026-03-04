@@ -117,4 +117,66 @@ partial class PolyfillTests
         await Assert.That("Value".IndexOf('v', StringComparison.OrdinalIgnoreCase)).IsEqualTo(0);
         await Assert.That("Value".IndexOf('v', StringComparison.Ordinal)).IsEqualTo(-1);
     }
+
+    [Test]
+    public async Task StartsWithCharStringComparison()
+    {
+        await Assert.That("Value".StartsWith('v', StringComparison.OrdinalIgnoreCase)).IsTrue();
+        await Assert.That("Value".StartsWith('v', StringComparison.Ordinal)).IsFalse();
+        await Assert.That("Value".StartsWith('V', StringComparison.Ordinal)).IsTrue();
+        await Assert.That("".StartsWith('v', StringComparison.Ordinal)).IsFalse();
+    }
+
+    [Test]
+    public async Task EndsWithCharStringComparison()
+    {
+        await Assert.That("valuE".EndsWith('e', StringComparison.OrdinalIgnoreCase)).IsTrue();
+        await Assert.That("valuE".EndsWith('e', StringComparison.Ordinal)).IsFalse();
+        await Assert.That("valuE".EndsWith('E', StringComparison.Ordinal)).IsTrue();
+        await Assert.That("".EndsWith('e', StringComparison.Ordinal)).IsFalse();
+    }
+
+    [Test]
+    public async Task IndexOfCharStartIndexStringComparison()
+    {
+        await Assert.That("abcabc".IndexOf('b', 2, StringComparison.Ordinal)).IsEqualTo(4);
+        await Assert.That("ABCABC".IndexOf('b', 0, StringComparison.OrdinalIgnoreCase)).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task IndexOfCharStartIndexCountStringComparison()
+    {
+        await Assert.That("abcabc".IndexOf('b', 0, 3, StringComparison.Ordinal)).IsEqualTo(1);
+        await Assert.That("abcabc".IndexOf('b', 0, 1, StringComparison.Ordinal)).IsEqualTo(-1);
+    }
+
+    [Test]
+    public async Task LastIndexOfCharStringComparison()
+    {
+        await Assert.That("abcabc".LastIndexOf('b', StringComparison.Ordinal)).IsEqualTo(4);
+        await Assert.That("ABCABC".LastIndexOf('b', StringComparison.OrdinalIgnoreCase)).IsEqualTo(4);
+        await Assert.That("abcabc".LastIndexOf('x', StringComparison.Ordinal)).IsEqualTo(-1);
+    }
+
+    [Test]
+    public async Task LastIndexOfCharStartIndexStringComparison()
+    {
+        await Assert.That("abcabc".LastIndexOf('b', 3, StringComparison.Ordinal)).IsEqualTo(1);
+        await Assert.That("ABCABC".LastIndexOf('b', 5, StringComparison.OrdinalIgnoreCase)).IsEqualTo(4);
+    }
+
+    [Test]
+    public async Task LastIndexOfCharStartIndexCountStringComparison()
+    {
+        await Assert.That("abcabc".LastIndexOf('b', 5, 3, StringComparison.Ordinal)).IsEqualTo(4);
+        await Assert.That("abcabc".LastIndexOf('a', 5, 3, StringComparison.Ordinal)).IsEqualTo(3);
+    }
+
+    [Test]
+    public async Task CharEqualsStringComparison()
+    {
+        await Assert.That('A'.Equals('a', StringComparison.OrdinalIgnoreCase)).IsTrue();
+        await Assert.That('A'.Equals('a', StringComparison.Ordinal)).IsFalse();
+        await Assert.That('A'.Equals('A', StringComparison.Ordinal)).IsTrue();
+    }
 }
