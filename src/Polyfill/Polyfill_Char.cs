@@ -10,7 +10,12 @@ static partial class Polyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.char.equals?view=net-11.0#system-char-equals(system-char-system-stringcomparison)
     public static bool Equals(this char target, char other, StringComparison comparisonType) =>
-        target.ToString().Equals(other.ToString(), comparisonType);
+        comparisonType switch
+        {
+            StringComparison.Ordinal => target == other,
+            StringComparison.OrdinalIgnoreCase => char.ToUpperInvariant(target) == char.ToUpperInvariant(other),
+            _ => target.ToString().Equals(other.ToString(), comparisonType)
+        };
 }
 
 #endif

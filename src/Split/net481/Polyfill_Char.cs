@@ -8,5 +8,10 @@ static partial class Polyfill
 	/// Determines whether the specified character is equal to the current character, using the specified comparison type.
 	/// </summary>
 	public static bool Equals(this char target, char other, StringComparison comparisonType) =>
-		target.ToString().Equals(other.ToString(), comparisonType);
+		comparisonType switch
+		{
+			StringComparison.Ordinal => target == other,
+			StringComparison.OrdinalIgnoreCase => char.ToUpperInvariant(target) == char.ToUpperInvariant(other),
+			_ => target.ToString().Equals(other.ToString(), comparisonType)
+		};
 }
