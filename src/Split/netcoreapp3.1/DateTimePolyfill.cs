@@ -3,6 +3,7 @@
 namespace Polyfills;
 using System;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
 	extension(DateTime target)
@@ -29,32 +30,38 @@ static partial class Polyfill
 		/// <summary>
 		/// Tries to parse a string into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(string? s, IFormatProvider? provider, out DateTime result) =>
 			DateTime.TryParse(s, provider, DateTimeStyles.None, out result);
 #if FeatureMemory
 		/// <summary>
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out DateTime result) =>
 			DateTime.TryParse(s.ToString(), provider, DateTimeStyles.None, out result);
 		/// <summary>
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(ReadOnlySpan<char> s, out DateTime result) =>
 			DateTime.TryParse(s.ToString(), null, DateTimeStyles.None, out result);
 		/// <summary>
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, DateTimeStyles styles, out DateTime result) =>
 			DateTime.TryParse(s.ToString(), provider, styles, out result);
 		/// <summary>
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParseExact(ReadOnlySpan<char> s, string format, IFormatProvider? provider, DateTimeStyles style, out DateTime result) =>
 			DateTime.TryParseExact(s.ToString(), format, provider, style, out result);
 		/// <summary>
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParseExact(ReadOnlySpan<char> s, ReadOnlySpan<char> format, IFormatProvider? provider, DateTimeStyles styles, out DateTime result) =>
 			DateTime.TryParseExact(s.ToString(), format.ToString(), provider, styles, out result);
 #endif

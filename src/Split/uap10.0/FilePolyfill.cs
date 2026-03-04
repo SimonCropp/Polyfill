@@ -48,11 +48,13 @@ static partial class Polyfill
 		/// <summary>
 		/// Appends the specified string to the file, creating the file if it does not already exist.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void AppendAllText(string path, ReadOnlySpan<char> contents) =>
 			File.AppendAllText(path, contents.ToString());
 		/// <summary>
 		/// Appends the specified string to the file, creating the file if it does not already exist.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void AppendAllText(string path, ReadOnlySpan<char> contents, Encoding encoding) =>
 			File.AppendAllText(path, contents.ToString(), encoding);
 		/// <summary>
@@ -76,12 +78,14 @@ static partial class Polyfill
 		/// Creates a new file, writes the specified string to the file, and then closes the file.
 		/// If the target file already exists, it is truncated and overwritten.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void WriteAllText(string path, ReadOnlySpan<char> contents) =>
 			File.WriteAllText(path, contents.ToString());
 		/// <summary>
 		/// Creates a new file, writes the specified string to the file using the specified encoding, and then closes the file.
 		/// If the target file already exists, it is truncated and overwritten.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static void WriteAllText(string path, ReadOnlySpan<char> contents, Encoding encoding) =>
 			File.WriteAllText(path, contents.ToString(), encoding);
 		/// <summary>

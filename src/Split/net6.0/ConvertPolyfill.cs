@@ -2,6 +2,7 @@
 #pragma warning disable
 namespace Polyfills;
 using System;
+using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
 	extension(Convert)
@@ -10,17 +11,20 @@ static partial class Polyfill
 		/// Converts a subset of an array of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
 		/// Parameters specify the subset as an offset in the input array and the number of elements in the array to convert.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static string ToHexStringLower(byte[] inArray, int offset, int length) =>
 			ToHexString(inArray, offset, length, "x2");
 		/// <summary>
 		/// Converts an array of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static string ToHexStringLower(byte[] inArray) =>
 			Polyfill.ToHexStringLower(inArray, 0, inArray.Length);
 #if FeatureMemory
 		/// <summary>
 		/// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static string ToHexStringLower(ReadOnlySpan<byte> bytes) =>
 			Polyfill.ToHexStringLower(bytes.ToArray());
 		/// <summary>

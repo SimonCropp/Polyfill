@@ -3,6 +3,7 @@
 namespace Polyfills;
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
 	extension(Path)
@@ -11,6 +12,7 @@ static partial class Polyfill
 		/// <summary>
 		/// Combines a span of strings into a path.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static string Combine(scoped ReadOnlySpan<string> paths) =>
 			Path.Combine(paths.ToArray());
 #endif

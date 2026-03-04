@@ -3,6 +3,7 @@
 namespace Polyfills;
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
 	extension(Path)
@@ -11,41 +12,49 @@ static partial class Polyfill
 		/// <summary>
 		/// Returns the directory information for the specified path represented by a character span.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ReadOnlySpan<char> GetDirectoryName(ReadOnlySpan<char> path) =>
 			Path.GetDirectoryName(path.ToString()).AsSpan();
 		/// <summary>
 		/// Returns the file name and extension of a file path that is represented by a read-only character span.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ReadOnlySpan<char> GetFileName(ReadOnlySpan<char> path) =>
 			Path.GetFileName(path.ToString()).AsSpan();
 		/// <summary>
 		/// Returns the file name without the extension of a file path that is represented by a read-only character span.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ReadOnlySpan<char> GetFileNameWithoutExtension(ReadOnlySpan<char> path) =>
 			Path.GetFileNameWithoutExtension(path.ToString()).AsSpan();
 		/// <summary>
 		/// Determines whether the path represented by the specified character span includes a file name extension.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool HasExtension(ReadOnlySpan<char> path) =>
 			Path.HasExtension(path.ToString());
 		/// <summary>
 		/// Returns the extension of the given path.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ReadOnlySpan<char> GetExtension(ReadOnlySpan<char> path) =>
 			Path.GetExtension(path.ToString()).AsSpan();
 		/// <summary>
 		/// Combines a span of strings into a path.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static string Combine(scoped ReadOnlySpan<string> paths) =>
 			Path.Combine(paths.ToArray());
 		/// <summary>
 		/// Returns a value that indicates whether the path, specified as a read-only span, ends in a directory separator.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool EndsInDirectorySeparator (ReadOnlySpan<char> path) =>
 			EndsInDirectorySeparator(path.ToString());
 		/// <summary>
 		/// Trims one trailing directory separator beyond the root of the specified path.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ReadOnlySpan<char> TrimEndingDirectorySeparator(ReadOnlySpan<char> path) =>
 			TrimEndingDirectorySeparator(path.ToString()).AsSpan();
 #endif

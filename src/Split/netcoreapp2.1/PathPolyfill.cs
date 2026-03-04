@@ -3,6 +3,7 @@
 namespace Polyfills;
 using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
 	extension(Path)
@@ -11,16 +12,19 @@ static partial class Polyfill
 		/// <summary>
 		/// Combines a span of strings into a path.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static string Combine(scoped ReadOnlySpan<string> paths) =>
 			Path.Combine(paths.ToArray());
 		/// <summary>
 		/// Returns a value that indicates whether the path, specified as a read-only span, ends in a directory separator.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool EndsInDirectorySeparator (ReadOnlySpan<char> path) =>
 			EndsInDirectorySeparator(path.ToString());
 		/// <summary>
 		/// Trims one trailing directory separator beyond the root of the specified path.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ReadOnlySpan<char> TrimEndingDirectorySeparator(ReadOnlySpan<char> path) =>
 			TrimEndingDirectorySeparator(path.ToString()).AsSpan();
 #endif

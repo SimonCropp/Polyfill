@@ -3,6 +3,7 @@
 namespace Polyfills;
 using System;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
 	extension(DateTime)
@@ -11,11 +12,13 @@ static partial class Polyfill
 		/// <summary>
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out DateTime result) =>
 			DateTime.TryParse(s.ToString(), provider, DateTimeStyles.None, out result);
 		/// <summary>
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static bool TryParseExact(ReadOnlySpan<char> s, ReadOnlySpan<char> format, IFormatProvider? provider, DateTimeStyles styles, out DateTime result) =>
 			DateTime.TryParseExact(s.ToString(), format.ToString(), provider, styles, out result);
 #endif

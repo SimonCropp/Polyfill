@@ -3,6 +3,7 @@
 namespace Polyfills;
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 
@@ -86,6 +87,7 @@ static partial class Polyfill
         /// Indicates whether the current application is running on the specified platform.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.operatingsystem.isosplatform?view=net-11.0
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsOSPlatform(string platform) =>
             RuntimeInformation.IsOSPlatform(OSPlatform.Create(platform));
 

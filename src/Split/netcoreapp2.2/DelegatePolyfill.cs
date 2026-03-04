@@ -3,6 +3,7 @@
 namespace Polyfills;
 using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
 	/// <summary>
@@ -39,6 +40,7 @@ static partial class Polyfill
 		/// <summary>
 		/// Gets an enumerator for the invocation targets of this delegate.
 		/// </summary>
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate? target)
 			where TDelegate : Delegate =>
 			new(target);
