@@ -41,6 +41,71 @@ public class PathTests
 #endif
 
     [Test]
+    public async Task GetRelativePath()
+    {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
+
+        // Sibling directories
+        await Assert.That(Path.GetRelativePath(@"C:\Program Files\Common Files", @"C:\Program Files\Microsoft"))
+            .IsEqualTo(@"..\Microsoft");
+
+        // Child directory
+        await Assert.That(Path.GetRelativePath(@"C:\Program Files\", @"C:\Program Files\Microsoft"))
+            .IsEqualTo("Microsoft");
+
+        // Same path
+        await Assert.That(Path.GetRelativePath(@"C:\folder", @"C:\folder"))
+            .IsEqualTo(".");
+
+        // Same path with trailing separator
+        await Assert.That(Path.GetRelativePath(@"C:\folder\", @"C:\folder"))
+            .IsEqualTo(".");
+
+        // Multiple levels up
+        await Assert.That(Path.GetRelativePath(@"C:\a\b\c", @"C:\a"))
+            .IsEqualTo(@"..\..");
+
+        // Deeply nested child
+        await Assert.That(Path.GetRelativePath(@"C:\a", @"C:\a\b\c\d"))
+            .IsEqualTo(@"b\c\d");
+
+        // Case-insensitive on Windows
+        await Assert.That(Path.GetRelativePath(@"C:\Folder", @"C:\folder"))
+            .IsEqualTo(".");
+
+        // Different roots returns path as-is
+        var result = Path.GetRelativePath(@"C:\folder", @"D:\other");
+        await Assert.That(result).IsEqualTo(@"D:\other");
+
+        // Path with spaces
+        await Assert.That(Path.GetRelativePath(@"C:\my folder", @"C:\my folder\sub dir"))
+            .IsEqualTo(@"sub dir");
+
+        // Path with special characters (# ? %)
+        await Assert.That(Path.GetRelativePath(@"C:\base", @"C:\base\file#1"))
+            .IsEqualTo(@"file#1");
+        await Assert.That(Path.GetRelativePath(@"C:\base", @"C:\base\file%20name"))
+            .IsEqualTo(@"file%20name");
+    }
+
+    [Test]
+    public async Task GetRelativePath_ThrowsOnNull()
+    {
+        await Assert.That(() => Path.GetRelativePath(null!, "path")).Throws<ArgumentNullException>();
+        await Assert.That(() => Path.GetRelativePath("path", null!)).Throws<ArgumentNullException>();
+    }
+
+    [Test]
+    public async Task GetRelativePath_ThrowsOnEmpty()
+    {
+        await Assert.That(() => Path.GetRelativePath("", "path")).Throws<ArgumentException>();
+        await Assert.That(() => Path.GetRelativePath("path", "")).Throws<ArgumentException>();
+    }
+
+    [Test]
     public async Task EndsInDirectorySeparator()
     {
         #if FeatureMemory
