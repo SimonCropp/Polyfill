@@ -2,6 +2,9 @@
 #pragma warning disable
 namespace Polyfills;
 using System;
+#if FeatureMemory
+using System.Buffers;
+#endif
 static partial class Polyfill
 {
 	extension(Convert)
@@ -18,6 +21,101 @@ static partial class Polyfill
 		public static string ToHexStringLower(byte[] inArray) =>
 			Polyfill.ToHexStringLower(inArray, 0, inArray.Length);
 #if FeatureMemory
+		/// <summary>
+		/// Converts the span of chars, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer span.
+		/// </summary>
+		public static OperationStatus FromHexString(ReadOnlySpan<char> source, Span<byte> destination, out int charsConsumed, out int bytesWritten)
+		{
+			var i = 0;
+			var j = 0;
+			while (i + 1 < source.Length)
+			{
+				var hi = GetHexVal(source[i]);
+				var lo = GetHexVal(source[i + 1]);
+				if (hi < 0 || lo < 0)
+				{
+					charsConsumed = i;
+					bytesWritten = j;
+					return OperationStatus.InvalidData;
+				}
+				if (j >= destination.Length)
+				{
+					charsConsumed = i;
+					bytesWritten = j;
+					return OperationStatus.DestinationTooSmall;
+				}
+				destination[j++] = (byte)((hi << 4) | lo);
+				i += 2;
+			}
+			if (i < source.Length)
+			{
+				charsConsumed = i;
+				bytesWritten = j;
+				return OperationStatus.NeedMoreData;
+			}
+			charsConsumed = i;
+			bytesWritten = j;
+			return OperationStatus.Done;
+		}
+		/// <summary>
+		/// Converts the string, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer span.
+		/// </summary>
+		public static OperationStatus FromHexString(string source, Span<byte> destination, out int charsConsumed, out int bytesWritten) =>
+			Polyfill.FromHexString(source.AsSpan(), destination, out charsConsumed, out bytesWritten);
+		/// <summary>
+		/// Converts the span, which encodes binary data as UTF-8 hex characters, to an equivalent 8-bit unsigned integer array.
+		/// </summary>
+		public static byte[] FromHexString(ReadOnlySpan<byte> utf8Source)
+		{
+			if (utf8Source.Length % 2 != 0)
+				throw new FormatException("Hex string must have an even length.");
+			var result = new byte[utf8Source.Length / 2];
+			for (var i = 0; i < result.Length; i++)
+			{
+				var hi = GetHexVal((char)utf8Source[i * 2]);
+				var lo = GetHexVal((char)utf8Source[i * 2 + 1]);
+				if (hi < 0 || lo < 0)
+					throw new FormatException($"Invalid hex character.");
+				result[i] = (byte)((hi << 4) | lo);
+			}
+			return result;
+		}
+		/// <summary>
+		/// Converts the span of UTF-8 chars, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer span.
+		/// </summary>
+		public static OperationStatus FromHexString(ReadOnlySpan<byte> utf8Source, Span<byte> destination, out int bytesConsumed, out int bytesWritten)
+		{
+			var i = 0;
+			var j = 0;
+			while (i + 1 < utf8Source.Length)
+			{
+				var hi = GetHexVal((char)utf8Source[i]);
+				var lo = GetHexVal((char)utf8Source[i + 1]);
+				if (hi < 0 || lo < 0)
+				{
+					bytesConsumed = i;
+					bytesWritten = j;
+					return OperationStatus.InvalidData;
+				}
+				if (j >= destination.Length)
+				{
+					bytesConsumed = i;
+					bytesWritten = j;
+					return OperationStatus.DestinationTooSmall;
+				}
+				destination[j++] = (byte)((hi << 4) | lo);
+				i += 2;
+			}
+			if (i < utf8Source.Length)
+			{
+				bytesConsumed = i;
+				bytesWritten = j;
+				return OperationStatus.NeedMoreData;
+			}
+			bytesConsumed = i;
+			bytesWritten = j;
+			return OperationStatus.Done;
+		}
 		/// <summary>
 		/// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
 		/// </summary>
@@ -53,6 +151,54 @@ static partial class Polyfill
 			charsWritten = hexString.Length;
 			return true;
 		}
+		/// <summary>
+		/// Converts a span of 8-bit unsigned integers to its equivalent UTF-8 span representation that is encoded with uppercase hex characters.
+		/// </summary>
+		public static bool TryToHexString(ReadOnlySpan<byte> source, Span<byte> utf8Destination, out int bytesWritten)
+		{
+			if (source.Length > utf8Destination.Length / 2)
+			{
+				bytesWritten = 0;
+				return false;
+			}
+			var hexString = Convert.ToHexString(source);
+			var index = 0;
+			foreach (var c in hexString)
+			{
+				utf8Destination[index++] = (byte)c;
+			}
+			bytesWritten = hexString.Length;
+			return true;
+		}
+		/// <summary>
+		/// Converts a span of 8-bit unsigned integers to its equivalent UTF-8 span representation that is encoded with lowercase hex characters.
+		/// </summary>
+		public static bool TryToHexStringLower(ReadOnlySpan<byte> source, Span<byte> utf8Destination, out int bytesWritten)
+		{
+			if (source.Length > utf8Destination.Length / 2)
+			{
+				bytesWritten = 0;
+				return false;
+			}
+			var hexString = Convert.ToHexStringLower(source);
+			var index = 0;
+			foreach (var c in hexString)
+			{
+				utf8Destination[index++] = (byte)c;
+			}
+			bytesWritten = hexString.Length;
+			return true;
+		}
+#endif
+#if FeatureMemory
+		static int GetHexVal(char hex) =>
+			hex switch
+			{
+				>= '0' and <= '9' => hex - '0',
+				>= 'A' and <= 'F' => hex - 'A' + 10,
+				>= 'a' and <= 'f' => hex - 'a' + 10,
+				_ => -1
+			};
 #endif
 		static string ToHexString(byte[] inArray, int offset, int length, string format)
 		{
