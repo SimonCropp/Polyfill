@@ -960,6 +960,18 @@ class Consume
 
         var bufferArray = new byte[10];
         random.Shuffle(bufferArray);
+
+        var nextInt64 = random.NextInt64();
+        nextInt64 = random.NextInt64(100);
+        nextInt64 = random.NextInt64(50, 100);
+        var nextSingle = random.NextSingle();
+        var hexString = random.GetHexString(10);
+        hexString = random.GetHexString(10, lowercase: true);
+#if FeatureMemory
+        Span<char> hexDest = stackalloc char[10];
+        random.GetHexString(hexDest);
+        var rndString = random.GetString("abc".AsSpan(), 10);
+#endif
     }
 
 #if FeatureMemory
