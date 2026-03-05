@@ -128,7 +128,11 @@
 
 #### Convert
 
+ * `OperationStatus FromHexString(ReadOnlySpan<byte>, Span<byte>, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-11.0#system-convert-fromhexstring(system-readonlyspan((system-byte))-system-span((system-byte))-system-int32@-system-int32@))
+ * `byte[] FromHexString(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-11.0#system-convert-fromhexstring(system-readonlyspan((system-byte))))
+ * `OperationStatus FromHexString(ReadOnlySpan<char>, Span<byte>, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-11.0#system-convert-fromhexstring(system-readonlyspan((system-char))-system-span((system-byte))-system-int32@-system-int32@))
  * `byte[] FromHexString(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-11.0#system-convert-fromhexstring(system-readonlyspan((system-char))))
+ * `OperationStatus FromHexString(string, Span<byte>, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-11.0#system-convert-fromhexstring(system-string-system-span((system-byte))-system-int32@-system-int32@))
  * `byte[] FromHexString(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-11.0#system-convert-fromhexstring(system-string))
  * `string ToHexString(byte[], int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring?view=net-11.0#system-convert-tohexstring(system-byte()-system-int32-system-int32))
  * `string ToHexString(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring?view=net-11.0#system-convert-tohexstring(system-byte()))
@@ -136,8 +140,13 @@
  * `string ToHexStringLower(byte[], int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower?view=net-11.0#system-convert-tohexstringlower(system-byte()-system-int32-system-int32))
  * `string ToHexStringLower(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower?view=net-11.0#system-convert-tohexstringlower(system-byte()))
  * `string ToHexStringLower(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower?view=net-11.0#system-convert-tohexstringlower(system-readonlyspan((system-byte))))
- * `bool TryToHexString(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstring?view=net-11.0)
- * `bool TryToHexStringLower(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstringlower?view=net-11.0)
+ * `bool TryFromBase64Chars(ReadOnlySpan<char>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.tryfrombase64chars?view=net-11.0)
+ * `bool TryFromBase64String(string, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.tryfrombase64string?view=net-11.0)
+ * `bool TryToBase64Chars(ReadOnlySpan<byte>, Span<char>, int, Base64FormattingOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytobase64chars?view=net-11.0)
+ * `bool TryToHexString(ReadOnlySpan<byte>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstring?view=net-11.0#system-convert-trytohexstring(system-readonlyspan((system-byte))-system-span((system-byte))-system-int32@))
+ * `bool TryToHexString(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstring?view=net-11.0#system-convert-trytohexstring(system-readonlyspan((system-byte))-system-span((system-char))-system-int32@))
+ * `bool TryToHexStringLower(ReadOnlySpan<byte>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstringlower?view=net-11.0#system-convert-trytohexstringlower(system-readonlyspan((system-byte))-system-span((system-byte))-system-int32@))
+ * `bool TryToHexStringLower(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstringlower?view=net-11.0#system-convert-trytohexstringlower(system-readonlyspan((system-byte))-system-span((system-char))-system-int32@))
 
 
 #### DateOnly

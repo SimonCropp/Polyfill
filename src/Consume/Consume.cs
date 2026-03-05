@@ -399,6 +399,23 @@ class Consume
 #endif
     }
 
+#if FeatureMemory
+    void Convert_Methods()
+    {
+        Convert.TryFromBase64Chars("SGVsbG8=".AsSpan(), stackalloc byte[5], out _);
+        Convert.TryFromBase64String("SGVsbG8=", stackalloc byte[5], out _);
+        Convert.TryToBase64Chars("Hello"u8, stackalloc char[8], out _);
+        Convert.TryToHexString(new byte[] { 0x0F }.AsSpan(), stackalloc char[2], out _);
+        Convert.TryToHexString(new byte[] { 0x0F }.AsSpan(), stackalloc byte[2], out _);
+        Convert.TryToHexStringLower(new byte[] { 0x0F }.AsSpan(), stackalloc char[2], out _);
+        Convert.TryToHexStringLower(new byte[] { 0x0F }.AsSpan(), stackalloc byte[2], out _);
+        Convert.FromHexString("0F".AsSpan(), stackalloc byte[1], out _, out _);
+        Convert.FromHexString("0F", stackalloc byte[1], out _, out _);
+        Convert.FromHexString("0F"u8);
+        Convert.FromHexString("0F"u8, stackalloc byte[1], out _, out _);
+    }
+#endif
+
     void CancellationToken_Methods()
     {
         var source = new CancellationTokenSource();
