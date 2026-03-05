@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 784**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 791**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -1132,10 +1132,17 @@ The class `Polyfill` includes the following extension methods:
 
 #### Random
 
+ * `string GetHexString(int, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.gethexstring?view=net-11.0#system-random-gethexstring(system-int32-system-boolean))
+ * `void GetHexString(Span<char>, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.gethexstring?view=net-11.0#system-random-gethexstring(system-span((system-char))-system-boolean))
  * `T[] GetItems<T>(ReadOnlySpan<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems?view=net-11.0#system-random-getitems-1(system-readonlyspan((-0))-system-int32))
  * `void GetItems<T>(ReadOnlySpan<T>, Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems?view=net-11.0#system-random-getitems-1(system-readonlyspan((-0))-system-span((-0))))
  * `T[] GetItems<T>(T[], int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems?view=net-11.0#system-random-getitems-1(-0()-system-int32))
+ * `string GetString(ReadOnlySpan<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.getstring?view=net-11.0)
  * `void NextBytes(Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-11.0#system-random-nextbytes(system-span((system-byte))))
+ * `long NextInt64(long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextint64?view=net-11.0#system-random-nextint64(system-int64-system-int64))
+ * `long NextInt64(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextint64?view=net-11.0#system-random-nextint64(system-int64))
+ * `long NextInt64()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextint64?view=net-11.0#system-random-nextint64)
+ * `float NextSingle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextsingle?view=net-11.0)
  * `void Shuffle<T>(Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-11.0#system-random-nextbytes(system-span((system-byte))))
  * `void Shuffle<T>(T[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-11.0#system-random-nextbytes(system-span((system-byte))))
  * `Shared` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.shared?view=net-11.0)
