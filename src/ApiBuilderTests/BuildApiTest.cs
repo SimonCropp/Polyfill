@@ -28,8 +28,93 @@ public class BuildApiTest
 
         var countMd = Path.Combine(ProjectFiles.SolutionDirectory, "..", "apiCount.include.md");
         File.Delete(countMd);
-        File.WriteAllText(countMd, $"**API count: {count}**");
+        var sb = new StringBuilder();
+        sb.AppendLine($"**API count: {count}**");
+        sb.AppendLine();
+        sb.AppendLine("### Per Target Framework");
+        sb.AppendLine();
+        sb.AppendLine("| Target | APIs |");
+        sb.AppendLine("| -- | -- |");
+        foreach (var framework in Splitter.Frameworks)
+        {
+            var tfmCount = CountApisForSplitFramework(framework);
+            sb.AppendLine($"| `{framework}` | {tfmCount} |");
+        }
+
+        File.WriteAllText(countMd, sb.ToString());
         return Task.CompletedTask;
+    }
+
+    static int CountApisForSplitFramework(string framework)
+    {
+        var splitDir = Path.Combine(Splitter.SplitOutputDir, framework);
+        if (!Directory.Exists(splitDir))
+        {
+            return 0;
+        }
+
+        var featureSymbols = new[]
+        {
+            "FeatureMemory",
+            "FeatureRuntimeInformation",
+            "PolyEnsure",
+            "PolyArgumentExceptions",
+            "PolyPublic",
+            "FeatureHttp",
+            "PolyNullability",
+            "AllowUnsafeBlocks",
+            "FeatureValueTask",
+            "FeatureValueTuple",
+            "FeatureCompression",
+            "FeatureAsyncInterfaces"
+        };
+
+        var options = CSharpParseOptions.Default.WithPreprocessorSymbols(featureSymbols);
+        var count = 0;
+
+        foreach (var file in Directory.EnumerateFiles(splitDir, "*.cs", SearchOption.AllDirectories))
+        {
+            var fileName = Path.GetFileNameWithoutExtension(file);
+
+            // Attribute files count as 1 API each
+            if (fileName.EndsWith("Attribute"))
+            {
+                count++;
+                continue;
+            }
+
+            // TypeForwardeds don't count
+            if (fileName == "TypeForwardeds")
+            {
+                continue;
+            }
+
+            var code = File.ReadAllText(file);
+            var tree = CSharpSyntaxTree.ParseText(code, options);
+            var types = tree
+                .GetRoot()
+                .DescendantNodes()
+                .OfType<Type>()
+                .Where(_ => !_.IsNested())
+                .ToList();
+
+            foreach (var type in types)
+            {
+                // Types like Index, Range, TaskCompletionSource, UnreachableException count as 1
+                var typeName = type.Identifier.Text;
+                if (typeName != "Polyfill" &&
+                    !typeName.EndsWith("Polyfill"))
+                {
+                    count++;
+                    continue;
+                }
+
+                count += type.PublicMethods().Count();
+                count += type.PublicProperties().Count();
+            }
+        }
+
+        return count;
     }
 
     static int WriteExtensions(StreamWriter writer, int count)

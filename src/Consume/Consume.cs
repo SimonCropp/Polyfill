@@ -89,6 +89,11 @@ class Consume
         type = typeof(InterpolatedStringHandlerAttribute);
 #endif
         type = typeof(StringSyntaxAttribute);
+#if !NET7_0_OR_GREATER || NET11_0_OR_GREATER
+        var csharpSyntax = StringSyntaxAttribute.CSharp;
+        var fsharpSyntax = StringSyntaxAttribute.FSharp;
+        var vbSyntax = StringSyntaxAttribute.VisualBasic;
+#endif
         type = typeof(DynamicallyAccessedMembersAttribute);
         type = typeof(DynamicDependencyAttribute);
         type = typeof(RequiresDynamicCodeAttribute);
@@ -394,6 +399,23 @@ class Consume
 #endif
     }
 
+#if FeatureMemory
+    void Convert_Methods()
+    {
+        Convert.TryFromBase64Chars("SGVsbG8=".AsSpan(), stackalloc byte[5], out _);
+        Convert.TryFromBase64String("SGVsbG8=", stackalloc byte[5], out _);
+        Convert.TryToBase64Chars("Hello"u8, stackalloc char[8], out _);
+        Convert.TryToHexString(new byte[] { 0x0F }.AsSpan(), stackalloc char[2], out _);
+        Convert.TryToHexString(new byte[] { 0x0F }.AsSpan(), stackalloc byte[2], out _);
+        Convert.TryToHexStringLower(new byte[] { 0x0F }.AsSpan(), stackalloc char[2], out _);
+        Convert.TryToHexStringLower(new byte[] { 0x0F }.AsSpan(), stackalloc byte[2], out _);
+        Convert.FromHexString("0F".AsSpan(), stackalloc byte[1], out _, out _);
+        Convert.FromHexString("0F", stackalloc byte[1], out _, out _);
+        Convert.FromHexString("0F"u8);
+        Convert.FromHexString("0F"u8, stackalloc byte[1], out _, out _);
+    }
+#endif
+
     void CancellationToken_Methods()
     {
         var source = new CancellationTokenSource();
@@ -412,6 +434,19 @@ class Consume
         await source.CancelAsync();
     }
 
+    void Char_Methods()
+    {
+        var isAscii = char.IsAscii('\u0000');
+        var isAsciiLetterOrDigit = char.IsAsciiLetterOrDigit('\u0061');
+        var isAsciiLetter = char.IsAsciiLetter('\u007a');
+        var isAsciiLetterUpper = char.IsAsciiLetterUpper('\u0045');
+        var isAsciiLetterLower = char.IsAsciiLetterLower('\u0040');
+        var isAsciiDigit = char.IsAsciiDigit('\u0035');
+        var isAsciiHexDigit = char.IsAsciiHexDigit('\u0066');
+        var isAsciiHexDigitLower = char.IsAsciiHexDigitLower('\u0063');
+        var isAsciiHexDigitUpper = char.IsAsciiHexDigitUpper('\u0041');
+        var charEquals = 'A'.Equals('a', StringComparison.OrdinalIgnoreCase);
+    }
 
     class WithMethods
     {
@@ -657,6 +692,11 @@ class Consume
         var entriesArray = dirInfo.GetFileSystemInfos("*", options);
     }
 #endif
+
+    void Path_Methods()
+    {
+        var relative = Path.GetRelativePath("/folder1/folder2", "/folder1/folder3");
+    }
 
 #if !NET11_0_OR_GREATER
     void Console_Methods()
@@ -920,6 +960,18 @@ class Consume
 
         var bufferArray = new byte[10];
         random.Shuffle(bufferArray);
+
+        var nextInt64 = random.NextInt64();
+        nextInt64 = random.NextInt64(100);
+        nextInt64 = random.NextInt64(50, 100);
+        var nextSingle = random.NextSingle();
+        var hexString = random.GetHexString(10);
+        hexString = random.GetHexString(10, lowercase: true);
+#if FeatureMemory
+        Span<char> hexDest = stackalloc char[10];
+        random.GetHexString(hexDest);
+        var rndString = random.GetString("abc".AsSpan(), 10);
+#endif
     }
 
 #if FeatureMemory
@@ -1076,7 +1128,16 @@ class Consume
 
         var splitString = "a b".Split(" ", StringSplitOptions.RemoveEmptyEntries);
         splitString = "a b".Split(" ", 2, StringSplitOptions.RemoveEmptyEntries);
+
+        var startsWithChar = "value".StartsWith('v', StringComparison.Ordinal);
+        var endsWithChar = "value".EndsWith('e', StringComparison.Ordinal);
+        var indexOfChar = "value".IndexOf('a', 1, StringComparison.Ordinal);
+        var indexOfCharCount = "value".IndexOf('a', 1, 3, StringComparison.Ordinal);
+        var lastIndexOfChar = "value".LastIndexOf('a', StringComparison.Ordinal);
+        var lastIndexOfCharStart = "value".LastIndexOf('a', 3, StringComparison.Ordinal);
+        var lastIndexOfCharStartCount = "value".LastIndexOf('a', 3, 2, StringComparison.Ordinal);
     }
+
 
 #if !NoStringInterpolation && FeatureMemory
     void DefaultInterpolatedStringHandler_Methods()
@@ -1253,15 +1314,11 @@ class Consume
         await XNode.ReadFromAsync(xmlReader, CancellationToken.None);
     }
 
-    void XComment_Methods(XComment comment)
-    {
+    void XComment_Methods(XComment comment) =>
         comment.WriteToAsync(XmlWriter.Create(TextWriter.Null), CancellationToken.None);
-    }
 
-    void XCData_Methods(XCData cdata)
-    {
+    void XCData_Methods(XCData cdata) =>
         cdata.WriteToAsync(XmlWriter.Create(TextWriter.Null), CancellationToken.None);
-    }
 
 #if FeatureCompression
     void ZipArchiveEntry_Methods(ZipArchive zip, ZipArchiveEntry entry)

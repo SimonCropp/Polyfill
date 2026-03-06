@@ -154,6 +154,17 @@ partial class PolyfillTests
             await stream.ReadExactlyAsync(buffer, 0, 2)).Throws<ArgumentOutOfRangeException>();
     }
 
+#if FeatureValueTask
+    [Test]
+    public async Task Stream_DisposeAsync()
+    {
+        var stream = new MemoryStream();
+        await stream.DisposeAsync();
+        // Stream should be disposed - writing should throw
+        await Assert.That(() => stream.WriteByte(1)).Throws<ObjectDisposedException>();
+    }
+#endif
+
 #if FeatureMemory
     [Test]
     public async Task StreamWriteSpan()

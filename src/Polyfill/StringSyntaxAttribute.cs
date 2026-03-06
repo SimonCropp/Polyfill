@@ -79,6 +79,15 @@ sealed class StringSyntaxAttribute :
 
     /// <summary>The syntax identifier for strings containing XML.</summary>
     public const string Xml = nameof(Xml);
+
+    /// <summary>The syntax identifier for strings containing C# code.</summary>
+    public const string CSharp = "C#";
+
+    /// <summary>The syntax identifier for strings containing F# code.</summary>
+    public const string FSharp = "F#";
+
+    /// <summary>The syntax identifier for strings containing Visual Basic code.</summary>
+    public const string VisualBasic = "Visual Basic";
 }
 #else
 [assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.StringSyntaxAttribute))]

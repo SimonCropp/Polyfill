@@ -40,4 +40,22 @@ partial class PolyfillTests
         list.CopyTo(array.AsSpan());
         await Assert.That(array[0]).IsEqualTo('a');
     }
+
+    [Test]
+    public async Task List_EnsureCapacity()
+    {
+        var list = new List<int>();
+        list.EnsureCapacity(100);
+        // Should not throw - capacity is a hint
+        await Assert.That(list.Count).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task List_TrimExcess()
+    {
+        var list = new List<int> { 1, 2, 3 };
+        list.TrimExcess();
+        // Should not throw
+        await Assert.That(list.Count).IsEqualTo(3);
+    }
 }

@@ -90,6 +90,20 @@
  * `Task CancelAsync()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancelasync?view=net-11.0)
 
 
+#### Char
+
+ * `bool Equals(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.equals?view=net-11.0#system-char-equals(system-char-system-stringcomparison))
+ * `bool IsAscii(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isascii?view=net-11.0)
+ * `bool IsAsciiDigit(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciidigit?view=net-11.0)
+ * `bool IsAsciiHexDigit(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciihexdigit?view=net-11.0)
+ * `bool IsAsciiHexDigitLower(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciihexdigitlower?view=net-11.0)
+ * `bool IsAsciiHexDigitUpper(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciihexdigitupper?view=net-11.0)
+ * `bool IsAsciiLetter(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletter?view=net-11.0)
+ * `bool IsAsciiLetterLower(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterlower?view=net-11.0)
+ * `bool IsAsciiLetterOrDigit(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterordigit?view=net-11.0)
+ * `bool IsAsciiLetterUpper(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterupper?view=net-11.0)
+
+
 #### ConcurrentBag<T>
 
  * `void Clear<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentbag-1.clear?view=net-11.0)
@@ -114,7 +128,11 @@
 
 #### Convert
 
+ * `OperationStatus FromHexString(ReadOnlySpan<byte>, Span<byte>, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-11.0#system-convert-fromhexstring(system-readonlyspan((system-byte))-system-span((system-byte))-system-int32@-system-int32@))
+ * `byte[] FromHexString(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-11.0#system-convert-fromhexstring(system-readonlyspan((system-byte))))
+ * `OperationStatus FromHexString(ReadOnlySpan<char>, Span<byte>, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-11.0#system-convert-fromhexstring(system-readonlyspan((system-char))-system-span((system-byte))-system-int32@-system-int32@))
  * `byte[] FromHexString(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-11.0#system-convert-fromhexstring(system-readonlyspan((system-char))))
+ * `OperationStatus FromHexString(string, Span<byte>, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-11.0#system-convert-fromhexstring(system-string-system-span((system-byte))-system-int32@-system-int32@))
  * `byte[] FromHexString(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-11.0#system-convert-fromhexstring(system-string))
  * `string ToHexString(byte[], int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring?view=net-11.0#system-convert-tohexstring(system-byte()-system-int32-system-int32))
  * `string ToHexString(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring?view=net-11.0#system-convert-tohexstring(system-byte()))
@@ -122,8 +140,13 @@
  * `string ToHexStringLower(byte[], int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower?view=net-11.0#system-convert-tohexstringlower(system-byte()-system-int32-system-int32))
  * `string ToHexStringLower(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower?view=net-11.0#system-convert-tohexstringlower(system-byte()))
  * `string ToHexStringLower(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower?view=net-11.0#system-convert-tohexstringlower(system-readonlyspan((system-byte))))
- * `bool TryToHexString(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstring?view=net-11.0)
- * `bool TryToHexStringLower(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstringlower?view=net-11.0)
+ * `bool TryFromBase64Chars(ReadOnlySpan<char>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.tryfrombase64chars?view=net-11.0)
+ * `bool TryFromBase64String(string, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.tryfrombase64string?view=net-11.0)
+ * `bool TryToBase64Chars(ReadOnlySpan<byte>, Span<char>, int, Base64FormattingOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytobase64chars?view=net-11.0)
+ * `bool TryToHexString(ReadOnlySpan<byte>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstring?view=net-11.0#system-convert-trytohexstring(system-readonlyspan((system-byte))-system-span((system-byte))-system-int32@))
+ * `bool TryToHexString(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstring?view=net-11.0#system-convert-trytohexstring(system-readonlyspan((system-byte))-system-span((system-char))-system-int32@))
+ * `bool TryToHexStringLower(ReadOnlySpan<byte>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstringlower?view=net-11.0#system-convert-trytohexstringlower(system-readonlyspan((system-byte))-system-span((system-byte))-system-int32@))
+ * `bool TryToHexStringLower(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.convert.trytohexstringlower?view=net-11.0#system-convert-trytohexstringlower(system-readonlyspan((system-byte))-system-span((system-char))-system-int32@))
 
 
 #### DateOnly
@@ -588,6 +611,7 @@
  * `ReadOnlySpan<char> GetExtension(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getextension?view=net-11.0#system-io-path-getextension(system-readonlyspan((system-char))))
  * `ReadOnlySpan<char> GetFileName(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getfilename?view=net-11.0#system-io-path-getfilename(system-readonlyspan((system-char))))
  * `ReadOnlySpan<char> GetFileNameWithoutExtension(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getfilenamewithoutextension?view=net-11.0#system-io-path-getfilenamewithoutextension(system-readonlyspan((system-char))))
+ * `string GetRelativePath(string, string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getrelativepath?view=net-11.0)
  * `bool HasExtension(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getfilenamewithoutextension?view=net-11.0#system-io-path-getfilenamewithoutextension(system-readonlyspan((system-char))))
  * `ReadOnlySpan<char> TrimEndingDirectorySeparator(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.trimendingdirectoryseparator?view=net-11.0#system-io-path-trimendingdirectoryseparator(system-readonlyspan((system-char))))
  * `string TrimEndingDirectorySeparator(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.trimendingdirectoryseparator?view=net-11.0#system-io-path-trimendingdirectoryseparator(system-string))
@@ -614,10 +638,17 @@
 
 #### Random
 
+ * `string GetHexString(int, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.gethexstring?view=net-11.0#system-random-gethexstring(system-int32-system-boolean))
+ * `void GetHexString(Span<char>, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.gethexstring?view=net-11.0#system-random-gethexstring(system-span((system-char))-system-boolean))
  * `T[] GetItems<T>(ReadOnlySpan<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems?view=net-11.0#system-random-getitems-1(system-readonlyspan((-0))-system-int32))
  * `void GetItems<T>(ReadOnlySpan<T>, Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems?view=net-11.0#system-random-getitems-1(system-readonlyspan((-0))-system-span((-0))))
  * `T[] GetItems<T>(T[], int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems?view=net-11.0#system-random-getitems-1(-0()-system-int32))
+ * `string GetString(ReadOnlySpan<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.getstring?view=net-11.0)
  * `void NextBytes(Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-11.0#system-random-nextbytes(system-span((system-byte))))
+ * `long NextInt64(long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextint64?view=net-11.0#system-random-nextint64(system-int64-system-int64))
+ * `long NextInt64(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextint64?view=net-11.0#system-random-nextint64(system-int64))
+ * `long NextInt64()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextint64?view=net-11.0#system-random-nextint64)
+ * `float NextSingle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextsingle?view=net-11.0)
  * `void Shuffle<T>(Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-11.0#system-random-nextbytes(system-span((system-byte))))
  * `void Shuffle<T>(T[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-11.0#system-random-nextbytes(system-span((system-byte))))
  * `Shared` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.shared?view=net-11.0)
@@ -818,6 +849,7 @@
  * `bool Contains(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-11.0#system-string-contains(system-char))
  * `bool Contains(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-11.0#system-string-contains(system-string-system-stringcomparison))
  * `void CopyTo(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.copyto?view=net-11.0)
+ * `bool EndsWith(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.endswith?view=net-11.0#system-string-endswith(system-char-system-stringcomparison))
  * `bool EndsWith(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.endswith?view=net-11.0#system-string-endswith(system-char))
  * `IEnumerable<string> EnumerateDirectories(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.enumeratedirectories?view=net-11.0#system-io-directory-enumeratedirectories(system-string-system-string-system-io-enumerationoptions))
  * `IEnumerable<string> EnumerateFiles(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.enumeratefiles?view=net-11.0#system-io-directory-enumeratefiles(system-string-system-string-system-io-enumerationoptions))
@@ -826,13 +858,19 @@
  * `string[] GetFiles(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.getfiles?view=net-11.0#system-io-directory-getfiles(system-string-system-string-system-io-enumerationoptions))
  * `string[] GetFileSystemEntries(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.getfilesystementries?view=net-11.0#system-io-directory-getfilesystementries(system-string-system-string-system-io-enumerationoptions))
  * `int GetHashCode(StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-11.0#system-string-gethashcode(system-stringcomparison))
+ * `int IndexOf(char, int, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-char-system-int32-system-int32-system-stringcomparison))
+ * `int IndexOf(char, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-char-system-int32-system-stringcomparison))
  * `int IndexOf(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-char-system-stringcomparison))
+ * `int LastIndexOf(char, int, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-char-system-int32-system-int32-system-stringcomparison))
+ * `int LastIndexOf(char, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-char-system-int32-system-stringcomparison))
+ * `int LastIndexOf(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-char-system-stringcomparison))
  * `string ReplaceLineEndings(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.replacelineendings?view=net-11.0#system-string-replacelineendings(system-string))
  * `string ReplaceLineEndings()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.replacelineendings?view=net-11.0#system-string-replacelineendings)
  * `string[] Split(char, int, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-char-system-int32-system-stringsplitoptions))
  * `string[] Split(char, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-char-system-stringsplitoptions))
  * `string[] Split(string, int, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-string-system-int32-system-stringsplitoptions))
  * `string[] Split(string, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-string-system-stringsplitoptions))
+ * `bool StartsWith(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char-system-stringcomparison))
  * `bool StartsWith(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char))
  * `bool TryCopyTo(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.trycopyto?view=net-11.0)
  * `string Create<TState>(int, TState, System.Buffers.SpanAction<char, TState>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.create?view=net-11.0#system-string-create-1(system-int32-0-system-buffers-spanaction((system-char-0))))

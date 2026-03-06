@@ -4,11 +4,12 @@ namespace Polyfills;
 using System.Text;
 static partial class Polyfill
 {
+	static Encoding latin1 = Encoding.GetEncoding(28591);
 	extension(Encoding)
 	{
 		/// <summary>
 		/// Gets an encoding for the Latin1 character set (ISO-8859-1).
 		/// </summary>
-		public static Encoding Latin1 => Encoding.GetEncoding(28591);
+		public static Encoding Latin1 => latin1;
 	}
 }

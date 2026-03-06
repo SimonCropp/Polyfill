@@ -78,6 +78,137 @@ static partial class Polyfill
 
 #endif
 
+#if !NET6_0_OR_GREATER
+
+    /// <summary>
+    /// Returns a non-negative random integer.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextint64?view=net-11.0#system-random-nextint64
+    public static long NextInt64(this Random target) =>
+        target.NextInt64(long.MaxValue);
+
+    /// <summary>
+    /// Returns a non-negative random integer that is less than the specified maximum.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextint64?view=net-11.0#system-random-nextint64(system-int64)
+    public static long NextInt64(this Random target, long maxValue) =>
+        target.NextInt64(0, maxValue);
+
+    /// <summary>
+    /// Returns a random integer that is within a specified range.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextint64?view=net-11.0#system-random-nextint64(system-int64-system-int64)
+    public static long NextInt64(this Random target, long minValue, long maxValue)
+    {
+        if (minValue > maxValue)
+        {
+            throw new ArgumentOutOfRangeException(nameof(minValue));
+        }
+
+        if (minValue == maxValue)
+        {
+            return minValue;
+        }
+
+        var range = (ulong)(maxValue - minValue);
+        var limit = ulong.MaxValue - ulong.MaxValue % range;
+        ulong result;
+        do
+        {
+            var buf = new byte[8];
+            target.NextBytes(buf);
+            result = BitConverter.ToUInt64(buf, 0);
+        } while (result >= limit);
+
+        return (long)(result % range) + minValue;
+    }
+
+    /// <summary>
+    /// Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextsingle?view=net-11.0
+    public static float NextSingle(this Random target) =>
+        (float)target.NextDouble();
+
+#endif
+
+#if !NET10_0_OR_GREATER
+
+    /// <summary>
+    /// Creates a string filled with random hexadecimal characters.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.gethexstring?view=net-11.0#system-random-gethexstring(system-int32-system-boolean)
+    public static string GetHexString(this Random target, int stringLength, bool lowercase = false)
+    {
+        if (stringLength < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(stringLength));
+        }
+
+        if (stringLength == 0)
+        {
+            return string.Empty;
+        }
+
+        var hexAlphabet = lowercase ? "0123456789abcdef" : "0123456789ABCDEF";
+        var chars = new char[stringLength];
+        for (var i = 0; i < stringLength; i++)
+        {
+            chars[i] = hexAlphabet[target.Next(16)];
+        }
+
+        return new string(chars);
+    }
+
+#if FeatureMemory
+
+    /// <summary>
+    /// Fills a buffer with random hexadecimal characters.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.gethexstring?view=net-11.0#system-random-gethexstring(system-span((system-char))-system-boolean)
+    public static void GetHexString(this Random target, Span<char> destination, bool lowercase = false)
+    {
+        var hexAlphabet = lowercase ? "0123456789abcdef" : "0123456789ABCDEF";
+        for (var i = 0; i < destination.Length; i++)
+        {
+            destination[i] = hexAlphabet[target.Next(16)];
+        }
+    }
+
+    /// <summary>
+    /// Creates a string populated with characters chosen at random from the provided set of choices.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.getstring?view=net-11.0
+    public static string GetString(this Random target, ReadOnlySpan<char> choices, int length)
+    {
+        if (choices.IsEmpty)
+        {
+            throw new ArgumentException("Choices cannot be empty.", nameof(choices));
+        }
+
+        if (length < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(length));
+        }
+
+        if (length == 0)
+        {
+            return string.Empty;
+        }
+
+        var chars = new char[length];
+        for (var i = 0; i < length; i++)
+        {
+            chars[i] = choices[target.Next(choices.Length)];
+        }
+
+        return new string(chars);
+    }
+
+#endif
+
+#endif
+
 #if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER && FeatureMemory
 
     /// <summary>
