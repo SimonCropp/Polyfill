@@ -27,7 +27,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
 ## Nuget
 
  * https://nuget.org/packages/Polyfill/
- * https://nuget.org/packages/PolyfillLib/ (See [PolyfillLib](polyfill-lib.md))
+ * https://nuget.org/packages/PolyfillLib/ (See [PolyfillLib docs](polyfill-lib.md))
 
 
 ## TargetFrameworks
