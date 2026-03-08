@@ -41,14 +41,9 @@ static partial class Polyfill
         {
             target.EnableRaisingEvents = true;
         }
-        catch (InvalidOperationException)
+        catch (InvalidOperationException) when (target.HasExited)
         {
-            if (target.HasExited)
-            {
-                return;
-            }
-
-            throw;
+            return;
         }
 
         var tcs = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
