@@ -64,7 +64,7 @@
   <Target
       Name="PolyfillValidateNugetTargets"
       AfterTargets="AfterBuild"
-      Condition="$(NoWarn.Contains('PolyfillTargetsForNuget')) != true And '$(GeneratePackageOnBuild)' == 'true'">
+      Condition="$(NoWarn.Contains('PolyfillTargetsForNuget')) != true And '$(GeneratePackageOnBuild)' == 'true' And '$(IsRoslynComponent)' != 'true'">
     <Warning
         Code="PolyfillTargetsForNuget"
         Text="Projects that produce a nuget and consume Polyfill:
