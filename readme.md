@@ -13,7 +13,35 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 800**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 812**<!-- include: apiCount. path: /apiCount.include.md -->
+
+### Per Target Framework
+
+| Target | APIs |
+| -- | -- |
+| `net461` | 769 |
+| `net462` | 769 |
+| `net47` | 768 |
+| `net471` | 768 |
+| `net472` | 764 |
+| `net48` | 764 |
+| `net481` | 764 |
+| `netstandard2.0` | 767 |
+| `netstandard2.1` | 608 |
+| `netcoreapp2.0` | 690 |
+| `netcoreapp2.1` | 620 |
+| `netcoreapp2.2` | 620 |
+| `netcoreapp3.0` | 567 |
+| `netcoreapp3.1` | 566 |
+| `net5.0` | 452 |
+| `net6.0` | 371 |
+| `net7.0` | 258 |
+| `net8.0` | 173 |
+| `net9.0` | 116 |
+| `net10.0` | 75 |
+| `net11.0` | 60 |
+| `uap10.0` | 756 |
+<!-- endInclude -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -86,7 +114,7 @@ This project uses features from the current stable SDK and C# language. As such 
 | net6.0         |         10.0KB |       120.0KB |  +110.0KB |    +9.5KB |             +6.5KB |           +512bytes |      +3.0KB |
 | net7.0         |         10.0KB |        89.5KB |   +79.5KB |    +9.5KB |             +6.0KB |           +512bytes |      +3.5KB |
 | net8.0         |          9.5KB |        73.5KB |   +64.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net9.0         |         10.0KB |        39.5KB |   +29.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
+| net9.0         |          9.5KB |        39.5KB |   +30.0KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 | net10.0        |         10.0KB |        23.5KB |   +13.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 | net11.0        |         10.0KB |        19.0KB |    +9.0KB |    +9.5KB |                    |              +1.0KB |      +4.0KB |
 
@@ -113,7 +141,7 @@ This project uses features from the current stable SDK and C# language. As such 
 | net6.0         |         10.0KB |       177.3KB |  +167.3KB |   +17.2KB |             +8.2KB |              +1.1KB |      +3.7KB |
 | net7.0         |         10.0KB |       129.9KB |  +119.9KB |   +17.1KB |             +7.4KB |              +1.1KB |      +4.2KB |
 | net8.0         |          9.5KB |       105.2KB |   +95.7KB |   +16.0KB |          +299bytes |              +1.1KB |      +4.2KB |
-| net9.0         |         10.0KB |        58.0KB |   +48.0KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
+| net9.0         |          9.5KB |        58.0KB |   +48.5KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
 | net10.0        |         10.0KB |        35.8KB |   +25.8KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
 | net11.0        |         10.0KB |        28.5KB |   +18.5KB |   +17.0KB |                    |              +1.6KB |      +4.7KB |
 <!-- endInclude -->
@@ -1188,6 +1216,12 @@ The class `Polyfill` includes the following extension methods:
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-11.0#system-memoryextensions-commonprefixlength-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `bool Contains<T>(T, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0-system-collections-generic-iequalitycomparer((-0))))
  * `bool Contains<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0))
+ * `bool ContainsAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
+ * `bool ContainsAnyExcept<T>(T, T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-0-0-0))
+ * `bool ContainsAnyExcept<T>(T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-0-0))
+ * `bool ContainsAnyExcept<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-0))
+ * `bool ContainsAnyExceptInRange<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexceptinrange?view=net-11.0#system-memoryextensions-containsanyexceptinrange-1(system-readonlyspan((-0))-0-0))
+ * `bool ContainsAnyInRange<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyinrange?view=net-11.0#system-memoryextensions-containsanyinrange-1(system-readonlyspan((-0))-0-0))
  * `int CountAny<T>(ReadOnlySpan<T>, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.countany?view=net-11.0#system-memoryextensions-countany-1(system-readonlyspan((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0))))
  * `int CountAny<T>(ReadOnlySpan<T>) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.countany?view=net-11.0#system-memoryextensions-countany-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `int CountAny<T>(SearchValues<T>) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.countany?view=net-11.0#system-memoryextensions-countany-1(system-readonlyspan((-0))-system-buffers-searchvalues((-0))))
@@ -1311,6 +1345,12 @@ The class `Polyfill` includes the following extension methods:
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-11.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0))))
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-11.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))))
  * `bool Contains<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-span((-0))-0))
+ * `bool ContainsAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-system-readonlyspan((-0))))
+ * `bool ContainsAnyExcept<T>(T, T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-0-0-0))
+ * `bool ContainsAnyExcept<T>(T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-0-0))
+ * `bool ContainsAnyExcept<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-0))
+ * `bool ContainsAnyExceptInRange<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexceptinrange?view=net-11.0#system-memoryextensions-containsanyexceptinrange-1(system-span((-0))-0-0))
+ * `bool ContainsAnyInRange<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyinrange?view=net-11.0#system-memoryextensions-containsanyinrange-1(system-span((-0))-0-0))
  * `void Sort<T>(Comparison<T>)`
  * `void Sort<T>() where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-1(system-span((-0))))
 
