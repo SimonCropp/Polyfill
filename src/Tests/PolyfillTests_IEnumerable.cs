@@ -426,4 +426,93 @@ partial class PolyfillTests
         var result = firstList.IntersectBy(secondList, _ => _.Length, EqualityComparer<int>.Default).ToList();
         await Assert.That(result.SequenceEqual(["banana", "apple"])).IsTrue();
     }
+
+    [Test]
+    public async Task IEnumerableLeftJoin()
+    {
+        IEnumerable<string> people = ["Magnus", "Terry", "Charlotte", "Tom"];
+        IEnumerable<(string Name, string Owner)> pets =
+        [
+            ("Barley", "Terry"),
+            ("Boots", "Terry"),
+            ("Whiskers", "Charlotte"),
+            ("Daisy", "Magnus")
+        ];
+
+        var result = people.LeftJoin(
+            pets,
+            person => person,
+            pet => pet.Owner,
+            (person, pet) => $"{person}-{pet.Name}").ToList();
+
+        await Assert.That(result).Count().IsEqualTo(5);
+        await Assert.That(result[0]).IsEqualTo("Magnus-Daisy");
+        await Assert.That(result[1]).IsEqualTo("Terry-Barley");
+        await Assert.That(result[2]).IsEqualTo("Terry-Boots");
+        await Assert.That(result[3]).IsEqualTo("Charlotte-Whiskers");
+        await Assert.That(result[4]).IsEqualTo("Tom-");
+    }
+
+    [Test]
+    public async Task IEnumerableLeftJoinWithComparer()
+    {
+        IEnumerable<string> outer = ["A", "B", "C"];
+        IEnumerable<(string Key, int Value)> inner = [("a", 1), ("b", 2)];
+
+        var result = outer.LeftJoin(
+            inner,
+            o => o,
+            i => i.Key,
+            (o, i) => $"{o}-{i.Value}",
+            StringComparer.OrdinalIgnoreCase).ToList();
+
+        await Assert.That(result).Count().IsEqualTo(3);
+        await Assert.That(result[0]).IsEqualTo("A-1");
+        await Assert.That(result[1]).IsEqualTo("B-2");
+        await Assert.That(result[2]).IsEqualTo("C-0");
+    }
+
+    [Test]
+    public async Task IEnumerableRightJoin()
+    {
+        IEnumerable<string> people = ["Terry", "Charlotte", "Tom"];
+        IEnumerable<(string Name, string Owner)> pets =
+        [
+            ("Barley", "Terry"),
+            ("Boots", "Terry"),
+            ("Whiskers", "Charlotte"),
+            ("Daisy", "Magnus")
+        ];
+
+        var result = people.RightJoin(
+            pets,
+            person => person,
+            pet => pet.Owner,
+            (person, pet) => $"{person}-{pet.Name}").ToList();
+
+        await Assert.That(result).Count().IsEqualTo(4);
+        await Assert.That(result[0]).IsEqualTo("Terry-Barley");
+        await Assert.That(result[1]).IsEqualTo("Terry-Boots");
+        await Assert.That(result[2]).IsEqualTo("Charlotte-Whiskers");
+        await Assert.That(result[3]).IsEqualTo("-Daisy");
+    }
+
+    [Test]
+    public async Task IEnumerableRightJoinWithComparer()
+    {
+        IEnumerable<string> outer = ["A", "B"];
+        IEnumerable<(string Key, int Value)> inner = [("a", 1), ("b", 2), ("c", 3)];
+
+        var result = outer.RightJoin(
+            inner,
+            o => o,
+            i => i.Key,
+            (o, i) => $"{o}-{i.Value}",
+            StringComparer.OrdinalIgnoreCase).ToList();
+
+        await Assert.That(result).Count().IsEqualTo(3);
+        await Assert.That(result[0]).IsEqualTo("A-1");
+        await Assert.That(result[1]).IsEqualTo("B-2");
+        await Assert.That(result[2]).IsEqualTo("-3");
+    }
 }

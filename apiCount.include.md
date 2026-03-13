@@ -1,4 +1,4 @@
-**API count: 800**
+**API count: 804**
 
 ### Per Target Framework
 
