@@ -29,6 +29,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 #if FeatureMemory
 using System.Buffers.Binary;
 #endif
@@ -608,6 +609,12 @@ class Consume
     {
         var entry = new DictionaryEntry("key", "value");
         var (key, value) = entry;
+    }
+
+    void ExceptionDispatchInfo_Methods()
+    {
+        var ex = new Exception("test");
+        ExceptionDispatchInfo.SetCurrentStackTrace(ex);
     }
 
     void Enum_Methods()
