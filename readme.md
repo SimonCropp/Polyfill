@@ -1922,7 +1922,7 @@ void ObjectDisposedExceptionExample(bool isDisposed)
     ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L537-L561' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L540-L564' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -1941,7 +1941,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L567-L579' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L570-L582' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
