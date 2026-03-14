@@ -29,6 +29,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 #if FeatureMemory
 using System.Buffers.Binary;
 #endif
@@ -613,6 +614,12 @@ class Consume
         var (key, value) = entry;
     }
 
+    void ExceptionDispatchInfo_Methods()
+    {
+        var ex = new Exception("test");
+        ExceptionDispatchInfo.SetCurrentStackTrace(ex);
+    }
+
     void Enum_Methods()
     {
         var values = Enum.GetValuesAsUnderlyingType(typeof(DayOfWeek));
@@ -881,6 +888,15 @@ class Consume
         queue.TrimExcess(1);
         queue.TrimExcess();
     }
+
+#if NET6_0_OR_GREATER
+    void PriorityQueue_Methods()
+    {
+        var pq = new PriorityQueue<string, int>();
+        pq.Remove("item", out _, out _);
+        pq.Remove("item", out _, out _, StringComparer.Ordinal);
+    }
+#endif
 
     void Long_Methods()
     {
