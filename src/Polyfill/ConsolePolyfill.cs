@@ -1,5 +1,5 @@
 //TODO: cehck this again in net11 preview 2
-#if !NET12_0_OR_GREATER
+#if !NET11_0_OR_GREATER
 namespace Polyfills;
 
 using System;

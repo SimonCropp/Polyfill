@@ -698,14 +698,12 @@ class Consume
         var relative = Path.GetRelativePath("/folder1/folder2", "/folder1/folder3");
     }
 
-#if !NET11_0_OR_GREATER
     void Console_Methods()
     {
         using var stdin = Console.OpenStandardInputHandle();
         using var stdout = Console.OpenStandardOutputHandle();
         using var stderr = Console.OpenStandardErrorHandle();
     }
-#endif
 
     void File_Methods()
     {
