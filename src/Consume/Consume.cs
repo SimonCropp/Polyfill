@@ -524,6 +524,9 @@ class Consume
         iDictionary.TryAdd("key", "value");
         iDictionary.Remove("key");
 
+        IEnumerable<KeyValuePair<string, string?>> pairs = dictionary;
+        pairs.ToDictionary();
+        pairs.ToDictionary(StringComparer.Ordinal);
     }
 
     void Lock_Methods()
