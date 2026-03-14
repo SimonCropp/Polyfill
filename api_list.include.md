@@ -400,6 +400,14 @@
  * `IEnumerable<(TFirst First, TSecond Second)> Zip<TFirst, TSecond>(IEnumerable<TSecond>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip?view=net-11.0#system-linq-enumerable-zip-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))))
 
 
+#### IEnumerable<TOuter>
+
+ * `IEnumerable<TResult> LeftJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter, TInner?, TResult>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-11.0#system-linq-enumerable-leftjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2))))
+ * `IEnumerable<TResult> LeftJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter, TInner?, TResult>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-11.0#system-linq-enumerable-leftjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))))
+ * `IEnumerable<TResult> RightJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter?, TInner, TResult>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin?view=net-11.0#system-linq-enumerable-rightjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2))))
+ * `IEnumerable<TResult> RightJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter?, TInner, TResult>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin?view=net-11.0#system-linq-enumerable-rightjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))))
+
+
 #### IEnumerable<TSource>
 
  * `IEnumerable<KeyValuePair<TKey, TAccumulate>> AggregateBy<TSource, TKey, TAccumulate>(Func<TSource, TKey>, Func<TKey, TAccumulate>, Func<TAccumulate, TSource, TAccumulate>, IEqualityComparer<TKey>?) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.aggregateby?view=net-11.0#system-linq-enumerable-aggregateby-3(system-collections-generic-ienumerable((-0))-system-func((-0-1))-2-system-func((-2-0-2))-system-collections-generic-iequalitycomparer((-1))))

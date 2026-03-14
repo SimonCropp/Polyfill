@@ -13,7 +13,35 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 800**<!-- singleLineInclude: apiCount. path: /apiCount.include.md -->
+**API count: 804**<!-- include: apiCount. path: /apiCount.include.md -->
+
+### Per Target Framework
+
+| Target | APIs |
+| -- | -- |
+| `net461` | 769 |
+| `net462` | 769 |
+| `net47` | 768 |
+| `net471` | 768 |
+| `net472` | 764 |
+| `net48` | 764 |
+| `net481` | 764 |
+| `netstandard2.0` | 767 |
+| `netstandard2.1` | 608 |
+| `netcoreapp2.0` | 690 |
+| `netcoreapp2.1` | 620 |
+| `netcoreapp2.2` | 620 |
+| `netcoreapp3.0` | 567 |
+| `netcoreapp3.1` | 566 |
+| `net5.0` | 452 |
+| `net6.0` | 371 |
+| `net7.0` | 258 |
+| `net8.0` | 173 |
+| `net9.0` | 116 |
+| `net10.0` | 75 |
+| `net11.0` | 60 |
+| `uap10.0` | 756 |
+<!-- endInclude -->
 
 
 **See [Milestones](../../milestones?state=closed) for release notes.**
@@ -86,7 +114,7 @@ This project uses features from the current stable SDK and C# language. As such 
 | net6.0         |         10.0KB |       120.0KB |  +110.0KB |    +9.5KB |             +6.5KB |           +512bytes |      +3.0KB |
 | net7.0         |         10.0KB |        89.5KB |   +79.5KB |    +9.5KB |             +6.0KB |           +512bytes |      +3.5KB |
 | net8.0         |          9.5KB |        73.5KB |   +64.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net9.0         |         10.0KB |        39.5KB |   +29.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
+| net9.0         |          9.5KB |        39.5KB |   +30.0KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 | net10.0        |         10.0KB |        23.5KB |   +13.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 | net11.0        |         10.0KB |        19.0KB |    +9.0KB |    +9.5KB |                    |              +1.0KB |      +4.0KB |
 
@@ -113,7 +141,7 @@ This project uses features from the current stable SDK and C# language. As such 
 | net6.0         |         10.0KB |       177.3KB |  +167.3KB |   +17.2KB |             +8.2KB |              +1.1KB |      +3.7KB |
 | net7.0         |         10.0KB |       129.9KB |  +119.9KB |   +17.1KB |             +7.4KB |              +1.1KB |      +4.2KB |
 | net8.0         |          9.5KB |       105.2KB |   +95.7KB |   +16.0KB |          +299bytes |              +1.1KB |      +4.2KB |
-| net9.0         |         10.0KB |        58.0KB |   +48.0KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
+| net9.0         |          9.5KB |        58.0KB |   +48.5KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
 | net10.0        |         10.0KB |        35.8KB |   +25.8KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
 | net11.0        |         10.0KB |        28.5KB |   +18.5KB |   +17.0KB |                    |              +1.6KB |      +4.7KB |
 <!-- endInclude -->
@@ -901,6 +929,14 @@ The class `Polyfill` includes the following extension methods:
 
  * `IEnumerable<(TFirst First, TSecond Second, TThird Third)> Zip<TFirst, TSecond, TThird>(IEnumerable<TSecond>, IEnumerable<TThird>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip?view=net-11.0#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-collections-generic-ienumerable((-2))))
  * `IEnumerable<(TFirst First, TSecond Second)> Zip<TFirst, TSecond>(IEnumerable<TSecond>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip?view=net-11.0#system-linq-enumerable-zip-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))))
+
+
+#### IEnumerable<TOuter>
+
+ * `IEnumerable<TResult> LeftJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter, TInner?, TResult>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-11.0#system-linq-enumerable-leftjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2))))
+ * `IEnumerable<TResult> LeftJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter, TInner?, TResult>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-11.0#system-linq-enumerable-leftjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))))
+ * `IEnumerable<TResult> RightJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter?, TInner, TResult>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin?view=net-11.0#system-linq-enumerable-rightjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2))))
+ * `IEnumerable<TResult> RightJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter?, TInner, TResult>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin?view=net-11.0#system-linq-enumerable-rightjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))))
 
 
 #### IEnumerable<TSource>
