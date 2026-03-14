@@ -817,6 +817,13 @@ class Consume
         IEnumerable<int> lengths = [1];
         var intersectBy = enumerable.IntersectBy(lengths, _ => _.Length);
         var intersectByComparer = enumerable.IntersectBy(lengths, _ => _.Length, EqualityComparer<int>.Default);
+#if FeatureValueTuple
+        IEnumerable<(string Key, int Value)> inner = [("a", 1)];
+        var leftJoin = enumerable.LeftJoin(inner, _ => _, _ => _.Key, (o, i) => $"{o}-{i.Value}");
+        var leftJoinComparer = enumerable.LeftJoin(inner, _ => _, _ => _.Key, (o, i) => $"{o}-{i.Value}", StringComparer.OrdinalIgnoreCase);
+        var rightJoin = enumerable.RightJoin(inner, _ => _, _ => _.Key, (o, i) => $"{o}-{i.Value}");
+        var rightJoinComparer = enumerable.RightJoin(inner, _ => _, _ => _.Key, (o, i) => $"{o}-{i.Value}", StringComparer.OrdinalIgnoreCase);
+#endif
     }
 
     void IList_Methods()

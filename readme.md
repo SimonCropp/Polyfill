@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 812**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 804**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
@@ -929,6 +929,14 @@ The class `Polyfill` includes the following extension methods:
 
  * `IEnumerable<(TFirst First, TSecond Second, TThird Third)> Zip<TFirst, TSecond, TThird>(IEnumerable<TSecond>, IEnumerable<TThird>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip?view=net-11.0#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-collections-generic-ienumerable((-2))))
  * `IEnumerable<(TFirst First, TSecond Second)> Zip<TFirst, TSecond>(IEnumerable<TSecond>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip?view=net-11.0#system-linq-enumerable-zip-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))))
+
+
+#### IEnumerable<TOuter>
+
+ * `IEnumerable<TResult> LeftJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter, TInner?, TResult>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-11.0#system-linq-enumerable-leftjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2))))
+ * `IEnumerable<TResult> LeftJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter, TInner?, TResult>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-11.0#system-linq-enumerable-leftjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))))
+ * `IEnumerable<TResult> RightJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter?, TInner, TResult>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin?view=net-11.0#system-linq-enumerable-rightjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2))))
+ * `IEnumerable<TResult> RightJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter?, TInner, TResult>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin?view=net-11.0#system-linq-enumerable-rightjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))))
 
 
 #### IEnumerable<TSource>
