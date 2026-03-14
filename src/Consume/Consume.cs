@@ -886,6 +886,15 @@ class Consume
         queue.TrimExcess();
     }
 
+#if NET6_0_OR_GREATER
+    void PriorityQueue_Methods()
+    {
+        var pq = new PriorityQueue<string, int>();
+        pq.Remove("item", out _, out _);
+        pq.Remove("item", out _, out _, StringComparer.Ordinal);
+    }
+#endif
+
     void Long_Methods()
     {
         long.TryParse(s: "1", provider: null, result: out _);
