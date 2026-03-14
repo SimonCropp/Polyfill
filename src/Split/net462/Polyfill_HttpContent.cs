@@ -3,11 +3,31 @@
 #if FeatureHttp
 namespace Polyfills;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 static partial class Polyfill
 {
+	/// <summary>
+	/// Serializes the HTTP content and returns a stream that represents the content.
+	/// </summary>
+	public static Stream ReadAsStream(
+		this HttpContent target,
+		CancellationToken cancellationToken = default) =>
+		target.ReadAsStreamAsync(cancellationToken).GetAwaiter().GetResult();
+	/// <summary>
+	/// Serializes the HTTP content into a stream.
+	/// </summary>
+	public static void CopyTo(
+		this HttpContent target,
+		Stream stream,
+		TransportContext? context,
+		CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		target.CopyToAsync(stream, context).GetAwaiter().GetResult();
+	}
 	/// <summary>
 	/// Serializes the HTTP content and returns a stream that represents the content.
 	/// </summary>

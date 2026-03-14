@@ -758,6 +758,9 @@ class Consume
 
     void HttpContent_Methods(ByteArrayContent target)
     {
+        target.ReadAsStream();
+        target.ReadAsStream(CancellationToken.None);
+        target.CopyTo(System.IO.Stream.Null, null, CancellationToken.None);
         target.ReadAsStreamAsync(CancellationToken.None);
         target.ReadAsByteArrayAsync(CancellationToken.None);
         target.ReadAsStringAsync(CancellationToken.None);
