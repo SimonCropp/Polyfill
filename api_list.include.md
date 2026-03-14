@@ -289,6 +289,11 @@
  * `bool IsNullable()`
 
 
+#### ExceptionDispatchInfo
+
+ * `Exception SetCurrentStackTrace(Exception)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.exceptionservices.exceptiondispatchinfo.setcurrentstacktrace?view=net-11.0)
+
+
 #### FieldInfo
 
  * `NullabilityState GetNullability()`
@@ -374,7 +379,9 @@
 
 #### HttpContent
 
+ * `void CopyTo(Stream, System.Net.TransportContext?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.copyto?view=net-11.0)
  * `Task<byte[]> ReadAsByteArrayAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasbytearrayasync?view=net-11.0#system-net-http-httpcontent-readasbytearrayasync(system-threading-cancellationtoken))
+ * `Stream ReadAsStream(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasstream?view=net-11.0#system-net-http-httpcontent-readasstream(system-threading-cancellationtoken))
  * `Task<Stream> ReadAsStreamAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasstreamasync?view=net-11.0#system-net-http-httpcontent-readasstreamasync(system-threading-cancellationtoken))
  * `Task<string> ReadAsStringAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasstringasync?view=net-11.0#system-net-http-httpcontent-readasstringasync(system-threading-cancellationtoken))
 
@@ -384,6 +391,11 @@
  * `ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>() where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly?view=net-11.0#system-collections-generic-collectionextensions-asreadonly-2(system-collections-generic-idictionary((-0-1))))
  * `bool Remove<TKey, TValue>(TKey, TValue) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.remove?view=net-11.0)
  * `bool TryAdd<TKey, TValue>(TKey, TValue) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.tryadd?view=net-11.0)
+
+
+#### IEnumerable<KeyValuePair<TKey, TValue>>
+
+ * `Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(IEqualityComparer<TKey>?) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.todictionary?view=net-11.0#system-linq-enumerable-todictionary-2(system-collections-generic-ienumerable(system-collections-generic-keyvaluepair(-0-1))-system-collections-generic-iequalitycomparer(-0)))
 
 
 #### IEnumerable<T>
@@ -623,6 +635,11 @@
  * `bool HasExtension(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getfilenamewithoutextension?view=net-11.0#system-io-path-getfilenamewithoutextension(system-readonlyspan((system-char))))
  * `ReadOnlySpan<char> TrimEndingDirectorySeparator(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.trimendingdirectoryseparator?view=net-11.0#system-io-path-trimendingdirectoryseparator(system-readonlyspan((system-char))))
  * `string TrimEndingDirectorySeparator(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.trimendingdirectoryseparator?view=net-11.0#system-io-path-trimendingdirectoryseparator(system-string))
+
+
+#### PriorityQueue<TElement, TPriority>
+
+ * `bool Remove<TElement, TPriority>(TElement, TElement, TPriority, IEqualityComparer<TElement>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.priorityqueue-2.remove?view=net-11.0#system-collections-generic-priorityqueue-2-remove(-0,-0@,-1@,system-collections-generic-iequalitycomparer(-0)))
 
 
 #### Process
