@@ -126,6 +126,52 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task HttpClientPatchAsync_String()
+    {
+        using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
+        using var content = new StringContent("patch data");
+
+        using var response = await httpClient.PatchAsync("https://example.com", content);
+
+        await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+    }
+
+    [Test]
+    public async Task HttpClientPatchAsync_Uri()
+    {
+        using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
+        using var content = new StringContent("patch data");
+
+        using var response = await httpClient.PatchAsync(new Uri("https://example.com"), content);
+
+        await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+    }
+
+    [Test]
+    public async Task HttpClientPatchAsync_String_WithCancellationToken()
+    {
+        var cancel = new Cancel();
+        using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
+        using var content = new StringContent("patch data");
+
+        using var response = await httpClient.PatchAsync("https://example.com", content, cancel);
+
+        await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+    }
+
+    [Test]
+    public async Task HttpClientPatchAsync_Uri_WithCancellationToken()
+    {
+        var cancel = new Cancel();
+        using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
+        using var content = new StringContent("patch data");
+
+        using var response = await httpClient.PatchAsync(new Uri("https://example.com"), content, cancel);
+
+        await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+    }
+
+    [Test]
     public async Task HttpClientGetStreamAsync_Positive()
     {
         // Arrange

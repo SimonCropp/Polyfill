@@ -9,13 +9,6 @@ using System.Threading.Tasks;
 static partial class Polyfill
 {
 	/// <summary>
-	/// Serializes the HTTP content and returns a stream that represents the content.
-	/// </summary>
-	public static Stream ReadAsStream(
-		this HttpContent target,
-		CancellationToken cancellationToken = default) =>
-		target.ReadAsStreamAsync(cancellationToken).GetAwaiter().GetResult();
-	/// <summary>
 	/// Serialize the HTTP content to a memory buffer as an asynchronous operation.
 	/// </summary>
 	public static Task LoadIntoBufferAsync(

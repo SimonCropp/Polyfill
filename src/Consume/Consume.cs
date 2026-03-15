@@ -748,6 +748,10 @@ class Consume
 #if FeatureHttp
     void HttpClient_Methods(HttpClient target)
     {
+        target.PatchAsync("", new StringContent(""));
+        target.PatchAsync(new Uri("http://a"), new StringContent(""));
+        target.PatchAsync("", new StringContent(""), CancellationToken.None);
+        target.PatchAsync(new Uri("http://a"), new StringContent(""), CancellationToken.None);
         target.Send(new HttpRequestMessage());
         target.Send(new HttpRequestMessage(), HttpCompletionOption.ResponseContentRead);
         target.Send(new HttpRequestMessage(), CancellationToken.None);
@@ -765,9 +769,13 @@ class Consume
         target.ReadAsStream();
         target.ReadAsStream(CancellationToken.None);
         target.CopyTo(System.IO.Stream.Null, null, CancellationToken.None);
+        target.CopyToAsync(System.IO.Stream.Null, CancellationToken.None);
+        target.CopyToAsync(System.IO.Stream.Null, null, CancellationToken.None);
         target.ReadAsStreamAsync(CancellationToken.None);
         target.ReadAsByteArrayAsync(CancellationToken.None);
         target.ReadAsStringAsync(CancellationToken.None);
+        target.LoadIntoBufferAsync(CancellationToken.None);
+        target.LoadIntoBufferAsync(1024, CancellationToken.None);
     }
 #endif
 

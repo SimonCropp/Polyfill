@@ -10,6 +10,50 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
+    /// <summary>
+    /// Sends a PATCH request to a URI designated as a string as an asynchronous operation.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.patchasync?view=net-11.0#system-net-http-httpclient-patchasync(system-string-system-net-http-httpcontent)
+    public static Task<HttpResponseMessage> PatchAsync(
+        this HttpClient target,
+        string? requestUri,
+        HttpContent? content) =>
+        target.SendAsync(new HttpRequestMessage(new HttpMethod("PATCH"), requestUri) { Content = content });
+
+    /// <summary>
+    /// Sends a PATCH request as an asynchronous operation.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.patchasync?view=net-11.0#system-net-http-httpclient-patchasync(system-uri-system-net-http-httpcontent)
+    public static Task<HttpResponseMessage> PatchAsync(
+        this HttpClient target,
+        Uri? requestUri,
+        HttpContent? content) =>
+        target.SendAsync(new HttpRequestMessage(new HttpMethod("PATCH"), requestUri) { Content = content });
+
+    /// <summary>
+    /// Sends a PATCH request with a cancellation token to a URI represented as a string as an asynchronous operation.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.patchasync?view=net-11.0#system-net-http-httpclient-patchasync(system-string-system-net-http-httpcontent-system-threading-cancellationtoken)
+    public static Task<HttpResponseMessage> PatchAsync(
+        this HttpClient target,
+        string? requestUri,
+        HttpContent? content,
+        CancellationToken cancellationToken) =>
+        target.SendAsync(new HttpRequestMessage(new HttpMethod("PATCH"), requestUri) { Content = content }, cancellationToken);
+
+    /// <summary>
+    /// Sends a PATCH request with a cancellation token as an asynchronous operation.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.patchasync?view=net-11.0#system-net-http-httpclient-patchasync(system-uri-system-net-http-httpcontent-system-threading-cancellationtoken)
+    public static Task<HttpResponseMessage> PatchAsync(
+        this HttpClient target,
+        Uri? requestUri,
+        HttpContent? content,
+        CancellationToken cancellationToken) =>
+        target.SendAsync(new HttpRequestMessage(new HttpMethod("PATCH"), requestUri) { Content = content }, cancellationToken);
+#endif
+
 #if !NET5_0_OR_GREATER
     /// <summary>
     /// Sends an HTTP request with the specified request.
