@@ -56,5 +56,41 @@ partial class PolyfillTests
         await Assert.That(stream).IsNotNull();
         await Assert.That(stream.CanRead).IsTrue();
     }
+
+    [Test]
+    public async Task HttpContent_CopyToAsync_WithCancellation()
+    {
+        using var content = new StringContent("test data");
+        using var destination = new MemoryStream();
+        await content.CopyToAsync(destination, CancellationToken.None);
+        await Assert.That(destination.Length).IsGreaterThan(0);
+    }
+
+    [Test]
+    public async Task HttpContent_CopyToAsync_WithContextAndCancellation()
+    {
+        using var content = new StringContent("test data");
+        using var destination = new MemoryStream();
+        await content.CopyToAsync(destination, null, CancellationToken.None);
+        await Assert.That(destination.Length).IsGreaterThan(0);
+    }
+
+    [Test]
+    public async Task HttpContent_LoadIntoBufferAsync_WithCancellation()
+    {
+        using var content = new StringContent("test data");
+        await content.LoadIntoBufferAsync(CancellationToken.None);
+        var result = await content.ReadAsStringAsync();
+        await Assert.That(result).IsEqualTo("test data");
+    }
+
+    [Test]
+    public async Task HttpContent_LoadIntoBufferAsync_WithMaxBufferSizeAndCancellation()
+    {
+        using var content = new StringContent("test data");
+        await content.LoadIntoBufferAsync(1024 * 1024, CancellationToken.None);
+        var result = await content.ReadAsStringAsync();
+        await Assert.That(result).IsEqualTo("test data");
+    }
 }
 #endif
