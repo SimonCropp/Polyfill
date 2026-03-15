@@ -748,6 +748,10 @@ class Consume
 #if FeatureHttp
     void HttpClient_Methods(HttpClient target)
     {
+        target.Send(new HttpRequestMessage());
+        target.Send(new HttpRequestMessage(), HttpCompletionOption.ResponseContentRead);
+        target.Send(new HttpRequestMessage(), CancellationToken.None);
+        target.Send(new HttpRequestMessage(), HttpCompletionOption.ResponseContentRead, CancellationToken.None);
         target.GetStreamAsync("", CancellationToken.None);
         target.GetStreamAsync(new Uri(""), CancellationToken.None);
         target.GetByteArrayAsync("", CancellationToken.None);

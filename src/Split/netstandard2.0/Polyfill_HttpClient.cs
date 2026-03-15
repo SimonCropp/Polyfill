@@ -10,6 +10,44 @@ using System.Threading.Tasks;
 static partial class Polyfill
 {
 	/// <summary>
+	/// Sends an HTTP request with the specified request.
+	/// </summary>
+	public static HttpResponseMessage Send(
+		this HttpClient target,
+		HttpRequestMessage request) =>
+		target.SendAsync(request).GetAwaiter().GetResult();
+	/// <summary>
+	/// Sends an HTTP request.
+	/// </summary>
+	public static HttpResponseMessage Send(
+		this HttpClient target,
+		HttpRequestMessage request,
+		HttpCompletionOption completionOption) =>
+		target.SendAsync(request, completionOption).GetAwaiter().GetResult();
+	/// <summary>
+	/// Sends an HTTP request with the specified request and cancellation token.
+	/// </summary>
+	public static HttpResponseMessage Send(
+		this HttpClient target,
+		HttpRequestMessage request,
+		CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		return target.SendAsync(request, cancellationToken).GetAwaiter().GetResult();
+	}
+	/// <summary>
+	/// Sends an HTTP request with the specified request, completion option and cancellation token.
+	/// </summary>
+	public static HttpResponseMessage Send(
+		this HttpClient target,
+		HttpRequestMessage request,
+		HttpCompletionOption completionOption,
+		CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		return target.SendAsync(request, completionOption, cancellationToken).GetAwaiter().GetResult();
+	}
+	/// <summary>
 	/// Send a GET request to the specified Uri and return the response body as a stream in an asynchronous operation.
 	/// </summary>
 	public static async Task<Stream> GetStreamAsync(
