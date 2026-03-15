@@ -748,10 +748,10 @@ class Consume
 #if FeatureHttp
     void HttpClient_Methods(HttpClient target)
     {
-        target.PatchAsync("", null);
-        target.PatchAsync(new Uri("http://a"), null);
-        target.PatchAsync("", null, CancellationToken.None);
-        target.PatchAsync(new Uri("http://a"), null, CancellationToken.None);
+        target.PatchAsync("", new StringContent(""));
+        target.PatchAsync(new Uri("http://a"), new StringContent(""));
+        target.PatchAsync("", new StringContent(""), CancellationToken.None);
+        target.PatchAsync(new Uri("http://a"), new StringContent(""), CancellationToken.None);
         target.Send(new HttpRequestMessage());
         target.Send(new HttpRequestMessage(), HttpCompletionOption.ResponseContentRead);
         target.Send(new HttpRequestMessage(), CancellationToken.None);
