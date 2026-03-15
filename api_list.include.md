@@ -375,6 +375,10 @@
  * `Task<Stream> GetStreamAsync(Uri, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstreamasync?view=net-11.0#system-net-http-httpclient-getstreamasync(system-uri-system-threading-cancellationtoken))
  * `Task<string> GetStringAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstringasync?view=net-11.0#system-net-http-httpclient-getstringasync(system-string-system-threading-cancellationtoken))
  * `Task<string> GetStringAsync(Uri, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstringasync?view=net-11.0#system-net-http-httpclient-getstringasync(system-uri-system-threading-cancellationtoken))
+ * `HttpResponseMessage Send(HttpRequestMessage, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage-system-threading-cancellationtoken))
+ * `HttpResponseMessage Send(HttpRequestMessage, HttpCompletionOption, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage-system-net-http-httpcompletionoption-system-threading-cancellationtoken))
+ * `HttpResponseMessage Send(HttpRequestMessage, HttpCompletionOption)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage-system-net-http-httpcompletionoption))
+ * `HttpResponseMessage Send(HttpRequestMessage)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage))
 
 
 #### HttpContent

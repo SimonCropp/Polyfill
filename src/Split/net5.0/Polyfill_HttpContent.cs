@@ -3,9 +3,9 @@
 #if FeatureHttp
 namespace Polyfills;
 using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
 static partial class Polyfill
 {
 	/// <summary>

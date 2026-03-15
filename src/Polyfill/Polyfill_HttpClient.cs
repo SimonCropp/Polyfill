@@ -12,6 +12,52 @@ static partial class Polyfill
 {
 #if !NET5_0_OR_GREATER
     /// <summary>
+    /// Sends an HTTP request with the specified request.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage)
+    public static HttpResponseMessage Send(
+        this HttpClient target,
+        HttpRequestMessage request) =>
+        target.SendAsync(request).GetAwaiter().GetResult();
+
+    /// <summary>
+    /// Sends an HTTP request.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage-system-net-http-httpcompletionoption)
+    public static HttpResponseMessage Send(
+        this HttpClient target,
+        HttpRequestMessage request,
+        HttpCompletionOption completionOption) =>
+        target.SendAsync(request, completionOption).GetAwaiter().GetResult();
+
+    /// <summary>
+    /// Sends an HTTP request with the specified request and cancellation token.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage-system-threading-cancellationtoken)
+    public static HttpResponseMessage Send(
+        this HttpClient target,
+        HttpRequestMessage request,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return target.SendAsync(request, cancellationToken).GetAwaiter().GetResult();
+    }
+
+    /// <summary>
+    /// Sends an HTTP request with the specified request, completion option and cancellation token.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage-system-net-http-httpcompletionoption-system-threading-cancellationtoken)
+    public static HttpResponseMessage Send(
+        this HttpClient target,
+        HttpRequestMessage request,
+        HttpCompletionOption completionOption,
+        CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        return target.SendAsync(request, completionOption, cancellationToken).GetAwaiter().GetResult();
+    }
+
+    /// <summary>
     /// Send a GET request to the specified Uri and return the response body as a stream in an asynchronous operation.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstreamasync?view=net-11.0#system-net-http-httpclient-getstreamasync(system-string-system-threading-cancellationtoken)
