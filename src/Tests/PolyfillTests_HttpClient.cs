@@ -13,14 +13,162 @@ partial class PolyfillTests
         {
             cancellation.ThrowIfCancellationRequested();
 
-            return Task.FromResult(
-                new HttpResponseMessage(HttpStatusCode.OK)
-                {
-                    RequestMessage = request,
-                    Content = new StringContent("Fake Content")
-                }
-            );
+            return Task.FromResult(CreateResponse(request));
         }
+
+#if NET5_0_OR_GREATER
+        protected override HttpResponseMessage Send(
+            HttpRequestMessage request,
+            Cancel cancellation)
+        {
+            cancellation.ThrowIfCancellationRequested();
+
+            return CreateResponse(request);
+        }
+#endif
+
+        static HttpResponseMessage CreateResponse(HttpRequestMessage request) =>
+            new(HttpStatusCode.OK)
+            {
+                RequestMessage = request,
+                Content = new StringContent("Fake Content")
+            };
+    }
+
+    [Test]
+    public async Task HttpClientSend()
+    {
+        using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
+        using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.com");
+
+        using var response = httpClient.Send(request);
+
+        await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+        var content = await response.Content.ReadAsStringAsync();
+        await Assert.That(content).IsEqualTo("Fake Content");
+    }
+
+    [Test]
+    public async Task HttpClientSendWithCompletionOption()
+    {
+        using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
+        using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.com");
+
+        using var response = httpClient.Send(request, HttpCompletionOption.ResponseHeadersRead);
+
+        await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+        var content = await response.Content.ReadAsStringAsync();
+        await Assert.That(content).IsEqualTo("Fake Content");
+    }
+
+    [Test]
+    public async Task HttpClientSendWithCancellationToken()
+    {
+        var cancel = new Cancel();
+        using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
+        using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.com");
+
+        using var response = httpClient.Send(request, cancel);
+
+        await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+        var content = await response.Content.ReadAsStringAsync();
+        await Assert.That(content).IsEqualTo("Fake Content");
+    }
+
+    [Test]
+    public async Task HttpClientSendWithCancellationToken_Cancelled()
+    {
+        var cancel = new Cancel(true);
+        using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
+        using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.com");
+
+        try
+        {
+            httpClient.Send(request, cancel);
+            Assert.Fail("Test failed");
+        }
+        catch (OperationCanceledException exception)
+        {
+            await Assert.That(exception.CancellationToken.IsCancellationRequested).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task HttpClientSendWithCompletionOptionAndCancellationToken()
+    {
+        var cancel = new Cancel();
+        using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
+        using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.com");
+
+        using var response = httpClient.Send(request, HttpCompletionOption.ResponseContentRead, cancel);
+
+        await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+        var content = await response.Content.ReadAsStringAsync();
+        await Assert.That(content).IsEqualTo("Fake Content");
+    }
+
+    [Test]
+    public async Task HttpClientSendWithCompletionOptionAndCancellationToken_Cancelled()
+    {
+        var cancel = new Cancel(true);
+        using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
+        using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.com");
+
+        try
+        {
+            httpClient.Send(request, HttpCompletionOption.ResponseContentRead, cancel);
+            Assert.Fail("Test failed");
+        }
+        catch (OperationCanceledException exception)
+        {
+            await Assert.That(exception.CancellationToken.IsCancellationRequested).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task HttpClientPatchAsync_String()
+    {
+        using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
+        using var content = new StringContent("patch data");
+
+        using var response = await httpClient.PatchAsync("https://example.com", content);
+
+        await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+    }
+
+    [Test]
+    public async Task HttpClientPatchAsync_Uri()
+    {
+        using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
+        using var content = new StringContent("patch data");
+
+        using var response = await httpClient.PatchAsync(new Uri("https://example.com"), content);
+
+        await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+    }
+
+    [Test]
+    public async Task HttpClientPatchAsync_String_WithCancellationToken()
+    {
+        var cancel = new Cancel();
+        using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
+        using var content = new StringContent("patch data");
+
+        using var response = await httpClient.PatchAsync("https://example.com", content, cancel);
+
+        await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
+    }
+
+    [Test]
+    public async Task HttpClientPatchAsync_Uri_WithCancellationToken()
+    {
+        var cancel = new Cancel();
+        using var httpClient = new HttpClient(new FakeHttpMessageHandler(), true);
+        using var content = new StringContent("patch data");
+
+        using var response = await httpClient.PatchAsync(new Uri("https://example.com"), content, cancel);
+
+        await Assert.That(response.StatusCode).IsEqualTo(HttpStatusCode.OK);
     }
 
     [Test]

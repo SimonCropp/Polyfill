@@ -289,6 +289,11 @@
  * `bool IsNullable()`
 
 
+#### ExceptionDispatchInfo
+
+ * `Exception SetCurrentStackTrace(Exception)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.exceptionservices.exceptiondispatchinfo.setcurrentstacktrace?view=net-11.0)
+
+
 #### FieldInfo
 
  * `NullabilityState GetNullability()`
@@ -370,11 +375,25 @@
  * `Task<Stream> GetStreamAsync(Uri, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstreamasync?view=net-11.0#system-net-http-httpclient-getstreamasync(system-uri-system-threading-cancellationtoken))
  * `Task<string> GetStringAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstringasync?view=net-11.0#system-net-http-httpclient-getstringasync(system-string-system-threading-cancellationtoken))
  * `Task<string> GetStringAsync(Uri, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstringasync?view=net-11.0#system-net-http-httpclient-getstringasync(system-uri-system-threading-cancellationtoken))
+ * `Task<HttpResponseMessage> PatchAsync(string?, HttpContent?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.patchasync?view=net-11.0#system-net-http-httpclient-patchasync(system-string-system-net-http-httpcontent-system-threading-cancellationtoken))
+ * `Task<HttpResponseMessage> PatchAsync(string?, HttpContent?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.patchasync?view=net-11.0#system-net-http-httpclient-patchasync(system-string-system-net-http-httpcontent))
+ * `Task<HttpResponseMessage> PatchAsync(Uri?, HttpContent?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.patchasync?view=net-11.0#system-net-http-httpclient-patchasync(system-uri-system-net-http-httpcontent-system-threading-cancellationtoken))
+ * `Task<HttpResponseMessage> PatchAsync(Uri?, HttpContent?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.patchasync?view=net-11.0#system-net-http-httpclient-patchasync(system-uri-system-net-http-httpcontent))
+ * `HttpResponseMessage Send(HttpRequestMessage, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage-system-threading-cancellationtoken))
+ * `HttpResponseMessage Send(HttpRequestMessage, HttpCompletionOption, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage-system-net-http-httpcompletionoption-system-threading-cancellationtoken))
+ * `HttpResponseMessage Send(HttpRequestMessage, HttpCompletionOption)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage-system-net-http-httpcompletionoption))
+ * `HttpResponseMessage Send(HttpRequestMessage)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage))
 
 
 #### HttpContent
 
+ * `void CopyTo(Stream, System.Net.TransportContext?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.copyto?view=net-11.0)
+ * `Task CopyToAsync(Stream, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.copytoasync?view=net-11.0#system-net-http-httpcontent-copytoasync(system-io-stream-system-threading-cancellationtoken))
+ * `Task CopyToAsync(Stream, System.Net.TransportContext?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.copytoasync?view=net-11.0#system-net-http-httpcontent-copytoasync(system-io-stream-system-net-transportcontext-system-threading-cancellationtoken))
+ * `Task LoadIntoBufferAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.loadintobufferasync?view=net-11.0#system-net-http-httpcontent-loadintobufferasync(system-threading-cancellationtoken))
+ * `Task LoadIntoBufferAsync(long, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.loadintobufferasync?view=net-11.0#system-net-http-httpcontent-loadintobufferasync(system-int64-system-threading-cancellationtoken))
  * `Task<byte[]> ReadAsByteArrayAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasbytearrayasync?view=net-11.0#system-net-http-httpcontent-readasbytearrayasync(system-threading-cancellationtoken))
+ * `Stream ReadAsStream(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasstream?view=net-11.0#system-net-http-httpcontent-readasstream(system-threading-cancellationtoken))
  * `Task<Stream> ReadAsStreamAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasstreamasync?view=net-11.0#system-net-http-httpcontent-readasstreamasync(system-threading-cancellationtoken))
  * `Task<string> ReadAsStringAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasstringasync?view=net-11.0#system-net-http-httpcontent-readasstringasync(system-threading-cancellationtoken))
 
@@ -384,6 +403,11 @@
  * `ReadOnlyDictionary<TKey, TValue> AsReadOnly<TKey, TValue>() where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly?view=net-11.0#system-collections-generic-collectionextensions-asreadonly-2(system-collections-generic-idictionary((-0-1))))
  * `bool Remove<TKey, TValue>(TKey, TValue) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.remove?view=net-11.0)
  * `bool TryAdd<TKey, TValue>(TKey, TValue) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.tryadd?view=net-11.0)
+
+
+#### IEnumerable<KeyValuePair<TKey, TValue>>
+
+ * `Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(IEqualityComparer<TKey>?) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.todictionary?view=net-11.0#system-linq-enumerable-todictionary-2(system-collections-generic-ienumerable(system-collections-generic-keyvaluepair(-0-1))-system-collections-generic-iequalitycomparer(-0)))
 
 
 #### IEnumerable<T>
@@ -398,6 +422,14 @@
 
  * `IEnumerable<(TFirst First, TSecond Second, TThird Third)> Zip<TFirst, TSecond, TThird>(IEnumerable<TSecond>, IEnumerable<TThird>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip?view=net-11.0#system-linq-enumerable-zip-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-collections-generic-ienumerable((-2))))
  * `IEnumerable<(TFirst First, TSecond Second)> Zip<TFirst, TSecond>(IEnumerable<TSecond>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.zip?view=net-11.0#system-linq-enumerable-zip-2(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))))
+
+
+#### IEnumerable<TOuter>
+
+ * `IEnumerable<TResult> LeftJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter, TInner?, TResult>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-11.0#system-linq-enumerable-leftjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2))))
+ * `IEnumerable<TResult> LeftJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter, TInner?, TResult>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-11.0#system-linq-enumerable-leftjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))))
+ * `IEnumerable<TResult> RightJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter?, TInner, TResult>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin?view=net-11.0#system-linq-enumerable-rightjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2))))
+ * `IEnumerable<TResult> RightJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter?, TInner, TResult>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin?view=net-11.0#system-linq-enumerable-rightjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))))
 
 
 #### IEnumerable<TSource>
@@ -617,6 +649,11 @@
  * `string TrimEndingDirectorySeparator(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.path.trimendingdirectoryseparator?view=net-11.0#system-io-path-trimendingdirectoryseparator(system-string))
 
 
+#### PriorityQueue<TElement, TPriority>
+
+ * `bool Remove<TElement, TPriority>(TElement, TElement, TPriority, IEqualityComparer<TElement>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.priorityqueue-2.remove?view=net-11.0#system-collections-generic-priorityqueue-2-remove(-0,-0@,-1@,system-collections-generic-iequalitycomparer(-0)))
+
+
 #### Process
 
  * `void Kill(bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.kill?view=net-11.0#system-diagnostics-process-kill(system-boolean))
@@ -685,6 +722,12 @@
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-11.0#system-memoryextensions-commonprefixlength-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `bool Contains<T>(T, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0-system-collections-generic-iequalitycomparer((-0))))
  * `bool Contains<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0))
+ * `bool ContainsAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
+ * `bool ContainsAnyExcept<T>(T, T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-0-0-0))
+ * `bool ContainsAnyExcept<T>(T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-0-0))
+ * `bool ContainsAnyExcept<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-0))
+ * `bool ContainsAnyExceptInRange<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexceptinrange?view=net-11.0#system-memoryextensions-containsanyexceptinrange-1(system-readonlyspan((-0))-0-0))
+ * `bool ContainsAnyInRange<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyinrange?view=net-11.0#system-memoryextensions-containsanyinrange-1(system-readonlyspan((-0))-0-0))
  * `int CountAny<T>(ReadOnlySpan<T>, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.countany?view=net-11.0#system-memoryextensions-countany-1(system-readonlyspan((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0))))
  * `int CountAny<T>(ReadOnlySpan<T>) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.countany?view=net-11.0#system-memoryextensions-countany-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `int CountAny<T>(SearchValues<T>) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.countany?view=net-11.0#system-memoryextensions-countany-1(system-readonlyspan((-0))-system-buffers-searchvalues((-0))))
@@ -808,6 +851,12 @@
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-11.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0))))
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-11.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))))
  * `bool Contains<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-span((-0))-0))
+ * `bool ContainsAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-system-readonlyspan((-0))))
+ * `bool ContainsAnyExcept<T>(T, T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-0-0-0))
+ * `bool ContainsAnyExcept<T>(T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-0-0))
+ * `bool ContainsAnyExcept<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-0))
+ * `bool ContainsAnyExceptInRange<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexceptinrange?view=net-11.0#system-memoryextensions-containsanyexceptinrange-1(system-span((-0))-0-0))
+ * `bool ContainsAnyInRange<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyinrange?view=net-11.0#system-memoryextensions-containsanyinrange-1(system-span((-0))-0-0))
  * `void Sort<T>(Comparison<T>)`
  * `void Sort<T>() where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-1(system-span((-0))))
 

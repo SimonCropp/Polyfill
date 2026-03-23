@@ -11,6 +11,50 @@ static partial class Polyfill
 	/// <summary>
 	/// Serializes the HTTP content and returns a stream that represents the content.
 	/// </summary>
+	public static Stream ReadAsStream(
+		this HttpContent target,
+		CancellationToken cancellationToken = default) =>
+		target.ReadAsStreamAsync(cancellationToken).GetAwaiter().GetResult();
+	/// <summary>
+	/// Serializes the HTTP content into a stream of bytes and copies it to the stream object provided as the stream parameter.
+	/// </summary>
+	public static Task CopyToAsync(
+		this HttpContent target,
+		Stream stream,
+		CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		return target.CopyToAsync(stream)
+			.WaitAsync(cancellationToken);
+	}
+	/// <summary>
+	/// Serializes the HTTP content into a stream of bytes and copies it to the stream object provided as the stream parameter.
+	/// </summary>
+	public static Task CopyToAsync(
+		this HttpContent target,
+		Stream stream,
+		System.Net.TransportContext? context,
+		CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		return target.CopyToAsync(stream, context)
+			.WaitAsync(cancellationToken);
+	}
+	/// <summary>
+	/// Serializes the HTTP content into a stream.
+	/// </summary>
+	public static void CopyTo(
+		this HttpContent target,
+		Stream stream,
+		System.Net.TransportContext? context,
+		CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		target.CopyToAsync(stream, context).GetAwaiter().GetResult();
+	}
+	/// <summary>
+	/// Serializes the HTTP content and returns a stream that represents the content.
+	/// </summary>
 	public static Task<Stream> ReadAsStreamAsync(
 		this HttpContent target,
 		CancellationToken cancellationToken = default)
@@ -39,6 +83,29 @@ static partial class Polyfill
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		return target.ReadAsStringAsync()
+			.WaitAsync(cancellationToken);
+	}
+	/// <summary>
+	/// Serialize the HTTP content to a memory buffer as an asynchronous operation.
+	/// </summary>
+	public static Task LoadIntoBufferAsync(
+		this HttpContent target,
+		CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		return target.LoadIntoBufferAsync()
+			.WaitAsync(cancellationToken);
+	}
+	/// <summary>
+	/// Serialize the HTTP content to a memory buffer as an asynchronous operation.
+	/// </summary>
+	public static Task LoadIntoBufferAsync(
+		this HttpContent target,
+		long maxBufferSize,
+		CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		return target.LoadIntoBufferAsync(maxBufferSize)
 			.WaitAsync(cancellationToken);
 	}
 }

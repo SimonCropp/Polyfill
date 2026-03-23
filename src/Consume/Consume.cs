@@ -29,6 +29,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 #if FeatureMemory
 using System.Buffers.Binary;
 #endif
@@ -523,6 +524,9 @@ class Consume
         iDictionary.TryAdd("key", "value");
         iDictionary.Remove("key");
 
+        IEnumerable<KeyValuePair<string, string?>> pairs = dictionary;
+        pairs.ToDictionary();
+        pairs.ToDictionary(StringComparer.Ordinal);
     }
 
     void Lock_Methods()
@@ -608,6 +612,12 @@ class Consume
     {
         var entry = new DictionaryEntry("key", "value");
         var (key, value) = entry;
+    }
+
+    void ExceptionDispatchInfo_Methods()
+    {
+        var ex = new Exception("test");
+        ExceptionDispatchInfo.SetCurrentStackTrace(ex);
     }
 
     void Enum_Methods()
@@ -698,14 +708,12 @@ class Consume
         var relative = Path.GetRelativePath("/folder1/folder2", "/folder1/folder3");
     }
 
-#if !NET11_0_OR_GREATER
     void Console_Methods()
     {
         using var stdin = Console.OpenStandardInputHandle();
         using var stdout = Console.OpenStandardOutputHandle();
         using var stderr = Console.OpenStandardErrorHandle();
     }
-#endif
 
     void File_Methods()
     {
@@ -740,6 +748,14 @@ class Consume
 #if FeatureHttp
     void HttpClient_Methods(HttpClient target)
     {
+        target.PatchAsync("", new StringContent(""));
+        target.PatchAsync(new Uri("http://a"), new StringContent(""));
+        target.PatchAsync("", new StringContent(""), CancellationToken.None);
+        target.PatchAsync(new Uri("http://a"), new StringContent(""), CancellationToken.None);
+        target.Send(new HttpRequestMessage());
+        target.Send(new HttpRequestMessage(), HttpCompletionOption.ResponseContentRead);
+        target.Send(new HttpRequestMessage(), CancellationToken.None);
+        target.Send(new HttpRequestMessage(), HttpCompletionOption.ResponseContentRead, CancellationToken.None);
         target.GetStreamAsync("", CancellationToken.None);
         target.GetStreamAsync(new Uri(""), CancellationToken.None);
         target.GetByteArrayAsync("", CancellationToken.None);
@@ -750,9 +766,16 @@ class Consume
 
     void HttpContent_Methods(ByteArrayContent target)
     {
+        target.ReadAsStream();
+        target.ReadAsStream(CancellationToken.None);
+        target.CopyTo(System.IO.Stream.Null, null, CancellationToken.None);
+        target.CopyToAsync(System.IO.Stream.Null, CancellationToken.None);
+        target.CopyToAsync(System.IO.Stream.Null, null, CancellationToken.None);
         target.ReadAsStreamAsync(CancellationToken.None);
         target.ReadAsByteArrayAsync(CancellationToken.None);
         target.ReadAsStringAsync(CancellationToken.None);
+        target.LoadIntoBufferAsync(CancellationToken.None);
+        target.LoadIntoBufferAsync(1024, CancellationToken.None);
     }
 #endif
 
@@ -817,6 +840,13 @@ class Consume
         IEnumerable<int> lengths = [1];
         var intersectBy = enumerable.IntersectBy(lengths, _ => _.Length);
         var intersectByComparer = enumerable.IntersectBy(lengths, _ => _.Length, EqualityComparer<int>.Default);
+#if FeatureValueTuple
+        IEnumerable<(string Key, int Value)> inner = [("a", 1)];
+        var leftJoin = enumerable.LeftJoin(inner, _ => _, _ => _.Key, (o, i) => $"{o}-{i.Value}");
+        var leftJoinComparer = enumerable.LeftJoin(inner, _ => _, _ => _.Key, (o, i) => $"{o}-{i.Value}", StringComparer.OrdinalIgnoreCase);
+        var rightJoin = enumerable.RightJoin(inner, _ => _, _ => _.Key, (o, i) => $"{o}-{i.Value}");
+        var rightJoinComparer = enumerable.RightJoin(inner, _ => _, _ => _.Key, (o, i) => $"{o}-{i.Value}", StringComparer.OrdinalIgnoreCase);
+#endif
     }
 
     void IList_Methods()
@@ -871,6 +901,15 @@ class Consume
         queue.TrimExcess(1);
         queue.TrimExcess();
     }
+
+#if NET6_0_OR_GREATER
+    void PriorityQueue_Methods()
+    {
+        var pq = new PriorityQueue<string, int>();
+        pq.Remove("item", out _, out _);
+        pq.Remove("item", out _, out _, StringComparer.Ordinal);
+    }
+#endif
 
     void Long_Methods()
     {
