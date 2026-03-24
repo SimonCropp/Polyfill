@@ -833,6 +833,7 @@ class Consume
 #endif
         var takeLast = enumerable.TakeLast(3);
         var unionBy = enumerable.UnionBy(["c"], _ => _, comparer: default);
+        var reverse = new[] {"a", "b"}.Reverse();
         var order = enumerable.Order();
         var orderComparer = enumerable.Order(StringComparer.Ordinal);
         var orderDescending = enumerable.OrderDescending();
