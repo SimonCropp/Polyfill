@@ -78,9 +78,10 @@ Polyfill uses extensive `#if` directives. Key constants:
 1. Add implementation to `src/Polyfill/` with `#if` guards for frameworks that need it
 2. Use `#pragma warning disable` at the top
 3. Use `#if PolyPublic` / `public` / `#endif` pattern for type visibility
-4. Add test to `src/Tests/PolyfillTests_{TypeName}.cs`
-5. Add compilation usage to `src/Consume/Consume.cs`
-6. Run `ApiBuilderTests` in **Debug** to regenerate Split files and `api_list.include.md`:
+4. Use `#if PolyUseEmbeddedAttribute` / `[global::Microsoft.CodeAnalysis.EmbeddedAttribute]` / `#endif` on the type — this prevents conflicts between source-included and compiled (PolyfillLib) variants in `EmbeddedTests`
+5. Add test to `src/Tests/PolyfillTests_{TypeName}.cs`
+6. Add compilation usage to `src/Consume/Consume.cs`
+7. Run `ApiBuilderTests` in **Debug** to regenerate Split files and `api_list.include.md`:
    ```bash
    dotnet run --project src/ApiBuilderTests/ApiBuilderTests.csproj --configuration Debug
    ```
