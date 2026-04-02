@@ -193,6 +193,13 @@
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryformat?view=net-11.0#system-decimal-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryformat?view=net-11.0#system-decimal-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `bool TryParse(ReadOnlySpan<byte>, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-readonlyspan((system-byte))-system-decimal@))
+ * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-decimal@))
+ * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-decimal@))
+ * `bool TryParse(ReadOnlySpan<char>, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-readonlyspan((system-char))-system-decimal@))
+ * `bool TryParse(ReadOnlySpan<char>, IFormatProvider?, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-decimal@))
+ * `bool TryParse(ReadOnlySpan<char>, NumberStyles, IFormatProvider?, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-decimal@))
+ * `bool TryParse(string?, IFormatProvider?, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-string-system-iformatprovider-system-decimal@))
 
 
 #### DefaultInterpolatedStringHandler
@@ -828,6 +835,13 @@
  * `uint SingleToUInt32Bits(float)`
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryformat?view=net-11.0#system-single-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryformat?view=net-11.0#system-single-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `bool TryParse(ReadOnlySpan<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-readonlyspan((system-byte))-system-single@))
+ * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-single@))
+ * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-single@))
+ * `bool TryParse(ReadOnlySpan<char>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-readonlyspan((system-char))-system-single@))
+ * `bool TryParse(ReadOnlySpan<char>, IFormatProvider?, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-single@))
+ * `bool TryParse(ReadOnlySpan<char>, NumberStyles, IFormatProvider?, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-single@))
+ * `bool TryParse(string?, IFormatProvider?, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-string-system-iformatprovider-system-single@))
 
 
 #### SortedList<TKey, TValue>
