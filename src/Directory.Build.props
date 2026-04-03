@@ -18,6 +18,7 @@
     <PolyEnsure>true</PolyEnsure>
     <PolyGuard>true</PolyGuard>
     <PolyArgumentExceptions>true</PolyArgumentExceptions>
+    <PolyIndexAndRange>true</PolyIndexAndRange>
     <PolyStringInterpolation>true</PolyStringInterpolation>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RunAnalyzers>false</RunAnalyzers>
