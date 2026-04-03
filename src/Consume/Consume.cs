@@ -595,6 +595,19 @@ class Consume
 
     class Order;
 
+    void Decimal_Methods()
+    {
+        decimal.TryParse(s: "1", provider: null, result: out _);
+#if FeatureMemory
+        decimal.TryParse(utf8Text: "1"u8, provider: null, result: out _);
+        decimal.TryParse(s: ['1'], result: out _);
+        decimal.TryParse(s: ['1'], provider: null, result: out _);
+        decimal.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
+        decimal.TryParse(utf8Text: "1"u8, result: out _);
+        decimal.TryParse(s: ['1'], style: NumberStyles.Integer, provider: null, result: out _);
+#endif
+    }
+
     void Double_Methods()
     {
         double.TryParse(s: "1", provider: null, result: out _);
@@ -833,6 +846,7 @@ class Consume
 #endif
         var takeLast = enumerable.TakeLast(3);
         var unionBy = enumerable.UnionBy(["c"], _ => _, comparer: default);
+        var reverse = new[] {"a", "b"}.Reverse();
         var order = enumerable.Order();
         var orderComparer = enumerable.Order(StringComparer.Ordinal);
         var orderDescending = enumerable.OrderDescending();
@@ -1071,6 +1085,19 @@ class Consume
         sbyte.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
         sbyte.TryParse(utf8Text: "1"u8, result: out _);
         sbyte.TryParse(s: ['1'], style: NumberStyles.Integer, provider: null, result: out _);
+#endif
+    }
+
+    void Single_Methods()
+    {
+        float.TryParse(s: "1", provider: null, result: out _);
+#if FeatureMemory
+        float.TryParse(utf8Text: "1"u8, provider: null, result: out _);
+        float.TryParse(s: ['1'], result: out _);
+        float.TryParse(s: ['1'], provider: null, result: out _);
+        float.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
+        float.TryParse(utf8Text: "1"u8, result: out _);
+        float.TryParse(s: ['1'], style: NumberStyles.Integer, provider: null, result: out _);
 #endif
     }
 

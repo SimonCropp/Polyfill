@@ -376,6 +376,14 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task ArrayReverse()
+    {
+        int[] array = [1, 2, 3];
+        var result = array.Reverse().ToList();
+        await Assert.That(result.SequenceEqual([3, 2, 1])).IsTrue();
+    }
+
+    [Test]
     public async Task IEnumerableOrder()
     {
         IEnumerable<int> enumerable = [3, 1, 2];

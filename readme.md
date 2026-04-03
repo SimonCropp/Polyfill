@@ -13,34 +13,34 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 821**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 847**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
 | Target | APIs |
 | -- | -- |
-| `net461` | 789 |
-| `net462` | 789 |
-| `net47` | 788 |
-| `net471` | 788 |
-| `net472` | 784 |
-| `net48` | 784 |
-| `net481` | 784 |
-| `netstandard2.0` | 787 |
-| `netstandard2.1` | 628 |
-| `netcoreapp2.0` | 710 |
-| `netcoreapp2.1` | 640 |
-| `netcoreapp2.2` | 640 |
-| `netcoreapp3.0` | 587 |
-| `netcoreapp3.1` | 586 |
-| `net5.0` | 470 |
-| `net6.0` | 389 |
-| `net7.0` | 276 |
-| `net8.0` | 178 |
-| `net9.0` | 120 |
+| `net461` | 802 |
+| `net462` | 802 |
+| `net47` | 801 |
+| `net471` | 801 |
+| `net472` | 797 |
+| `net48` | 797 |
+| `net481` | 797 |
+| `netstandard2.0` | 800 |
+| `netstandard2.1` | 637 |
+| `netcoreapp2.0` | 723 |
+| `netcoreapp2.1` | 649 |
+| `netcoreapp2.2` | 649 |
+| `netcoreapp3.0` | 596 |
+| `netcoreapp3.1` | 595 |
+| `net5.0` | 473 |
+| `net6.0` | 392 |
+| `net7.0` | 279 |
+| `net8.0` | 181 |
+| `net9.0` | 121 |
 | `net10.0` | 75 |
-| `net11.0` | 60 |
-| `uap10.0` | 776 |
+| `net11.0` | 57 |
+| `uap10.0` | 789 |
 <!-- endInclude -->
 
 
@@ -96,54 +96,54 @@ This project uses features from the current stable SDK and C# language. As such 
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       259.5KB |  +251.5KB |    +9.0KB |             +6.0KB |              +9.0KB |     +13.5KB |
-| netstandard2.1 |          8.5KB |       212.5KB |  +204.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net461         |          8.5KB |       266.0KB |  +257.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net462         |          7.0KB |       265.0KB |  +258.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net47          |          7.0KB |       264.5KB |  +257.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net471         |          8.5KB |       264.5KB |  +256.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net472         |          8.5KB |       263.5KB |  +255.0KB |    +8.5KB |             +6.0KB |              +9.0KB |     +13.5KB |
-| net48          |          8.5KB |       263.0KB |  +254.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +13.5KB |
-| net481         |          8.5KB |       263.5KB |  +255.0KB |    +9.0KB |             +6.0KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.0  |          9.0KB |       239.0KB |  +230.0KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| netcoreapp2.1  |          9.0KB |       220.5KB |  +211.5KB |    +9.0KB |             +6.0KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.2  |          9.0KB |       220.5KB |  +211.5KB |    +9.0KB |             +6.0KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.0  |          9.5KB |       211.0KB |  +201.5KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| netcoreapp3.1  |          9.5KB |       209.5KB |  +200.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net5.0         |          9.5KB |       173.0KB |  +163.5KB |    +9.0KB |             +6.0KB |              +9.0KB |     +14.0KB |
-| net6.0         |         10.0KB |       128.0KB |  +118.0KB |   +10.0KB |             +6.5KB |           +512bytes |      +3.5KB |
-| net7.0         |         10.0KB |        98.0KB |   +88.0KB |    +9.5KB |             +5.5KB |           +512bytes |      +3.5KB |
-| net8.0         |          9.5KB |        79.5KB |   +70.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net9.0         |          9.5KB |        45.0KB |   +35.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| netstandard2.0 |          8.0KB |       259.5KB |  +251.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netstandard2.1 |          8.5KB |       212.5KB |  +204.0KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net461         |          8.5KB |       268.0KB |  +259.5KB |    +9.0KB |             +6.0KB |              +8.5KB |     +13.5KB |
+| net462         |          7.0KB |       266.5KB |  +259.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net47          |          7.0KB |       266.5KB |  +259.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net471         |          8.5KB |       266.5KB |  +258.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net472         |          8.5KB |       265.0KB |  +256.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net48          |          8.5KB |       265.0KB |  +256.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net481         |          8.5KB |       265.0KB |  +256.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.0  |          9.0KB |       241.0KB |  +232.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.1  |          9.0KB |       221.5KB |  +212.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp2.2  |          9.0KB |       221.5KB |  +212.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp3.0  |          9.5KB |       212.5KB |  +203.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp3.1  |          9.5KB |       210.5KB |  +201.0KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net5.0         |          9.5KB |       173.5KB |  +164.0KB |    +9.0KB |             +6.0KB |              +9.0KB |     +14.0KB |
+| net6.0         |         10.0KB |       128.5KB |  +118.5KB |   +10.0KB |             +6.5KB |           +512bytes |      +3.5KB |
+| net7.0         |         10.0KB |        98.5KB |   +88.5KB |    +9.5KB |             +5.5KB |           +512bytes |      +3.5KB |
+| net8.0         |          9.5KB |        80.0KB |   +70.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net9.0         |          9.5KB |        45.0KB |   +35.5KB |    +9.0KB |                    |              +1.0KB |      +3.5KB |
 | net10.0        |         10.0KB |        23.5KB |   +13.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
-| net11.0        |         10.0KB |        19.0KB |    +9.0KB |    +9.5KB |                    |              +1.0KB |      +4.0KB |
+| net11.0        |         10.0KB |        18.0KB |    +8.0KB |    +9.5KB |                    |              +1.0KB |      +4.0KB |
 
 
 ### Assembly Sizes with EmbedUntrackedSources
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       383.6KB |  +375.6KB |   +16.7KB |             +7.7KB |             +13.9KB |     +18.9KB |
-| netstandard2.1 |          8.5KB |       311.6KB |  +303.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net461         |          8.5KB |       390.6KB |  +382.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net462         |          7.0KB |       389.6KB |  +382.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net47          |          7.0KB |       388.8KB |  +381.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net471         |          8.5KB |       388.8KB |  +380.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net472         |          8.5KB |       386.8KB |  +378.3KB |   +16.2KB |             +7.7KB |             +13.9KB |     +18.9KB |
-| net48          |          8.5KB |       386.3KB |  +377.8KB |   +16.7KB |             +8.2KB |             +14.4KB |     +18.9KB |
-| net481         |          8.5KB |       386.8KB |  +378.3KB |   +16.7KB |             +7.7KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.0  |          9.0KB |       353.0KB |  +344.0KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| netcoreapp2.1  |          9.0KB |       323.8KB |  +314.8KB |   +16.7KB |             +7.7KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.2  |          9.0KB |       323.8KB |  +314.8KB |   +16.7KB |             +7.7KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.0  |          9.5KB |       305.1KB |  +295.6KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| netcoreapp3.1  |          9.5KB |       303.6KB |  +294.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net5.0         |          9.5KB |       249.9KB |  +240.4KB |   +16.7KB |             +7.7KB |             +13.9KB |     +19.4KB |
-| net6.0         |         10.0KB |       188.2KB |  +178.2KB |   +17.7KB |             +8.2KB |              +1.1KB |      +4.2KB |
-| net7.0         |         10.0KB |       141.3KB |  +131.3KB |   +17.1KB |             +6.9KB |              +1.1KB |      +4.2KB |
-| net8.0         |          9.5KB |       112.8KB |  +103.3KB |   +16.0KB |          +299bytes |              +1.1KB |      +4.2KB |
-| net9.0         |          9.5KB |        64.6KB |   +55.1KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
-| net10.0        |         10.0KB |        35.8KB |   +25.8KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
-| net11.0        |         10.0KB |        28.5KB |   +18.5KB |   +17.0KB |                    |              +1.6KB |      +4.7KB |
+| netstandard2.0 |          8.0KB |       384.4KB |  +376.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netstandard2.1 |          8.5KB |       312.2KB |  +303.7KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net461         |          8.5KB |       393.3KB |  +384.8KB |   +16.7KB |             +7.7KB |             +13.4KB |     +18.9KB |
+| net462         |          7.0KB |       391.8KB |  +384.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net47          |          7.0KB |       391.6KB |  +384.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net471         |          8.5KB |       391.6KB |  +383.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net472         |          8.5KB |       389.0KB |  +380.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net48          |          8.5KB |       389.0KB |  +380.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net481         |          8.5KB |       389.0KB |  +380.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.0  |          9.0KB |       355.7KB |  +346.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.1  |          9.0KB |       325.4KB |  +316.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp2.2  |          9.0KB |       325.4KB |  +316.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp3.0  |          9.5KB |       307.2KB |  +297.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp3.1  |          9.5KB |       305.2KB |  +295.7KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net5.0         |          9.5KB |       250.9KB |  +241.4KB |   +16.7KB |             +7.7KB |             +13.9KB |     +19.4KB |
+| net6.0         |         10.0KB |       189.4KB |  +179.4KB |   +17.7KB |             +8.2KB |              +1.1KB |      +4.2KB |
+| net7.0         |         10.0KB |       142.4KB |  +132.4KB |   +17.1KB |             +6.9KB |              +1.1KB |      +4.2KB |
+| net8.0         |          9.5KB |       114.0KB |  +104.5KB |   +16.0KB |          +299bytes |              +1.1KB |      +4.2KB |
+| net9.0         |          9.5KB |        65.0KB |   +55.5KB |   +16.5KB |                    |              +1.6KB |      +4.2KB |
+| net10.0        |         10.0KB |        35.7KB |   +25.7KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
+| net11.0        |         10.0KB |        26.9KB |   +16.9KB |   +17.0KB |                    |              +1.6KB |      +4.7KB |
 <!-- endInclude -->
 
 
@@ -724,6 +724,13 @@ The class `Polyfill` includes the following extension methods:
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryformat?view=net-11.0#system-decimal-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryformat?view=net-11.0#system-decimal-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `bool TryParse(ReadOnlySpan<byte>, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-readonlyspan((system-byte))-system-decimal@))
+ * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-decimal@))
+ * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-decimal@))
+ * `bool TryParse(ReadOnlySpan<char>, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-readonlyspan((system-char))-system-decimal@))
+ * `bool TryParse(ReadOnlySpan<char>, IFormatProvider?, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-decimal@))
+ * `bool TryParse(ReadOnlySpan<char>, NumberStyles, IFormatProvider?, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-decimal@))
+ * `bool TryParse(string?, IFormatProvider?, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-string-system-iformatprovider-system-decimal@))
 
 
 #### DefaultInterpolatedStringHandler
@@ -906,11 +913,23 @@ The class `Polyfill` includes the following extension methods:
  * `Task<Stream> GetStreamAsync(Uri, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstreamasync?view=net-11.0#system-net-http-httpclient-getstreamasync(system-uri-system-threading-cancellationtoken))
  * `Task<string> GetStringAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstringasync?view=net-11.0#system-net-http-httpclient-getstringasync(system-string-system-threading-cancellationtoken))
  * `Task<string> GetStringAsync(Uri, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getstringasync?view=net-11.0#system-net-http-httpclient-getstringasync(system-uri-system-threading-cancellationtoken))
+ * `Task<HttpResponseMessage> PatchAsync(string?, HttpContent?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.patchasync?view=net-11.0#system-net-http-httpclient-patchasync(system-string-system-net-http-httpcontent-system-threading-cancellationtoken))
+ * `Task<HttpResponseMessage> PatchAsync(string?, HttpContent?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.patchasync?view=net-11.0#system-net-http-httpclient-patchasync(system-string-system-net-http-httpcontent))
+ * `Task<HttpResponseMessage> PatchAsync(Uri?, HttpContent?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.patchasync?view=net-11.0#system-net-http-httpclient-patchasync(system-uri-system-net-http-httpcontent-system-threading-cancellationtoken))
+ * `Task<HttpResponseMessage> PatchAsync(Uri?, HttpContent?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.patchasync?view=net-11.0#system-net-http-httpclient-patchasync(system-uri-system-net-http-httpcontent))
+ * `HttpResponseMessage Send(HttpRequestMessage, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage-system-threading-cancellationtoken))
+ * `HttpResponseMessage Send(HttpRequestMessage, HttpCompletionOption, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage-system-net-http-httpcompletionoption-system-threading-cancellationtoken))
+ * `HttpResponseMessage Send(HttpRequestMessage, HttpCompletionOption)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage-system-net-http-httpcompletionoption))
+ * `HttpResponseMessage Send(HttpRequestMessage)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.send?view=net-11.0#system-net-http-httpclient-send(system-net-http-httprequestmessage))
 
 
 #### HttpContent
 
  * `void CopyTo(Stream, System.Net.TransportContext?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.copyto?view=net-11.0)
+ * `Task CopyToAsync(Stream, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.copytoasync?view=net-11.0#system-net-http-httpcontent-copytoasync(system-io-stream-system-threading-cancellationtoken))
+ * `Task CopyToAsync(Stream, System.Net.TransportContext?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.copytoasync?view=net-11.0#system-net-http-httpcontent-copytoasync(system-io-stream-system-net-transportcontext-system-threading-cancellationtoken))
+ * `Task LoadIntoBufferAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.loadintobufferasync?view=net-11.0#system-net-http-httpcontent-loadintobufferasync(system-threading-cancellationtoken))
+ * `Task LoadIntoBufferAsync(long, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.loadintobufferasync?view=net-11.0#system-net-http-httpcontent-loadintobufferasync(system-int64-system-threading-cancellationtoken))
  * `Task<byte[]> ReadAsByteArrayAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasbytearrayasync?view=net-11.0#system-net-http-httpcontent-readasbytearrayasync(system-threading-cancellationtoken))
  * `Stream ReadAsStream(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasstream?view=net-11.0#system-net-http-httpcontent-readasstream(system-threading-cancellationtoken))
  * `Task<Stream> ReadAsStreamAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpcontent.readasstreamasync?view=net-11.0#system-net-http-httpcontent-readasstreamasync(system-threading-cancellationtoken))
@@ -1347,6 +1366,13 @@ The class `Polyfill` includes the following extension methods:
  * `uint SingleToUInt32Bits(float)`
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryformat?view=net-11.0#system-single-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryformat?view=net-11.0#system-single-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `bool TryParse(ReadOnlySpan<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-readonlyspan((system-byte))-system-single@))
+ * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-single@))
+ * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-single@))
+ * `bool TryParse(ReadOnlySpan<char>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-readonlyspan((system-char))-system-single@))
+ * `bool TryParse(ReadOnlySpan<char>, IFormatProvider?, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-single@))
+ * `bool TryParse(ReadOnlySpan<char>, NumberStyles, IFormatProvider?, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-single@))
+ * `bool TryParse(string?, IFormatProvider?, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-string-system-iformatprovider-system-single@))
 
 
 #### SortedList<TKey, TValue>
@@ -2050,6 +2076,16 @@ The combination of the other 3 packages is not ideal because:
 
 
 ## Notes
+
+
+### `Enumerable.Reverse` for arrays
+
+In C# 14, `MemoryExtensions.Reverse(this Span<T>)` becomes a candidate for `array.Reverse()` calls due to new implicit span conversions. This changes the behavior from returning `IEnumerable<T>` (via `Enumerable.Reverse`) to an in-place void reversal. .NET 10 fixes this by adding `Enumerable.Reverse<T>(this T[])` to the BCL. This package includes a polyfill for that overload on older target frameworks.
+
+This polyfill is placed in the `System.Linq` namespace (not `Polyfills`) because C# resolves extension methods from file-level `using` directives before `global using` directives. Since `MemoryExtensions` is found via `using System;`, a polyfill in `Polyfills` (available via `global using`) would not take precedence.
+
+See [compiler breaking changes - dotnet 10](https://learn.microsoft.com/en-us/dotnet/csharp/whats-new/breaking-changes/compiler%20breaking%20changes%20-%20dotnet%2010#enumerablereverse) for more details.
+
 
  * [.NET 9.0 Preview 1 API Changes](https://github.com/dotnet/core/tree/main/release-notes/9.0/preview/preview1/api-diff)
 
