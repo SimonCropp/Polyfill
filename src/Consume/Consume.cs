@@ -196,6 +196,7 @@ class Consume
         result = Guid.TryParse(s: charSpan, provider: null, result: out guid);
         result = Guid.TryParseExact(input: charSpan, format: charSpan, result: out guid);
 
+        var allBitsSet = Guid.AllBitsSet;
 #endif
     }
 
@@ -447,6 +448,7 @@ class Consume
         var isAsciiHexDigitLower = char.IsAsciiHexDigitLower('\u0063');
         var isAsciiHexDigitUpper = char.IsAsciiHexDigitUpper('\u0041');
         var charEquals = 'A'.Equals('a', StringComparison.OrdinalIgnoreCase);
+        var isBetween = char.IsBetween('c', 'a', 'z');
     }
 
     class WithMethods
@@ -672,12 +674,12 @@ class Consume
     void Directory_Methods_WithEnumerationOptions()
     {
         var options = new EnumerationOptions();
-        var files = Polyfill.EnumerateFiles(".", "*", options);
-        var dirs = Polyfill.EnumerateDirectories(".", "*", options);
-        var entries = Polyfill.EnumerateFileSystemEntries(".", "*", options);
-        var filesArray = Polyfill.GetFiles(".", "*", options);
-        var dirsArray = Polyfill.GetDirectories(".", "*", options);
-        var entriesArray = Polyfill.GetFileSystemEntries(".", "*", options);
+        var files = Directory.EnumerateFiles(".", "*", options);
+        var dirs = Directory.EnumerateDirectories(".", "*", options);
+        var entries = Directory.EnumerateFileSystemEntries(".", "*", options);
+        var filesArray = Directory.GetFiles(".", "*", options);
+        var dirsArray = Directory.GetDirectories(".", "*", options);
+        var entriesArray = Directory.GetFileSystemEntries(".", "*", options);
     }
 
     void DirectoryInfo_Methods_WithEnumerationOptions()
@@ -715,6 +717,20 @@ class Consume
         var entriesArray = dirInfo.GetFileSystemInfos("*", options);
     }
 #endif
+
+    void Directory_CreateTempSubdirectory()
+    {
+        var tempDir = Directory.CreateTempSubdirectory();
+        tempDir = Directory.CreateTempSubdirectory("prefix");
+        tempDir.Delete(true);
+    }
+
+    void Stopwatch_Methods()
+    {
+        var timestamp = Stopwatch.GetTimestamp();
+        var elapsed = Stopwatch.GetElapsedTime(timestamp);
+        elapsed = Stopwatch.GetElapsedTime(timestamp, Stopwatch.GetTimestamp());
+    }
 
     void Path_Methods()
     {
@@ -1183,6 +1199,17 @@ class Consume
         var text = await reader.ReadToEndAsync(CancellationToken.None);
     }
 
+#if FeatureMemory
+    void String_Concat_Span_Methods()
+    {
+        ReadOnlySpan<string?> strings = new[] { "a", "b", "c" };
+        var concatStrings = string.Concat(strings);
+
+        ReadOnlySpan<object?> objects = new object[] { "a", 1, "b" };
+        var concatObjects = string.Concat(objects);
+    }
+#endif
+
     void String_Methods()
     {
         var contains = "a b".Contains(' ');
@@ -1245,6 +1272,19 @@ class Consume
         new Task<int>(func).WaitAsync(TimeSpan.Zero, CancellationToken.None);
     }
 
+#if FeatureMemory
+    void Task_WhenAllAny_Span_Methods()
+    {
+        ReadOnlySpan<Task> tasks = new[] { Task.CompletedTask, Task.CompletedTask };
+        Task whenAll = Task.WhenAll(tasks);
+        Task<Task> whenAny = Task.WhenAny(tasks);
+
+        ReadOnlySpan<Task<int>> genericTasks = new[] { Task.FromResult(1), Task.FromResult(2) };
+        Task<int[]> whenAllGeneric = Task.WhenAll(genericTasks);
+        Task<Task<int>> whenAnyGeneric = Task.WhenAny(genericTasks);
+    }
+#endif
+
 #if FeatureAsyncInterfaces
     async Task Task_WhenEach_Methods()
     {
@@ -1285,6 +1325,15 @@ class Consume
     void TimeSpan_Methods()
     {
         var timeSpan = TimeSpan.FromMilliseconds(1000L);
+        timeSpan = TimeSpan.FromDays(1);
+        timeSpan = TimeSpan.FromDays(1, 2);
+        timeSpan = TimeSpan.FromHours(1);
+        timeSpan = TimeSpan.FromHours(1, 30);
+        timeSpan = TimeSpan.FromMinutes(1);
+        timeSpan = TimeSpan.FromMinutes(1, 30);
+        timeSpan = TimeSpan.FromSeconds(1L);
+        timeSpan = TimeSpan.FromSeconds(1L, 500L);
+        timeSpan = TimeSpan.FromMicroseconds(1000L);
     }
 
     async Task TextWriter_Methods()

@@ -102,6 +102,7 @@
  * `bool IsAsciiLetterLower(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterlower?view=net-11.0)
  * `bool IsAsciiLetterOrDigit(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterordigit?view=net-11.0)
  * `bool IsAsciiLetterUpper(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterupper?view=net-11.0)
+ * `bool IsBetween(char, char, char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isbetween?view=net-11.0)
 
 
 #### ConcurrentBag<T>
@@ -223,6 +224,11 @@
 #### DictionaryEntry
 
  * `void Deconstruct(object, object?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.dictionaryentry.deconstruct?view=net-11.0#system-collections-dictionaryentry-deconstruct(system-object@-system-object@))
+
+
+#### Directory
+
+ * `DirectoryInfo CreateTempSubdirectory(string?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.createtempsubdirectory?view=net-11.0)
 
 
 #### DirectoryInfo
@@ -365,6 +371,7 @@
  * `bool TryParse(ReadOnlySpan<char>, IFormatProvider?, Guid)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-11.0#system-guid-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-guid@))
  * `bool TryParse(string?, IFormatProvider?, Guid)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-11.0#system-guid-tryparse(system-string-system-iformatprovider-system-guid@))
  * `bool TryParseExact(ReadOnlySpan<char>, ReadOnlySpan<char>, Guid)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparseexact?view=net-11.0#system-guid-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-guid@))
+ * `AllBitsSet` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.allbitsset?view=net-11.0)
 
 
 #### HashSet<T>
@@ -890,6 +897,12 @@
  * `bool TryPop<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trypop?view=net-11.0)
 
 
+#### Stopwatch
+
+ * `TimeSpan GetElapsedTime(long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.stopwatch.getelapsedtime?view=net-11.0#system-diagnostics-stopwatch-getelapsedtime(system-int64-system-int64))
+ * `TimeSpan GetElapsedTime(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.stopwatch.getelapsedtime?view=net-11.0#system-diagnostics-stopwatch-getelapsedtime(system-int64))
+
+
 #### Stream
 
  * `Task CopyToAsync(Stream, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.copytoasync?view=net-11.0#system-io-stream-copytoasync(system-io-stream-system-threading-cancellationtoken))
@@ -936,6 +949,8 @@
  * `bool StartsWith(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char-system-stringcomparison))
  * `bool StartsWith(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char))
  * `bool TryCopyTo(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.trycopyto?view=net-11.0)
+ * `string Concat(ReadOnlySpan<object?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.concat?view=net-11.0#system-string-concat(system-readonlyspan((system-object))))
+ * `string Concat(ReadOnlySpan<string?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.concat?view=net-11.0#system-string-concat(system-readonlyspan((system-string))))
  * `string Create<TState>(int, TState, System.Buffers.SpanAction<char, TState>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.create?view=net-11.0#system-string-create-1(system-int32-0-system-buffers-spanaction((system-char-0))))
  * `int GetHashCode(ReadOnlySpan<char>, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-11.0#system-string-gethashcode(system-readonlyspan((system-char))-system-stringcomparison))
  * `int GetHashCode(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-11.0#system-string-gethashcode(system-readonlyspan((system-char))))
@@ -982,6 +997,10 @@
  * `Task WaitAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-threading-cancellationtoken))
  * `Task WaitAsync(TimeSpan, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken))
  * `Task WaitAsync(TimeSpan)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-timespan))
+ * `Task WhenAll(ReadOnlySpan<Task>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.whenall?view=net-11.0#system-threading-tasks-task-whenall(system-readonlyspan((system-threading-tasks-task))))
+ * `Task<TResult[]> WhenAll<TResult>(ReadOnlySpan<Task<TResult>>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.whenall?view=net-11.0#system-threading-tasks-task-whenall-1(system-readonlyspan((system-threading-tasks-task((-0))))))
+ * `Task<Task> WhenAny(ReadOnlySpan<Task>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.whenany?view=net-11.0#system-threading-tasks-task-whenany(system-readonlyspan((system-threading-tasks-task))))
+ * `Task<Task<TResult>> WhenAny<TResult>(ReadOnlySpan<Task<TResult>>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.whenany?view=net-11.0#system-threading-tasks-task-whenany-1(system-readonlyspan((system-threading-tasks-task((-0))))))
 
 
 #### Task<TResult>
@@ -1045,6 +1064,12 @@
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat?view=net-11.0#system-timespan-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat?view=net-11.0#system-timespan-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `TimeSpan FromDays(int, int, int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromdays?view=net-11.0#system-timespan-fromdays(system-int32-system-int32-system-int32-system-int32-system-int32-system-int32))
+ * `TimeSpan FromHours(int, int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromhours?view=net-11.0#system-timespan-fromhours(system-int32-system-int32-system-int32-system-int32-system-int32))
+ * `TimeSpan FromMicroseconds(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommicroseconds?view=net-11.0#system-timespan-frommicroseconds(system-int64))
+ * `TimeSpan FromMilliseconds(long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommilliseconds?view=net-11.0#system-timespan-frommilliseconds(system-int64-system-int64))
+ * `TimeSpan FromMinutes(int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromminutes?view=net-11.0#system-timespan-fromminutes(system-int32-system-int32-system-int32-system-int32))
+ * `TimeSpan FromSeconds(long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromseconds?view=net-11.0#system-timespan-fromseconds(system-int64-system-int64-system-int64))
  * `Microseconds` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds?view=net-11.0)
  * `Nanoseconds` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds?view=net-11.0)
 

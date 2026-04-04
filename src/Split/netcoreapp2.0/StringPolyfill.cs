@@ -131,6 +131,16 @@ static partial class Polyfill
 		/// </summary>
 		public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
 			string.Join(separator, values.ToArray());
+		/// <summary>
+		/// Concatenates the string representations of the elements in a span of objects.
+		/// </summary>
+		public static string Concat(scoped ReadOnlySpan<object?> values) =>
+			string.Concat(values.ToArray());
+		/// <summary>
+		/// Concatenates the members of a span of strings.
+		/// </summary>
+		public static string Concat(scoped ReadOnlySpan<string?> values) =>
+			string.Concat(values.ToArray());
 #endif
 #if FeatureMemory
 		/// <summary>

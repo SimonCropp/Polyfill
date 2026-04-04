@@ -50,5 +50,10 @@ static partial class Polyfill
 		/// </summary>
 		public static bool IsAsciiLetterLower(char c) =>
 			c is >= '\u0061' and <= '\u007a';
+		/// <summary>
+		/// Indicates whether a character is within the specified inclusive range.
+		/// </summary>
+		public static bool IsBetween(char c, char minInclusive, char maxInclusive) =>
+			(uint)(c - minInclusive) <= (uint)(maxInclusive - minInclusive);
 	}
 }

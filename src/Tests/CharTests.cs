@@ -80,4 +80,14 @@ public class CharTests
         await Assert.That(char.IsAsciiHexDigitUpper('G')).IsEqualTo(false);
         await Assert.That(char.IsAsciiHexDigitUpper('h')).IsEqualTo(false);
     }
+
+    [Test]
+    public async Task Char_IsBetween()
+    {
+        await Assert.That(char.IsBetween('c', 'a', 'z')).IsEqualTo(true);
+        await Assert.That(char.IsBetween('a', 'a', 'z')).IsEqualTo(true);
+        await Assert.That(char.IsBetween('z', 'a', 'z')).IsEqualTo(true);
+        await Assert.That(char.IsBetween('A', 'a', 'z')).IsEqualTo(false);
+        await Assert.That(char.IsBetween('0', 'a', 'z')).IsEqualTo(false);
+    }
 }

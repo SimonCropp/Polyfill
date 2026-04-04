@@ -13,34 +13,34 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 847**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 864**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
 | Target | APIs |
 | -- | -- |
-| `net461` | 802 |
-| `net462` | 802 |
-| `net47` | 801 |
-| `net471` | 801 |
-| `net472` | 797 |
-| `net48` | 797 |
-| `net481` | 797 |
-| `netstandard2.0` | 800 |
-| `netstandard2.1` | 637 |
-| `netcoreapp2.0` | 723 |
-| `netcoreapp2.1` | 649 |
-| `netcoreapp2.2` | 649 |
-| `netcoreapp3.0` | 596 |
-| `netcoreapp3.1` | 595 |
-| `net5.0` | 473 |
-| `net6.0` | 392 |
-| `net7.0` | 279 |
+| `net461` | 816 |
+| `net462` | 816 |
+| `net47` | 815 |
+| `net471` | 815 |
+| `net472` | 811 |
+| `net48` | 811 |
+| `net481` | 811 |
+| `netstandard2.0` | 814 |
+| `netstandard2.1` | 647 |
+| `netcoreapp2.0` | 737 |
+| `netcoreapp2.1` | 659 |
+| `netcoreapp2.2` | 659 |
+| `netcoreapp3.0` | 606 |
+| `netcoreapp3.1` | 605 |
+| `net5.0` | 483 |
+| `net6.0` | 402 |
+| `net7.0` | 285 |
 | `net8.0` | 181 |
 | `net9.0` | 121 |
 | `net10.0` | 75 |
 | `net11.0` | 57 |
-| `uap10.0` | 789 |
+| `uap10.0` | 803 |
 <!-- endInclude -->
 
 
@@ -96,23 +96,23 @@ This project uses features from the current stable SDK and C# language. As such 
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       259.5KB |  +251.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netstandard2.1 |          8.5KB |       212.5KB |  +204.0KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net461         |          8.5KB |       268.0KB |  +259.5KB |    +9.0KB |             +6.0KB |              +8.5KB |     +13.5KB |
-| net462         |          7.0KB |       266.5KB |  +259.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net47          |          7.0KB |       266.5KB |  +259.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net471         |          8.5KB |       266.5KB |  +258.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net472         |          8.5KB |       265.0KB |  +256.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net48          |          8.5KB |       265.0KB |  +256.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net481         |          8.5KB |       265.0KB |  +256.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.0  |          9.0KB |       241.0KB |  +232.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.1  |          9.0KB |       221.5KB |  +212.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp2.2  |          9.0KB |       221.5KB |  +212.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp3.0  |          9.5KB |       212.5KB |  +203.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp3.1  |          9.5KB |       210.5KB |  +201.0KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net5.0         |          9.5KB |       173.5KB |  +164.0KB |    +9.0KB |             +6.0KB |              +9.0KB |     +14.0KB |
-| net6.0         |         10.0KB |       128.5KB |  +118.5KB |   +10.0KB |             +6.5KB |           +512bytes |      +3.5KB |
-| net7.0         |         10.0KB |        98.5KB |   +88.5KB |    +9.5KB |             +5.5KB |           +512bytes |      +3.5KB |
+| netstandard2.0 |          8.0KB |       262.0KB |  +254.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netstandard2.1 |          8.5KB |       214.5KB |  +206.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net461         |          8.5KB |       270.0KB |  +261.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net462         |          7.0KB |       269.0KB |  +262.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net47          |          7.0KB |       269.0KB |  +262.0KB |    +9.0KB |             +6.0KB |              +8.5KB |     +13.5KB |
+| net471         |          8.5KB |       269.0KB |  +260.5KB |    +9.0KB |             +6.0KB |              +9.0KB |     +13.5KB |
+| net472         |          8.5KB |       267.5KB |  +259.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net48          |          8.5KB |       267.5KB |  +259.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net481         |          8.5KB |       267.5KB |  +259.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.0  |          9.0KB |       243.5KB |  +234.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.1  |          9.0KB |       223.5KB |  +214.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp2.2  |          9.0KB |       223.5KB |  +214.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp3.0  |          9.5KB |       214.0KB |  +204.5KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| netcoreapp3.1  |          9.5KB |       212.5KB |  +203.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net5.0         |          9.5KB |       175.0KB |  +165.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net6.0         |         10.0KB |       130.5KB |  +120.5KB |    +9.5KB |             +6.5KB |           +512bytes |      +3.0KB |
+| net7.0         |         10.0KB |       100.0KB |   +90.0KB |    +9.0KB |             +5.5KB |           +512bytes |      +3.5KB |
 | net8.0         |          9.5KB |        80.0KB |   +70.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
 | net9.0         |          9.5KB |        45.0KB |   +35.5KB |    +9.0KB |                    |              +1.0KB |      +3.5KB |
 | net10.0        |         10.0KB |        23.5KB |   +13.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
@@ -123,23 +123,23 @@ This project uses features from the current stable SDK and C# language. As such 
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       384.4KB |  +376.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netstandard2.1 |          8.5KB |       312.2KB |  +303.7KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net461         |          8.5KB |       393.3KB |  +384.8KB |   +16.7KB |             +7.7KB |             +13.4KB |     +18.9KB |
-| net462         |          7.0KB |       391.8KB |  +384.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net47          |          7.0KB |       391.6KB |  +384.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net471         |          8.5KB |       391.6KB |  +383.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net472         |          8.5KB |       389.0KB |  +380.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net48          |          8.5KB |       389.0KB |  +380.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net481         |          8.5KB |       389.0KB |  +380.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.0  |          9.0KB |       355.7KB |  +346.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.1  |          9.0KB |       325.4KB |  +316.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp2.2  |          9.0KB |       325.4KB |  +316.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp3.0  |          9.5KB |       307.2KB |  +297.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp3.1  |          9.5KB |       305.2KB |  +295.7KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net5.0         |          9.5KB |       250.9KB |  +241.4KB |   +16.7KB |             +7.7KB |             +13.9KB |     +19.4KB |
-| net6.0         |         10.0KB |       189.4KB |  +179.4KB |   +17.7KB |             +8.2KB |              +1.1KB |      +4.2KB |
-| net7.0         |         10.0KB |       142.4KB |  +132.4KB |   +17.1KB |             +6.9KB |              +1.1KB |      +4.2KB |
+| netstandard2.0 |          8.0KB |       387.9KB |  +379.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netstandard2.1 |          8.5KB |       315.0KB |  +306.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net461         |          8.5KB |       396.4KB |  +387.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net462         |          7.0KB |       395.4KB |  +388.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net47          |          7.0KB |       395.1KB |  +388.1KB |   +16.7KB |             +7.7KB |             +13.4KB |     +18.9KB |
+| net471         |          8.5KB |       395.1KB |  +386.6KB |   +16.7KB |             +7.7KB |             +13.9KB |     +18.9KB |
+| net472         |          8.5KB |       392.6KB |  +384.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net48          |          8.5KB |       392.6KB |  +384.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net481         |          8.5KB |       392.6KB |  +384.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.0  |          9.0KB |       359.3KB |  +350.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.1  |          9.0KB |       328.2KB |  +319.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp2.2  |          9.0KB |       328.2KB |  +319.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp3.0  |          9.5KB |       309.6KB |  +300.1KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| netcoreapp3.1  |          9.5KB |       308.1KB |  +298.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net5.0         |          9.5KB |       253.2KB |  +243.8KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net6.0         |         10.0KB |       192.2KB |  +182.2KB |   +17.2KB |             +8.2KB |              +1.1KB |      +3.7KB |
+| net7.0         |         10.0KB |       144.7KB |  +134.7KB |   +16.6KB |             +6.9KB |              +1.1KB |      +4.2KB |
 | net8.0         |          9.5KB |       114.0KB |  +104.5KB |   +16.0KB |          +299bytes |              +1.1KB |      +4.2KB |
 | net9.0         |          9.5KB |        65.0KB |   +55.5KB |   +16.5KB |                    |              +1.6KB |      +4.2KB |
 | net10.0        |         10.0KB |        35.7KB |   +25.7KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
@@ -633,6 +633,7 @@ The class `Polyfill` includes the following extension methods:
  * `bool IsAsciiLetterLower(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterlower?view=net-11.0)
  * `bool IsAsciiLetterOrDigit(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterordigit?view=net-11.0)
  * `bool IsAsciiLetterUpper(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterupper?view=net-11.0)
+ * `bool IsBetween(char, char, char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isbetween?view=net-11.0)
 
 
 #### ConcurrentBag<T>
@@ -754,6 +755,11 @@ The class `Polyfill` includes the following extension methods:
 #### DictionaryEntry
 
  * `void Deconstruct(object, object?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.dictionaryentry.deconstruct?view=net-11.0#system-collections-dictionaryentry-deconstruct(system-object@-system-object@))
+
+
+#### Directory
+
+ * `DirectoryInfo CreateTempSubdirectory(string?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.createtempsubdirectory?view=net-11.0)
 
 
 #### DirectoryInfo
@@ -896,6 +902,7 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryParse(ReadOnlySpan<char>, IFormatProvider?, Guid)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-11.0#system-guid-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-guid@))
  * `bool TryParse(string?, IFormatProvider?, Guid)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-11.0#system-guid-tryparse(system-string-system-iformatprovider-system-guid@))
  * `bool TryParseExact(ReadOnlySpan<char>, ReadOnlySpan<char>, Guid)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparseexact?view=net-11.0#system-guid-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-guid@))
+ * `AllBitsSet` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.allbitsset?view=net-11.0)
 
 
 #### HashSet<T>
@@ -1421,6 +1428,12 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryPop<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trypop?view=net-11.0)
 
 
+#### Stopwatch
+
+ * `TimeSpan GetElapsedTime(long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.stopwatch.getelapsedtime?view=net-11.0#system-diagnostics-stopwatch-getelapsedtime(system-int64-system-int64))
+ * `TimeSpan GetElapsedTime(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.stopwatch.getelapsedtime?view=net-11.0#system-diagnostics-stopwatch-getelapsedtime(system-int64))
+
+
 #### Stream
 
  * `Task CopyToAsync(Stream, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.copytoasync?view=net-11.0#system-io-stream-copytoasync(system-io-stream-system-threading-cancellationtoken))
@@ -1467,6 +1480,8 @@ The class `Polyfill` includes the following extension methods:
  * `bool StartsWith(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char-system-stringcomparison))
  * `bool StartsWith(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char))
  * `bool TryCopyTo(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.trycopyto?view=net-11.0)
+ * `string Concat(ReadOnlySpan<object?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.concat?view=net-11.0#system-string-concat(system-readonlyspan((system-object))))
+ * `string Concat(ReadOnlySpan<string?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.concat?view=net-11.0#system-string-concat(system-readonlyspan((system-string))))
  * `string Create<TState>(int, TState, System.Buffers.SpanAction<char, TState>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.create?view=net-11.0#system-string-create-1(system-int32-0-system-buffers-spanaction((system-char-0))))
  * `int GetHashCode(ReadOnlySpan<char>, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-11.0#system-string-gethashcode(system-readonlyspan((system-char))-system-stringcomparison))
  * `int GetHashCode(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-11.0#system-string-gethashcode(system-readonlyspan((system-char))))
@@ -1513,6 +1528,10 @@ The class `Polyfill` includes the following extension methods:
  * `Task WaitAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-threading-cancellationtoken))
  * `Task WaitAsync(TimeSpan, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken))
  * `Task WaitAsync(TimeSpan)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-timespan))
+ * `Task WhenAll(ReadOnlySpan<Task>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.whenall?view=net-11.0#system-threading-tasks-task-whenall(system-readonlyspan((system-threading-tasks-task))))
+ * `Task<TResult[]> WhenAll<TResult>(ReadOnlySpan<Task<TResult>>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.whenall?view=net-11.0#system-threading-tasks-task-whenall-1(system-readonlyspan((system-threading-tasks-task((-0))))))
+ * `Task<Task> WhenAny(ReadOnlySpan<Task>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.whenany?view=net-11.0#system-threading-tasks-task-whenany(system-readonlyspan((system-threading-tasks-task))))
+ * `Task<Task<TResult>> WhenAny<TResult>(ReadOnlySpan<Task<TResult>>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.whenany?view=net-11.0#system-threading-tasks-task-whenany-1(system-readonlyspan((system-threading-tasks-task((-0))))))
 
 
 #### Task<TResult>
@@ -1576,6 +1595,12 @@ The class `Polyfill` includes the following extension methods:
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat?view=net-11.0#system-timespan-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat?view=net-11.0#system-timespan-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `TimeSpan FromDays(int, int, int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromdays?view=net-11.0#system-timespan-fromdays(system-int32-system-int32-system-int32-system-int32-system-int32-system-int32))
+ * `TimeSpan FromHours(int, int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromhours?view=net-11.0#system-timespan-fromhours(system-int32-system-int32-system-int32-system-int32-system-int32))
+ * `TimeSpan FromMicroseconds(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommicroseconds?view=net-11.0#system-timespan-frommicroseconds(system-int64))
+ * `TimeSpan FromMilliseconds(long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommilliseconds?view=net-11.0#system-timespan-frommilliseconds(system-int64-system-int64))
+ * `TimeSpan FromMinutes(int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromminutes?view=net-11.0#system-timespan-fromminutes(system-int32-system-int32-system-int32-system-int32))
+ * `TimeSpan FromSeconds(long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromseconds?view=net-11.0#system-timespan-fromseconds(system-int64-system-int64-system-int64))
  * `Microseconds` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds?view=net-11.0)
  * `Nanoseconds` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds?view=net-11.0)
 
@@ -1965,7 +1990,7 @@ void ObjectDisposedExceptionExample(bool isDisposed)
     ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L541-L565' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L543-L567' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -1984,7 +2009,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L571-L583' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L573-L585' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
