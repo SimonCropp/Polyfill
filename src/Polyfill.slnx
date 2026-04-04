@@ -21,6 +21,7 @@
   <Project Path="ApiBuilderTests/ApiBuilderTests.csproj" />
   <Project Path="Consume/Consume.csproj" />
   <Project Path="ConsumeBclMemory/ConsumeBclMemory.csproj" />
+  <Project Path="ConsumeBclMemoryNoResolve/ConsumeBclMemoryNoResolve.csproj" />
   <Project Path="ConsumeClassicReferences/ConsumeClassicReferences.csproj" />
   <Project Path="ConsumeConsumeBclMemory/ConsumeConsumeBclMemory.csproj" />
   <Project Path="ConsumeCs14/ConsumeCs14.csproj" />
