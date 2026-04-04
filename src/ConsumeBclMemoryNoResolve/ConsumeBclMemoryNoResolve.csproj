@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Bcl.Memory" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\TestIncludes.targets" />
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
+  <!-- Simulate IDE builds (e.g. Rider surface heuristics) where
+       ResolvedCompileFileDefinitions is empty because ResolvePackageAssets
+       did not run. The framework-static defines like FeatureValueTuple
+       are set, but package-dynamic ones like RefsBclMemory are not. -->
+  <Target Name="PreparePolyfill">
+    <PropertyGroup>
+      <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.0'))">$(DefineConstants);FeatureValueTuple;FeatureRuntimeInformation;FeatureCompression</DefineConstants>
+    </PropertyGroup>
+  </Target>
+</Project>
