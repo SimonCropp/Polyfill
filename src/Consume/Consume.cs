@@ -674,12 +674,12 @@ class Consume
     void Directory_Methods_WithEnumerationOptions()
     {
         var options = new EnumerationOptions();
-        var files = Directory.EnumerateFiles(".", "*", options);
-        var dirs = Directory.EnumerateDirectories(".", "*", options);
-        var entries = Directory.EnumerateFileSystemEntries(".", "*", options);
-        var filesArray = Directory.GetFiles(".", "*", options);
-        var dirsArray = Directory.GetDirectories(".", "*", options);
-        var entriesArray = Directory.GetFileSystemEntries(".", "*", options);
+        var files = Polyfill.EnumerateFiles(".", "*", options);
+        var dirs = Polyfill.EnumerateDirectories(".", "*", options);
+        var entries = Polyfill.EnumerateFileSystemEntries(".", "*", options);
+        var filesArray = Polyfill.GetFiles(".", "*", options);
+        var dirsArray = Polyfill.GetDirectories(".", "*", options);
+        var entriesArray = Polyfill.GetFileSystemEntries(".", "*", options);
     }
 
     void DirectoryInfo_Methods_WithEnumerationOptions()
