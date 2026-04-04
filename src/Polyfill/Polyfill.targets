@@ -77,6 +77,16 @@ For example:
   </Target>
   <!-- end-snippet -->
 
+  <!-- Fallback: detect Microsoft.Bcl.Memory from PackageReference when
+       ResolvedCompileFileDefinitions is unavailable (e.g. IDE builds). -->
+  <Target Name="DetectBclMemoryPackageRef" BeforeTargets="PreparePolyfill;CoreCompile">
+    <PropertyGroup>
+      <DefineConstants
+        Condition="!$(DefineConstants.Contains('RefsBclMemory')) AND
+                   @(PackageReference->AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.Memory'))">$(DefineConstants);RefsBclMemory</DefineConstants>
+    </PropertyGroup>
+  </Target>
+
   <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets">
     <PropertyGroup>
       <DefineConstants
