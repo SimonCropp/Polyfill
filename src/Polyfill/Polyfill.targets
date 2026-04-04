@@ -158,6 +158,9 @@ For example:
 
     <Compile Condition="'$(PolyArgumentExceptions)' != 'true' "
              Remove="$(MSBuildThisFileDirectory)..\**\ArgumentExceptions\*.cs" />
+    
+    <Compile Condition="'$(PolyIndexAndRange)' != 'true'"
+             Remove="$(MSBuildThisFileDirectory)..\**\IndexRange\*.cs"/>
 
     <Compile Condition="'$(PolyNullability)' != 'true' "
              Remove="$(MSBuildThisFileDirectory)..\**\Nullability\*.cs" />
