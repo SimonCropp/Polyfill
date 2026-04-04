@@ -41,6 +41,7 @@ The NuGet package ships `.cs` files (not a DLL). The `Polyfill.nuspec` packs fil
 - **`src/Split/{tfm}/`** — Per-target-framework copies of source files that ship in the NuGet. These are generated/maintained by `ApiBuilderTests` — do not edit directly.
 - **`src/Tests/`** — Primary TUnit test project, multi-targets many frameworks.
 - **`src/Consume/`** — Compilation-only project that ensures all APIs compile on all supported frameworks (no test assertions).
+- **`src/Consume*/`** — All `Consume*` projects get their polyfill source files via `<Import Project="$(SolutionDir)\TestIncludes.targets" />`, which includes `Split/{tfm}/**/*.cs` based on the target framework. They have no polyfill `.cs` files of their own — the Split files ARE their compiled source.
 - **`src/ApiBuilderTests/`** — Tests that generate the Split output and verify API surface.
 
 ### Conditional Compilation
