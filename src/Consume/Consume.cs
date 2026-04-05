@@ -1043,6 +1043,14 @@ class Consume
         result = readOnlySpan.StartsWith('a');
         result = readOnlySpan.EndsWith('a');
         result = readOnlySpan.StartsWith("value", StringComparison.Ordinal);
+        _ = readOnlySpan.IndexOfAnyExcept('a');
+        _ = readOnlySpan.IndexOfAnyExcept('a', 'b');
+        _ = readOnlySpan.IndexOfAnyExcept('a', 'b', 'c');
+        _ = readOnlySpan.IndexOfAnyExcept("ab".AsSpan());
+        _ = readOnlySpan.LastIndexOfAnyExcept('a');
+        _ = readOnlySpan.LastIndexOfAnyExcept('a', 'b');
+        _ = readOnlySpan.LastIndexOfAnyExcept('a', 'b', 'c');
+        _ = readOnlySpan.LastIndexOfAnyExcept("ab".AsSpan());
 #if FeatureValueTuple
         var split = readOnlySpan.Split('a');
         split = readOnlySpan.Split("a".AsSpan());
@@ -1139,6 +1147,15 @@ class Consume
 
         var numbers = new Span<int>(array);
         numbers.Sort();
+
+        _ = span.IndexOfAnyExcept('a');
+        _ = span.IndexOfAnyExcept('a', 'b');
+        _ = span.IndexOfAnyExcept('a', 'b', 'c');
+        _ = span.IndexOfAnyExcept("ab".AsSpan());
+        _ = span.LastIndexOfAnyExcept('a');
+        _ = span.LastIndexOfAnyExcept('a', 'b');
+        _ = span.LastIndexOfAnyExcept('a', 'b', 'c');
+        _ = span.LastIndexOfAnyExcept("ab".AsSpan());
     }
 
 #endif
