@@ -670,18 +670,18 @@ class Consume
         var special = options.ReturnSpecialDirectories;
     }
 
-#if NETFRAMEWORK || NETSTANDARD && !NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0
     void Directory_Methods_WithEnumerationOptions()
     {
         var options = new EnumerationOptions();
-        var files = Polyfill.EnumerateFiles(".", "*", options);
-        var dirs = Polyfill.EnumerateDirectories(".", "*", options);
-        var entries = Polyfill.EnumerateFileSystemEntries(".", "*", options);
-        var filesArray = Polyfill.GetFiles(".", "*", options);
-        var dirsArray = Polyfill.GetDirectories(".", "*", options);
-        var entriesArray = Polyfill.GetFileSystemEntries(".", "*", options);
+        var files = Directory.EnumerateFiles(".", "*", options);
+        var dirs = Directory.EnumerateDirectories(".", "*", options);
+        var entries = Directory.EnumerateFileSystemEntries(".", "*", options);
+        var filesArray = Directory.GetFiles(".", "*", options);
+        var dirsArray = Directory.GetDirectories(".", "*", options);
+        var entriesArray = Directory.GetFileSystemEntries(".", "*", options);
     }
 
+#if NETFRAMEWORK || NETSTANDARD && !NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_0
     void DirectoryInfo_Methods_WithEnumerationOptions()
     {
         var dirInfo = new DirectoryInfo(".");
@@ -694,17 +694,6 @@ class Consume
         var entriesArray = dirInfo.GetFileSystemInfos("*", options);
     }
 #else
-    void Directory_Methods_WithEnumerationOptions()
-    {
-        var options = new EnumerationOptions();
-        var files = Directory.EnumerateFiles(".", "*", options);
-        var dirs = Directory.EnumerateDirectories(".", "*", options);
-        var entries = Directory.EnumerateFileSystemEntries(".", "*", options);
-        var filesArray = Directory.GetFiles(".", "*", options);
-        var dirsArray = Directory.GetDirectories(".", "*", options);
-        var entriesArray = Directory.GetFileSystemEntries(".", "*", options);
-    }
-
     void DirectoryInfo_Methods_WithEnumerationOptions()
     {
         var dirInfo = new DirectoryInfo(".");
