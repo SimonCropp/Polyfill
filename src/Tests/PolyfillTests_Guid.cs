@@ -8,4 +8,11 @@ partial class PolyfillTests
         var guid = Guid.CreateVersion7();
         await Assert.That(guidV7Regex.IsMatch(guid.ToString())).IsTrue();
     }
+
+    [Test]
+    public async Task GuidAllBitsSet()
+    {
+        var guid = Guid.AllBitsSet;
+        await Assert.That(guid.ToString()).IsEqualTo("ffffffff-ffff-ffff-ffff-ffffffffffff");
+    }
 }

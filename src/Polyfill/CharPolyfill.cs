@@ -70,5 +70,14 @@ static partial class Polyfill
         public static bool IsAsciiLetterLower(char c) =>
             c is >= '\u0061' and <= '\u007a';
 #endif
+
+#if !NET8_0_OR_GREATER
+        /// <summary>
+        /// Indicates whether a character is within the specified inclusive range.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.char.isbetween?view=net-11.0
+        public static bool IsBetween(char c, char minInclusive, char maxInclusive) =>
+            (uint)(c - minInclusive) <= (uint)(maxInclusive - minInclusive);
+#endif
     }
 }

@@ -177,6 +177,20 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-11.0#system-string-join(system-string-system-readonlyspan((system-object)))
         public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
             string.Join(separator, values.ToArray());
+
+        /// <summary>
+        /// Concatenates the string representations of the elements in a span of objects.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.concat?view=net-11.0#system-string-concat(system-readonlyspan((system-object)))
+        public static string Concat(scoped ReadOnlySpan<object?> values) =>
+            string.Concat(values.ToArray());
+
+        /// <summary>
+        /// Concatenates the members of a span of strings.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.concat?view=net-11.0#system-string-concat(system-readonlyspan((system-string)))
+        public static string Concat(scoped ReadOnlySpan<string?> values) =>
+            string.Concat(values.ToArray());
 #endif
 
 #if (NETSTANDARD2_0 || NETFRAMEWORK) && !WINDOWS_UWP

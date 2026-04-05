@@ -6,8 +6,11 @@ using System;
 using System.Security.Cryptography;
 static partial class Polyfill
 {
+	static readonly Guid AllBitsSetValue = new(-1, -1, -1, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF);
 	extension(Guid)
 	{
+		/// <summary>A read-only instance of the <see cref="Guid" /> structure whose value is all ones.</summary>
+		public static Guid AllBitsSet => AllBitsSetValue;
 		/// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>
 		public static Guid CreateVersion7() => CreateVersion7(DateTimeOffset.UtcNow);
 		/// <summary>Creates a new <see cref="Guid" /> according to RFC 9562, following the Version 7 format.</summary>

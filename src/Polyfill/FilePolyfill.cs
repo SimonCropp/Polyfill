@@ -17,8 +17,6 @@ static partial class Polyfill
 #if !NET9_0_OR_GREATER
     extension(File)
     {
-#if !NET9_0_OR_GREATER
-
         /// <summary>
         /// Appends the specified byte array to the end of the file at the given path.
         /// If the file doesn't exist, this method creates a new file. If the operation is canceled, the task will return in a canceled state.
@@ -41,11 +39,7 @@ static partial class Polyfill
             await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
         }
 
-#endif
-
 #if FeatureMemory
-
-#if !NET9_0_OR_GREATER
 
         /// <summary>
         /// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file using the specified encoding, and then closes the file.
@@ -119,8 +113,6 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendallbytesasync?view=net-11.0#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)
         public static Task AppendAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default) =>
             AppendAllBytesAsync(path, bytes.ToArray(), cancellationToken);
-
-#endif
 
 #endif
 

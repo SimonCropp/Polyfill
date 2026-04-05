@@ -10,8 +10,14 @@ using System.Security.Cryptography;
 
 static partial class Polyfill
 {
+    static readonly Guid AllBitsSetValue = new(-1, -1, -1, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF);
+
     extension(Guid)
     {
+        /// <summary>A read-only instance of the <see cref="Guid" /> structure whose value is all ones.</summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.guid.allbitsset?view=net-11.0
+        public static Guid AllBitsSet => AllBitsSetValue;
+
 #if !NET7_0_OR_GREATER
 
         /// <summary>
