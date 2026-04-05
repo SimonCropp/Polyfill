@@ -24,7 +24,12 @@ pwsh ./src/run-tests.ps1
 dotnet run --project src/Tests/Tests.csproj --configuration Release --framework net10.0 --no-build
 
 # Run a single test by name (TUnit uses Microsoft.Testing.Platform)
-dotnet run --project src/Tests/Tests.csproj --framework net10.0 -- --filter "StreamReaderReadAsync"
+# Use --treenode-filter (not --filter). * matches within a segment, ** only at the end.
+# Pattern: /assembly/namespace/ClassName/MethodName
+dotnet run --project src/Tests/Tests.csproj --framework net10.0 -- --treenode-filter "/*/*/PolyfillTests/StreamReaderReadAsync"
+
+# Run all tests matching a prefix within a class
+dotnet run --project src/Tests/Tests.csproj --framework net10.0 -- --treenode-filter "/*/*/PolyfillTests/Directory_*"
 ```
 
 Tests use **TUnit** (not xUnit/NUnit). Test assertions use `await Assert.That(...)` syntax.
