@@ -229,6 +229,12 @@
 #### Directory
 
  * `DirectoryInfo CreateTempSubdirectory(string?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.createtempsubdirectory?view=net-11.0)
+ * `IEnumerable<string> EnumerateDirectories(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.enumeratedirectories?view=net-11.0#system-io-directory-enumeratedirectories(system-string-system-string-system-io-enumerationoptions))
+ * `IEnumerable<string> EnumerateFiles(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.enumeratefiles?view=net-11.0#system-io-directory-enumeratefiles(system-string-system-string-system-io-enumerationoptions))
+ * `IEnumerable<string> EnumerateFileSystemEntries(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.enumeratefilesystementries?view=net-11.0#system-io-directory-enumeratefilesystementries(system-string-system-string-system-io-enumerationoptions))
+ * `string[] GetDirectories(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.getdirectories?view=net-11.0#system-io-directory-getdirectories(system-string-system-string-system-io-enumerationoptions))
+ * `string[] GetFiles(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.getfiles?view=net-11.0#system-io-directory-getfiles(system-string-system-string-system-io-enumerationoptions))
+ * `string[] GetFileSystemEntries(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.getfilesystementries?view=net-11.0#system-io-directory-getfilesystementries(system-string-system-string-system-io-enumerationoptions))
 
 
 #### DirectoryInfo
@@ -943,12 +949,6 @@
  * `void CopyTo(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.copyto?view=net-11.0)
  * `bool EndsWith(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.endswith?view=net-11.0#system-string-endswith(system-char-system-stringcomparison))
  * `bool EndsWith(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.endswith?view=net-11.0#system-string-endswith(system-char))
- * `IEnumerable<string> EnumerateDirectories(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.enumeratedirectories?view=net-11.0#system-io-directory-enumeratedirectories(system-string-system-string-system-io-enumerationoptions))
- * `IEnumerable<string> EnumerateFiles(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.enumeratefiles?view=net-11.0#system-io-directory-enumeratefiles(system-string-system-string-system-io-enumerationoptions))
- * `IEnumerable<string> EnumerateFileSystemEntries(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.enumeratefilesystementries?view=net-11.0#system-io-directory-enumeratefilesystementries(system-string-system-string-system-io-enumerationoptions))
- * `string[] GetDirectories(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.getdirectories?view=net-11.0#system-io-directory-getdirectories(system-string-system-string-system-io-enumerationoptions))
- * `string[] GetFiles(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.getfiles?view=net-11.0#system-io-directory-getfiles(system-string-system-string-system-io-enumerationoptions))
- * `string[] GetFileSystemEntries(string, string, EnumerationOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.directory.getfilesystementries?view=net-11.0#system-io-directory-getfilesystementries(system-string-system-string-system-io-enumerationoptions))
  * `int GetHashCode(StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-11.0#system-string-gethashcode(system-stringcomparison))
  * `int IndexOf(char, int, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-char-system-int32-system-int32-system-stringcomparison))
  * `int IndexOf(char, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-char-system-int32-system-stringcomparison))
