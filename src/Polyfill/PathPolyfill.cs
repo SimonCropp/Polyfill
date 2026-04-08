@@ -45,6 +45,13 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.getextension?view=net-11.0#system-io-path-getextension(system-readonlyspan((system-char)))
         public static ReadOnlySpan<char> GetExtension(ReadOnlySpan<char> path) =>
             Path.GetExtension(path.ToString()).AsSpan();
+
+        /// <summary>
+        /// Determines whether a path includes a file name extension.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.ispathrooted?view=net-11.0#system-io-path-ispathrooted(system-readonlyspan((system-char)))
+        public static bool IsPathRooted(ReadOnlySpan<char> path) =>
+            Path.IsPathRooted(path.ToString());
 #endif
 
 #if !NET9_0_OR_GREATER
