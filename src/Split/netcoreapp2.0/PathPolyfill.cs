@@ -34,6 +34,11 @@ static partial class Polyfill
 		public static ReadOnlySpan<char> GetExtension(ReadOnlySpan<char> path) =>
 			Path.GetExtension(path.ToString()).AsSpan();
 		/// <summary>
+		/// Determines whether a path includes a file name extension.
+		/// </summary>
+		public static bool IsPathRooted(ReadOnlySpan<char> path) =>
+			Path.IsPathRooted(path.ToString());
+		/// <summary>
 		/// Combines a span of strings into a path.
 		/// </summary>
 		public static string Combine(scoped ReadOnlySpan<string> paths) =>
