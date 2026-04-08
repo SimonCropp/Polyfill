@@ -2,6 +2,7 @@
 namespace Polyfills;
 
 using System;
+using System.Buffers;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -17,8 +18,16 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.write?view=net-11.0#system-io-stream-write(system-readonlyspan((system-byte)))
     public static void Write(this Stream target, ReadOnlySpan<byte> buffer)
     {
-        var sharedBuffer = buffer.ToArray();
-        target.Write(sharedBuffer, 0, sharedBuffer.Length);
+        var sharedBuffer = ArrayPool<byte>.Shared.Rent(buffer.Length);
+        try
+        {
+            buffer.CopyTo(sharedBuffer);
+            target.Write(sharedBuffer, 0, buffer.Length);
+        }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(sharedBuffer);
+        }
     }
 #endif
 

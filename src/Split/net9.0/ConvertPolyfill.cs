@@ -69,18 +69,14 @@ static partial class Polyfill
 		/// </summary>
 		public static bool TryToHexString(ReadOnlySpan<byte> source, Span<byte> utf8Destination, out int bytesWritten)
 		{
-			if (source.Length > utf8Destination.Length / 2)
+			var required = source.Length * 2;
+			if (required > utf8Destination.Length)
 			{
 				bytesWritten = 0;
 				return false;
 			}
-			var hexString = Convert.ToHexString(source);
-			var index = 0;
-			foreach (var c in hexString)
-			{
-				utf8Destination[index++] = (byte)c;
-			}
-			bytesWritten = hexString.Length;
+			WriteHexBytes(source, utf8Destination, "0123456789ABCDEF");
+			bytesWritten = required;
 			return true;
 		}
 		/// <summary>
@@ -88,18 +84,14 @@ static partial class Polyfill
 		/// </summary>
 		public static bool TryToHexStringLower(ReadOnlySpan<byte> source, Span<byte> utf8Destination, out int bytesWritten)
 		{
-			if (source.Length > utf8Destination.Length / 2)
+			var required = source.Length * 2;
+			if (required > utf8Destination.Length)
 			{
 				bytesWritten = 0;
 				return false;
 			}
-			var hexString = Convert.ToHexStringLower(source);
-			var index = 0;
-			foreach (var c in hexString)
-			{
-				utf8Destination[index++] = (byte)c;
-			}
-			bytesWritten = hexString.Length;
+			WriteHexBytes(source, utf8Destination, "0123456789abcdef");
+			bytesWritten = required;
 			return true;
 		}
 #endif
@@ -112,6 +104,26 @@ static partial class Polyfill
 				>= 'a' and <= 'f' => hex - 'a' + 10,
 				_ => -1
 			};
+		static void WriteHexChars(ReadOnlySpan<byte> source, Span<char> destination, string hexAlphabet)
+		{
+			var index = 0;
+			for (var i = 0; i < source.Length; i++)
+			{
+				var b = source[i];
+				destination[index++] = hexAlphabet[b >> 4];
+				destination[index++] = hexAlphabet[b & 0xF];
+			}
+		}
+		static void WriteHexBytes(ReadOnlySpan<byte> source, Span<byte> destination, string hexAlphabet)
+		{
+			var index = 0;
+			for (var i = 0; i < source.Length; i++)
+			{
+				var b = source[i];
+				destination[index++] = (byte)hexAlphabet[b >> 4];
+				destination[index++] = (byte)hexAlphabet[b & 0xF];
+			}
+		}
 #endif
 	}
 }
