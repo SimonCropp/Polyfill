@@ -3,7 +3,9 @@ namespace Polyfills;
 using System;
 using System.IO;
 // ReSharper disable RedundantUsingDirective
+#if FeatureMemory
 using System.Buffers;
+#endif
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
