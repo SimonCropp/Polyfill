@@ -25,6 +25,13 @@ public class PathTests
         await Assert.That(Path.GetExtension("file.txt".AsSpan()).ToString()).IsEqualTo(".txt");
 
     [Test]
+    public async Task IsPathRooted()
+    {
+        await Assert.That(Path.IsPathRooted("/root/path".AsSpan())).IsTrue();
+        await Assert.That(Path.IsPathRooted("relative/path".AsSpan())).IsFalse();
+    }
+
+    [Test]
     public async Task Combine()
     {
         ReadOnlySpan<string> paths =

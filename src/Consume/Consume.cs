@@ -724,6 +724,9 @@ class Consume
     void Path_Methods()
     {
         var relative = Path.GetRelativePath("/folder1/folder2", "/folder1/folder3");
+#if FeatureMemory
+        var rooted = Path.IsPathRooted("/root".AsSpan());
+#endif
     }
 
     void Console_Methods()
