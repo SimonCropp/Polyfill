@@ -1,4 +1,4 @@
-#if FeatureMemory
+#if FeatureMemory && !RefsBclMemory
 
 #if !NET9_0_OR_GREATER
 
