@@ -3,6 +3,7 @@
 #if FeatureMemory
 namespace Polyfills;
 using System;
+using System.Buffers;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -15,8 +16,16 @@ static partial class Polyfill
 	/// </summary>
 	public static void Write(this Stream target, ReadOnlySpan<byte> buffer)
 	{
-		var sharedBuffer = buffer.ToArray();
-		target.Write(sharedBuffer, 0, sharedBuffer.Length);
+		var sharedBuffer = ArrayPool<byte>.Shared.Rent(buffer.Length);
+		try
+		{
+			buffer.CopyTo(sharedBuffer);
+			target.Write(sharedBuffer, 0, buffer.Length);
+		}
+		finally
+		{
+			ArrayPool<byte>.Shared.Return(sharedBuffer);
+		}
 	}
 #if FeatureValueTask
 	/// <summary>

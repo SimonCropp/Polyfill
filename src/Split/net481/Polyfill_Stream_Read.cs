@@ -3,6 +3,7 @@
 namespace Polyfills;
 using System;
 using System.IO;
+using System.Buffers;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,14 +33,21 @@ static partial class Polyfill
 	/// </summary>
 	public static int Read(this Stream target, Span<byte> buffer)
 	{
-		byte[] sharedBuffer = new byte[buffer.Length];
-		int numRead = target.Read(sharedBuffer, 0, buffer.Length);
-		if ((uint)numRead > (uint)buffer.Length)
+		var sharedBuffer = ArrayPool<byte>.Shared.Rent(buffer.Length);
+		try
 		{
-			throw new IOException("StreamTooLong");
+			int numRead = target.Read(sharedBuffer, 0, buffer.Length);
+			if ((uint)numRead > (uint)buffer.Length)
+			{
+				throw new IOException("StreamTooLong");
+			}
+			new ReadOnlySpan<byte>(sharedBuffer, 0, numRead).CopyTo(buffer);
+			return numRead;
 		}
-		new ReadOnlySpan<byte>(sharedBuffer, 0, numRead).CopyTo(buffer);
-		return numRead;
+		finally
+		{
+			ArrayPool<byte>.Shared.Return(sharedBuffer);
+		}
 	}
 #endif
 #if FeatureValueTask

@@ -32,6 +32,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 #if FeatureMemory
 using System.Buffers.Binary;
+using System.Buffers.Text;
 #endif
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
@@ -199,6 +200,44 @@ class Consume
         var allBitsSet = Guid.AllBitsSet;
 #endif
     }
+
+#if FeatureMemory
+    void Base64UrlUsage()
+    {
+        ReadOnlySpan<byte> source = default;
+        Span<char> charDest = default;
+        Span<byte> byteDest = default;
+
+        Base64Url.GetEncodedLength(0);
+        Base64Url.GetMaxDecodedLength(0);
+
+        Base64Url.EncodeToString(source);
+        Base64Url.EncodeToChars(source, charDest);
+        Base64Url.EncodeToChars(source, charDest, bytesConsumed: out _, charsWritten: out _, isFinalBlock: true);
+        Base64Url.TryEncodeToChars(source, charDest, out _);
+        Base64Url.EncodeToUtf8(source);
+        Base64Url.EncodeToUtf8(source, byteDest);
+        Base64Url.EncodeToUtf8(source, byteDest, bytesConsumed: out _, bytesWritten: out _, isFinalBlock: true);
+        Base64Url.TryEncodeToUtf8(source, byteDest, out _);
+        Base64Url.TryEncodeToUtf8InPlace(byteDest, 0, out _);
+
+        ReadOnlySpan<char> charSource = default;
+        Base64Url.DecodeFromChars(charSource);
+        Base64Url.DecodeFromChars(charSource, byteDest);
+        Base64Url.DecodeFromChars(charSource, byteDest, charsConsumed: out _, bytesWritten: out _, isFinalBlock: true);
+        Base64Url.TryDecodeFromChars(charSource, byteDest, out _);
+        Base64Url.DecodeFromUtf8(source);
+        Base64Url.DecodeFromUtf8(source, byteDest);
+        Base64Url.DecodeFromUtf8(source, byteDest, bytesConsumed: out _, bytesWritten: out _, isFinalBlock: true);
+        Base64Url.TryDecodeFromUtf8(source, byteDest, out _);
+        Base64Url.DecodeFromUtf8InPlace(byteDest);
+
+        Base64Url.IsValid(charSource);
+        Base64Url.IsValid(charSource, out _);
+        Base64Url.IsValid(source);
+        Base64Url.IsValid(source, out _);
+    }
+#endif
 
     void SHA256Usage()
     {
