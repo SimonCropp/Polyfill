@@ -49,7 +49,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
 
 ### Powered by
 
-[![JetBrains logo.](https://resources.jetbrains.com/storage/products/company/brand/logos/jetbrains.svg)](https://jb.gg/OpenSourceSupport)
+[![JetBrains logo.](https://raw.githubusercontent.com/SimonCropp/Polyfill/main/src/jetbrains.png)](https://jb.gg/OpenSourceSupport)
 
 
 ## Nuget
