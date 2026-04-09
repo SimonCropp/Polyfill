@@ -863,6 +863,18 @@ class Consume
     }
 #endif
 
+#if FeatureMemory
+    void UdpClient_SyncMethods()
+    {
+        using var client = new UdpClient(0);
+        var data = new ReadOnlySpan<byte>([1, 2, 3]);
+        using var connectedClient = new UdpClient("localhost", 12345);
+        connectedClient.Send(data);
+        client.Send(data, new IPEndPoint(IPAddress.Loopback, 12345));
+        client.Send(data, "localhost", 12345);
+    }
+#endif
+
     void IDictionary_Methods()
     {
         IDictionary<int, int> idictionary = new Dictionary<int, int>();

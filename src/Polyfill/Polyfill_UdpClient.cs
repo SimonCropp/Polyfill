@@ -1,8 +1,9 @@
-#if !NET6_0_OR_GREATER && FeatureValueTask
+#if !NET6_0_OR_GREATER
 
 namespace Polyfills;
 
 using System;
+using System.Buffers;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -10,6 +11,8 @@ using System.Threading.Tasks;
 
 static partial class Polyfill
 {
+#if FeatureValueTask
+
     /// <summary>
     /// Returns a UDP datagram asynchronously that was sent by a remote host.
     /// </summary>
@@ -164,6 +167,75 @@ static partial class Polyfill
         catch (SocketException) when (cancellationToken.IsCancellationRequested)
         {
             throw new OperationCanceledException(cancellationToken);
+        }
+    }
+
+#endif
+
+#endif
+
+#if FeatureMemory
+
+    /// <summary>
+    /// Sends a UDP datagram to a remote host.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.send?view=net-11.0#system-net-sockets-udpclient-send(system-readonlyspan((system-byte)))
+    public static int Send(
+        this UdpClient target,
+        ReadOnlySpan<byte> datagram)
+    {
+        var rented = ArrayPool<byte>.Shared.Rent(datagram.Length);
+        try
+        {
+            datagram.CopyTo(rented);
+            return target.Send(rented, datagram.Length);
+        }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(rented);
+        }
+    }
+
+    /// <summary>
+    /// Sends a UDP datagram to the host at the specified remote endpoint.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.send?view=net-11.0#system-net-sockets-udpclient-send(system-readonlyspan((system-byte))-system-net-ipendpoint)
+    public static int Send(
+        this UdpClient target,
+        ReadOnlySpan<byte> datagram,
+        IPEndPoint? endPoint)
+    {
+        var rented = ArrayPool<byte>.Shared.Rent(datagram.Length);
+        try
+        {
+            datagram.CopyTo(rented);
+            return target.Send(rented, datagram.Length, endPoint);
+        }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(rented);
+        }
+    }
+
+    /// <summary>
+    /// Sends a UDP datagram to a specified port on a specified remote host.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.send?view=net-11.0#system-net-sockets-udpclient-send(system-readonlyspan((system-byte))-system-string-system-int32)
+    public static int Send(
+        this UdpClient target,
+        ReadOnlySpan<byte> datagram,
+        string? hostname,
+        int port)
+    {
+        var rented = ArrayPool<byte>.Shared.Rent(datagram.Length);
+        try
+        {
+            datagram.CopyTo(rented);
+            return target.Send(rented, datagram.Length, hostname, port);
+        }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(rented);
         }
     }
 
