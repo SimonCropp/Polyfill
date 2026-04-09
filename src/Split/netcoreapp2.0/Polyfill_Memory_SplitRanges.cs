@@ -3,11 +3,19 @@
 #if FeatureMemory
 namespace Polyfills;
 using System;
-using System.Collections.Generic;
 static partial class Polyfill
 {
-	const StringSplitOptions TrimEntries = (StringSplitOptions)2;
-	const StringSplitOptions AllSplitOptions = StringSplitOptions.RemoveEmptyEntries | TrimEntries;
+	const StringSplitOptions TrimEntriesFlag = (StringSplitOptions)2;
+	const StringSplitOptions ValidSplitOptions = StringSplitOptions.RemoveEmptyEntries | TrimEntriesFlag;
+	enum SplitRangesMode
+	{
+		SingleChar,
+		Sequence,
+		EmptySequence,
+		AnyChars,
+		AnyStrings,
+		AnyWhitespace,
+	}
 	/// <summary>
 	/// Parses the source <see cref="ReadOnlySpan{Char}"/> for the specified <paramref name="separator"/>, populating
 	/// the <paramref name="destination"/> span with <see cref="Range"/> instances representing the regions between the
@@ -15,16 +23,8 @@ static partial class Polyfill
 	/// </summary>
 	public static int Split(this ReadOnlySpan<char> source, Span<Range> destination, char separator, StringSplitOptions options = StringSplitOptions.None)
 	{
-		CheckStringSplitOptions(options);
-		var indices = new List<int>();
-		for (var i = 0; i < source.Length; i++)
-		{
-			if (source[i] == separator)
-			{
-				indices.Add(i);
-			}
-		}
-		return SplitRangesCore(source, destination, indices, null, 1, options);
+		CheckSplitOptions(options);
+		return SplitRangesCore(source, destination, separator, default, default, SplitRangesMode.SingleChar, options);
 	}
 	/// <summary>
 	/// Parses the source <see cref="ReadOnlySpan{Char}"/> for the specified <paramref name="separator"/>, populating
@@ -33,38 +33,9 @@ static partial class Polyfill
 	/// </summary>
 	public static int Split(this ReadOnlySpan<char> source, Span<Range> destination, ReadOnlySpan<char> separator, StringSplitOptions options = StringSplitOptions.None)
 	{
-		CheckStringSplitOptions(options);
-		if (separator.IsEmpty)
-		{
-			if (!destination.IsEmpty)
-			{
-				var startInclusive = 0;
-				var endExclusive = source.Length;
-				if ((options & TrimEntries) != 0)
-				{
-					TrimSplitEntry(source, ref startInclusive, ref endExclusive);
-				}
-				if (startInclusive != endExclusive || (options & StringSplitOptions.RemoveEmptyEntries) == 0)
-				{
-					destination[0] = startInclusive..endExclusive;
-					return 1;
-				}
-			}
-			return 0;
-		}
-		var indices = new List<int>();
-		var i = 0;
-		while (i <= source.Length - separator.Length)
-		{
-			var found = source.Slice(i).IndexOf(separator);
-			if (found < 0)
-			{
-				break;
-			}
-			indices.Add(i + found);
-			i += found + separator.Length;
-		}
-		return SplitRangesCore(source, destination, indices, null, separator.Length, options);
+		CheckSplitOptions(options);
+		var mode = separator.IsEmpty ? SplitRangesMode.EmptySequence : SplitRangesMode.Sequence;
+		return SplitRangesCore(source, destination, default, separator, default, mode, options);
 	}
 	/// <summary>
 	/// Parses the source <see cref="ReadOnlySpan{Char}"/> for one of the specified <paramref name="separators"/>,
@@ -73,23 +44,17 @@ static partial class Polyfill
 	/// </summary>
 	public static int SplitAny(this ReadOnlySpan<char> source, Span<Range> destination, ReadOnlySpan<char> separators, StringSplitOptions options = StringSplitOptions.None)
 	{
-		CheckStringSplitOptions(options);
-		var useWhitespace = separators.IsEmpty;
-		if (useWhitespace && destination.Length > source.Length)
+		CheckSplitOptions(options);
+		var mode = SplitRangesMode.AnyChars;
+		if (separators.IsEmpty)
 		{
-			options &= ~TrimEntries;
-		}
-		var indices = new List<int>();
-		for (var i = 0; i < source.Length; i++)
-		{
-			var c = source[i];
-			var isSeparator = useWhitespace ? char.IsWhiteSpace(c) : separators.IndexOf(c) >= 0;
-			if (isSeparator)
+			mode = SplitRangesMode.AnyWhitespace;
+			if (destination.Length > source.Length)
 			{
-				indices.Add(i);
+				options &= ~TrimEntriesFlag;
 			}
 		}
-		return SplitRangesCore(source, destination, indices, null, 1, options);
+		return SplitRangesCore(source, destination, default, separators, default, mode, options);
 	}
 	/// <summary>
 	/// Parses the source <see cref="ReadOnlySpan{Char}"/> for one of the specified <paramref name="separators"/>,
@@ -98,79 +63,40 @@ static partial class Polyfill
 	/// </summary>
 	public static int SplitAny(this ReadOnlySpan<char> source, Span<Range> destination, ReadOnlySpan<string> separators, StringSplitOptions options = StringSplitOptions.None)
 	{
-		CheckStringSplitOptions(options);
-		var useWhitespace = separators.IsEmpty;
-		if (useWhitespace && destination.Length > source.Length)
+		CheckSplitOptions(options);
+		var mode = SplitRangesMode.AnyStrings;
+		if (separators.IsEmpty)
 		{
-			options &= ~TrimEntries;
-		}
-		var indices = new List<int>();
-		List<int>? lengths;
-		if (useWhitespace)
-		{
-			lengths = null;
-			for (var i = 0; i < source.Length; i++)
+			mode = SplitRangesMode.AnyWhitespace;
+			if (destination.Length > source.Length)
 			{
-				if (char.IsWhiteSpace(source[i]))
-				{
-					indices.Add(i);
-				}
-			}
-			return SplitRangesCore(source, destination, indices, null, 1, options);
-		}
-		lengths = new();
-		var pos = 0;
-		while (pos < source.Length)
-		{
-			var matchLength = 0;
-			for (var s = 0; s < separators.Length; s++)
-			{
-				var sep = separators[s];
-				if (string.IsNullOrEmpty(sep))
-				{
-					continue;
-				}
-				if (pos + sep.Length > source.Length)
-				{
-					continue;
-				}
-				if (source.Slice(pos, sep.Length).SequenceEqual(sep.AsSpan()))
-				{
-					matchLength = sep.Length;
-					break;
-				}
-			}
-			if (matchLength > 0)
-			{
-				indices.Add(pos);
-				lengths.Add(matchLength);
-				pos += matchLength;
-			}
-			else
-			{
-				pos++;
+				options &= ~TrimEntriesFlag;
 			}
 		}
-		return SplitRangesCore(source, destination, indices, lengths, -1, options);
+		return SplitRangesCore(source, destination, default, default, separators, mode, options);
 	}
-	/// <summary>Core implementation that mirrors the BCL SplitCore behaviour.</summary>
+	/// <summary>
+	/// Unified core that mirrors the BCL <c>SplitCore</c> behaviour. Finds separators lazily via
+	/// <see cref="FindNextSeparator"/> rather than precomputing them, so each public method needs only a thin shim.
+	/// </summary>
 	static int SplitRangesCore(
 		ReadOnlySpan<char> source,
 		Span<Range> destination,
-		List<int> separatorIndices,
-		List<int>? separatorLengths,
-		int defaultSeparatorLength,
+		char singleChar,
+		ReadOnlySpan<char> charSeparators,
+		ReadOnlySpan<string> stringSeparators,
+		SplitRangesMode mode,
 		StringSplitOptions options)
 	{
 		if (destination.IsEmpty)
 		{
 			return 0;
 		}
-		var keepEmptyEntries = (options & StringSplitOptions.RemoveEmptyEntries) == 0;
-		var trimEntries = (options & TrimEntries) != 0;
+		var keepEmpty = (options & StringSplitOptions.RemoveEmptyEntries) == 0;
+		var trim = (options & TrimEntriesFlag) != 0;
 		if (source.Length == 0)
 		{
-			if (keepEmptyEntries)
+			if (keepEmpty)
 			{
 				destination[0] = 0..0;
 				return 1;
@@ -182,11 +108,11 @@ static partial class Polyfill
 		if (destination.Length == 1)
 		{
 			endExclusive = source.Length;
-			if (trimEntries)
+			if (trim)
 			{
 				TrimSplitEntry(source, ref startInclusive, ref endExclusive);
 			}
-			if (startInclusive != endExclusive || keepEmptyEntries)
+			if (startInclusive != endExclusive || keepEmpty)
 			{
 				destination[0] = startInclusive..endExclusive;
 				return 1;
@@ -194,24 +120,19 @@ static partial class Polyfill
 			return 0;
 		}
 		var rangeCount = 0;
-		var separatorIndex = 0;
 		var destinationMinusOne = destination.Slice(0, destination.Length - 1);
-		var separatorLength = defaultSeparatorLength;
-		while (separatorIndex < separatorIndices.Count &&
-			   (rangeCount < destinationMinusOne.Length || !keepEmptyEntries))
+		while (rangeCount < destinationMinusOne.Length || !keepEmpty)
 		{
-			endExclusive = separatorIndices[separatorIndex];
-			if (separatorLengths != null)
+			if (!FindNextSeparator(source, startInclusive, mode, singleChar, charSeparators, stringSeparators, out endExclusive, out var separatorLength))
 			{
-				separatorLength = separatorLengths[separatorIndex];
+				break;
 			}
-			separatorIndex++;
 			var untrimmedEndExclusive = endExclusive;
-			if (trimEntries)
+			if (trim)
 			{
 				TrimSplitEntry(source, ref startInclusive, ref endExclusive);
 			}
-			if (startInclusive != endExclusive || keepEmptyEntries)
+			if (startInclusive != endExclusive || keepEmpty)
 			{
 				if ((uint)rangeCount >= (uint)destinationMinusOne.Length)
 				{
@@ -225,17 +146,86 @@ static partial class Polyfill
 		if ((uint)rangeCount < (uint)destination.Length)
 		{
 			endExclusive = source.Length;
-			if (trimEntries)
+			if (trim)
 			{
 				TrimSplitEntry(source, ref startInclusive, ref endExclusive);
 			}
-			if (startInclusive != endExclusive || keepEmptyEntries)
+			if (startInclusive != endExclusive || keepEmpty)
 			{
 				destination[rangeCount] = startInclusive..endExclusive;
 				rangeCount++;
 			}
 		}
 		return rangeCount;
+	}
+	/// <summary>
+	/// Finds the next separator at or after <paramref name="from"/>, dispatching on <paramref name="mode"/>.
+	/// Defers to BCL <c>IndexOf</c>/<c>IndexOfAny</c> wherever possible so the per-mode logic stays minimal.
+	/// </summary>
+	static bool FindNextSeparator(
+		ReadOnlySpan<char> source,
+		int from,
+		SplitRangesMode mode,
+		char singleChar,
+		ReadOnlySpan<char> charSeparators,
+		ReadOnlySpan<string> stringSeparators,
+		out int separatorIndex,
+		out int separatorLength)
+	{
+		var idx = -1;
+		var len = 1;
+		if (from <= source.Length)
+		{
+			var slice = source.Slice(from);
+			switch (mode)
+			{
+				case SplitRangesMode.SingleChar:
+					idx = slice.IndexOf(singleChar);
+					break;
+				case SplitRangesMode.Sequence:
+					idx = slice.IndexOf(charSeparators);
+					len = charSeparators.Length;
+					break;
+				case SplitRangesMode.AnyChars:
+					idx = slice.IndexOfAny(charSeparators);
+					break;
+				case SplitRangesMode.AnyWhitespace:
+					for (var i = 0; i < slice.Length; i++)
+					{
+						if (char.IsWhiteSpace(slice[i]))
+						{
+							idx = i;
+							break;
+						}
+					}
+					break;
+				case SplitRangesMode.AnyStrings:
+					for (var s = 0; s < stringSeparators.Length; s++)
+					{
+						var sep = stringSeparators[s];
+						if (string.IsNullOrEmpty(sep))
+						{
+							continue;
+						}
+						var found = slice.IndexOf(sep.AsSpan());
+						if (found >= 0 && (idx < 0 || found < idx))
+						{
+							idx = found;
+							len = sep.Length;
+						}
+					}
+					break;
+			}
+		}
+		if (idx < 0)
+		{
+			separatorIndex = -1;
+			separatorLength = 0;
+			return false;
+		}
+		separatorIndex = from + idx;
+		separatorLength = len;
+		return true;
 	}
 	static void TrimSplitEntry(ReadOnlySpan<char> source, ref int startInclusive, ref int endExclusive)
 	{
@@ -248,9 +238,9 @@ static partial class Polyfill
 			endExclusive--;
 		}
 	}
-	static void CheckStringSplitOptions(StringSplitOptions options)
+	static void CheckSplitOptions(StringSplitOptions options)
 	{
-		if ((options & ~AllSplitOptions) != 0)
+		if ((options & ~ValidSplitOptions) != 0)
 		{
 			throw new ArgumentException($"Illegal enum value: {(int)options}", nameof(options));
 		}
