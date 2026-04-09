@@ -16,7 +16,6 @@
   </metadata>
   <files>
     <file src="../nuget-readme.md" target="readme.md" />
-    <file src="../jetbrains.png" target="jetbrains.png" />
     <file src="../icon.png" target="icon.png" />
     <file src="..\Split\**\*.cs" target="contentFiles\cs\"/>
     <file src="Polyfill.targets" target="build"/>

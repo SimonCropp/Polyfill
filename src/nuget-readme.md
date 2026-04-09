@@ -43,4 +43,4 @@ A compiled library variant is also available: [PolyfillLib](https://nuget.org/pa
 
 ## Powered by
 
-[![JetBrains logo.](jetbrains.png)](https://jb.gg/OpenSourceSupport)
+[![JetBrains logo.](https://raw.githubusercontent.com/SimonCropp/Polyfill/main/src/jetbrains.png)](https://jb.gg/OpenSourceSupport)
