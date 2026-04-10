@@ -686,6 +686,12 @@ class Consume
         ExceptionDispatchInfo.SetCurrentStackTrace(ex);
     }
 
+    void EqualityComparer_Methods()
+    {
+        var comparer = EqualityComparer<int>.Create((x, y) => x == y, x => x);
+        comparer = EqualityComparer<int>.Create((x, y) => x == y);
+    }
+
     void Enum_Methods()
     {
         var values = Enum.GetValuesAsUnderlyingType(typeof(DayOfWeek));
@@ -1146,6 +1152,15 @@ class Consume
 
 #endif
 
+    void Regex_Count_Methods()
+    {
+        var regex = new Regex("a");
+        var count = regex.Count("aaa");
+        count = Regex.Count("aaa", "a");
+        count = Regex.Count("aaa", "a", RegexOptions.None);
+        count = Regex.Count("aaa", "a", RegexOptions.None, TimeSpan.FromSeconds(1));
+    }
+
 #if FeatureMemory
 
     void Regex_Methods()
@@ -1392,6 +1407,16 @@ class Consume
         {
         }
 #endif
+    }
+#endif
+
+#if FeatureValueTask
+    async Task Parallel_Methods()
+    {
+        var items = new[] { 1, 2, 3 };
+        await Parallel.ForEachAsync(items, (_, _) => default);
+        await Parallel.ForEachAsync(items, CancellationToken.None, (_, _) => default);
+        await Parallel.ForEachAsync(items, new ParallelOptions(), (_, _) => default);
     }
 #endif
 

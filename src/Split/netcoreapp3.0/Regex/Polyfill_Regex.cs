@@ -5,6 +5,20 @@ using System;
 using System.Text.RegularExpressions;
 static partial class Polyfill
 {
+	/// <summary>
+	/// Searches an input string for all occurrences of a regular expression and returns the number of matches.
+	/// </summary>
+	public static int Count(this Regex target, string input)
+	{
+		var count = 0;
+		var match = target.Match(input);
+		while (match.Success)
+		{
+			count++;
+			match = match.NextMatch();
+		}
+		return count;
+	}
 #if FeatureMemory
 	/// <summary>
 	/// Indicates whether the regular expression specified in the Regex constructor finds a match in a specified input span.
