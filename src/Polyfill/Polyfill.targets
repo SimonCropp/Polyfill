@@ -1,6 +1,5 @@
 <Project>
   <PropertyGroup>
-    <PrepareForBuildDependsOn>$(PrepareForBuildDependsOn);PreparePolyfill</PrepareForBuildDependsOn>
     <LowerFramework>$(TargetFramework.ToLower())</LowerFramework>
     <LowerFrameworks>$(TargetFrameworks.ToLower())</LowerFrameworks>
   </PropertyGroup>
@@ -77,48 +76,48 @@ For example:
   </Target>
   <!-- end-snippet -->
 
-  <!-- Fallback: detect Microsoft.Bcl.Memory from PackageReference when
-       ResolvedCompileFileDefinitions is unavailable (e.g. IDE builds). -->
-  <Target Name="DetectBclMemoryPackageRef" BeforeTargets="PreparePolyfill;CoreCompile">
+  <!-- Feature detection runs after ResolveAssemblyReferences and before
+       CoreCompile. By that point @(ReferencePath) holds the final list of
+       assemblies that csc will see, with NuGetPackageId and NuGetPackageVersion
+       metadata preserved on items that came from NuGet packages. Each Feature*
+       / Refs* DefineConstant is set only when the corresponding assembly is
+       actually present in @(ReferencePath), so the conditional source files
+       that depend on those defines compile against a reference list that is
+       guaranteed to contain the types they use. -->
+  <Target Name="PolyfillResolveFeatures"
+          AfterTargets="ResolveAssemblyReferences"
+          BeforeTargets="CoreCompile">
     <PropertyGroup>
       <DefineConstants
-        Condition="!$(DefineConstants.Contains('RefsBclMemory')) AND
-                   @(PackageReference->AnyHaveMetadataValue('Identity', 'Microsoft.Bcl.Memory'))">$(DefineConstants);RefsBclMemory</DefineConstants>
-    </PropertyGroup>
-  </Target>
-
-  <Target Name="PreparePolyfill" DependsOnTargets="ResolvePackageAssets">
-    <PropertyGroup>
-      <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.ValueTuple'))">$(DefineConstants);FeatureValueTuple</DefineConstants>
+        Condition="@(ReferencePath->AnyHaveMetadataValue('NuGetPackageId', 'System.ValueTuple'))">$(DefineConstants);FeatureValueTuple</DefineConstants>
 
       <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'Microsoft.Bcl.Memory'))">$(DefineConstants);RefsBclMemory</DefineConstants>
+        Condition="@(ReferencePath->AnyHaveMetadataValue('NuGetPackageId', 'Microsoft.Bcl.Memory'))">$(DefineConstants);RefsBclMemory</DefineConstants>
 
-      <MemoryVersion>@(ResolvedCompileFileDefinitions->WithMetadataValue('NuGetPackageId', 'System.Memory')->Metadata('NuGetPackageVersion'))</MemoryVersion>
-      
+      <MemoryVersion>@(ReferencePath->WithMetadataValue('NuGetPackageId', 'System.Memory')->Metadata('NuGetPackageVersion'))</MemoryVersion>
+
       <DefineConstants
         Condition="'$(MemoryVersion)' != '' AND $([MSBuild]::VersionGreaterThanOrEquals($(MemoryVersion), '4.5.5'))">$(DefineConstants);FeatureMemory</DefineConstants>
-      
-      <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Runtime.InteropServices.RuntimeInformation'))">$(DefineConstants);FeatureRuntimeInformation</DefineConstants>
-      
-      <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Threading.Tasks.Extensions'))">$(DefineConstants);FeatureValueTask</DefineConstants>
 
       <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Net.Http')) OR
-                   @(Reference->AnyHaveMetadataValue('Identity', 'System.Net.Http'))">$(DefineConstants);FeatureHttp</DefineConstants>
+        Condition="@(ReferencePath->AnyHaveMetadataValue('NuGetPackageId', 'System.Runtime.InteropServices.RuntimeInformation'))">$(DefineConstants);FeatureRuntimeInformation</DefineConstants>
 
       <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.IO.Compression')) OR
-                   @(Reference->AnyHaveMetadataValue('Identity', 'System.IO.Compression'))">$(DefineConstants);FeatureCompression</DefineConstants>
+        Condition="@(ReferencePath->AnyHaveMetadataValue('NuGetPackageId', 'System.Threading.Tasks.Extensions'))">$(DefineConstants);FeatureValueTask</DefineConstants>
 
       <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'Microsoft.Bcl.AsyncInterfaces'))">$(DefineConstants);FeatureAsyncInterfaces</DefineConstants>
+        Condition="@(ReferencePath->AnyHaveMetadataValue('NuGetPackageId', 'System.Net.Http')) OR
+                   @(ReferencePath->AnyHaveMetadataValue('Filename', 'System.Net.Http'))">$(DefineConstants);FeatureHttp</DefineConstants>
 
       <DefineConstants
-        Condition="@(ResolvedCompileFileDefinitions->AnyHaveMetadataValue('NuGetPackageId', 'System.Runtime.CompilerServices.Unsafe'))">$(DefineConstants);FeatureUnsafe</DefineConstants>
+        Condition="@(ReferencePath->AnyHaveMetadataValue('NuGetPackageId', 'System.IO.Compression')) OR
+                   @(ReferencePath->AnyHaveMetadataValue('Filename', 'System.IO.Compression'))">$(DefineConstants);FeatureCompression</DefineConstants>
+
+      <DefineConstants
+        Condition="@(ReferencePath->AnyHaveMetadataValue('NuGetPackageId', 'Microsoft.Bcl.AsyncInterfaces'))">$(DefineConstants);FeatureAsyncInterfaces</DefineConstants>
+
+      <DefineConstants
+        Condition="@(ReferencePath->AnyHaveMetadataValue('NuGetPackageId', 'System.Runtime.CompilerServices.Unsafe'))">$(DefineConstants);FeatureUnsafe</DefineConstants>
 
       <DefineConstants Condition="$(LowerFramework.StartsWith('net11'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression;FeatureAsyncInterfaces;FeatureUnsafe</DefineConstants>
       <DefineConstants Condition="$(LowerFramework.StartsWith('net10'))">$(DefineConstants);FeatureMemory;FeatureValueTuple;FeatureValueTask;FeatureRuntimeInformation;FeatureHttp;FeatureCompression;FeatureAsyncInterfaces;FeatureUnsafe</DefineConstants>

@@ -1,6 +1,22 @@
 partial class PolyfillTests
 {
     [Test]
+    public async Task RegexCount()
+    {
+        var regex = new Regex(@"\d+");
+        await Assert.That(regex.Count("a1b2c3")).IsEqualTo(3);
+        await Assert.That(regex.Count("abc")).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task RegexCountStatic()
+    {
+        await Assert.That(Regex.Count("a1b2c3", @"\d+")).IsEqualTo(3);
+        await Assert.That(Regex.Count("ABC", "[a-z]+", RegexOptions.IgnoreCase)).IsEqualTo(1);
+        await Assert.That(Regex.Count("a1b2", @"\d+", RegexOptions.None, TimeSpan.FromSeconds(10))).IsEqualTo(2);
+    }
+
+    [Test]
     public async Task RegexIsMatch()
     {
         var regex = new Regex(@"\d+");

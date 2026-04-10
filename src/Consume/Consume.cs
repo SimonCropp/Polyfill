@@ -686,6 +686,12 @@ class Consume
         ExceptionDispatchInfo.SetCurrentStackTrace(ex);
     }
 
+    void EqualityComparer_Methods()
+    {
+        var comparer = EqualityComparer<int>.Create((x, y) => x == y, x => x);
+        comparer = EqualityComparer<int>.Create((x, y) => x == y);
+    }
+
     void Enum_Methods()
     {
         var values = Enum.GetValuesAsUnderlyingType(typeof(DayOfWeek));
@@ -775,6 +781,7 @@ class Consume
     void Path_Methods()
     {
         var relative = Path.GetRelativePath("/folder1/folder2", "/folder1/folder3");
+        var joined = Path.Join("a", "b", "c");
 #if FeatureMemory
         var rooted = Path.IsPathRooted("/root".AsSpan());
 #endif
@@ -872,6 +879,18 @@ class Consume
         await client.SendAsync(data, new(IPAddress.Loopback, 12345), CancellationToken.None);
         await client.SendAsync(data, "localhost", 12345, CancellationToken.None);
 #endif
+    }
+#endif
+
+#if FeatureMemory
+    void UdpClient_SyncMethods()
+    {
+        using var client = new UdpClient(0);
+        var data = new ReadOnlySpan<byte>([1, 2, 3]);
+        using var connectedClient = new UdpClient("localhost", 12345);
+        connectedClient.Send(data);
+        client.Send(data, new IPEndPoint(IPAddress.Loopback, 12345));
+        client.Send(data, "localhost", 12345);
     }
 #endif
 
@@ -1147,9 +1166,30 @@ class Consume
         split = readOnlySpan.SplitAny(['a']);
         split = readOnlySpan.SplitAny("a".AsSpan());
 #endif
+#if FeatureValueTuple
+        var ranges = new Range[4];
+        _ = readOnlySpan.Split(ranges, 'a');
+        _ = readOnlySpan.Split(ranges, 'a', StringSplitOptions.RemoveEmptyEntries);
+        _ = readOnlySpan.Split(ranges, "a".AsSpan());
+        _ = readOnlySpan.Split(ranges, "a".AsSpan(), StringSplitOptions.RemoveEmptyEntries);
+        _ = readOnlySpan.SplitAny(ranges, "ab".AsSpan());
+        _ = readOnlySpan.SplitAny(ranges, "ab".AsSpan(), StringSplitOptions.RemoveEmptyEntries);
+        string[] stringSeparators = ["a", "b"];
+        _ = readOnlySpan.SplitAny(ranges, stringSeparators);
+        _ = readOnlySpan.SplitAny(ranges, stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+#endif
     }
 
 #endif
+
+    void Regex_Count_Methods()
+    {
+        var regex = new Regex("a");
+        var count = regex.Count("aaa");
+        count = Regex.Count("aaa", "a");
+        count = Regex.Count("aaa", "a", RegexOptions.None);
+        count = Regex.Count("aaa", "a", RegexOptions.None, TimeSpan.FromSeconds(1));
+    }
 
 #if FeatureMemory
 
@@ -1397,6 +1437,16 @@ class Consume
         {
         }
 #endif
+    }
+#endif
+
+#if FeatureValueTask
+    async Task Parallel_Methods()
+    {
+        var items = new[] { 1, 2, 3 };
+        await Parallel.ForEachAsync(items, (_, _) => default);
+        await Parallel.ForEachAsync(items, CancellationToken.None, (_, _) => default);
+        await Parallel.ForEachAsync(items, new ParallelOptions(), (_, _) => default);
     }
 #endif
 

@@ -113,6 +113,23 @@ public class PathTests
     }
 
     [Test]
+    public async Task Join()
+    {
+        await Assert.That(Path.Join("folder1", "folder2", "file.txt"))
+            .IsEqualTo($"folder1{Path.DirectorySeparatorChar}folder2{Path.DirectorySeparatorChar}file.txt");
+
+        await Assert.That(Path.Join("folder/", "file.txt")).IsEqualTo("folder/file.txt");
+
+        await Assert.That(Path.Join("folder", "", "file.txt"))
+            .IsEqualTo($"folder{Path.DirectorySeparatorChar}file.txt");
+
+        await Assert.That(Path.Join("folder", null, "file.txt"))
+            .IsEqualTo($"folder{Path.DirectorySeparatorChar}file.txt");
+
+        await Assert.That(Path.Join(Array.Empty<string>())).IsEqualTo(string.Empty);
+    }
+
+    [Test]
     public async Task EndsInDirectorySeparator()
     {
         #if FeatureMemory
