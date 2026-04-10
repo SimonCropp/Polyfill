@@ -546,6 +546,19 @@
 
 
 
+#### IntPtr
+
+ * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-intptr@))
+ * `bool TryParse(ReadOnlySpan<byte>, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-readonlyspan((system-byte))-system-intptr@))
+ * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-intptr@))
+ * `bool TryParse(ReadOnlySpan<char>, IFormatProvider?, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-intptr@))
+ * `bool TryParse(ReadOnlySpan<char>, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-readonlyspan((system-char))-system-intptr@))
+ * `bool TryParse(ReadOnlySpan<char>, NumberStyles, IFormatProvider?, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-intptr@))
+ * `bool TryParse(string?, IFormatProvider?, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-string-system-iformatprovider-system-intptr@))
+ * `bool TryParse(string?, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-string-system-intptr@))
+ * `bool TryParse(string?, NumberStyles, IFormatProvider?, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-string-system-globalization-numberstyles-system-iformatprovider-system-intptr@))
+
+
 #### IPAddress
 
  * `IPAddress Parse(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipaddress.parse?view=net-11.0#system-net-ipaddress-parse(system-readonlyspan((system-char))))
@@ -1183,6 +1196,19 @@
  * `bool TryParse(ReadOnlySpan<char>, NumberStyles, IFormatProvider?, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint64@))
  * `bool TryParse(ReadOnlySpan<char>, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-uint64@))
  * `bool TryParse(string?, IFormatProvider?, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-string-system-iformatprovider-system-uint64@))
+
+
+#### UIntPtr
+
+ * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uintptr@))
+ * `bool TryParse(ReadOnlySpan<byte>, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-readonlyspan((system-byte))-system-uintptr@))
+ * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uintptr@))
+ * `bool TryParse(ReadOnlySpan<char>, IFormatProvider?, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-uintptr@))
+ * `bool TryParse(ReadOnlySpan<char>, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-readonlyspan((system-char))-system-uintptr@))
+ * `bool TryParse(ReadOnlySpan<char>, NumberStyles, IFormatProvider?, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uintptr@))
+ * `bool TryParse(string?, IFormatProvider?, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-string-system-iformatprovider-system-uintptr@))
+ * `bool TryParse(string?, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-string-system-uintptr@))
+ * `bool TryParse(string?, NumberStyles, IFormatProvider?, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-string-system-globalization-numberstyles-system-iformatprovider-system-uintptr@))
 
 
 #### ValueTask

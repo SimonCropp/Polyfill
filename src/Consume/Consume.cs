@@ -1003,6 +1003,36 @@ class Consume
     }
 #endif
 
+    void IntPtr_Methods()
+    {
+        nint.TryParse(s: "1", result: out _);
+        nint.TryParse(s: "1", style: NumberStyles.Integer, provider: null, result: out _);
+        nint.TryParse(s: "1", provider: null, result: out _);
+#if FeatureMemory
+        nint.TryParse(utf8Text: "1"u8, provider: null, result: out _);
+        nint.TryParse(s: ['1'], result: out _);
+        nint.TryParse(s: ['1'], provider: null, result: out _);
+        nint.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
+        nint.TryParse(utf8Text: "1"u8, result: out _);
+        nint.TryParse(s: ['1'], style: NumberStyles.Integer, provider: null, result: out _);
+#endif
+    }
+
+    void UIntPtr_Methods()
+    {
+        nuint.TryParse(s: "1", result: out _);
+        nuint.TryParse(s: "1", style: NumberStyles.Integer, provider: null, result: out _);
+        nuint.TryParse(s: "1", provider: null, result: out _);
+#if FeatureMemory
+        nuint.TryParse(utf8Text: "1"u8, provider: null, result: out _);
+        nuint.TryParse(s: ['1'], result: out _);
+        nuint.TryParse(s: ['1'], provider: null, result: out _);
+        nuint.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
+        nuint.TryParse(utf8Text: "1"u8, result: out _);
+        nuint.TryParse(s: ['1'], style: NumberStyles.Integer, provider: null, result: out _);
+#endif
+    }
+
     void Long_Methods()
     {
         long.TryParse(s: "1", provider: null, result: out _);
