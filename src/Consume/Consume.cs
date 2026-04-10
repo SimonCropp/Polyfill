@@ -1151,6 +1151,15 @@ class Consume
 
 #endif
 
+    void Regex_Count_Methods()
+    {
+        var regex = new Regex("a");
+        var count = regex.Count("aaa");
+        count = Regex.Count("aaa", "a");
+        count = Regex.Count("aaa", "a", RegexOptions.None);
+        count = Regex.Count("aaa", "a", RegexOptions.None, TimeSpan.FromSeconds(1));
+    }
+
 #if FeatureMemory
 
     void Regex_Methods()
