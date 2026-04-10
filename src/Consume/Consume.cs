@@ -1394,6 +1394,16 @@ class Consume
     }
 #endif
 
+#if FeatureValueTask
+    async Task Parallel_Methods()
+    {
+        var items = new[] { 1, 2, 3 };
+        await Parallel.ForEachAsync(items, (_, _) => default);
+        await Parallel.ForEachAsync(items, CancellationToken.None, (_, _) => default);
+        await Parallel.ForEachAsync(items, new ParallelOptions(), (_, _) => default);
+    }
+#endif
+
     void TaskCompletionSource_NonGeneric_Methods()
     {
         var tcs = new TaskCompletionSource();
