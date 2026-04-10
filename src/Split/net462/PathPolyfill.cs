@@ -77,6 +77,32 @@ static partial class Polyfill
 			}
 			return path;
 		}
+		/// <summary>
+		/// Concatenates a span of paths into a single path.
+		/// </summary>
+		public static string Join(params string?[] paths)
+		{
+			if (paths.Length == 0)
+			{
+				return string.Empty;
+			}
+			var builder = new System.Text.StringBuilder();
+			foreach (var path in paths)
+			{
+				if (string.IsNullOrEmpty(path))
+				{
+					continue;
+				}
+				if (builder.Length > 0 &&
+					!IsDirectorySeparator(builder[builder.Length - 1]) &&
+					!IsDirectorySeparator(path![0]))
+				{
+					builder.Append(Path.DirectorySeparatorChar);
+				}
+				builder.Append(path);
+			}
+			return builder.ToString();
+		}
 		static bool IsRoot(string path) =>
 			Path.IsPathRooted(path) && Path.GetDirectoryName(path) == null;
 		static bool IsDirectorySeparator(char c) =>
