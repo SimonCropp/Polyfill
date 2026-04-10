@@ -1,4 +1,4 @@
-#if FeatureMemory && !NET8_0_OR_GREATER
+#if FeatureMemory && FeatureValueTuple && !NET8_0_OR_GREATER
 
 namespace Polyfills;
 
@@ -117,8 +117,9 @@ static partial class Polyfill
         {
             if (keepEmpty)
             {
-                // Write 0..0 explicitly: on TFMs where Range is polyfilled as a record, default(Range) would be null.
-                destination[0] = 0..0;
+                // Use explicit Range ctor: on TFMs where Range is polyfilled as a record,
+                // the .. operator is unsupported (compiler requires a struct).
+                destination[0] = new Range(0, 0);
                 return 1;
             }
 
@@ -138,7 +139,7 @@ static partial class Polyfill
 
             if (startInclusive != endExclusive || keepEmpty)
             {
-                destination[0] = startInclusive..endExclusive;
+                destination[0] = new Range(startInclusive, endExclusive);
                 return 1;
             }
 
@@ -171,7 +172,7 @@ static partial class Polyfill
                     break;
                 }
 
-                destinationMinusOne[rangeCount] = startInclusive..endExclusive;
+                destinationMinusOne[rangeCount] = new Range(startInclusive, endExclusive);
                 rangeCount++;
             }
 
@@ -189,7 +190,7 @@ static partial class Polyfill
 
             if (startInclusive != endExclusive || keepEmpty)
             {
-                destination[rangeCount] = startInclusive..endExclusive;
+                destination[rangeCount] = new Range(startInclusive, endExclusive);
                 rangeCount++;
             }
         }

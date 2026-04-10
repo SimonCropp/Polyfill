@@ -1117,6 +1117,7 @@ class Consume
         split = readOnlySpan.SplitAny(['a']);
         split = readOnlySpan.SplitAny("a".AsSpan());
 #endif
+#if FeatureValueTuple
         var ranges = new Range[4];
         _ = readOnlySpan.Split(ranges, 'a');
         _ = readOnlySpan.Split(ranges, 'a', StringSplitOptions.RemoveEmptyEntries);
@@ -1127,6 +1128,7 @@ class Consume
         string[] stringSeparators = ["a", "b"];
         _ = readOnlySpan.SplitAny(ranges, stringSeparators);
         _ = readOnlySpan.SplitAny(ranges, stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+#endif
     }
 
 #endif
