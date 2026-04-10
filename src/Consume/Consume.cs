@@ -202,6 +202,18 @@ class Consume
     }
 
 #if FeatureMemory
+    void IPAddressUsage()
+    {
+        ReadOnlySpan<char> charSpan = default;
+        var address = IPAddress.Parse(charSpan);
+        var result = IPAddress.TryParse(charSpan, out address);
+
+        ReadOnlySpan<byte> byteSpan = default;
+        result = IPAddress.TryParse(byteSpan, out address);
+    }
+#endif
+
+#if FeatureMemory
     void Base64UrlUsage()
     {
         ReadOnlySpan<byte> source = default;

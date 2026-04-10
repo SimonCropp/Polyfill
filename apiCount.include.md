@@ -1,28 +1,28 @@
-**API count: 885**
+**API count: 884**
 
 ### Per Target Framework
 
 | Target | APIs |
 | -- | -- |
-| `net461` | 855 |
-| `net462` | 855 |
-| `net47` | 854 |
-| `net471` | 854 |
-| `net472` | 850 |
-| `net48` | 850 |
-| `net481` | 850 |
-| `netstandard2.0` | 853 |
-| `netstandard2.1` | 685 |
-| `netcoreapp2.0` | 776 |
-| `netcoreapp2.1` | 697 |
-| `netcoreapp2.2` | 697 |
-| `netcoreapp3.0` | 644 |
-| `netcoreapp3.1` | 643 |
-| `net5.0` | 521 |
-| `net6.0` | 440 |
-| `net7.0` | 304 |
-| `net8.0` | 195 |
-| `net9.0` | 126 |
+| `net461` | 854 |
+| `net462` | 854 |
+| `net47` | 853 |
+| `net471` | 853 |
+| `net472` | 849 |
+| `net48` | 849 |
+| `net481` | 849 |
+| `netstandard2.0` | 852 |
+| `netstandard2.1` | 682 |
+| `netcoreapp2.0` | 775 |
+| `netcoreapp2.1` | 694 |
+| `netcoreapp2.2` | 694 |
+| `netcoreapp3.0` | 641 |
+| `netcoreapp3.1` | 640 |
+| `net5.0` | 518 |
+| `net6.0` | 437 |
+| `net7.0` | 301 |
+| `net8.0` | 196 |
+| `net9.0` | 127 |
 | `net10.0` | 75 |
 | `net11.0` | 57 |
-| `uap10.0` | 842 |
+| `uap10.0` | 841 |
