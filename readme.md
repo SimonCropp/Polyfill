@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 895**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 892**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
@@ -830,6 +830,11 @@ The class `Polyfill` includes the following extension methods:
 
  * `ProcessId` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.environment.processid?view=net-11.0#system-environment-processid)
  * `ProcessPath` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.environment.processpath?view=net-11.0#system-environment-processpath)
+
+
+#### EqualityComparer
+
+ * `EqualityComparer<T> Create(Func<T?, T?, bool>, Func<T, int>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.equalitycomparer-1.create?view=net-11.0)
 
 
 #### EventInfo

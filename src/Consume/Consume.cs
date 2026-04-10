@@ -686,6 +686,12 @@ class Consume
         ExceptionDispatchInfo.SetCurrentStackTrace(ex);
     }
 
+    void EqualityComparer_Methods()
+    {
+        var comparer = EqualityComparer<int>.Create((x, y) => x == y, x => x);
+        comparer = EqualityComparer<int>.Create((x, y) => x == y);
+    }
+
     void Enum_Methods()
     {
         var values = Enum.GetValuesAsUnderlyingType(typeof(DayOfWeek));
