@@ -6,7 +6,7 @@
   <ItemGroup>
     <PackageVersion Include="MarkdownSnippets.MsBuild" Version="28.0.2" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" Pinned="true" />
-    <PackageVersion Include="TUnit" Version="1.30.0" />
+    <PackageVersion Include="TUnit" Version="1.30.8" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.172" />
     <PackageVersion Include="Microsoft.Bcl.Memory" Version="10.0.5" />
     <PackageVersion Include="ProjectFiles" Version="1.1.1" />
