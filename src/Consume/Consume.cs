@@ -1400,6 +1400,13 @@ class Consume
         new Task<int>(func).WaitAsync(CancellationToken.None);
         new Task<int>(func).WaitAsync(TimeSpan.Zero);
         new Task<int>(func).WaitAsync(TimeSpan.Zero, CancellationToken.None);
+        Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.None);
+        Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ContinueOnCapturedContext);
+        Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+        Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+        Task.FromResult(0).ConfigureAwait(ConfigureAwaitOptions.None);
+        Task.FromResult(0).ConfigureAwait(ConfigureAwaitOptions.ContinueOnCapturedContext);
+        Task.FromResult(0).ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
     }
 
 #if FeatureMemory
