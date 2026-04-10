@@ -8,13 +8,5 @@
   </ItemGroup>
   <Import Project="$(SolutionDir)\TestIncludes.targets" />
   <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
-  <!-- Simulate IDE builds (e.g. Rider surface heuristics) where
-       ResolvedCompileFileDefinitions is empty because ResolvePackageAssets
-       did not run. The framework-static defines like FeatureValueTuple
-       are set, but package-dynamic ones like RefsBclMemory are not. -->
-  <Target Name="PreparePolyfill">
-    <PropertyGroup>
-      <DefineConstants Condition="$(LowerFramework.StartsWith('netstandard2.0'))">$(DefineConstants);FeatureValueTuple;FeatureRuntimeInformation;FeatureCompression</DefineConstants>
-    </PropertyGroup>
-  </Target>
+  <!-- Smoke test: Microsoft.Bcl.Memory referenced on netstandard2.0. -->
 </Project>

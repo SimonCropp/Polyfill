@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);PolyfillTargetsForNuget</NoWarn>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- ExcludeAssets="compile" exercises the case where a PackageReference is
+         present in the csproj but the resolved assembly is not in the compile
+         reference list that csc sees. Polyfill must keep emitting its own
+         Index/Range types in this configuration; suppressing them on the basis
+         of the PackageReference alone would leave the consumer with neither
+         the Polyfill-defined nor the BCL-provided types. -->
+    <PackageReference Include="Microsoft.Bcl.Memory" ExcludeAssets="compile" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\TestIncludes.targets" />
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
+</Project>
