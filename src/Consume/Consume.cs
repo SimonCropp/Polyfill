@@ -1129,6 +1129,18 @@ class Consume
         split = readOnlySpan.SplitAny(['a']);
         split = readOnlySpan.SplitAny("a".AsSpan());
 #endif
+#if FeatureValueTuple
+        var ranges = new Range[4];
+        _ = readOnlySpan.Split(ranges, 'a');
+        _ = readOnlySpan.Split(ranges, 'a', StringSplitOptions.RemoveEmptyEntries);
+        _ = readOnlySpan.Split(ranges, "a".AsSpan());
+        _ = readOnlySpan.Split(ranges, "a".AsSpan(), StringSplitOptions.RemoveEmptyEntries);
+        _ = readOnlySpan.SplitAny(ranges, "ab".AsSpan());
+        _ = readOnlySpan.SplitAny(ranges, "ab".AsSpan(), StringSplitOptions.RemoveEmptyEntries);
+        string[] stringSeparators = ["a", "b"];
+        _ = readOnlySpan.SplitAny(ranges, stringSeparators);
+        _ = readOnlySpan.SplitAny(ranges, stringSeparators, StringSplitOptions.RemoveEmptyEntries);
+#endif
     }
 
 #endif
