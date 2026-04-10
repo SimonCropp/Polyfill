@@ -541,6 +541,13 @@
 
 
 
+#### IPAddress
+
+ * `IPAddress Parse(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipaddress.parse?view=net-11.0#system-net-ipaddress-parse(system-readonlyspan((system-char))))
+ * `bool TryParse(ReadOnlySpan<byte>, IPAddress?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipaddress.tryparse?view=net-11.0#system-net-ipaddress-tryparse(system-readonlyspan((system-byte))-system-net-ipaddress@))
+ * `bool TryParse(ReadOnlySpan<char>, IPAddress?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipaddress.tryparse?view=net-11.0#system-net-ipaddress-tryparse(system-readonlyspan((system-char))-system-net-ipaddress@))
+
+
 #### IReadOnlyDictionary<TKey, TValue>
 
  * `TValue GetValueOrDefault<TKey, TValue>(TKey, TValue) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault?view=net-11.0#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0-1))
