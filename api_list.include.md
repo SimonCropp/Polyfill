@@ -658,6 +658,16 @@
  * `bool TryGetValue<TKey, TValue>(TKey, TValue, int) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ordereddictionary-2.trygetvalue?view=net-11.0#system-collections-generic-ordereddictionary-2-trygetvalue(-0-1@-system-int32@))
 
 
+#### Parallel
+
+ * `Task ForEachAsync<T>(IAsyncEnumerable<T>, CancellationToken, Func<T, CancellationToken, ValueTask>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.parallel.foreachasync?view=net-11.0#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask))))
+ * `Task ForEachAsync<T>(IAsyncEnumerable<T>, Func<T, CancellationToken, ValueTask>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.parallel.foreachasync?view=net-11.0#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask))))
+ * `Task ForEachAsync<T>(IAsyncEnumerable<T>, ParallelOptions, Func<T, CancellationToken, ValueTask>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.parallel.foreachasync?view=net-11.0#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-iasyncenumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask))))
+ * `Task ForEachAsync<T>(IEnumerable<T>, CancellationToken, Func<T, CancellationToken, ValueTask>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.parallel.foreachasync?view=net-11.0#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-threading-cancellationtoken-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask))))
+ * `Task ForEachAsync<T>(IEnumerable<T>, Func<T, CancellationToken, ValueTask>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.parallel.foreachasync?view=net-11.0#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask))))
+ * `Task ForEachAsync<T>(IEnumerable<T>, ParallelOptions, Func<T, CancellationToken, ValueTask>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.parallel.foreachasync?view=net-11.0#system-threading-tasks-parallel-foreachasync-1(system-collections-generic-ienumerable((-0))-system-threading-tasks-paralleloptions-system-func((-0-system-threading-cancellationtoken-system-threading-tasks-valuetask))))
+
+
 #### ParameterInfo
 
  * `NullabilityState GetNullability()`
