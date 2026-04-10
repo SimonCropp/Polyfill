@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 897**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 892**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
@@ -832,6 +832,11 @@ The class `Polyfill` includes the following extension methods:
  * `ProcessPath` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.environment.processpath?view=net-11.0#system-environment-processpath)
 
 
+#### EqualityComparer
+
+ * `EqualityComparer<T> Create(Func<T?, T?, bool>, Func<T, int>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.equalitycomparer-1.create?view=net-11.0)
+
+
 #### EventInfo
 
  * `NullabilityState GetNullability()`
@@ -1324,6 +1329,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### Regex
 
+ * `int Count(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string))
  * `ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-11.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-int32))
  * `ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-11.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))))
  * `ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char>, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-11.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))-system-int32-system-int32))
@@ -1331,6 +1337,9 @@ The class `Polyfill` includes the following extension methods:
  * `ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-11.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))))
  * `bool IsMatch(ReadOnlySpan<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-11.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-int32))
  * `bool IsMatch(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-11.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))))
+ * `int Count(string, string, RegexOptions, TimeSpan)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions-system-timespan))
+ * `int Count(string, string, RegexOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions))
+ * `int Count(string, string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string-system-string))
  * `ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char>, string, RegexOptions, TimeSpan)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-11.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan))
  * `ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char>, string, RegexOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-11.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions))
  * `ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char>, string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-11.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string))
