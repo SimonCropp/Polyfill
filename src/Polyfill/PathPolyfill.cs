@@ -110,6 +110,39 @@ static partial class Polyfill
 
             return path;
         }
+
+        /// <summary>
+        /// Concatenates a span of paths into a single path.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.path.join?view=net-11.0#system-io-path-join(system-string())
+        public static string Join(params string?[] paths)
+        {
+            if (paths.Length == 0)
+            {
+                return string.Empty;
+            }
+
+            var builder = new System.Text.StringBuilder();
+
+            foreach (var path in paths)
+            {
+                if (string.IsNullOrEmpty(path))
+                {
+                    continue;
+                }
+
+                if (builder.Length > 0 &&
+                    !IsDirectorySeparator(builder[builder.Length - 1]) &&
+                    !IsDirectorySeparator(path![0]))
+                {
+                    builder.Append(Path.DirectorySeparatorChar);
+                }
+
+                builder.Append(path);
+            }
+
+            return builder.ToString();
+        }
 #endif
         static bool IsRoot(string path) =>
             Path.IsPathRooted(path) && Path.GetDirectoryName(path) == null;
