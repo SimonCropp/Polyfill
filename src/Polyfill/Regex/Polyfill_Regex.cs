@@ -5,6 +5,27 @@ using System.Text.RegularExpressions;
 
 static partial class Polyfill
 {
+#if !NET7_0_OR_GREATER
+
+    /// <summary>
+    /// Searches an input string for all occurrences of a regular expression and returns the number of matches.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string)
+    public static int Count(this Regex target, string input)
+    {
+        var count = 0;
+        var match = target.Match(input);
+        while (match.Success)
+        {
+            count++;
+            match = match.NextMatch();
+        }
+
+        return count;
+    }
+
+#endif
+
 #if !NET7_0_OR_GREATER && FeatureMemory
     /// <summary>
     /// Indicates whether the regular expression specified in the Regex constructor finds a match in a specified input span.

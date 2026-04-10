@@ -17,6 +17,31 @@ static partial class Polyfill
 {
     extension(Regex)
     {
+#if !NET7_0_OR_GREATER
+
+        /// <summary>
+        /// Searches an input string for all occurrences of a regular expression and returns the number of matches.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string-system-string)
+        public static int Count(string input, string pattern) =>
+            new Regex(pattern).Count(input);
+
+        /// <summary>
+        /// Searches an input string for all occurrences of a regular expression and returns the number of matches.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions)
+        public static int Count(string input, string pattern, RegexOptions options) =>
+            new Regex(pattern, options).Count(input);
+
+        /// <summary>
+        /// Searches an input string for all occurrences of a regular expression and returns the number of matches.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions-system-timespan)
+        public static int Count(string input, string pattern, RegexOptions options, TimeSpan matchTimeout) =>
+            new Regex(pattern, options, matchTimeout).Count(input);
+
+#endif
+
 #if FeatureMemory
 #if !NET7_0_OR_GREATER
         /// <summary>
