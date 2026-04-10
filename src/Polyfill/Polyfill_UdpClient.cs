@@ -3,11 +3,15 @@
 namespace Polyfills;
 
 using System;
+// ReSharper disable RedundantUsingDirective
+#if FeatureMemory
 using System.Buffers;
+#endif
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+// ReSharper restore RedundantUsingDirective
 
 static partial class Polyfill
 {

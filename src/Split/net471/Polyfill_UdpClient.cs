@@ -2,7 +2,9 @@
 #pragma warning disable
 namespace Polyfills;
 using System;
+#if FeatureMemory
 using System.Buffers;
+#endif
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
