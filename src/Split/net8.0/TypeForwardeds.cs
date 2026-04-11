@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CallerArgumentExpressionAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CollectionBuilderAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Threading.Tasks.ConfigureAwaitOptions))]
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.DisableRuntimeMarshallingAttribute))]
 [assembly: TypeForwardedTo(typeof(System.IO.EnumerationOptions))]

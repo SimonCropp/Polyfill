@@ -2,6 +2,7 @@
 #pragma warning disable
 namespace Polyfills;
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 static partial class Polyfill
@@ -82,63 +83,63 @@ static partial class Polyfill
 		await ((Task) target).WaitAsync(timeout, cancellationToken);
 		return target.Result;
 	}
-    /// <summary>Configures an awaiter used to await this <see cref="Task"/>.</summary>
-    public static System.Runtime.CompilerServices.ConfiguredTaskAwaitable ConfigureAwait(this Task target, ConfigureAwaitOptions options)
-    {
-        if ((options & ~(ConfigureAwaitOptions.ContinueOnCapturedContext |
-                         ConfigureAwaitOptions.SuppressThrowing |
-                         ConfigureAwaitOptions.ForceYielding)) != 0)
-        {
-            throw new System.ArgumentOutOfRangeException(nameof(options));
-        }
-        var task = target;
-        if ((options & ConfigureAwaitOptions.ForceYielding) != 0)
-        {
-            task = ForceYieldAsync(task);
-            static async Task ForceYieldAsync(Task t)
-            {
-                await Task.Yield();
-                await t;
-            }
-        }
-        if ((options & ConfigureAwaitOptions.SuppressThrowing) != 0)
-        {
-            task = SuppressThrowAsync(task);
-            static async Task SuppressThrowAsync(Task t)
-            {
-                try
-                {
-                    await t;
-                }
-                catch
-                {
-                }
-            }
-        }
-        return task.ConfigureAwait(
-        (options & ConfigureAwaitOptions.ContinueOnCapturedContext) != 0);
-    }
-    /// <summary>Configures an awaiter used to await this <see cref="Task{TResult}"/>.</summary>
-    public static System.Runtime.CompilerServices.ConfiguredTaskAwaitable<TResult> ConfigureAwait<TResult>(
-        this Task<TResult> target,
-        ConfigureAwaitOptions options)
-    {
-        if ((options & ~(ConfigureAwaitOptions.ContinueOnCapturedContext |
-                         ConfigureAwaitOptions.ForceYielding)) != 0)
-        {
-            throw new System.ArgumentOutOfRangeException(nameof(options));
-        }
-        var task = target;
-        if ((options & ConfigureAwaitOptions.ForceYielding) != 0)
-        {
-            task = ForceYieldAsync(task);
-            static async Task<TResult> ForceYieldAsync(Task<TResult> t)
-            {
-                await Task.Yield();
-                return await t;
-            }
-        }
-        return task.ConfigureAwait(
-        (options & ConfigureAwaitOptions.ContinueOnCapturedContext) != 0);
-    }
+	/// <summary>Configures an awaiter used to await this <see cref="Task"/>.</summary>
+	public static ConfiguredTaskAwaitable ConfigureAwait(this Task target, ConfigureAwaitOptions options)
+	{
+		if ((options & ~(ConfigureAwaitOptions.ContinueOnCapturedContext |
+						 ConfigureAwaitOptions.SuppressThrowing |
+						 ConfigureAwaitOptions.ForceYielding)) != 0)
+		{
+			throw new ArgumentOutOfRangeException(nameof(options));
+		}
+		var task = target;
+		if ((options & ConfigureAwaitOptions.ForceYielding) != 0)
+		{
+			task = ForceYieldAsync(task);
+			static async Task ForceYieldAsync(Task t)
+			{
+				await Task.Yield();
+				await t;
+			}
+		}
+		if ((options & ConfigureAwaitOptions.SuppressThrowing) != 0)
+		{
+			task = SuppressThrowAsync(task);
+			static async Task SuppressThrowAsync(Task t)
+			{
+				try
+				{
+					await t;
+				}
+				catch
+				{
+				}
+			}
+		}
+		return task.ConfigureAwait(
+			(options & ConfigureAwaitOptions.ContinueOnCapturedContext) != 0);
+	}
+	/// <summary>Configures an awaiter used to await this <see cref="Task{TResult}"/>.</summary>
+	public static ConfiguredTaskAwaitable<TResult> ConfigureAwait<TResult>(
+		this Task<TResult> target,
+		ConfigureAwaitOptions options)
+	{
+		if ((options & ~(ConfigureAwaitOptions.ContinueOnCapturedContext |
+						 ConfigureAwaitOptions.ForceYielding)) != 0)
+		{
+			throw new ArgumentOutOfRangeException(nameof(options));
+		}
+		var task = target;
+		if ((options & ConfigureAwaitOptions.ForceYielding) != 0)
+		{
+			task = ForceYieldAsync(task);
+			static async Task<TResult> ForceYieldAsync(Task<TResult> t)
+			{
+				await Task.Yield();
+				return await t;
+			}
+		}
+		return task.ConfigureAwait(
+			(options & ConfigureAwaitOptions.ContinueOnCapturedContext) != 0);
+	}
 }

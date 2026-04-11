@@ -13,34 +13,34 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 922**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 924**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
 | Target | APIs |
 | -- | -- |
-| `net461` | 891 |
-| `net462` | 891 |
-| `net47` | 890 |
-| `net471` | 890 |
-| `net472` | 886 |
-| `net48` | 886 |
-| `net481` | 886 |
-| `netstandard2.0` | 889 |
-| `netstandard2.1` | 719 |
-| `netcoreapp2.0` | 812 |
-| `netcoreapp2.1` | 731 |
-| `netcoreapp2.2` | 731 |
-| `netcoreapp3.0` | 677 |
-| `netcoreapp3.1` | 676 |
-| `net5.0` | 550 |
-| `net6.0` | 460 |
-| `net7.0` | 312 |
+| `net461` | 894 |
+| `net462` | 894 |
+| `net47` | 893 |
+| `net471` | 893 |
+| `net472` | 889 |
+| `net48` | 889 |
+| `net481` | 889 |
+| `netstandard2.0` | 892 |
+| `netstandard2.1` | 722 |
+| `netcoreapp2.0` | 815 |
+| `netcoreapp2.1` | 734 |
+| `netcoreapp2.2` | 734 |
+| `netcoreapp3.0` | 680 |
+| `netcoreapp3.1` | 679 |
+| `net5.0` | 553 |
+| `net6.0` | 462 |
+| `net7.0` | 314 |
 | `net8.0` | 196 |
 | `net9.0` | 127 |
 | `net10.0` | 75 |
 | `net11.0` | 57 |
-| `uap10.0` | 878 |
+| `uap10.0` | 881 |
 <!-- endInclude -->
 
 
@@ -96,25 +96,25 @@ This project uses features from the current stable SDK and C# language. As such 
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       296.0KB |  +288.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netstandard2.1 |          8.5KB |       247.5KB |  +239.0KB |    +9.5KB |             +7.0KB |              +9.5KB |     +14.0KB |
-| net461         |          8.5KB |       293.0KB |  +284.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net462         |          7.0KB |       297.0KB |  +290.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net47          |          7.0KB |       296.5KB |  +289.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net471         |          8.5KB |       296.5KB |  +288.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net472         |          8.5KB |       295.0KB |  +286.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net48          |          8.5KB |       295.0KB |  +286.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net481         |          8.5KB |       295.0KB |  +286.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp2.0  |          9.0KB |       271.5KB |  +262.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.1  |          9.0KB |       250.5KB |  +241.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.0KB |
-| netcoreapp2.2  |          9.0KB |       251.0KB |  +242.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.0  |          9.5KB |       241.5KB |  +232.0KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| netcoreapp3.1  |          9.5KB |       240.0KB |  +230.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net5.0         |          9.5KB |       204.5KB |  +195.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net6.0         |         10.0KB |       149.0KB |  +139.0KB |    +9.5KB |             +7.0KB |           +512bytes |      +3.5KB |
-| net7.0         |         10.0KB |       114.5KB |  +104.5KB |    +9.0KB |             +5.5KB |           +512bytes |      +3.5KB |
-| net8.0         |          9.5KB |        89.0KB |   +79.5KB |    +8.5KB |          +512bytes |           +512bytes |      +3.5KB |
-| net9.0         |          9.5KB |        47.0KB |   +37.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
+| netstandard2.0 |          8.0KB |       299.0KB |  +291.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netstandard2.1 |          8.5KB |       251.0KB |  +242.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net461         |          8.5KB |       296.5KB |  +288.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net462         |          7.0KB |       300.0KB |  +293.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net47          |          7.0KB |       300.0KB |  +293.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net471         |          8.5KB |       300.0KB |  +291.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net472         |          8.5KB |       298.5KB |  +290.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net48          |          8.5KB |       298.5KB |  +290.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net481         |          8.5KB |       298.5KB |  +290.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp2.0  |          9.0KB |       275.0KB |  +266.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.1  |          9.0KB |       254.0KB |  +245.0KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.0KB |
+| netcoreapp2.2  |          9.0KB |       254.0KB |  +245.0KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.0KB |
+| netcoreapp3.0  |          9.5KB |       245.0KB |  +235.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| netcoreapp3.1  |          9.5KB |       243.5KB |  +234.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net5.0         |          9.5KB |       208.0KB |  +198.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net6.0         |         10.0KB |       152.0KB |  +142.0KB |   +10.0KB |             +7.0KB |           +512bytes |      +4.0KB |
+| net7.0         |         10.0KB |       117.5KB |  +107.5KB |    +9.0KB |             +5.5KB |           +512bytes |      +4.0KB |
+| net8.0         |          9.5KB |        89.0KB |   +79.5KB |    +8.5KB |          +512bytes |              +1.0KB |      +3.5KB |
+| net9.0         |          9.5KB |        47.0KB |   +37.5KB |    +9.0KB |                    |              +1.0KB |      +3.5KB |
 | net10.0        |         10.0KB |        23.5KB |   +13.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 | net11.0        |         10.0KB |        18.5KB |    +8.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 
@@ -123,25 +123,25 @@ This project uses features from the current stable SDK and C# language. As such 
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       432.0KB |  +424.0KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netstandard2.1 |          8.5KB |       358.0KB |  +349.5KB |   +17.2KB |             +8.7KB |             +14.4KB |     +19.4KB |
-| net461         |          8.5KB |       429.4KB |  +420.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net462         |          7.0KB |       433.4KB |  +426.4KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net47          |          7.0KB |       432.7KB |  +425.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net471         |          8.5KB |       432.7KB |  +424.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net472         |          8.5KB |       430.1KB |  +421.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net48          |          8.5KB |       430.1KB |  +421.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net481         |          8.5KB |       430.1KB |  +421.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp2.0  |          9.0KB |       397.4KB |  +388.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.1  |          9.0KB |       365.2KB |  +356.2KB |   +16.7KB |             +8.7KB |             +14.4KB |     +19.4KB |
-| netcoreapp2.2  |          9.0KB |       365.7KB |  +356.7KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.0  |          9.5KB |       346.9KB |  +337.4KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| netcoreapp3.1  |          9.5KB |       345.4KB |  +335.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net5.0         |          9.5KB |       292.3KB |  +282.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net6.0         |         10.0KB |       219.4KB |  +209.4KB |   +17.2KB |             +8.7KB |              +1.1KB |      +4.2KB |
-| net7.0         |         10.0KB |       166.1KB |  +156.1KB |   +16.6KB |             +6.9KB |              +1.1KB |      +4.2KB |
-| net8.0         |          9.5KB |       126.8KB |  +117.3KB |   +16.0KB |          +811bytes |              +1.1KB |      +4.2KB |
-| net9.0         |          9.5KB |        67.8KB |   +58.3KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
+| netstandard2.0 |          8.0KB |       436.4KB |  +428.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netstandard2.1 |          8.5KB |       363.0KB |  +354.5KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net461         |          8.5KB |       434.4KB |  +425.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net462         |          7.0KB |       437.9KB |  +430.9KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net47          |          7.0KB |       437.6KB |  +430.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net471         |          8.5KB |       437.6KB |  +429.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net472         |          8.5KB |       435.0KB |  +426.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net48          |          8.5KB |       435.0KB |  +426.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net481         |          8.5KB |       435.0KB |  +426.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp2.0  |          9.0KB |       402.3KB |  +393.3KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.1  |          9.0KB |       370.2KB |  +361.2KB |   +16.7KB |             +8.7KB |             +14.4KB |     +19.4KB |
+| netcoreapp2.2  |          9.0KB |       370.2KB |  +361.2KB |   +16.7KB |             +8.7KB |             +14.4KB |     +19.4KB |
+| netcoreapp3.0  |          9.5KB |       351.9KB |  +342.4KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| netcoreapp3.1  |          9.5KB |       350.3KB |  +340.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net5.0         |          9.5KB |       297.2KB |  +287.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net6.0         |         10.0KB |       223.5KB |  +213.5KB |   +17.7KB |             +8.7KB |              +1.1KB |      +4.7KB |
+| net7.0         |         10.0KB |       170.2KB |  +160.2KB |   +16.6KB |             +6.9KB |              +1.1KB |      +4.7KB |
+| net8.0         |          9.5KB |       126.8KB |  +117.3KB |   +16.0KB |          +811bytes |              +1.6KB |      +4.2KB |
+| net9.0         |          9.5KB |        67.8KB |   +58.3KB |   +16.5KB |                    |              +1.6KB |      +4.2KB |
 | net10.0        |         10.0KB |        35.8KB |   +25.8KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
 | net11.0        |         10.0KB |        27.4KB |   +17.4KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
 <!-- endInclude -->
@@ -1586,6 +1586,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### Task
 
+ * `ConfiguredTaskAwaitable ConfigureAwait(ConfigureAwaitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.configureawait?view=net-11.0#system-threading-tasks-task-configureawait(system-threading-tasks-configureawaitoptions))
  * `Task WaitAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-threading-cancellationtoken))
  * `Task WaitAsync(TimeSpan, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken))
  * `Task WaitAsync(TimeSpan)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-timespan))
@@ -1597,6 +1598,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### Task<TResult>
 
+ * `ConfiguredTaskAwaitable<TResult> ConfigureAwait<TResult>(ConfigureAwaitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.configureawait?view=net-11.0#system-threading-tasks-task-1-configureawait(system-threading-tasks-configureawaitoptions))
  * `Task<TResult> WaitAsync<TResult>(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-threading-cancellationtoken))
  * `Task<TResult> WaitAsync<TResult>(TimeSpan, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync?view=net-11.0#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken))
  * `Task<TResult> WaitAsync<TResult>(TimeSpan)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync?view=net-11.0#system-threading-tasks-task-1-waitasync(system-timespan))

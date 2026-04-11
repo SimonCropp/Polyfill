@@ -1,13 +1,14 @@
-#if !NET6_0_OR_GREATER
-
 namespace Polyfills;
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
 static partial class Polyfill
 {
+#if !NET6_0_OR_GREATER
+
     const uint MaxSupportedTimeout = 0xfffffffe;
 
     /// <summary>Gets a <see cref="Task"/> that will complete when this <see cref="Task"/> completes or when the specified <see cref="CancellationToken"/> has cancellation requested.</summary>
@@ -104,7 +105,6 @@ static partial class Polyfill
         await ((Task) target).WaitAsync(timeout, cancellationToken);
         return target.Result;
     }
-}
 
 #endif
 #if !NET8_0_OR_GREATER
@@ -184,4 +184,3 @@ static partial class Polyfill
 
 #endif
 }
-

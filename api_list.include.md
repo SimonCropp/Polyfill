@@ -1055,6 +1055,7 @@
 
 #### Task
 
+ * `ConfiguredTaskAwaitable ConfigureAwait(ConfigureAwaitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.configureawait?view=net-11.0#system-threading-tasks-task-configureawait(system-threading-tasks-configureawaitoptions))
  * `Task WaitAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-threading-cancellationtoken))
  * `Task WaitAsync(TimeSpan, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-timespan-system-threading-cancellationtoken))
  * `Task WaitAsync(TimeSpan)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-timespan))
@@ -1066,6 +1067,7 @@
 
 #### Task<TResult>
 
+ * `ConfiguredTaskAwaitable<TResult> ConfigureAwait<TResult>(ConfigureAwaitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.configureawait?view=net-11.0#system-threading-tasks-task-1-configureawait(system-threading-tasks-configureawaitoptions))
  * `Task<TResult> WaitAsync<TResult>(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.waitasync?view=net-11.0#system-threading-tasks-task-waitasync(system-threading-cancellationtoken))
  * `Task<TResult> WaitAsync<TResult>(TimeSpan, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync?view=net-11.0#system-threading-tasks-task-1-waitasync(system-timespan-system-threading-cancellationtoken))
  * `Task<TResult> WaitAsync<TResult>(TimeSpan)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync?view=net-11.0#system-threading-tasks-task-1-waitasync(system-timespan))
