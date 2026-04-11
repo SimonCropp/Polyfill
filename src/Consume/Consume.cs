@@ -99,6 +99,7 @@ class Consume
         type = typeof(DynamicallyAccessedMembersAttribute);
         type = typeof(DynamicDependencyAttribute);
         type = typeof(RequiresDynamicCodeAttribute);
+        type = typeof(RequiresAssemblyFilesAttribute);
         type = typeof(RequiresUnreferencedCodeAttribute);
         type = typeof(UnconditionalSuppressMessageAttribute);
         type = typeof(CompilerFeatureRequiredAttribute);

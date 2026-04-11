@@ -13,8 +13,8 @@
 | net481         |          8.5KB |       295.0KB |  +286.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | netcoreapp2.0  |          9.0KB |       271.5KB |  +262.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
 | netcoreapp2.1  |          9.0KB |       250.5KB |  +241.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.0KB |
-| netcoreapp2.2  |          9.0KB |       250.5KB |  +241.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.0KB |
-| netcoreapp3.0  |          9.5KB |       241.5KB |  +232.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| netcoreapp2.2  |          9.0KB |       251.0KB |  +242.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp3.0  |          9.5KB |       241.5KB |  +232.0KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
 | netcoreapp3.1  |          9.5KB |       240.0KB |  +230.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | net5.0         |          9.5KB |       204.5KB |  +195.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | net6.0         |         10.0KB |       149.0KB |  +139.0KB |    +9.5KB |             +7.0KB |           +512bytes |      +3.5KB |
@@ -40,8 +40,8 @@
 | net481         |          8.5KB |       430.1KB |  +421.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | netcoreapp2.0  |          9.0KB |       397.4KB |  +388.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
 | netcoreapp2.1  |          9.0KB |       365.2KB |  +356.2KB |   +16.7KB |             +8.7KB |             +14.4KB |     +19.4KB |
-| netcoreapp2.2  |          9.0KB |       365.2KB |  +356.2KB |   +16.7KB |             +8.7KB |             +14.4KB |     +19.4KB |
-| netcoreapp3.0  |          9.5KB |       346.9KB |  +337.4KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| netcoreapp2.2  |          9.0KB |       365.7KB |  +356.7KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp3.0  |          9.5KB |       346.9KB |  +337.4KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | netcoreapp3.1  |          9.5KB |       345.4KB |  +335.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | net5.0         |          9.5KB |       292.3KB |  +282.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | net6.0         |         10.0KB |       219.4KB |  +209.4KB |   +17.2KB |             +8.7KB |              +1.1KB |      +4.2KB |
