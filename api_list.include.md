@@ -964,6 +964,14 @@
  * `bool TryPop<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trypop?view=net-11.0)
 
 
+#### Socket
+
+ * `ValueTask ConnectAsync(EndPoint, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.connectasync?view=net-11.0#system-net-sockets-socket-connectasync(system-net-endpoint-system-threading-cancellationtoken))
+ * `ValueTask DisconnectAsync(bool, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.disconnectasync?view=net-11.0#system-net-sockets-socket-disconnectasync(system-boolean-system-threading-cancellationtoken))
+ * `ValueTask<SocketReceiveFromResult> ReceiveFromAsync(Memory<byte>, SocketFlags, EndPoint, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.receivefromasync?view=net-11.0#system-net-sockets-socket-receivefromasync(system-memory((system-byte))-system-net-sockets-socketflags-system-net-endpoint-system-threading-cancellationtoken))
+ * `ValueTask<int> SendToAsync(ReadOnlyMemory<byte>, SocketFlags, EndPoint, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.sendtoasync?view=net-11.0#system-net-sockets-socket-sendtoasync(system-readonlymemory((system-byte))-system-net-sockets-socketflags-system-net-endpoint-system-threading-cancellationtoken))
+
+
 #### Stopwatch
 
  * `TimeSpan GetElapsedTime(long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.stopwatch.getelapsedtime?view=net-11.0#system-diagnostics-stopwatch-getelapsedtime(system-int64-system-int64))
@@ -1340,4 +1348,3 @@
 #### TaskCompletionSource
 
 #### UnreachableException
-

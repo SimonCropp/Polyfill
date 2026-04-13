@@ -881,6 +881,19 @@ class Consume
         await client.SendAsync(data, "localhost", 12345, CancellationToken.None);
 #endif
     }
+
+    async Task Socket_Methods()
+    {
+        using var socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+        await socket.ConnectAsync(new IPEndPoint(IPAddress.Loopback, 12345), CancellationToken.None);
+        await socket.DisconnectAsync(false, CancellationToken.None);
+#if FeatureMemory
+        Memory<byte> receiveBuffer = new byte[3];
+        ReadOnlyMemory<byte> sendBuffer = new byte[] {1, 2, 3};
+        await socket.ReceiveFromAsync(receiveBuffer, SocketFlags.None, new IPEndPoint(IPAddress.Any, 0), CancellationToken.None);
+        await socket.SendToAsync(sendBuffer, SocketFlags.None, new IPEndPoint(IPAddress.Loopback, 12345), CancellationToken.None);
+#endif
+    }
 #endif
 
 #if FeatureMemory
@@ -1408,6 +1421,22 @@ class Consume
         Task.FromResult(0).ConfigureAwait(ConfigureAwaitOptions.None);
         Task.FromResult(0).ConfigureAwait(ConfigureAwaitOptions.ContinueOnCapturedContext);
         Task.FromResult(0).ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+    }
+
+    async Task Task_ConfigureAwait_Options_Methods()
+    {
+        var action = () => { };
+        var task = new Task(action);
+        await task.ConfigureAwait(ConfigureAwaitOptions.None);
+        await task.ConfigureAwait(ConfigureAwaitOptions.ContinueOnCapturedContext);
+        await task.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+        await task.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
+
+        var func = () => 0;
+        var genericTask = new Task<int>(func);
+        await genericTask.ConfigureAwait(ConfigureAwaitOptions.None);
+        await genericTask.ConfigureAwait(ConfigureAwaitOptions.ContinueOnCapturedContext);
+        await genericTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
     }
 
 #if FeatureMemory
