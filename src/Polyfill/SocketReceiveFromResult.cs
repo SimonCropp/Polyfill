@@ -1,5 +1,5 @@
 #if NET461 || NET462 || NET47 || WINDOWS_UWP
-#nullable enable
+#nullable disable
 
 namespace System.Net.Sockets;
 
