@@ -11,6 +11,7 @@ public class BuildApiTest
         var md = Path.Combine(ProjectFiles.SolutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
         using var writer = File.CreateText(md);
+        writer.NewLine = "\n";
         var count = 0;
         count = WriteExtensions(writer, count);
 
@@ -29,16 +30,16 @@ public class BuildApiTest
         var countMd = Path.Combine(ProjectFiles.SolutionDirectory, "..", "apiCount.include.md");
         File.Delete(countMd);
         var sb = new StringBuilder();
-        sb.AppendLine($"**API count: {count}**");
-        sb.AppendLine();
-        sb.AppendLine("### Per Target Framework");
-        sb.AppendLine();
-        sb.AppendLine("| Target | APIs |");
-        sb.AppendLine("| -- | -- |");
+        sb.Append($"**API count: {count}**\n");
+        sb.Append('\n');
+        sb.Append("### Per Target Framework\n");
+        sb.Append('\n');
+        sb.Append("| Target | APIs |\n");
+        sb.Append("| -- | -- |\n");
         foreach (var framework in Splitter.Frameworks)
         {
             var tfmCount = CountApisForSplitFramework(framework);
-            sb.AppendLine($"| `{framework}` | {tfmCount} |");
+            sb.Append($"| `{framework}` | {tfmCount} |\n");
         }
 
         File.WriteAllText(countMd, sb.ToString());

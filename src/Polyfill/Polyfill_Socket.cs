@@ -1,4 +1,3 @@
-#pragma warning disable
 #if FeatureValueTask
 
 namespace Polyfills;
@@ -22,6 +21,12 @@ static partial class Polyfill
     /// <summary>
     /// Establishes a connection to a remote host.
     /// </summary>
+    /// <remarks>
+    /// On frameworks earlier than net6.0 the cancellation token is observed by closing the underlying socket,
+    /// which leaves the <see cref="Socket"/> instance unusable for subsequent operations. On net6.0+ the BCL
+    /// implementation cancels only the in-flight operation. Callers that need to retry must allocate a new
+    /// <see cref="Socket"/> when running on the polyfilled path.
+    /// </remarks>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.connectasync?view=net-11.0#system-net-sockets-socket-connectasync(system-net-endpoint-system-threading-cancellationtoken)
     public static ValueTask ConnectAsync(
         this Socket target,
@@ -117,6 +122,11 @@ static partial class Polyfill
     /// <summary>
     /// Receives data and returns the endpoint of the sending host.
     /// </summary>
+    /// <remarks>
+    /// On frameworks earlier than net6.0 the cancellation token is observed by closing the underlying socket,
+    /// which leaves the <see cref="Socket"/> instance unusable for subsequent operations. On net6.0+ the BCL
+    /// implementation cancels only the in-flight operation.
+    /// </remarks>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.receivefromasync?view=net-11.0#system-net-sockets-socket-receivefromasync(system-memory((system-byte))-system-net-sockets-socketflags-system-net-endpoint-system-threading-cancellationtoken)
     public static ValueTask<SocketReceiveFromResult> ReceiveFromAsync(
         this Socket target,
@@ -235,6 +245,11 @@ static partial class Polyfill
     /// <summary>
     /// Sends data to the specified remote host.
     /// </summary>
+    /// <remarks>
+    /// On frameworks earlier than net6.0 the cancellation token is observed by closing the underlying socket,
+    /// which leaves the <see cref="Socket"/> instance unusable for subsequent operations. On net6.0+ the BCL
+    /// implementation cancels only the in-flight operation.
+    /// </remarks>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.sendtoasync?view=net-11.0#system-net-sockets-socket-sendtoasync(system-readonlymemory((system-byte))-system-net-sockets-socketflags-system-net-endpoint-system-threading-cancellationtoken)
     public static ValueTask<int> SendToAsync(
         this Socket target,
@@ -372,6 +387,11 @@ static partial class Polyfill
     /// <summary>
     /// Disconnects a connected socket from the remote host.
     /// </summary>
+    /// <remarks>
+    /// On frameworks earlier than net6.0 the cancellation token is observed by closing the underlying socket,
+    /// which defeats the <c>reuseSocket</c> flag on cancellation. On net6.0+ the BCL implementation cancels
+    /// only the in-flight operation.
+    /// </remarks>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.socket.disconnectasync?view=net-11.0#system-net-sockets-socket-disconnectasync(system-boolean-system-threading-cancellationtoken)
     public static ValueTask DisconnectAsync(
         this Socket target,

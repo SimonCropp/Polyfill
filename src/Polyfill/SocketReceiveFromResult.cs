@@ -31,6 +31,4 @@ struct SocketReceiveFromResult
     /// </summary>
     public EndPoint RemoteEndPoint;
 }
-#else
-[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Net.Sockets.SocketReceiveFromResult))]
 #endif
