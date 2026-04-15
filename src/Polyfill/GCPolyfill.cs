@@ -14,9 +14,15 @@ static partial class Polyfill
         /// with newer APIs. On older runtimes the returned array is zero-initialized.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.gc.allocateuninitializedarray?view=net-11.0
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T[] AllocateUninitializedArray<T>(int length, bool pinned = false) =>
-            new T[length];
+        public static T[] AllocateUninitializedArray<T>(int length, bool pinned = false)
+        {
+            if (pinned)
+            {
+                throw new NotSupportedException("Pinned allocations are not supported on this runtime.");
+            }
+
+            return new T[length];
+        }
 
     }
 }

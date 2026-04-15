@@ -10,8 +10,13 @@ public class GCPolyfillTests
     [Test]
     public async Task AllocateUninitializedArrayPinned()
     {
+#if NET5_0_OR_GREATER
         var array = GC.AllocateUninitializedArray<byte>(5, pinned: true);
         await Assert.That(array.Length).IsEqualTo(5);
+#else
+        await Assert.That(() => GC.AllocateUninitializedArray<byte>(5, pinned: true))
+            .Throws<NotSupportedException>();
+#endif
     }
 
     [Test]

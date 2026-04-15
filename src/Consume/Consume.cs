@@ -798,7 +798,6 @@ class Consume
     void GC_Methods()
     {
         var array = GC.AllocateUninitializedArray<int>(10);
-        var pinnedArray = GC.AllocateUninitializedArray<byte>(5, pinned: true);
     }
 
     void File_Methods()
