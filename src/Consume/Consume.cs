@@ -164,6 +164,17 @@ class Consume
     {
     }
 
+    // TODO: drop the !NET11_0_OR_GREATER gate once the MSBuild opt-in for
+    // MemorySafetyRules is documented. net11 currently rejects [RequiresUnsafe]
+    // with CS9368 unless the assembly is marked [module: MemorySafetyRules(N)],
+    // and that attribute is reserved for compiler emission (CS8335).
+#if !NET11_0_OR_GREATER
+    [RequiresUnsafe]
+    void UseUnsafe()
+    {
+    }
+#endif
+
     public static void ParamCollection(params List<string> collection)
     {
     }

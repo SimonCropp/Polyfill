@@ -24,6 +24,7 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Buffers.ReadOnlySpanAction<,>))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.RequiredMemberAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.RequiresPreviewFeaturesAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.RequiresUnsafeAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.SetsRequiredMembersAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.SkipLocalsInitAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Buffers.SpanAction<,>))]
