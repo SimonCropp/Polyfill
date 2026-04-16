@@ -4,7 +4,7 @@
     <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="MarkdownSnippets.MsBuild" Version="28.1.0" />
+    <PackageVersion Include="MarkdownSnippets.MsBuild" Version="28.2.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" Pinned="true" />
     <PackageVersion Include="TUnit" Version="1.34.5" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.172" />
@@ -19,6 +19,6 @@
     <PackageVersion Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
     <PackageVersion Include="System.IO.Compression" Version="4.3.0" />
     <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.6" />
-    <PackageVersion Include="Verify.TUnit" Version="31.15.0" />
+    <PackageVersion Include="Verify.TUnit" Version="31.16.0" />
   </ItemGroup>
 </Project>
