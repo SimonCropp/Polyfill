@@ -901,6 +901,11 @@ The class `Polyfill` includes the following extension methods:
  * `void SetUnixFileMode(string, UnixFileMode)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.setunixfilemode?view=net-11.0#system-io-file-setunixfilemode(system-string-system-io-unixfilemode))
 
 
+#### GC
+
+ * `T[] AllocateUninitializedArray<T>(int, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.gc.allocateuninitializedarray?view=net-11.0)
+
+
 #### Guid
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryformat?view=net-11.0#system-guid-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))))

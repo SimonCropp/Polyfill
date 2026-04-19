@@ -795,6 +795,11 @@ class Consume
         using var stderr = Console.OpenStandardErrorHandle();
     }
 
+    void GC_Methods()
+    {
+        var array = GC.AllocateUninitializedArray<int>(10);
+    }
+
     void File_Methods()
     {
         const string TestFilePath = "testfile.txt";
