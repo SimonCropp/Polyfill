@@ -840,6 +840,11 @@
  * `bool IsMatch(ReadOnlySpan<char>, string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-11.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string))
 
 
+#### RuntimeFeature
+
+ * `IsMultithreadingSupported` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.runtimefeature.ismultithreadingsupported?view=net-11.0)
+
+
 #### SByte
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryformat?view=net-11.0#system-sbyte-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))

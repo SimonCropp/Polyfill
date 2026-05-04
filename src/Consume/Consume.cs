@@ -779,6 +779,13 @@ class Consume
         elapsed = Stopwatch.GetElapsedTime(timestamp, Stopwatch.GetTimestamp());
     }
 
+#if NET471_OR_GREATER || NETCOREAPP || NETSTANDARD2_1_OR_GREATER
+    void RuntimeFeature_Methods()
+    {
+        var supported = RuntimeFeature.IsMultithreadingSupported;
+    }
+#endif
+
     void Path_Methods()
     {
         var relative = Path.GetRelativePath("/folder1/folder2", "/folder1/folder3");
