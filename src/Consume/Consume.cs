@@ -802,6 +802,11 @@ class Consume
         using var stderr = Console.OpenStandardErrorHandle();
     }
 
+    void GC_Methods()
+    {
+        var array = GC.AllocateUninitializedArray<int>(10);
+    }
+
     void File_Methods()
     {
         const string TestFilePath = "testfile.txt";
@@ -930,6 +935,7 @@ class Consume
         };
         enumerable.TryGetNonEnumeratedCount(out var count);
         var append = enumerable.Append("c");
+        var prepend = enumerable.Prepend("c");
         var maxBy = enumerable.MaxBy(_ => _);
         var chunk = enumerable.Chunk(3);
         var minBy = enumerable.MinBy(_ => _);
