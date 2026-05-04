@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 929**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 930**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
@@ -100,7 +100,7 @@ This project uses features from the current stable SDK and C# language. As such 
 | netstandard2.1 |          8.5KB |       258.0KB |  +249.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | net461         |          8.5KB |       303.5KB |  +295.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | net462         |          7.0KB |       307.0KB |  +300.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net47          |          7.0KB |       307.0KB |  +300.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net47          |          7.0KB |       307.0KB |  +300.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | net471         |          8.5KB |       306.5KB |  +298.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | net472         |          8.5KB |       305.5KB |  +297.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
 | net48          |          8.5KB |       305.5KB |  +297.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
@@ -127,7 +127,7 @@ This project uses features from the current stable SDK and C# language. As such 
 | netstandard2.1 |          8.5KB |       372.0KB |  +363.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | net461         |          8.5KB |       443.8KB |  +435.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | net462         |          7.0KB |       447.3KB |  +440.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net47          |          7.0KB |       447.0KB |  +440.0KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net47          |          7.0KB |       447.0KB |  +440.0KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | net471         |          8.5KB |       446.2KB |  +437.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | net472         |          8.5KB |       444.1KB |  +435.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
 | net48          |          8.5KB |       444.1KB |  +435.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
@@ -1022,6 +1022,7 @@ The class `Polyfill` includes the following extension methods:
  * `TSource? Min<TSource>(IComparer<TSource>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.min?view=net-11.0#system-linq-enumerable-min-1(system-collections-generic-ienumerable((-0))-system-collections-generic-icomparer((-0))))
  * `TSource? MinBy<TSource, TKey>(Func<TSource, TKey>, IComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.minby?view=net-11.0#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))-system-collections-generic-icomparer((-1))))
  * `TSource? MinBy<TSource, TKey>(Func<TSource, TKey>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.minby?view=net-11.0#system-linq-enumerable-minby-2(system-collections-generic-ienumerable((-0))-system-func((-0-1))))
+ * `IEnumerable<TSource> Prepend<TSource>(TSource)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.prepend?view=net-11.0)
  * `TSource SingleOrDefault<TSource>(Func<TSource, bool>, TSource)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.singleordefault?view=net-11.0#system-linq-enumerable-singleordefault-1(system-collections-generic-ienumerable((-0))-system-func((-0-system-boolean))-0))
  * `TSource SingleOrDefault<TSource>(TSource)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.singleordefault?view=net-11.0#system-linq-enumerable-singleordefault-1(system-collections-generic-ienumerable((-0))-0))
  * `IEnumerable<TSource> SkipLast<TSource>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.skiplast?view=net-11.0)
