@@ -928,6 +928,7 @@ class Consume
         };
         enumerable.TryGetNonEnumeratedCount(out var count);
         var append = enumerable.Append("c");
+        var prepend = enumerable.Prepend("c");
         var maxBy = enumerable.MaxBy(_ => _);
         var chunk = enumerable.Chunk(3);
         var minBy = enumerable.MinBy(_ => _);

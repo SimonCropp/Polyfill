@@ -169,6 +169,14 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task IEnumerablePrepend()
+    {
+        IEnumerable<string> enumerable = ["b", "c"];
+
+        await Assert.That(enumerable.Prepend("a").SequenceEqual(["a", "b", "c"])).IsTrue();
+    }
+
+    [Test]
     public async Task IEnumerableSkipLast()
     {
         IEnumerable<string> enumerable = ["a", "b"];
