@@ -82,6 +82,30 @@ partial class PolyfillTests
 #if FeatureMemory
 
     [Test]
+    public async Task RegexCountSpan()
+    {
+        var regex = new Regex(@"\d+");
+        await Assert.That(regex.Count("a1b2c3".AsSpan())).IsEqualTo(3);
+        await Assert.That(regex.Count("a1b2c3".AsSpan(), 2)).IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task RegexCountSpanStatic()
+    {
+        await Assert.That(Regex.Count("a1b2c3".AsSpan(), @"\d+")).IsEqualTo(3);
+        await Assert.That(Regex.Count("ABC".AsSpan(), "[a-z]+", RegexOptions.IgnoreCase)).IsEqualTo(1);
+        await Assert.That(Regex.Count("a1b2".AsSpan(), @"\d+", RegexOptions.None, TimeSpan.FromSeconds(10))).IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task CaptureValueSpan()
+    {
+        var match = Regex.Match("hello 42 world", @"\d+");
+        await Assert.That(match.Success).IsTrue();
+        await Assert.That(match.ValueSpan.SequenceEqual("42".AsSpan())).IsTrue();
+    }
+
+    [Test]
     public async Task EnumerateSplits_InstanceMethod_BasicSplit()
     {
         var regex = new Regex(@"[,\s]+");

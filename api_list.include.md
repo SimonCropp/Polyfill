@@ -90,6 +90,11 @@
  * `Task CancelAsync()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.cancellationtokensource.cancelasync?view=net-11.0)
 
 
+#### Capture
+
+ * `ValueSpan` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.capture.valuespan?view=net-11.0)
+
+
 #### Char
 
  * `bool Equals(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.equals?view=net-11.0#system-char-equals(system-char-system-stringcomparison))
@@ -818,6 +823,8 @@
 
 #### Regex
 
+ * `int Count(ReadOnlySpan<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-readonlyspan((system-char))-system-int32))
+ * `int Count(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-readonlyspan((system-char))))
  * `int Count(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string))
  * `ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-11.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-int32))
  * `ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-11.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))))
@@ -826,6 +833,9 @@
  * `ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-11.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))))
  * `bool IsMatch(ReadOnlySpan<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-11.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-int32))
  * `bool IsMatch(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-11.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))))
+ * `int Count(ReadOnlySpan<char>, string, RegexOptions, TimeSpan)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan))
+ * `int Count(ReadOnlySpan<char>, string, RegexOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions))
+ * `int Count(ReadOnlySpan<char>, string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-readonlyspan((system-char))-system-string))
  * `int Count(string, string, RegexOptions, TimeSpan)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions-system-timespan))
  * `int Count(string, string, RegexOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions))
  * `int Count(string, string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string-system-string))
