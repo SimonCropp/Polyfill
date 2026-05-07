@@ -45,6 +45,27 @@ static partial class Polyfill
 #if FeatureMemory
 #if !NET7_0_OR_GREATER
         /// <summary>
+        /// Searches an input span for all occurrences of a regular expression and returns the number of matches.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-readonlyspan((system-char))-system-string)
+        public static int Count(ReadOnlySpan<char> input, string pattern) =>
+            new Regex(pattern).Count(input);
+
+        /// <summary>
+        /// Searches an input span for all occurrences of a regular expression and returns the number of matches.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions)
+        public static int Count(ReadOnlySpan<char> input, string pattern, RegexOptions options) =>
+            new Regex(pattern, options).Count(input);
+
+        /// <summary>
+        /// Searches an input span for all occurrences of a regular expression and returns the number of matches.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan)
+        public static int Count(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan matchTimeout) =>
+            new Regex(pattern, options, matchTimeout).Count(input);
+
+        /// <summary>
         /// Indicates whether the specified regular expression finds a match in the specified input span, using the specified matching options and time-out interval.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-11.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan)

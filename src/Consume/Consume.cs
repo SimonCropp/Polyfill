@@ -1224,6 +1224,18 @@ class Consume
     {
         var regex = new Regex("result");
         regex.IsMatch("value".AsSpan());
+        _ = regex.Count("value".AsSpan());
+        _ = regex.Count("value".AsSpan(), 0);
+        _ = Regex.Count("value".AsSpan(), "result");
+        _ = Regex.Count("value".AsSpan(), "result", RegexOptions.None);
+        _ = Regex.Count("value".AsSpan(), "result", RegexOptions.None, TimeSpan.FromSeconds(1));
+    }
+
+    void Capture_Methods()
+    {
+        var match = Regex.Match("value", "value");
+        ReadOnlySpan<char> span = match.ValueSpan;
+        _ = span.Length;
     }
 
 #endif

@@ -29,6 +29,21 @@ static partial class Polyfill
 			new Regex(pattern, options, matchTimeout).Count(input);
 #if FeatureMemory
 		/// <summary>
+		/// Searches an input span for all occurrences of a regular expression and returns the number of matches.
+		/// </summary>
+		public static int Count(ReadOnlySpan<char> input, string pattern) =>
+			new Regex(pattern).Count(input);
+		/// <summary>
+		/// Searches an input span for all occurrences of a regular expression and returns the number of matches.
+		/// </summary>
+		public static int Count(ReadOnlySpan<char> input, string pattern, RegexOptions options) =>
+			new Regex(pattern, options).Count(input);
+		/// <summary>
+		/// Searches an input span for all occurrences of a regular expression and returns the number of matches.
+		/// </summary>
+		public static int Count(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan matchTimeout) =>
+			new Regex(pattern, options, matchTimeout).Count(input);
+		/// <summary>
 		/// Indicates whether the specified regular expression finds a match in the specified input span, using the specified matching options and time-out interval.
 		/// </summary>
 		public static bool IsMatch(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan timeout) =>

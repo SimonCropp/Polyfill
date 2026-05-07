@@ -21,6 +21,25 @@ static partial class Polyfill
 	}
 #if FeatureMemory
 	/// <summary>
+	/// Searches an input span for all occurrences of a regular expression and returns the number of matches.
+	/// </summary>
+	public static int Count(this Regex target, ReadOnlySpan<char> input) =>
+		target.Count(input.ToString());
+	/// <summary>
+	/// Searches an input span for all occurrences of a regular expression starting at a specified position and returns the number of matches.
+	/// </summary>
+	public static int Count(this Regex target, ReadOnlySpan<char> input, int startat)
+	{
+		var count = 0;
+		var match = target.Match(input.ToString(), startat);
+		while (match.Success)
+		{
+			count++;
+			match = match.NextMatch();
+		}
+		return count;
+	}
+	/// <summary>
 	/// Indicates whether the regular expression specified in the Regex constructor finds a match in a specified input span.
 	/// </summary>
 	public static bool IsMatch(this Regex target, ReadOnlySpan<char> input, int startat) =>

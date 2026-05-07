@@ -28,6 +28,30 @@ static partial class Polyfill
 
 #if !NET7_0_OR_GREATER && FeatureMemory
     /// <summary>
+    /// Searches an input span for all occurrences of a regular expression and returns the number of matches.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-readonlyspan((system-char)))
+    public static int Count(this Regex target, ReadOnlySpan<char> input) =>
+        target.Count(input.ToString());
+
+    /// <summary>
+    /// Searches an input span for all occurrences of a regular expression starting at a specified position and returns the number of matches.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-readonlyspan((system-char))-system-int32)
+    public static int Count(this Regex target, ReadOnlySpan<char> input, int startat)
+    {
+        var count = 0;
+        var match = target.Match(input.ToString(), startat);
+        while (match.Success)
+        {
+            count++;
+            match = match.NextMatch();
+        }
+
+        return count;
+    }
+
+    /// <summary>
     /// Indicates whether the regular expression specified in the Regex constructor finds a match in a specified input span.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-11.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-int32)
