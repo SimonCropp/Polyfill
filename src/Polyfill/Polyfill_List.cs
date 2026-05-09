@@ -54,6 +54,8 @@ static partial class Polyfill
     /// Ensures that the capacity of this list is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.ensurecapacity?view=net-11.0#system-collections-generic-list-1-ensurecapacity(system-int32)
+    //Note: No-op on older targets; the BCL grows the backing storage.
+    //Note: Returns void on older targets; the BCL returns int (the new capacity).
     public static void EnsureCapacity<T>(this List<T> target, int capacity)
     {
     }
@@ -62,6 +64,7 @@ static partial class Polyfill
     /// Sets the capacity to the actual number of elements in the <see cref="List{T}"/>, if that number is less than a threshold value.
     /// </summary>
     //Link:https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.trimexcess?view=net-11.0
+    //Note: No-op on older targets; the BCL shrinks the backing storage.
     public static void TrimExcess<T>(this List<T> target)
     {
     }

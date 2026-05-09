@@ -58,6 +58,7 @@ static partial class Polyfill
     /// Ensures that the capacity of this dictionary is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity?view=net-11.0
+    //Note: No-op on older targets; the BCL grows the backing storage.
     public static void EnsureCapacity<TKey, TValue>(this Dictionary<TKey, TValue> target, int capacity)
     {
     }
@@ -66,6 +67,7 @@ static partial class Polyfill
     /// Sets the capacity of this dictionary to hold up a specified number of entries without any further expansion of its backing storage.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-11.0#system-collections-generic-dictionary-2-trimexcess(system-int32)
+    //Note: No-op on older targets; the BCL shrinks the backing storage.
     public static void TrimExcess<TKey, TValue>(this Dictionary<TKey, TValue> target, int capacity)
     {
     }
@@ -74,6 +76,7 @@ static partial class Polyfill
     /// Sets the capacity of this dictionary to what it would be if it had been originally initialized with all its entries.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-11.0#system-collections-generic-dictionary-2-trimexcess
+    //Note: No-op on older targets; the BCL shrinks the backing storage.
     public static void TrimExcess<TKey, TValue>(this Dictionary<TKey, TValue> target)
     {
     }
