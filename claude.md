@@ -69,6 +69,7 @@ Polyfill uses extensive `#if` directives. Key constants:
 - Each `*Polyfill.cs` file must contain exactly **one top-level type** (the `Polyfill` partial class). Helper classes must be **nested** inside `Polyfill`, otherwise `ReadMethodsForFiles` in `BuildApiTest` will throw.
 - The filename of static polyfill files directly determines the `api_list.include.md` section header: `{TypeName}Polyfill.cs` → `#### {TypeName}`. For example, `FilePolyfill.cs` → `#### File`. Choose filenames to match the type being extended.
 - `//Link:` comments on public methods must use `?view=net-11.0` for learn.microsoft.com URLs (enforced by `LinkReader`). For overloaded methods, include the `#fragment` anchor pointing to the specific overload (e.g., `#system-type-method(system-string-system-int32)`).
+- `//Note: <text>` comments (also leading trivia, parsed by `LinkReader.GetNotes`) attach a caveat to a polyfilled API. Each line emits a sub-bullet `* Note: <text>` under the signature in `api_list.include.md` (rendered by `BuildApiTest.WriteNotes`). Use sparingly — only when behavior diverges from the BCL in a way callers must know about (e.g., O(n) vs O(1), free-standing struct vs nested type, different exception type). Don't restate the doc summary.
 
 ### Test Projects
 

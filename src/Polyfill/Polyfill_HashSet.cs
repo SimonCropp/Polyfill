@@ -60,6 +60,8 @@ static partial class Polyfill
     /// using a <typeparamref name="TAlternate"/> instead of a <typeparamref name="T"/>.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.getalternatelookup?view=net-11.0
+    //Note: Lookups are O(n) on older targets; the BCL is O(1).
+    //Note: Returns the free-standing `HashSetAlternateLookup<T, TAlternate>` rather than the BCL's nested `HashSet<T>.AlternateLookup<TAlternate>`. Use `var` for cross-target code.
     public static HashSetAlternateLookup<T, TAlternate> GetAlternateLookup<T, TAlternate>(
         this HashSet<T> target)
     {
@@ -77,6 +79,7 @@ static partial class Polyfill
     /// using a <typeparamref name="TAlternate"/> instead of a <typeparamref name="T"/>.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetalternatelookup?view=net-11.0
+    //Note: Lookups are O(n) on older targets; the BCL is O(1).
     public static bool TryGetAlternateLookup<T, TAlternate>(
         this HashSet<T> target,
         out HashSetAlternateLookup<T, TAlternate> lookup)

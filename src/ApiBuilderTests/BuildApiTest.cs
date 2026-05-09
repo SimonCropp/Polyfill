@@ -314,6 +314,8 @@ public class BuildApiTest
         {
             writer.WriteLine($" * `{signature}`");
         }
+
+        WriteNotes(method, writer);
     }
 
     static void WriteSignature(Property method, StreamWriter writer)
@@ -327,6 +329,16 @@ public class BuildApiTest
         else
         {
             writer.WriteLine($" * `{signature}`");
+        }
+
+        WriteNotes(method, writer);
+    }
+
+    static void WriteNotes(Member member, StreamWriter writer)
+    {
+        foreach (var note in member.GetNotes())
+        {
+            writer.WriteLine($"   * Note: {note}");
         }
     }
 

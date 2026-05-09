@@ -87,6 +87,8 @@ static partial class Polyfill
     /// using a <typeparamref name="TAlternateKey"/> as a key instead of a <typeparamref name="TKey"/>.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.getalternatelookup?view=net-11.0
+    //Note: Lookups are O(n) on older targets; the BCL is O(1).
+    //Note: Returns the free-standing `DictionaryAlternateLookup<TKey, TValue, TAlternateKey>` rather than the BCL's nested `Dictionary<TKey, TValue>.AlternateLookup<TAlternateKey>`. Use `var` for cross-target code.
     public static DictionaryAlternateLookup<TKey, TValue, TAlternateKey> GetAlternateLookup<TKey, TValue, TAlternateKey>(
         this Dictionary<TKey, TValue> target)
         where TKey : notnull
@@ -105,6 +107,7 @@ static partial class Polyfill
     /// using a <typeparamref name="TAlternateKey"/> as a key instead of a <typeparamref name="TKey"/>.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trygetalternatelookup?view=net-11.0
+    //Note: Lookups are O(n) on older targets; the BCL is O(1).
     public static bool TryGetAlternateLookup<TKey, TValue, TAlternateKey>(
         this Dictionary<TKey, TValue> target,
         out DictionaryAlternateLookup<TKey, TValue, TAlternateKey> lookup)

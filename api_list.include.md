@@ -223,9 +223,12 @@
 
  * `void EnsureCapacity<TKey, TValue>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity?view=net-11.0)
  * `DictionaryAlternateLookup<TKey, TValue, TAlternateKey> GetAlternateLookup<TKey, TValue, TAlternateKey>() where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.getalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
+   * Note: Returns the free-standing `DictionaryAlternateLookup<TKey, TValue, TAlternateKey>` rather than the BCL's nested `Dictionary<TKey, TValue>.AlternateLookup<TAlternateKey>`. Use `var` for cross-target code.
  * `void TrimExcess<TKey, TValue>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-11.0#system-collections-generic-dictionary-2-trimexcess(system-int32))
  * `void TrimExcess<TKey, TValue>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-11.0#system-collections-generic-dictionary-2-trimexcess)
  * `bool TryGetAlternateLookup<TKey, TValue, TAlternateKey>(DictionaryAlternateLookup<TKey, TValue, TAlternateKey>) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trygetalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
 
 
 #### DictionaryEntry
@@ -401,8 +404,11 @@
 
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.ensurecapacity?view=net-11.0#system-collections-generic-hashset-1-ensurecapacity(system-int32))
  * `HashSetAlternateLookup<T, TAlternate> GetAlternateLookup<T, TAlternate>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.getalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
+   * Note: Returns the free-standing `HashSetAlternateLookup<T, TAlternate>` rather than the BCL's nested `HashSet<T>.AlternateLookup<TAlternate>`. Use `var` for cross-target code.
  * `void TrimExcess<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trimexcess?view=net-11.0#system-collections-generic-hashset-1-trimexcess(system-int32))
  * `bool TryGetAlternateLookup<T, TAlternate>(HashSetAlternateLookup<T, TAlternate>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
  * `bool TryGetValue<T>(T, T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetvalue?view=net-11.0)
 
 
