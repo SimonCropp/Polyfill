@@ -2,17 +2,23 @@
 
 #### ArgumentException
 
+> Requires `<PolyArgumentExceptions>true</PolyArgumentExceptions>` in the consuming project.
+
  * `void ThrowIfNullOrEmpty(string?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentexception.throwifnullorempty?view=net-11.0#system-argumentexception-throwifnullorempty(system-string-system-string))
  * `void ThrowIfNullOrWhiteSpace(string?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentexception.throwifnullorwhitespace?view=net-11.0#system-argumentexception-throwifnullorwhitespace(system-string-system-string))
 
 
 #### ArgumentNullException
 
+> Requires `<PolyArgumentExceptions>true</PolyArgumentExceptions>` in the consuming project.
+
  * `void ThrowIfNull(object?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentnullexception.throwifnull?view=net-11.0#system-argumentnullexception-throwifnull(system-object-system-string))
  * `void ThrowIfNull(void*)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentnullexception.throwifnull?view=net-11.0#system-argumentnullexception-throwifnull(system-void*-system-string))
 
 
 #### ArgumentOutOfRangeException
+
+> Requires `<PolyArgumentExceptions>true</PolyArgumentExceptions>` in the consuming project.
 
  * `void ThrowIfEqual<T>(T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifequal?view=net-11.0#system-argumentoutofrangeexception-throwifequal-1(-0-0-system-string))
  * `void ThrowIfGreaterThan(nint, nint)`
@@ -664,6 +670,8 @@
 
 
 #### ObjectDisposedException
+
+> Requires `<PolyArgumentExceptions>true</PolyArgumentExceptions>` in the consuming project.
 
  * `void ThrowIf(bool, object)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.objectdisposedexception.throwif?view=net-11.0##system-objectdisposedexception-throwif(system-boolean-system-object))
  * `void ThrowIf(bool, Type)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.objectdisposedexception.throwif?view=net-11.0##system-objectdisposedexception-throwif(system-boolean-system-type))
@@ -1329,6 +1337,8 @@
 
 
 #### Ensure
+
+> Requires `<PolyEnsure>true</PolyEnsure>` in the consuming project.
 
  * `void DirectoryExists(string)`
  * `T Equal<T>(T, T)`

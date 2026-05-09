@@ -70,6 +70,7 @@ Polyfill uses extensive `#if` directives. Key constants:
 - The filename of static polyfill files directly determines the `api_list.include.md` section header: `{TypeName}Polyfill.cs` → `#### {TypeName}`. For example, `FilePolyfill.cs` → `#### File`. Choose filenames to match the type being extended.
 - `//Link:` comments on public methods must use `?view=net-11.0` for learn.microsoft.com URLs (enforced by `LinkReader`). For overloaded methods, include the `#fragment` anchor pointing to the specific overload (e.g., `#system-type-method(system-string-system-int32)`).
 - `//Note: <text>` comments (also leading trivia, parsed by `LinkReader.GetNotes`) attach a caveat to a polyfilled API. Each line emits a sub-bullet `* Note: <text>` under the signature in `api_list.include.md` (rendered by `BuildApiTest.WriteNotes`). Use sparingly — only when behavior diverges from the BCL in a way callers must know about (e.g., O(n) vs O(1), free-standing struct vs nested type, different exception type). Don't restate the doc summary.
+- Section-level opt-in gates (e.g., `Ensure`, `ArgumentNullException`) are emitted as a `> Requires <PolyXxx>true</PolyXxx>` blockquote under the section header. The mapping lives in `BuildApiTest.sectionGates` — add an entry there when you introduce a new section whose members all require an MSBuild flag.
 
 ### Test Projects
 
