@@ -1,5 +1,6 @@
 namespace Polyfills;
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
@@ -75,6 +76,48 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-11.0#system-collections-generic-dictionary-2-trimexcess
     public static void TrimExcess<TKey, TValue>(this Dictionary<TKey, TValue> target)
     {
+    }
+
+#endif
+
+#if !NET9_0_OR_GREATER
+
+    /// <summary>
+    /// Gets an instance of a type that may be used to perform operations on the current <see cref="Dictionary{TKey,TValue}"/>
+    /// using a <typeparamref name="TAlternateKey"/> as a key instead of a <typeparamref name="TKey"/>.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.getalternatelookup?view=net-11.0
+    public static DictionaryAlternateLookup<TKey, TValue, TAlternateKey> GetAlternateLookup<TKey, TValue, TAlternateKey>(
+        this Dictionary<TKey, TValue> target)
+        where TKey : notnull
+    {
+        if (target.Comparer is not IAlternateEqualityComparer<TAlternateKey, TKey> comparer)
+        {
+            throw new InvalidOperationException(
+                $"The dictionary's comparer ({target.Comparer.GetType()}) does not implement IAlternateEqualityComparer<{typeof(TAlternateKey)}, {typeof(TKey)}>.");
+        }
+
+        return new(target, comparer);
+    }
+
+    /// <summary>
+    /// Gets an instance of a type that may be used to perform operations on the current <see cref="Dictionary{TKey,TValue}"/>
+    /// using a <typeparamref name="TAlternateKey"/> as a key instead of a <typeparamref name="TKey"/>.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trygetalternatelookup?view=net-11.0
+    public static bool TryGetAlternateLookup<TKey, TValue, TAlternateKey>(
+        this Dictionary<TKey, TValue> target,
+        out DictionaryAlternateLookup<TKey, TValue, TAlternateKey> lookup)
+        where TKey : notnull
+    {
+        if (target.Comparer is IAlternateEqualityComparer<TAlternateKey, TKey> comparer)
+        {
+            lookup = new(target, comparer);
+            return true;
+        }
+
+        lookup = default;
+        return false;
     }
 
 #endif

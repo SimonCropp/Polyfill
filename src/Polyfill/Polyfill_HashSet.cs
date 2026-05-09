@@ -1,5 +1,6 @@
 namespace Polyfills;
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -52,6 +53,42 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trimexcess?view=net-11.0#system-collections-generic-hashset-1-trimexcess(system-int32)
     public static void TrimExcess<T>(this HashSet<T> target, int capacity)
     {
+    }
+
+    /// <summary>
+    /// Gets an instance of a type that may be used to perform operations on the current <see cref="HashSet{T}"/>
+    /// using a <typeparamref name="TAlternate"/> instead of a <typeparamref name="T"/>.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.getalternatelookup?view=net-11.0
+    public static HashSetAlternateLookup<T, TAlternate> GetAlternateLookup<T, TAlternate>(
+        this HashSet<T> target)
+    {
+        if (target.Comparer is not IAlternateEqualityComparer<TAlternate, T> comparer)
+        {
+            throw new InvalidOperationException(
+                $"The set's comparer ({target.Comparer.GetType()}) does not implement IAlternateEqualityComparer<{typeof(TAlternate)}, {typeof(T)}>.");
+        }
+
+        return new(target, comparer);
+    }
+
+    /// <summary>
+    /// Gets an instance of a type that may be used to perform operations on the current <see cref="HashSet{T}"/>
+    /// using a <typeparamref name="TAlternate"/> instead of a <typeparamref name="T"/>.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetalternatelookup?view=net-11.0
+    public static bool TryGetAlternateLookup<T, TAlternate>(
+        this HashSet<T> target,
+        out HashSetAlternateLookup<T, TAlternate> lookup)
+    {
+        if (target.Comparer is IAlternateEqualityComparer<TAlternate, T> comparer)
+        {
+            lookup = new(target, comparer);
+            return true;
+        }
+
+        lookup = default;
+        return false;
     }
 
 #endif

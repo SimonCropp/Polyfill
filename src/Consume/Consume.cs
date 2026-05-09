@@ -583,6 +583,44 @@ class Consume
         pairs.ToDictionary(StringComparer.Ordinal);
     }
 
+#if !NET9_0_OR_GREATER
+    void Dictionary_AlternateLookup()
+    {
+        var dictionary = new Dictionary<KeyHolder, int>(new KeyHolderAlternateComparer());
+        var lookup = dictionary.GetAlternateLookup<KeyHolder, int, string>();
+        _ = lookup.Dictionary;
+        lookup.ContainsKey("a");
+        lookup.TryAdd("a", 1);
+        lookup.TryGetValue("a", out var value);
+        lookup.TryGetValue("a", out var actualKey, out value);
+        lookup["a"] = 2;
+        _ = lookup["a"];
+        lookup.Remove("a");
+        lookup.Remove("a", out actualKey, out value);
+
+        if (dictionary.TryGetAlternateLookup<KeyHolder, int, string>(out var maybeLookup))
+        {
+            _ = maybeLookup.Dictionary;
+        }
+    }
+
+    class KeyHolder
+    {
+        public string Name { get; set; } = "";
+    }
+
+    class KeyHolderAlternateComparer :
+        IEqualityComparer<KeyHolder>,
+        IAlternateEqualityComparer<string, KeyHolder>
+    {
+        public bool Equals(KeyHolder? x, KeyHolder? y) => x?.Name == y?.Name;
+        public int GetHashCode(KeyHolder target) => target.Name.GetHashCode();
+        public bool Equals(string alternate, KeyHolder other) => alternate == other.Name;
+        public int GetHashCode(string alternate) => alternate.GetHashCode();
+        public KeyHolder Create(string alternate) => new() { Name = alternate };
+    }
+#endif
+
     void Lock_Methods()
     {
         var locker = new Lock();
@@ -836,6 +874,24 @@ class Consume
         set.TrimExcess(1);
         set.TrimExcess();
     }
+
+#if !NET9_0_OR_GREATER
+    void HashSet_AlternateLookup()
+    {
+        var set = new HashSet<KeyHolder>(new KeyHolderAlternateComparer());
+        var lookup = set.GetAlternateLookup<KeyHolder, string>();
+        _ = lookup.Set;
+        lookup.Add("a");
+        lookup.Contains("a");
+        lookup.TryGetValue("a", out var actual);
+        lookup.Remove("a");
+
+        if (set.TryGetAlternateLookup<KeyHolder, string>(out var maybeLookup))
+        {
+            _ = maybeLookup.Set;
+        }
+    }
+#endif
 
 #if FeatureHttp
     void HttpClient_Methods(HttpClient target)
