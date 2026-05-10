@@ -296,23 +296,24 @@ public class BuildApiTest
     // Sections whose every member requires an MSBuild opt-in flag. Listed here (not
     // derived from path) because some directories with opt-ins also contribute methods
     // to mixed sections like StringBuilder; only fully-gated section names belong here.
-    static readonly Dictionary<string, string> sectionGates = new()
+    // The anchor points to the readme heading that explains the flag.
+    static readonly Dictionary<string, (string Flag, string Anchor)> sectionGates = new()
     {
-        ["ArgumentException"] = "PolyArgumentExceptions",
-        ["ArgumentNullException"] = "PolyArgumentExceptions",
-        ["ArgumentOutOfRangeException"] = "PolyArgumentExceptions",
-        ["ObjectDisposedException"] = "PolyArgumentExceptions",
-        ["Ensure"] = "PolyEnsure",
+        ["ArgumentException"] = ("PolyArgumentExceptions", "argumentexception-1"),
+        ["ArgumentNullException"] = ("PolyArgumentExceptions", "argumentexception-1"),
+        ["ArgumentOutOfRangeException"] = ("PolyArgumentExceptions", "argumentexception-1"),
+        ["ObjectDisposedException"] = ("PolyArgumentExceptions", "argumentexception-1"),
+        ["Ensure"] = ("PolyEnsure", "ensure-1"),
     };
 
     static void WriteSectionGate(string sectionName, StreamWriter writer)
     {
-        if (!sectionGates.TryGetValue(sectionName, out var flag))
+        if (!sectionGates.TryGetValue(sectionName, out var gate))
         {
             return;
         }
 
-        writer.WriteLine($"> Requires `<{flag}>true</{flag}>` in the consuming project.");
+        writer.WriteLine($"> Requires [`<{gate.Flag}>true</{gate.Flag}>`](#{gate.Anchor}) in the consuming project.");
         writer.WriteLine();
     }
 

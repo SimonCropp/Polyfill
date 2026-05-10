@@ -14,7 +14,7 @@
 | netcoreapp2.0  |          9.0KB |       286.5KB |  +277.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | netcoreapp2.1  |          9.0KB |       266.0KB |  +257.0KB |    +9.0KB |             +7.0KB |              +9.0KB |     +14.0KB |
 | netcoreapp2.2  |          9.0KB |       266.0KB |  +257.0KB |    +9.0KB |             +7.0KB |              +9.0KB |     +14.0KB |
-| netcoreapp3.0  |          9.5KB |       257.5KB |  +248.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp3.0  |          9.5KB |       257.5KB |  +248.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
 | netcoreapp3.1  |          9.5KB |       255.5KB |  +246.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
 | net5.0         |          9.5KB |       218.5KB |  +209.0KB |    +9.5KB |             +7.0KB |              +9.5KB |     +14.5KB |
 | net6.0         |         10.0KB |       157.0KB |  +147.0KB |   +12.5KB |            +10.0KB |              +1.0KB |      +4.0KB |
@@ -41,7 +41,7 @@
 | netcoreapp2.0  |          9.0KB |       419.5KB |  +410.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | netcoreapp2.1  |          9.0KB |       387.9KB |  +378.9KB |   +16.7KB |             +8.7KB |             +13.9KB |     +19.4KB |
 | netcoreapp2.2  |          9.0KB |       387.9KB |  +378.9KB |   +16.7KB |             +8.7KB |             +13.9KB |     +19.4KB |
-| netcoreapp3.0  |          9.5KB |       370.1KB |  +360.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp3.0  |          9.5KB |       370.1KB |  +360.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
 | netcoreapp3.1  |          9.5KB |       368.1KB |  +358.6KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | net5.0         |          9.5KB |       313.0KB |  +303.5KB |   +17.2KB |             +8.7KB |             +14.4KB |     +19.9KB |
 | net6.0         |         10.0KB |       231.9KB |  +221.9KB |   +20.2KB |            +11.7KB |              +1.6KB |      +4.7KB |
