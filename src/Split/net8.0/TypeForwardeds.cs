@@ -14,6 +14,7 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.IO.MatchCasing))]
 [assembly: TypeForwardedTo(typeof(System.IO.MatchType))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.ModuleInitializerAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.InteropServices.PosixSignal))]
 [assembly: TypeForwardedTo(typeof(System.Buffers.ReadOnlySpanAction<,>))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.RequiredMemberAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.Versioning.RequiresPreviewFeaturesAttribute))]

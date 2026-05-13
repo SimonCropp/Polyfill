@@ -1119,6 +1119,63 @@ class Consume
         var process = new Process();
         await process.WaitForExitAsync();
         process.Kill(true);
+
+#if FeatureValueTuple
+        (string outText, string errText) = process.ReadAllText();
+        (outText, errText) = process.ReadAllText(TimeSpan.FromSeconds(1));
+        (outText, errText) = await process.ReadAllTextAsync();
+        (outText, errText) = await process.ReadAllTextAsync(CancellationToken.None);
+
+        (byte[] outBytes, byte[] errBytes) = process.ReadAllBytes();
+        (outBytes, errBytes) = process.ReadAllBytes(TimeSpan.FromSeconds(1));
+        (outBytes, errBytes) = await process.ReadAllBytesAsync();
+        (outBytes, errBytes) = await process.ReadAllBytesAsync(CancellationToken.None);
+#endif
+
+#if FeatureAsyncInterfaces
+        await foreach (var line in process.ReadAllLinesAsync(CancellationToken.None))
+        {
+            _ = line.Content;
+            _ = line.StandardError;
+        }
+#endif
+
+        ProcessExitStatus status = Process.Run("notexists");
+        status = Process.Run("notexists", new[] { "a", "b" });
+        status = Process.Run("notexists", new[] { "a", "b" }, TimeSpan.FromSeconds(1));
+        status = Process.Run(new ProcessStartInfo("notexists"));
+        status = Process.Run(new ProcessStartInfo("notexists"), TimeSpan.FromSeconds(1));
+        _ = status.Canceled;
+        _ = status.ExitCode;
+        _ = status.Signal;
+
+        status = await Process.RunAsync("notexists");
+        status = await Process.RunAsync("notexists", new[] { "a", "b" });
+        status = await Process.RunAsync("notexists", new[] { "a", "b" }, CancellationToken.None);
+        status = await Process.RunAsync(new ProcessStartInfo("notexists"));
+        status = await Process.RunAsync(new ProcessStartInfo("notexists"), CancellationToken.None);
+
+        ProcessTextOutput output = Process.RunAndCaptureText("notexists");
+        output = Process.RunAndCaptureText("notexists", new[] { "a", "b" });
+        output = Process.RunAndCaptureText("notexists", new[] { "a", "b" }, TimeSpan.FromSeconds(1));
+        output = Process.RunAndCaptureText(new ProcessStartInfo("notexists"));
+        _ = output.ExitStatus;
+        _ = output.ProcessId;
+        _ = output.StandardError;
+        _ = output.StandardOutput;
+
+        output = await Process.RunAndCaptureTextAsync("notexists");
+        output = await Process.RunAndCaptureTextAsync("notexists", new[] { "a", "b" });
+        output = await Process.RunAndCaptureTextAsync("notexists", new[] { "a", "b" }, CancellationToken.None);
+        output = await Process.RunAndCaptureTextAsync(new ProcessStartInfo("notexists"));
+
+        int pid = Process.StartAndForget("notexists");
+        pid = Process.StartAndForget("notexists", new[] { "a", "b" });
+        pid = Process.StartAndForget(new ProcessStartInfo("notexists"));
+
+        ProcessOutputLine outputLine = new("text", standardError: false);
+        _ = outputLine.Content;
+        _ = outputLine.StandardError;
     }
 
     void ProcessStartInfo_Methods()
