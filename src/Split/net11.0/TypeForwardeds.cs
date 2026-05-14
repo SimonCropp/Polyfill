@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.ExperimentalAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.FeatureGuardAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.FeatureSwitchDefinitionAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Collections.Generic.IAlternateEqualityComparer<,>))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.IsExternalInit))]
 [assembly: TypeForwardedTo(typeof(System.Collections.Generic.KeyValuePair))]
 [assembly: TypeForwardedTo(typeof(System.Threading.Lock))]

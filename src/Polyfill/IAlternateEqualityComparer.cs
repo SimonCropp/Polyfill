@@ -1,0 +1,38 @@
+#if !NET9_0_OR_GREATER
+
+namespace System.Collections.Generic;
+
+using Diagnostics.CodeAnalysis;
+
+/// <summary>
+/// Implemented by an <see cref="IEqualityComparer{T}"/> to support comparing
+/// a <typeparamref name="TAlternate"/> instance with a <typeparamref name="T"/> instance.
+/// </summary>
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.ialternateequalitycomparer-2?view=net-11.0
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
+#if PolyPublic
+public
+#endif
+interface IAlternateEqualityComparer<in TAlternate, T>
+{
+    /// <summary>
+    /// Determines whether the specified <paramref name="alternate"/> equals the specified <paramref name="other"/>.
+    /// </summary>
+    bool Equals(TAlternate alternate, T other);
+
+    /// <summary>
+    /// Returns a hash code for the specified alternate instance.
+    /// </summary>
+    int GetHashCode(TAlternate alternate);
+
+    /// <summary>
+    /// Creates a <typeparamref name="T"/> that is considered equal to the specified <paramref name="alternate"/>.
+    /// </summary>
+    T Create(TAlternate alternate);
+}
+
+#else
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Collections.Generic.IAlternateEqualityComparer<,>))]
+#endif
