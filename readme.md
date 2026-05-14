@@ -13,34 +13,34 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 937**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 941**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
 | Target | APIs |
 | -- | -- |
-| `net461` | 907 |
-| `net462` | 907 |
-| `net47` | 906 |
-| `net471` | 905 |
-| `net472` | 901 |
-| `net48` | 901 |
-| `net481` | 901 |
-| `netstandard2.0` | 903 |
-| `netstandard2.1` | 734 |
-| `netcoreapp2.0` | 827 |
-| `netcoreapp2.1` | 746 |
-| `netcoreapp2.2` | 746 |
-| `netcoreapp3.0` | 692 |
-| `netcoreapp3.1` | 691 |
-| `net5.0` | 563 |
-| `net6.0` | 468 |
-| `net7.0` | 315 |
-| `net8.0` | 197 |
+| `net461` | 914 |
+| `net462` | 914 |
+| `net47` | 913 |
+| `net471` | 912 |
+| `net472` | 908 |
+| `net48` | 908 |
+| `net481` | 908 |
+| `netstandard2.0` | 910 |
+| `netstandard2.1` | 741 |
+| `netcoreapp2.0` | 834 |
+| `netcoreapp2.1` | 753 |
+| `netcoreapp2.2` | 753 |
+| `netcoreapp3.0` | 699 |
+| `netcoreapp3.1` | 698 |
+| `net5.0` | 570 |
+| `net6.0` | 475 |
+| `net7.0` | 322 |
+| `net8.0` | 204 |
 | `net9.0` | 128 |
 | `net10.0` | 76 |
 | `net11.0` | 57 |
-| `uap10.0` | 893 |
+| `uap10.0` | 900 |
 <!-- endInclude -->
 
 
@@ -96,24 +96,24 @@ This project uses features from the current stable SDK and C# language. As such 
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       306.5KB |  +298.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netstandard2.1 |          8.5KB |       259.5KB |  +251.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net461         |          8.5KB |       305.0KB |  +296.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net462         |          7.0KB |       308.5KB |  +301.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net47          |          7.0KB |       308.5KB |  +301.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net471         |          8.5KB |       307.5KB |  +299.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net472         |          8.5KB |       306.0KB |  +297.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.0KB |
-| net48          |          8.5KB |       306.0KB |  +297.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net481         |          8.5KB |       306.5KB |  +298.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.0  |          9.0KB |       282.5KB |  +273.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp2.1  |          9.0KB |       262.0KB |  +253.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.2  |          9.0KB |       262.0KB |  +253.0KB |    +9.0KB |             +7.0KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.0  |          9.5KB |       253.5KB |  +244.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.1  |          9.5KB |       251.5KB |  +242.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net5.0         |          9.5KB |       214.5KB |  +205.0KB |    +9.5KB |             +7.0KB |              +9.5KB |     +14.5KB |
-| net6.0         |         10.0KB |       153.0KB |  +143.0KB |   +10.0KB |             +7.0KB |           +512bytes |      +4.0KB |
-| net7.0         |         10.0KB |       118.0KB |  +108.0KB |    +9.0KB |             +5.5KB |           +512bytes |      +3.5KB |
-| net8.0         |          9.5KB |        89.5KB |   +80.0KB |    +8.5KB |          +512bytes |           +512bytes |      +3.5KB |
+| netstandard2.0 |          8.0KB |       310.5KB |  +302.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netstandard2.1 |          8.5KB |       263.5KB |  +255.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net461         |          8.5KB |       309.0KB |  +300.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net462         |          7.0KB |       312.5KB |  +305.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net47          |          7.0KB |       312.5KB |  +305.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net471         |          8.5KB |       311.5KB |  +303.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net472         |          8.5KB |       310.0KB |  +301.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.0KB |
+| net48          |          8.5KB |       310.0KB |  +301.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.0KB |
+| net481         |          8.5KB |       310.5KB |  +302.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.0  |          9.0KB |       286.5KB |  +277.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp2.1  |          9.0KB |       266.0KB |  +257.0KB |    +9.0KB |             +7.0KB |              +9.0KB |     +14.0KB |
+| netcoreapp2.2  |          9.0KB |       266.0KB |  +257.0KB |    +9.0KB |             +7.0KB |              +9.0KB |     +14.0KB |
+| netcoreapp3.0  |          9.5KB |       257.5KB |  +248.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp3.1  |          9.5KB |       255.5KB |  +246.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net5.0         |          9.5KB |       218.5KB |  +209.0KB |    +9.5KB |             +7.0KB |              +9.5KB |     +14.5KB |
+| net6.0         |         10.0KB |       157.0KB |  +147.0KB |   +12.5KB |            +10.0KB |              +1.0KB |      +4.0KB |
+| net7.0         |         10.0KB |       122.0KB |  +112.0KB |    +9.0KB |             +5.5KB |           +512bytes |      +4.0KB |
+| net8.0         |          9.5KB |        94.0KB |   +84.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
 | net9.0         |          9.5KB |        47.5KB |   +38.0KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 | net10.0        |         10.0KB |        24.0KB |   +14.0KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 | net11.0        |         10.0KB |        18.5KB |    +8.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
@@ -123,24 +123,24 @@ This project uses features from the current stable SDK and C# language. As such 
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       446.3KB |  +438.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netstandard2.1 |          8.5KB |       374.1KB |  +365.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net461         |          8.5KB |       445.8KB |  +437.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net462         |          7.0KB |       449.3KB |  +442.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net47          |          7.0KB |       449.1KB |  +442.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net471         |          8.5KB |       447.7KB |  +439.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net472         |          8.5KB |       445.1KB |  +436.6KB |   +16.7KB |             +8.7KB |             +14.4KB |     +19.4KB |
-| net48          |          8.5KB |       445.1KB |  +436.6KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net481         |          8.5KB |       445.6KB |  +437.1KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.0  |          9.0KB |       412.4KB |  +403.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp2.1  |          9.0KB |       380.8KB |  +371.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.2  |          9.0KB |       380.8KB |  +371.8KB |   +16.7KB |             +8.7KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.0  |          9.5KB |       363.0KB |  +353.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.1  |          9.5KB |       360.9KB |  +351.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net5.0         |          9.5KB |       305.8KB |  +296.3KB |   +17.2KB |             +8.7KB |             +14.4KB |     +19.9KB |
-| net6.0         |         10.0KB |       224.7KB |  +214.7KB |   +17.7KB |             +8.7KB |              +1.1KB |      +4.7KB |
-| net7.0         |         10.0KB |       170.9KB |  +160.9KB |   +16.6KB |             +6.9KB |              +1.1KB |      +4.2KB |
-| net8.0         |          9.5KB |       127.6KB |  +118.1KB |   +16.0KB |          +811bytes |              +1.1KB |      +4.2KB |
+| netstandard2.0 |          8.0KB |       453.3KB |  +445.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netstandard2.1 |          8.5KB |       381.2KB |  +372.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net461         |          8.5KB |       452.9KB |  +444.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net462         |          7.0KB |       456.4KB |  +449.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net47          |          7.0KB |       456.1KB |  +449.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net471         |          8.5KB |       454.8KB |  +446.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net472         |          8.5KB |       452.2KB |  +443.7KB |   +16.7KB |             +8.7KB |             +14.4KB |     +19.4KB |
+| net48          |          8.5KB |       452.2KB |  +443.7KB |   +16.7KB |             +8.7KB |             +14.4KB |     +19.4KB |
+| net481         |          8.5KB |       452.7KB |  +444.2KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.0  |          9.0KB |       419.5KB |  +410.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp2.1  |          9.0KB |       387.9KB |  +378.9KB |   +16.7KB |             +8.7KB |             +13.9KB |     +19.4KB |
+| netcoreapp2.2  |          9.0KB |       387.9KB |  +378.9KB |   +16.7KB |             +8.7KB |             +13.9KB |     +19.4KB |
+| netcoreapp3.0  |          9.5KB |       370.1KB |  +360.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp3.1  |          9.5KB |       368.1KB |  +358.6KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net5.0         |          9.5KB |       313.0KB |  +303.5KB |   +17.2KB |             +8.7KB |             +14.4KB |     +19.9KB |
+| net6.0         |         10.0KB |       231.9KB |  +221.9KB |   +20.2KB |            +11.7KB |              +1.6KB |      +4.7KB |
+| net7.0         |         10.0KB |       178.3KB |  +168.3KB |   +16.6KB |             +6.9KB |              +1.1KB |      +4.7KB |
+| net8.0         |          9.5KB |       135.4KB |  +125.9KB |   +16.0KB |          +299bytes |              +1.1KB |      +4.2KB |
 | net9.0         |          9.5KB |        68.6KB |   +59.1KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
 | net10.0        |         10.0KB |        36.5KB |   +26.5KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
 | net11.0        |         10.0KB |        27.4KB |   +17.4KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
@@ -753,8 +753,16 @@ The class `Polyfill` includes the following extension methods:
 #### Dictionary<TKey, TValue>
 
  * `void EnsureCapacity<TKey, TValue>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity?view=net-11.0)
+   * Note: No-op on older targets; the BCL grows the backing storage.
+ * `DictionaryAlternateLookup<TKey, TValue, TAlternateKey> GetAlternateLookup<TKey, TValue, TAlternateKey>() where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.getalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
+   * Note: Returns the free-standing `DictionaryAlternateLookup<TKey, TValue, TAlternateKey>` rather than the BCL's nested `Dictionary<TKey, TValue>.AlternateLookup<TAlternateKey>`. Use `var` for cross-target code.
  * `void TrimExcess<TKey, TValue>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-11.0#system-collections-generic-dictionary-2-trimexcess(system-int32))
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
  * `void TrimExcess<TKey, TValue>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-11.0#system-collections-generic-dictionary-2-trimexcess)
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
+ * `bool TryGetAlternateLookup<TKey, TValue, TAlternateKey>(DictionaryAlternateLookup<TKey, TValue, TAlternateKey>) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trygetalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
 
 
 #### DictionaryEntry
@@ -929,7 +937,14 @@ The class `Polyfill` includes the following extension methods:
 #### HashSet<T>
 
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.ensurecapacity?view=net-11.0#system-collections-generic-hashset-1-ensurecapacity(system-int32))
+   * Note: No-op on older targets; the BCL grows the backing storage.
+ * `HashSetAlternateLookup<T, TAlternate> GetAlternateLookup<T, TAlternate>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.getalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
+   * Note: Returns the free-standing `HashSetAlternateLookup<T, TAlternate>` rather than the BCL's nested `HashSet<T>.AlternateLookup<TAlternate>`. Use `var` for cross-target code.
  * `void TrimExcess<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trimexcess?view=net-11.0#system-collections-generic-hashset-1-trimexcess(system-int32))
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
+ * `bool TryGetAlternateLookup<T, TAlternate>(HashSetAlternateLookup<T, TAlternate>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
  * `bool TryGetValue<T>(T, T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetvalue?view=net-11.0)
 
 
@@ -1129,8 +1144,11 @@ The class `Polyfill` includes the following extension methods:
  * `void AddRange<T>(ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.addrange?view=net-11.0)
  * `void CopyTo<T>(Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.copyto?view=net-11.0)
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.ensurecapacity?view=net-11.0#system-collections-generic-list-1-ensurecapacity(system-int32))
+   * Note: No-op on older targets; the BCL grows the backing storage.
+   * Note: Returns void on older targets; the BCL returns int (the new capacity).
  * `void InsertRange<T>(int, ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange?view=net-11.0)
  * `void TrimExcess<T>()`
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
 
 
 #### Math
@@ -1269,7 +1287,9 @@ The class `Polyfill` includes the following extension methods:
 #### Queue<T>
 
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.ensurecapacity?view=net-11.0#system-collections-generic-queue-1-ensurecapacity(system-int32))
+   * Note: No-op on older targets; the BCL grows the backing storage.
  * `void TrimExcess<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.trimexcess?view=net-11.0#system-collections-generic-queue-1-trimexcess(system-int32))
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
 
 
 #### Random
@@ -1519,7 +1539,9 @@ The class `Polyfill` includes the following extension methods:
 #### Stack<T>
 
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.ensurecapacity?view=net-11.0)
+   * Note: No-op on older targets; the BCL grows the backing storage.
  * `void TrimExcess<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trimexcess?view=net-11.0#system-collections-generic-stack-1-trimexcess(system-int32))
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
  * `bool TryPeek<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trypeek?view=net-11.0)
  * `bool TryPop<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trypop?view=net-11.0)
 
@@ -2098,7 +2120,7 @@ void ObjectDisposedExceptionExample(bool isDisposed)
     ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L595-L619' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L633-L657' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -2117,7 +2139,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L625-L637' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L663-L675' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

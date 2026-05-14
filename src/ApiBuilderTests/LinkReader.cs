@@ -27,4 +27,27 @@
         reference = null;
         return false;
     }
+
+    public static IReadOnlyList<string> GetNotes(this Member member)
+    {
+        List<string>? notes = null;
+        foreach (var trivia in member.GetLeadingTrivia())
+        {
+            if (!trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
+            {
+                continue;
+            }
+
+            var comment = trivia.ToString();
+            if (!comment.StartsWith("//Note: "))
+            {
+                continue;
+            }
+
+            notes ??= [];
+            notes.Add(comment.Substring("//Note: ".Length));
+        }
+
+        return (IReadOnlyList<string>?)notes ?? [];
+    }
 }

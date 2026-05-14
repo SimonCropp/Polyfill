@@ -178,4 +178,106 @@ partial class PolyfillTests
         // Should not throw
         await Assert.That(dictionary.Count).IsEqualTo(2);
     }
+
+    sealed class PersonByNameComparer :
+        IEqualityComparer<Person>,
+        IAlternateEqualityComparer<string, Person>
+    {
+        public static readonly PersonByNameComparer Instance = new();
+
+        public bool Equals(Person? left, Person? right) =>
+            string.Equals(left?.Name, right?.Name, StringComparison.Ordinal);
+
+        public int GetHashCode(Person person) => person.Name.GetHashCode();
+
+        public bool Equals(string alternate, Person other) =>
+            string.Equals(alternate, other.Name, StringComparison.Ordinal);
+
+        public int GetHashCode(string alternate) => alternate.GetHashCode();
+
+        public Person Create(string alternate) => new(alternate, 0);
+    }
+
+    sealed record Person(string Name, int Age);
+
+    [Test]
+    public async Task Dictionary_GetAlternateLookup()
+    {
+        var dictionary = new Dictionary<Person, int>(PersonByNameComparer.Instance)
+        {
+            [new("alice", 30)] = 1,
+            [new("bob", 40)] = 2,
+        };
+
+#if NET9_0_OR_GREATER
+        var lookup = dictionary.GetAlternateLookup<string>();
+#else
+        var lookup = dictionary.GetAlternateLookup<Person, int, string>();
+#endif
+
+        await Assert.That(lookup.ContainsKey("alice")).IsTrue();
+        await Assert.That(lookup.ContainsKey("missing")).IsFalse();
+        await Assert.That(lookup["bob"]).IsEqualTo(2);
+
+        await Assert.That(lookup.TryGetValue("alice", out var value)).IsTrue();
+        await Assert.That(value).IsEqualTo(1);
+
+        await Assert.That(lookup.TryGetValue("alice", out var actualKey, out value)).IsTrue();
+        await Assert.That(actualKey!.Age).IsEqualTo(30);
+        await Assert.That(value).IsEqualTo(1);
+
+        await Assert.That(lookup.TryAdd("carol", 3)).IsTrue();
+        await Assert.That(lookup.TryAdd("carol", 99)).IsFalse();
+        await Assert.That(lookup["carol"]).IsEqualTo(3);
+
+        lookup["carol"] = 33;
+        await Assert.That(lookup["carol"]).IsEqualTo(33);
+
+        await Assert.That(lookup.Remove("bob")).IsTrue();
+        await Assert.That(lookup.ContainsKey("bob")).IsFalse();
+        await Assert.That(lookup.Remove("ghost")).IsFalse();
+    }
+
+    [Test]
+    public async Task Dictionary_TryGetAlternateLookup_Succeeds()
+    {
+        var dictionary = new Dictionary<Person, int>(PersonByNameComparer.Instance);
+
+#if NET9_0_OR_GREATER
+        var found = dictionary.TryGetAlternateLookup<string>(out _);
+#else
+        var found = dictionary.TryGetAlternateLookup<Person, int, string>(out _);
+#endif
+
+        await Assert.That(found).IsTrue();
+    }
+
+    [Test]
+    public async Task Dictionary_TryGetAlternateLookup_FailsForIncompatibleComparer()
+    {
+        var dictionary = new Dictionary<string, int>();
+
+#if NET9_0_OR_GREATER
+        var found = dictionary.TryGetAlternateLookup<int>(out _);
+#else
+        var found = dictionary.TryGetAlternateLookup<string, int, int>(out _);
+#endif
+
+        await Assert.That(found).IsFalse();
+    }
+
+    [Test]
+    public async Task Dictionary_GetAlternateLookup_ThrowsForIncompatibleComparer()
+    {
+        var dictionary = new Dictionary<string, int>();
+
+        await Assert.That(() =>
+        {
+#if NET9_0_OR_GREATER
+            _ = dictionary.GetAlternateLookup<int>();
+#else
+            _ = dictionary.GetAlternateLookup<string, int, int>();
+#endif
+        }).Throws<InvalidOperationException>();
+    }
 }

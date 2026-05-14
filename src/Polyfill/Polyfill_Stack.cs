@@ -11,6 +11,7 @@ static partial class Polyfill
     /// Ensures that the capacity of this Stack is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.ensurecapacity?view=net-11.0
+    //Note: No-op on older targets; the BCL grows the backing storage.
     public static void EnsureCapacity<T>(this Stack<T> target, int capacity)
     {
     }
@@ -23,6 +24,7 @@ static partial class Polyfill
     /// Sets the capacity of a Stack object to a specified number of entries.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trimexcess?view=net-11.0#system-collections-generic-stack-1-trimexcess(system-int32)
+    //Note: No-op on older targets; the BCL shrinks the backing storage.
     public static void TrimExcess<T>(this Stack<T> target, int capacity)
     {
     }

@@ -158,6 +158,7 @@ public class BuildApiTest
                 .ToList();
             writer.WriteLine($"#### {name}");
             writer.WriteLine();
+            WriteSectionGate(name, writer);
             if (instanceMethodsForType.Count != 0)
             {
                 foreach (var method in instanceMethodsForType.OrderBy(Key))
@@ -268,11 +269,9 @@ public class BuildApiTest
 
     static void WriteType(string name, StreamWriter writer, ref int count)
     {
-        writer.WriteLine(
-            $"""
-             #### {name}
-
-             """);
+        writer.WriteLine($"#### {name}");
+        writer.WriteLine();
+        WriteSectionGate(name, writer);
         count++;
     }
 
@@ -283,6 +282,7 @@ public class BuildApiTest
     {
         writer.WriteLine($"#### {name}");
         writer.WriteLine();
+        WriteSectionGate(name, writer);
         foreach (var method in methods.OrderBy(Key))
         {
             count++;
@@ -290,6 +290,30 @@ public class BuildApiTest
         }
 
         writer.WriteLine();
+        writer.WriteLine();
+    }
+
+    // Sections whose every member requires an MSBuild opt-in flag. Listed here (not
+    // derived from path) because some directories with opt-ins also contribute methods
+    // to mixed sections like StringBuilder; only fully-gated section names belong here.
+    // The anchor points to the readme heading that explains the flag.
+    static readonly Dictionary<string, (string Flag, string Anchor)> sectionGates = new()
+    {
+        ["ArgumentException"] = ("PolyArgumentExceptions", "argumentexception-1"),
+        ["ArgumentNullException"] = ("PolyArgumentExceptions", "argumentexception-1"),
+        ["ArgumentOutOfRangeException"] = ("PolyArgumentExceptions", "argumentexception-1"),
+        ["ObjectDisposedException"] = ("PolyArgumentExceptions", "argumentexception-1"),
+        ["Ensure"] = ("PolyEnsure", "ensure-1"),
+    };
+
+    static void WriteSectionGate(string sectionName, StreamWriter writer)
+    {
+        if (!sectionGates.TryGetValue(sectionName, out var gate))
+        {
+            return;
+        }
+
+        writer.WriteLine($"> Requires [`<{gate.Flag}>true</{gate.Flag}>`](#{gate.Anchor}) in the consuming project.");
         writer.WriteLine();
     }
 
@@ -314,6 +338,8 @@ public class BuildApiTest
         {
             writer.WriteLine($" * `{signature}`");
         }
+
+        WriteNotes(method, writer);
     }
 
     static void WriteSignature(Property method, StreamWriter writer)
@@ -327,6 +353,16 @@ public class BuildApiTest
         else
         {
             writer.WriteLine($" * `{signature}`");
+        }
+
+        WriteNotes(method, writer);
+    }
+
+    static void WriteNotes(Member member, StreamWriter writer)
+    {
+        foreach (var note in member.GetNotes())
+        {
+            writer.WriteLine($"   * Note: {note}");
         }
     }
 

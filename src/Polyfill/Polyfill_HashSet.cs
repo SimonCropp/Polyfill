@@ -1,5 +1,6 @@
 namespace Polyfills;
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -38,6 +39,7 @@ static partial class Polyfill
     /// Ensures that the capacity of this HashSet is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.ensurecapacity?view=net-11.0#system-collections-generic-hashset-1-ensurecapacity(system-int32)
+    //Note: No-op on older targets; the BCL grows the backing storage.
     public static void EnsureCapacity<T>(this HashSet<T> target, int capacity)
     {
     }
@@ -50,8 +52,48 @@ static partial class Polyfill
     /// Sets the capacity of a HashSet object to the specified number of entries, rounded up to a nearby, implementation-specific value.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trimexcess?view=net-11.0#system-collections-generic-hashset-1-trimexcess(system-int32)
+    //Note: No-op on older targets; the BCL shrinks the backing storage.
     public static void TrimExcess<T>(this HashSet<T> target, int capacity)
     {
+    }
+
+    /// <summary>
+    /// Gets an instance of a type that may be used to perform operations on the current <see cref="HashSet{T}"/>
+    /// using a <typeparamref name="TAlternate"/> instead of a <typeparamref name="T"/>.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.getalternatelookup?view=net-11.0
+    //Note: Lookups are O(n) on older targets; the BCL is O(1).
+    //Note: Returns the free-standing `HashSetAlternateLookup<T, TAlternate>` rather than the BCL's nested `HashSet<T>.AlternateLookup<TAlternate>`. Use `var` for cross-target code.
+    public static HashSetAlternateLookup<T, TAlternate> GetAlternateLookup<T, TAlternate>(
+        this HashSet<T> target)
+    {
+        if (target.Comparer is not IAlternateEqualityComparer<TAlternate, T> comparer)
+        {
+            throw new InvalidOperationException(
+                $"The set's comparer ({target.Comparer.GetType()}) does not implement IAlternateEqualityComparer<{typeof(TAlternate)}, {typeof(T)}>.");
+        }
+
+        return new(target, comparer);
+    }
+
+    /// <summary>
+    /// Gets an instance of a type that may be used to perform operations on the current <see cref="HashSet{T}"/>
+    /// using a <typeparamref name="TAlternate"/> instead of a <typeparamref name="T"/>.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetalternatelookup?view=net-11.0
+    //Note: Lookups are O(n) on older targets; the BCL is O(1).
+    public static bool TryGetAlternateLookup<T, TAlternate>(
+        this HashSet<T> target,
+        out HashSetAlternateLookup<T, TAlternate> lookup)
+    {
+        if (target.Comparer is IAlternateEqualityComparer<TAlternate, T> comparer)
+        {
+            lookup = new(target, comparer);
+            return true;
+        }
+
+        lookup = default;
+        return false;
     }
 
 #endif
