@@ -181,8 +181,8 @@ partial class PolyfillTests
     public async Task Process_RunAsync_Canceled()
     {
         using var source = new CancellationTokenSource();
-        source.CancelAfter(100);
-        var status = await Process.RunAsync("dotnet", new[] { "watch" }, source.Token);
+        source.Cancel();
+        var status = await Process.RunAsync("dotnet", new[] { "--info" }, source.Token);
         await Assert.That(status.Canceled).IsTrue();
     }
 

@@ -36,9 +36,11 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitasync?view=net-11.0
     public static async Task WaitForExitAsync(this Process target, CancellationToken cancellationToken = default)
     {
-        if (!target.HasExited)
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if (target.HasExited)
         {
-            cancellationToken.ThrowIfCancellationRequested();
+            return;
         }
 
         try

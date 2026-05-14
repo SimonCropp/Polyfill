@@ -27,9 +27,10 @@ static partial class Polyfill
 	/// </summary>
 	public static async Task WaitForExitAsync(this Process target, CancellationToken cancellationToken = default)
 	{
-		if (!target.HasExited)
+		cancellationToken.ThrowIfCancellationRequested();
+		if (target.HasExited)
 		{
-			cancellationToken.ThrowIfCancellationRequested();
+			return;
 		}
 		try
 		{
