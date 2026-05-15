@@ -583,6 +583,44 @@ class Consume
         pairs.ToDictionary(StringComparer.Ordinal);
     }
 
+#if !NET9_0_OR_GREATER
+    void Dictionary_AlternateLookup()
+    {
+        var dictionary = new Dictionary<KeyHolder, int>(new KeyHolderAlternateComparer());
+        var lookup = dictionary.GetAlternateLookup<KeyHolder, int, string>();
+        _ = lookup.Dictionary;
+        lookup.ContainsKey("a");
+        lookup.TryAdd("a", 1);
+        lookup.TryGetValue("a", out var value);
+        lookup.TryGetValue("a", out var actualKey, out value);
+        lookup["a"] = 2;
+        _ = lookup["a"];
+        lookup.Remove("a");
+        lookup.Remove("a", out actualKey, out value);
+
+        if (dictionary.TryGetAlternateLookup<KeyHolder, int, string>(out var maybeLookup))
+        {
+            _ = maybeLookup.Dictionary;
+        }
+    }
+
+    class KeyHolder
+    {
+        public string Name { get; set; } = "";
+    }
+
+    class KeyHolderAlternateComparer :
+        IEqualityComparer<KeyHolder>,
+        IAlternateEqualityComparer<string, KeyHolder>
+    {
+        public bool Equals(KeyHolder? x, KeyHolder? y) => x?.Name == y?.Name;
+        public int GetHashCode(KeyHolder target) => target.Name.GetHashCode();
+        public bool Equals(string alternate, KeyHolder other) => alternate == other.Name;
+        public int GetHashCode(string alternate) => alternate.GetHashCode();
+        public KeyHolder Create(string alternate) => new() { Name = alternate };
+    }
+#endif
+
     void Lock_Methods()
     {
         var locker = new Lock();
@@ -836,6 +874,24 @@ class Consume
         set.TrimExcess(1);
         set.TrimExcess();
     }
+
+#if !NET9_0_OR_GREATER
+    void HashSet_AlternateLookup()
+    {
+        var set = new HashSet<KeyHolder>(new KeyHolderAlternateComparer());
+        var lookup = set.GetAlternateLookup<KeyHolder, string>();
+        _ = lookup.Set;
+        lookup.Add("a");
+        lookup.Contains("a");
+        lookup.TryGetValue("a", out var actual);
+        lookup.Remove("a");
+
+        if (set.TryGetAlternateLookup<KeyHolder, string>(out var maybeLookup))
+        {
+            _ = maybeLookup.Set;
+        }
+    }
+#endif
 
 #if FeatureHttp
     void HttpClient_Methods(HttpClient target)
@@ -1119,6 +1175,63 @@ class Consume
         var process = new Process();
         await process.WaitForExitAsync();
         process.Kill(true);
+
+#if FeatureValueTuple
+        (string outText, string errText) = process.ReadAllText();
+        (outText, errText) = process.ReadAllText(TimeSpan.FromSeconds(1));
+        (outText, errText) = await process.ReadAllTextAsync();
+        (outText, errText) = await process.ReadAllTextAsync(CancellationToken.None);
+
+        (byte[] outBytes, byte[] errBytes) = process.ReadAllBytes();
+        (outBytes, errBytes) = process.ReadAllBytes(TimeSpan.FromSeconds(1));
+        (outBytes, errBytes) = await process.ReadAllBytesAsync();
+        (outBytes, errBytes) = await process.ReadAllBytesAsync(CancellationToken.None);
+#endif
+
+#if FeatureAsyncInterfaces
+        await foreach (var line in process.ReadAllLinesAsync(CancellationToken.None))
+        {
+            _ = line.Content;
+            _ = line.StandardError;
+        }
+#endif
+
+        ProcessExitStatus status = Process.Run("notexists");
+        status = Process.Run("notexists", new[] { "a", "b" });
+        status = Process.Run("notexists", new[] { "a", "b" }, TimeSpan.FromSeconds(1));
+        status = Process.Run(new ProcessStartInfo("notexists"));
+        status = Process.Run(new ProcessStartInfo("notexists"), TimeSpan.FromSeconds(1));
+        _ = status.Canceled;
+        _ = status.ExitCode;
+        _ = status.Signal;
+
+        status = await Process.RunAsync("notexists");
+        status = await Process.RunAsync("notexists", new[] { "a", "b" });
+        status = await Process.RunAsync("notexists", new[] { "a", "b" }, CancellationToken.None);
+        status = await Process.RunAsync(new ProcessStartInfo("notexists"));
+        status = await Process.RunAsync(new ProcessStartInfo("notexists"), CancellationToken.None);
+
+        ProcessTextOutput output = Process.RunAndCaptureText("notexists");
+        output = Process.RunAndCaptureText("notexists", new[] { "a", "b" });
+        output = Process.RunAndCaptureText("notexists", new[] { "a", "b" }, TimeSpan.FromSeconds(1));
+        output = Process.RunAndCaptureText(new ProcessStartInfo("notexists"));
+        _ = output.ExitStatus;
+        _ = output.ProcessId;
+        _ = output.StandardError;
+        _ = output.StandardOutput;
+
+        output = await Process.RunAndCaptureTextAsync("notexists");
+        output = await Process.RunAndCaptureTextAsync("notexists", new[] { "a", "b" });
+        output = await Process.RunAndCaptureTextAsync("notexists", new[] { "a", "b" }, CancellationToken.None);
+        output = await Process.RunAndCaptureTextAsync(new ProcessStartInfo("notexists"));
+
+        int pid = Process.StartAndForget("notexists");
+        pid = Process.StartAndForget("notexists", new[] { "a", "b" });
+        pid = Process.StartAndForget(new ProcessStartInfo("notexists"));
+
+        ProcessOutputLine outputLine = new("text", standardError: false);
+        _ = outputLine.Content;
+        _ = outputLine.StandardError;
     }
 
     void ProcessStartInfo_Methods()

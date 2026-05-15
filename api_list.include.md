@@ -2,17 +2,23 @@
 
 #### ArgumentException
 
+> Requires [`<PolyArgumentExceptions>true</PolyArgumentExceptions>`](#argumentexception-1) in the consuming project.
+
  * `void ThrowIfNullOrEmpty(string?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentexception.throwifnullorempty?view=net-11.0#system-argumentexception-throwifnullorempty(system-string-system-string))
  * `void ThrowIfNullOrWhiteSpace(string?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentexception.throwifnullorwhitespace?view=net-11.0#system-argumentexception-throwifnullorwhitespace(system-string-system-string))
 
 
 #### ArgumentNullException
 
+> Requires [`<PolyArgumentExceptions>true</PolyArgumentExceptions>`](#argumentexception-1) in the consuming project.
+
  * `void ThrowIfNull(object?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentnullexception.throwifnull?view=net-11.0#system-argumentnullexception-throwifnull(system-object-system-string))
  * `void ThrowIfNull(void*)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentnullexception.throwifnull?view=net-11.0#system-argumentnullexception-throwifnull(system-void*-system-string))
 
 
 #### ArgumentOutOfRangeException
+
+> Requires [`<PolyArgumentExceptions>true</PolyArgumentExceptions>`](#argumentexception-1) in the consuming project.
 
  * `void ThrowIfEqual<T>(T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifequal?view=net-11.0#system-argumentoutofrangeexception-throwifequal-1(-0-0-system-string))
  * `void ThrowIfGreaterThan(nint, nint)`
@@ -222,8 +228,16 @@
 #### Dictionary<TKey, TValue>
 
  * `void EnsureCapacity<TKey, TValue>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity?view=net-11.0)
+   * Note: No-op on older targets; the BCL grows the backing storage.
+ * `DictionaryAlternateLookup<TKey, TValue, TAlternateKey> GetAlternateLookup<TKey, TValue, TAlternateKey>() where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.getalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
+   * Note: Returns the free-standing `DictionaryAlternateLookup<TKey, TValue, TAlternateKey>` rather than the BCL's nested `Dictionary<TKey, TValue>.AlternateLookup<TAlternateKey>`. Use `var` for cross-target code.
  * `void TrimExcess<TKey, TValue>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-11.0#system-collections-generic-dictionary-2-trimexcess(system-int32))
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
  * `void TrimExcess<TKey, TValue>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-11.0#system-collections-generic-dictionary-2-trimexcess)
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
+ * `bool TryGetAlternateLookup<TKey, TValue, TAlternateKey>(DictionaryAlternateLookup<TKey, TValue, TAlternateKey>) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trygetalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
 
 
 #### DictionaryEntry
@@ -398,7 +412,14 @@
 #### HashSet<T>
 
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.ensurecapacity?view=net-11.0#system-collections-generic-hashset-1-ensurecapacity(system-int32))
+   * Note: No-op on older targets; the BCL grows the backing storage.
+ * `HashSetAlternateLookup<T, TAlternate> GetAlternateLookup<T, TAlternate>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.getalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
+   * Note: Returns the free-standing `HashSetAlternateLookup<T, TAlternate>` rather than the BCL's nested `HashSet<T>.AlternateLookup<TAlternate>`. Use `var` for cross-target code.
  * `void TrimExcess<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trimexcess?view=net-11.0#system-collections-generic-hashset-1-trimexcess(system-int32))
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
+ * `bool TryGetAlternateLookup<T, TAlternate>(HashSetAlternateLookup<T, TAlternate>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
  * `bool TryGetValue<T>(T, T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetvalue?view=net-11.0)
 
 
@@ -598,8 +619,11 @@
  * `void AddRange<T>(ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.addrange?view=net-11.0)
  * `void CopyTo<T>(Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.copyto?view=net-11.0)
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.ensurecapacity?view=net-11.0#system-collections-generic-list-1-ensurecapacity(system-int32))
+   * Note: No-op on older targets; the BCL grows the backing storage.
+   * Note: Returns void on older targets; the BCL returns int (the new capacity).
  * `void InsertRange<T>(int, ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange?view=net-11.0)
  * `void TrimExcess<T>()`
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
 
 
 #### Math
@@ -646,6 +670,8 @@
 
 
 #### ObjectDisposedException
+
+> Requires [`<PolyArgumentExceptions>true</PolyArgumentExceptions>`](#argumentexception-1) in the consuming project.
 
  * `void ThrowIf(bool, object)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.objectdisposedexception.throwif?view=net-11.0##system-objectdisposedexception-throwif(system-boolean-system-object))
  * `void ThrowIf(bool, Type)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.objectdisposedexception.throwif?view=net-11.0##system-objectdisposedexception-throwif(system-boolean-system-type))
@@ -725,7 +751,22 @@
 #### Process
 
  * `void Kill(bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.kill?view=net-11.0#system-diagnostics-process-kill(system-boolean))
+ * `(byte[] StandardOutput, byte[] StandardError) ReadAllBytes(TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readallbytes?view=net-11.0)
+ * `Task<(byte[] StandardOutput, byte[] StandardError)> ReadAllBytesAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readallbytesasync?view=net-11.0)
+ * `IAsyncEnumerable<ProcessOutputLine> ReadAllLinesAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalllinesasync?view=net-11.0)
+ * `(string StandardOutput, string StandardError) ReadAllText(TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalltext?view=net-11.0)
+ * `Task<(string StandardOutput, string StandardError)> ReadAllTextAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalltextasync?view=net-11.0)
  * `Task WaitForExitAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitasync?view=net-11.0)
+ * `ProcessExitStatus Run(ProcessStartInfo, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.run?view=net-11.0#system-diagnostics-process-run(system-diagnostics-processstartinfo-system-nullable((system-timespan))))
+ * `ProcessExitStatus Run(string, IList<string>?, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.run?view=net-11.0#system-diagnostics-process-run(system-string-system-collections-generic-ilist((system-string))-system-nullable((system-timespan))))
+ * `ProcessTextOutput RunAndCaptureText(ProcessStartInfo, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetext?view=net-11.0#system-diagnostics-process-runandcapturetext(system-diagnostics-processstartinfo-system-nullable((system-timespan))))
+ * `ProcessTextOutput RunAndCaptureText(string, IList<string>?, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetext?view=net-11.0#system-diagnostics-process-runandcapturetext(system-string-system-collections-generic-ilist((system-string))-system-nullable((system-timespan))))
+ * `Task<ProcessTextOutput> RunAndCaptureTextAsync(ProcessStartInfo, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetextasync?view=net-11.0#system-diagnostics-process-runandcapturetextasync(system-diagnostics-processstartinfo-system-threading-cancellationtoken))
+ * `Task<ProcessTextOutput> RunAndCaptureTextAsync(string, IList<string>?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetextasync?view=net-11.0#system-diagnostics-process-runandcapturetextasync(system-string-system-collections-generic-ilist((system-string))-system-threading-cancellationtoken))
+ * `Task<ProcessExitStatus> RunAsync(ProcessStartInfo, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runasync?view=net-11.0#system-diagnostics-process-runasync(system-diagnostics-processstartinfo-system-threading-cancellationtoken))
+ * `Task<ProcessExitStatus> RunAsync(string, IList<string>?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runasync?view=net-11.0#system-diagnostics-process-runasync(system-string-system-collections-generic-ilist((system-string))-system-threading-cancellationtoken))
+ * `int StartAndForget(ProcessStartInfo)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.startandforget?view=net-11.0#system-diagnostics-process-startandforget(system-diagnostics-processstartinfo))
+ * `int StartAndForget(string, IList<string>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.startandforget?view=net-11.0#system-diagnostics-process-startandforget(system-string-system-collections-generic-ilist((system-string))))
 
 
 #### PropertyInfo
@@ -738,7 +779,9 @@
 #### Queue<T>
 
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.ensurecapacity?view=net-11.0#system-collections-generic-queue-1-ensurecapacity(system-int32))
+   * Note: No-op on older targets; the BCL grows the backing storage.
  * `void TrimExcess<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.trimexcess?view=net-11.0#system-collections-generic-queue-1-trimexcess(system-int32))
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
 
 
 #### Random
@@ -988,7 +1031,9 @@
 #### Stack<T>
 
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.ensurecapacity?view=net-11.0)
+   * Note: No-op on older targets; the BCL grows the backing storage.
  * `void TrimExcess<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trimexcess?view=net-11.0#system-collections-generic-stack-1-trimexcess(system-int32))
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
  * `bool TryPeek<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trypeek?view=net-11.0)
  * `bool TryPop<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trypop?view=net-11.0)
 
@@ -1308,6 +1353,8 @@
 
 
 #### Ensure
+
+> Requires [`<PolyEnsure>true</PolyEnsure>`](#ensure-1) in the consuming project.
 
  * `void DirectoryExists(string)`
  * `T Equal<T>(T, T)`
