@@ -1125,6 +1125,7 @@
  * `StringBuilder Insert(int, ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.insert?view=net-11.0#system-text-stringbuilder-insert(system-int32-system-readonlyspan((system-char))))
  * `StringBuilder Replace(ReadOnlySpan<char>, ReadOnlySpan<char>, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.replace?view=net-11.0#system-text-stringbuilder-replace(system-char-system-char-system-int32-system-int32))
  * `StringBuilder Replace(ReadOnlySpan<char>, ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.replace?view=net-11.0#system-text-stringbuilder-replace(system-readonlyspan((system-char))-system-readonlyspan((system-char))))
+ * `StringBuilder MoveChunks(StringBuilder)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.movechunks?view=net-11.0)
 
 
 #### Task

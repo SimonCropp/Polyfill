@@ -1526,6 +1526,7 @@ class Consume
     void StringBuilder_Methods()
     {
         var builder = new StringBuilder("value");
+        var moved = StringBuilder.MoveChunks(builder);
 #if FeatureMemory
         builder.Append("suffix".AsSpan());
         var targetSpan = new Span<char>(new char[1]);

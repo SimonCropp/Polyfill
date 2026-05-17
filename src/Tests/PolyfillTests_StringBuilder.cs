@@ -91,6 +91,29 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task MoveChunks()
+    {
+        var source = new StringBuilder("hello", 10);
+        var maxCapacity = source.MaxCapacity;
+
+        var destination = StringBuilder.MoveChunks(source);
+
+        await Assert.That(destination.ToString()).IsEqualTo("hello");
+        await Assert.That(destination.MaxCapacity).IsEqualTo(maxCapacity);
+
+        await Assert.That(source.Length).IsEqualTo(0);
+        await Assert.That(source.Capacity).IsEqualTo(0);
+        await Assert.That(source.MaxCapacity).IsEqualTo(maxCapacity);
+
+        source.Append('x');
+        await Assert.That(source.ToString()).IsEqualTo("x");
+    }
+
+    [Test]
+    public async Task MoveChunks_Null_Throws() =>
+        await Assert.That(() => StringBuilder.MoveChunks(null!)).Throws<ArgumentNullException>();
+
+    [Test]
     public async Task StringBuilder_Insert_ReadOnlySpan()
     {
         var builder = new StringBuilder("ac");
