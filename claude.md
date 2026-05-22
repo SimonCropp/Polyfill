@@ -62,7 +62,8 @@ Polyfill uses extensive `#if` directives. Key constants:
 
 - **Attributes** (e.g., `ModuleInitializerAttribute.cs`): standalone files, one per attribute
 - **Extension methods** on existing types: `Polyfill_{TypeName}.cs` (e.g., `Polyfill_StreamWriter.cs`)
-- **Static helper polyfills**: `{TypeName}Polyfill.cs` (e.g., `EnumPolyfill.cs`)
+- **Static helper polyfills** (add a static method to an existing type via `extension(Type)`): `{TypeName}Polyfill.cs` (e.g., `EnumPolyfill.cs`)
+- **Recreated BCL types** (a type that doesn't exist at all on older TFMs, e.g. `Base64Url`, `KeyValuePair`, `Lock`, `Index`): standalone file `{TypeName}.cs` declaring the type in its **real namespace** (not the `Polyfill` partial), wrapped `#if !NETx_0_OR_GREATER` ... `#else [assembly: TypeForwardedTo(typeof(...))] #endif`. Apply `[ExcludeFromCodeCoverage]`, `[DebuggerNonUserCode]`, and the `PolyUseEmbeddedAttribute`/`PolyPublic` gates.
 - **Optional feature groups**: `Ensure/`, `Guard/`, `Nullability/`, `ArgumentExceptions/`, `StringInterpolation/`
 
 **Important constraints:**
@@ -71,6 +72,9 @@ Polyfill uses extensive `#if` directives. Key constants:
 - `//Link:` comments on public methods must use `?view=net-11.0` for learn.microsoft.com URLs (enforced by `LinkReader`). For overloaded methods, include the `#fragment` anchor pointing to the specific overload (e.g., `#system-type-method(system-string-system-int32)`).
 - `//Note: <text>` comments (also leading trivia, parsed by `LinkReader.GetNotes`) attach a caveat to a polyfilled API. Each line emits a sub-bullet `* Note: <text>` under the signature in `api_list.include.md` (rendered by `BuildApiTest.WriteNotes`). Use sparingly — only when behavior diverges from the BCL in a way callers must know about (e.g., O(n) vs O(1), free-standing struct vs nested type, different exception type). Don't restate the doc summary.
 - Section-level opt-in gates (e.g., `Ensure`, `ArgumentNullException`) are emitted as a `> Requires <PolyXxx>true</PolyXxx>` blockquote under the section header. The mapping lives in `BuildApiTest.sectionGates` — add an entry there when you introduce a new section whose members all require an MSBuild flag.
+- Recreated-type files (`{TypeName}.cs`) are **not** auto-discovered by the API-list generator (only `*Polyfill.cs` is). Register each one in `BuildApiTest.RunWithRoslyn` via `WriteHelper("{TypeName}", ...)` (lists its members) or `WriteType("{TypeName}", ...)` (header only, counts as 1).
+- `extension(Type)` only compiles where `Type` already exists, so it can't introduce a brand-new type — recreate the type instead. When a type's members were added across **different** .NET versions (e.g. `CollectionsMarshal`: type + `AsSpan` in net5, `SetCount` in net8), you may need both a recreated type (window where the type is absent) and an `extension(Type)` (window where the type exists but the member doesn't). Keep them in **separate files**: `Identifiers.ReadTypesForFile` parses each file under every moniker, so a single file that resolves to different top-level types across monikers (e.g. `CollectionsMarshal` vs `Polyfill`) makes `ReadMethodsForFiles` throw.
+- **Deliverability over perf**: if an API's only benefit is a performance optimization (e.g. `List.EnsureCapacity`/`TrimExcess`), polyfilling it as a no-op (or a simpler correct-but-slower implementation) is acceptable — document the divergence with `//Note:`. The bar is that consumer code compiles and stays behaviorally correct; matching the BCL's performance characteristics is secondary.
 
 ### Test Projects
 
@@ -95,7 +99,7 @@ Polyfill uses extensive `#if` directives. Key constants:
    ```
    The `Splitter.Run` and `RunWithRoslyn` tests are `[Explicit]` in Release mode, so they only execute in Debug.
 
-**Test `#if` guard rules:** Tests should run on **all** target frameworks, not just the ones where the polyfill is active. On older frameworks the test exercises the polyfill; on newer frameworks it exercises the real BCL method. This validates that the polyfill behavior matches the native implementation. Do **not** use framework-excluding guards like `#if !NETx_0_OR_GREATER` in tests. Only use feature guards (`#if FeatureMemory`, `#if FeatureAsyncInterfaces`, etc.) when the test code requires types/APIs from those feature packages to compile.
+**Test `#if` guard rules:** Tests should run on **all** target frameworks, not just the ones where the polyfill is active. On older frameworks the test exercises the polyfill; on newer frameworks it exercises the real BCL method. This validates that the polyfill behavior matches the native implementation. Do **not** use framework-excluding guards like `#if !NETx_0_OR_GREATER` in tests. Only use feature guards (`#if FeatureMemory`, `#if FeatureAsyncInterfaces`, etc.) when the test code requires types/APIs from those feature packages to compile. Note: `Span<T>`/`ReadOnlySpan<T>` are ref structs and can't live across an `await`; copy the values you need into locals before `await Assert.That(...)`.
 
 ## Technical Details
 
