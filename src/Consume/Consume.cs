@@ -128,6 +128,12 @@ class Consume
         type = typeof(MatchType);
         type = typeof(MatchCasing);
 
+        var collectionsMarshalList = new List<int> {1, 2, 3};
+        CollectionsMarshal.SetCount(collectionsMarshalList, 5);
+#if FeatureMemory && !WINDOWS_UWP
+        var collectionsMarshalSpan = CollectionsMarshal.AsSpan(collectionsMarshalList);
+#endif
+
         var (key, value) = KeyValuePair.Create("a", "b");
 
 #if NET6_0_OR_GREATER

@@ -18,6 +18,7 @@ public class BuildApiTest
         WriteHelper("Ensure*", writer, ref count);
         WriteHelper("Lock", writer, ref count);
         WriteHelper(nameof(KeyValuePair), writer, ref count);
+        WriteHelper("CollectionsMarshal", writer, ref count);
         WriteType(nameof(TaskCompletionSource), writer, ref count);
         WriteType(nameof(UnreachableException), writer, ref count);
 

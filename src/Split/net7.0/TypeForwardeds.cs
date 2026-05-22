@@ -2,6 +2,7 @@
 #pragma warning disable
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CallerArgumentExpressionAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.InteropServices.CollectionsMarshal))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.DisableRuntimeMarshallingAttribute))]

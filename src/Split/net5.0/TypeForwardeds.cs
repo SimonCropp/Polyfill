@@ -2,6 +2,7 @@
 #pragma warning disable
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CallerArgumentExpressionAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.InteropServices.CollectionsMarshal))]
 [assembly: TypeForwardedTo(typeof(System.IO.EnumerationOptions))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.IsExternalInit))]
 [assembly: TypeForwardedTo(typeof(System.Collections.Generic.KeyValuePair))]
