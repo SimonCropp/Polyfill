@@ -1414,6 +1414,14 @@
  * `KeyValuePair<TKey, TValue> Create<TKey, TValue>(TKey, TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair.create?view=net-11.0)
 
 
+#### CollectionsMarshal
+
+ * `Span<T> AsSpan<T>(List<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.collectionsmarshal.asspan?view=net-11.0)
+   * Note: Reads the list's private backing array via reflection on this target.
+ * `void SetCount<T>(List<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.collectionsmarshal.setcount?view=net-11.0)
+   * Note: When growing, new elements are default(T); the BCL exposes uninitialized data.
+
+
 #### TaskCompletionSource
 
 #### UnreachableException
