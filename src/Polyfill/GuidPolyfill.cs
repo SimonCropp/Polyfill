@@ -50,7 +50,7 @@ static partial class Polyfill
 
 #if NET8_0_OR_GREATER
 
-            var uuidBytes = new byte[16];
+            var uuidBytes = stackalloc byte[16];
             timeBytes[2..8].CopyTo(uuidBytes, 0);
 
             var randomBytes = uuidBytes.AsSpan().Slice(6);
