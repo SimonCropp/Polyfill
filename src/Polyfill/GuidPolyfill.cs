@@ -50,10 +50,10 @@ static partial class Polyfill
 
 #if NET8_0_OR_GREATER
 
-            var uuidBytes = stackalloc byte[16];
-            timeBytes[2..8].CopyTo(uuidBytes, 0);
+            Span<byte> uuidBytes = stackalloc byte[16];
+            timeBytes.AsSpan(2, 6).CopyTo(uuidBytes);
 
-            var randomBytes = uuidBytes.AsSpan().Slice(6);
+            var randomBytes = uuidBytes.Slice(6);
 
             RandomNumberGenerator.Fill(randomBytes);
 
