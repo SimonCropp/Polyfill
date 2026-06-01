@@ -93,6 +93,23 @@ public class GuidPolyfillTests
     }
 
     [Test]
+    public async Task CreateVersion7_SetsVersionAndVariantBits()
+    {
+        // Run many times: without the variant fix byte 8 is fully random,
+        // so the variant nibble would pass by luck ~25% of the time. Looping
+        // makes a missing variant a deterministic failure (0.25^N).
+        for (var iteration = 0; iteration < 100; iteration++)
+        {
+            var text = Guid.CreateVersion7().ToString();
+            // RFC 9562: first hex digit of the 3rd group is the version → '7'
+            await Assert.That(text[14]).IsEqualTo('7');
+            // RFC 9562: first hex digit of the 4th group encodes the '10xx' variant → 8, 9, a or b
+            var variant = text[19];
+            await Assert.That(variant is '8' or '9' or 'a' or 'b').IsTrue();
+        }
+    }
+
+    [Test]
     public async Task CreateVersion7_WithTimestamp_ReturnsDeterministicPrefix()
     {
         var timestamp = DateTimeOffset.UtcNow;
