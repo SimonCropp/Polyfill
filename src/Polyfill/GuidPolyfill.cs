@@ -60,6 +60,9 @@ static partial class Polyfill
             uuidBytes[6] &= 0x0F;
             uuidBytes[6] += 0x70;
 
+            uuidBytes[8] &= 0x3F;
+            uuidBytes[8] += 0x80;
+
             return new(uuidBytes, true);
 
 #else
