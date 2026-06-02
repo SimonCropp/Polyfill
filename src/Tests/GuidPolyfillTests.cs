@@ -73,6 +73,25 @@ public class GuidPolyfillTests
     }
 
     [Test]
+    public async Task TryParse_Span_NoProvider_ReturnsTrue_ForValidGuid()
+    {
+        var guid = Guid.NewGuid();
+        var span = guid.ToString().AsSpan();
+        var result = Guid.TryParse(span, out var parsed);
+        await Assert.That(result).IsTrue();
+        await Assert.That(parsed).IsEqualTo(guid);
+    }
+
+    [Test]
+    public async Task TryParse_Span_NoProvider_ReturnsFalse_ForInvalidGuid()
+    {
+        var span = "invalid".AsSpan();
+        var result = Guid.TryParse(span, out var parsed);
+        await Assert.That(result).IsFalse();
+        await Assert.That(parsed).IsEqualTo(Guid.Empty);
+    }
+
+    [Test]
     public async Task TryParseExact_Span_ReturnsTrue_ForExactFormat()
     {
         var guid = Guid.NewGuid();
@@ -81,6 +100,16 @@ public class GuidPolyfillTests
         var result = Guid.TryParseExact(span, format, out var parsed);
         await Assert.That(result).IsTrue();
         await Assert.That(parsed).IsEqualTo(guid);
+    }
+
+    [Test]
+    public async Task TryParseExact_Span_ReturnsFalse_ForInvalidFormat()
+    {
+        var span = "invalid".AsSpan();
+        var format = "N".AsSpan();
+        var result = Guid.TryParseExact(span, format, out var parsed);
+        await Assert.That(result).IsFalse();
+        await Assert.That(parsed).IsEqualTo(Guid.Empty);
     }
 #endif
 
@@ -107,6 +136,19 @@ public class GuidPolyfillTests
             var variant = text[19];
             await Assert.That(variant is '8' or '9' or 'a' or 'b').IsTrue();
         }
+    }
+
+    [Test]
+    public async Task CreateVersion7_WithTimestamp_EncodesTimestampExactly()
+    {
+        var timestamp = DateTimeOffset.FromUnixTimeMilliseconds(1_700_000_000_000);
+        var guid = Guid.CreateVersion7(timestamp);
+
+        // RFC 9562: the first 48 bits (12 hex digits) are the Unix-ms timestamp, big-endian.
+        var text = guid.ToString();
+        var timeHex = text.Substring(0, 8) + text.Substring(9, 4);
+        var expected = timestamp.ToUnixTimeMilliseconds().ToString("x12");
+        await Assert.That(timeHex).IsEqualTo(expected);
     }
 
     [Test]

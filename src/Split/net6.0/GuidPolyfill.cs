@@ -37,6 +37,9 @@ static partial class Polyfill
 			Array.Copy(randomBytes, 0, uuidBytes, 6, 10);
 			uuidBytes[6] = (byte) ((uuidBytes[6] & 0x0F) | 0x70);
 			uuidBytes[8] = (byte) ((uuidBytes[8] & 0x3F) | 0x80);
+			Array.Reverse(uuidBytes, 0, 4);
+			Array.Reverse(uuidBytes, 4, 2);
+			Array.Reverse(uuidBytes, 6, 2);
 			return new(uuidBytes);
 		}
 #if FeatureMemory

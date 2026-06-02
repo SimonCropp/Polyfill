@@ -82,6 +82,13 @@ static partial class Polyfill
 
             uuidBytes[8] = (byte) ((uuidBytes[8] & 0x3F) | 0x80);
 
+            // new Guid(byte[]) reads the first three fields as little-endian, so reverse
+            // them to preserve the RFC 9562 big-endian layout (matching the bigEndian
+            // constructor used on NET8_0_OR_GREATER).
+            Array.Reverse(uuidBytes, 0, 4);
+            Array.Reverse(uuidBytes, 4, 2);
+            Array.Reverse(uuidBytes, 6, 2);
+
             return new(uuidBytes);
 #endif
         }
