@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CollectionBuilderAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.InteropServices.CollectionsMarshal))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CompilerLoweringPreserveAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Threading.Tasks.ConfigureAwaitOptions))]
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.DebuggerDisableUserUnhandledExceptionsAttribute))]
