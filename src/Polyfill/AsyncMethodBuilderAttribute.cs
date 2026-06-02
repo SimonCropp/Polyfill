@@ -1,4 +1,4 @@
-#if !FeatureValueTask
+#if !FeatureValueTask && !NETCOREAPP
 
 namespace System.Runtime.CompilerServices;
 
