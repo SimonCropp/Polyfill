@@ -30,6 +30,10 @@ public sealed class OverloadResolutionPriorityAttribute;
 
 public sealed class ParamCollectionAttribute;
 
+public sealed class AsyncMethodBuilderAttribute;
+
+public sealed class CompilerLoweringPreserveAttribute;
+
 public sealed class DisableRuntimeMarshallingAttribute;
 
 public sealed class AllowNullAttribute;

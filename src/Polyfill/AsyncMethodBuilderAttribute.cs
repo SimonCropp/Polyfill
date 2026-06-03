@@ -1,0 +1,45 @@
+#if !FeatureValueTask && !NETCOREAPP
+
+namespace System.Runtime.CompilerServices;
+
+using Diagnostics;
+using Diagnostics.CodeAnalysis;
+
+/// <summary>
+/// Indicates the type of the async method builder that should be used by a language compiler to
+/// build the attributed async method or to build the attributed type when used as the return type
+/// of an async method.
+/// </summary>
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
+[AttributeUsage(
+    AttributeTargets.Class |
+    AttributeTargets.Struct |
+    AttributeTargets.Interface |
+    AttributeTargets.Delegate |
+    AttributeTargets.Enum |
+    AttributeTargets.Method,
+    Inherited = false,
+    AllowMultiple = false)]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
+//Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.asyncmethodbuilderattribute?view=net-11.0
+#if PolyPublic
+public
+#endif
+sealed class AsyncMethodBuilderAttribute :
+    Attribute
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AsyncMethodBuilderAttribute"/> class.
+    /// </summary>
+    public AsyncMethodBuilderAttribute(Type builderType) =>
+        BuilderType = builderType;
+
+    /// <summary>
+    /// Gets the <see cref="Type"/> of the associated builder.
+    /// </summary>
+    public Type BuilderType { get; }
+}
+#endif

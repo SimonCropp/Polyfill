@@ -106,8 +106,8 @@ class Consume
 #if FeatureMemory
         type = typeof(CollectionBuilderAttribute);
 #endif
-        //TODO:
-        //type = typeof(AsyncMethodBuilderAttribute);
+        type = typeof(AsyncMethodBuilderAttribute);
+        type = typeof(CompilerLoweringPreserveAttribute);
 #if !NET6_0 && !NET5_0
         type = typeof(ObsoletedOSPlatformAttribute);
         type = typeof(SupportedOSPlatformGuardAttribute);
