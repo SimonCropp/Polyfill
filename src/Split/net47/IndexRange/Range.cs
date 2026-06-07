@@ -14,8 +14,18 @@ using Runtime.CompilerServices;
 #if PolyPublic
 public
 #endif
-readonly record struct Range(Index Start, Index End)
+readonly record struct Range
 {
+	/// <summary>Represent the inclusive start index of the Range.</summary>
+	public Index Start { get; }
+	/// <summary>Represent the exclusive end index of the Range.</summary>
+	public Index End { get; }
+	/// <summary>Construct a Range object using the start and end indexes.</summary>
+	public Range(Index start, Index end)
+	{
+		Start = start;
+		End = end;
+	}
 	/// <summary>Converts the value of the current Range object to its equivalent string representation.</summary>
 	public override string ToString() =>
 		$"{Start}..{End}";
