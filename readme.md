@@ -65,7 +65,7 @@ It is recommended that projects that consume Polyfill multi-target all TFMs that
 
 ## SDK / LangVersion
 
-This project uses features from the current stable SDK and C# language. As such consuming projects should target those:
+This project uses features from the newest stable SDK and C# language. As such consuming projects should target those:
 
 
 ### LangVersion
@@ -82,7 +82,7 @@ This project uses features from the current stable SDK and C# language. As such 
 ```json
 {
   "sdk": {
-    "version": "10.0.100",
+    "version": "10.0.300",
     "rollForward": "latestFeature"
   }
 }
