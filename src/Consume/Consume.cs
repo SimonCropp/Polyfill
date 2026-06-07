@@ -397,6 +397,8 @@ class Consume
     {
         var range = "value"[1..];
         var index = "value"[^2];
+        // named constructor parameters must match the BCL (lowercase start/end)
+        var namedRange = new Range(start: Index.Start, end: Index.End);
         //Array not supported due to no RuntimeHelpers.GetSubArray
         // var subArray = new[]
         // {
