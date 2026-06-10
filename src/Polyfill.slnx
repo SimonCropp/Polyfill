@@ -12,7 +12,7 @@
     <File Path="appveyor.yml" />
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
-    <File Path="global.json" />
+    <File Path="../global.json" />
     <File Path="mdsnippets.json" />
     <File Path="Polyfill/Polyfill.nuspec" />
     <File Path="Polyfill/Polyfill.targets" />
