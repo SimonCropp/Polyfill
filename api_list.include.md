@@ -46,6 +46,23 @@
  * `ArraySegmentEnumerator<T> GetEnumerator<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.getenumerator?view=net-11.0)
 
 
+#### Base64
+
+ * `OperationStatus DecodeFromChars(ReadOnlySpan<char>, Span<byte>, int, int, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.decodefromchars?view=net-11.0#system-buffers-text-base64-decodefromchars(system-readonlyspan((system-char))-system-span((system-byte))-system-int32@-system-int32@-system-boolean))
+ * `int DecodeFromChars(ReadOnlySpan<char>, Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.decodefromchars?view=net-11.0#system-buffers-text-base64-decodefromchars(system-readonlyspan((system-char))-system-span((system-byte))))
+ * `byte[] DecodeFromChars(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.decodefromchars?view=net-11.0#system-buffers-text-base64-decodefromchars(system-readonlyspan((system-char))))
+ * `byte[] DecodeFromUtf8(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.decodefromutf8?view=net-11.0#system-buffers-text-base64-decodefromutf8(system-readonlyspan((system-byte))))
+ * `OperationStatus EncodeToChars(ReadOnlySpan<byte>, Span<char>, int, int, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.encodetochars?view=net-11.0#system-buffers-text-base64-encodetochars(system-readonlyspan((system-byte))-system-span((system-char))-system-int32@-system-int32@-system-boolean))
+ * `int EncodeToChars(ReadOnlySpan<byte>, Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.encodetochars?view=net-11.0#system-buffers-text-base64-encodetochars(system-readonlyspan((system-byte))-system-span((system-char))))
+ * `char[] EncodeToChars(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.encodetochars?view=net-11.0#system-buffers-text-base64-encodetochars(system-readonlyspan((system-byte))))
+ * `string EncodeToString(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.encodetostring?view=net-11.0)
+ * `byte[] EncodeToUtf8(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.encodetoutf8?view=net-11.0#system-buffers-text-base64-encodetoutf8(system-readonlyspan((system-byte))))
+ * `int GetEncodedLength(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.getencodedlength?view=net-11.0)
+ * `int GetMaxDecodedLength(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.getmaxdecodedlength?view=net-11.0)
+ * `bool TryDecodeFromChars(ReadOnlySpan<char>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.trydecodefromchars?view=net-11.0)
+ * `bool TryEncodeToChars(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.tryencodetochars?view=net-11.0)
+
+
 #### BinaryPrimitives
 
  * `double ReadDoubleBigEndian(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.readdoublebigendian?view=net-11.0)
@@ -1288,6 +1305,16 @@
  * `bool TryParse(string?, NumberStyles, IFormatProvider?, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-string-system-globalization-numberstyles-system-iformatprovider-system-uintptr@))
 
 
+#### Uri
+
+ * `UriSchemeData` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uri.urischemedata?view=net-11.0)
+
+
+#### Utf8
+
+ * `int IndexOfInvalidSubsequence(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.unicode.utf8.indexofinvalidsubsequence?view=net-11.0)
+
+
 #### ValueTask
 
  * `CompletedTask` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask.completedtask?view=net-11.0)
@@ -1420,6 +1447,12 @@
    * Note: Reads the list's private backing array via reflection on this target.
  * `void SetCount<T>(List<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.collectionsmarshal.setcount?view=net-11.0)
    * Note: When growing, new elements are default(T); the BCL exposes uninitialized data.
+
+
+#### Utf16
+
+ * `int IndexOfInvalidSubsequence(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.unicode.utf16.indexofinvalidsubsequence?view=net-11.0)
+ * `bool IsValid(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.unicode.utf16.isvalid?view=net-11.0)
 
 
 #### TaskCompletionSource

@@ -258,6 +258,52 @@ class Consume
     }
 #endif
 
+#if FeatureMemory && !RefsBclMemory
+    void Base64Usage()
+    {
+        ReadOnlySpan<byte> source = default;
+        Span<char> charDest = default;
+        Span<byte> byteDest = default;
+        ReadOnlySpan<char> charSource = default;
+
+        Base64.GetEncodedLength(0);
+        Base64.GetMaxDecodedLength(0);
+        Base64.EncodeToString(source);
+        Base64.EncodeToChars(source);
+        Base64.EncodeToChars(source, charDest);
+        Base64.EncodeToChars(source, charDest, bytesConsumed: out _, charsWritten: out _, isFinalBlock: true);
+        Base64.TryEncodeToChars(source, charDest, out _);
+        Base64.EncodeToUtf8(source);
+        Base64.DecodeFromChars(charSource);
+        Base64.DecodeFromChars(charSource, byteDest);
+        Base64.DecodeFromChars(charSource, byteDest, charsConsumed: out _, bytesWritten: out _, isFinalBlock: true);
+        Base64.TryDecodeFromChars(charSource, byteDest, out _);
+        Base64.DecodeFromUtf8(source);
+    }
+#endif
+
+    void UriSchemeDataUsage()
+    {
+        _ = Uri.UriSchemeData;
+    }
+
+#if FeatureMemory
+    void Utf16Usage()
+    {
+        ReadOnlySpan<char> chars = default;
+        System.Text.Unicode.Utf16.IsValid(chars);
+        System.Text.Unicode.Utf16.IndexOfInvalidSubsequence(chars);
+    }
+#endif
+
+#if NETCOREAPP3_0_OR_GREATER && !RefsBclMemory
+    void Utf8InvalidSubsequenceUsage()
+    {
+        ReadOnlySpan<byte> bytes = default;
+        System.Text.Unicode.Utf8.IndexOfInvalidSubsequence(bytes);
+    }
+#endif
+
     void SHA256Usage()
     {
         SHA256.HashData(source: (byte[]) null!);
