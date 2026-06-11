@@ -54,4 +54,17 @@ static partial class Polyfill
 			}
 		}
 	}
+#if FeatureValueTuple
+	/// <summary>
+	/// Correlates the elements of two sequences based on matching keys,
+	/// including elements of the inner sequence that have no matching outer element.
+	/// </summary>
+	public static IEnumerable<(TOuter? Outer, TInner Inner)> RightJoin<TOuter, TInner, TKey>(
+		this IEnumerable<TOuter> outer,
+		IEnumerable<TInner> inner,
+		Func<TOuter, TKey> outerKeySelector,
+		Func<TInner, TKey> innerKeySelector,
+		IEqualityComparer<TKey>? comparer = null) =>
+		outer.RightJoin(inner, outerKeySelector, innerKeySelector, (outerElement, innerElement) => (outerElement, innerElement), comparer);
+#endif
 }

@@ -22,4 +22,26 @@ static partial class Polyfill
 			Func<T, int>? getHashCode = null) =>
 			new DelegateEqualityComparer<T>(equals, getHashCode);
 	}
+	class KeySelectorEqualityComparer<T, TKey>(Func<T?, TKey?> keySelector, IEqualityComparer<TKey>? keyComparer)
+		: EqualityComparer<T>
+	{
+		readonly IEqualityComparer<TKey> comparer = keyComparer ?? EqualityComparer<TKey>.Default;
+		public override bool Equals(T? x, T? y) =>
+			comparer.Equals(keySelector(x)!, keySelector(y)!);
+		public override int GetHashCode(T obj)
+		{
+			var key = keySelector(obj);
+			return key is null ? 0 : comparer.GetHashCode(key);
+		}
+	}
+	extension<T>(EqualityComparer<T>)
+	{
+		/// <summary>
+		/// Creates an <see cref="EqualityComparer{T}"/> that determines equality by projecting each value through <paramref name="keySelector"/> and comparing the resulting keys.
+		/// </summary>
+		public static EqualityComparer<T> Create<TKey>(
+			Func<T?, TKey?> keySelector,
+			IEqualityComparer<TKey>? keyComparer = null) =>
+			new KeySelectorEqualityComparer<T, TKey>(keySelector, keyComparer);
+	}
 }

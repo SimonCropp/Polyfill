@@ -531,4 +531,150 @@ partial class PolyfillTests
         await Assert.That(result[1]).IsEqualTo("B-2");
         await Assert.That(result[2]).IsEqualTo("-3");
     }
+
+    [Test]
+    public async Task IEnumerableJoinTuple()
+    {
+        IEnumerable<string> people = ["Terry", "Charlotte", "Tom"];
+        IEnumerable<(string Name, string Owner)> pets =
+        [
+            ("Barley", "Terry"),
+            ("Boots", "Terry"),
+            ("Whiskers", "Charlotte"),
+            ("Daisy", "Magnus")
+        ];
+
+        var result = people.Join(
+            pets,
+            person => person,
+            pet => pet.Owner).ToList();
+
+        await Assert.That(result).Count().IsEqualTo(3);
+        await Assert.That(result[0].Outer).IsEqualTo("Terry");
+        await Assert.That(result[0].Inner.Name).IsEqualTo("Barley");
+        await Assert.That(result[1].Inner.Name).IsEqualTo("Boots");
+        await Assert.That(result[2].Outer).IsEqualTo("Charlotte");
+        await Assert.That(result[2].Inner.Name).IsEqualTo("Whiskers");
+    }
+
+    [Test]
+    public async Task IEnumerableLeftJoinTuple()
+    {
+        IEnumerable<string> people = ["Magnus", "Terry", "Tom"];
+        IEnumerable<(string Name, string Owner)> pets =
+        [
+            ("Daisy", "Magnus"),
+            ("Barley", "Terry")
+        ];
+
+        var result = people.LeftJoin(
+            pets,
+            person => person,
+            pet => pet.Owner).ToList();
+
+        await Assert.That(result).Count().IsEqualTo(3);
+        await Assert.That(result[0].Outer).IsEqualTo("Magnus");
+        await Assert.That(result[0].Inner.Name).IsEqualTo("Daisy");
+        await Assert.That(result[1].Outer).IsEqualTo("Terry");
+        await Assert.That(result[1].Inner.Name).IsEqualTo("Barley");
+        await Assert.That(result[2].Outer).IsEqualTo("Tom");
+        await Assert.That(result[2].Inner.Name).IsNull();
+    }
+
+    [Test]
+    public async Task IEnumerableRightJoinTuple()
+    {
+        IEnumerable<string> people = ["Terry", "Charlotte"];
+        IEnumerable<(string Name, string Owner)> pets =
+        [
+            ("Barley", "Terry"),
+            ("Whiskers", "Charlotte"),
+            ("Daisy", "Magnus")
+        ];
+
+        var result = people.RightJoin(
+            pets,
+            person => person,
+            pet => pet.Owner).ToList();
+
+        await Assert.That(result).Count().IsEqualTo(3);
+        await Assert.That(result[0].Outer).IsEqualTo("Terry");
+        await Assert.That(result[0].Inner.Name).IsEqualTo("Barley");
+        await Assert.That(result[1].Outer).IsEqualTo("Charlotte");
+        await Assert.That(result[2].Outer).IsNull();
+        await Assert.That(result[2].Inner.Name).IsEqualTo("Daisy");
+    }
+
+    [Test]
+    public async Task IEnumerableFullJoin()
+    {
+        IEnumerable<string> people = ["Magnus", "Terry", "Tom"];
+        IEnumerable<(string Name, string Owner)> pets =
+        [
+            ("Daisy", "Magnus"),
+            ("Barley", "Terry"),
+            ("Stray", "Nobody")
+        ];
+
+        var result = people.FullJoin(
+            pets,
+            person => person,
+            pet => pet.Owner,
+            (person, pet) => $"{person ?? "?"}-{pet.Name ?? "?"}").ToList();
+
+        await Assert.That(result).Count().IsEqualTo(4);
+        await Assert.That(result[0]).IsEqualTo("Magnus-Daisy");
+        await Assert.That(result[1]).IsEqualTo("Terry-Barley");
+        await Assert.That(result[2]).IsEqualTo("Tom-?");
+        await Assert.That(result[3]).IsEqualTo("?-Stray");
+    }
+
+    [Test]
+    public async Task IEnumerableFullJoinTuple()
+    {
+        IEnumerable<string> people = ["Magnus", "Tom"];
+        IEnumerable<(string Name, string Owner)> pets =
+        [
+            ("Daisy", "Magnus"),
+            ("Stray", "Nobody")
+        ];
+
+        var result = people.FullJoin(
+            pets,
+            person => person,
+            pet => pet.Owner).ToList();
+
+        await Assert.That(result).Count().IsEqualTo(3);
+        await Assert.That(result[0].Outer).IsEqualTo("Magnus");
+        await Assert.That(result[0].Inner.Name).IsEqualTo("Daisy");
+        await Assert.That(result[1].Outer).IsEqualTo("Tom");
+        await Assert.That(result[1].Inner.Name).IsNull();
+        await Assert.That(result[2].Outer).IsNull();
+        await Assert.That(result[2].Inner.Name).IsEqualTo("Stray");
+    }
+
+    [Test]
+    public async Task IEnumerableGroupJoinTuple()
+    {
+        IEnumerable<string> people = ["Magnus", "Terry", "Tom"];
+        IEnumerable<(string Name, string Owner)> pets =
+        [
+            ("Daisy", "Magnus"),
+            ("Barley", "Terry"),
+            ("Boots", "Terry")
+        ];
+
+        var result = people.GroupJoin(
+            pets,
+            person => person,
+            pet => pet.Owner).ToList();
+
+        await Assert.That(result).Count().IsEqualTo(3);
+        await Assert.That(result[0].Key).IsEqualTo("Magnus");
+        await Assert.That(result[0].Single().Name).IsEqualTo("Daisy");
+        await Assert.That(result[1].Key).IsEqualTo("Terry");
+        await Assert.That(result[1].Count()).IsEqualTo(2);
+        await Assert.That(result[2].Key).IsEqualTo("Tom");
+        await Assert.That(result[2].Any()).IsFalse();
+    }
 }

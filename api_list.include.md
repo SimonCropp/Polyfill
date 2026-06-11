@@ -340,6 +340,7 @@
 #### EqualityComparer
 
  * `EqualityComparer<T> Create(Func<T?, T?, bool>, Func<T, int>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.equalitycomparer-1.create?view=net-11.0)
+ * `EqualityComparer<T> Create<TKey>(Func<T?, TKey?>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.equalitycomparer-1.create?view=net-11.0#system-collections-generic-equalitycomparer-1-create-1(system-func((-0-0))-system-collections-generic-iequalitycomparer((-0))))
 
 
 #### EventInfo
@@ -499,10 +500,16 @@
 
 #### IEnumerable<TOuter>
 
+ * `IEnumerable<TResult> FullJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter?, TInner?, TResult>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.fulljoin?view=net-11.0#system-linq-enumerable-fulljoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2))))
+ * `IEnumerable<(TOuter? Outer, TInner? Inner)> FullJoin<TOuter, TInner, TKey>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.fulljoin?view=net-11.0#system-linq-enumerable-fulljoin-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-collections-generic-iequalitycomparer((-2))))
+ * `IEnumerable<IGrouping<TOuter, TInner>> GroupJoin<TOuter, TInner, TKey>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.groupjoin?view=net-11.0#system-linq-enumerable-groupjoin-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-collections-generic-iequalitycomparer((-2))))
+ * `IEnumerable<(TOuter Outer, TInner Inner)> Join<TOuter, TInner, TKey>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.join?view=net-11.0#system-linq-enumerable-join-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-collections-generic-iequalitycomparer((-2))))
  * `IEnumerable<TResult> LeftJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter, TInner?, TResult>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-11.0#system-linq-enumerable-leftjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2))))
  * `IEnumerable<TResult> LeftJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter, TInner?, TResult>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-11.0#system-linq-enumerable-leftjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))))
+ * `IEnumerable<(TOuter Outer, TInner? Inner)> LeftJoin<TOuter, TInner, TKey>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-11.0#system-linq-enumerable-leftjoin-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-collections-generic-iequalitycomparer((-2))))
  * `IEnumerable<TResult> RightJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter?, TInner, TResult>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin?view=net-11.0#system-linq-enumerable-rightjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2))))
  * `IEnumerable<TResult> RightJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter?, TInner, TResult>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin?view=net-11.0#system-linq-enumerable-rightjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))))
+ * `IEnumerable<(TOuter? Outer, TInner Inner)> RightJoin<TOuter, TInner, TKey>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin?view=net-11.0#system-linq-enumerable-rightjoin-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-collections-generic-iequalitycomparer((-2))))
 
 
 #### IEnumerable<TSource>
@@ -1237,6 +1244,7 @@
  * `bool IsAssignableFrom<T>()`
  * `bool IsAssignableTo(Type?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto?view=net-11.0)
  * `bool IsAssignableTo<T>()`
+ * `Type? GetNullableUnderlyingType()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.getnullableunderlyingtype?view=net-11.0)
  * `IsGenericMethodParameter` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter?view=net-11.0)
 
 
