@@ -806,6 +806,8 @@
    * Note: No-op on older targets; the BCL grows the backing storage.
  * `void TrimExcess<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.trimexcess?view=net-11.0#system-collections-generic-queue-1-trimexcess(system-int32))
    * Note: No-op on older targets; the BCL shrinks the backing storage.
+ * `bool TryPeek<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.trypeek?view=net-11.0)
+ * `bool TryDequeue<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.trydequeue?view=net-11.0)
 
 
 #### Random
