@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 978**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 986**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
@@ -37,8 +37,8 @@ The package targets `netstandard2.0` and is designed to support the following ru
 | `net6.0` | 512 |
 | `net7.0` | 359 |
 | `net8.0` | 240 |
-| `net9.0` | 151 |
-| `net10.0` | 98 |
+| `net9.0` | 164 |
+| `net10.0` | 111 |
 | `net11.0` | 58 |
 | `uap10.0` | 937 |
 <!-- endInclude -->
@@ -114,8 +114,8 @@ This project uses features from the newest stable SDK and C# language. As such c
 | net6.0         |         10.0KB |       181.5KB |  +171.5KB |   +10.0KB |             +7.0KB |           +512bytes |      +3.5KB |
 | net7.0         |         10.0KB |       144.0KB |  +134.0KB |    +9.0KB |             +5.0KB |           +512bytes |      +3.0KB |
 | net8.0         |          9.5KB |       115.0KB |  +105.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net9.0         |          9.5KB |        69.0KB |   +59.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net10.0        |         10.0KB |        45.5KB |   +35.5KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
+| net9.0         |          9.5KB |        72.0KB |   +62.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net10.0        |         10.0KB |        48.5KB |   +38.5KB |    +9.0KB |                    |              +1.0KB |      +3.5KB |
 | net11.0        |         10.0KB |        20.5KB |   +10.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 
 
@@ -141,8 +141,8 @@ This project uses features from the newest stable SDK and C# language. As such c
 | net6.0         |         10.0KB |       264.4KB |  +254.4KB |   +17.7KB |             +8.7KB |              +1.1KB |      +4.2KB |
 | net7.0         |         10.0KB |       208.3KB |  +198.3KB |   +16.6KB |             +6.4KB |              +1.1KB |      +3.7KB |
 | net8.0         |          9.5KB |       164.0KB |  +154.5KB |   +16.0KB |          +299bytes |              +1.1KB |      +4.2KB |
-| net9.0         |          9.5KB |        96.5KB |   +87.0KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
-| net10.0        |         10.0KB |        64.1KB |   +54.1KB |   +16.0KB |                    |              +1.1KB |      +3.7KB |
+| net9.0         |          9.5KB |       100.7KB |   +91.2KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
+| net10.0        |         10.0KB |        68.3KB |   +58.3KB |   +16.5KB |                    |              +1.6KB |      +4.2KB |
 | net11.0        |         10.0KB |        30.3KB |   +20.3KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
 <!-- endInclude -->
 
@@ -871,6 +871,7 @@ The class `Polyfill` includes the following extension methods:
 #### EqualityComparer
 
  * `EqualityComparer<T> Create(Func<T?, T?, bool>, Func<T, int>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.equalitycomparer-1.create?view=net-11.0)
+ * `EqualityComparer<T> Create<TKey>(Func<T?, TKey?>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.equalitycomparer-1.create?view=net-11.0#system-collections-generic-equalitycomparer-1-create-1(system-func((-0-0))-system-collections-generic-iequalitycomparer((-0))))
 
 
 #### EventInfo
@@ -1030,10 +1031,16 @@ The class `Polyfill` includes the following extension methods:
 
 #### IEnumerable<TOuter>
 
+ * `IEnumerable<TResult> FullJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter?, TInner?, TResult>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.fulljoin?view=net-11.0#system-linq-enumerable-fulljoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2))))
+ * `IEnumerable<(TOuter? Outer, TInner? Inner)> FullJoin<TOuter, TInner, TKey>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.fulljoin?view=net-11.0#system-linq-enumerable-fulljoin-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-collections-generic-iequalitycomparer((-2))))
+ * `IEnumerable<IGrouping<TOuter, TInner>> GroupJoin<TOuter, TInner, TKey>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.groupjoin?view=net-11.0#system-linq-enumerable-groupjoin-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-collections-generic-iequalitycomparer((-2))))
+ * `IEnumerable<(TOuter Outer, TInner Inner)> Join<TOuter, TInner, TKey>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.join?view=net-11.0#system-linq-enumerable-join-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-collections-generic-iequalitycomparer((-2))))
  * `IEnumerable<TResult> LeftJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter, TInner?, TResult>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-11.0#system-linq-enumerable-leftjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2))))
  * `IEnumerable<TResult> LeftJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter, TInner?, TResult>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-11.0#system-linq-enumerable-leftjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))))
+ * `IEnumerable<(TOuter Outer, TInner? Inner)> LeftJoin<TOuter, TInner, TKey>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.leftjoin?view=net-11.0#system-linq-enumerable-leftjoin-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-collections-generic-iequalitycomparer((-2))))
  * `IEnumerable<TResult> RightJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter?, TInner, TResult>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin?view=net-11.0#system-linq-enumerable-rightjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))-system-collections-generic-iequalitycomparer((-2))))
  * `IEnumerable<TResult> RightJoin<TOuter, TInner, TKey, TResult>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, Func<TOuter?, TInner, TResult>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin?view=net-11.0#system-linq-enumerable-rightjoin-4(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-func((-0-1-3))))
+ * `IEnumerable<(TOuter? Outer, TInner Inner)> RightJoin<TOuter, TInner, TKey>(IEnumerable<TInner>, Func<TOuter, TKey>, Func<TInner, TKey>, IEqualityComparer<TKey>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.rightjoin?view=net-11.0#system-linq-enumerable-rightjoin-3(system-collections-generic-ienumerable((-0))-system-collections-generic-ienumerable((-1))-system-func((-0-2))-system-func((-1-2))-system-collections-generic-iequalitycomparer((-2))))
 
 
 #### IEnumerable<TSource>
@@ -1768,6 +1775,7 @@ The class `Polyfill` includes the following extension methods:
  * `bool IsAssignableFrom<T>()`
  * `bool IsAssignableTo(Type?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto?view=net-11.0)
  * `bool IsAssignableTo<T>()`
+ * `Type? GetNullableUnderlyingType()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.getnullableunderlyingtype?view=net-11.0)
  * `IsGenericMethodParameter` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter?view=net-11.0)
 
 

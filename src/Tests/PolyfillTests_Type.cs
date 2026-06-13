@@ -32,6 +32,14 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task GetNullableUnderlyingType()
+    {
+        await Assert.That(typeof(int?).GetNullableUnderlyingType()).IsEqualTo(typeof(int));
+        await Assert.That(typeof(int).GetNullableUnderlyingType()).IsNull();
+        await Assert.That(typeof(string).GetNullableUnderlyingType()).IsNull();
+    }
+
+    [Test]
     public async Task IsAssignableTo()
     {
         await Assert.That(typeof(List<string>).IsAssignableTo(typeof(IList))).IsTrue();

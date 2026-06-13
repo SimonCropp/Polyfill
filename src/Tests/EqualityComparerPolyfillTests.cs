@@ -26,4 +26,23 @@ public class EqualityComparerPolyfillTests
         await Assert.That(comparer.Equals(5, 4)).IsFalse();
         await Assert.That(() => comparer.GetHashCode(5)).Throws<NotSupportedException>();
     }
+
+    [Test]
+    public async Task Create_WithKeySelector()
+    {
+        var comparer = EqualityComparer<string>.Create(value => value!.Length);
+
+        await Assert.That(comparer.Equals("abc", "xyz")).IsTrue();
+        await Assert.That(comparer.Equals("abc", "ab")).IsFalse();
+        await Assert.That(comparer.GetHashCode("abc")).IsEqualTo(comparer.GetHashCode("xyz"));
+    }
+
+    [Test]
+    public async Task Create_WithKeySelectorAndComparer()
+    {
+        var comparer = EqualityComparer<string>.Create(value => value, StringComparer.OrdinalIgnoreCase);
+
+        await Assert.That(comparer.Equals("ABC", "abc")).IsTrue();
+        await Assert.That(comparer.Equals("ABC", "xyz")).IsFalse();
+    }
 }

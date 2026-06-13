@@ -783,6 +783,8 @@ class Consume
     {
         var comparer = EqualityComparer<int>.Create((x, y) => x == y, x => x);
         comparer = EqualityComparer<int>.Create((x, y) => x == y);
+        comparer = EqualityComparer<int>.Create(x => x);
+        comparer = EqualityComparer<int>.Create(x => x, EqualityComparer<int>.Default);
     }
 
     void Enum_Methods()
@@ -1069,12 +1071,25 @@ class Consume
         IEnumerable<int> lengths = [1];
         var intersectBy = enumerable.IntersectBy(lengths, _ => _.Length);
         var intersectByComparer = enumerable.IntersectBy(lengths, _ => _.Length, EqualityComparer<int>.Default);
+        IEnumerable<string> joinInner = ["a", "b"];
+        var fullJoin = enumerable.FullJoin(joinInner, _ => _, _ => _, (o, i) => $"{o}-{i}");
+        var fullJoinComparer = enumerable.FullJoin(joinInner, _ => _, _ => _, (o, i) => $"{o}-{i}", StringComparer.OrdinalIgnoreCase);
+        var groupJoin = enumerable.GroupJoin(joinInner, _ => _, _ => _);
+        var groupJoinComparer = enumerable.GroupJoin(joinInner, _ => _, _ => _, StringComparer.OrdinalIgnoreCase);
 #if FeatureValueTuple
         IEnumerable<(string Key, int Value)> inner = [("a", 1)];
         var leftJoin = enumerable.LeftJoin(inner, _ => _, _ => _.Key, (o, i) => $"{o}-{i.Value}");
         var leftJoinComparer = enumerable.LeftJoin(inner, _ => _, _ => _.Key, (o, i) => $"{o}-{i.Value}", StringComparer.OrdinalIgnoreCase);
         var rightJoin = enumerable.RightJoin(inner, _ => _, _ => _.Key, (o, i) => $"{o}-{i.Value}");
         var rightJoinComparer = enumerable.RightJoin(inner, _ => _, _ => _.Key, (o, i) => $"{o}-{i.Value}", StringComparer.OrdinalIgnoreCase);
+        var joinTuple = enumerable.Join(inner, _ => _, _ => _.Key);
+        var joinTupleComparer = enumerable.Join(inner, _ => _, _ => _.Key, StringComparer.OrdinalIgnoreCase);
+        var leftJoinTuple = enumerable.LeftJoin(inner, _ => _, _ => _.Key);
+        var leftJoinTupleComparer = enumerable.LeftJoin(inner, _ => _, _ => _.Key, StringComparer.OrdinalIgnoreCase);
+        var rightJoinTuple = enumerable.RightJoin(inner, _ => _, _ => _.Key);
+        var rightJoinTupleComparer = enumerable.RightJoin(inner, _ => _, _ => _.Key, StringComparer.OrdinalIgnoreCase);
+        var fullJoinTuple = enumerable.FullJoin(inner, _ => _, _ => _.Key);
+        var fullJoinTupleComparer = enumerable.FullJoin(inner, _ => _, _ => _.Key, StringComparer.OrdinalIgnoreCase);
 #endif
     }
 
@@ -1729,6 +1744,7 @@ class Consume
         var result = typeof(List<string>).IsAssignableTo(typeof(string));
         result = typeof(List<string>).IsAssignableTo(null);
         result = typeof(string).IsGenericMethodParameter;
+        var underlying = typeof(int?).GetNullableUnderlyingType();
         var member = typeof(string).GetMemberWithSameMetadataDefinitionAs(info);
     }
 
