@@ -1,6 +1,7 @@
 namespace Polyfills;
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 static partial class Polyfill
 {
@@ -26,6 +27,42 @@ static partial class Polyfill
     //Note: No-op on older targets; the BCL shrinks the backing storage.
     public static void TrimExcess<T>(this Queue<T> target, int capacity)
     {
+    }
+
+#endif
+
+#if NETSTANDARD2_0 || NETFRAMEWORK
+
+    /// <summary>
+    /// Returns a value that indicates whether there is an object at the beginning of the <see cref="Queue{T}"/>, and if one is present, copies it to the result parameter. The object is not removed from the <see cref="Queue{T}"/>.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.trypeek?view=net-11.0
+    public static bool TryPeek<T>(this Queue<T> target, [MaybeNullWhen(false)] out T result)
+    {
+        if (target.Count > 0)
+        {
+            result = target.Peek();
+            return true;
+        }
+
+        result = default;
+        return false;
+    }
+
+    /// <summary>
+    /// Removes the object at the beginning of the <see cref="Queue{T}"/>, and copies it to the result parameter.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.trydequeue?view=net-11.0
+    public static bool TryDequeue<T>(this Queue<T> target, [MaybeNullWhen(false)] out T result)
+    {
+        if (target.Count > 0)
+        {
+            result = target.Dequeue();
+            return true;
+        }
+
+        result = default;
+        return false;
     }
 
 #endif

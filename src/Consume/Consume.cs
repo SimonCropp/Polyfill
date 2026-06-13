@@ -1141,6 +1141,8 @@ class Consume
     void Queue_Methods()
     {
         var queue = new Queue<char>();
+        queue.TryPeek(out var ch1);
+        queue.TryDequeue(out var ch2);
         queue.EnsureCapacity(1);
         queue.TrimExcess(1);
         queue.TrimExcess();
