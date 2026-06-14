@@ -2,6 +2,7 @@
 #pragma warning disable
 namespace Polyfills;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 static partial class Polyfill
 {
 	/// <summary>
@@ -15,5 +16,31 @@ static partial class Polyfill
 	/// </summary>
 	public static void TrimExcess<T>(this Queue<T> target, int capacity)
 	{
+	}
+	/// <summary>
+	/// Returns a value that indicates whether there is an object at the beginning of the <see cref="Queue{T}"/>, and if one is present, copies it to the result parameter. The object is not removed from the <see cref="Queue{T}"/>.
+	/// </summary>
+	public static bool TryPeek<T>(this Queue<T> target, [MaybeNullWhen(false)] out T result)
+	{
+		if (target.Count > 0)
+		{
+			result = target.Peek();
+			return true;
+		}
+		result = default;
+		return false;
+	}
+	/// <summary>
+	/// Removes the object at the beginning of the <see cref="Queue{T}"/>, and copies it to the result parameter.
+	/// </summary>
+	public static bool TryDequeue<T>(this Queue<T> target, [MaybeNullWhen(false)] out T result)
+	{
+		if (target.Count > 0)
+		{
+			result = target.Dequeue();
+			return true;
+		}
+		result = default;
+		return false;
 	}
 }
