@@ -19,6 +19,7 @@ public class BuildApiTest
         WriteHelper("Lock", writer, ref count);
         WriteHelper(nameof(KeyValuePair), writer, ref count);
         WriteHelper("CollectionsMarshal", writer, ref count);
+        WriteHelper("CryptographicOperations", writer, ref count);
         WriteHelper("Utf16", writer, ref count);
         WriteType(nameof(TaskCompletionSource), writer, ref count);
         WriteType(nameof(UnreachableException), writer, ref count);

@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Runtime.InteropServices.CollectionsMarshal))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Security.Cryptography.CryptographicOperations))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.DisableRuntimeMarshallingAttribute))]
 [assembly: TypeForwardedTo(typeof(System.IO.EnumerationOptions))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.IsExternalInit))]

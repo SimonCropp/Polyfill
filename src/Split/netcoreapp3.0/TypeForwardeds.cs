@@ -2,6 +2,7 @@
 #pragma warning disable
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CallerArgumentExpressionAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Security.Cryptography.CryptographicOperations))]
 [assembly: TypeForwardedTo(typeof(System.IO.EnumerationOptions))]
 [assembly: TypeForwardedTo(typeof(System.Collections.Generic.KeyValuePair))]
 [assembly: TypeForwardedTo(typeof(System.IO.MatchCasing))]
