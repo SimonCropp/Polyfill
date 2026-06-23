@@ -10,6 +10,13 @@ partial class PolyfillTests
 
 #if FeatureMemory
     [Test]
+    public async Task Encoding_Preamble()
+    {
+        var preamble = Encoding.UTF8.Preamble.ToArray();
+        await Assert.That(preamble).IsEquivalentTo(new byte[] { 0xEF, 0xBB, 0xBF });
+    }
+
+    [Test]
     public async Task Encoding_GetByteCount()
     {
         var encoding = Encoding.UTF8;

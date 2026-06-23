@@ -12,4 +12,13 @@ static partial class Polyfill
 		/// </summary>
 		public static Encoding Latin1 => latin1;
 	}
+#if FeatureMemory
+	extension(Encoding target)
+	{
+		/// <summary>
+		/// When overridden in a derived class, returns a span containing the sequence of bytes that specifies the encoding used.
+		/// </summary>
+		public System.ReadOnlySpan<byte> Preamble => target.GetPreamble();
+	}
+#endif
 }

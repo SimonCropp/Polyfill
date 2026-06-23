@@ -796,6 +796,9 @@ class Consume
     void Encoding_Methods()
     {
         var latin1 = Encoding.Latin1;
+#if FeatureMemory
+        var preamble = Encoding.UTF8.Preamble;
+#endif
     }
 
     void Environment_Methods()
