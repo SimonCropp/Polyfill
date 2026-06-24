@@ -23,6 +23,10 @@ public class BuildApiTest
         WriteHelper("Utf16", writer, ref count);
         WriteType(nameof(TaskCompletionSource), writer, ref count);
         WriteType(nameof(UnreachableException), writer, ref count);
+        WriteType("StringStream", writer, ref count);
+        WriteType("ReadOnlyMemoryStream", writer, ref count);
+        WriteType("WritableMemoryStream", writer, ref count);
+        WriteType("ReadOnlySequenceStream", writer, ref count);
 
         count += Directory.EnumerateFiles(polyfillDir, "*Attribute.cs", SearchOption.AllDirectories).Count();
         // Index and Range
