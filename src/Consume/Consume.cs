@@ -258,6 +258,39 @@ class Consume
     }
 #endif
 
+#if FeatureMemory
+    void StreamWrappersUsage()
+    {
+        var bytes = new byte[10];
+
+        using (Stream stringStream = new StringStream("text", Encoding.UTF8))
+        {
+            stringStream.Read(bytes, 0, bytes.Length);
+        }
+
+        using (var stringStream = new StringStream("text".AsMemory(), Encoding.UTF8))
+        {
+            Encoding encoding = stringStream.Encoding;
+            stringStream.ReadByte();
+        }
+
+        using (MemoryStream readOnly = new ReadOnlyMemoryStream(new ReadOnlyMemory<byte>(bytes)))
+        {
+            readOnly.Read(bytes, 0, bytes.Length);
+        }
+
+        using (MemoryStream writable = new WritableMemoryStream(new Memory<byte>(bytes)))
+        {
+            writable.Write(bytes, 0, bytes.Length);
+        }
+
+        using (Stream sequenceStream = new System.Buffers.ReadOnlySequenceStream(new System.Buffers.ReadOnlySequence<byte>(bytes)))
+        {
+            sequenceStream.Read(bytes, 0, bytes.Length);
+        }
+    }
+#endif
+
 #if FeatureMemory && !RefsBclMemory
     void Base64Usage()
     {
