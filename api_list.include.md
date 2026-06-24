@@ -307,6 +307,8 @@
  * `bool TryGetBytes(ReadOnlySpan<char>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetbytes?view=net-11.0)
  * `bool TryGetChars(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetchars?view=net-11.0)
  * `Latin1` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.latin1?view=net-11.0)
+ * `Preamble` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.preamble?view=net-11.0)
+   * Note: Allocates a new array on each access, unlike the BCL property which returns a cached span.
 
 
 #### Enum
