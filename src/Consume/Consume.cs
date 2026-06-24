@@ -419,6 +419,53 @@ class Consume
 #endif
     }
 
+    void CryptographicOperationsUsage()
+    {
+        var name = HashAlgorithmName.SHA256;
+
+        CryptographicOperations.HashData(name, (byte[]) null!);
+        CryptographicOperations.HashData(name, (Stream) null!);
+        CryptographicOperations.HmacData(name, (byte[]) null!, (byte[]) null!);
+        CryptographicOperations.HmacData(name, (byte[]) null!, (Stream) null!);
+        CryptographicOperations.VerifyHmac(name, (byte[]) null!, (byte[]) null!, (byte[]) null!);
+        CryptographicOperations.VerifyHmac(name, (byte[]) null!, (Stream) null!, (byte[]) null!);
+#if FeatureValueTask
+        CryptographicOperations.HashDataAsync(name, (Stream) null!, CancellationToken.None);
+        CryptographicOperations.HmacDataAsync(name, (byte[]) null!, (Stream) null!, CancellationToken.None);
+        CryptographicOperations.VerifyHmacAsync(name, (byte[]) null!, (Stream) null!, (byte[]) null!, CancellationToken.None);
+#endif
+#if FeatureMemory
+        Span<byte> span = default;
+        ReadOnlySpan<byte> readOnlySpan = default;
+        Memory<byte> memory = default;
+        ReadOnlyMemory<byte> readOnlyMemory = default;
+
+        CryptographicOperations.FixedTimeEquals(readOnlySpan, readOnlySpan);
+        CryptographicOperations.FixedTimeEquals(readOnlySpan, (byte) 0);
+        CryptographicOperations.ZeroMemory(span);
+        CryptographicOperations.HashData(name, readOnlySpan);
+        CryptographicOperations.HashData(name, readOnlySpan, span);
+        CryptographicOperations.HashData(name, (Stream) null!, span);
+        CryptographicOperations.TryHashData(name, readOnlySpan, span, out _);
+        CryptographicOperations.HmacData(name, readOnlySpan, readOnlySpan);
+        CryptographicOperations.HmacData(name, readOnlySpan, readOnlySpan, span);
+        CryptographicOperations.HmacData(name, readOnlySpan, (Stream) null!);
+        CryptographicOperations.HmacData(name, readOnlySpan, (Stream) null!, span);
+        CryptographicOperations.TryHmacData(name, readOnlySpan, readOnlySpan, span, out _);
+        CryptographicOperations.VerifyHmac(name, readOnlySpan, readOnlySpan, readOnlySpan);
+        CryptographicOperations.VerifyHmac(name, readOnlySpan, (Stream) null!, readOnlySpan);
+#if FeatureValueTask
+        CryptographicOperations.HashDataAsync(name, (Stream) null!, memory);
+        CryptographicOperations.HashDataAsync(name, (Stream) null!, memory, CancellationToken.None);
+        CryptographicOperations.HmacDataAsync(name, readOnlyMemory, (Stream) null!);
+        CryptographicOperations.HmacDataAsync(name, readOnlyMemory, (Stream) null!, CancellationToken.None);
+        CryptographicOperations.HmacDataAsync(name, readOnlyMemory, (Stream) null!, memory, CancellationToken.None);
+        CryptographicOperations.VerifyHmacAsync(name, readOnlyMemory, (Stream) null!, readOnlyMemory);
+        CryptographicOperations.VerifyHmacAsync(name, readOnlyMemory, (Stream) null!, readOnlyMemory, CancellationToken.None);
+#endif
+#endif
+    }
+
 #if FeatureMemory
 
     void CollectionBuilderAttribute()

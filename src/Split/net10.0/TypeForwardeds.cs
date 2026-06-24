@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CompilerLoweringPreserveAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Threading.Tasks.ConfigureAwaitOptions))]
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.ConstantExpectedAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Security.Cryptography.CryptographicOperations))]
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.DebuggerDisableUserUnhandledExceptionsAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.DisableRuntimeMarshallingAttribute))]
 [assembly: TypeForwardedTo(typeof(System.IO.EnumerationOptions))]
