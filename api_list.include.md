@@ -1505,3 +1505,11 @@
 
 #### UnreachableException
 
+#### StringStream
+
+#### ReadOnlyMemoryStream
+
+#### WritableMemoryStream
+
+#### ReadOnlySequenceStream
+
