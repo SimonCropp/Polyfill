@@ -881,6 +881,15 @@ class Consume
 #endif
     }
 
+    void Encoder_Methods()
+    {
+#if FeatureMemory
+        var encoder = Encoding.UTF8.GetEncoder();
+        var bytes = new byte[16];
+        encoder.Convert("text".AsSpan(), bytes.AsSpan(), true, out var charsUsed, out var bytesUsed, out var completed);
+#endif
+    }
+
     void Environment_Methods()
     {
         var processPath = Environment.ProcessPath;

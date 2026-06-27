@@ -1,0 +1,36 @@
+#if FeatureMemory
+
+namespace Polyfills;
+
+using System;
+using System.Text;
+
+static partial class Polyfill
+{
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
+    /// <summary>
+    /// Converts a span of characters to an encoded byte sequence and stores the result in a byte span.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoder.convert?view=net-11.0#system-text-encoder-convert(system-readonlyspan((system-char))-system-span((system-byte))-system-boolean-system-int32@-system-int32@-system-boolean@)
+#if AllowUnsafeBlocks
+    public static unsafe void Convert(this Encoder target, ReadOnlySpan<char> chars, Span<byte> bytes, bool flush, out int charsUsed, out int bytesUsed, out bool completed)
+    {
+        fixed (char* charsPtr = chars)
+        fixed (byte* bytesPtr = bytes)
+        {
+            target.Convert(charsPtr, chars.Length, bytesPtr, bytes.Length, flush, out charsUsed, out bytesUsed, out completed);
+        }
+    }
+#else
+    public static void Convert(this Encoder target, ReadOnlySpan<char> chars, Span<byte> bytes, bool flush, out int charsUsed, out int bytesUsed, out bool completed)
+    {
+        var charArray = chars.ToArray();
+        var byteArray = new byte[bytes.Length];
+        target.Convert(charArray, 0, charArray.Length, byteArray, 0, byteArray.Length, flush, out charsUsed, out bytesUsed, out completed);
+        new ReadOnlySpan<byte>(byteArray, 0, bytesUsed).CopyTo(bytes);
+    }
+#endif
+#endif
+}
+
+#endif

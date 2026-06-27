@@ -207,14 +207,14 @@ static partial class Polyfill
                 chars[i] = (char) source[i];
             }
 
-            return Convert.FromBase64CharArray(chars, 0, chars.Length);
+            return System.Convert.FromBase64CharArray(chars, 0, chars.Length);
         }
 
         static string EncodeBase64(ReadOnlySpan<byte> source) =>
-            source.IsEmpty ? string.Empty : Convert.ToBase64String(source.ToArray());
+            source.IsEmpty ? string.Empty : System.Convert.ToBase64String(source.ToArray());
 
         static byte[] DecodeBase64(ReadOnlySpan<char> source) =>
-            source.IsEmpty ? Array.Empty<byte>() : Convert.FromBase64CharArray(source.ToArray(), 0, source.Length);
+            source.IsEmpty ? Array.Empty<byte>() : System.Convert.FromBase64CharArray(source.ToArray(), 0, source.Length);
     }
 }
 
