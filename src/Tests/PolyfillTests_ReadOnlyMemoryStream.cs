@@ -102,6 +102,17 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task ReadOnlyMemoryStream_FromMemoryViaImplicitConversion()
+    {
+        var buffer = new byte[] { 1, 2, 3, 4, 5 };
+        Memory<byte> memory = buffer;
+        using var stream = new ReadOnlyMemoryStream(memory);
+
+        await Assert.That(stream.Length).IsEqualTo(5L);
+        await Assert.That(stream.CanRead).IsTrue();
+    }
+
+    [Test]
     public async Task ReadOnlyMemoryStream_Empty()
     {
         using var stream = new ReadOnlyMemoryStream(ReadOnlyMemory<byte>.Empty);

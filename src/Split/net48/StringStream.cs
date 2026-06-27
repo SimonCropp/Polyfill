@@ -15,8 +15,10 @@ using System.Threading.Tasks;
 /// </summary>
 /// <remarks>
 /// This stream never emits a byte order mark (BOM). Callers who need a BOM can prepend it themselves.
-/// The polyfill encodes the whole text into a single buffer on first read rather than encoding
-/// on-the-fly; this is a non-observable performance difference from the BCL implementation.
+/// The text is encoded incrementally as the stream is read rather than being buffered up front, so the
+/// peak memory cost is bounded by the caller's read buffer rather than the full encoded length. A
+/// stateful <see cref="Encoder"/> preserves conversion state across reads, so multi-byte characters
+/// (including surrogate pairs) that straddle a buffer boundary are encoded correctly.
 /// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
@@ -31,9 +33,15 @@ sealed class StringStream :
 {
 	ReadOnlyMemory<char> text;
 	Encoding encoding;
-	byte[]? encoded;
-	int position;
+	int maxBytesPerChar;
+	Encoder? encoder;
+	int charPosition;
+	bool encoderFlushed;
 	bool disposed;
+	byte[]? pendingBytes;
+	int pendingOffset;
+	int pendingCount;
+	byte[]? singleByteBuffer;
 	/// <summary>
 	/// Initializes a new instance of the <see cref="StringStream"/> class with the specified string and encoding.
 	/// </summary>
@@ -49,6 +57,7 @@ sealed class StringStream :
 		}
 		this.text = text.AsMemory();
 		this.encoding = encoding;
+		maxBytesPerChar = encoding.GetMaxByteCount(1);
 	}
 	/// <summary>
 	/// Initializes a new instance of the <see cref="StringStream"/> class with the specified character memory and encoding.
@@ -61,6 +70,7 @@ sealed class StringStream :
 		}
 		this.text = text;
 		this.encoding = encoding;
+		maxBytesPerChar = encoding.GetMaxByteCount(1);
 	}
 	/// <summary>
 	/// Gets the encoding used by this stream.
@@ -80,42 +90,109 @@ sealed class StringStream :
 		get => throw new NotSupportedException("Stream does not support seeking.");
 		set => throw new NotSupportedException("Stream does not support seeking.");
 	}
-	byte[] GetEncoded()
-	{
-		if (encoded == null)
-		{
-			var chars = text.ToArray();
-			encoded = encoding.GetBytes(chars, 0, chars.Length);
-		}
-		return encoded;
-	}
 	/// <inheritdoc/>
 	public override int Read(byte[] buffer, int offset, int count)
 	{
 		GuardRange(buffer, offset, count);
-		ThrowIfDisposed();
-		var all = GetEncoded();
-		var remaining = all.Length - position;
-		if (remaining <= 0 ||
-			count == 0)
-		{
-			return 0;
-		}
-		var toRead = Math.Min(remaining, count);
-		Array.Copy(all, position, buffer, offset, toRead);
-		position += toRead;
-		return toRead;
+		return ReadCore(buffer, offset, count);
 	}
 	/// <inheritdoc/>
 	public override int ReadByte()
 	{
+		var single = singleByteBuffer ??= new byte[1];
+		return ReadCore(single, 0, 1) > 0 ? single[0] : -1;
+	}
+	int ReadCore(byte[] buffer, int offset, int count)
+	{
 		ThrowIfDisposed();
-		var all = GetEncoded();
-		if (position < all.Length)
+		if (count == 0 ||
+			(charPosition >= text.Length && pendingCount == 0 && encoderFlushed))
 		{
-			return all[position++];
+			return 0;
 		}
-		return -1;
+		if (charPosition == 0 &&
+			pendingCount == 0 &&
+			text.Length <= (int.MaxValue / maxBytesPerChar) - 1 &&
+			count >= encoding.GetMaxByteCount(text.Length))
+		{
+			var written = EncodeAll(text.Span, buffer, offset, count);
+			charPosition = text.Length;
+			encoderFlushed = true;
+			return written;
+		}
+		var totalBytesWritten = 0;
+		if (pendingCount > 0)
+		{
+			var toCopy = Math.Min(pendingCount, count);
+			Array.Copy(pendingBytes!, pendingOffset, buffer, offset, toCopy);
+			pendingOffset += toCopy;
+			pendingCount -= toCopy;
+			totalBytesWritten += toCopy;
+			if (totalBytesWritten == count)
+			{
+				return totalBytesWritten;
+			}
+		}
+		if (charPosition < text.Length)
+		{
+			var remaining = text.Span.Slice(charPosition);
+			var availableBytes = count - totalBytesWritten;
+			if (availableBytes < maxBytesPerChar)
+			{
+				pendingBytes ??= new byte[encoding.GetMaxByteCount(2)];
+				var charsToEncode = Math.Min(2, remaining.Length);
+				Convert(remaining.Slice(0, charsToEncode), pendingBytes, pendingBytes.Length, flush: false, out var charsUsed, out var bytesUsed);
+				charPosition += charsUsed;
+				var toCopy = Math.Min(bytesUsed, availableBytes);
+				Array.Copy(pendingBytes, 0, buffer, offset + totalBytesWritten, toCopy);
+				totalBytesWritten += toCopy;
+				pendingOffset = toCopy;
+				pendingCount = bytesUsed - toCopy;
+			}
+			else
+			{
+				Convert(remaining, buffer, offset + totalBytesWritten, availableBytes, flush: false, out var charsUsed, out var bytesUsed);
+				charPosition += charsUsed;
+				totalBytesWritten += bytesUsed;
+			}
+		}
+		if (charPosition >= text.Length &&
+			!encoderFlushed &&
+			pendingCount == 0)
+		{
+			pendingBytes ??= new byte[encoding.GetMaxByteCount(2)];
+			Convert(ReadOnlySpan<char>.Empty, pendingBytes, pendingBytes.Length, flush: true, out _, out var flushBytes);
+			encoderFlushed = true;
+			if (flushBytes > 0)
+			{
+				var available = count - totalBytesWritten;
+				var toCopy = Math.Min(flushBytes, available);
+				if (toCopy > 0)
+				{
+					Array.Copy(pendingBytes, 0, buffer, offset + totalBytesWritten, toCopy);
+					totalBytesWritten += toCopy;
+				}
+				if (toCopy < flushBytes)
+				{
+					pendingOffset = toCopy;
+					pendingCount = flushBytes - toCopy;
+				}
+			}
+		}
+		return totalBytesWritten;
+	}
+	Encoder GetEncoder() => encoder ??= encoding.GetEncoder();
+	int EncodeAll(ReadOnlySpan<char> chars, byte[] bytes, int byteIndex, int byteCount)
+	{
+		var charArray = chars.ToArray();
+		return encoding.GetBytes(charArray, 0, charArray.Length, bytes, byteIndex);
+	}
+	void Convert(ReadOnlySpan<char> chars, byte[] bytes, int byteCount, bool flush, out int charsUsed, out int bytesUsed) =>
+		Convert(chars, bytes, 0, byteCount, flush, out charsUsed, out bytesUsed);
+	void Convert(ReadOnlySpan<char> chars, byte[] bytes, int byteIndex, int byteCount, bool flush, out int charsUsed, out int bytesUsed)
+	{
+		var charArray = chars.Slice(0, Math.Min(chars.Length, byteCount)).ToArray();
+		GetEncoder().Convert(charArray, 0, charArray.Length, bytes, byteIndex, byteCount, flush, out charsUsed, out bytesUsed, out _);
 	}
 	/// <inheritdoc/>
 	public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
@@ -127,7 +204,11 @@ sealed class StringStream :
 		}
 		try
 		{
-			return Task.FromResult(Read(buffer, offset, count));
+			return Task.FromResult(ReadCore(buffer, offset, count));
+		}
+		catch (OperationCanceledException exception)
+		{
+			return Task.FromCanceled<int>(exception.CancellationToken);
 		}
 		catch (Exception exception)
 		{
