@@ -40,7 +40,7 @@ static partial class Polyfill
 			var result = Array.CreateInstance(underlyingType, values.Length);
 			for (var i = 0; i < values.Length; i++)
 			{
-				result.SetValue(Convert.ChangeType(values.GetValue(i)!, underlyingType), i);
+				result.SetValue(System.Convert.ChangeType(values.GetValue(i)!, underlyingType), i);
 			}
 			return result;
 		}

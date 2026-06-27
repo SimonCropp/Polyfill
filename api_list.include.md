@@ -297,6 +297,11 @@
  * `bool TryParse(string?, IFormatProvider?, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-11.0#system-double-tryparse(system-string-system-iformatprovider-system-double@))
 
 
+#### Encoder
+
+ * `void Convert(ReadOnlySpan<char>, Span<byte>, bool, int, int, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoder.convert?view=net-11.0#system-text-encoder-convert(system-readonlyspan((system-char))-system-span((system-byte))-system-boolean-system-int32@-system-int32@-system-boolean@))
+
+
 #### Encoding
 
  * `int GetByteCount(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getbytecount?view=net-11.0#system-text-encoding-getbytecount(system-readonlyspan((system-char))))
