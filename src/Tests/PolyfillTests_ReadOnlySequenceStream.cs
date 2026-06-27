@@ -74,6 +74,44 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task ReadOnlySequenceStream_SeekAcrossSegments_RepositionsCursor()
+    {
+        // bytes by index: 0..8 -> 1,2,3,4,5,6,7,8,9 across three segments.
+        var sequence = CreateMultiSegment(new byte[] { 1, 2, 3 }, new byte[] { 4, 5 }, new byte[] { 6, 7, 8, 9 });
+        using var stream = new ReadOnlySequenceStream(sequence);
+
+        // Forward from the start into the third segment.
+        stream.Seek(6, SeekOrigin.Begin);
+        await Assert.That(stream.Position).IsEqualTo(6L);
+        await Assert.That(stream.ReadByte()).IsEqualTo(7);
+
+        // Backward into the first segment (walk-from-start branch).
+        stream.Position = 1;
+        await Assert.That(stream.ReadByte()).IsEqualTo(2);
+
+        // Forward relative to the current cursor into the second segment.
+        stream.Seek(2, SeekOrigin.Current);
+        await Assert.That(stream.ReadByte()).IsEqualTo(5);
+
+        // Clamp to the end via End origin.
+        stream.Seek(0, SeekOrigin.End);
+        await Assert.That(stream.Position).IsEqualTo(9L);
+        await Assert.That(stream.ReadByte()).IsEqualTo(-1);
+    }
+
+    [Test]
+    public async Task ReadOnlySequenceStream_SeekBeyondLength_ReadsZero()
+    {
+        using var stream = new ReadOnlySequenceStream(new ReadOnlySequence<byte>(new byte[] { 1, 2, 3 }));
+
+        stream.Position = 10;
+
+        await Assert.That(stream.Position).IsEqualTo(10L);
+        await Assert.That(stream.ReadByte()).IsEqualTo(-1);
+        await Assert.That(stream.Read(new byte[4], 0, 4)).IsEqualTo(0);
+    }
+
+    [Test]
     public async Task ReadOnlySequenceStream_SeekBeforeBeginThrows()
     {
         using var stream = new ReadOnlySequenceStream(new ReadOnlySequence<byte>(new byte[] { 1, 2, 3 }));
@@ -109,6 +147,48 @@ partial class PolyfillTests
 
         await Assert.That(stream.Length).IsEqualTo(0L);
         await Assert.That(stream.Read(new byte[4], 0, 4)).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task ReadOnlySequenceStream_CopyTo_MultiSegment()
+    {
+        var sequence = CreateMultiSegment(new byte[] { 1, 2, 3 }, new byte[] { 4, 5 }, new byte[] { 6, 7, 8, 9 });
+        using var stream = new ReadOnlySequenceStream(sequence);
+        using var target = new MemoryStream();
+
+        stream.CopyTo(target);
+
+        await Assert.That(target.ToArray()).IsEquivalentTo(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
+        await Assert.That(stream.Position).IsEqualTo(9L);
+    }
+
+    [Test]
+    public async Task ReadOnlySequenceStream_CopyTo_AfterPartialRead_CopiesRemainder()
+    {
+        var sequence = CreateMultiSegment(new byte[] { 1, 2, 3 }, new byte[] { 4, 5, 6 });
+        using var stream = new ReadOnlySequenceStream(sequence);
+
+        var head = new byte[2];
+        stream.Read(head, 0, 2);
+
+        using var target = new MemoryStream();
+        stream.CopyTo(target);
+
+        await Assert.That(target.ToArray()).IsEquivalentTo(new byte[] { 3, 4, 5, 6 });
+        await Assert.That(stream.Position).IsEqualTo(6L);
+    }
+
+    [Test]
+    public async Task ReadOnlySequenceStream_CopyToAsync_MultiSegment()
+    {
+        var sequence = CreateMultiSegment(new byte[] { 1, 2 }, new byte[] { 3, 4, 5 });
+        using var stream = new ReadOnlySequenceStream(sequence);
+        using var target = new MemoryStream();
+
+        await stream.CopyToAsync(target);
+
+        await Assert.That(target.ToArray()).IsEquivalentTo(new byte[] { 1, 2, 3, 4, 5 });
+        await Assert.That(stream.Position).IsEqualTo(5L);
     }
 
     static ReadOnlySequence<byte> CreateMultiSegment(params byte[][] parts)
