@@ -19,14 +19,17 @@ static partial class Polyfill
             return false;
         }
 
-        for (var index = 0; index < target.Length; index++)
+        // Walk the contiguous chunks and compare each with the vectorized SequenceEqual,
+        // rather than indexing the StringBuilder per char (which walks the chunk list on every access).
+        foreach (var chunk in target.GetChunks())
         {
-            var ch1 = target[index];
-            var ch2 = span[index];
-            if (ch1 != ch2)
+            var chunkSpan = chunk.Span;
+            if (!chunkSpan.SequenceEqual(span.Slice(0, chunkSpan.Length)))
             {
                 return false;
             }
+
+            span = span.Slice(chunkSpan.Length);
         }
 
         return true;

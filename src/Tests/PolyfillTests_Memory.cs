@@ -527,5 +527,28 @@ partial class PolyfillTests
     {
         var builder = new StringBuilder("value");
         await Assert.That(builder.Equals("value".AsSpan())).IsTrue();
+        await Assert.That(builder.Equals("other".AsSpan())).IsFalse();
+        await Assert.That(builder.Equals("val".AsSpan())).IsFalse();
+        await Assert.That(builder.Equals("values".AsSpan())).IsFalse();
+        await Assert.That(builder.Equals("".AsSpan())).IsFalse();
+        await Assert.That(new StringBuilder().Equals("".AsSpan())).IsTrue();
+    }
+
+    [Test]
+    public async Task StringEqualsSpanMultipleChunks()
+    {
+        // A small initial capacity followed by appends past it forces the
+        // StringBuilder to span multiple chunks, exercising the chunk-walking path.
+        var builder = new StringBuilder("a", 1);
+        builder.Append("bb");
+        builder.Append("ccc");
+
+        await Assert.That(builder.Equals("abbccc".AsSpan())).IsTrue();
+        // mismatch in the first chunk
+        await Assert.That(builder.Equals("xbbccc".AsSpan())).IsFalse();
+        // mismatch in a later chunk, after the span has advanced across a chunk boundary
+        await Assert.That(builder.Equals("abbcxc".AsSpan())).IsFalse();
+        // matching prefix but wrong length
+        await Assert.That(builder.Equals("abbcc".AsSpan())).IsFalse();
     }
 }
