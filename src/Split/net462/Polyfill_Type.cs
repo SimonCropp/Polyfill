@@ -7,9 +7,15 @@ using System.Reflection;
 using System.Linq;
 static partial class Polyfill
 {
-	public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other) =>
-		target.MetadataToken == other.MetadataToken &&
-		target.Module.Equals(other.Module);
+	public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other)
+	{
+		if (other is null)
+		{
+			throw new ArgumentNullException(nameof(other));
+		}
+		return target.MetadataToken == other.MetadataToken &&
+			   target.Module.Equals(other.Module);
+	}
 	/// <summary>
 	/// Searches for the specified method whose parameters match the specified generic parameter count, argument types and modifiers, using the specified binding constraints.
 	/// </summary>
@@ -22,6 +28,25 @@ static partial class Polyfill
 		Type[] types,
 		ParameterModifier[]? modifiers)
 	{
+		if (name is null)
+		{
+			throw new ArgumentNullException(nameof(name));
+		}
+		if (genericParameterCount < 0)
+		{
+			throw new ArgumentOutOfRangeException(nameof(genericParameterCount));
+		}
+		if (types is null)
+		{
+			throw new ArgumentNullException(nameof(types));
+		}
+		foreach (var type in types)
+		{
+			if (type is null)
+			{
+				throw new ArgumentNullException(nameof(types));
+			}
+		}
 		var methods = target.GetMethods(bindingAttr);
 		if (genericParameterCount == 0)
 		{

@@ -3,8 +3,6 @@
 namespace Polyfills;
 using System;
 using System.Text;
-using System.IO;
-using System.Runtime.CompilerServices;
 static partial class Polyfill
 {
 #if FeatureMemory
@@ -147,22 +145,49 @@ static partial class Polyfill
 	/// <summary>
 	/// Replaces all newline sequences in the current string with <paramref name="replacementText"/>.
 	/// </summary>
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static string ReplaceLineEndings(this string target, string replacementText)
 	{
+		var index = IndexOfNewlineChar(target, 0, out var stride);
+		if (index < 0)
+		{
+			return target;
+		}
 		var builder = new StringBuilder(target.Length);
-		using var reader = new StringReader(target);
+		var position = 0;
 		while (true)
 		{
-			var line = reader.ReadLine();
-			if (line == null)
+			builder.Append(target, position, index - position);
+			builder.Append(replacementText);
+			position = index + stride;
+			index = IndexOfNewlineChar(target, position, out stride);
+			if (index < 0)
 			{
 				break;
 			}
-			builder.Append(line);
-			builder.Append(replacementText);
 		}
-		return builder.ToString(0, builder.Length - replacementText.Length);
+		builder.Append(target, position, target.Length - position);
+		return builder.ToString();
+	}
+	static int IndexOfNewlineChar(string text, int startIndex, out int stride)
+	{
+		stride = 0;
+		for (var index = startIndex; index < text.Length; index++)
+		{
+			switch (text[index])
+			{
+				case '\r':
+					stride = index + 1 < text.Length && text[index + 1] == '\n' ? 2 : 1;
+					return index;
+				case '\n':
+				case '\f':
+				case '\u0085':
+				case '\u2028':
+				case '\u2029':
+					stride = 1;
+					return index;
+			}
+		}
+		return -1;
 	}
 	/// <summary>
 	/// Replaces all newline sequences in the current string with <see cref="Environment.NewLine"/>.

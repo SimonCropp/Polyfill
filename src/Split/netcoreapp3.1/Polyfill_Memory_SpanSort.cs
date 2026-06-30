@@ -77,12 +77,8 @@ static partial class Polyfill
 				throw new ArgumentNullException(nameof(comparison));
 			this.comparison = comparison;
 		}
-		public int Compare(T? x, T? y)
-		{
-			if (x is null || y is null)
-				return 0;
-			return comparison((T)x, (T)y);
-		}
+		public int Compare(T? x, T? y) =>
+			comparison(x!, y!);
 	}
 }
 #endif

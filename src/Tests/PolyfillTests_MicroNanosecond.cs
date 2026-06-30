@@ -15,23 +15,34 @@ partial class PolyfillTests
         await Assert.That(fromMicrosecondsDateTime).IsEqualTo(fromTicksDateTime);
     }
 
-#if NET7_0_OR_GREATER
-    static TimeSpan timeSpan = DateTime.Now.TimeOfDay;
     [Test]
-    public async Task Nanoseconds()
+    public async Task AddMicroseconds_SubMillisecond()
     {
-        await Assert.That(dateTimeOffset.Nanosecond).IsEqualTo(dateTimeOffset.Nanosecond);
-        await Assert.That(timeSpan.Nanoseconds).IsEqualTo(timeSpan.Nanoseconds);
-        await Assert.That(dateTime.Nanosecond).IsEqualTo(dateTime.Nanosecond);
+        // 1 microsecond == 10 ticks; sub-millisecond precision must be preserved
+        // (AddMilliseconds rounds to whole milliseconds on .NET Framework).
+        var baseDateTime = new DateTime(2020, 1, 1);
+        await Assert.That((baseDateTime.AddMicroseconds(500) - baseDateTime).Ticks).IsEqualTo(5000L);
+        await Assert.That((baseDateTime.AddMicroseconds(1) - baseDateTime).Ticks).IsEqualTo(10L);
+
+        var baseOffset = new DateTimeOffset(2020, 1, 1, 0, 0, 0, TimeSpan.Zero);
+        await Assert.That((baseOffset.AddMicroseconds(500) - baseOffset).Ticks).IsEqualTo(5000L);
+        await Assert.That((baseOffset.AddMicroseconds(1) - baseOffset).Ticks).IsEqualTo(10L);
     }
 
     [Test]
-    public async Task Microsecond()
+    public async Task Microsecond_and_Nanosecond()
     {
-        await Assert.That(dateTimeOffset.Microsecond).IsEqualTo(dateTimeOffset.Microsecond);
-        await Assert.That(timeSpan.Microseconds).IsEqualTo(timeSpan.Microseconds);
-        await Assert.That(dateTime.Microsecond).IsEqualTo(dateTime.Microsecond);
-    }
-#endif
+        // 1234567 sub-second ticks decompose to 123 ms, 456 µs, 700 ns
+        var dateTimeValue = new DateTime(2020, 1, 1, 12, 30, 45).AddTicks(1234567);
+        await Assert.That(dateTimeValue.Microsecond).IsEqualTo(456);
+        await Assert.That(dateTimeValue.Nanosecond).IsEqualTo(700);
 
+        var dateTimeOffsetValue = new DateTimeOffset(dateTimeValue, TimeSpan.Zero);
+        await Assert.That(dateTimeOffsetValue.Microsecond).IsEqualTo(456);
+        await Assert.That(dateTimeOffsetValue.Nanosecond).IsEqualTo(700);
+
+        var timeSpanValue = new TimeSpan(1234567);
+        await Assert.That(timeSpanValue.Microseconds).IsEqualTo(456);
+        await Assert.That(timeSpanValue.Nanoseconds).IsEqualTo(700);
+    }
 }

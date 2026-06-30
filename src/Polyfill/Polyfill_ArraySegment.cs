@@ -16,17 +16,22 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.copyto?view=net-11.0#system-arraysegment-1-copyto(-0())
     public static void CopyTo<T>(this ArraySegment<T> target, ArraySegment<T> destination)
     {
-        if (target.Count > destination.Count)
-        {
-            throw new ArgumentException("DestinationTooShort", nameof(destination));
-        }
-
         if (target.Array == null)
         {
             throw new InvalidOperationException("InvalidOperation_NullArray");
         }
 
-        Array.Copy(target.Array!, target.Offset, destination.Array, destination.Offset, target.Count);
+        if (destination.Array == null)
+        {
+            throw new InvalidOperationException("InvalidOperation_NullArray");
+        }
+
+        if (target.Count > destination.Count)
+        {
+            throw new ArgumentException("Destination is too short.", nameof(destination));
+        }
+
+        Array.Copy(target.Array, target.Offset, destination.Array, destination.Offset, target.Count);
     }
 
     /// <summary>

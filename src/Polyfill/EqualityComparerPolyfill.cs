@@ -23,8 +23,15 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.equalitycomparer-1.create?view=net-11.0
         public static EqualityComparer<T> Create(
             Func<T?, T?, bool> equals,
-            Func<T, int>? getHashCode = null) =>
-            new DelegateEqualityComparer<T>(equals, getHashCode);
+            Func<T, int>? getHashCode = null)
+        {
+            if (equals is null)
+            {
+                throw new ArgumentNullException(nameof(equals));
+            }
+
+            return new DelegateEqualityComparer<T>(equals, getHashCode);
+        }
     }
 #endif
 
@@ -52,8 +59,15 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.equalitycomparer-1.create?view=net-11.0#system-collections-generic-equalitycomparer-1-create-1(system-func((-0-0))-system-collections-generic-iequalitycomparer((-0)))
         public static EqualityComparer<T> Create<TKey>(
             Func<T?, TKey?> keySelector,
-            IEqualityComparer<TKey>? keyComparer = null) =>
-            new KeySelectorEqualityComparer<T, TKey>(keySelector, keyComparer);
+            IEqualityComparer<TKey>? keyComparer = null)
+        {
+            if (keySelector is null)
+            {
+                throw new ArgumentNullException(nameof(keySelector));
+            }
+
+            return new KeySelectorEqualityComparer<T, TKey>(keySelector, keyComparer);
+        }
     }
 #endif
 }

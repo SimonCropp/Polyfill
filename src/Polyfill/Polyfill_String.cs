@@ -2,8 +2,6 @@ namespace Polyfills;
 
 using System;
 using System.Text;
-using System.IO;
-using System.Runtime.CompilerServices;
 
 static partial class Polyfill
 {
@@ -202,24 +200,56 @@ static partial class Polyfill
     /// Replaces all newline sequences in the current string with <paramref name="replacementText"/>.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.replacelineendings?view=net-11.0#system-string-replacelineendings(system-string)
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string ReplaceLineEndings(this string target, string replacementText)
     {
+        var index = IndexOfNewlineChar(target, 0, out var stride);
+        if (index < 0)
+        {
+            // No line endings to replace; matches the BCL fast path.
+            return target;
+        }
+
         var builder = new StringBuilder(target.Length);
-        using var reader = new StringReader(target);
+        var position = 0;
         while (true)
         {
-            var line = reader.ReadLine();
-            if (line == null)
+            builder.Append(target, position, index - position);
+            builder.Append(replacementText);
+            position = index + stride;
+            index = IndexOfNewlineChar(target, position, out stride);
+            if (index < 0)
             {
                 break;
             }
-
-            builder.Append(line);
-            builder.Append(replacementText);
         }
 
-        return builder.ToString(0, builder.Length - replacementText.Length);
+        builder.Append(target, position, target.Length - position);
+        return builder.ToString();
+    }
+
+    // Mirrors the line-ending set recognised by string.ReplaceLineEndings:
+    // CR, LF, CRLF, FF (U+000C), NEL (U+0085), LS (U+2028) and PS (U+2029).
+    static int IndexOfNewlineChar(string text, int startIndex, out int stride)
+    {
+        stride = 0;
+        for (var index = startIndex; index < text.Length; index++)
+        {
+            switch (text[index])
+            {
+                case '\r':
+                    stride = index + 1 < text.Length && text[index + 1] == '\n' ? 2 : 1;
+                    return index;
+                case '\n':
+                case '\f':
+                case '\u0085':
+                case '\u2028':
+                case '\u2029':
+                    stride = 1;
+                    return index;
+            }
+        }
+
+        return -1;
     }
 
     /// <summary>

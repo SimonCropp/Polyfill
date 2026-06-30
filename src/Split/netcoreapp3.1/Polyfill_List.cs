@@ -21,6 +21,10 @@ static partial class Polyfill
 	/// <summary>Inserts the elements of a span into the <see cref="List{T}"/> at the specified index.</summary>
 	public static void InsertRange<T>(this List<T> target, int index, ReadOnlySpan<T> source)
 	{
+		if ((uint)index > (uint)target.Count)
+		{
+			throw new ArgumentOutOfRangeException(nameof(index));
+		}
 		for (var i = 0; i < source.Length; i++)
 		{
 			var item = source[i];
@@ -30,6 +34,10 @@ static partial class Polyfill
 	/// <summary>Copies the entire <see cref="List{T}"/> to a span.</summary>
 	public static void CopyTo<T>(this List<T> target, Span<T> destination)
 	{
+		if (target.Count > destination.Length)
+		{
+			throw new ArgumentException("Destination is too short.", nameof(destination));
+		}
 		for (var index = 0; index < target.Count; index++)
 		{
 			destination[index] = target[index];

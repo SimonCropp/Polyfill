@@ -23,6 +23,21 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task StringBuilderCopyTo_InvalidArgs()
+    {
+        var builder = new StringBuilder("value");
+
+        // count < 0
+        await Assert.That(() => builder.CopyTo(0, new Span<char>(new char[2]), -1)).Throws<ArgumentOutOfRangeException>();
+        // sourceIndex past the end
+        await Assert.That(() => builder.CopyTo(6, new Span<char>(new char[2]), 0)).Throws<ArgumentOutOfRangeException>();
+        // not enough source characters from sourceIndex onward (silent truncation previously)
+        await Assert.That(() => builder.CopyTo(3, new Span<char>(new char[5]), 5)).Throws<ArgumentException>();
+        // destination too short
+        await Assert.That(() => builder.CopyTo(0, new Span<char>(new char[2]), 5)).Throws<ArgumentException>();
+    }
+
+    [Test]
     public async Task Replace()
     {
         var builder = new StringBuilder("a");
@@ -128,6 +143,18 @@ partial class PolyfillTests
         var target = new StringBuilder();
         target.Append(source, 1, 3);
         await Assert.That(target.ToString()).IsEqualTo("ell");
+    }
+
+    [Test]
+    public async Task StringBuilder_Append_StringBuilder_InvalidArgs()
+    {
+        var value = new StringBuilder("world");
+
+        // negative startIndex/count throw even when count is 0
+        await Assert.That(() => new StringBuilder().Append(value, -1, 0)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => new StringBuilder().Append(value, 0, -1)).Throws<ArgumentOutOfRangeException>();
+        // count == 0 with a non-negative startIndex is a no-op (matches the BCL)
+        await Assert.That(new StringBuilder().Append(value, 999, 0).ToString()).IsEqualTo("");
     }
 
     [Test]

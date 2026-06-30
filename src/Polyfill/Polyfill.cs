@@ -18,5 +18,5 @@ public
 #endif
 static partial class Polyfill
 {
-    const long TicksPerMicrosecond = TimeSpan.TicksPerMillisecond * 1000;
+    const long TicksPerMicrosecond = TimeSpan.TicksPerMillisecond / 1000;
 }

@@ -34,7 +34,7 @@ static partial class Polyfill
 			{
 				generator.GetBytes(bytes);
 				value = BitConverter.ToUInt32(bytes, 0) & mask;
-			} while (value >= range);
+			} while (value > range);
 			return (int) (fromInclusive + value);
 		}
 		/// <summary>

@@ -8,10 +8,10 @@ static partial class Polyfill
 	/// Returns a new <see cref="DateTime"/> object that adds a specified number of microseconds to the value of this instance..
 	/// </summary>
 	public static DateTime AddMicroseconds(this DateTime target, double microseconds) =>
-	   target.AddMilliseconds(microseconds / 1000);
+	   target.AddTicks((long)(microseconds * 10));
 	/// <summary>
 	/// Returns a new <see cref="DateTimeOffset"/> object that adds a specified number of microseconds to the value of this instance..
 	/// </summary>
 	public static DateTimeOffset AddMicroseconds(this DateTimeOffset target, double microseconds) =>
-	   target.AddMilliseconds(microseconds / 1000);
+	   target.AddTicks((long)(microseconds * 10));
 }

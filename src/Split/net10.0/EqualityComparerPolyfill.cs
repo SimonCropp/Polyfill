@@ -24,7 +24,13 @@ static partial class Polyfill
 		/// </summary>
 		public static EqualityComparer<T> Create<TKey>(
 			Func<T?, TKey?> keySelector,
-			IEqualityComparer<TKey>? keyComparer = null) =>
-			new KeySelectorEqualityComparer<T, TKey>(keySelector, keyComparer);
+			IEqualityComparer<TKey>? keyComparer = null)
+		{
+			if (keySelector is null)
+			{
+				throw new ArgumentNullException(nameof(keySelector));
+			}
+			return new KeySelectorEqualityComparer<T, TKey>(keySelector, keyComparer);
+		}
 	}
 }

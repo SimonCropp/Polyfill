@@ -99,13 +99,11 @@ static partial class Polyfill
             this.comparison = comparison;
         }
 
-        public int Compare(T? x, T? y)
-        {
-            if (x is null || y is null)
-                return 0;
-
-            return comparison((T)x, (T)y);
-        }
+        // Delegate straight to the user comparison, including null keys, to match the BCL
+        // (which lets the comparison decide how nulls order). Short-circuiting nulls to 0
+        // would treat every null-involving pair as equal and leave nulls unsorted.
+        public int Compare(T? x, T? y) =>
+            comparison(x!, y!);
     }
 }
 

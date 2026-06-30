@@ -53,11 +53,12 @@ static partial class Polyfill
 			string destinationDirectory,
 			bool overwrite)
 		{
-			if (overwrite && Directory.Exists(destinationDirectory))
+			if (!overwrite)
 			{
-				Directory.Delete(destinationDirectory, true);
+				ZipFile.ExtractToDirectory(sourceArchiveFile, destinationDirectory);
+				return;
 			}
-			ZipFile.ExtractToDirectory(sourceArchiveFile, destinationDirectory);
+			ExtractToDirectoryWithOverwrite(sourceArchiveFile, destinationDirectory, null);
 		}
 		static void ExtractToDirectoryPolyfill(
 			string sourceArchiveFile,
@@ -65,11 +66,43 @@ static partial class Polyfill
 			Encoding encoding,
 			bool overwrite)
 		{
-			if (overwrite && Directory.Exists(destinationDirectory))
+			if (!overwrite)
 			{
-				Directory.Delete(destinationDirectory, true);
+				ZipFile.ExtractToDirectory(sourceArchiveFile, destinationDirectory, encoding);
+				return;
 			}
-			ZipFile.ExtractToDirectory(sourceArchiveFile, destinationDirectory, encoding);
+			ExtractToDirectoryWithOverwrite(sourceArchiveFile, destinationDirectory, encoding);
+		}
+		static void ExtractToDirectoryWithOverwrite(
+			string sourceArchiveFile,
+			string destinationDirectory,
+			Encoding? encoding)
+		{
+			var destinationRoot = Path.GetFullPath(destinationDirectory);
+			Directory.CreateDirectory(destinationRoot);
+			var normalizedRoot = destinationRoot;
+			if (normalizedRoot[normalizedRoot.Length - 1] != Path.DirectorySeparatorChar)
+			{
+				normalizedRoot += Path.DirectorySeparatorChar;
+			}
+			using var archive = encoding == null
+				? ZipFile.OpenRead(sourceArchiveFile)
+				: ZipFile.Open(sourceArchiveFile, ZipArchiveMode.Read, encoding);
+			foreach (var entry in archive.Entries)
+			{
+				var destinationPath = Path.GetFullPath(Path.Combine(destinationRoot, entry.FullName));
+				if (!destinationPath.StartsWith(normalizedRoot, StringComparison.Ordinal))
+				{
+					throw new IOException("Extracting Zip entry would have resulted in a file outside the specified destination directory.");
+				}
+				if (entry.Name.Length == 0)
+				{
+					Directory.CreateDirectory(destinationPath);
+					continue;
+				}
+				Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
+				entry.ExtractToFile(destinationPath, overwrite: true);
+			}
 		}
 		/// <summary>
 		/// Asynchronously opens a ZipArchive on the specified archiveFileName in the specified ZipArchiveMode mode.

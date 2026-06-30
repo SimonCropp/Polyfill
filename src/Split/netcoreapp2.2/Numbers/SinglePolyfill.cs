@@ -12,13 +12,13 @@ static partial class Polyfill
 		/// Tries to parse a string into a value.
 		/// </summary>
 		public static bool TryParse(string? s, IFormatProvider? provider, out float result) =>
-			float.TryParse(s, NumberStyles.Float, provider, out result);
+			float.TryParse(s, NumberStyles.Float | NumberStyles.AllowThousands,provider, out result);
 #if FeatureMemory
 		/// <summary>
 		/// Tries to parse a span of UTF-8 characters into a value.
 		/// </summary>
 		public static bool TryParse(ReadOnlySpan<byte> utf8Text, IFormatProvider? provider, out float result) =>
-			float.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Float, provider, out result);
+			float.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Float | NumberStyles.AllowThousands,provider, out result);
 		/// <summary>
 		/// Tries to parse a span of UTF-8 characters into a value.
 		/// </summary>
@@ -28,12 +28,12 @@ static partial class Polyfill
 		/// Tries to convert a UTF-8 character span containing the string representation of a number to its single-precision floating-point number equivalent.
 		/// </summary>
 		public static bool TryParse(ReadOnlySpan<byte> utf8Text, out float result) =>
-			float.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Float, null, out result);
+			float.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Float | NumberStyles.AllowThousands,null, out result);
 		/// <summary>
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out float result) =>
-			float.TryParse(s.ToString(), NumberStyles.Float, provider, out result);
+			float.TryParse(s.ToString(), NumberStyles.Float | NumberStyles.AllowThousands,provider, out result);
 #endif
 	}
 }

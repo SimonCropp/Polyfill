@@ -134,19 +134,19 @@ static partial class Polyfill
 			var j = 0;
 			while (i + 1 < source.Length)
 			{
-				var hi = GetHexVal(source[i]);
-				var lo = GetHexVal(source[i + 1]);
-				if (hi < 0 || lo < 0)
-				{
-					charsConsumed = i;
-					bytesWritten = j;
-					return OperationStatus.InvalidData;
-				}
 				if (j >= destination.Length)
 				{
 					charsConsumed = i;
 					bytesWritten = j;
 					return OperationStatus.DestinationTooSmall;
+				}
+				var hi = GetHexVal(source[i]);
+				var lo = GetHexVal(source[i + 1]);
+				if (hi < 0 || lo < 0)
+				{
+					charsConsumed = lo < 0 ? i + 1 : i;
+					bytesWritten = j;
+					return OperationStatus.InvalidData;
 				}
 				destination[j++] = (byte)((hi << 4) | lo);
 				i += 2;
@@ -193,19 +193,19 @@ static partial class Polyfill
 			var j = 0;
 			while (i + 1 < utf8Source.Length)
 			{
-				var hi = GetHexVal((char)utf8Source[i]);
-				var lo = GetHexVal((char)utf8Source[i + 1]);
-				if (hi < 0 || lo < 0)
-				{
-					bytesConsumed = i;
-					bytesWritten = j;
-					return OperationStatus.InvalidData;
-				}
 				if (j >= destination.Length)
 				{
 					bytesConsumed = i;
 					bytesWritten = j;
 					return OperationStatus.DestinationTooSmall;
+				}
+				var hi = GetHexVal((char)utf8Source[i]);
+				var lo = GetHexVal((char)utf8Source[i + 1]);
+				if (hi < 0 || lo < 0)
+				{
+					bytesConsumed = lo < 0 ? i + 1 : i;
+					bytesWritten = j;
+					return OperationStatus.InvalidData;
 				}
 				destination[j++] = (byte)((hi << 4) | lo);
 				i += 2;

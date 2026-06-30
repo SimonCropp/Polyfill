@@ -9,9 +9,16 @@ static partial class Polyfill
 {
 #if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.reflection.memberinfo.hassamemetadatadefinitionas?view=net-11.0
-    public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other) =>
-        target.MetadataToken == other.MetadataToken &&
-        target.Module.Equals(other.Module);
+    public static bool HasSameMetadataDefinitionAs(this MemberInfo target, MemberInfo other)
+    {
+        if (other is null)
+        {
+            throw new ArgumentNullException(nameof(other));
+        }
+
+        return target.MetadataToken == other.MetadataToken &&
+               target.Module.Equals(other.Module);
+    }
 #endif
 
 #if NETFRAMEWORK || NETSTANDARD2_0 || NETCOREAPP2_0 || WINDOWS_UWP
@@ -28,6 +35,29 @@ static partial class Polyfill
         Type[] types,
         ParameterModifier[]? modifiers)
     {
+        if (name is null)
+        {
+            throw new ArgumentNullException(nameof(name));
+        }
+
+        if (genericParameterCount < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(genericParameterCount));
+        }
+
+        if (types is null)
+        {
+            throw new ArgumentNullException(nameof(types));
+        }
+
+        foreach (var type in types)
+        {
+            if (type is null)
+            {
+                throw new ArgumentNullException(nameof(types));
+            }
+        }
+
         var methods = target.GetMethods(bindingAttr);
         if (genericParameterCount == 0)
         {

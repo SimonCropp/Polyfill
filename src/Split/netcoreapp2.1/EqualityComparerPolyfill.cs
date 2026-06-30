@@ -19,8 +19,14 @@ static partial class Polyfill
 		/// </summary>
 		public static EqualityComparer<T> Create(
 			Func<T?, T?, bool> equals,
-			Func<T, int>? getHashCode = null) =>
-			new DelegateEqualityComparer<T>(equals, getHashCode);
+			Func<T, int>? getHashCode = null)
+		{
+			if (equals is null)
+			{
+				throw new ArgumentNullException(nameof(equals));
+			}
+			return new DelegateEqualityComparer<T>(equals, getHashCode);
+		}
 	}
 	class KeySelectorEqualityComparer<T, TKey>(Func<T?, TKey?> keySelector, IEqualityComparer<TKey>? keyComparer)
 		: EqualityComparer<T>
@@ -41,7 +47,13 @@ static partial class Polyfill
 		/// </summary>
 		public static EqualityComparer<T> Create<TKey>(
 			Func<T?, TKey?> keySelector,
-			IEqualityComparer<TKey>? keyComparer = null) =>
-			new KeySelectorEqualityComparer<T, TKey>(keySelector, keyComparer);
+			IEqualityComparer<TKey>? keyComparer = null)
+		{
+			if (keySelector is null)
+			{
+				throw new ArgumentNullException(nameof(keySelector));
+			}
+			return new KeySelectorEqualityComparer<T, TKey>(keySelector, keyComparer);
+		}
 	}
 }

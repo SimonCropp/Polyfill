@@ -50,6 +50,10 @@ static partial class Polyfill
 							span = span.Slice(1);
 						}
 						var value = values[index];
+						if (value is null)
+						{
+							continue;
+						}
 						value.CopyTo(span);
 						span = span.Slice(value.Length);
 					}

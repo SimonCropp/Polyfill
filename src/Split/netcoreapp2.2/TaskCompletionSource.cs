@@ -77,5 +77,5 @@ class TaskCompletionSource
 	/// <summary>
 	/// Attempts to transition the underlying <see cref="Task"/> into the <see cref="TaskStatus.Canceled"/> state.
 	/// </summary>
-	public bool TrySetCanceled(CancellationToken cancellationToken) => inner.TrySetCanceled(default);
+	public bool TrySetCanceled(CancellationToken cancellationToken) => inner.TrySetCanceled(cancellationToken);
 }

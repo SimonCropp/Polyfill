@@ -29,12 +29,12 @@ static partial class XElementPolyfill
         /// Asynchronously creates a new XElement and initializes its underlying XML tree using the specified stream, optionally preserving white space.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xelement.loadasync?view=net-11.0#system-xml-linq-xelement-loadasync(system-io-stream-system-xml-linq-loadoptions-system-threading-cancellationtoken)
-        public static async Task<XElement> LoadAsync(Stream stream, LoadOptions options, CancellationToken cancellationToken)
+        public static Task<XElement> LoadAsync(Stream stream, LoadOptions options, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            using var reader = new StreamReader(stream);
-            var content = await reader.ReadToEndAsync();
-            return XElement.Parse(content, options);
+            // Load from the stream directly so the XML-declared encoding / BOM is honored,
+            // rather than forcing UTF-8 decoding via StreamReader.
+            return Task.FromResult(XElement.Load(stream, options));
         }
 
         /// <summary>

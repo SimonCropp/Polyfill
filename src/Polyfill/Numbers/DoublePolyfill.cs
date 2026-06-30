@@ -18,7 +18,7 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-11.0#system-double-tryparse(system-string-system-iformatprovider-system-double@)
         public static bool TryParse(string? s, IFormatProvider? provider, out double result) =>
-            double.TryParse(s, NumberStyles.Float, provider, out result);
+            double.TryParse(s, NumberStyles.Float | NumberStyles.AllowThousands,provider, out result);
 
 #endif
 
@@ -30,7 +30,7 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-11.0#system-double-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-double@)
         public static bool TryParse(ReadOnlySpan<byte> utf8Text, IFormatProvider? provider, out double result) =>
-            double.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Float, provider, out result);
+            double.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Float | NumberStyles.AllowThousands,provider, out result);
 
         /// <summary>
         /// Tries to parse a span of UTF-8 characters into a value.
@@ -44,7 +44,7 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-11.0#system-double-tryparse(system-readonlyspan((system-byte))-system-double@)
         public static bool TryParse(ReadOnlySpan<byte> utf8Text, out double result) =>
-            double.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Float, null, out result);
+            double.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Float | NumberStyles.AllowThousands,null, out result);
 
 #endif
 
@@ -73,7 +73,7 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-11.0#system-double-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-double@)
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out double result) =>
-            double.TryParse(s.ToString(), NumberStyles.Float, provider, out result);
+            double.TryParse(s.ToString(), NumberStyles.Float | NumberStyles.AllowThousands,provider, out result);
 
 #endif
 

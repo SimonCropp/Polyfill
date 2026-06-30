@@ -30,6 +30,11 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange?view=net-11.0
     public static void InsertRange<T>(this List<T> target, int index, ReadOnlySpan<T> source)
     {
+        if ((uint)index > (uint)target.Count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(index));
+        }
+
         for (var i = 0; i < source.Length; i++)
         {
             var item = source[i];
@@ -41,6 +46,11 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.copyto?view=net-11.0
     public static void CopyTo<T>(this List<T> target, Span<T> destination)
     {
+        if (target.Count > destination.Length)
+        {
+            throw new ArgumentException("Destination is too short.", nameof(destination));
+        }
+
         for (var index = 0; index < target.Count; index++)
         {
             destination[index] = target[index];

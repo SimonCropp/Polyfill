@@ -66,11 +66,13 @@ static partial class Polyfill
 #if NET8_0_OR_GREATER
             ZipFile.ExtractToDirectory(sourceArchiveFile, destinationDirectory, overwrite);
 #else
-            if (overwrite && Directory.Exists(destinationDirectory))
+            if (!overwrite)
             {
-                Directory.Delete(destinationDirectory, true);
+                ZipFile.ExtractToDirectory(sourceArchiveFile, destinationDirectory);
+                return;
             }
-            ZipFile.ExtractToDirectory(sourceArchiveFile, destinationDirectory);
+
+            ExtractToDirectoryWithOverwrite(sourceArchiveFile, destinationDirectory, null);
 #endif
         }
 
@@ -83,13 +85,59 @@ static partial class Polyfill
 #if NET8_0_OR_GREATER
             ZipFile.ExtractToDirectory(sourceArchiveFile, destinationDirectory, encoding, overwrite);
 #else
-            if (overwrite && Directory.Exists(destinationDirectory))
+            if (!overwrite)
             {
-                Directory.Delete(destinationDirectory, true);
+                ZipFile.ExtractToDirectory(sourceArchiveFile, destinationDirectory, encoding);
+                return;
             }
-            ZipFile.ExtractToDirectory(sourceArchiveFile, destinationDirectory, encoding);
+
+            ExtractToDirectoryWithOverwrite(sourceArchiveFile, destinationDirectory, encoding);
 #endif
         }
+
+#if !NET8_0_OR_GREATER
+        // Mirrors the BCL overwriteFiles:true behavior: overwrite conflicting files in place,
+        // leaving any other pre-existing files in the destination untouched, rather than
+        // deleting the entire destination directory first.
+        static void ExtractToDirectoryWithOverwrite(
+            string sourceArchiveFile,
+            string destinationDirectory,
+            Encoding? encoding)
+        {
+            var destinationRoot = Path.GetFullPath(destinationDirectory);
+            Directory.CreateDirectory(destinationRoot);
+
+            var normalizedRoot = destinationRoot;
+            if (normalizedRoot[normalizedRoot.Length - 1] != Path.DirectorySeparatorChar)
+            {
+                normalizedRoot += Path.DirectorySeparatorChar;
+            }
+
+            using var archive = encoding == null
+                ? ZipFile.OpenRead(sourceArchiveFile)
+                : ZipFile.Open(sourceArchiveFile, ZipArchiveMode.Read, encoding);
+            foreach (var entry in archive.Entries)
+            {
+                var destinationPath = Path.GetFullPath(Path.Combine(destinationRoot, entry.FullName));
+
+                // Guard against entries that would escape the destination directory (zip slip).
+                if (!destinationPath.StartsWith(normalizedRoot, StringComparison.Ordinal))
+                {
+                    throw new IOException("Extracting Zip entry would have resulted in a file outside the specified destination directory.");
+                }
+
+                if (entry.Name.Length == 0)
+                {
+                    // The entry is a directory.
+                    Directory.CreateDirectory(destinationPath);
+                    continue;
+                }
+
+                Directory.CreateDirectory(Path.GetDirectoryName(destinationPath)!);
+                entry.ExtractToFile(destinationPath, overwrite: true);
+            }
+        }
+#endif
 
         /// <summary>
         /// Asynchronously opens a ZipArchive on the specified archiveFileName in the specified ZipArchiveMode mode.
