@@ -2,6 +2,32 @@
 partial class PolyfillTests
 {
     [Test]
+    public async Task TaskCompletionSource_TrySetCanceled_PropagatesToken()
+    {
+        using var source = new CancellationTokenSource();
+        source.Cancel();
+        var token = source.Token;
+
+        var completionSource = new TaskCompletionSource();
+        var result = completionSource.TrySetCanceled(token);
+
+        await Assert.That(result).IsTrue();
+        await Assert.That(completionSource.Task.IsCanceled).IsTrue();
+
+        CancellationToken observed = default;
+        try
+        {
+            await completionSource.Task;
+        }
+        catch (OperationCanceledException exception)
+        {
+            observed = exception.CancellationToken;
+        }
+
+        await Assert.That(observed).IsEqualTo(token);
+    }
+
+    [Test]
     public async Task TaskCompletionSource()
     {
         var completionSource = new TaskCompletionSource();

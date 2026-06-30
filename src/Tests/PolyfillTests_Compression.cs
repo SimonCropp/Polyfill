@@ -4,6 +4,38 @@ using System.IO.Compression;
 partial class PolyfillTests
 {
     [Test]
+    public async Task ZipFile_ExtractToDirectory_Overwrite_PreservesExistingFiles()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "polyfill_zip_" + Guid.NewGuid().ToString("N"));
+        var zipPath = Path.Combine(root, "archive.zip");
+        var destination = Path.Combine(root, "dest");
+        Directory.CreateDirectory(root);
+        Directory.CreateDirectory(destination);
+        try
+        {
+            using (var archive = ZipFile.Open(zipPath, ZipArchiveMode.Create))
+            using (var writer = new StreamWriter(archive.CreateEntry("a.txt").Open()))
+            {
+                writer.Write("from-archive");
+            }
+
+            File.WriteAllText(Path.Combine(destination, "preexisting.txt"), "keep-me");
+            File.WriteAllText(Path.Combine(destination, "a.txt"), "old");
+
+            await ZipFile.ExtractToDirectoryAsync(zipPath, destination, overwriteFiles: true);
+
+            // Pre-existing file not in the archive is preserved; archive file is overwritten.
+            await Assert.That(File.Exists(Path.Combine(destination, "preexisting.txt"))).IsTrue();
+            await Assert.That(File.ReadAllText(Path.Combine(destination, "preexisting.txt"))).IsEqualTo("keep-me");
+            await Assert.That(File.ReadAllText(Path.Combine(destination, "a.txt"))).IsEqualTo("from-archive");
+        }
+        finally
+        {
+            Directory.Delete(root, true);
+        }
+    }
+
+    [Test]
     public async Task ZipArchiveEntry_Open_WithFileAccess()
     {
         using var memStream = new MemoryStream();

@@ -27,6 +27,31 @@ public class FilePolyfillTests
         File.Delete(hardLinkFilePath);
     }
 
+    [Test]
+    public async Task GetSetUnixFileMode_SetUser_RoundTrip()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            // GetUnixFileMode/SetUnixFileMode are not supported on Windows.
+            return;
+        }
+
+        var path = Path.GetTempFileName();
+        try
+        {
+            File.SetUnixFileMode(path, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.SetUser);
+            var mode = File.GetUnixFileMode(path);
+
+            // setuid is octal 4 (SetUser); it must not be read/written as setgid (octal 2).
+            await Assert.That(mode.HasFlag(UnixFileMode.SetUser)).IsTrue();
+            await Assert.That(mode.HasFlag(UnixFileMode.SetGroup)).IsFalse();
+        }
+        finally
+        {
+            File.Delete(path);
+        }
+    }
+
 #if FeatureMemory
     [Test]
     public async Task AppendAllBytes()

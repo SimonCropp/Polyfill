@@ -3,6 +3,22 @@ using System.Security.Cryptography;
 public class RandomNumberGeneratorPolyfillTests
 {
     [Test]
+    public async Task GetInt32_ReturnsFullRange()
+    {
+        var seen = new HashSet<int>();
+        for (var i = 0; i < 200; i++)
+        {
+            seen.Add(RandomNumberGenerator.GetInt32(0, 3));
+        }
+
+        await Assert.That(seen.Contains(0)).IsTrue();
+        await Assert.That(seen.Contains(1)).IsTrue();
+        // The exclusive-upper-bound-minus-one value was previously never produced.
+        await Assert.That(seen.Contains(2)).IsTrue();
+        await Assert.That(seen.All(_ => _ is >= 0 and < 3)).IsTrue();
+    }
+
+    [Test]
     public async Task GetInt32_Range_Valid()
     {
         var min = 5;
