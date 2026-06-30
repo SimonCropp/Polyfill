@@ -1,6 +1,19 @@
 partial class PolyfillTests
 {
     [Test]
+    public async Task XElement_LoadAsync_HonorsDeclaredEncoding()
+    {
+        var accentedE = (char) 0x00E9;
+        var xml = $"<?xml version=\"1.0\" encoding=\"utf-16\"?><root>caf{accentedE}</root>";
+        // UTF-16 LE, no BOM: a UTF-8 StreamReader would mis-decode this.
+        var bytes = Encoding.Unicode.GetBytes(xml);
+
+        using var stream = new MemoryStream(bytes);
+        var element = await XElement.LoadAsync(stream, LoadOptions.None, CancellationToken.None);
+        await Assert.That(element.Value).IsEqualTo($"caf{accentedE}");
+    }
+
+    [Test]
     public async Task XElementSaveAsyncXmlWriter()
     {
         var document = new XElement("Child");

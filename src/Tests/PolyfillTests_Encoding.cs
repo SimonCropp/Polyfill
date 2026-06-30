@@ -45,6 +45,23 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task Encoding_GetChars_MultiByte()
+    {
+        var encoding = Encoding.UTF8;
+        var text = "héllo wörld";
+        var utf8Bytes = encoding.GetBytes(text);
+        // Decoded char count is smaller than the byte count for multi-byte input,
+        // so a destination sized to the char count must not be over-written.
+        var charCount = encoding.GetCharCount(utf8Bytes);
+        var charArray = new char[charCount];
+        var written = encoding.GetChars(new ReadOnlySpan<byte>(utf8Bytes), new Span<char>(charArray));
+
+        await Assert.That(charCount).IsLessThan(utf8Bytes.Length);
+        await Assert.That(written).IsEqualTo(charCount);
+        await Assert.That(new string(charArray)).IsEqualTo(text);
+    }
+
+    [Test]
     public async Task Encoding_GetString()
     {
         var array = (ReadOnlySpan<byte>)"value"u8.ToArray().AsSpan();

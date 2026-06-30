@@ -5,52 +5,71 @@ using System;
 static partial class Polyfill
 {
 	const long MicrosecondsToTicks = TimeSpan.TicksPerMillisecond / 1000;
+	const long MicrosecondsPerMillisecond = 1_000;
+	const long MicrosecondsPerSecond = 1_000_000;
+	const long MicrosecondsPerMinute = 60_000_000;
+	const long MicrosecondsPerHour = 3_600_000_000;
+	const long MicrosecondsPerDay = 86_400_000_000;
+	static TimeSpan TicksFromMicroseconds(decimal totalMicroseconds)
+	{
+		var ticks = totalMicroseconds * MicrosecondsToTicks;
+		if (ticks < long.MinValue || ticks > long.MaxValue)
+		{
+			throw new ArgumentOutOfRangeException(null, "TimeSpan overflowed because the duration is too long.");
+		}
+		return new((long)ticks);
+	}
 	extension(TimeSpan)
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of days, hours, minutes, seconds, milliseconds, and microseconds.
 		/// </summary>
 		public static TimeSpan FromDays(int days, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0) =>
-			new((long)days * TimeSpan.TicksPerDay +
-				(long)hours * TimeSpan.TicksPerHour +
-				(long)minutes * TimeSpan.TicksPerMinute +
-				(long)seconds * TimeSpan.TicksPerSecond +
-				(long)milliseconds * TimeSpan.TicksPerMillisecond +
-				(long)microseconds * MicrosecondsToTicks);
+			TicksFromMicroseconds(
+				(decimal)days * MicrosecondsPerDay +
+				(decimal)hours * MicrosecondsPerHour +
+				(decimal)minutes * MicrosecondsPerMinute +
+				(decimal)seconds * MicrosecondsPerSecond +
+				(decimal)milliseconds * MicrosecondsPerMillisecond +
+				microseconds);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of hours, minutes, seconds, milliseconds, and microseconds.
 		/// </summary>
 		public static TimeSpan FromHours(int hours, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0) =>
-			new((long)hours * TimeSpan.TicksPerHour +
-				(long)minutes * TimeSpan.TicksPerMinute +
-				(long)seconds * TimeSpan.TicksPerSecond +
-				(long)milliseconds * TimeSpan.TicksPerMillisecond +
-				(long)microseconds * MicrosecondsToTicks);
+			TicksFromMicroseconds(
+				(decimal)hours * MicrosecondsPerHour +
+				(decimal)minutes * MicrosecondsPerMinute +
+				(decimal)seconds * MicrosecondsPerSecond +
+				(decimal)milliseconds * MicrosecondsPerMillisecond +
+				microseconds);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of minutes, seconds, milliseconds, and microseconds.
 		/// </summary>
 		public static TimeSpan FromMinutes(int minutes, int seconds = 0, int milliseconds = 0, int microseconds = 0) =>
-			new((long)minutes * TimeSpan.TicksPerMinute +
-				(long)seconds * TimeSpan.TicksPerSecond +
-				(long)milliseconds * TimeSpan.TicksPerMillisecond +
-				(long)microseconds * MicrosecondsToTicks);
+			TicksFromMicroseconds(
+				(decimal)minutes * MicrosecondsPerMinute +
+				(decimal)seconds * MicrosecondsPerSecond +
+				(decimal)milliseconds * MicrosecondsPerMillisecond +
+				microseconds);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of seconds, milliseconds, and microseconds.
 		/// </summary>
 		public static TimeSpan FromSeconds(long seconds, long milliseconds = 0, long microseconds = 0) =>
-			new(seconds * TimeSpan.TicksPerSecond +
-				milliseconds * TimeSpan.TicksPerMillisecond +
-				microseconds * MicrosecondsToTicks);
+			TicksFromMicroseconds(
+				(decimal)seconds * MicrosecondsPerSecond +
+				(decimal)milliseconds * MicrosecondsPerMillisecond +
+				microseconds);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of milliseconds and microseconds.
 		/// </summary>
 		public static TimeSpan FromMilliseconds(long milliseconds, long microseconds = 0) =>
-			new(milliseconds * TimeSpan.TicksPerMillisecond +
-				microseconds * MicrosecondsToTicks);
+			TicksFromMicroseconds(
+				(decimal)milliseconds * MicrosecondsPerMillisecond +
+				microseconds);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of microseconds.
 		/// </summary>
 		public static TimeSpan FromMicroseconds(long microseconds) =>
-			new(microseconds * MicrosecondsToTicks);
+			TicksFromMicroseconds(microseconds);
 	}
 }

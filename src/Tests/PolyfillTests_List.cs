@@ -1,6 +1,27 @@
 partial class PolyfillTests
 {
     [Test]
+    public async Task List_CopyTo_TooShort_Throws_AndLeavesDestinationUntouched()
+    {
+        var list = new List<int> {10, 20, 30, 40, 50};
+
+        var destination = new int[3];
+        await Assert.That(() => list.CopyTo(new Span<int>(destination))).Throws<ArgumentException>();
+        await Assert.That(destination.All(_ => _ == 0)).IsTrue();
+
+        var ok = new int[5];
+        list.CopyTo(new Span<int>(ok));
+        await Assert.That(string.Join(",", ok)).IsEqualTo("10,20,30,40,50");
+    }
+
+    [Test]
+    public async Task List_InsertRange_InvalidIndex_Throws()
+    {
+        var list = new List<int> {1, 2, 3};
+        await Assert.That(() => list.InsertRange(10, ReadOnlySpan<int>.Empty)).Throws<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
     public async Task IListAsReadOnly()
     {
         IList<char> list = ['a'];

@@ -1,6 +1,25 @@
 public class TimeSpanPolyfillTests
 {
     [Test]
+    public async Task From_HappyPath_And_Overflow()
+    {
+        await Assert.That(TimeSpan.FromMicroseconds(1000000).Ticks).IsEqualTo(TimeSpan.TicksPerSecond);
+        await Assert.That(TimeSpan.FromDays(1).Ticks).IsEqualTo(TimeSpan.TicksPerDay);
+        await Assert.That(TimeSpan.FromSeconds(1, 0, 0).Ticks).IsEqualTo(TimeSpan.TicksPerSecond);
+
+        // Components that cancel out must stay in range. Accumulation happens in a wide (decimal)
+        // space, so even when an individual component product overflows Int64, a cancelling
+        // component keeps the result in range (matching the BCL's 128-bit accumulation).
+        await Assert.That(TimeSpan.FromSeconds(1000000000000, -1000000000000000, 0).Ticks).IsEqualTo(0L);
+        await Assert.That(TimeSpan.FromSeconds(0, -9498038399810654, long.MaxValue).Ticks).IsEqualTo(-2746663629558781930L);
+
+        // The multi-argument overloads reach the integer-based factory on every framework
+        // (the single-argument FromMicroseconds(double) BCL overload shadows the polyfill on net7/8).
+        await Assert.That(() => TimeSpan.FromDays(int.MaxValue, 0, 0, 0, 0, 0)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => TimeSpan.FromSeconds(long.MaxValue, 0, 0)).Throws<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
     public async Task Microseconds_ReturnsCorrectValue()
     {
         var ts = new TimeSpan(1, 2, 3, 4, 5);

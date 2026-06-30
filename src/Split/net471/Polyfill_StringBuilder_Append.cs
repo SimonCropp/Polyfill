@@ -10,6 +10,14 @@ static partial class Polyfill
 	/// </summary>
 	public static StringBuilder Append(this StringBuilder target, StringBuilder? value, int startIndex, int count)
 	{
+		if (startIndex < 0)
+		{
+			throw new ArgumentOutOfRangeException(nameof(startIndex));
+		}
+		if (count < 0)
+		{
+			throw new ArgumentOutOfRangeException(nameof(count));
+		}
 		if (value == null)
 		{
 			if (startIndex == 0 && count == 0)

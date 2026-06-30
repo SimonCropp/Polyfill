@@ -12,15 +12,19 @@ static partial class Polyfill
 	/// </summary>
 	public static void CopyTo<T>(this ArraySegment<T> target, ArraySegment<T> destination)
 	{
-		if (target.Count > destination.Count)
-		{
-			throw new ArgumentException("DestinationTooShort", nameof(destination));
-		}
 		if (target.Array == null)
 		{
 			throw new InvalidOperationException("InvalidOperation_NullArray");
 		}
-		Array.Copy(target.Array!, target.Offset, destination.Array, destination.Offset, target.Count);
+		if (destination.Array == null)
+		{
+			throw new InvalidOperationException("InvalidOperation_NullArray");
+		}
+		if (target.Count > destination.Count)
+		{
+			throw new ArgumentException("Destination is too short.", nameof(destination));
+		}
+		Array.Copy(target.Array, target.Offset, destination.Array, destination.Offset, target.Count);
 	}
 	/// <summary>
 	/// Copies the contents of this instance into the specified destination array of the same type T.

@@ -87,6 +87,22 @@ partial class PolyfillTests
         await Assert.That(expectedValues.SequenceEqual(values)).IsTrue();
     }
 
+    [Test]
+    public async Task SpanSort_KeysAndValues_WithComparison_NullKeys()
+    {
+        // null keys must be ordered by the supplied comparison, not treated as equal-to-everything
+        string?[] keys = ["b", null, "a"];
+        var values = new[] {0, 1, 2};
+        string?[] expectedKeys = [null, "a", "b"];
+        var expectedValues = new[] {1, 2, 0};
+
+        keys.AsSpan().Sort(values.AsSpan(), (x, y) => string.CompareOrdinal(x, y));
+
+        // Compare as joined strings to avoid the span SequenceEqual overload, which NREs on null elements on net48.
+        await Assert.That(string.Join(",", keys.Select(_ => _ ?? "null"))).IsEqualTo(string.Join(",", expectedKeys.Select(_ => _ ?? "null")));
+        await Assert.That(string.Join(",", values)).IsEqualTo(string.Join(",", expectedValues));
+    }
+
 #if !NET5_0_OR_GREATER
     [Test]
     public async Task SpanSort_NullComparison_ThrowsArgumentNullException()

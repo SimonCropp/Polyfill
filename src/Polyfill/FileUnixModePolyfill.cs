@@ -57,8 +57,8 @@ static partial class Polyfill
             var mode = output[0] switch
             {
                 '1' => UnixFileMode.StickyBit,
-                '2' => UnixFileMode.SetUser,
-                '4' => UnixFileMode.SetGroup,
+                '2' => UnixFileMode.SetGroup,
+                '4' => UnixFileMode.SetUser,
                 _ => UnixFileMode.None
             };
 
@@ -181,13 +181,13 @@ static partial class Polyfill
                         octal[3] += 1;
                         break;
                     case "setuser":
-                        octal[0] += 2;
+                        octal[0] += 4;
                         break;
                     case "stickybit":
                         octal[0] += 1;
                         break;
                     case "setgroup":
-                        octal[0] += 4;
+                        octal[0] += 2;
                         break;
                     default:
                         throw new("Invalid notation detected");

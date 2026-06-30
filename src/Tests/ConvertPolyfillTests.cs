@@ -1,5 +1,38 @@
+using System.Buffers;
+
 public class ConvertPolyfillTests
 {
+    [Test]
+    public async Task FromHexString_ConsumedOnInvalidData()
+    {
+        var destination = new byte[8];
+
+        // A valid leading nibble is counted as consumed; consumed stops at i unless the low nibble is valid.
+        await AssertConsumed("4G", 1); // hi valid, lo invalid
+        await AssertConsumed("G4", 0); // hi invalid, lo valid
+        await AssertConsumed("GG", 1); // both invalid
+        await AssertConsumed("444G", 3); // failure mid-span
+
+        // The UTF-8 byte overload shares the same consumed semantics.
+        var bytesStatus = Convert.FromHexString("4G"u8, destination, out var bytesConsumed, out _);
+        await Assert.That(bytesStatus).IsEqualTo(OperationStatus.InvalidData);
+        await Assert.That(bytesConsumed).IsEqualTo(1);
+
+        // DestinationTooSmall takes priority over InvalidData when the buffer is already full.
+        var smallDestination = new byte[2];
+        var fullStatus = Convert.FromHexString("a1F6CG".AsSpan(), smallDestination, out var fullConsumed, out var fullWritten);
+        await Assert.That(fullStatus).IsEqualTo(OperationStatus.DestinationTooSmall);
+        await Assert.That(fullConsumed).IsEqualTo(4);
+        await Assert.That(fullWritten).IsEqualTo(2);
+
+        async Task AssertConsumed(string source, int expectedConsumed)
+        {
+            var status = Convert.FromHexString(source.AsSpan(), destination, out var consumed, out _);
+            await Assert.That(status).IsEqualTo(OperationStatus.InvalidData);
+            await Assert.That(consumed).IsEqualTo(expectedConsumed);
+        }
+    }
+
     [Test]
     public async Task ToHexString_ValidInput()
     {

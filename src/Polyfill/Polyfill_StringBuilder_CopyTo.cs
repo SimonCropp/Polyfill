@@ -17,22 +17,29 @@ static partial class Polyfill
         Span<char> destination,
         int count)
     {
-        var destinationIndex = 0;
-        while (true)
+        if (count < 0)
         {
-            if (sourceIndex == target.Length)
-            {
-                break;
-            }
+            throw new ArgumentOutOfRangeException(nameof(count));
+        }
 
-            if (destinationIndex == count)
-            {
-                break;
-            }
+        if ((uint)sourceIndex > (uint)target.Length)
+        {
+            throw new ArgumentOutOfRangeException(nameof(sourceIndex));
+        }
 
-            destination[destinationIndex] = target[sourceIndex];
-            destinationIndex++;
-            sourceIndex++;
+        if (sourceIndex > target.Length - count)
+        {
+            throw new ArgumentException("The source StringBuilder does not contain enough characters from sourceIndex onward to satisfy count.");
+        }
+
+        if (count > destination.Length)
+        {
+            throw new ArgumentException("The destination span is too short to hold the requested characters.", nameof(destination));
+        }
+
+        for (var index = 0; index < count; index++)
+        {
+            destination[index] = target[sourceIndex + index];
         }
     }
 }

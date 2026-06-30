@@ -127,6 +127,10 @@ sealed class ZLibStream : Stream
 
         ReadHeader();
 
+        // Note: unlike the BCL ZLibStream, the trailing Adler-32 checksum is not validated on
+        // decompression. The payload is still inflated correctly, but a corrupted checksum is not
+        // detected (the BCL throws InvalidDataException). Reliable validation is not achievable on
+        // top of DeflateStream, which may buffer past the end of the deflate payload.
         return deflateStream!.Read(buffer, offset, count);
     }
 

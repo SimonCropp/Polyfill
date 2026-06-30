@@ -1,6 +1,38 @@
 partial class PolyfillTests
 {
     [Test]
+    public async Task Type_GetMethod_Validation()
+    {
+        var type = typeof(string);
+        var types = new[] {typeof(int)};
+
+        // Negative genericParameterCount throws ArgumentException; the exact subtype varies by
+        // framework (ArgumentException on net6-8, ArgumentOutOfRangeException on net9+/the polyfill).
+        ArgumentException? genericCountError = null;
+        try
+        {
+            type.GetMethod("Substring", -1, BindingFlags.Public | BindingFlags.Instance, null, types, null);
+        }
+        catch (ArgumentException exception)
+        {
+            genericCountError = exception;
+        }
+
+        await Assert.That(genericCountError).IsNotNull();
+        await Assert.That(genericCountError!.ParamName).IsEqualTo("genericParameterCount");
+
+        await Assert.That(() => type.GetMethod(null!, 0, BindingFlags.Public, null, types, null)).Throws<ArgumentNullException>();
+        await Assert.That(() => type.GetMethod("Substring", 0, BindingFlags.Public, null, null!, null)).Throws<ArgumentNullException>();
+    }
+
+    [Test]
+    public async Task MemberInfo_HasSameMetadataDefinitionAs_Null_Throws()
+    {
+        var member = typeof(string).GetMethod("Trim", Type.EmptyTypes)!;
+        await Assert.That(() => member.HasSameMetadataDefinitionAs(null!)).Throws<ArgumentNullException>();
+    }
+
+    [Test]
     public async Task HasSameMetadataDefinitionAs()
     {
         var method1 = typeof(string).GetMethod("Contains", [typeof(string)])!;

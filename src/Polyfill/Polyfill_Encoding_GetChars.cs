@@ -28,7 +28,7 @@ static partial class Polyfill
         var charArray = new char[bytes.Length];
         var array = bytes.ToArray();
         var count = target.GetChars(array, 0, bytes.Length, charArray, 0);
-        new ReadOnlySpan<char>(charArray).CopyTo(chars);
+        new ReadOnlySpan<char>(charArray, 0, count).CopyTo(chars);
         return count;
     }
 #endif

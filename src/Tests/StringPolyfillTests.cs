@@ -7,6 +7,8 @@ public class StringPolyfillTest
     public async Task Join()
     {
         await Assert.That(string.Join('a', ["b", "c"])).IsEqualTo("bac");
+        // null element with a char separator binds to the ReadOnlySpan<string?> overload; null is treated as empty
+        await Assert.That(string.Join('a', ["b", null, "c"])).IsEqualTo("baac");
         await Assert.That(string.Join("a1", ["b", "c"])).IsEqualTo("ba1c");
         await Assert.That(string.Join("a1", ["b", null, "c"])).IsEqualTo("ba1a1c");
         await Assert.That(string.Join('a', new object[] {"b", "c"})).IsEqualTo("bac");

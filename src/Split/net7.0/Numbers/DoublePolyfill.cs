@@ -13,7 +13,7 @@ static partial class Polyfill
 		/// Tries to parse a span of UTF-8 characters into a value.
 		/// </summary>
 		public static bool TryParse(ReadOnlySpan<byte> utf8Text, IFormatProvider? provider, out double result) =>
-			double.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Float, provider, out result);
+			double.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Float | NumberStyles.AllowThousands,provider, out result);
 		/// <summary>
 		/// Tries to parse a span of UTF-8 characters into a value.
 		/// </summary>
@@ -23,7 +23,7 @@ static partial class Polyfill
 		/// Tries to convert a UTF-8 character span containing the string representation of a number to its double-precision floating-point number equivalent..
 		/// </summary>
 		public static bool TryParse(ReadOnlySpan<byte> utf8Text, out double result) =>
-			double.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Float, null, out result);
+			double.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Float | NumberStyles.AllowThousands,null, out result);
 #endif
 	}
 }

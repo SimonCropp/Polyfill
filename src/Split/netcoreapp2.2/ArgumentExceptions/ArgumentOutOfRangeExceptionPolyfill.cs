@@ -15,7 +15,7 @@ static partial class Polyfill
 		{
 			if (value.Equals(default))
 			{
-				ThrowZero(paramName);
+				ThrowZero(value, paramName);
 			}
 		}
 		/// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
@@ -23,12 +23,12 @@ static partial class Polyfill
 		{
 			if (value == 0)
 			{
-				ThrowZero(paramName);
+				ThrowZero(value, paramName);
 			}
 		}
 		[DoesNotReturn]
-		static void ThrowZero(string? paramName) =>
-			throw new ArgumentOutOfRangeException(paramName, "Value must not be zero.");
+		static void ThrowZero<T>(T value, string? paramName) =>
+			throw new ArgumentOutOfRangeException(paramName, value, $"{paramName} ('{value}') must be a non-zero value.");
 		public static void ThrowIfNegative<T>(T value, [CallerArgumentExpression(nameof(value))] string? paramName = null)
 			where T : struct, IComparable<T>
 		{
@@ -112,7 +112,7 @@ static partial class Polyfill
 		{
 			if (value >= other)
 			{
-				throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than or equal to {other}.");
+				throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than {other}.");
 			}
 		}
 		public static void ThrowIfLessThan<T>(T value, T other, [CallerArgumentExpression(nameof(value))] string? paramName = null)
@@ -144,7 +144,7 @@ static partial class Polyfill
 		{
 			if (value <= other)
 			{
-				throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than or equal to {other}.");
+				throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than {other}.");
 			}
 		}
 	}

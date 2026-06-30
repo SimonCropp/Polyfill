@@ -19,7 +19,7 @@ static partial class Polyfill
         {
             if (T.IsZero(value))
             {
-                ThrowZero(paramName);
+                ThrowZero(value, paramName);
             }
         }
 #else
@@ -27,7 +27,7 @@ static partial class Polyfill
         {
             if (value.Equals(default))
             {
-                ThrowZero(paramName);
+                ThrowZero(value, paramName);
             }
         }
 #endif
@@ -38,14 +38,14 @@ static partial class Polyfill
         {
             if (value == 0)
             {
-                ThrowZero(paramName);
+                ThrowZero(value, paramName);
             }
         }
 #endif
 
         [DoesNotReturn]
-        static void ThrowZero(string? paramName) =>
-            throw new ArgumentOutOfRangeException(paramName, "Value must not be zero.");
+        static void ThrowZero<T>(T value, string? paramName) =>
+            throw new ArgumentOutOfRangeException(paramName, value, $"{paramName} ('{value}') must be a non-zero value.");
 #endif
 
 #if !NET8_0_OR_GREATER
@@ -191,7 +191,7 @@ static partial class Polyfill
         {
             if (value >= other)
             {
-                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than or equal to {other}.");
+                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be less than {other}.");
             }
         }
 #endif
@@ -237,7 +237,7 @@ static partial class Polyfill
         {
             if (value <= other)
             {
-                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than or equal to {other}.");
+                throw new ArgumentOutOfRangeException(paramName, value, $"Value must be greater than {other}.");
             }
         }
 #endif

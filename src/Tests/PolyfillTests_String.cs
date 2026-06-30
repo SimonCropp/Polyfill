@@ -30,6 +30,23 @@ partial class PolyfillTests
         }
 
         await Assert.That("a\rb\nc\r\nd".ReplaceLineEndings("_")).IsEqualTo("a_b_c_d");
+
+        // empty input must not throw
+        await Assert.That("".ReplaceLineEndings("_")).IsEqualTo("");
+        // a trailing line ending must be preserved
+        await Assert.That("a\n".ReplaceLineEndings("_")).IsEqualTo("a_");
+        await Assert.That("\n".ReplaceLineEndings("_")).IsEqualTo("_");
+        // consecutive line endings each get replaced
+        await Assert.That("a\n\nb".ReplaceLineEndings("_")).IsEqualTo("a__b");
+        // a string with no line endings is returned unchanged
+        await Assert.That("abc".ReplaceLineEndings("_")).IsEqualTo("abc");
+        // the full BCL line-ending set: FF (U+000C), NEL (U+0085), LS (U+2028), PS (U+2029)
+        var formFeed = (char) 0x000C;
+        var nextLine = (char) 0x0085;
+        var lineSeparator = (char) 0x2028;
+        var paragraphSeparator = (char) 0x2029;
+        var allSeparators = $"a{formFeed}b{nextLine}c{lineSeparator}d{paragraphSeparator}e";
+        await Assert.That(allSeparators.ReplaceLineEndings("_")).IsEqualTo("a_b_c_d_e");
     }
 
     [Test]

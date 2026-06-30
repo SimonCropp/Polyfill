@@ -5,6 +5,24 @@ public class ArgumentOutOfRangeExceptionTests
     #region ThrowIfZero Tests
 
     [Test]
+    public async Task ThrowIfZero_SetsActualValueAndParamName()
+    {
+        ArgumentOutOfRangeException? captured = null;
+        try
+        {
+            ArgumentOutOfRangeException.ThrowIfZero(0, "count");
+        }
+        catch (ArgumentOutOfRangeException exception)
+        {
+            captured = exception;
+        }
+
+        await Assert.That(captured).IsNotNull();
+        await Assert.That(captured!.ActualValue).IsEqualTo((object) 0);
+        await Assert.That(captured.ParamName).IsEqualTo("count");
+    }
+
+    [Test]
     public async Task ThrowIfZero_WithZeroInt_ThrowsArgumentOutOfRangeException()
     {
         // Arrange

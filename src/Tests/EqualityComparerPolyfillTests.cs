@@ -4,6 +4,21 @@ using System.Collections.Generic;
 public class EqualityComparerPolyfillTests
 {
     [Test]
+    public async Task Create_NullDelegates_Throw()
+    {
+        await Assert.That(() => EqualityComparer<int>.Create(null!)).Throws<ArgumentNullException>();
+
+        // The keySelector overload's delegate signature differs in nullability between the
+        // polyfill (Func<T?, TKey?>) and the .NET 11 BCL (Func<T?, TKey>); adapt accordingly.
+#if NET11_0_OR_GREATER
+        Func<string?, int> keySelector = null!;
+#else
+        Func<string?, int?> keySelector = null!;
+#endif
+        await Assert.That(() => EqualityComparer<string>.Create(keySelector)).Throws<ArgumentNullException>();
+    }
+
+    [Test]
     public async Task Create_WithEqualsAndGetHashCode()
     {
         var comparer = EqualityComparer<int>.Create(

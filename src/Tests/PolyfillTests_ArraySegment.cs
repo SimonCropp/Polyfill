@@ -2,6 +2,14 @@
 partial class PolyfillTests
 {
     [Test]
+    public async Task ArraySegment_CopyTo_DefaultDestination_Throws()
+    {
+        var source = new ArraySegment<int>(new[] {1, 2, 3});
+        ArraySegment<int> destination = default;
+        await Assert.That(() => source.CopyTo(destination)).Throws<InvalidOperationException>();
+    }
+
+    [Test]
     public async Task CopyTo_ArraySegment_CopiesElements()
     {
         var source = new ArraySegment<int>([1, 2, 3, 4], 1, 2); // [2,3]

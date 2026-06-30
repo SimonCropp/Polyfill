@@ -22,7 +22,7 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.microsecond?view=net-11.0
         public int Microsecond =>
-            (int) (target.TicksComponent() % TicksPerMicrosecond) * 1000;
+            (int) (target.TicksComponent() / TicksPerMicrosecond % 1000);
 
         long TicksComponent()
         {
