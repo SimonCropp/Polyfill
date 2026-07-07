@@ -524,6 +524,59 @@ Reference: [Improvements in native code interop in .NET 5.0](https://devblogs.mi
  * [DisableRuntimeMarshallingAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.disableruntimemarshallingattribute)
 
 
+### Unions
+
+Polyfills the two marker types that the compiler references when emitting [C# 15 union types](https://devblogs.microsoft.com/dotnet/csharp-15-union-types/), so unions can target older runtimes:
+
+ * [UnionAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.unionattribute)
+ * [IUnion](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.iunion)
+
+This is opt-in. It is off by default to avoid clashing with the `UnionAttribute`/`IUnion` that current preview guidance has projects declare themselves. Enable it in the consuming project:
+
+```xml
+<PropertyGroup>
+  <PolyUnion>true</PolyUnion>
+  <LangVersion>preview</LangVersion>
+</PropertyGroup>
+```
+
+> Polyfill supplies only the `UnionAttribute` and `IUnion` types that the generated union struct references. The `union` keyword itself requires the C# 15 (or later) compiler and cannot be backported to an older compiler.
+
+Declaring a union:
+
+```cs
+public union Pet(Cat, Dog, Bird);
+```
+
+Consuming a union, using the implicit conversion from a case type and pattern matching to unwrap it:
+
+```cs
+Pet pet = new Dog("Rex");
+
+var label = pet switch
+{
+    Cat cat => $"cat {cat.Name}",
+    Dog dog => $"dog {dog.Name}",
+    Bird bird => $"bird {bird.Name}"
+};
+```
+
+A union can also be declared explicitly using the polyfilled attribute and interface:
+
+```cs
+[Union]
+public readonly struct IntOrString : IUnion
+{
+    readonly object? value;
+
+    public IntOrString(int value) => this.value = value;
+    public IntOrString(string value) => this.value = value;
+
+    public object? Value => value;
+}
+```
+
+
 ## Extensions
 
 The class `Polyfill` includes the following extension methods:

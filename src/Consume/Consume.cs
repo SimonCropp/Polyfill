@@ -103,6 +103,10 @@ class Consume
         type = typeof(RequiresUnreferencedCodeAttribute);
         type = typeof(UnconditionalSuppressMessageAttribute);
         type = typeof(CompilerFeatureRequiredAttribute);
+#if PolyUnion
+        type = typeof(IUnion);
+        type = typeof(UnionAttribute);
+#endif
 #if FeatureMemory
         type = typeof(CollectionBuilderAttribute);
 #endif

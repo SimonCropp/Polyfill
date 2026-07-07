@@ -1510,6 +1510,10 @@
 
 #### UnreachableException
 
+#### IUnion
+
+> Requires [`<PolyUnion>true</PolyUnion>`](#unions) in the consuming project.
+
 #### StringStream
 
 #### ReadOnlyMemoryStream

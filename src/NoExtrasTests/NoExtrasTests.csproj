@@ -8,6 +8,7 @@
     <PolyArgumentExceptions>false</PolyArgumentExceptions>
     <PolyNullability>false</PolyNullability>
     <PolyStringInterpolation>false</PolyStringInterpolation>
+    <PolyUnion>false</PolyUnion>
     <RootNamespace>NoExtras</RootNamespace>
   </PropertyGroup>
   <ItemGroup>

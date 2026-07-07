@@ -78,3 +78,5 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.RequiresUnreferencedCodeAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessageAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.IUnion))]
+[assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.UnionAttribute))]
