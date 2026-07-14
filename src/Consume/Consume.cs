@@ -1361,7 +1361,9 @@ class Consume
 
         ProcessExitStatus status = Process.Run("notexists");
         status = Process.Run("notexists", new[] { "a", "b" });
-        status = Process.Run("notexists", new[] { "a", "b" }, TimeSpan.FromSeconds(1));
+        status = Process.Run("notexists", new[] { "a", "b" }, silent: true);
+        status = Process.Run("notexists", new[] { "a", "b" }, true, TimeSpan.FromSeconds(1));
+        status = Process.Run("notexists", new[] { "a", "b" }, timeout: TimeSpan.FromSeconds(1));
         status = Process.Run(new ProcessStartInfo("notexists"));
         status = Process.Run(new ProcessStartInfo("notexists"), TimeSpan.FromSeconds(1));
         _ = status.Canceled;
@@ -1370,7 +1372,9 @@ class Consume
 
         status = await Process.RunAsync("notexists");
         status = await Process.RunAsync("notexists", new[] { "a", "b" });
-        status = await Process.RunAsync("notexists", new[] { "a", "b" }, CancellationToken.None);
+        status = await Process.RunAsync("notexists", new[] { "a", "b" }, silent: true);
+        status = await Process.RunAsync("notexists", new[] { "a", "b" }, true, CancellationToken.None);
+        status = await Process.RunAsync("notexists", new[] { "a", "b" }, cancellationToken: CancellationToken.None);
         status = await Process.RunAsync(new ProcessStartInfo("notexists"));
         status = await Process.RunAsync(new ProcessStartInfo("notexists"), CancellationToken.None);
 
@@ -1391,6 +1395,9 @@ class Consume
         int pid = Process.StartAndForget("notexists");
         pid = Process.StartAndForget("notexists", new[] { "a", "b" });
         pid = Process.StartAndForget(new ProcessStartInfo("notexists"));
+
+        _ = Process.TryGetProcessById(1, out Process? foundProcess);
+        _ = foundProcess;
 
         ProcessOutputLine outputLine = new("text", standardError: false);
         _ = outputLine.Content;

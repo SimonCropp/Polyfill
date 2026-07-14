@@ -5,6 +5,7 @@ namespace Polyfills;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Versioning;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,12 +31,20 @@ static partial class Polyfill
         /// <summary>
         /// Starts the process described by <paramref name="fileName"/> and <paramref name="arguments"/>, waits for it to exit, and returns the exit status.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.run?view=net-11.0#system-diagnostics-process-run(system-string-system-collections-generic-ilist((system-string))-system-nullable((system-timespan)))
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.run?view=net-11.0#system-diagnostics-process-run(system-string-system-collections-generic-ilist((system-string))-system-boolean-system-nullable((system-timespan)))
+        //Note: When silent is true, standard output and error are suppressed by redirecting and discarding them (rather than binding to the null device as on net11); standard input remains connected.
         [SupportedOSPlatform("maccatalyst")]
         [UnsupportedOSPlatform("ios")]
         [UnsupportedOSPlatform("tvos")]
-        public static ProcessExitStatus Run(string fileName, IList<string>? arguments = null, TimeSpan? timeout = default) =>
-            Process.Run(BuildStartInfo(fileName, arguments), timeout);
+        public static ProcessExitStatus Run(string fileName, IList<string>? arguments = null, bool silent = false, TimeSpan? timeout = default)
+        {
+            if (silent)
+            {
+                return Process.RunAndCaptureText(fileName, arguments, timeout).ExitStatus;
+            }
+
+            return Process.Run(BuildStartInfo(fileName, arguments), timeout);
+        }
 
         /// <summary>
         /// Asynchronously starts the process described by <paramref name="startInfo"/>, waits for it to exit, and returns the exit status.
@@ -70,12 +79,20 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously starts the process described by <paramref name="fileName"/> and <paramref name="arguments"/>, waits for it to exit, and returns the exit status.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runasync?view=net-11.0#system-diagnostics-process-runasync(system-string-system-collections-generic-ilist((system-string))-system-threading-cancellationtoken)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runasync?view=net-11.0#system-diagnostics-process-runasync(system-string-system-collections-generic-ilist((system-string))-system-boolean-system-threading-cancellationtoken)
+        //Note: When silent is true, standard output and error are suppressed by redirecting and discarding them (rather than binding to the null device as on net11); standard input remains connected.
         [SupportedOSPlatform("maccatalyst")]
         [UnsupportedOSPlatform("ios")]
         [UnsupportedOSPlatform("tvos")]
-        public static Task<ProcessExitStatus> RunAsync(string fileName, IList<string>? arguments = null, CancellationToken cancellationToken = default) =>
-            Process.RunAsync(BuildStartInfo(fileName, arguments), cancellationToken);
+        public static Task<ProcessExitStatus> RunAsync(string fileName, IList<string>? arguments = null, bool silent = false, CancellationToken cancellationToken = default)
+        {
+            if (silent)
+            {
+                return RunSilentAsync(fileName, arguments, cancellationToken);
+            }
+
+            return Process.RunAsync(BuildStartInfo(fileName, arguments), cancellationToken);
+        }
 
         /// <summary>
         /// Starts the process described by <paramref name="startInfo"/>, captures its standard output and standard error as text, waits for it to exit, and returns the captured output.
@@ -180,6 +197,38 @@ static partial class Polyfill
         [UnsupportedOSPlatform("tvos")]
         public static int StartAndForget(string fileName, IList<string>? arguments = null) =>
             Process.StartAndForget(BuildStartInfo(fileName, arguments));
+
+        /// <summary>
+        /// Gets the <see cref="Process"/> associated with the specified process identifier, and returns a value that indicates whether the operation succeeded.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.trygetprocessbyid?view=net-11.0
+        [SupportedOSPlatform("maccatalyst")]
+        [UnsupportedOSPlatform("ios")]
+        [UnsupportedOSPlatform("tvos")]
+        public static bool TryGetProcessById(int processId, [NotNullWhen(true)] out Process? process)
+        {
+            if (processId <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(processId), processId, "Process identifier must be positive.");
+            }
+
+            try
+            {
+                process = Process.GetProcessById(processId);
+                return true;
+            }
+            catch (ArgumentException)
+            {
+                process = null;
+                return false;
+            }
+        }
+    }
+
+    static async Task<ProcessExitStatus> RunSilentAsync(string fileName, IList<string>? arguments, CancellationToken cancellationToken)
+    {
+        var output = await Process.RunAndCaptureTextAsync(fileName, arguments, cancellationToken);
+        return output.ExitStatus;
     }
 
     static Process StartOrThrow(ProcessStartInfo startInfo)
