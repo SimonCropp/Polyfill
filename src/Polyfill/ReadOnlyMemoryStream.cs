@@ -1,20 +1,8 @@
 #nullable enable
 
-// === Polyfill target window =====================================================================
-// System.IO.ReadOnlyMemoryStream was approved and merged into dotnet/runtime for net11
-// (https://github.com/dotnet/runtime/pull/126669) but is NOT in the current net11 preview/RC SDK,
-// so this polyfill is intentionally ACTIVE on net11 as well.
-// When you upgrade to a net11 SDK that actually ships this type, the build will collide (CS0436)
-// and the ApiBuilderTests "StreamWrapperBclDetectionTests" test FAILS with these exact steps.
-// To retire this polyfill for net11:
-//   1. change `#if FeatureMemory` below to `#if FeatureMemory && !NET11_0_OR_GREATER`
-//   2. add at the bottom of this file (after the final #endif):
-//        #if NET11_0_OR_GREATER
-//        [assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.IO.ReadOnlyMemoryStream))]
-//        #endif
-//   3. re-run ApiBuilderTests in Debug to regenerate Split + api_list.
-// ================================================================================================
-#if FeatureMemory
+// Ships in the BCL from net11 (System.IO.ReadOnlyMemoryStream, dotnet/runtime#126669). This polyfill covers
+// pre-net11 targets; on net11+ the runtime provides the type and it is forwarded at the end of this file.
+#if FeatureMemory && !NET11_0_OR_GREATER
 
 #pragma warning disable
 
@@ -71,4 +59,8 @@ sealed class ReadOnlyMemoryStream :
     }
 }
 
+#endif
+
+#if NET11_0_OR_GREATER
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.IO.ReadOnlyMemoryStream))]
 #endif
