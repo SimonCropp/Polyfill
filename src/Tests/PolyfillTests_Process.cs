@@ -169,6 +169,14 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task Process_Run_Silent()
+    {
+        var status = Process.Run("dotnet", new[] { "--info" }, silent: true);
+        await Assert.That(status.Canceled).IsFalse();
+        await Assert.That(status.ExitCode).IsEqualTo(0);
+    }
+
+    [Test]
     public async Task Process_RunAsync()
     {
         var status = await Process.RunAsync("dotnet", new[] { "--info" });
@@ -178,11 +186,44 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task Process_RunAsync_Silent()
+    {
+        var status = await Process.RunAsync("dotnet", new[] { "--info" }, silent: true);
+        await Assert.That(status.Canceled).IsFalse();
+        await Assert.That(status.ExitCode).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task Process_TryGetProcessById_Found()
+    {
+        var currentId = Process.GetCurrentProcess().Id;
+        var found = Process.TryGetProcessById(currentId, out var process);
+        await Assert.That(found).IsTrue();
+        await Assert.That(process).IsNotNull();
+        await Assert.That(process!.Id).IsEqualTo(currentId);
+        process.Dispose();
+    }
+
+    [Test]
+    public async Task Process_TryGetProcessById_NotFound()
+    {
+        var found = Process.TryGetProcessById(int.MaxValue, out var process);
+        await Assert.That(found).IsFalse();
+        await Assert.That(process).IsNull();
+    }
+
+    [Test]
+    public async Task Process_TryGetProcessById_InvalidId()
+    {
+        await Assert.That(() => { Process.TryGetProcessById(0, out _); }).Throws<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
     public async Task Process_RunAsync_Canceled()
     {
         using var source = new CancellationTokenSource();
         source.Cancel();
-        var status = await Process.RunAsync("dotnet", new[] { "--info" }, source.Token);
+        var status = await Process.RunAsync("dotnet", new[] { "--info" }, cancellationToken: source.Token);
         await Assert.That(status.Canceled).IsTrue();
     }
 
