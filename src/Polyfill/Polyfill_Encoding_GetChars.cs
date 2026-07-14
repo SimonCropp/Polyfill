@@ -16,8 +16,19 @@ static partial class Polyfill
 #if AllowUnsafeBlocks
     public static unsafe int GetChars(this Encoding target, ReadOnlySpan<byte> bytes, Span<char> chars)
     {
+        if (bytes.IsEmpty)
+        {
+            return 0;
+        }
+
+        var charsToPin = chars;
+        if (charsToPin.IsEmpty)
+        {
+            charsToPin = stackalloc char[1];
+        }
+
         fixed (byte* bytesPtr = bytes)
-        fixed (char* charsPtr = chars)
+        fixed (char* charsPtr = charsToPin)
         {
             return target.GetChars(bytesPtr, bytes.Length, charsPtr, chars.Length);
         }

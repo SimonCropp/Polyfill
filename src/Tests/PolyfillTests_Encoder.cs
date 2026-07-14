@@ -48,5 +48,39 @@ partial class PolyfillTests
         await Assert.That(completed).IsTrue();
         await Assert.That(bytes).IsEquivalentTo(Encoding.UTF8.GetBytes(text));
     }
+
+    [Test]
+    public async Task Encoder_Convert_EmptySource()
+    {
+        var encoder = Encoding.UTF8.GetEncoder();
+        ReadOnlySpan<char> chars = default;
+        var bytes = new byte[1];
+
+        encoder.Convert(chars, bytes, true, out var charsUsed, out var bytesUsed, out var completed);
+
+        await Assert.That(charsUsed).IsEqualTo(0);
+        await Assert.That(bytesUsed).IsEqualTo(0);
+        await Assert.That(completed).IsTrue();
+    }
+
+    [Test]
+    public async Task Encoder_Convert_EmptyDestination()
+    {
+        var encoder = Encoding.UTF8.GetEncoder();
+        ReadOnlySpan<char> chars = "value";
+        Span<byte> bytes = default;
+        Exception? exception = null;
+
+        try
+        {
+            encoder.Convert(chars, bytes, false, out _, out _, out _);
+        }
+        catch (Exception caught)
+        {
+            exception = caught;
+        }
+
+        await Assert.That(exception?.GetType()).IsEqualTo(typeof(ArgumentException));
+    }
 }
 #endif

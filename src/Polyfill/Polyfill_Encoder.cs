@@ -15,8 +15,20 @@ static partial class Polyfill
 #if AllowUnsafeBlocks
     public static unsafe void Convert(this Encoder target, ReadOnlySpan<char> chars, Span<byte> bytes, bool flush, out int charsUsed, out int bytesUsed, out bool completed)
     {
-        fixed (char* charsPtr = chars)
-        fixed (byte* bytesPtr = bytes)
+        var charsToPin = chars;
+        if (charsToPin.IsEmpty)
+        {
+            charsToPin = stackalloc char[1];
+        }
+
+        var bytesToPin = bytes;
+        if (bytesToPin.IsEmpty)
+        {
+            bytesToPin = stackalloc byte[1];
+        }
+
+        fixed (char* charsPtr = charsToPin)
+        fixed (byte* bytesPtr = bytesToPin)
         {
             target.Convert(charsPtr, chars.Length, bytesPtr, bytes.Length, flush, out charsUsed, out bytesUsed, out completed);
         }
