@@ -100,12 +100,15 @@ partial class PolyfillTests
         // Flushing with an empty source must still emit the buffered surrogate (via the replacement fallback),
         // proving the empty-source path cannot be short-circuited for the stateful Encoder.
         ReadOnlySpan<char> empty = default;
-        encoder.Convert(empty, buffer, true, out var charsUsed, out var bytesUsed, out var completed);
+        encoder.Convert(empty, buffer, true, out var charsUsed, out var bytesUsed, out _);
 
+        // `completed` is intentionally not asserted: .NET Core 3.1's UTF8 encoder returns false here,
+        // while .NET Framework (polyfill path) and .NET 5+ return true. The point of this test is that
+        // flushing with an empty source still emits the buffered surrogate (bytesUsed == 3), which holds
+        // on every runtime.
         await Assert.That(pendingBytes).IsEqualTo(0);
         await Assert.That(charsUsed).IsEqualTo(0);
         await Assert.That(bytesUsed).IsEqualTo(3);
-        await Assert.That(completed).IsTrue();
     }
 }
 #endif
