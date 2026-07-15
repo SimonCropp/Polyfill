@@ -16,6 +16,11 @@ static partial class Polyfill
 #if AllowUnsafeBlocks
     public static unsafe int GetCharCount(this Encoding target, ReadOnlySpan<byte> bytes)
     {
+        if (bytes.IsEmpty)
+        {
+            return 0;
+        }
+
         fixed (byte* bytesPtr = bytes)
         {
             return target.GetCharCount(bytesPtr, bytes.Length);
