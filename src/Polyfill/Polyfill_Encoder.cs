@@ -15,6 +15,10 @@ static partial class Polyfill
 #if AllowUnsafeBlocks
     public static unsafe void Convert(this Encoder target, ReadOnlySpan<char> chars, Span<byte> bytes, bool flush, out int charsUsed, out int bytesUsed, out bool completed)
     {
+        // Encoder is stateful: a flush can emit buffered data even when chars is empty, so (unlike the stateless Encoding
+        // methods) empty input must not be short-circuited. Pin throwaway buffers to keep the pinned pointers non-null
+        // (pinning an empty span produces a null pointer, which the pointer-based overload rejects even for length 0);
+        // the real lengths are still passed below, so a short destination still throws.
         var charsToPin = chars;
         if (charsToPin.IsEmpty)
         {

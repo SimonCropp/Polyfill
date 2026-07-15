@@ -16,6 +16,7 @@ static partial class Polyfill
 #if AllowUnsafeBlocks
     public static unsafe int GetCharCount(this Encoding target, ReadOnlySpan<byte> bytes)
     {
+        // Pinning an empty span produces a null pointer, which the pointer-based overload rejects even when the length is 0.
         if (bytes.IsEmpty)
         {
             return 0;

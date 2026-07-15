@@ -83,22 +83,23 @@ partial class PolyfillTests
     }
 
     [Test]
-    public async Task Encoding_GetChars_EmptyDestination()
-    {
-        ReadOnlySpan<byte> bytes = "value"u8;
-        Span<char> chars = default;
-        Exception? exception = null;
-
-        try
+    public async Task Encoding_GetChars_EmptyDestination() =>
+        await Assert.That(() =>
         {
+            ReadOnlySpan<byte> bytes = "value"u8;
+            Span<char> chars = default;
             Encoding.UTF8.GetChars(bytes, chars);
-        }
-        catch (Exception caught)
-        {
-            exception = caught;
-        }
+        }).Throws<ArgumentException>();
 
-        await Assert.That(exception?.GetType()).IsEqualTo(typeof(ArgumentException));
+    [Test]
+    public async Task Encoding_GetChars_EmptySourceAndDestination()
+    {
+        ReadOnlySpan<byte> bytes = default;
+        Span<char> chars = default;
+
+        var charCount = Encoding.UTF8.GetChars(bytes, chars);
+
+        await Assert.That(charCount).IsEqualTo(0);
     }
 
     [Test]
@@ -153,22 +154,23 @@ partial class PolyfillTests
     }
 
     [Test]
-    public async Task Encoding_GetBytes_EmptyDestination()
-    {
-        ReadOnlySpan<char> chars = "value";
-        Span<byte> bytes = default;
-        Exception? exception = null;
-
-        try
+    public async Task Encoding_GetBytes_EmptyDestination() =>
+        await Assert.That(() =>
         {
+            ReadOnlySpan<char> chars = "value";
+            Span<byte> bytes = default;
             Encoding.UTF8.GetBytes(chars, bytes);
-        }
-        catch (Exception caught)
-        {
-            exception = caught;
-        }
+        }).Throws<ArgumentException>();
 
-        await Assert.That(exception?.GetType()).IsEqualTo(typeof(ArgumentException));
+    [Test]
+    public async Task Encoding_GetBytes_EmptySourceAndDestination()
+    {
+        ReadOnlySpan<char> chars = default;
+        Span<byte> bytes = default;
+
+        var byteCount = Encoding.UTF8.GetBytes(chars, bytes);
+
+        await Assert.That(byteCount).IsEqualTo(0);
     }
 
     [Test]
