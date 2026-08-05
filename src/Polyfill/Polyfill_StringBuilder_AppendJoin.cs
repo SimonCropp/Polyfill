@@ -59,22 +59,6 @@ static partial class Polyfill
         params object?[] values) =>
         target.AppendJoinCore(separator, values);
 
-    /// <summary>Concatenates and appends the members of a collection, using the specified char separator between each member.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin-1(system-char-system-collections-generic-ienumerable((-0)))
-    public static StringBuilder AppendJoin<T>(
-        this StringBuilder target,
-        char separator,
-        params T[] values) =>
-        target.AppendJoinCore(separator, values);
-
-    /// <summary>Concatenates and appends the members of a collection, using the specified char separator between each member.</summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin-1(system-string-system-collections-generic-ienumerable((-0)))
-    public static StringBuilder AppendJoin<T>(
-        this StringBuilder target,
-        string separator,
-        params T[] values) =>
-        target.AppendJoinCore(separator, values);
-
     static StringBuilder AppendJoinCore<T>(
         this StringBuilder target,
         char separator,
