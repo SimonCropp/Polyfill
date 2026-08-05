@@ -175,14 +175,54 @@ partial class PolyfillTests
         await AssertAsync();
         builder.AppendJoin(',', new object[] {"value1", "value2"}.Select(_ => _));
         await AssertAsync();
-        // ReSharper disable once RedundantExplicitParamsArrayCreation
         builder.AppendJoin<string>(',', ["value1", "value2"]);
+        await AssertAsync();
+
+        // A non-array collection must bind to the IEnumerable<T> overload, not be
+        // captured as a single element of a params array.
+        List<string> list = ["value1", "value2"];
+        builder.AppendJoin(',', list);
+        await AssertAsync();
+        builder.AppendJoin(",", list);
         await AssertAsync();
 
         async Task AssertAsync()
         {
             await Assert.That(builder.ToString()).IsEqualTo("value1,value2");
             builder.Clear();
+        }
+    }
+
+    // The BCL has no AppendJoin overload taking a params array of an open generic type.
+    // Adding one makes it beat AppendJoin<T>(separator, IEnumerable<T>) for any non-array
+    // collection: the collection is captured as a single element, so AppendJoin(',', list)
+    // silently appends "System.Collections.Generic.List`1[System.String]" instead of its
+    // contents. It compiles, so only the output reveals it, and only on the frameworks
+    // where the polyfill is active.
+    [Test]
+    public async Task AppendJoinHasNoGenericParamsOverload()
+    {
+        var offenders = typeof(Polyfills.Polyfill)
+            .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)
+            .Where(_ => _.Name == "AppendJoin")
+            .Select(_ => _.GetParameters())
+            .Where(_ => _.Length > 0 && IsGenericParamsArray(_[^1]))
+            .ToList();
+
+        await Assert.That(offenders).IsEmpty();
+
+        static bool IsGenericParamsArray(ParameterInfo parameter)
+        {
+            if (parameter.ParameterType.GetElementType() is not {IsGenericParameter: true})
+            {
+                return false;
+            }
+
+            return parameter
+                .GetCustomAttributes(inherit: false)
+                .Any(_ => _.GetType().Name is
+                    nameof(ParamArrayAttribute) or
+                    "ParamCollectionAttribute");
         }
     }
 }
