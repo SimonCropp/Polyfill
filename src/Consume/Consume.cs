@@ -1607,6 +1607,14 @@ class Consume
         _ = span.LastIndexOfAnyExcept('a', 'b');
         _ = span.LastIndexOfAnyExcept('a', 'b', 'c');
         _ = span.LastIndexOfAnyExcept("ab".AsSpan());
+
+        ReadOnlySpan<int> readOnly = array;
+        _ = readOnly.Min();
+        _ = readOnly.Min(null);
+        _ = readOnly.Min(Comparer<int>.Default);
+        _ = readOnly.Max();
+        _ = readOnly.Max(null);
+        _ = readOnly.Max(Comparer<int>.Default);
     }
 
 #endif
