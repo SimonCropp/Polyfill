@@ -148,6 +148,12 @@
  * `void Clear<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentqueue-1.clear?view=net-11.0)
 
 
+#### ConditionalWeakTable<TKey, TValue>
+
+ * `bool Remove<TKey, TValue>(TKey, TValue) where TKey : class where TValue : class` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.conditionalweaktable-2.remove?view=net-11.0#system-runtime-compilerservices-conditionalweaktable-2-remove(-0-1@))
+   * Note: Lookup and removal are not performed under the table lock, so the operation is not atomic with regard to concurrent mutations.
+
+
 #### Console
 
  * `SafeFileHandle OpenStandardErrorHandle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandarderrorhandle?view=net-11.0)

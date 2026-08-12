@@ -690,6 +690,12 @@ class Consume
         bag.Clear();
     }
 
+    void ConditionalWeakTable_Methods()
+    {
+        var table = new ConditionalWeakTable<string, string>();
+        table.Remove("key", out _);
+    }
+
     void ConcurrentQueue_Methods()
     {
         var queue = new ConcurrentQueue<string>();
