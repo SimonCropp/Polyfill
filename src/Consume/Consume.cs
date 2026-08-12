@@ -27,6 +27,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
+using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
@@ -133,6 +134,13 @@ class Consume
 #if FeatureMemory && !WINDOWS_UWP
         var collectionsMarshalSpan = CollectionsMarshal.AsSpan(collectionsMarshalList);
 #endif
+
+        var isPow2Int = BitOperations.IsPow2(8);
+        var isPow2Uint = BitOperations.IsPow2(8u);
+        var isPow2Long = BitOperations.IsPow2(8L);
+        var isPow2Ulong = BitOperations.IsPow2(8ul);
+        var isPow2Nint = BitOperations.IsPow2((nint) 8);
+        var isPow2Nuint = BitOperations.IsPow2((nuint) 8);
 
         var (key, value) = KeyValuePair.Create("a", "b");
 

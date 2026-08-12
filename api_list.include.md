@@ -1477,6 +1477,16 @@
    * Note: When growing, new elements are default(T); the BCL exposes uninitialized data.
 
 
+#### BitOperations
+
+ * `bool IsPow2(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-int32))
+ * `bool IsPow2(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-int64))
+ * `bool IsPow2(nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-intptr))
+ * `bool IsPow2(nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-uintptr))
+ * `bool IsPow2(uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-uint32))
+ * `bool IsPow2(ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-uint64))
+
+
 #### CryptographicOperations
 
  * `bool FixedTimeEquals(ReadOnlySpan<byte>, byte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.fixedtimeequals?view=net-11.0#system-security-cryptography-cryptographicoperations-fixedtimeequals(system-readonlyspan((system-byte))-system-byte))
