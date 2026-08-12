@@ -15,7 +15,9 @@
     <Using Remove="System.Threading.CancellationToken" />
     <Using Remove="System.Threading.CancellationTokenSource" />
   </ItemGroup>
-  <Target Name="SetPackageDependencies" BeforeTargets="GenerateNuspec">
+  <!-- _GetOutputItemsFromPack also reads NuspecProperties to resolve the package id/version out of the
+       nuspec, so the tokens have to be substituted before it runs, not just before GenerateNuspec. -->
+  <Target Name="SetPackageDependencies" BeforeTargets="GenerateNuspec;_GetOutputItemsFromPack">
     <PropertyGroup>
       <NuspecProperties>configuration=$(Configuration);version=$(PackageVersion);authors=$(Authors);projectUrl=$(PackageProjectUrl);description=$(Description);tags=$(PackageTags)</NuspecProperties>
     </PropertyGroup>

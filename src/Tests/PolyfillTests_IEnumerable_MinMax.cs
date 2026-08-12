@@ -13,7 +13,8 @@ partial class PolyfillTests
     static async Task AssertThrowsNoElementsException(Func<Task> code)
     {
         var ex = await Assert.That(code).Throws<InvalidOperationException>();
-        await Assert.That(ex!.Message).IsEqualTo("Sequence contains no elements");
+        // net11 added a trailing period to this BCL message, but only on some of the overloads.
+        await Assert.That(ex!.Message.TrimEnd('.')).IsEqualTo("Sequence contains no elements");
     }
 
     // Avoid CA1806: Do not ignore method results

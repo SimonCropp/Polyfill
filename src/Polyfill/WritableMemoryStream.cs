@@ -10,16 +10,15 @@ namespace System.IO;
 
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 /// <summary>
-/// Provides a seekable, read-write <see cref="MemoryStream"/> over a <see cref="Memory{Byte}"/> with fixed capacity.
+/// Provides a seekable, read-write <see cref="Stream"/> over a <see cref="Memory{Byte}"/> with fixed capacity.
 /// </summary>
 /// <remarks>
-/// The stream cannot expand beyond the initial memory capacity.
-/// <see cref="MemoryStream.GetBuffer"/> throws and <see cref="MemoryStream.TryGetBuffer"/> returns <see langword="false"/>.
-/// The polyfill requires an array-backed <see cref="Memory{Byte}"/>; memory backed by native (or other non-array)
-/// buffers is not supported and the constructor throws <see cref="NotSupportedException"/>.
+/// The underlying memory is not copied; reads and writes are served directly from it.
+/// The stream cannot expand beyond the capacity of the memory it was created over.
 /// </remarks>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
@@ -31,32 +30,320 @@ using System.Runtime.InteropServices;
 public
 #endif
 sealed class WritableMemoryStream :
-    MemoryStream
+    Stream
 {
+    Memory<byte> memory;
+    // Length is tracked separately from the capacity because SetLength can shrink the stream, and a write
+    // past the current length grows it back up to (at most) the capacity.
+    long length;
+    long position;
+    bool disposed;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="WritableMemoryStream"/> class over the specified <see cref="Memory{Byte}"/>.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.writablememorystream.-ctor?view=net-11.0
     public WritableMemoryStream(Memory<byte> buffer)
-        : base(GetArray(buffer, out var offset, out var count), offset, count, writable: true, publiclyVisible: false) =>
-        // The base constructor reports the whole region as content; reset to an empty, ready-to-write stream.
-        base.SetLength(0);
+    {
+        memory = buffer;
+        length = buffer.Length;
+    }
 
     /// <inheritdoc/>
-    public override void SetLength(long value) =>
-        throw new NotSupportedException("Memory stream is not expandable.");
+    public override bool CanRead => !disposed;
 
-    static byte[] GetArray(Memory<byte> buffer, out int offset, out int count)
+    /// <inheritdoc/>
+    public override bool CanSeek => !disposed;
+
+    /// <inheritdoc/>
+    public override bool CanWrite => !disposed;
+
+    /// <inheritdoc/>
+    public override long Length
     {
-        if (MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>)buffer, out var segment) &&
-            segment.Array != null)
+        get
         {
-            offset = segment.Offset;
-            count = segment.Count;
-            return segment.Array;
+            ThrowIfDisposed();
+            return length;
+        }
+    }
+
+    /// <inheritdoc/>
+    public override long Position
+    {
+        get
+        {
+            ThrowIfDisposed();
+            return position;
+        }
+        set
+        {
+            ThrowIfDisposed();
+            if (value < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value));
+            }
+
+            position = value;
+        }
+    }
+
+    /// <inheritdoc/>
+    public override int Read(byte[] buffer, int offset, int count)
+    {
+        GuardRange(buffer, offset, count);
+        ThrowIfDisposed();
+
+        var toRead = Remaining(count);
+        if (toRead == 0)
+        {
+            return 0;
         }
 
-        throw new NotSupportedException("WritableMemoryStream polyfill requires an array-backed Memory<byte>.");
+        memory.Span.Slice((int)position, toRead).CopyTo(buffer.AsSpan(offset, toRead));
+        position += toRead;
+        return toRead;
+    }
+
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+    // Stream only exposes the span based overloads as virtuals from netcoreapp2.1/netstandard2.1. On older
+    // targets the Polyfill extension methods route through the array based Read/Write instead.
+    /// <inheritdoc/>
+    public override int Read(Span<byte> buffer)
+    {
+        ThrowIfDisposed();
+
+        var toRead = Remaining(buffer.Length);
+        if (toRead == 0)
+        {
+            return 0;
+        }
+
+        memory.Span.Slice((int)position, toRead).CopyTo(buffer);
+        position += toRead;
+        return toRead;
+    }
+
+    /// <inheritdoc/>
+    public override void Write(ReadOnlySpan<byte> buffer)
+    {
+        ThrowIfDisposed();
+        GuardCapacity(buffer.Length);
+
+        if (buffer.Length == 0)
+        {
+            return;
+        }
+
+        buffer.CopyTo(memory.Span.Slice((int)position, buffer.Length));
+        Advance(buffer.Length);
+    }
+#endif
+
+    /// <inheritdoc/>
+    public override int ReadByte()
+    {
+        ThrowIfDisposed();
+
+        if (position >= length)
+        {
+            return -1;
+        }
+
+        var result = memory.Span[(int)position];
+        position++;
+        return result;
+    }
+
+    /// <inheritdoc/>
+    public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+    {
+        GuardRange(buffer, offset, count);
+        ThrowIfDisposed();
+
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return Task.FromCanceled<int>(cancellationToken);
+        }
+
+        return Task.FromResult(Read(buffer, offset, count));
+    }
+
+    /// <inheritdoc/>
+    public override void Write(byte[] buffer, int offset, int count)
+    {
+        GuardRange(buffer, offset, count);
+        ThrowIfDisposed();
+        GuardCapacity(count);
+
+        // A zero length write is a no-op even when the position sits past the capacity, so it has to
+        // return before the slicing below, which would reject an out of range position.
+        if (count == 0)
+        {
+            return;
+        }
+
+        buffer.AsSpan(offset, count).CopyTo(memory.Span.Slice((int)position, count));
+        Advance(count);
+    }
+
+    /// <inheritdoc/>
+    public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+    {
+        GuardRange(buffer, offset, count);
+        ThrowIfDisposed();
+
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return Task.FromCanceled(cancellationToken);
+        }
+
+        Write(buffer, offset, count);
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc/>
+    public override void SetLength(long value)
+    {
+        ThrowIfDisposed();
+
+        if (value < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(value));
+        }
+
+        if (value > memory.Length)
+        {
+            throw new NotSupportedException("Unable to expand length of this stream beyond its capacity.");
+        }
+
+        Grow(value);
+        length = value;
+        if (position > length)
+        {
+            position = length;
+        }
+    }
+
+    // A write starting past the current length exposes the bytes in between, which may still hold whatever
+    // the caller left in the underlying memory. Zero them so growth never leaks stale content, matching
+    // the BCL.
+    void Grow(long newLength)
+    {
+        if (newLength > length)
+        {
+            memory.Span.Slice((int)length, (int)(newLength - length)).Clear();
+        }
+    }
+
+    void Advance(int count)
+    {
+        Grow(position);
+        position += count;
+        if (position > length)
+        {
+            length = position;
+        }
+    }
+
+    // The number of bytes a read of the requested size can serve from the current position.
+    int Remaining(int count)
+    {
+        if (position >= length)
+        {
+            return 0;
+        }
+
+        return (int)Math.Min(length - position, count);
+    }
+
+    void GuardCapacity(int count)
+    {
+        if (count == 0)
+        {
+            return;
+        }
+
+        if (position > memory.Length - count)
+        {
+            throw new NotSupportedException("Unable to expand length of this stream beyond its capacity.");
+        }
+    }
+
+    /// <inheritdoc/>
+    public override long Seek(long offset, SeekOrigin origin)
+    {
+        ThrowIfDisposed();
+
+        var basePosition = origin switch
+        {
+            SeekOrigin.Begin => 0L,
+            SeekOrigin.Current => position,
+            SeekOrigin.End => length,
+            _ => throw new ArgumentException("Invalid seek origin.", nameof(origin))
+        };
+
+        if (offset > long.MaxValue - basePosition)
+        {
+            throw new ArgumentOutOfRangeException(nameof(offset));
+        }
+
+        var newPosition = basePosition + offset;
+        if (newPosition < 0)
+        {
+            throw new IOException("An attempt was made to move the position before the beginning of the stream.");
+        }
+
+        position = newPosition;
+        return position;
+    }
+
+    /// <inheritdoc/>
+    public override void Flush()
+    {
+    }
+
+    /// <inheritdoc/>
+    public override Task FlushAsync(CancellationToken cancellationToken) =>
+        cancellationToken.IsCancellationRequested ? Task.FromCanceled(cancellationToken) : Task.CompletedTask;
+
+    /// <inheritdoc/>
+    protected override void Dispose(bool disposing)
+    {
+        disposed = true;
+        memory = default;
+        base.Dispose(disposing);
+    }
+
+    void ThrowIfDisposed()
+    {
+        if (disposed)
+        {
+            throw new ObjectDisposedException(GetType().FullName);
+        }
+    }
+
+    static void GuardRange(byte[] buffer, int offset, int count)
+    {
+        if (buffer == null)
+        {
+            throw new ArgumentNullException(nameof(buffer));
+        }
+
+        if (offset < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(offset));
+        }
+
+        if (count < 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(count));
+        }
+
+        if (buffer.Length - offset < count)
+        {
+            throw new ArgumentException("The sum of offset and count is larger than the buffer length.");
+        }
     }
 }
 
