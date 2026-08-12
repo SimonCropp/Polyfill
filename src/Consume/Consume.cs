@@ -274,12 +274,12 @@ class Consume
             stringStream.ReadByte();
         }
 
-        using (MemoryStream readOnly = new ReadOnlyMemoryStream(new ReadOnlyMemory<byte>(bytes)))
+        using (Stream readOnly = new ReadOnlyMemoryStream(new ReadOnlyMemory<byte>(bytes)))
         {
             readOnly.Read(bytes, 0, bytes.Length);
         }
 
-        using (MemoryStream writable = new WritableMemoryStream(new Memory<byte>(bytes)))
+        using (Stream writable = new WritableMemoryStream(new Memory<byte>(bytes)))
         {
             writable.Write(bytes, 0, bytes.Length);
         }
