@@ -19,6 +19,6 @@
     <PackageVersion Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
     <PackageVersion Include="System.IO.Compression" Version="4.3.0" />
     <PackageVersion Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.11" />
-    <PackageVersion Include="Verify.TUnit" Version="33.0.0-beta.3" />
+    <PackageVersion Include="Verify.TUnit" Version="33.0.0-beta.4" />
   </ItemGroup>
 </Project>
