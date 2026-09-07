@@ -109,6 +109,7 @@ class Consume
 #endif
         type = typeof(AsyncMethodBuilderAttribute);
         type = typeof(CompilerLoweringPreserveAttribute);
+        type = typeof(IsClosedTypeAttribute);
 #if !NET6_0 && !NET5_0
         type = typeof(ObsoletedOSPlatformAttribute);
         type = typeof(SupportedOSPlatformGuardAttribute);
