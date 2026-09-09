@@ -13,34 +13,34 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 1055**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 1067**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
 | Target | APIs |
 | -- | -- |
-| `net461` | 991 |
-| `net462` | 991 |
-| `net47` | 990 |
-| `net471` | 989 |
-| `net472` | 985 |
-| `net48` | 985 |
-| `net481` | 985 |
-| `netstandard2.0` | 987 |
-| `netstandard2.1` | 840 |
-| `netcoreapp2.0` | 910 |
-| `netcoreapp2.1` | 851 |
-| `netcoreapp2.2` | 851 |
-| `netcoreapp3.0` | 806 |
-| `netcoreapp3.1` | 805 |
-| `net5.0` | 677 |
-| `net6.0` | 578 |
-| `net7.0` | 423 |
-| `net8.0` | 304 |
-| `net9.0` | 210 |
-| `net10.0` | 156 |
+| `net461` | 1004 |
+| `net462` | 1004 |
+| `net47` | 1003 |
+| `net471` | 1002 |
+| `net472` | 998 |
+| `net48` | 998 |
+| `net481` | 998 |
+| `netstandard2.0` | 1000 |
+| `netstandard2.1` | 853 |
+| `netcoreapp2.0` | 923 |
+| `netcoreapp2.1` | 864 |
+| `netcoreapp2.2` | 864 |
+| `netcoreapp3.0` | 819 |
+| `netcoreapp3.1` | 818 |
+| `net5.0` | 690 |
+| `net6.0` | 591 |
+| `net7.0` | 438 |
+| `net8.0` | 317 |
+| `net9.0` | 223 |
+| `net10.0` | 169 |
 | `net11.0` | 58 |
-| `uap10.0` | 977 |
+| `uap10.0` | 990 |
 <!-- endInclude -->
 
 
@@ -96,26 +96,26 @@ This project uses features from the newest stable SDK and C# language. As such c
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       364.0KB |  +356.0KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.0KB |
-| netstandard2.1 |          8.5KB |       318.0KB |  +309.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net461         |          8.5KB |       362.5KB |  +354.0KB |    +7.5KB |             +5.5KB |              +8.0KB |     +12.0KB |
-| net462         |          7.0KB |       366.0KB |  +359.0KB |    +9.5KB |             +7.0KB |              +9.5KB |     +14.0KB |
-| net47          |          7.0KB |       366.0KB |  +359.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net471         |          8.5KB |       365.0KB |  +356.5KB |    +7.5KB |             +5.5KB |              +8.0KB |     +12.0KB |
-| net472         |          8.5KB |       364.0KB |  +355.5KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.0KB |
-| net48          |          8.5KB |       364.0KB |  +355.5KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.0KB |
-| net481         |          8.5KB |       364.0KB |  +355.5KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.0KB |
-| netcoreapp2.0  |          9.0KB |       341.5KB |  +332.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.1  |          9.0KB |       321.5KB |  +312.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.2  |          9.0KB |       321.5KB |  +312.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.0  |          9.5KB |       315.5KB |  +306.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.1  |          9.5KB |       314.0KB |  +304.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net5.0         |          9.5KB |       278.0KB |  +268.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net6.0         |         10.0KB |       219.5KB |  +209.5KB |    +9.5KB |             +6.5KB |           +512bytes |      +3.0KB |
-| net7.0         |         10.0KB |       181.0KB |  +171.0KB |   +12.0KB |             +8.5KB |           +512bytes |      +3.5KB |
-| net8.0         |          9.5KB |       152.0KB |  +142.5KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
-| net9.0         |          9.5KB |       105.0KB |   +95.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net10.0        |         10.0KB |        82.5KB |   +72.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| netstandard2.0 |          8.0KB |       365.5KB |  +357.5KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.0KB |
+| netstandard2.1 |          8.5KB |       319.5KB |  +311.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net461         |          8.5KB |       364.5KB |  +356.0KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.0KB |
+| net462         |          7.0KB |       368.0KB |  +361.0KB |    +7.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net47          |          7.0KB |       367.5KB |  +360.5KB |    +7.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net471         |          8.5KB |       365.5KB |  +357.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net472         |          8.5KB |       365.5KB |  +357.0KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.0KB |
+| net48          |          8.5KB |       365.5KB |  +357.0KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.0KB |
+| net481         |          8.5KB |       365.5KB |  +357.0KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.0KB |
+| netcoreapp2.0  |          9.0KB |       343.0KB |  +334.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.1  |          9.0KB |       323.0KB |  +314.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.2  |          9.0KB |       323.0KB |  +314.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp3.0  |          9.5KB |       317.0KB |  +307.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp3.1  |          9.5KB |       315.5KB |  +306.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net5.0         |          9.5KB |       279.5KB |  +270.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net6.0         |         10.0KB |       221.0KB |  +211.0KB |   +10.0KB |             +7.0KB |           +512bytes |      +3.5KB |
+| net7.0         |         10.0KB |       183.5KB |  +173.5KB |   +12.0KB |             +8.5KB |              +3.5KB |      +6.0KB |
+| net8.0         |          9.5KB |       156.5KB |  +147.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net9.0         |          9.5KB |       109.5KB |  +100.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net10.0        |         10.0KB |        87.5KB |   +77.5KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
 | net11.0        |         10.0KB |        20.5KB |   +10.5KB |    +9.5KB |          +512bytes |              +1.0KB |      +4.0KB |
 
 
@@ -123,26 +123,26 @@ This project uses features from the newest stable SDK and C# language. As such c
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       534.0KB |  +526.0KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
-| netstandard2.1 |          8.5KB |       461.4KB |  +452.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net461         |          8.5KB |       533.6KB |  +525.1KB |   +15.2KB |             +7.2KB |             +12.9KB |     +17.4KB |
-| net462         |          7.0KB |       537.1KB |  +530.1KB |   +17.2KB |             +8.7KB |             +14.4KB |     +19.4KB |
-| net47          |          7.0KB |       536.8KB |  +529.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net471         |          8.5KB |       535.5KB |  +527.0KB |   +15.2KB |             +7.2KB |             +12.9KB |     +17.4KB |
-| net472         |          8.5KB |       533.4KB |  +524.9KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
-| net48          |          8.5KB |       533.4KB |  +524.9KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
-| net481         |          8.5KB |       533.4KB |  +524.9KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
-| netcoreapp2.0  |          9.0KB |       501.0KB |  +492.0KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.1  |          9.0KB |       468.6KB |  +459.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.2  |          9.0KB |       468.6KB |  +459.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.0  |          9.5KB |       454.5KB |  +445.0KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.1  |          9.5KB |       453.0KB |  +443.5KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net5.0         |          9.5KB |       398.9KB |  +389.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net6.0         |         10.0KB |       320.4KB |  +310.4KB |   +17.2KB |             +8.2KB |              +1.1KB |      +3.7KB |
-| net7.0         |         10.0KB |       263.1KB |  +253.1KB |   +19.6KB |             +9.9KB |              +1.1KB |      +4.2KB |
-| net8.0         |          9.5KB |       218.7KB |  +209.2KB |   +16.0KB |          +299bytes |              +1.1KB |      +3.7KB |
-| net9.0         |          9.5KB |       150.6KB |  +141.1KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
-| net10.0        |         10.0KB |       119.4KB |  +109.4KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
+| netstandard2.0 |          8.0KB |       536.9KB |  +528.9KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
+| netstandard2.1 |          8.5KB |       464.3KB |  +455.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net461         |          8.5KB |       536.9KB |  +528.4KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
+| net462         |          7.0KB |       540.4KB |  +533.4KB |   +15.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net47          |          7.0KB |       539.7KB |  +532.7KB |   +15.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net471         |          8.5KB |       537.3KB |  +528.8KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net472         |          8.5KB |       536.2KB |  +527.7KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
+| net48          |          8.5KB |       536.2KB |  +527.7KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
+| net481         |          8.5KB |       536.2KB |  +527.7KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
+| netcoreapp2.0  |          9.0KB |       503.8KB |  +494.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.1  |          9.0KB |       471.5KB |  +462.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.2  |          9.0KB |       471.5KB |  +462.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp3.0  |          9.5KB |       457.4KB |  +447.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp3.1  |          9.5KB |       455.9KB |  +446.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net5.0         |          9.5KB |       401.8KB |  +392.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net6.0         |         10.0KB |       323.3KB |  +313.3KB |   +17.7KB |             +8.7KB |              +1.1KB |      +4.2KB |
+| net7.0         |         10.0KB |       267.5KB |  +257.5KB |   +19.6KB |             +9.9KB |              +4.1KB |      +6.7KB |
+| net8.0         |          9.5KB |       226.7KB |  +217.2KB |   +16.0KB |          +299bytes |              +1.1KB |      +4.2KB |
+| net9.0         |          9.5KB |       158.5KB |  +149.0KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
+| net10.0        |         10.0KB |       127.8KB |  +117.8KB |   +16.0KB |                    |              +1.1KB |      +3.7KB |
 | net11.0        |         10.0KB |        30.4KB |   +20.4KB |   +17.0KB |          +512bytes |              +1.6KB |      +4.7KB |
 <!-- endInclude -->
 
@@ -714,6 +714,7 @@ The class `Polyfill` includes the following extension methods:
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryformat?view=net-11.0#system-byte-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryformat?view=net-11.0#system-byte-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `byte Log10(byte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.byte.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, byte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse?view=net-11.0#system-byte-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-byte@))
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, byte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse?view=net-11.0#system-byte-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-byte@))
  * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, byte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.byte.tryparse?view=net-11.0#system-byte-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-byte@))
@@ -1197,10 +1198,16 @@ The class `Polyfill` includes the following extension methods:
  * `ReadOnlyCollection<T> AsReadOnly<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly?view=net-11.0#system-collections-generic-collectionextensions-asreadonly-1(system-collections-generic-ilist((-0))))
 
 
+#### Int128
+
+ * `Int128 Log10(Int128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int128.log10?view=net-11.0)
+
+
 #### Int16
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int16.tryformat?view=net-11.0#system-int16-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int16.tryformat?view=net-11.0#system-int16-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `short Log10(short)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int16.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, short)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int16.tryparse?view=net-11.0#system-int16-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-int16@))
  * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, short)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int16.tryparse?view=net-11.0#system-int16-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-int16@))
  * `bool TryParse(ReadOnlySpan<byte>, short)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int16.tryparse?view=net-11.0#system-int16-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-int16@))
@@ -1215,6 +1222,7 @@ The class `Polyfill` includes the following extension methods:
  * `float Int32BitsToSingle(int)`
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryformat?view=net-11.0#system-int32-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryformat?view=net-11.0#system-int32-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `int Log10(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse?view=net-11.0#system-int32-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-int32@))
  * `bool TryParse(ReadOnlySpan<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse?view=net-11.0#system-int32-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-int32@))
  * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse?view=net-11.0#system-int32-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-int32@))
@@ -1228,6 +1236,7 @@ The class `Polyfill` includes the following extension methods:
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryformat?view=net-11.0#system-int64-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryformat?view=net-11.0#system-int64-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `long Log10(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse?view=net-11.0#system-int64-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-int64@))
  * `bool TryParse(ReadOnlySpan<byte>, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse?view=net-11.0#system-int64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-int64@))
  * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse?view=net-11.0#system-int64-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-int64@))
@@ -1243,6 +1252,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### IntPtr
 
+ * `nint Log10(nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-intptr@))
  * `bool TryParse(ReadOnlySpan<byte>, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-readonlyspan((system-byte))-system-intptr@))
  * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-intptr@))
@@ -1601,6 +1611,7 @@ The class `Polyfill` includes the following extension methods:
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryformat?view=net-11.0#system-sbyte-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryformat?view=net-11.0#system-sbyte-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `sbyte Log10(sbyte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, sbyte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryparse?view=net-11.0#system-sbyte-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-sbyte@))
  * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, sbyte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryparse?view=net-11.0#system-sbyte-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-sbyte@))
  * `bool TryParse(ReadOnlySpan<byte>, sbyte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryparse?view=net-11.0#system-sbyte-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-sbyte@))
@@ -1936,10 +1947,16 @@ The class `Polyfill` includes the following extension methods:
  * `ValueTask<int> SendAsync(ReadOnlyMemory<byte>, string?, int, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.sendasync?view=net-11.0#system-net-sockets-udpclient-sendasync(system-readonlymemory((system-byte))-system-string-system-int32-system-threading-cancellationtoken))
 
 
+#### UInt128
+
+ * `UInt128 Log10(UInt128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint128.log10?view=net-11.0)
+
+
 #### UInt16
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryformat?view=net-11.0#system-uint16-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryformat?view=net-11.0#system-uint16-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `ushort Log10(ushort)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint16.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, ushort)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryparse?view=net-11.0#system-uint16-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint16@))
  * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, ushort)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryparse?view=net-11.0#system-uint16-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uint16@))
  * `bool TryParse(ReadOnlySpan<byte>, ushort)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint16.tryparse?view=net-11.0#system-uint16-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint16@))
@@ -1954,6 +1971,7 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryformat?view=net-11.0#system-uint32-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryformat?view=net-11.0#system-uint32-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `float UInt32BitsToSingle(uint)`
+ * `uint Log10(uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-11.0#system-uint32-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint32@))
  * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-11.0#system-uint32-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uint32@))
  * `bool TryParse(ReadOnlySpan<byte>, uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-11.0#system-uint32-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint32@))
@@ -1968,6 +1986,7 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryformat?view=net-11.0#system-uint64-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryformat?view=net-11.0#system-uint64-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `double UInt64BitsToDouble(ulong)`
+ * `ulong Log10(ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint64@))
  * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uint64@))
  * `bool TryParse(ReadOnlySpan<byte>, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-uint64@))
@@ -1979,6 +1998,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### UIntPtr
 
+ * `nuint Log10(nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uintptr@))
  * `bool TryParse(ReadOnlySpan<byte>, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-readonlyspan((system-byte))-system-uintptr@))
  * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uintptr@))
@@ -2395,7 +2415,7 @@ void ObjectDisposedExceptionExample(bool isDisposed)
     ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L809-L833' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L827-L851' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -2414,7 +2434,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L839-L851' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L857-L869' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
