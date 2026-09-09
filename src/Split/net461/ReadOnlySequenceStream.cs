@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 /// <summary>
-/// Provides a seekable, read-only <see cref="Stream"/> over a <see cref="ReadOnlySequence{Byte}"/>.
+/// Provides a read-only, non-seekable <see cref="Stream"/> for reading from a <see cref="ReadOnlySequence{Byte}"/>.
 /// </summary>
 /// <remarks>
 /// The underlying sequence is not copied; reads are served directly from its segments.
@@ -29,8 +29,7 @@ sealed class ReadOnlySequenceStream :
 	Stream
 {
 	ReadOnlySequence<byte> sequence;
-	SequencePosition cursor;
-	long position;
+	SequencePosition position;
 	bool disposed;
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ReadOnlySequenceStream"/> class over the specified <see cref="ReadOnlySequence{Byte}"/>.
@@ -38,73 +37,50 @@ sealed class ReadOnlySequenceStream :
 	public ReadOnlySequenceStream(ReadOnlySequence<byte> source)
 	{
 		sequence = source;
-		cursor = source.Start;
-		position = 0;
+		position = source.Start;
 	}
 	/// <inheritdoc/>
 	public override bool CanRead => !disposed;
-	/// <inheritdoc/>
-	public override bool CanSeek => !disposed;
+	/// <summary>Gets a value indicating whether the stream supports seeking. Always <see langword="false"/>.</summary>
+	public override bool CanSeek => false;
 	/// <inheritdoc/>
 	public override bool CanWrite => false;
-	/// <inheritdoc/>
-	public override long Length
-	{
-		get
-		{
-			ThrowIfDisposed();
-			return sequence.Length;
-		}
-	}
-	/// <inheritdoc/>
+	/// <summary>Gets the length of the stream. Not supported; always throws a <see cref="NotSupportedException"/>.</summary>
+	/// <exception cref="NotSupportedException">In all cases.</exception>
+	public override long Length => throw new NotSupportedException("Stream does not support seeking.");
+	/// <summary>Gets or sets the position within the stream. Not supported; always throws a <see cref="NotSupportedException"/>.</summary>
+	/// <exception cref="NotSupportedException">In all cases.</exception>
 	public override long Position
 	{
-		get
-		{
-			ThrowIfDisposed();
-			return position;
-		}
-		set
-		{
-			ThrowIfDisposed();
-			if (value < 0)
-			{
-				throw new ArgumentOutOfRangeException(nameof(value));
-			}
-			MoveTo(value);
-		}
+		get => throw new NotSupportedException("Stream does not support seeking.");
+		set => throw new NotSupportedException("Stream does not support seeking.");
 	}
 	/// <inheritdoc/>
 	public override int Read(byte[] buffer, int offset, int count)
 	{
 		GuardRange(buffer, offset, count);
 		ThrowIfDisposed();
-		if (position >= sequence.Length)
-		{
-			return 0;
-		}
-		var remaining = sequence.Slice(cursor);
+		var remaining = sequence.Slice(position);
 		var toRead = (int)Math.Min(remaining.Length, count);
 		if (toRead <= 0)
 		{
 			return 0;
 		}
 		remaining.Slice(0, toRead).CopyTo(buffer.AsSpan(offset, toRead));
-		cursor = sequence.GetPosition(toRead, cursor);
-		position += toRead;
+		position = sequence.GetPosition(toRead, position);
 		return toRead;
 	}
 	/// <inheritdoc/>
 	public override int ReadByte()
 	{
 		ThrowIfDisposed();
-		if (position >= sequence.Length)
+		var remaining = sequence.Slice(position);
+		if (remaining.IsEmpty)
 		{
 			return -1;
 		}
-		var result = sequence.Slice(cursor, 1).First.Span[0];
-		cursor = sequence.GetPosition(1, cursor);
-		position++;
+		var result = remaining.Slice(0, 1).First.Span[0];
+		position = sequence.GetPosition(1, position);
 		return result;
 	}
 	/// <inheritdoc/>
@@ -118,45 +94,10 @@ sealed class ReadOnlySequenceStream :
 		}
 		return Task.FromResult(Read(buffer, offset, count));
 	}
-	/// <inheritdoc/>
-	public override long Seek(long offset, SeekOrigin origin)
-	{
-		ThrowIfDisposed();
-		var basePosition = origin switch
-		{
-			SeekOrigin.Begin => 0L,
-			SeekOrigin.Current => position,
-			SeekOrigin.End => sequence.Length,
-			_ => throw new ArgumentException("Invalid seek origin.", nameof(origin))
-		};
-		if (offset > long.MaxValue - basePosition)
-		{
-			throw new ArgumentOutOfRangeException(nameof(offset));
-		}
-		var newPosition = basePosition + offset;
-		if (newPosition < 0)
-		{
-			throw new IOException("An attempt was made to move the position before the beginning of the stream.");
-		}
-		MoveTo(newPosition);
-		return position;
-	}
-	void MoveTo(long value)
-	{
-		if (value >= sequence.Length)
-		{
-			cursor = sequence.End;
-		}
-		else if (value >= position)
-		{
-			cursor = sequence.GetPosition(value - position, cursor);
-		}
-		else
-		{
-			cursor = sequence.GetPosition(value, sequence.Start);
-		}
-		position = value;
-	}
+	/// <summary>Sets the position within the stream. Not supported; always throws a <see cref="NotSupportedException"/>.</summary>
+	/// <exception cref="NotSupportedException">In all cases.</exception>
+	public override long Seek(long offset, SeekOrigin origin) =>
+		throw new NotSupportedException("Stream does not support seeking.");
 	/// <inheritdoc/>
 	public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken)
 	{
@@ -166,20 +107,20 @@ sealed class ReadOnlySequenceStream :
 		{
 			return Task.FromCanceled(cancellationToken);
 		}
-		if (position >= sequence.Length)
+		var remaining = sequence.Slice(position);
+		if (remaining.IsEmpty)
 		{
 			return Task.CompletedTask;
 		}
-		return CopyToAsyncCore(destination, cancellationToken);
+		return CopyToAsyncCore(remaining, destination, cancellationToken);
 	}
-	async Task CopyToAsyncCore(Stream destination, CancellationToken cancellationToken)
+	async Task CopyToAsyncCore(ReadOnlySequence<byte> remaining, Stream destination, CancellationToken cancellationToken)
 	{
-		foreach (var segment in sequence.Slice(cursor))
+		foreach (var segment in remaining)
 		{
 			await WriteSegmentAsync(destination, segment, cancellationToken).ConfigureAwait(false);
 		}
-		cursor = sequence.End;
-		position = sequence.Length;
+		position = sequence.End;
 	}
 	static Task WriteSegmentAsync(Stream destination, ReadOnlyMemory<byte> segment, CancellationToken cancellationToken)
 	{
@@ -237,7 +178,7 @@ sealed class ReadOnlySequenceStream :
 	{
 		disposed = true;
 		sequence = default;
-		cursor = default;
+		position = default;
 		base.Dispose(disposing);
 	}
 	void ThrowIfDisposed()

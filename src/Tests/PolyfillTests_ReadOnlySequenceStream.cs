@@ -10,9 +10,8 @@ partial class PolyfillTests
         using var stream = new ReadOnlySequenceStream(new ReadOnlySequence<byte>(new byte[] { 1, 2, 3 }));
 
         await Assert.That(stream.CanRead).IsTrue();
-        await Assert.That(stream.CanSeek).IsTrue();
+        await Assert.That(stream.CanSeek).IsFalse();
         await Assert.That(stream.CanWrite).IsFalse();
-        await Assert.That(stream.Length).IsEqualTo(3L);
     }
 
     [Test]
@@ -30,8 +29,6 @@ partial class PolyfillTests
     {
         var sequence = CreateMultiSegment(new byte[] { 1, 2, 3 }, new byte[] { 4, 5 }, new byte[] { 6, 7, 8, 9 });
         using var stream = new ReadOnlySequenceStream(sequence);
-
-        await Assert.That(stream.Length).IsEqualTo(9L);
 
         // Read in small chunks so reads straddle segment boundaries.
         using var accumulator = new MemoryStream();
@@ -58,65 +55,33 @@ partial class PolyfillTests
     }
 
     [Test]
-    public async Task ReadOnlySequenceStream_Seek()
+    public async Task ReadOnlySequenceStream_SeekingThrows()
     {
-        using var stream = new ReadOnlySequenceStream(new ReadOnlySequence<byte>(new byte[] { 1, 2, 3, 4, 5 }));
+        using var stream = new ReadOnlySequenceStream(new ReadOnlySequence<byte>(new byte[] { 1, 2, 3 }));
 
-        stream.Seek(3, SeekOrigin.Begin);
-        await Assert.That(stream.Position).IsEqualTo(3L);
-        await Assert.That(stream.ReadByte()).IsEqualTo(4);
-
-        stream.Seek(-2, SeekOrigin.Current);
-        await Assert.That(stream.ReadByte()).IsEqualTo(3);
-
-        stream.Seek(-1, SeekOrigin.End);
-        await Assert.That(stream.ReadByte()).IsEqualTo(5);
+        await Assert.That(() => stream.Length).Throws<NotSupportedException>();
+        await Assert.That(() => stream.Position).Throws<NotSupportedException>();
+        await Assert.That(() => stream.Position = 1).Throws<NotSupportedException>();
+        await Assert.That(() => stream.Seek(0, SeekOrigin.Begin)).Throws<NotSupportedException>();
+        await Assert.That(() => stream.Seek(1, SeekOrigin.Current)).Throws<NotSupportedException>();
+        await Assert.That(() => stream.Seek(0, SeekOrigin.End)).Throws<NotSupportedException>();
     }
 
     [Test]
-    public async Task ReadOnlySequenceStream_SeekAcrossSegments_RepositionsCursor()
+    public async Task ReadOnlySequenceStream_ReadsAreForwardOnly()
     {
-        // bytes by index: 0..8 -> 1,2,3,4,5,6,7,8,9 across three segments.
-        var sequence = CreateMultiSegment(new byte[] { 1, 2, 3 }, new byte[] { 4, 5 }, new byte[] { 6, 7, 8, 9 });
+        var sequence = CreateMultiSegment(new byte[] { 1, 2, 3 }, new byte[] { 4, 5 });
         using var stream = new ReadOnlySequenceStream(sequence);
 
-        // Forward from the start into the third segment.
-        stream.Seek(6, SeekOrigin.Begin);
-        await Assert.That(stream.Position).IsEqualTo(6L);
-        await Assert.That(stream.ReadByte()).IsEqualTo(7);
-
-        // Backward into the first segment (walk-from-start branch).
-        stream.Position = 1;
+        // A failed seek attempt must not disturb the cursor.
+        await Assert.That(stream.ReadByte()).IsEqualTo(1);
+        await Assert.That(() => stream.Seek(0, SeekOrigin.Begin)).Throws<NotSupportedException>();
         await Assert.That(stream.ReadByte()).IsEqualTo(2);
 
-        // Forward relative to the current cursor into the second segment.
-        stream.Seek(2, SeekOrigin.Current);
-        await Assert.That(stream.ReadByte()).IsEqualTo(5);
-
-        // Clamp to the end via End origin.
-        stream.Seek(0, SeekOrigin.End);
-        await Assert.That(stream.Position).IsEqualTo(9L);
-        await Assert.That(stream.ReadByte()).IsEqualTo(-1);
-    }
-
-    [Test]
-    public async Task ReadOnlySequenceStream_SeekBeyondLength_ReadsZero()
-    {
-        using var stream = new ReadOnlySequenceStream(new ReadOnlySequence<byte>(new byte[] { 1, 2, 3 }));
-
-        stream.Position = 10;
-
-        await Assert.That(stream.Position).IsEqualTo(10L);
-        await Assert.That(stream.ReadByte()).IsEqualTo(-1);
-        await Assert.That(stream.Read(new byte[4], 0, 4)).IsEqualTo(0);
-    }
-
-    [Test]
-    public async Task ReadOnlySequenceStream_SeekBeforeBeginThrows()
-    {
-        using var stream = new ReadOnlySequenceStream(new ReadOnlySequence<byte>(new byte[] { 1, 2, 3 }));
-
-        await Assert.That(() => stream.Seek(-1, SeekOrigin.Begin)).Throws<IOException>();
+        var rest = new byte[4];
+        await Assert.That(stream.Read(rest, 0, 4)).IsEqualTo(3);
+        await Assert.That(rest).IsEquivalentTo(new byte[] { 3, 4, 5, 0 });
+        await Assert.That(stream.Read(rest, 0, 4)).IsEqualTo(0);
     }
 
     [Test]
@@ -145,8 +110,8 @@ partial class PolyfillTests
     {
         using var stream = new ReadOnlySequenceStream(ReadOnlySequence<byte>.Empty);
 
-        await Assert.That(stream.Length).IsEqualTo(0L);
         await Assert.That(stream.Read(new byte[4], 0, 4)).IsEqualTo(0);
+        await Assert.That(stream.ReadByte()).IsEqualTo(-1);
     }
 
     [Test]
@@ -159,7 +124,7 @@ partial class PolyfillTests
         stream.CopyTo(target);
 
         await Assert.That(target.ToArray()).IsEquivalentTo(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
-        await Assert.That(stream.Position).IsEqualTo(9L);
+        await Assert.That(stream.Read(new byte[1], 0, 1)).IsEqualTo(0);
     }
 
     [Test]
@@ -175,7 +140,7 @@ partial class PolyfillTests
         stream.CopyTo(target);
 
         await Assert.That(target.ToArray()).IsEquivalentTo(new byte[] { 3, 4, 5, 6 });
-        await Assert.That(stream.Position).IsEqualTo(6L);
+        await Assert.That(stream.Read(new byte[1], 0, 1)).IsEqualTo(0);
     }
 
     [Test]
@@ -188,7 +153,7 @@ partial class PolyfillTests
         await stream.CopyToAsync(target);
 
         await Assert.That(target.ToArray()).IsEquivalentTo(new byte[] { 1, 2, 3, 4, 5 });
-        await Assert.That(stream.Position).IsEqualTo(5L);
+        await Assert.That(stream.Read(new byte[1], 0, 1)).IsEqualTo(0);
     }
 
     static ReadOnlySequence<byte> CreateMultiSegment(params byte[][] parts)
