@@ -25,7 +25,7 @@ static partial class Polyfill
         {
             using var process = StartOrThrow(startInfo);
             WaitForExitOrThrow(process, timeout);
-            return new(process.ExitCode, canceled: false);
+            return ToExitStatus(process.ExitCode);
         }
 
         /// <summary>
@@ -73,7 +73,13 @@ static partial class Polyfill
                 {
                 }
             }
-            return new(canceled ? -1 : process.ExitCode, canceled);
+
+            if (canceled)
+            {
+                return new(-1, canceled: true);
+            }
+
+            return ToExitStatus(process.ExitCode);
         }
 
         /// <summary>
@@ -109,7 +115,7 @@ static partial class Polyfill
             var stderrTask = process.StandardError.ReadToEndAsync();
             var pid = process.Id;
             WaitForExitOrThrow(process, timeout);
-            var status = new ProcessExitStatus(process.ExitCode, canceled: false);
+            var status = ToExitStatus(process.ExitCode);
             return new(status, stdoutTask.GetAwaiter().GetResult(), stderrTask.GetAwaiter().GetResult(), pid);
         }
 
@@ -154,7 +160,7 @@ static partial class Polyfill
                 {
                 }
             }
-            var status = new ProcessExitStatus(canceled ? -1 : process.ExitCode, canceled);
+            var status = canceled ? new ProcessExitStatus(-1, canceled: true) : ToExitStatus(process.ExitCode);
             return new(status, await stdoutTask, await stderrTask, pid);
         }
 
