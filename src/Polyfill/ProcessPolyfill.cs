@@ -31,12 +31,12 @@ static partial class Polyfill
         /// <summary>
         /// Starts the process described by <paramref name="fileName"/> and <paramref name="arguments"/>, waits for it to exit, and returns the exit status.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.run?view=net-11.0#system-diagnostics-process-run(system-string-system-collections-generic-ilist((system-string))-system-boolean-system-nullable((system-timespan)))
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.run?view=net-11.0#system-diagnostics-process-run(system-string-system-collections-generic-ienumerable((system-string))-system-boolean-system-nullable((system-timespan)))
         //Note: When silent is true, standard output and error are suppressed by redirecting and discarding them (rather than binding to the null device as on net11); standard input remains connected.
         [SupportedOSPlatform("maccatalyst")]
         [UnsupportedOSPlatform("ios")]
         [UnsupportedOSPlatform("tvos")]
-        public static ProcessExitStatus Run(string fileName, IList<string>? arguments = null, bool silent = false, TimeSpan? timeout = default)
+        public static ProcessExitStatus Run(string fileName, IEnumerable<string>? arguments = null, bool silent = false, TimeSpan? timeout = default)
         {
             if (silent)
             {
@@ -85,12 +85,12 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously starts the process described by <paramref name="fileName"/> and <paramref name="arguments"/>, waits for it to exit, and returns the exit status.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runasync?view=net-11.0#system-diagnostics-process-runasync(system-string-system-collections-generic-ilist((system-string))-system-boolean-system-threading-cancellationtoken)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runasync?view=net-11.0#system-diagnostics-process-runasync(system-string-system-collections-generic-ienumerable((system-string))-system-boolean-system-threading-cancellationtoken)
         //Note: When silent is true, standard output and error are suppressed by redirecting and discarding them (rather than binding to the null device as on net11); standard input remains connected.
         [SupportedOSPlatform("maccatalyst")]
         [UnsupportedOSPlatform("ios")]
         [UnsupportedOSPlatform("tvos")]
-        public static Task<ProcessExitStatus> RunAsync(string fileName, IList<string>? arguments = null, bool silent = false, CancellationToken cancellationToken = default)
+        public static Task<ProcessExitStatus> RunAsync(string fileName, IEnumerable<string>? arguments = null, bool silent = false, CancellationToken cancellationToken = default)
         {
             if (silent)
             {
@@ -122,11 +122,11 @@ static partial class Polyfill
         /// <summary>
         /// Starts the process described by <paramref name="fileName"/> and <paramref name="arguments"/>, captures its standard output and standard error as text, waits for it to exit, and returns the captured output.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetext?view=net-11.0#system-diagnostics-process-runandcapturetext(system-string-system-collections-generic-ilist((system-string))-system-nullable((system-timespan)))
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetext?view=net-11.0#system-diagnostics-process-runandcapturetext(system-string-system-collections-generic-ienumerable((system-string))-system-nullable((system-timespan)))
         [SupportedOSPlatform("maccatalyst")]
         [UnsupportedOSPlatform("ios")]
         [UnsupportedOSPlatform("tvos")]
-        public static ProcessTextOutput RunAndCaptureText(string fileName, IList<string>? arguments = null, TimeSpan? timeout = default) =>
+        public static ProcessTextOutput RunAndCaptureText(string fileName, IEnumerable<string>? arguments = null, TimeSpan? timeout = default) =>
             Process.RunAndCaptureText(BuildStartInfo(fileName, arguments), timeout);
 
         /// <summary>
@@ -167,11 +167,11 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously starts the process described by <paramref name="fileName"/> and <paramref name="arguments"/>, captures its standard output and standard error as text, waits for it to exit, and returns the captured output.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetextasync?view=net-11.0#system-diagnostics-process-runandcapturetextasync(system-string-system-collections-generic-ilist((system-string))-system-threading-cancellationtoken)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetextasync?view=net-11.0#system-diagnostics-process-runandcapturetextasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken)
         [SupportedOSPlatform("maccatalyst")]
         [UnsupportedOSPlatform("ios")]
         [UnsupportedOSPlatform("tvos")]
-        public static Task<ProcessTextOutput> RunAndCaptureTextAsync(string fileName, IList<string>? arguments = null, CancellationToken cancellationToken = default) =>
+        public static Task<ProcessTextOutput> RunAndCaptureTextAsync(string fileName, IEnumerable<string>? arguments = null, CancellationToken cancellationToken = default) =>
             Process.RunAndCaptureTextAsync(BuildStartInfo(fileName, arguments), cancellationToken);
 
         /// <summary>
@@ -197,11 +197,11 @@ static partial class Polyfill
         /// <summary>
         /// Starts the process described by <paramref name="fileName"/> and <paramref name="arguments"/> in detached fashion and returns its process identifier.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.startandforget?view=net-11.0#system-diagnostics-process-startandforget(system-string-system-collections-generic-ilist((system-string)))
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.startandforget?view=net-11.0#system-diagnostics-process-startandforget(system-string-system-collections-generic-ienumerable((system-string)))
         [SupportedOSPlatform("maccatalyst")]
         [UnsupportedOSPlatform("ios")]
         [UnsupportedOSPlatform("tvos")]
-        public static int StartAndForget(string fileName, IList<string>? arguments = null) =>
+        public static int StartAndForget(string fileName, IEnumerable<string>? arguments = null) =>
             Process.StartAndForget(BuildStartInfo(fileName, arguments));
 
         /// <summary>
@@ -231,7 +231,7 @@ static partial class Polyfill
         }
     }
 
-    static async Task<ProcessExitStatus> RunSilentAsync(string fileName, IList<string>? arguments, CancellationToken cancellationToken)
+    static async Task<ProcessExitStatus> RunSilentAsync(string fileName, IEnumerable<string>? arguments, CancellationToken cancellationToken)
     {
         var output = await Process.RunAndCaptureTextAsync(fileName, arguments, cancellationToken);
         return output.ExitStatus;
@@ -247,7 +247,7 @@ static partial class Polyfill
         return process;
     }
 
-    static ProcessStartInfo BuildStartInfo(string fileName, IList<string>? arguments)
+    static ProcessStartInfo BuildStartInfo(string fileName, IEnumerable<string>? arguments)
     {
         var info = new ProcessStartInfo
         {
