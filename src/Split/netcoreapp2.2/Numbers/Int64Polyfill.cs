@@ -35,5 +35,16 @@ static partial class Polyfill
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out long result) =>
 			long.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
 #endif
+		/// <summary>
+		/// Computes the base-10 logarithm of a value.
+		/// </summary>
+		public static long Log10(long value)
+		{
+			if (value < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(value), value, "value must be a non-negative number.");
+			}
+			return (long) Log10Core((ulong) value);
+		}
 	}
 }

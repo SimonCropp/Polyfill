@@ -75,5 +75,10 @@ static partial class Polyfill
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out nuint result) =>
 			nuint.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
 #endif
+		/// <summary>
+		/// Computes the base-10 logarithm of a value.
+		/// </summary>
+		public static nuint Log10(nuint value) =>
+			(nuint) Log10Core(value);
 	}
 }

@@ -25,5 +25,16 @@ static partial class Polyfill
 		public static bool TryParse(ReadOnlySpan<byte> utf8Text, out nint result) =>
 			nint.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, null, out result);
 #endif
+		/// <summary>
+		/// Computes the base-10 logarithm of a value.
+		/// </summary>
+		public static nint Log10(nint value)
+		{
+			if (value < 0)
+			{
+				throw new ArgumentOutOfRangeException(nameof(value), value, "value must be a non-negative number.");
+			}
+			return (nint) Log10Core((ulong) value);
+		}
 	}
 }

@@ -1,4 +1,4 @@
-#if !NET8_0_OR_GREATER
+#if !NET11_0_OR_GREATER
 
 namespace Polyfills;
 
@@ -11,6 +11,7 @@ static partial class Polyfill
 {
     extension(nint)
     {
+#if !NET8_0_OR_GREATER
 #if !NET5_0_OR_GREATER
 
         /// <summary>
@@ -115,6 +116,21 @@ static partial class Polyfill
 #endif
 
 #endif
+#endif
+
+        /// <summary>
+        /// Computes the base-10 logarithm of a value.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.intptr.log10?view=net-11.0
+        public static nint Log10(nint value)
+        {
+            if (value < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), value, "value must be a non-negative number.");
+            }
+
+            return (nint) Log10Core((ulong) value);
+        }
     }
 }
 #endif

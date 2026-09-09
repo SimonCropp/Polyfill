@@ -26,5 +26,10 @@ static partial class Polyfill
 		public static bool TryParse(ReadOnlySpan<byte> utf8Text, out byte result) =>
 			byte.TryParse(Encoding.UTF8.GetString(utf8Text), NumberStyles.Integer, null, out result);
 #endif
+		/// <summary>
+		/// Computes the base-10 logarithm of a value.
+		/// </summary>
+		public static byte Log10(byte value) =>
+			(byte) Log10Core(value);
 	}
 }

@@ -593,6 +593,24 @@ class Consume
     }
 #endif
 
+    void Log10_Methods()
+    {
+        byte byteLog10 = byte.Log10(100);
+        sbyte sbyteLog10 = sbyte.Log10(100);
+        short shortLog10 = short.Log10(100);
+        ushort ushortLog10 = ushort.Log10(100);
+        int intLog10 = int.Log10(100);
+        uint uintLog10 = uint.Log10(100);
+        long longLog10 = long.Log10(100);
+        ulong ulongLog10 = ulong.Log10(100);
+        nint nintLog10 = nint.Log10(100);
+        nuint nuintLog10 = nuint.Log10(100);
+#if NET7_0_OR_GREATER
+        Int128 int128Log10 = Int128.Log10(100);
+        UInt128 uint128Log10 = UInt128.Log10(100);
+#endif
+    }
+
     void Byte_Methods()
     {
         byte.TryParse(s: "1", provider: null, result: out _);

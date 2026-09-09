@@ -45,5 +45,10 @@ static partial class Polyfill
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out ulong result) =>
 			ulong.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
 #endif
+		/// <summary>
+		/// Computes the base-10 logarithm of a value.
+		/// </summary>
+		public static ulong Log10(ulong value) =>
+			(ulong) Log10Core(value);
 	}
 }

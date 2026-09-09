@@ -1,4 +1,4 @@
-#if !NET8_0_OR_GREATER
+#if !NET11_0_OR_GREATER
 
 namespace Polyfills;
 
@@ -11,6 +11,7 @@ static partial class Polyfill
 {
     extension(ushort)
     {
+#if !NET8_0_OR_GREATER
 #if !NET7_0_OR_GREATER
 
         /// <summary>
@@ -78,6 +79,14 @@ static partial class Polyfill
 #endif
 
 #endif
+#endif
+
+        /// <summary>
+        /// Computes the base-10 logarithm of a value.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint16.log10?view=net-11.0
+        public static ushort Log10(ushort value) =>
+            (ushort) Log10Core(value);
     }
 }
 
