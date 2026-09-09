@@ -793,7 +793,16 @@
  * `IAsyncEnumerable<ProcessOutputLine> ReadAllLinesAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalllinesasync?view=net-11.0)
  * `(string StandardOutput, string StandardError) ReadAllText(TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalltext?view=net-11.0)
  * `Task<(string StandardOutput, string StandardError)> ReadAllTextAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalltextasync?view=net-11.0)
+ * `bool Signal(PosixSignal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.signal?view=net-11.0)
+   * Note: On Windows, as on net11, only SIGKILL is supported and is mapped to Process.Kill. All other signals throw PlatformNotSupportedException.
+   * Note: PosixSignal.SIGKILL was added in net11, so it cannot be named on earlier target frameworks. Its numeric value, (PosixSignal)(-11), is accepted.
+ * `bool TryWaitForExitStatus(TimeSpan, ProcessExitStatus?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.trywaitforexitstatus?view=net-11.0)
+   * Note: On Unix the terminating signal is derived from the exit code, which is 128 plus the signal number, instead of from the raw wait status. A process that exits normally with, for example, code 143 is therefore reported as terminated by SIGTERM.
  * `Task WaitForExitAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitasync?view=net-11.0)
+ * `ProcessExitStatus WaitForExitStatus()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitstatus?view=net-11.0)
+   * Note: On Unix the terminating signal is derived from the exit code, which is 128 plus the signal number, instead of from the raw wait status. A process that exits normally with, for example, code 143 is therefore reported as terminated by SIGTERM.
+ * `Task<ProcessExitStatus> WaitForExitStatusAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitstatusasync?view=net-11.0)
+   * Note: On Unix the terminating signal is derived from the exit code, which is 128 plus the signal number, instead of from the raw wait status. A process that exits normally with, for example, code 143 is therefore reported as terminated by SIGTERM.
  * `ProcessExitStatus Run(ProcessStartInfo, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.run?view=net-11.0#system-diagnostics-process-run(system-diagnostics-processstartinfo-system-nullable((system-timespan))))
  * `ProcessExitStatus Run(string, IList<string>?, bool, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.run?view=net-11.0#system-diagnostics-process-run(system-string-system-collections-generic-ilist((system-string))-system-boolean-system-nullable((system-timespan))))
    * Note: When silent is true, standard output and error are suppressed by redirecting and discarding them (rather than binding to the null device as on net11); standard input remains connected.

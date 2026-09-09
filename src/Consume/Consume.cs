@@ -1356,6 +1356,13 @@ class Consume
         await process.WaitForExitAsync();
         process.Kill(true);
 
+        bool signaled = process.Signal(PosixSignal.SIGTERM);
+        ProcessExitStatus waitStatus = process.WaitForExitStatus();
+        bool waitExited = process.TryWaitForExitStatus(TimeSpan.FromSeconds(1), out ProcessExitStatus? waitExitStatus);
+        _ = waitExitStatus;
+        waitStatus = await process.WaitForExitStatusAsync();
+        waitStatus = await process.WaitForExitStatusAsync(CancellationToken.None);
+
 #if FeatureValueTuple
         (string outText, string errText) = process.ReadAllText();
         (outText, errText) = process.ReadAllText(TimeSpan.FromSeconds(1));

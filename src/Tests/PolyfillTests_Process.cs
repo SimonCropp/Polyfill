@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Threading;
 
 partial class PolyfillTests
@@ -287,5 +288,124 @@ partial class PolyfillTests
         await Assert.That(output.StandardOutput).IsEqualTo("out");
         await Assert.That(output.StandardError).IsEqualTo("err");
         await Assert.That(output.ProcessId).IsEqualTo(1234);
+    }
+
+    [Test]
+    public async Task Process_WaitForExitStatus()
+    {
+        using var process = StartVersion();
+        var status = process.WaitForExitStatus();
+        await Assert.That(status.ExitCode).IsEqualTo(0);
+        await Assert.That(status.Canceled).IsFalse();
+        await Assert.That(status.Signal).IsNull();
+    }
+
+    [Test]
+    public async Task Process_TryWaitForExitStatus()
+    {
+        using var process = StartVersion();
+        var exited = process.TryWaitForExitStatus(TimeSpan.FromMinutes(1), out var status);
+        await Assert.That(exited).IsTrue();
+        await Assert.That(status!.ExitCode).IsEqualTo(0);
+        await Assert.That(status.Canceled).IsFalse();
+        await Assert.That(status.Signal).IsNull();
+    }
+
+    [Test]
+    public async Task Process_TryWaitForExitStatus_Timeout()
+    {
+        var process = Process.GetCurrentProcess();
+        var exited = process.TryWaitForExitStatus(TimeSpan.Zero, out var status);
+        await Assert.That(exited).IsFalse();
+        await Assert.That(status).IsNull();
+    }
+
+    [Test]
+    public async Task Process_TryWaitForExitStatus_NegativeTimeout()
+    {
+        var process = Process.GetCurrentProcess();
+        await Assert.That(() => { process.TryWaitForExitStatus(TimeSpan.FromMilliseconds(-2), out _); })
+            .Throws<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
+    public async Task Process_WaitForExitStatusAsync()
+    {
+        using var process = StartVersion();
+        var status = await process.WaitForExitStatusAsync();
+        await Assert.That(status.ExitCode).IsEqualTo(0);
+        await Assert.That(status.Canceled).IsFalse();
+        await Assert.That(status.Signal).IsNull();
+    }
+
+    [Test]
+    public async Task Process_WaitForExitStatusAsync_Canceled()
+    {
+        using var cancelSource = new CancelSource();
+        cancelSource.Cancel();
+        var process = Process.GetCurrentProcess();
+        await Assert.That(async () => await process.WaitForExitStatusAsync(cancelSource.Token))
+            .Throws<OperationCanceledException>();
+    }
+
+    [Test]
+    public async Task Process_Signal()
+    {
+        var process = Process.GetCurrentProcess();
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            // Windows supports only SIGKILL, which cannot be named before net11
+            await Assert.That(() => { process.Signal(PosixSignal.SIGCONT); })
+                .Throws<PlatformNotSupportedException>();
+        }
+        else
+        {
+            // SIGCONT to a process that is already running is a no-op
+            await Assert.That(process.Signal(PosixSignal.SIGCONT)).IsTrue();
+        }
+    }
+
+    [UnsupportedOSPlatform("windows")]
+    [Test]
+    public async Task Process_WaitForExitStatus_TerminatedBySignal()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
+
+        using var process = Process.Start(
+            new ProcessStartInfo
+            {
+                FileName = "sleep",
+                Arguments = "30",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+            })!;
+
+        var signaled = process.Signal(PosixSignal.SIGTERM);
+        await Assert.That(signaled).IsTrue();
+
+        var status = process.WaitForExitStatus();
+        // Unix reports termination by a signal as an exit code of 128 plus the signal number
+        await Assert.That(status.ExitCode).IsEqualTo(143);
+        await Assert.That(status.Signal).IsEqualTo(PosixSignal.SIGTERM);
+        await Assert.That(status.Canceled).IsFalse();
+    }
+
+    static Process StartVersion()
+    {
+        var process = Process.Start(
+            new ProcessStartInfo
+            {
+                FileName = "dotnet",
+                Arguments = "--version",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+            })!;
+        // drain the pipe so the child cannot block on a full buffer
+        process.StandardOutput.ReadToEnd();
+        return process;
     }
 }

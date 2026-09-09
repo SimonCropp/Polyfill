@@ -3,9 +3,12 @@
 namespace Polyfills;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading;
@@ -179,6 +182,180 @@ static partial class Polyfill
 		}
 	}
 #endif
+	/// <summary>
+	/// Sends the specified POSIX signal to the associated process.
+	/// </summary>
+	[SupportedOSPlatform("maccatalyst")]
+	[UnsupportedOSPlatform("ios")]
+	[UnsupportedOSPlatform("tvos")]
+	public static bool Signal(this Process target, PosixSignal signal)
+	{
+		if (SignalHelper.IsWindows)
+		{
+			if (target.HasExited)
+			{
+				return false;
+			}
+			if ((int) signal != SignalHelper.SigKill)
+			{
+				throw new PlatformNotSupportedException();
+			}
+			try
+			{
+				target.Kill();
+				return true;
+			}
+			catch (InvalidOperationException)
+			{
+				return false;
+			}
+		}
+		return SignalHelper.Send(target.Id, signal);
+	}
+	/// <summary>
+	/// Instructs the Process component to wait for the associated process to exit, and returns its exit status.
+	/// </summary>
+	[SupportedOSPlatform("maccatalyst")]
+	[UnsupportedOSPlatform("ios")]
+	[UnsupportedOSPlatform("tvos")]
+	public static ProcessExitStatus WaitForExitStatus(this Process target)
+	{
+		target.WaitForExit();
+		return ToExitStatus(target.ExitCode);
+	}
+	/// <summary>
+	/// Instructs the Process component to wait up to <paramref name="timeout"/> for the associated process to exit,
+	/// and returns a value indicating whether it exited.
+	/// </summary>
+	[SupportedOSPlatform("maccatalyst")]
+	[UnsupportedOSPlatform("ios")]
+	[UnsupportedOSPlatform("tvos")]
+	public static bool TryWaitForExitStatus(this Process target, TimeSpan timeout, [NotNullWhen(true)] out ProcessExitStatus? exitStatus)
+	{
+		var milliseconds = ToTimeoutMilliseconds(timeout);
+		if (!target.WaitForExit(milliseconds))
+		{
+			exitStatus = null;
+			return false;
+		}
+		exitStatus = ToExitStatus(target.ExitCode);
+		return true;
+	}
+	/// <summary>
+	/// Instructs the Process component to wait for the associated process to exit, or for the
+	/// <paramref name="cancellationToken"/> to be canceled, and returns its exit status.
+	/// </summary>
+	[SupportedOSPlatform("maccatalyst")]
+	[UnsupportedOSPlatform("ios")]
+	[UnsupportedOSPlatform("tvos")]
+	public static async Task<ProcessExitStatus> WaitForExitStatusAsync(this Process target, CancellationToken cancellationToken = default)
+	{
+		await target.WaitForExitAsync(cancellationToken);
+		return ToExitStatus(target.ExitCode);
+	}
+	static ProcessExitStatus ToExitStatus(int exitCode)
+	{
+		if (!SignalHelper.IsWindows)
+		{
+			var signal = SignalHelper.ToPosixSignal(exitCode - 128);
+			if (signal != null)
+			{
+				return new(exitCode, canceled: false, signal);
+			}
+		}
+		return new(exitCode, canceled: false);
+	}
+	static int ToTimeoutMilliseconds(TimeSpan timeout)
+	{
+		var milliseconds = (long) timeout.TotalMilliseconds;
+		if (milliseconds < -1 ||
+			milliseconds > int.MaxValue)
+		{
+			throw new ArgumentOutOfRangeException(nameof(timeout), timeout, "Timeout must be -1 milliseconds, or between 0 and Int32.MaxValue milliseconds.");
+		}
+		return (int) milliseconds;
+	}
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+	[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
+	static class SignalHelper
+	{
+		/// <summary>
+		/// The value of PosixSignal.SIGKILL, which was added in net11 and so cannot be named on earlier target frameworks.
+		/// </summary>
+		public const int SigKill = -11;
+		const int ESRCH = 3;
+#if FeatureRuntimeInformation
+		public static readonly bool IsWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+		static readonly bool isBsd = RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ||
+									 RuntimeInformation.OSDescription.ToLower().Contains("bsd");
+#else
+		public static readonly bool IsWindows = Environment.OSVersion.Platform == PlatformID.Win32NT;
+		static readonly bool isBsd = Environment.OSVersion.Platform == PlatformID.MacOSX;
+#endif
+		public static bool Send(int processId, PosixSignal signal)
+		{
+			var number = ToSignalNumber(signal);
+			if (number == 0)
+			{
+				throw new PlatformNotSupportedException();
+			}
+			if (kill(processId, number) == 0)
+			{
+				return true;
+			}
+			var error = Marshal.GetLastWin32Error();
+			if (error == ESRCH)
+			{
+				return false;
+			}
+			throw new Win32Exception(error);
+		}
+		static int ToSignalNumber(PosixSignal signal)
+		{
+			var value = (int) signal;
+			if (value > 0)
+			{
+				return value;
+			}
+			return value switch
+			{
+				-1 => 1, // SIGHUP
+				-2 => 2, // SIGINT
+				-3 => 3, // SIGQUIT
+				-4 => 15, // SIGTERM
+				-5 => isBsd ? 20 : 17, // SIGCHLD
+				-6 => isBsd ? 19 : 18, // SIGCONT
+				-7 => 28, // SIGWINCH
+				-8 => 21, // SIGTTIN
+				-9 => 22, // SIGTTOU
+				-10 => isBsd ? 18 : 20, // SIGTSTP
+				SigKill => 9, // SIGKILL
+				_ => 0
+			};
+		}
+		public static PosixSignal? ToPosixSignal(int number) =>
+			number switch
+			{
+				1 => PosixSignal.SIGHUP,
+				2 => PosixSignal.SIGINT,
+				3 => PosixSignal.SIGQUIT,
+				9 => (PosixSignal) SigKill,
+				15 => PosixSignal.SIGTERM,
+				17 => isBsd ? null : PosixSignal.SIGCHLD,
+				18 => isBsd ? PosixSignal.SIGTSTP : PosixSignal.SIGCONT,
+				19 => isBsd ? PosixSignal.SIGCONT : null,
+				20 => isBsd ? PosixSignal.SIGCHLD : PosixSignal.SIGTSTP,
+				21 => PosixSignal.SIGTTIN,
+				22 => PosixSignal.SIGTTOU,
+				28 => PosixSignal.SIGWINCH,
+				_ => null
+			};
+		[DllImport("libc", EntryPoint = "kill", SetLastError = true)]
+		static extern int kill(int pid, int signal);
+	}
 	static void WaitForExitOrThrow(Process target, TimeSpan? timeout)
 	{
 		if (timeout is { } value)
