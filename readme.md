@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 1038**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 1047**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
@@ -112,7 +112,7 @@ This project uses features from the newest stable SDK and C# language. As such c
 | netcoreapp3.1  |          9.5KB |       310.5KB |  +301.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | net5.0         |          9.5KB |       274.5KB |  +265.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | net6.0         |         10.0KB |       216.0KB |  +206.0KB |   +10.0KB |             +7.0KB |           +512bytes |      +3.5KB |
-| net7.0         |         10.0KB |       178.0KB |  +168.0KB |   +12.0KB |             +8.0KB |           +512bytes |      +3.5KB |
+| net7.0         |         10.0KB |       178.0KB |  +168.0KB |   +12.0KB |             +8.0KB |           +512bytes |      +3.0KB |
 | net8.0         |          9.5KB |       148.5KB |  +139.0KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
 | net9.0         |          9.5KB |       101.5KB |   +92.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
 | net10.0        |         10.0KB |        79.0KB |   +69.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
@@ -125,8 +125,8 @@ This project uses features from the newest stable SDK and C# language. As such c
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
 | netstandard2.0 |          8.0KB |       530.1KB |  +522.1KB |   +15.2KB |             +8.7KB |             +12.9KB |     +17.9KB |
 | netstandard2.1 |          8.5KB |       457.5KB |  +449.0KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net461         |          8.5KB |       530.1KB |  +521.6KB |   +15.2KB |             +8.2KB |             +12.4KB |     +17.4KB |
-| net462         |          7.0KB |       533.6KB |  +526.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net461         |          8.5KB |       530.2KB |  +521.7KB |   +15.2KB |             +8.2KB |             +12.4KB |     +17.4KB |
+| net462         |          7.0KB |       533.7KB |  +526.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
 | net47          |          7.0KB |       532.9KB |  +525.9KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | net471         |          8.5KB |       532.0KB |  +523.5KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
 | net472         |          8.5KB |       529.5KB |  +521.0KB |   +15.2KB |             +8.2KB |             +12.4KB |     +17.4KB |
@@ -139,7 +139,7 @@ This project uses features from the newest stable SDK and C# language. As such c
 | netcoreapp3.1  |          9.5KB |       447.3KB |  +437.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | net5.0         |          9.5KB |       393.2KB |  +383.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | net6.0         |         10.0KB |       314.5KB |  +304.5KB |   +17.7KB |             +8.7KB |              +1.1KB |      +4.2KB |
-| net7.0         |         10.0KB |       257.6KB |  +247.6KB |   +19.6KB |             +9.4KB |              +1.1KB |      +4.2KB |
+| net7.0         |         10.0KB |       257.7KB |  +247.7KB |   +19.6KB |             +9.4KB |              +1.1KB |      +3.7KB |
 | net8.0         |          9.5KB |       212.7KB |  +203.2KB |   +16.0KB |          +299bytes |              +1.1KB |      +3.7KB |
 | net9.0         |          9.5KB |       144.5KB |  +135.0KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
 | net10.0        |         10.0KB |       113.4KB |  +103.4KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
@@ -746,6 +746,10 @@ The class `Polyfill` includes the following extension methods:
  * `bool IsAsciiLetterOrDigit(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterordigit?view=net-11.0)
  * `bool IsAsciiLetterUpper(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isasciiletterupper?view=net-11.0)
  * `bool IsBetween(char, char, char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isbetween?view=net-11.0)
+ * `char ToLowerOrdinal(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.tolowerordinal?view=net-11.0)
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
+ * `char ToUpperOrdinal(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.toupperordinal?view=net-11.0)
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
 
 
 #### ConcurrentBag<T>
@@ -1494,6 +1498,10 @@ The class `Polyfill` includes the following extension methods:
  * `int SplitAny(Span<Range>, ReadOnlySpan<char>, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany?view=net-11.0#system-memoryextensions-splitany(system-readonlyspan((system-char))-system-span((system-range))-system-readonlyspan((system-char))-system-stringsplitoptions))
  * `int SplitAny(Span<Range>, ReadOnlySpan<string>, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany?view=net-11.0#system-memoryextensions-splitany(system-readonlyspan((system-char))-system-span((system-range))-system-readonlyspan((system-string))-system-stringsplitoptions))
  * `bool StartsWith(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith?view=net-11.0#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
+ * `int ToLowerOrdinal(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.tolowerordinal?view=net-11.0)
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
+ * `int ToUpperOrdinal(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.toupperordinal?view=net-11.0)
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `bool TryNormalize(Span<char>, int, NormalizationForm)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.stringnormalizationextensions.trynormalize?view=net-11.0#system-stringnormalizationextensions-trynormalize(system-readonlyspan((system-char))-system-span((system-char))-system-int32@-system-text-normalizationform))
 
 
@@ -1561,6 +1569,15 @@ The class `Polyfill` includes the following extension methods:
  * `bool IsMatch(ReadOnlySpan<char>, string, RegexOptions, TimeSpan)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-11.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan))
  * `bool IsMatch(ReadOnlySpan<char>, string, RegexOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-11.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions))
  * `bool IsMatch(ReadOnlySpan<char>, string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.ismatch?view=net-11.0#system-text-regularexpressions-regex-ismatch(system-readonlyspan((system-char))-system-string))
+
+
+#### Rune
+
+ * `bool Equals(Rune, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.rune.equals?view=net-11.0#system-text-rune-equals(system-text-rune-system-stringcomparison))
+ * `Rune ToLowerOrdinal(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.rune.tolowerordinal?view=net-11.0)
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
+ * `Rune ToUpperOrdinal(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.rune.toupperordinal?view=net-11.0)
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
 
 
 #### RuntimeFeature
@@ -1753,6 +1770,10 @@ The class `Polyfill` includes the following extension methods:
  * `string[] Split(string, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-string-system-stringsplitoptions))
  * `bool StartsWith(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char-system-stringcomparison))
  * `bool StartsWith(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char))
+ * `string ToLowerOrdinal()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.tolowerordinal?view=net-11.0)
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
+ * `string ToUpperOrdinal()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.toupperordinal?view=net-11.0)
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `bool TryCopyTo(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.trycopyto?view=net-11.0)
  * `string Concat(ReadOnlySpan<object?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.concat?view=net-11.0#system-string-concat(system-readonlyspan((system-object))))
  * `string Concat(ReadOnlySpan<string?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.concat?view=net-11.0#system-string-concat(system-readonlyspan((system-string))))
@@ -2362,7 +2383,7 @@ void ObjectDisposedExceptionExample(bool isDisposed)
     ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L784-L808' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L801-L825' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -2381,7 +2402,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L814-L826' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L831-L843' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -259,4 +259,35 @@ static partial class Polyfill
     public static string ReplaceLineEndings(this string target) =>
         ReplaceLineEndings(target, Environment.NewLine);
 #endif
+
+#if !NET11_0_OR_GREATER
+
+    /// <summary>
+    /// Returns a copy of this string converted to lowercase using ordinal casing rules.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.tolowerordinal?view=net-11.0
+    //Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
+    public static string ToLowerOrdinal(this string target) =>
+        ToOrdinalCase(target, toUpper: false);
+
+    /// <summary>
+    /// Returns a copy of this string converted to uppercase using ordinal casing rules.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.toupperordinal?view=net-11.0
+    //Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
+    public static string ToUpperOrdinal(this string target) =>
+        ToOrdinalCase(target, toUpper: true);
+
+    static string ToOrdinalCase(string target, bool toUpper)
+    {
+        if (target.Length == 0)
+        {
+            return target;
+        }
+
+        var chars = target.ToCharArray();
+        ToOrdinalCase(chars, toUpper);
+        return new(chars);
+    }
+#endif
 }

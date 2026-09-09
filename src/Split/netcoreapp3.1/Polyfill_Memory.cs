@@ -14,5 +14,42 @@ static partial class Polyfill
 	/// Returns an enumeration of lines over the provided span.
 	/// </summary>
 	public static SpanLineEnumerator EnumerateLines(this Span<char> target) => new(target);
+	/// <summary>
+	/// Copies the source span to the destination span, converting it to lowercase using ordinal casing rules.
+	/// </summary>
+	public static int ToLowerOrdinal(this ReadOnlySpan<char> source, Span<char> destination) =>
+		ToOrdinalCase(source, destination, toUpper: false);
+	/// <summary>
+	/// Copies the source span to the destination span, converting it to uppercase using ordinal casing rules.
+	/// </summary>
+	public static int ToUpperOrdinal(this ReadOnlySpan<char> source, Span<char> destination) =>
+		ToOrdinalCase(source, destination, toUpper: true);
+	static int ToOrdinalCase(ReadOnlySpan<char> source, Span<char> destination, bool toUpper)
+	{
+		if (source.Overlaps(destination))
+		{
+			throw new InvalidOperationException("The source and destination buffers overlap.");
+		}
+		if (destination.Length < source.Length)
+		{
+			return -1;
+		}
+		for (var index = 0; index < source.Length; index++)
+		{
+			var current = source[index];
+			if (char.IsHighSurrogate(current) &&
+				index + 1 < source.Length &&
+				char.IsLowSurrogate(source[index + 1]))
+			{
+				var cased = ToOrdinalCaseSurrogatePair(source.Slice(index, 2).ToString(), toUpper);
+				destination[index] = cased[0];
+				destination[index + 1] = cased[1];
+				index++;
+				continue;
+			}
+			destination[index] = toUpper ? ToUpperOrdinalChar(current) : ToLowerOrdinalChar(current);
+		}
+		return source.Length;
+	}
 }
 #endif

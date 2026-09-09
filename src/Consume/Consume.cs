@@ -646,6 +646,23 @@ class Consume
         var isAsciiHexDigitUpper = char.IsAsciiHexDigitUpper('\u0041');
         var charEquals = 'A'.Equals('a', StringComparison.OrdinalIgnoreCase);
         var isBetween = char.IsBetween('c', 'a', 'z');
+        char toLowerOrdinalChar = char.ToLowerOrdinal('A');
+        char toUpperOrdinalChar = char.ToUpperOrdinal('a');
+
+        string toLowerOrdinal = "ABC".ToLowerOrdinal();
+        string toUpperOrdinal = "abc".ToUpperOrdinal();
+
+#if FeatureMemory
+        Span<char> casingDestination = new char[3];
+        int loweredCount = "ABC".AsSpan().ToLowerOrdinal(casingDestination);
+        int upperedCount = "abc".AsSpan().ToUpperOrdinal(casingDestination);
+#endif
+
+#if NETCOREAPP3_0_OR_GREATER
+        Rune loweredRune = Rune.ToLowerOrdinal(new('A'));
+        Rune upperedRune = Rune.ToUpperOrdinal(new('a'));
+        bool runeEquals = new Rune('A').Equals(new('a'), StringComparison.OrdinalIgnoreCase);
+#endif
     }
 
     class WithMethods

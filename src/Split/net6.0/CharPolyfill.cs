@@ -50,5 +50,67 @@ static partial class Polyfill
 		/// </summary>
 		public static bool IsBetween(char c, char minInclusive, char maxInclusive) =>
 			(uint)(c - minInclusive) <= (uint)(maxInclusive - minInclusive);
+		/// <summary>
+		/// Converts the value of a character to its lowercase equivalent using ordinal casing rules.
+		/// </summary>
+		public static char ToLowerOrdinal(char c) =>
+			ToLowerOrdinalChar(c);
+		/// <summary>
+		/// Converts the value of a character to its uppercase equivalent using ordinal casing rules.
+		/// </summary>
+		public static char ToUpperOrdinal(char c) =>
+			ToUpperOrdinalChar(c);
+	}
+	internal static char ToUpperOrdinalChar(char c) =>
+		c == 'ſ' ? c : char.ToUpperInvariant(c);
+	internal static char ToLowerOrdinalChar(char c)
+	{
+		var lower = char.ToLowerInvariant(c);
+		if (lower == c)
+		{
+			return c;
+		}
+		return ToUpperOrdinalChar(lower) == ToUpperOrdinalChar(c) ? lower : c;
+	}
+	/// <summary>
+	/// Applies ordinal casing to <paramref name="chars"/> in place, treating surrogate pairs as a single scalar.
+	/// </summary>
+	internal static void ToOrdinalCase(char[] chars, bool toUpper)
+	{
+		for (var index = 0; index < chars.Length; index++)
+		{
+			var current = chars[index];
+			if (char.IsHighSurrogate(current) &&
+				index + 1 < chars.Length &&
+				char.IsLowSurrogate(chars[index + 1]))
+			{
+				var pair = new string(chars, index, 2);
+				var cased = ToOrdinalCaseSurrogatePair(pair, toUpper);
+				chars[index] = cased[0];
+				chars[index + 1] = cased[1];
+				index++;
+				continue;
+			}
+			chars[index] = toUpper ? ToUpperOrdinalChar(current) : ToLowerOrdinalChar(current);
+		}
+	}
+	internal static string ToOrdinalCaseSurrogatePair(string pair, bool toUpper)
+	{
+		if (toUpper)
+		{
+			return ToUpperOrdinalSurrogatePair(pair);
+		}
+		var lower = pair.ToLowerInvariant();
+		if (lower.Length != 2 ||
+			lower == pair)
+		{
+			return pair;
+		}
+		return ToUpperOrdinalSurrogatePair(lower) == ToUpperOrdinalSurrogatePair(pair) ? lower : pair;
+	}
+	static string ToUpperOrdinalSurrogatePair(string pair)
+	{
+		var upper = pair.ToUpperInvariant();
+		return upper.Length == 2 ? upper : pair;
 	}
 }

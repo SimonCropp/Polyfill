@@ -49,4 +49,24 @@ static partial class Polyfill
 	/// </summary>
 	public static int LastIndexOf(this string target, char value, int startIndex, int count, StringComparison comparisonType) =>
 		target.LastIndexOf(value.ToString(), startIndex, count, comparisonType);
+	/// <summary>
+	/// Returns a copy of this string converted to lowercase using ordinal casing rules.
+	/// </summary>
+	public static string ToLowerOrdinal(this string target) =>
+		ToOrdinalCase(target, toUpper: false);
+	/// <summary>
+	/// Returns a copy of this string converted to uppercase using ordinal casing rules.
+	/// </summary>
+	public static string ToUpperOrdinal(this string target) =>
+		ToOrdinalCase(target, toUpper: true);
+	static string ToOrdinalCase(string target, bool toUpper)
+	{
+		if (target.Length == 0)
+		{
+			return target;
+		}
+		var chars = target.ToCharArray();
+		ToOrdinalCase(chars, toUpper);
+		return new(chars);
+	}
 }
