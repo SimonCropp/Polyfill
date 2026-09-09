@@ -1518,6 +1518,13 @@ class Consume
         _ = readOnlySpan.LastIndexOfAnyExcept('a', 'b');
         _ = readOnlySpan.LastIndexOfAnyExcept('a', 'b', 'c');
         _ = readOnlySpan.LastIndexOfAnyExcept("ab".AsSpan());
+
+        bool containsAnyWhiteSpace = readOnlySpan.ContainsAnyWhiteSpace();
+        int indexOfAnyWhiteSpace = readOnlySpan.IndexOfAnyWhiteSpace();
+        int indexOfAnyExceptWhiteSpace = readOnlySpan.IndexOfAnyExceptWhiteSpace();
+        int lastIndexOfAnyWhiteSpace = readOnlySpan.LastIndexOfAnyWhiteSpace();
+        int lastIndexOfAnyExceptWhiteSpace = readOnlySpan.LastIndexOfAnyExceptWhiteSpace();
+
 #if FeatureValueTuple
         var split = readOnlySpan.Split('a');
         split = readOnlySpan.Split("a".AsSpan());
