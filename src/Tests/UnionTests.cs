@@ -49,6 +49,8 @@ public class UnionTests
         await Assert.That(typeof(IUnion).IsAssignableFrom(type)).IsTrue();
     }
 
+    #region UnionExplicit
+
     [Union]
     readonly struct IntOrString : IUnion
     {
@@ -60,4 +62,6 @@ public class UnionTests
 
         public object? Value => value;
     }
+
+    #endregion
 }
