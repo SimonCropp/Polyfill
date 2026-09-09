@@ -29,6 +29,7 @@
   <Project Path="ConsumeCsDefault/ConsumeCsDefault.csproj" />
   <Project Path="ConsumeCsLatest/ConsumeCsLatest.csproj" />
   <Project Path="ConsumeCsLatestMajor/ConsumeCsLatestMajor.csproj" />
+  <Project Path="ConsumeCsPreview/ConsumeCsPreview.csproj" />
   <Project Path="ConsumeEmbeddedLib/ConsumeEmbeddedLib.csproj" />
   <Project Path="ConsumeInBoxRuntimeInfo/ConsumeInBoxRuntimeInfo.csproj" />
   <Project Path="ConsumeIncorrectVersions/ConsumeIncorrectVersions.csproj" />
