@@ -19,7 +19,6 @@
     <PolyGuard>true</PolyGuard>
     <PolyArgumentExceptions>true</PolyArgumentExceptions>
     <PolyStringInterpolation>true</PolyStringInterpolation>
-    <PolyUnion>true</PolyUnion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <RunAnalyzers>false</RunAnalyzers>
     <Nullable>enable</Nullable>

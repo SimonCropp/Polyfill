@@ -313,7 +313,6 @@ public class BuildApiTest
         ["ArgumentOutOfRangeException"] = ("PolyArgumentExceptions", "argumentexception-1"),
         ["ObjectDisposedException"] = ("PolyArgumentExceptions", "argumentexception-1"),
         ["Ensure"] = ("PolyEnsure", "ensure-1"),
-        ["IUnion"] = ("PolyUnion", "unions"),
     };
 
     static void WriteSectionGate(string sectionName, StreamWriter writer)

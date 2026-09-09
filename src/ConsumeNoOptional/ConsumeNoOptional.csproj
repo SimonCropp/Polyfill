@@ -9,7 +9,6 @@
     <PolyGuard>false</PolyGuard>
     <PolyArgumentExceptions>false</PolyArgumentExceptions>
     <PolyStringInterpolation>false</PolyStringInterpolation>
-    <PolyUnion>false</PolyUnion>
     <DefineConstants>$(DefineConstants);NoStringInterpolation</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
