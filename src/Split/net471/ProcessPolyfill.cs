@@ -30,7 +30,7 @@ static partial class Polyfill
 		[SupportedOSPlatform("maccatalyst")]
 		[UnsupportedOSPlatform("ios")]
 		[UnsupportedOSPlatform("tvos")]
-		public static ProcessExitStatus Run(string fileName, IList<string>? arguments = null, bool silent = false, TimeSpan? timeout = default)
+		public static ProcessExitStatus Run(string fileName, IEnumerable<string>? arguments = null, bool silent = false, TimeSpan? timeout = default)
 		{
 			if (silent)
 			{
@@ -76,7 +76,7 @@ static partial class Polyfill
 		[SupportedOSPlatform("maccatalyst")]
 		[UnsupportedOSPlatform("ios")]
 		[UnsupportedOSPlatform("tvos")]
-		public static Task<ProcessExitStatus> RunAsync(string fileName, IList<string>? arguments = null, bool silent = false, CancellationToken cancellationToken = default)
+		public static Task<ProcessExitStatus> RunAsync(string fileName, IEnumerable<string>? arguments = null, bool silent = false, CancellationToken cancellationToken = default)
 		{
 			if (silent)
 			{
@@ -107,7 +107,7 @@ static partial class Polyfill
 		[SupportedOSPlatform("maccatalyst")]
 		[UnsupportedOSPlatform("ios")]
 		[UnsupportedOSPlatform("tvos")]
-		public static ProcessTextOutput RunAndCaptureText(string fileName, IList<string>? arguments = null, TimeSpan? timeout = default) =>
+		public static ProcessTextOutput RunAndCaptureText(string fileName, IEnumerable<string>? arguments = null, TimeSpan? timeout = default) =>
 			Process.RunAndCaptureText(BuildStartInfo(fileName, arguments), timeout);
 		/// <summary>
 		/// Asynchronously starts the process described by <paramref name="startInfo"/>, captures its standard output and standard error as text, waits for it to exit, and returns the captured output.
@@ -148,7 +148,7 @@ static partial class Polyfill
 		[SupportedOSPlatform("maccatalyst")]
 		[UnsupportedOSPlatform("ios")]
 		[UnsupportedOSPlatform("tvos")]
-		public static Task<ProcessTextOutput> RunAndCaptureTextAsync(string fileName, IList<string>? arguments = null, CancellationToken cancellationToken = default) =>
+		public static Task<ProcessTextOutput> RunAndCaptureTextAsync(string fileName, IEnumerable<string>? arguments = null, CancellationToken cancellationToken = default) =>
 			Process.RunAndCaptureTextAsync(BuildStartInfo(fileName, arguments), cancellationToken);
 		/// <summary>
 		/// Starts the process described by <paramref name="startInfo"/> in detached fashion and returns its process identifier.
@@ -174,7 +174,7 @@ static partial class Polyfill
 		[SupportedOSPlatform("maccatalyst")]
 		[UnsupportedOSPlatform("ios")]
 		[UnsupportedOSPlatform("tvos")]
-		public static int StartAndForget(string fileName, IList<string>? arguments = null) =>
+		public static int StartAndForget(string fileName, IEnumerable<string>? arguments = null) =>
 			Process.StartAndForget(BuildStartInfo(fileName, arguments));
 		/// <summary>
 		/// Gets the <see cref="Process"/> associated with the specified process identifier, and returns a value that indicates whether the operation succeeded.
@@ -200,7 +200,7 @@ static partial class Polyfill
 			}
 		}
 	}
-	static async Task<ProcessExitStatus> RunSilentAsync(string fileName, IList<string>? arguments, CancellationToken cancellationToken)
+	static async Task<ProcessExitStatus> RunSilentAsync(string fileName, IEnumerable<string>? arguments, CancellationToken cancellationToken)
 	{
 		var output = await Process.RunAndCaptureTextAsync(fileName, arguments, cancellationToken);
 		return output.ExitStatus;
@@ -214,7 +214,7 @@ static partial class Polyfill
 		}
 		return process;
 	}
-	static ProcessStartInfo BuildStartInfo(string fileName, IList<string>? arguments)
+	static ProcessStartInfo BuildStartInfo(string fileName, IEnumerable<string>? arguments)
 	{
 		var info = new ProcessStartInfo
 		{

@@ -1383,6 +1383,14 @@ class Consume
         }
 #endif
 
+        // arguments is IEnumerable<string> on net11, so a non-list sequence has to bind
+        IEnumerable<string> argumentSequence = new HashSet<string> { "a", "b" };
+        _ = Process.Run("notexists", argumentSequence);
+        _ = await Process.RunAsync("notexists", argumentSequence);
+        _ = Process.RunAndCaptureText("notexists", argumentSequence);
+        _ = await Process.RunAndCaptureTextAsync("notexists", argumentSequence);
+        _ = Process.StartAndForget("notexists", argumentSequence);
+
         ProcessExitStatus status = Process.Run("notexists");
         status = Process.Run("notexists", new[] { "a", "b" });
         status = Process.Run("notexists", new[] { "a", "b" }, silent: true);
