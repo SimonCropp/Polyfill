@@ -87,6 +87,58 @@ static partial class Polyfill
 
 #endif
 
+#if !NET11_0_OR_GREATER
+
+    /// <summary>
+    /// Copies the source span to the destination span, converting it to lowercase using ordinal casing rules.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.tolowerordinal?view=net-11.0
+    //Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
+    public static int ToLowerOrdinal(this ReadOnlySpan<char> source, Span<char> destination) =>
+        ToOrdinalCase(source, destination, toUpper: false);
+
+    /// <summary>
+    /// Copies the source span to the destination span, converting it to uppercase using ordinal casing rules.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.toupperordinal?view=net-11.0
+    //Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
+    public static int ToUpperOrdinal(this ReadOnlySpan<char> source, Span<char> destination) =>
+        ToOrdinalCase(source, destination, toUpper: true);
+
+    static int ToOrdinalCase(ReadOnlySpan<char> source, Span<char> destination, bool toUpper)
+    {
+        if (source.Overlaps(destination))
+        {
+            throw new InvalidOperationException("The source and destination buffers overlap.");
+        }
+
+        if (destination.Length < source.Length)
+        {
+            return -1;
+        }
+
+        for (var index = 0; index < source.Length; index++)
+        {
+            var current = source[index];
+            if (char.IsHighSurrogate(current) &&
+                index + 1 < source.Length &&
+                char.IsLowSurrogate(source[index + 1]))
+            {
+                var cased = ToOrdinalCaseSurrogatePair(source.Slice(index, 2).ToString(), toUpper);
+                destination[index] = cased[0];
+                destination[index + 1] = cased[1];
+                index++;
+                continue;
+            }
+
+            destination[index] = toUpper ? ToUpperOrdinalChar(current) : ToLowerOrdinalChar(current);
+        }
+
+        return source.Length;
+    }
+
+#endif
+
 }
 
 #endif

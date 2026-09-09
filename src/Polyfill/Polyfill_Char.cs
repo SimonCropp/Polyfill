@@ -13,7 +13,7 @@ static partial class Polyfill
         comparisonType switch
         {
             StringComparison.Ordinal => target == other,
-            StringComparison.OrdinalIgnoreCase => char.ToUpperInvariant(target) == char.ToUpperInvariant(other),
+            StringComparison.OrdinalIgnoreCase => ToUpperOrdinalChar(target) == ToUpperOrdinalChar(other),
             _ => target.ToString().Equals(other.ToString(), comparisonType)
         };
 }
