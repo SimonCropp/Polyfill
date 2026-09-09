@@ -83,6 +83,13 @@
  * `void WriteSingleLittleEndian(Span<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.writesinglelittleendian?view=net-11.0)
 
 
+#### BitArray
+
+ * `bool HasAllSet()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.bitarray.hasallset?view=net-11.0)
+ * `bool HasAnySet()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.bitarray.hasanyset?view=net-11.0)
+ * `int PopCount()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.bitarray.popcount?view=net-11.0)
+
+
 #### Boolean
 
  * `bool TryFormat(Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.boolean.tryformat?view=net-11.0)

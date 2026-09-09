@@ -557,6 +557,14 @@ class Consume
         var ulongFromDouble = BitConverter.DoubleToUInt64Bits(1.0);
     }
 
+    void BitArray_Methods()
+    {
+        var bitArray = new BitArray(8, true);
+        bool hasAllSet = bitArray.HasAllSet();
+        bool hasAnySet = bitArray.HasAnySet();
+        int popCount = bitArray.PopCount();
+    }
+
     void BinaryPrimitives_Methods()
     {
         var buffer = new byte[8];
