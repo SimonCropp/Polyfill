@@ -13,34 +13,34 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 1021**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 1031**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
 | Target | APIs |
 | -- | -- |
-| `net461` | 968 |
-| `net462` | 968 |
-| `net47` | 967 |
-| `net471` | 966 |
-| `net472` | 962 |
-| `net48` | 962 |
-| `net481` | 962 |
-| `netstandard2.0` | 964 |
-| `netstandard2.1` | 815 |
-| `netcoreapp2.0` | 885 |
-| `netcoreapp2.1` | 826 |
-| `netcoreapp2.2` | 826 |
-| `netcoreapp3.0` | 773 |
-| `netcoreapp3.1` | 772 |
-| `net5.0` | 644 |
-| `net6.0` | 549 |
-| `net7.0` | 396 |
-| `net8.0` | 277 |
-| `net9.0` | 183 |
-| `net10.0` | 130 |
-| `net11.0` | 62 |
-| `uap10.0` | 954 |
+| `net461` | 973 |
+| `net462` | 973 |
+| `net47` | 972 |
+| `net471` | 971 |
+| `net472` | 967 |
+| `net48` | 967 |
+| `net481` | 967 |
+| `netstandard2.0` | 969 |
+| `netstandard2.1` | 822 |
+| `netcoreapp2.0` | 892 |
+| `netcoreapp2.1` | 833 |
+| `netcoreapp2.2` | 833 |
+| `netcoreapp3.0` | 785 |
+| `netcoreapp3.1` | 784 |
+| `net5.0` | 656 |
+| `net6.0` | 557 |
+| `net7.0` | 402 |
+| `net8.0` | 283 |
+| `net9.0` | 189 |
+| `net10.0` | 135 |
+| `net11.0` | 58 |
+| `uap10.0` | 959 |
 <!-- endInclude -->
 
 
@@ -96,54 +96,54 @@ This project uses features from the newest stable SDK and C# language. As such c
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       353.0KB |  +345.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netstandard2.1 |          8.5KB |       306.5KB |  +298.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net461         |          8.5KB |       351.5KB |  +343.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net462         |          7.0KB |       355.0KB |  +348.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net47          |          7.0KB |       355.0KB |  +348.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net471         |          8.5KB |       354.0KB |  +345.5KB |    +8.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net472         |          8.5KB |       352.5KB |  +344.0KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net48          |          8.5KB |       352.5KB |  +344.0KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net481         |          8.5KB |       352.5KB |  +344.0KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| netcoreapp2.0  |          9.0KB |       330.5KB |  +321.5KB |    +8.5KB |             +6.0KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.1  |          9.0KB |       310.0KB |  +301.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.2  |          9.0KB |       310.0KB |  +301.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.0  |          9.5KB |       302.5KB |  +293.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp3.1  |          9.5KB |       301.0KB |  +291.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net5.0         |          9.5KB |       265.0KB |  +255.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net6.0         |         10.0KB |       206.5KB |  +196.5KB |    +9.5KB |             +7.0KB |           +512bytes |      +3.5KB |
-| net7.0         |         10.0KB |       169.0KB |  +159.0KB |    +9.0KB |             +5.5KB |           +512bytes |      +3.5KB |
-| net8.0         |          9.5KB |       139.5KB |  +130.0KB |    +8.0KB |                    |           +512bytes |      +3.0KB |
-| net9.0         |          9.5KB |        92.5KB |   +83.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net10.0        |         10.0KB |        70.0KB |   +60.0KB |    +9.0KB |                    |              +1.0KB |      +3.5KB |
-| net11.0        |         10.0KB |        31.5KB |   +21.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
+| netstandard2.0 |          8.0KB |       358.5KB |  +350.5KB |    +8.0KB |             +7.0KB |              +8.0KB |     +12.5KB |
+| netstandard2.1 |          8.5KB |       313.0KB |  +304.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net461         |          8.5KB |       357.5KB |  +349.0KB |    +7.5KB |             +6.5KB |              +8.0KB |     +12.0KB |
+| net462         |          7.0KB |       361.0KB |  +354.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net47          |          7.0KB |       361.0KB |  +354.0KB |    +9.0KB |             +6.0KB |              +9.0KB |     +13.5KB |
+| net471         |          8.5KB |       360.0KB |  +351.5KB |    +7.5KB |             +6.5KB |              +7.5KB |     +12.0KB |
+| net472         |          8.5KB |       358.5KB |  +350.0KB |    +7.5KB |             +6.5KB |              +8.0KB |     +12.5KB |
+| net48          |          8.5KB |       358.5KB |  +350.0KB |    +7.5KB |             +6.5KB |              +8.0KB |     +12.5KB |
+| net481         |          8.5KB |       358.5KB |  +350.0KB |    +8.0KB |             +6.5KB |              +8.0KB |     +12.5KB |
+| netcoreapp2.0  |          9.0KB |       336.5KB |  +327.5KB |    +8.5KB |             +6.0KB |              +8.5KB |     +13.5KB |
+| netcoreapp2.1  |          9.0KB |       316.5KB |  +307.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.2  |          9.0KB |       316.5KB |  +307.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp3.0  |          9.5KB |       309.5KB |  +300.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp3.1  |          9.5KB |       308.0KB |  +298.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net5.0         |          9.5KB |       272.0KB |  +262.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net6.0         |         10.0KB |       213.0KB |  +203.0KB |   +10.0KB |             +7.0KB |           +512bytes |      +3.5KB |
+| net7.0         |         10.0KB |       175.0KB |  +165.0KB |   +11.5KB |             +8.0KB |           +512bytes |      +3.0KB |
+| net8.0         |          9.5KB |       145.5KB |  +136.0KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
+| net9.0         |          9.5KB |        98.5KB |   +89.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net10.0        |         10.0KB |        76.0KB |   +66.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net11.0        |         10.0KB |        20.5KB |   +10.5KB |    +9.0KB |                    |              +1.0KB |      +3.5KB |
 
 
 ### Assembly Sizes with EmbedUntrackedSources
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       516.0KB |  +508.0KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netstandard2.1 |          8.5KB |       442.9KB |  +434.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net461         |          8.5KB |       515.6KB |  +507.1KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net462         |          7.0KB |       519.1KB |  +512.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net47          |          7.0KB |       518.8KB |  +511.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net471         |          8.5KB |       517.5KB |  +509.0KB |   +15.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net472         |          8.5KB |       514.9KB |  +506.4KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net48          |          8.5KB |       514.9KB |  +506.4KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net481         |          8.5KB |       514.9KB |  +506.4KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| netcoreapp2.0  |          9.0KB |       482.9KB |  +473.9KB |   +16.2KB |             +7.7KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.1  |          9.0KB |       450.2KB |  +441.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.2  |          9.0KB |       450.2KB |  +441.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.0  |          9.5KB |       433.9KB |  +424.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp3.1  |          9.5KB |       432.4KB |  +422.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net5.0         |          9.5KB |       378.2KB |  +368.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net6.0         |         10.0KB |       299.6KB |  +289.6KB |   +17.2KB |             +8.7KB |              +1.1KB |      +4.2KB |
-| net7.0         |         10.0KB |       243.5KB |  +233.5KB |   +16.6KB |             +6.9KB |              +1.1KB |      +4.2KB |
-| net8.0         |          9.5KB |       198.5KB |  +189.0KB |   +15.5KB |          +299bytes |              +1.1KB |      +3.7KB |
-| net9.0         |          9.5KB |       130.4KB |  +120.9KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
-| net10.0        |         10.0KB |        99.5KB |   +89.5KB |   +16.5KB |                    |              +1.6KB |      +4.2KB |
-| net11.0        |         10.0KB |        46.9KB |   +36.9KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
+| netstandard2.0 |          8.0KB |       524.8KB |  +516.8KB |   +15.7KB |             +8.7KB |             +12.9KB |     +17.9KB |
+| netstandard2.1 |          8.5KB |       452.7KB |  +444.2KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net461         |          8.5KB |       524.9KB |  +516.4KB |   +15.2KB |             +8.2KB |             +12.9KB |     +17.4KB |
+| net462         |          7.0KB |       528.4KB |  +521.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net47          |          7.0KB |       528.1KB |  +521.1KB |   +16.7KB |             +7.7KB |             +13.9KB |     +18.9KB |
+| net471         |          8.5KB |       526.8KB |  +518.3KB |   +15.2KB |             +8.2KB |             +12.4KB |     +17.4KB |
+| net472         |          8.5KB |       524.2KB |  +515.7KB |   +15.2KB |             +8.2KB |             +12.9KB |     +17.9KB |
+| net48          |          8.5KB |       524.2KB |  +515.7KB |   +15.2KB |             +8.2KB |             +12.9KB |     +17.9KB |
+| net481         |          8.5KB |       524.2KB |  +515.7KB |   +15.7KB |             +8.2KB |             +12.9KB |     +17.9KB |
+| netcoreapp2.0  |          9.0KB |       492.3KB |  +483.3KB |   +16.2KB |             +7.7KB |             +13.4KB |     +18.9KB |
+| netcoreapp2.1  |          9.0KB |       459.9KB |  +450.9KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.2  |          9.0KB |       459.9KB |  +450.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp3.0  |          9.5KB |       444.0KB |  +434.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp3.1  |          9.5KB |       442.5KB |  +433.0KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net5.0         |          9.5KB |       388.3KB |  +378.8KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net6.0         |         10.0KB |       309.1KB |  +299.1KB |   +17.7KB |             +8.7KB |              +1.1KB |      +4.2KB |
+| net7.0         |         10.0KB |       252.3KB |  +242.3KB |   +19.1KB |             +9.4KB |              +1.1KB |      +3.7KB |
+| net8.0         |          9.5KB |       207.3KB |  +197.8KB |   +16.0KB |          +299bytes |              +1.1KB |      +3.7KB |
+| net9.0         |          9.5KB |       139.1KB |  +129.6KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
+| net10.0        |         10.0KB |       108.0KB |   +98.0KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
+| net11.0        |         10.0KB |        30.4KB |   +20.4KB |   +16.5KB |                    |              +1.6KB |      +4.2KB |
 <!-- endInclude -->
 
 
@@ -730,6 +730,12 @@ The class `Polyfill` includes the following extension methods:
 #### ConcurrentQueue<T>
 
  * `void Clear<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentqueue-1.clear?view=net-11.0)
+
+
+#### ConditionalWeakTable<TKey, TValue>
+
+ * `bool Remove<TKey, TValue>(TKey, TValue) where TKey : class where TValue : class` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.conditionalweaktable-2.remove?view=net-11.0#system-runtime-compilerservices-conditionalweaktable-2-remove(-0-1@))
+   * Note: Lookup and removal are not performed under the table lock, so the operation is not atomic with regard to concurrent mutations.
 
 
 #### Console
@@ -1373,15 +1379,18 @@ The class `Polyfill` includes the following extension methods:
  * `Task<(string StandardOutput, string StandardError)> ReadAllTextAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalltextasync?view=net-11.0)
  * `Task WaitForExitAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitasync?view=net-11.0)
  * `ProcessExitStatus Run(ProcessStartInfo, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.run?view=net-11.0#system-diagnostics-process-run(system-diagnostics-processstartinfo-system-nullable((system-timespan))))
- * `ProcessExitStatus Run(string, IList<string>?, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.run?view=net-11.0#system-diagnostics-process-run(system-string-system-collections-generic-ilist((system-string))-system-nullable((system-timespan))))
+ * `ProcessExitStatus Run(string, IList<string>?, bool, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.run?view=net-11.0#system-diagnostics-process-run(system-string-system-collections-generic-ilist((system-string))-system-boolean-system-nullable((system-timespan))))
+   * Note: When silent is true, standard output and error are suppressed by redirecting and discarding them (rather than binding to the null device as on net11); standard input remains connected.
  * `ProcessTextOutput RunAndCaptureText(ProcessStartInfo, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetext?view=net-11.0#system-diagnostics-process-runandcapturetext(system-diagnostics-processstartinfo-system-nullable((system-timespan))))
  * `ProcessTextOutput RunAndCaptureText(string, IList<string>?, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetext?view=net-11.0#system-diagnostics-process-runandcapturetext(system-string-system-collections-generic-ilist((system-string))-system-nullable((system-timespan))))
  * `Task<ProcessTextOutput> RunAndCaptureTextAsync(ProcessStartInfo, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetextasync?view=net-11.0#system-diagnostics-process-runandcapturetextasync(system-diagnostics-processstartinfo-system-threading-cancellationtoken))
  * `Task<ProcessTextOutput> RunAndCaptureTextAsync(string, IList<string>?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetextasync?view=net-11.0#system-diagnostics-process-runandcapturetextasync(system-string-system-collections-generic-ilist((system-string))-system-threading-cancellationtoken))
  * `Task<ProcessExitStatus> RunAsync(ProcessStartInfo, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runasync?view=net-11.0#system-diagnostics-process-runasync(system-diagnostics-processstartinfo-system-threading-cancellationtoken))
- * `Task<ProcessExitStatus> RunAsync(string, IList<string>?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runasync?view=net-11.0#system-diagnostics-process-runasync(system-string-system-collections-generic-ilist((system-string))-system-threading-cancellationtoken))
+ * `Task<ProcessExitStatus> RunAsync(string, IList<string>?, bool, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runasync?view=net-11.0#system-diagnostics-process-runasync(system-string-system-collections-generic-ilist((system-string))-system-boolean-system-threading-cancellationtoken))
+   * Note: When silent is true, standard output and error are suppressed by redirecting and discarding them (rather than binding to the null device as on net11); standard input remains connected.
  * `int StartAndForget(ProcessStartInfo)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.startandforget?view=net-11.0#system-diagnostics-process-startandforget(system-diagnostics-processstartinfo))
  * `int StartAndForget(string, IList<string>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.startandforget?view=net-11.0#system-diagnostics-process-startandforget(system-string-system-collections-generic-ilist((system-string))))
+ * `bool TryGetProcessById(int, Process?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.trygetprocessbyid?view=net-11.0)
 
 
 #### PropertyInfo
@@ -1474,6 +1483,10 @@ The class `Polyfill` includes the following extension methods:
  * `int LastIndexOfAnyExcept<T>(T, T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-readonlyspan((-0))-0-0-0))
  * `int LastIndexOfAnyExcept<T>(T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-readonlyspan((-0))-0-0))
  * `int LastIndexOfAnyExcept<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-readonlyspan((-0))-0))
+ * `T? Max<T>(IComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.max?view=net-11.0#system-memoryextensions-max-1(system-readonlyspan((-0))-system-collections-generic-icomparer((-0))))
+ * `T? Max<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.max?view=net-11.0#system-memoryextensions-max-1(system-readonlyspan((-0))))
+ * `T? Min<T>(IComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.min?view=net-11.0#system-memoryextensions-min-1(system-readonlyspan((-0))-system-collections-generic-icomparer((-0))))
+ * `T? Min<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.min?view=net-11.0#system-memoryextensions-min-1(system-readonlyspan((-0))))
  * `SpanSplitEnumerator<T> Split<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split?view=net-11.0#system-memoryextensions-split-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `SpanSplitEnumerator<T> Split<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split?view=net-11.0#system-memoryextensions-split-1(system-readonlyspan((-0))-0))
  * `SpanSplitEnumerator<T> SplitAny<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany?view=net-11.0#system-memoryextensions-splitany-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
@@ -1729,8 +1742,6 @@ The class `Polyfill` includes the following extension methods:
  * `StringBuilder AppendJoin(string?, object?[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-string-system-object()))
  * `StringBuilder AppendJoin(string?, string?[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-string-system-string()))
  * `StringBuilder AppendJoin<T>(char, IEnumerable<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin-1(system-string-system-collections-generic-ienumerable((-0))))
- * `StringBuilder AppendJoin<T>(char, T[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin-1(system-char-system-collections-generic-ienumerable((-0))))
- * `StringBuilder AppendJoin<T>(string, T[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin-1(system-string-system-collections-generic-ienumerable((-0))))
  * `StringBuilder AppendJoin<T>(string?, IEnumerable<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin-1(system-char-system-collections-generic-ienumerable((-0))))
  * `StringBuilder AppendLine(StringBuilder, AppendInterpolatedStringHandler)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendline?view=net-11.0#system-text-stringbuilder-appendline(system-text-stringbuilder-appendinterpolatedstringhandler@))
  * `StringBuilder AppendLine(StringBuilder, IFormatProvider?, AppendInterpolatedStringHandler)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendline?view=net-11.0#system-text-stringbuilder-appendline(system-iformatprovider-system-text-stringbuilder-appendinterpolatedstringhandler@))
@@ -2050,6 +2061,16 @@ The class `Polyfill` includes the following extension methods:
    * Note: When growing, new elements are default(T); the BCL exposes uninitialized data.
 
 
+#### BitOperations
+
+ * `bool IsPow2(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-int32))
+ * `bool IsPow2(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-int64))
+ * `bool IsPow2(nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-intptr))
+ * `bool IsPow2(nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-uintptr))
+ * `bool IsPow2(uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-uint32))
+ * `bool IsPow2(ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-uint64))
+
+
 #### CryptographicOperations
 
  * `bool FixedTimeEquals(ReadOnlySpan<byte>, byte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.fixedtimeequals?view=net-11.0#system-security-cryptography-cryptographicoperations-fixedtimeequals(system-readonlyspan((system-byte))-system-byte))
@@ -2299,7 +2320,7 @@ void ObjectDisposedExceptionExample(bool isDisposed)
     ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L767-L791' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L781-L805' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -2318,7 +2339,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L797-L809' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L811-L823' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

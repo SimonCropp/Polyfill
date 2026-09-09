@@ -148,6 +148,12 @@
  * `void Clear<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentqueue-1.clear?view=net-11.0)
 
 
+#### ConditionalWeakTable<TKey, TValue>
+
+ * `bool Remove<TKey, TValue>(TKey, TValue) where TKey : class where TValue : class` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.conditionalweaktable-2.remove?view=net-11.0#system-runtime-compilerservices-conditionalweaktable-2-remove(-0-1@))
+   * Note: Lookup and removal are not performed under the table lock, so the operation is not atomic with regard to concurrent mutations.
+
+
 #### Console
 
  * `SafeFileHandle OpenStandardErrorHandle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.console.openstandarderrorhandle?view=net-11.0)
@@ -789,15 +795,18 @@
  * `Task<(string StandardOutput, string StandardError)> ReadAllTextAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalltextasync?view=net-11.0)
  * `Task WaitForExitAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitasync?view=net-11.0)
  * `ProcessExitStatus Run(ProcessStartInfo, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.run?view=net-11.0#system-diagnostics-process-run(system-diagnostics-processstartinfo-system-nullable((system-timespan))))
- * `ProcessExitStatus Run(string, IList<string>?, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.run?view=net-11.0#system-diagnostics-process-run(system-string-system-collections-generic-ilist((system-string))-system-nullable((system-timespan))))
+ * `ProcessExitStatus Run(string, IList<string>?, bool, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.run?view=net-11.0#system-diagnostics-process-run(system-string-system-collections-generic-ilist((system-string))-system-boolean-system-nullable((system-timespan))))
+   * Note: When silent is true, standard output and error are suppressed by redirecting and discarding them (rather than binding to the null device as on net11); standard input remains connected.
  * `ProcessTextOutput RunAndCaptureText(ProcessStartInfo, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetext?view=net-11.0#system-diagnostics-process-runandcapturetext(system-diagnostics-processstartinfo-system-nullable((system-timespan))))
  * `ProcessTextOutput RunAndCaptureText(string, IList<string>?, TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetext?view=net-11.0#system-diagnostics-process-runandcapturetext(system-string-system-collections-generic-ilist((system-string))-system-nullable((system-timespan))))
  * `Task<ProcessTextOutput> RunAndCaptureTextAsync(ProcessStartInfo, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetextasync?view=net-11.0#system-diagnostics-process-runandcapturetextasync(system-diagnostics-processstartinfo-system-threading-cancellationtoken))
  * `Task<ProcessTextOutput> RunAndCaptureTextAsync(string, IList<string>?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runandcapturetextasync?view=net-11.0#system-diagnostics-process-runandcapturetextasync(system-string-system-collections-generic-ilist((system-string))-system-threading-cancellationtoken))
  * `Task<ProcessExitStatus> RunAsync(ProcessStartInfo, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runasync?view=net-11.0#system-diagnostics-process-runasync(system-diagnostics-processstartinfo-system-threading-cancellationtoken))
- * `Task<ProcessExitStatus> RunAsync(string, IList<string>?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runasync?view=net-11.0#system-diagnostics-process-runasync(system-string-system-collections-generic-ilist((system-string))-system-threading-cancellationtoken))
+ * `Task<ProcessExitStatus> RunAsync(string, IList<string>?, bool, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.runasync?view=net-11.0#system-diagnostics-process-runasync(system-string-system-collections-generic-ilist((system-string))-system-boolean-system-threading-cancellationtoken))
+   * Note: When silent is true, standard output and error are suppressed by redirecting and discarding them (rather than binding to the null device as on net11); standard input remains connected.
  * `int StartAndForget(ProcessStartInfo)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.startandforget?view=net-11.0#system-diagnostics-process-startandforget(system-diagnostics-processstartinfo))
  * `int StartAndForget(string, IList<string>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.startandforget?view=net-11.0#system-diagnostics-process-startandforget(system-string-system-collections-generic-ilist((system-string))))
+ * `bool TryGetProcessById(int, Process?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.trygetprocessbyid?view=net-11.0)
 
 
 #### PropertyInfo
@@ -890,6 +899,10 @@
  * `int LastIndexOfAnyExcept<T>(T, T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-readonlyspan((-0))-0-0-0))
  * `int LastIndexOfAnyExcept<T>(T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-readonlyspan((-0))-0-0))
  * `int LastIndexOfAnyExcept<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-readonlyspan((-0))-0))
+ * `T? Max<T>(IComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.max?view=net-11.0#system-memoryextensions-max-1(system-readonlyspan((-0))-system-collections-generic-icomparer((-0))))
+ * `T? Max<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.max?view=net-11.0#system-memoryextensions-max-1(system-readonlyspan((-0))))
+ * `T? Min<T>(IComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.min?view=net-11.0#system-memoryextensions-min-1(system-readonlyspan((-0))-system-collections-generic-icomparer((-0))))
+ * `T? Min<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.min?view=net-11.0#system-memoryextensions-min-1(system-readonlyspan((-0))))
  * `SpanSplitEnumerator<T> Split<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split?view=net-11.0#system-memoryextensions-split-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `SpanSplitEnumerator<T> Split<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split?view=net-11.0#system-memoryextensions-split-1(system-readonlyspan((-0))-0))
  * `SpanSplitEnumerator<T> SplitAny<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany?view=net-11.0#system-memoryextensions-splitany-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
@@ -1145,8 +1158,6 @@
  * `StringBuilder AppendJoin(string?, object?[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-string-system-object()))
  * `StringBuilder AppendJoin(string?, string?[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-string-system-string()))
  * `StringBuilder AppendJoin<T>(char, IEnumerable<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin-1(system-string-system-collections-generic-ienumerable((-0))))
- * `StringBuilder AppendJoin<T>(char, T[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin-1(system-char-system-collections-generic-ienumerable((-0))))
- * `StringBuilder AppendJoin<T>(string, T[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin-1(system-string-system-collections-generic-ienumerable((-0))))
  * `StringBuilder AppendJoin<T>(string?, IEnumerable<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin-1(system-char-system-collections-generic-ienumerable((-0))))
  * `StringBuilder AppendLine(StringBuilder, AppendInterpolatedStringHandler)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendline?view=net-11.0#system-text-stringbuilder-appendline(system-text-stringbuilder-appendinterpolatedstringhandler@))
  * `StringBuilder AppendLine(StringBuilder, IFormatProvider?, AppendInterpolatedStringHandler)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendline?view=net-11.0#system-text-stringbuilder-appendline(system-iformatprovider-system-text-stringbuilder-appendinterpolatedstringhandler@))
@@ -1464,6 +1475,16 @@
    * Note: Reads the list's private backing array via reflection on this target.
  * `void SetCount<T>(List<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.collectionsmarshal.setcount?view=net-11.0)
    * Note: When growing, new elements are default(T); the BCL exposes uninitialized data.
+
+
+#### BitOperations
+
+ * `bool IsPow2(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-int32))
+ * `bool IsPow2(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-int64))
+ * `bool IsPow2(nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-intptr))
+ * `bool IsPow2(nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-uintptr))
+ * `bool IsPow2(uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-uint32))
+ * `bool IsPow2(ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations.ispow2?view=net-11.0#system-numerics-bitoperations-ispow2(system-uint64))
 
 
 #### CryptographicOperations

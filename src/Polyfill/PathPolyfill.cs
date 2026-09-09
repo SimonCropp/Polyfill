@@ -105,6 +105,7 @@ static partial class Polyfill
             if (EndsInDirectorySeparator(path) &&
                 !IsRoot(path))
             {
+                // ReSharper disable once RedundantSuppressNullableWarningExpression
                 return path!.Substring(0, path.Length - 1);
             }
 

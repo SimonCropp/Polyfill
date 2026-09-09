@@ -2,6 +2,7 @@
 #pragma warning disable
 using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Buffers.Text.Base64Url))]
+[assembly: TypeForwardedTo(typeof(System.Numerics.BitOperations))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CallerArgumentExpressionAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.CompilerServices.CollectionBuilderAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.InteropServices.CollectionsMarshal))]

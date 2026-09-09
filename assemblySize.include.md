@@ -2,51 +2,51 @@
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       353.0KB |  +345.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netstandard2.1 |          8.5KB |       306.5KB |  +298.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net461         |          8.5KB |       351.5KB |  +343.0KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net462         |          7.0KB |       355.5KB |  +348.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net47          |          7.0KB |       355.0KB |  +348.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net471         |          8.5KB |       354.0KB |  +345.5KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net472         |          8.5KB |       353.0KB |  +344.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net48          |          8.5KB |       353.0KB |  +344.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net481         |          8.5KB |       353.0KB |  +344.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.0  |          9.0KB |       330.5KB |  +321.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.1  |          9.0KB |       310.0KB |  +301.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp2.2  |          9.0KB |       310.0KB |  +301.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp3.0  |          9.5KB |       303.0KB |  +293.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.1  |          9.5KB |       301.0KB |  +291.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net5.0         |          9.5KB |       265.0KB |  +255.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net6.0         |         10.0KB |       206.5KB |  +196.5KB |   +10.0KB |             +7.0KB |           +512bytes |      +3.5KB |
-| net7.0         |         10.0KB |       169.0KB |  +159.0KB |    +9.5KB |             +5.5KB |           +512bytes |      +3.5KB |
-| net8.0         |          9.5KB |       139.5KB |  +130.0KB |    +8.5KB |          +512bytes |           +512bytes |      +3.5KB |
-| net9.0         |          9.5KB |        92.5KB |   +83.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net10.0        |         10.0KB |        70.0KB |   +60.0KB |    +9.0KB |                    |              +1.0KB |      +3.5KB |
-| net11.0        |         10.0KB |        31.5KB |   +21.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
+| netstandard2.0 |          8.0KB |       358.5KB |  +350.5KB |    +8.0KB |             +7.0KB |              +8.0KB |     +12.5KB |
+| netstandard2.1 |          8.5KB |       313.0KB |  +304.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net461         |          8.5KB |       357.5KB |  +349.0KB |    +7.5KB |             +6.5KB |              +8.0KB |     +12.0KB |
+| net462         |          7.0KB |       361.0KB |  +354.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net47          |          7.0KB |       361.0KB |  +354.0KB |    +9.0KB |             +6.0KB |              +9.0KB |     +13.5KB |
+| net471         |          8.5KB |       360.0KB |  +351.5KB |    +7.5KB |             +6.5KB |              +7.5KB |     +12.0KB |
+| net472         |          8.5KB |       358.5KB |  +350.0KB |    +7.5KB |             +6.5KB |              +8.0KB |     +12.5KB |
+| net48          |          8.5KB |       358.5KB |  +350.0KB |    +7.5KB |             +6.5KB |              +8.0KB |     +12.5KB |
+| net481         |          8.5KB |       358.5KB |  +350.0KB |    +8.0KB |             +6.5KB |              +8.0KB |     +12.5KB |
+| netcoreapp2.0  |          9.0KB |       336.5KB |  +327.5KB |    +8.5KB |             +6.0KB |              +8.5KB |     +13.5KB |
+| netcoreapp2.1  |          9.0KB |       316.5KB |  +307.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.2  |          9.0KB |       316.5KB |  +307.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp3.0  |          9.5KB |       309.5KB |  +300.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp3.1  |          9.5KB |       308.0KB |  +298.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net5.0         |          9.5KB |       272.0KB |  +262.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net6.0         |         10.0KB |       213.0KB |  +203.0KB |   +10.0KB |             +7.0KB |           +512bytes |      +3.5KB |
+| net7.0         |         10.0KB |       175.0KB |  +165.0KB |   +11.5KB |             +8.0KB |           +512bytes |      +3.0KB |
+| net8.0         |          9.5KB |       145.5KB |  +136.0KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
+| net9.0         |          9.5KB |        98.5KB |   +89.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net10.0        |         10.0KB |        76.0KB |   +66.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net11.0        |         10.0KB |        20.5KB |   +10.5KB |    +9.0KB |                    |              +1.0KB |      +3.5KB |
 
 
 ### Assembly Sizes with EmbedUntrackedSources
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       516.0KB |  +508.0KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netstandard2.1 |          8.5KB |       442.9KB |  +434.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net461         |          8.5KB |       515.6KB |  +507.1KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net462         |          7.0KB |       519.6KB |  +512.6KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net47          |          7.0KB |       518.8KB |  +511.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net471         |          8.5KB |       517.5KB |  +509.0KB |   +17.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net472         |          8.5KB |       515.4KB |  +506.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net48          |          8.5KB |       515.4KB |  +506.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net481         |          8.5KB |       515.4KB |  +506.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.0  |          9.0KB |       482.9KB |  +473.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.1  |          9.0KB |       450.2KB |  +441.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp2.2  |          9.0KB |       450.2KB |  +441.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp3.0  |          9.5KB |       434.4KB |  +424.9KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.1  |          9.5KB |       432.4KB |  +422.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net5.0         |          9.5KB |       378.2KB |  +368.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net6.0         |         10.0KB |       299.6KB |  +289.6KB |   +17.7KB |             +8.7KB |              +1.1KB |      +4.2KB |
-| net7.0         |         10.0KB |       243.5KB |  +233.5KB |   +17.1KB |             +6.9KB |              +1.1KB |      +4.2KB |
-| net8.0         |          9.5KB |       198.5KB |  +189.0KB |   +16.0KB |          +811bytes |              +1.1KB |      +4.2KB |
-| net9.0         |          9.5KB |       130.4KB |  +120.9KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
-| net10.0        |         10.0KB |        99.5KB |   +89.5KB |   +16.5KB |                    |              +1.6KB |      +4.2KB |
-| net11.0        |         10.0KB |        46.9KB |   +36.9KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
+| netstandard2.0 |          8.0KB |       524.8KB |  +516.8KB |   +15.7KB |             +8.7KB |             +12.9KB |     +17.9KB |
+| netstandard2.1 |          8.5KB |       452.7KB |  +444.2KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net461         |          8.5KB |       524.9KB |  +516.4KB |   +15.2KB |             +8.2KB |             +12.9KB |     +17.4KB |
+| net462         |          7.0KB |       528.4KB |  +521.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net47          |          7.0KB |       528.1KB |  +521.1KB |   +16.7KB |             +7.7KB |             +13.9KB |     +18.9KB |
+| net471         |          8.5KB |       526.8KB |  +518.3KB |   +15.2KB |             +8.2KB |             +12.4KB |     +17.4KB |
+| net472         |          8.5KB |       524.2KB |  +515.7KB |   +15.2KB |             +8.2KB |             +12.9KB |     +17.9KB |
+| net48          |          8.5KB |       524.2KB |  +515.7KB |   +15.2KB |             +8.2KB |             +12.9KB |     +17.9KB |
+| net481         |          8.5KB |       524.2KB |  +515.7KB |   +15.7KB |             +8.2KB |             +12.9KB |     +17.9KB |
+| netcoreapp2.0  |          9.0KB |       492.3KB |  +483.3KB |   +16.2KB |             +7.7KB |             +13.4KB |     +18.9KB |
+| netcoreapp2.1  |          9.0KB |       459.9KB |  +450.9KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.2  |          9.0KB |       459.9KB |  +450.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp3.0  |          9.5KB |       444.0KB |  +434.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp3.1  |          9.5KB |       442.5KB |  +433.0KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net5.0         |          9.5KB |       388.3KB |  +378.8KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net6.0         |         10.0KB |       309.1KB |  +299.1KB |   +17.7KB |             +8.7KB |              +1.1KB |      +4.2KB |
+| net7.0         |         10.0KB |       252.3KB |  +242.3KB |   +19.1KB |             +9.4KB |              +1.1KB |      +3.7KB |
+| net8.0         |          9.5KB |       207.3KB |  +197.8KB |   +16.0KB |          +299bytes |              +1.1KB |      +3.7KB |
+| net9.0         |          9.5KB |       139.1KB |  +129.6KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
+| net10.0        |         10.0KB |       108.0KB |   +98.0KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
+| net11.0        |         10.0KB |        30.4KB |   +20.4KB |   +16.5KB |                    |              +1.6KB |      +4.2KB |

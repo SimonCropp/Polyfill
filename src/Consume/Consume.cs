@@ -27,6 +27,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net.Http;
+using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
@@ -112,6 +113,7 @@ class Consume
 #endif
         type = typeof(AsyncMethodBuilderAttribute);
         type = typeof(CompilerLoweringPreserveAttribute);
+        type = typeof(IsClosedTypeAttribute);
 #if !NET6_0 && !NET5_0
         type = typeof(ObsoletedOSPlatformAttribute);
         type = typeof(SupportedOSPlatformGuardAttribute);
@@ -137,6 +139,13 @@ class Consume
 #if FeatureMemory && !WINDOWS_UWP
         var collectionsMarshalSpan = CollectionsMarshal.AsSpan(collectionsMarshalList);
 #endif
+
+        var isPow2Int = BitOperations.IsPow2(8);
+        var isPow2Uint = BitOperations.IsPow2(8u);
+        var isPow2Long = BitOperations.IsPow2(8L);
+        var isPow2Ulong = BitOperations.IsPow2(8ul);
+        var isPow2Nint = BitOperations.IsPow2((nint) 8);
+        var isPow2Nuint = BitOperations.IsPow2((nuint) 8);
 
         var (key, value) = KeyValuePair.Create("a", "b");
 
@@ -278,12 +287,12 @@ class Consume
             stringStream.ReadByte();
         }
 
-        using (MemoryStream readOnly = new ReadOnlyMemoryStream(new ReadOnlyMemory<byte>(bytes)))
+        using (Stream readOnly = new ReadOnlyMemoryStream(new ReadOnlyMemory<byte>(bytes)))
         {
             readOnly.Read(bytes, 0, bytes.Length);
         }
 
-        using (MemoryStream writable = new WritableMemoryStream(new Memory<byte>(bytes)))
+        using (Stream writable = new WritableMemoryStream(new Memory<byte>(bytes)))
         {
             writable.Write(bytes, 0, bytes.Length);
         }
@@ -692,6 +701,12 @@ class Consume
     {
         var bag = new ConcurrentBag<string>();
         bag.Clear();
+    }
+
+    void ConditionalWeakTable_Methods()
+    {
+        var table = new ConditionalWeakTable<string, string>();
+        table.Remove("key", out _);
     }
 
     void ConcurrentQueue_Methods()
@@ -1365,7 +1380,9 @@ class Consume
 
         ProcessExitStatus status = Process.Run("notexists");
         status = Process.Run("notexists", new[] { "a", "b" });
-        status = Process.Run("notexists", new[] { "a", "b" }, TimeSpan.FromSeconds(1));
+        status = Process.Run("notexists", new[] { "a", "b" }, silent: true);
+        status = Process.Run("notexists", new[] { "a", "b" }, true, TimeSpan.FromSeconds(1));
+        status = Process.Run("notexists", new[] { "a", "b" }, timeout: TimeSpan.FromSeconds(1));
         status = Process.Run(new ProcessStartInfo("notexists"));
         status = Process.Run(new ProcessStartInfo("notexists"), TimeSpan.FromSeconds(1));
         _ = status.Canceled;
@@ -1374,7 +1391,9 @@ class Consume
 
         status = await Process.RunAsync("notexists");
         status = await Process.RunAsync("notexists", new[] { "a", "b" });
-        status = await Process.RunAsync("notexists", new[] { "a", "b" }, CancellationToken.None);
+        status = await Process.RunAsync("notexists", new[] { "a", "b" }, silent: true);
+        status = await Process.RunAsync("notexists", new[] { "a", "b" }, true, CancellationToken.None);
+        status = await Process.RunAsync("notexists", new[] { "a", "b" }, cancellationToken: CancellationToken.None);
         status = await Process.RunAsync(new ProcessStartInfo("notexists"));
         status = await Process.RunAsync(new ProcessStartInfo("notexists"), CancellationToken.None);
 
@@ -1395,6 +1414,9 @@ class Consume
         int pid = Process.StartAndForget("notexists");
         pid = Process.StartAndForget("notexists", new[] { "a", "b" });
         pid = Process.StartAndForget(new ProcessStartInfo("notexists"));
+
+        _ = Process.TryGetProcessById(1, out Process? foundProcess);
+        _ = foundProcess;
 
         ProcessOutputLine outputLine = new("text", standardError: false);
         _ = outputLine.Content;
@@ -1604,6 +1626,14 @@ class Consume
         _ = span.LastIndexOfAnyExcept('a', 'b');
         _ = span.LastIndexOfAnyExcept('a', 'b', 'c');
         _ = span.LastIndexOfAnyExcept("ab".AsSpan());
+
+        ReadOnlySpan<int> readOnly = array;
+        _ = readOnly.Min();
+        _ = readOnly.Min(null);
+        _ = readOnly.Min(Comparer<int>.Default);
+        _ = readOnly.Max();
+        _ = readOnly.Max(null);
+        _ = readOnly.Max(Comparer<int>.Default);
     }
 
 #endif

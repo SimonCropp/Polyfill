@@ -16,7 +16,7 @@ A TUnit test project that verifies all the APIs.
 
 ### NoRefsTests project
 
-Some features of Polyfill [require nuget references](/#references) to be enabled. The NoRefsTests project had none of those refecences and tests the subset of features that do not require references.
+Some features of Polyfill [require nuget references](/#references) to be enabled. The NoRefsTests project had none of those references and tests the subset of features that do not require references.
 
 
 ### PublicTests project
@@ -26,7 +26,7 @@ Polyfill supports [making all APIs public](#consuming-and-type-visibility). The 
 
 ### UnsafeTests project
 
-Some feature of Polyfill leverage unsafe code for better performance. For example `Append(this StringBuilder, ReadOnlySpan<char>)`. The UnsafeTests project tests this scenario vie enabling `<AllowUnsafeBlocks>True</AllowUnsafeBlocks>`.
+Some feature of Polyfill leverage unsafe code for better performance. For example `Append(this StringBuilder, ReadOnlySpan<char>)`. The UnsafeTests project tests this scenario via enabling `<AllowUnsafeBlocks>True</AllowUnsafeBlocks>`.
 
 
 ### Consume project
@@ -413,7 +413,7 @@ static partial class Polyfill
 
 ### Add a test
 
-Add a for the new API to the Tests project.
+Add a test for the new API to the Tests project.
 
 Extension method tests to `PolyfillTests_TYPE.cs` where `TYPE` is the type the method extending. So, for example, APIs that target `StreamWriter` go in `PolyfillTests_StreamWriter.cs`. For example:
 

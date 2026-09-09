@@ -427,7 +427,7 @@ static partial class Polyfill
                 chars[charIndex++] = hexAlphabet[b & 0xF];
             }
 
-            return new string(chars);
+            return new(chars);
         }
 
 #endif

@@ -27,6 +27,16 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task Encoding_GetByteCount_EmptySource()
+    {
+        ReadOnlySpan<char> chars = default;
+
+        var byteCount = Encoding.UTF8.GetByteCount(chars);
+
+        await Assert.That(byteCount).IsEqualTo(0);
+    }
+
+    [Test]
     public async Task Encoding_GetChars()
     {
         // Arrange
@@ -62,11 +72,52 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task Encoding_GetChars_EmptySource()
+    {
+        ReadOnlySpan<byte> bytes = default;
+        var chars = new char[1];
+
+        var charCount = Encoding.UTF8.GetChars(bytes, chars);
+
+        await Assert.That(charCount).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task Encoding_GetChars_EmptyDestination() =>
+        await Assert.That(() =>
+        {
+            ReadOnlySpan<byte> bytes = "value"u8;
+            Span<char> chars = default;
+            Encoding.UTF8.GetChars(bytes, chars);
+        }).Throws<ArgumentException>();
+
+    [Test]
+    public async Task Encoding_GetChars_EmptySourceAndDestination()
+    {
+        ReadOnlySpan<byte> bytes = default;
+        Span<char> chars = default;
+
+        var charCount = Encoding.UTF8.GetChars(bytes, chars);
+
+        await Assert.That(charCount).IsEqualTo(0);
+    }
+
+    [Test]
     public async Task Encoding_GetString()
     {
         var array = (ReadOnlySpan<byte>)"value"u8.ToArray().AsSpan();
         var result = Encoding.UTF8.GetString(array);
         await Assert.That(result).IsEqualTo("value");
+    }
+
+    [Test]
+    public async Task Encoding_GetString_EmptySource()
+    {
+        ReadOnlySpan<byte> bytes = default;
+
+        var result = Encoding.UTF8.GetString(bytes);
+
+        await Assert.That(result).IsEmpty();
     }
 
     [Test]
@@ -89,6 +140,37 @@ partial class PolyfillTests
         }
 
         return Task.CompletedTask;
+    }
+
+    [Test]
+    public async Task Encoding_GetBytes_EmptySource()
+    {
+        ReadOnlySpan<char> chars = default;
+        var bytes = new byte[1];
+
+        var byteCount = Encoding.UTF8.GetBytes(chars, bytes);
+
+        await Assert.That(byteCount).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task Encoding_GetBytes_EmptyDestination() =>
+        await Assert.That(() =>
+        {
+            ReadOnlySpan<char> chars = "value";
+            Span<byte> bytes = default;
+            Encoding.UTF8.GetBytes(chars, bytes);
+        }).Throws<ArgumentException>();
+
+    [Test]
+    public async Task Encoding_GetBytes_EmptySourceAndDestination()
+    {
+        ReadOnlySpan<char> chars = default;
+        Span<byte> bytes = default;
+
+        var byteCount = Encoding.UTF8.GetBytes(chars, bytes);
+
+        await Assert.That(byteCount).IsEqualTo(0);
     }
 
     [Test]
@@ -126,6 +208,16 @@ partial class PolyfillTests
         var byteSpan = new ReadOnlySpan<byte>(utf8Bytes);
         var charCount = encoding.GetCharCount(byteSpan);
         await Assert.That(charCount).IsEqualTo(13);
+    }
+
+    [Test]
+    public async Task Encoding_GetCharCount_EmptySource()
+    {
+        ReadOnlySpan<byte> bytes = default;
+
+        var charCount = Encoding.UTF8.GetCharCount(bytes);
+
+        await Assert.That(charCount).IsEqualTo(0);
     }
 
     [Test]

@@ -65,6 +65,7 @@ class EnumerationOptions
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.enumerationoptions.matchcasing?view=net-11.0
     public MatchCasing MatchCasing { get; set; }
 
+    // ReSharper disable once ReplaceWithFieldKeyword
     int maxRecursionDepth;
 
     /// <summary>

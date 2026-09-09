@@ -52,6 +52,7 @@ static partial class Polyfill
         this IEnumerable<TSource> target,
         IEqualityComparer<TSource>? comparer,
         params TSource[] items) =>
+        // ReSharper disable once RedundantCast
         target.Except((IEnumerable<TSource>)items, comparer);
 
 #if !NET6_0_OR_GREATER

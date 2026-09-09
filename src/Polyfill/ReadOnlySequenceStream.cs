@@ -1,20 +1,8 @@
 #nullable enable
 
-// === Polyfill target window =====================================================================
-// System.Buffers.ReadOnlySequenceStream was approved and merged into dotnet/runtime for net11
-// (https://github.com/dotnet/runtime/pull/126669) but is NOT in the current net11 preview/RC SDK,
-// so this polyfill is intentionally ACTIVE on net11 as well.
-// When you upgrade to a net11 SDK that actually ships this type, the build will collide (CS0436)
-// and the ApiBuilderTests "StreamWrapperBclDetectionTests" test FAILS with these exact steps.
-// To retire this polyfill for net11:
-//   1. change `#if FeatureMemory` below to `#if FeatureMemory && !NET11_0_OR_GREATER`
-//   2. add at the bottom of this file (after the final #endif):
-//        #if NET11_0_OR_GREATER
-//        [assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Buffers.ReadOnlySequenceStream))]
-//        #endif
-//   3. re-run ApiBuilderTests in Debug to regenerate Split + api_list.
-// ================================================================================================
-#if FeatureMemory
+// Ships in the BCL from net11 (System.Buffers.ReadOnlySequenceStream, dotnet/runtime#126669). This polyfill covers
+// pre-net11 targets; on net11+ the runtime provides the type and it is forwarded at the end of this file.
+#if FeatureMemory && !NET11_0_OR_GREATER
 
 #pragma warning disable
 
@@ -28,7 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 /// <summary>
-/// Provides a seekable, read-only <see cref="Stream"/> over a <see cref="ReadOnlySequence{Byte}"/>.
+/// Provides a read-only, non-seekable <see cref="Stream"/> for reading from a <see cref="ReadOnlySequence{Byte}"/>.
 /// </summary>
 /// <remarks>
 /// The underlying sequence is not copied; reads are served directly from its segments.
@@ -47,10 +35,8 @@ sealed class ReadOnlySequenceStream :
     Stream
 {
     ReadOnlySequence<byte> sequence;
-    // Incremental cursor into the sequence's segments, kept in sync with the absolute position.
-    // Advancing from this cursor avoids re-walking the segment list from the start on every read.
-    SequencePosition cursor;
-    long position;
+    // Cursor into the sequence segments. Reads advance it forward; it can never be moved back.
+    SequencePosition position;
     bool disposed;
 
     /// <summary>
@@ -60,47 +46,33 @@ sealed class ReadOnlySequenceStream :
     public ReadOnlySequenceStream(ReadOnlySequence<byte> source)
     {
         sequence = source;
-        cursor = source.Start;
-        position = 0;
+        position = source.Start;
     }
 
     /// <inheritdoc/>
     public override bool CanRead => !disposed;
 
-    /// <inheritdoc/>
-    public override bool CanSeek => !disposed;
+    /// <summary>Gets a value indicating whether the stream supports seeking. Always <see langword="false"/>.</summary>
+    // Intentionally non-seekable, matching the BCL (dotnet/runtime#132023): backward positioning would
+    // have to walk the segments again from the start, making repeated seeks worst case O(N), and segment
+    // boundaries can be indirectly controlled by an untrusted network client through packet framing.
+    public override bool CanSeek => false;
 
     /// <inheritdoc/>
     public override bool CanWrite => false;
 
-    /// <inheritdoc/>
-    public override long Length
-    {
-        get
-        {
-            ThrowIfDisposed();
-            return sequence.Length;
-        }
-    }
+    /// <summary>Gets the length of the stream. Not supported; always throws a <see cref="NotSupportedException"/>.</summary>
+    /// <exception cref="NotSupportedException">In all cases.</exception>
+    // Length and Position stay unsupported to match the standard contract for streams where CanSeek is
+    // false, even though the underlying sequence could supply the length cheaply.
+    public override long Length => throw new NotSupportedException("Stream does not support seeking.");
 
-    /// <inheritdoc/>
+    /// <summary>Gets or sets the position within the stream. Not supported; always throws a <see cref="NotSupportedException"/>.</summary>
+    /// <exception cref="NotSupportedException">In all cases.</exception>
     public override long Position
     {
-        get
-        {
-            ThrowIfDisposed();
-            return position;
-        }
-        set
-        {
-            ThrowIfDisposed();
-            if (value < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value));
-            }
-
-            MoveTo(value);
-        }
+        get => throw new NotSupportedException("Stream does not support seeking.");
+        set => throw new NotSupportedException("Stream does not support seeking.");
     }
 
     /// <inheritdoc/>
@@ -109,12 +81,7 @@ sealed class ReadOnlySequenceStream :
         GuardRange(buffer, offset, count);
         ThrowIfDisposed();
 
-        if (position >= sequence.Length)
-        {
-            return 0;
-        }
-
-        var remaining = sequence.Slice(cursor);
+        var remaining = sequence.Slice(position);
         var toRead = (int)Math.Min(remaining.Length, count);
         if (toRead <= 0)
         {
@@ -122,8 +89,7 @@ sealed class ReadOnlySequenceStream :
         }
 
         remaining.Slice(0, toRead).CopyTo(buffer.AsSpan(offset, toRead));
-        cursor = sequence.GetPosition(toRead, cursor);
-        position += toRead;
+        position = sequence.GetPosition(toRead, position);
         return toRead;
     }
 
@@ -132,14 +98,14 @@ sealed class ReadOnlySequenceStream :
     {
         ThrowIfDisposed();
 
-        if (position >= sequence.Length)
+        var remaining = sequence.Slice(position);
+        if (remaining.IsEmpty)
         {
             return -1;
         }
 
-        var result = sequence.Slice(cursor, 1).First.Span[0];
-        cursor = sequence.GetPosition(1, cursor);
-        position++;
+        var result = remaining.Slice(0, 1).First.Span[0];
+        position = sequence.GetPosition(1, position);
         return result;
     }
 
@@ -157,76 +123,33 @@ sealed class ReadOnlySequenceStream :
         return Task.FromResult(Read(buffer, offset, count));
     }
 
-    /// <inheritdoc/>
-    public override long Seek(long offset, SeekOrigin origin)
-    {
-        ThrowIfDisposed();
-
-        var basePosition = origin switch
-        {
-            SeekOrigin.Begin => 0L,
-            SeekOrigin.Current => position,
-            SeekOrigin.End => sequence.Length,
-            _ => throw new ArgumentException("Invalid seek origin.", nameof(origin))
-        };
-
-        if (offset > long.MaxValue - basePosition)
-        {
-            throw new ArgumentOutOfRangeException(nameof(offset));
-        }
-
-        var newPosition = basePosition + offset;
-        if (newPosition < 0)
-        {
-            throw new IOException("An attempt was made to move the position before the beginning of the stream.");
-        }
-
-        MoveTo(newPosition);
-        return position;
-    }
-
-    // Repositions the segment cursor to the given absolute position, advancing forward from the
-    // current cursor when possible and only walking from the start for backward jumps.
-    void MoveTo(long value)
-    {
-        if (value >= sequence.Length)
-        {
-            cursor = sequence.End;
-        }
-        else if (value >= position)
-        {
-            cursor = sequence.GetPosition(value - position, cursor);
-        }
-        else
-        {
-            cursor = sequence.GetPosition(value, sequence.Start);
-        }
-
-        position = value;
-    }
+    /// <summary>Sets the position within the stream. Not supported; always throws a <see cref="NotSupportedException"/>.</summary>
+    /// <exception cref="NotSupportedException">In all cases.</exception>
+    public override long Seek(long offset, SeekOrigin origin) =>
+        throw new NotSupportedException("Stream does not support seeking.");
 
 #if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-    // Stream.CopyTo(Stream, int) only became virtual in netcoreapp2.1/netstandard2.1. On older
-    // targets it cannot be overridden, so the base implementation (which routes through the
-    // cursor-based Read above) is used instead.
+    // Writing a segment straight through needs Stream.Write(ReadOnlySpan<byte>). On older targets that
+    // overload does not exist, so the base implementation (which routes through the cursor-based Read
+    // above) is used instead.
     /// <inheritdoc/>
     public override void CopyTo(Stream destination, int bufferSize)
     {
         GuardCopyTo(destination, bufferSize);
         ThrowIfDisposed();
 
-        if (position >= sequence.Length)
+        var remaining = sequence.Slice(position);
+        if (remaining.IsEmpty)
         {
             return;
         }
 
-        foreach (var segment in sequence.Slice(cursor))
+        foreach (var segment in remaining)
         {
             destination.Write(segment.Span);
         }
 
-        cursor = sequence.End;
-        position = sequence.Length;
+        position = sequence.End;
     }
 #endif
 
@@ -241,23 +164,23 @@ sealed class ReadOnlySequenceStream :
             return Task.FromCanceled(cancellationToken);
         }
 
-        if (position >= sequence.Length)
+        var remaining = sequence.Slice(position);
+        if (remaining.IsEmpty)
         {
             return Task.CompletedTask;
         }
 
-        return CopyToAsyncCore(destination, cancellationToken);
+        return CopyToAsyncCore(remaining, destination, cancellationToken);
     }
 
-    async Task CopyToAsyncCore(Stream destination, CancellationToken cancellationToken)
+    async Task CopyToAsyncCore(ReadOnlySequence<byte> remaining, Stream destination, CancellationToken cancellationToken)
     {
-        foreach (var segment in sequence.Slice(cursor))
+        foreach (var segment in remaining)
         {
             await WriteSegmentAsync(destination, segment, cancellationToken).ConfigureAwait(false);
         }
 
-        cursor = sequence.End;
-        position = sequence.Length;
+        position = sequence.End;
     }
 
     static Task WriteSegmentAsync(Stream destination, ReadOnlyMemory<byte> segment, CancellationToken cancellationToken)
@@ -333,7 +256,7 @@ sealed class ReadOnlySequenceStream :
     {
         disposed = true;
         sequence = default;
-        cursor = default;
+        position = default;
         base.Dispose(disposing);
     }
 
@@ -369,4 +292,8 @@ sealed class ReadOnlySequenceStream :
     }
 }
 
+#endif
+
+#if NET11_0_OR_GREATER
+[assembly: System.Runtime.CompilerServices.TypeForwardedTo(typeof(System.Buffers.ReadOnlySequenceStream))]
 #endif
