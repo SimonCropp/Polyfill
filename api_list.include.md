@@ -1531,6 +1531,8 @@
 
 #### UnreachableException
 
+#### IUnion
+
 #### StringStream
 
 #### ReadOnlyMemoryStream

@@ -104,11 +104,14 @@ class Consume
         type = typeof(RequiresUnreferencedCodeAttribute);
         type = typeof(UnconditionalSuppressMessageAttribute);
         type = typeof(CompilerFeatureRequiredAttribute);
+        type = typeof(IUnion);
+        type = typeof(UnionAttribute);
 #if FeatureMemory
         type = typeof(CollectionBuilderAttribute);
 #endif
         type = typeof(AsyncMethodBuilderAttribute);
         type = typeof(CompilerLoweringPreserveAttribute);
+        type = typeof(IsClosedTypeAttribute);
 #if !NET6_0 && !NET5_0
         type = typeof(ObsoletedOSPlatformAttribute);
         type = typeof(SupportedOSPlatformGuardAttribute);
