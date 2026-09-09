@@ -873,10 +873,15 @@
 
 #### ReadOnlySpan<char>
 
+ * `bool ContainsAnyWhiteSpace()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanywhitespace?view=net-11.0)
  * `bool EndsWith(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith?view=net-11.0#system-memoryextensions-endswith-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `SpanLineEnumerator EnumerateLines()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines?view=net-11.0#system-memoryextensions-enumeratelines(system-readonlyspan((system-char))))
  * `int GetNormalizedLength(NormalizationForm)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.stringnormalizationextensions.getnormalizedlength?view=net-11.0#system-stringnormalizationextensions-getnormalizedlength(system-readonlyspan((system-char))-system-text-normalizationform))
+ * `int IndexOfAnyExceptWhiteSpace()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexceptwhitespace?view=net-11.0)
+ * `int IndexOfAnyWhiteSpace()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanywhitespace?view=net-11.0)
  * `bool IsNormalized(NormalizationForm)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.stringnormalizationextensions.isnormalized?view=net-11.0#system-stringnormalizationextensions-isnormalized(system-readonlyspan((system-char))-system-text-normalizationform))
+ * `int LastIndexOfAnyExceptWhiteSpace()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexceptwhitespace?view=net-11.0)
+ * `int LastIndexOfAnyWhiteSpace()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanywhitespace?view=net-11.0)
  * `bool SequenceEqual(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sequenceequal?view=net-11.0#system-memoryextensions-sequenceequal-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `int Split(Span<Range>, char, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split?view=net-11.0#system-memoryextensions-split(system-readonlyspan((system-char))-system-span((system-range))-system-char-system-stringsplitoptions))
  * `int Split(Span<Range>, ReadOnlySpan<char>, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split?view=net-11.0#system-memoryextensions-split(system-readonlyspan((system-char))-system-span((system-range))-system-readonlyspan((system-char))-system-stringsplitoptions))

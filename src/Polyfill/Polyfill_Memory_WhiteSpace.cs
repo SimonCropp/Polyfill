@@ -1,0 +1,85 @@
+#if FeatureMemory && !NET11_0_OR_GREATER
+
+namespace Polyfills;
+
+using System;
+
+static partial class Polyfill
+{
+    /// <summary>
+    /// Searches for any white-space character in the span.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanywhitespace?view=net-11.0
+    public static bool ContainsAnyWhiteSpace(this ReadOnlySpan<char> span) =>
+        span.IndexOfAnyWhiteSpace() >= 0;
+
+    /// <summary>
+    /// Searches for the first index of any white-space character in the span.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanywhitespace?view=net-11.0
+    public static int IndexOfAnyWhiteSpace(this ReadOnlySpan<char> span)
+    {
+        for (var index = 0; index < span.Length; index++)
+        {
+            if (char.IsWhiteSpace(span[index]))
+            {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
+    /// <summary>
+    /// Searches for the first index of any character other than a white-space character in the span.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexceptwhitespace?view=net-11.0
+    public static int IndexOfAnyExceptWhiteSpace(this ReadOnlySpan<char> span)
+    {
+        for (var index = 0; index < span.Length; index++)
+        {
+            if (!char.IsWhiteSpace(span[index]))
+            {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
+    /// <summary>
+    /// Searches for the last index of any white-space character in the span.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanywhitespace?view=net-11.0
+    public static int LastIndexOfAnyWhiteSpace(this ReadOnlySpan<char> span)
+    {
+        for (var index = span.Length - 1; index >= 0; index--)
+        {
+            if (char.IsWhiteSpace(span[index]))
+            {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
+    /// <summary>
+    /// Searches for the last index of any character other than a white-space character in the span.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexceptwhitespace?view=net-11.0
+    public static int LastIndexOfAnyExceptWhiteSpace(this ReadOnlySpan<char> span)
+    {
+        for (var index = span.Length - 1; index >= 0; index--)
+        {
+            if (!char.IsWhiteSpace(span[index]))
+            {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+}
+
+#endif
