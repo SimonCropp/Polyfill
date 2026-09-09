@@ -24,6 +24,7 @@ public class BuildApiTest
         WriteHelper("Utf16", writer, ref count);
         WriteType(nameof(TaskCompletionSource), writer, ref count);
         WriteType(nameof(UnreachableException), writer, ref count);
+        WriteType("IUnion", writer, ref count);
         WriteType("StringStream", writer, ref count);
         WriteType("ReadOnlyMemoryStream", writer, ref count);
         WriteType("WritableMemoryStream", writer, ref count);
