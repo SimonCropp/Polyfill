@@ -22,7 +22,7 @@
 | net8.0         |          9.5KB |       145.5KB |  +136.0KB |    +8.5KB |          +512bytes |              +1.0KB |      +3.5KB |
 | net9.0         |          9.5KB |        99.0KB |   +89.5KB |    +8.0KB |                    |           +512bytes |      +3.0KB |
 | net10.0        |         10.0KB |        76.5KB |   +66.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net11.0        |         10.0KB |        20.5KB |   +10.5KB |    +9.0KB |                    |              +1.0KB |      +4.0KB |
+| net11.0        |         10.0KB |        20.5KB |   +10.5KB |    +9.0KB |                    |              +1.0KB |      +3.5KB |
 
 
 ### Assembly Sizes with EmbedUntrackedSources
@@ -49,4 +49,4 @@
 | net8.0         |          9.5KB |       207.7KB |  +198.2KB |   +16.0KB |          +811bytes |              +1.6KB |      +4.2KB |
 | net9.0         |          9.5KB |       140.1KB |  +130.6KB |   +15.5KB |                    |              +1.1KB |      +3.7KB |
 | net10.0        |         10.0KB |       108.9KB |   +98.9KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
-| net11.0        |         10.0KB |        30.4KB |   +20.4KB |   +16.5KB |                    |              +1.6KB |      +4.7KB |
+| net11.0        |         10.0KB |        30.4KB |   +20.4KB |   +16.5KB |                    |              +1.6KB |      +4.2KB |

@@ -1,11 +1,13 @@
 namespace ConsumeCsPreview;
 
-/// <summary>
-/// Compile-only coverage for the C# `closed` modifier. The compiler emits
-/// <c>IsClosedTypeAttribute</c> on the closed type and
-/// <c>CompilerFeatureRequiredAttribute("ClosedClasses")</c> on its constructors,
-/// so this only compiles when both are polyfilled.
-/// </summary>
+// Compile-only coverage for the C# `closed` modifier. The compiler emits
+// IsClosedTypeAttribute on the closed type and
+// CompilerFeatureRequiredAttribute("ClosedClasses") on its constructors,
+// so this only compiles when both are polyfilled.
+
+#region ClosedHierarchy
+
+// Only types in this file can derive from JobStatus
 closed class JobStatus;
 
 sealed class Queued : JobStatus;
@@ -22,11 +24,8 @@ sealed class Failed(string error) : JobStatus
 
 static class ClosedHierarchy
 {
-    /// <summary>
-    /// No default arm: the switch is exhaustive because every direct descendant of the
-    /// closed <see cref="JobStatus"/> is handled. Without exhaustiveness this warns CS8509,
-    /// which is an error since TreatWarningsAsErrors is enabled.
-    /// </summary>
+    // No default arm: the switch is exhaustive because every direct descendant of
+    // the closed JobStatus is handled. Without exhaustiveness this warns CS8509.
     public static string Describe(JobStatus status) =>
         status switch
         {
@@ -35,3 +34,5 @@ static class ClosedHierarchy
             Failed failed => $"failed: {failed.Error}"
         };
 }
+
+#endregion
