@@ -108,19 +108,23 @@ public class UriPolyfillTests
         }
     }
 
-    // net9.0 and net10.0 throw ArgumentOutOfRangeException instead of returning false when the
-    // destination cannot hold the literal text preceding the first escape sequence. Fixed in
-    // net11, and the polyfill behaves the way net11 does.
     [Test]
     public async Task TryUnescapeDataString_DestinationSmallerThanLiteralPrefix()
     {
-#if NET9_0_OR_GREATER && !NET11_0_OR_GREATER
-        await Assert.That(() => TryUnescape("abc%20def", 2)).Throws<ArgumentOutOfRangeException>();
-#else
+#if !NET9_0_OR_GREATER || NET11_0_OR_GREATER
+        // only net9.0 and net10.0 are allowed to throw here
+        await Assert.That(throwsOnShortDestination).IsFalse();
+#endif
+
+        if (throwsOnShortDestination)
+        {
+            await Assert.That(() => TryUnescape("abc%20def", 2)).Throws<ArgumentOutOfRangeException>();
+            return;
+        }
+
         var result = TryUnescape("abc%20def", 2);
         await Assert.That(result.Succeeded).IsFalse();
         await Assert.That(result.Written).IsEqualTo(0);
-#endif
     }
 
     // unescaping only ever shrinks, so a destination that overlaps the source is safe
@@ -139,13 +143,35 @@ public class UriPolyfillTests
 
     static int SmallestTestableSize(string sample)
     {
-#if NET9_0_OR_GREATER && !NET11_0_OR_GREATER
+        if (!throwsOnShortDestination)
+        {
+            return 0;
+        }
+
         // skip the sizes covered by TryUnescapeDataString_DestinationSmallerThanLiteralPrefix
         var index = sample.IndexOf('%');
         return index < 0 ? 0 : index;
-#else
-        return 0;
-#endif
+    }
+
+    // net9.0 and net10.0 shipped Uri.TryUnescapeDataString throwing ArgumentOutOfRangeException
+    // instead of returning false when the destination cannot hold the literal text preceding the
+    // first escape sequence (dotnet/runtime#124654, fixed for net11 by dotnet/runtime#124655).
+    // The backport to release/10.0, dotnet/runtime#128610, was written and then deferred, so the
+    // behaviour is probed rather than inferred from the target framework: a serviced net9.0 or
+    // net10.0 runtime would otherwise turn these tests red. The polyfill never throws.
+    static bool throwsOnShortDestination = ProbeThrowsOnShortDestination();
+
+    static bool ProbeThrowsOnShortDestination()
+    {
+        try
+        {
+            Uri.TryUnescapeDataString("abc%20def".AsSpan(), new char[2], out _);
+            return false;
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            return true;
+        }
     }
 
     // the spans stay inside these helpers, so nothing ref struct shaped has to live across an await
