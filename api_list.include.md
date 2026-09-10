@@ -1473,6 +1473,14 @@
 
 #### Uri
 
+ * `string EscapeDataString(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uri.escapedatastring?view=net-11.0#system-uri-escapedatastring(system-readonlyspan((system-char))))
+   * Note: Copies the span to a string first, so this allocates where the BCL escapes straight from the span.
+ * `bool TryEscapeDataString(ReadOnlySpan<char>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uri.tryescapedatastring?view=net-11.0)
+   * Note: Escapes through an intermediate string, so this allocates where the BCL writes straight to the destination.
+ * `bool TryUnescapeDataString(ReadOnlySpan<char>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uri.tryunescapedatastring?view=net-11.0)
+   * Note: Unescapes through an intermediate string, so this allocates where the BCL writes straight to the destination.
+ * `string UnescapeDataString(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uri.unescapedatastring?view=net-11.0#system-uri-unescapedatastring(system-readonlyspan((system-char))))
+   * Note: Copies the span to a string first, so this allocates where the BCL unescapes straight from the span.
  * `string UriSchemeData` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uri.urischemedata?view=net-11.0)
 
 

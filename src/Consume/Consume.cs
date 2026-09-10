@@ -332,6 +332,17 @@ class Consume
     }
 
 #if FeatureMemory
+    void UriEscapingUsage()
+    {
+        var escaped = Uri.EscapeDataString("a b".AsSpan());
+        var unescaped = Uri.UnescapeDataString("a%20b".AsSpan());
+        Span<char> destination = stackalloc char[10];
+        var escapedOk = Uri.TryEscapeDataString("a b".AsSpan(), destination, out var escapedWritten);
+        var unescapedOk = Uri.TryUnescapeDataString("a%20b".AsSpan(), destination, out var unescapedWritten);
+    }
+#endif
+
+#if FeatureMemory
     void Utf16Usage()
     {
         ReadOnlySpan<char> chars = default;
