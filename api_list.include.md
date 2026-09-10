@@ -93,9 +93,17 @@
 #### BitConverter
 
  * `ulong DoubleToUInt64Bits(double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.doubletouint64bits?view=net-11.0)
+ * `byte[] GetBytes(Int128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.getbytes?view=net-11.0#system-bitconverter-getbytes(system-int128))
+ * `byte[] GetBytes(UInt128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.getbytes?view=net-11.0#system-bitconverter-getbytes(system-uint128))
  * `float Int32BitsToSingle(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.int32bitstosingle?view=net-11.0)
  * `int SingleToInt32Bits(float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.singletoint32bits?view=net-11.0)
  * `uint SingleToUInt32Bits(float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.singletouint32bits?view=net-11.0)
+ * `Int128 ToInt128(byte[], int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.toint128?view=net-11.0#system-bitconverter-toint128(system-byte()-system-int32))
+ * `Int128 ToInt128(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.toint128?view=net-11.0#system-bitconverter-toint128(system-readonlyspan((system-byte))))
+ * `UInt128 ToUInt128(byte[], int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.touint128?view=net-11.0#system-bitconverter-touint128(system-byte()-system-int32))
+ * `UInt128 ToUInt128(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.touint128?view=net-11.0#system-bitconverter-touint128(system-readonlyspan((system-byte))))
+ * `bool TryWriteBytes(Span<byte>, Int128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-int128))
+ * `bool TryWriteBytes(Span<byte>, UInt128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-uint128))
  * `float UInt32BitsToSingle(uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.uint32bitstosingle?view=net-11.0)
  * `double UInt64BitsToDouble(ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.uint64bitstodouble?view=net-11.0)
 
