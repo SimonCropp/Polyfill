@@ -13,34 +13,34 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 1088**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 1091**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
 | Target | APIs |
 | -- | -- |
-| `net461` | 1005 |
-| `net462` | 1005 |
-| `net47` | 1004 |
-| `net471` | 1003 |
-| `net472` | 999 |
-| `net48` | 999 |
-| `net481` | 999 |
-| `netstandard2.0` | 1001 |
-| `netstandard2.1` | 854 |
-| `netcoreapp2.0` | 924 |
-| `netcoreapp2.1` | 865 |
-| `netcoreapp2.2` | 865 |
-| `netcoreapp3.0` | 826 |
-| `netcoreapp3.1` | 825 |
-| `net5.0` | 697 |
-| `net6.0` | 598 |
-| `net7.0` | 445 |
-| `net8.0` | 324 |
-| `net9.0` | 230 |
-| `net10.0` | 176 |
+| `net461` | 1022 |
+| `net462` | 1022 |
+| `net47` | 1021 |
+| `net471` | 1020 |
+| `net472` | 1016 |
+| `net48` | 1016 |
+| `net481` | 1016 |
+| `netstandard2.0` | 1018 |
+| `netstandard2.1` | 871 |
+| `netcoreapp2.0` | 941 |
+| `netcoreapp2.1` | 882 |
+| `netcoreapp2.2` | 882 |
+| `netcoreapp3.0` | 843 |
+| `netcoreapp3.1` | 842 |
+| `net5.0` | 714 |
+| `net6.0` | 615 |
+| `net7.0` | 462 |
+| `net8.0` | 341 |
+| `net9.0` | 232 |
+| `net10.0` | 178 |
 | `net11.0` | 58 |
-| `uap10.0` | 991 |
+| `uap10.0` | 1008 |
 <!-- endInclude -->
 
 
@@ -96,24 +96,24 @@ This project uses features from the newest stable SDK and C# language. As such c
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       368.0KB |  +360.0KB |    +7.5KB |             +5.5KB |              +7.5KB |     +12.0KB |
-| netstandard2.1 |          8.5KB |       322.0KB |  +313.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net461         |          8.5KB |       365.5KB |  +357.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net462         |          7.0KB |       370.5KB |  +363.5KB |    +7.5KB |             +6.5KB |              +9.0KB |     +12.0KB |
-| net47          |          7.0KB |       370.0KB |  +363.0KB |    +7.5KB |             +6.5KB |              +9.5KB |     +12.0KB |
-| net471         |          8.5KB |       368.0KB |  +359.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net472         |          8.5KB |       366.5KB |  +358.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net48          |          8.5KB |       366.5KB |  +358.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net481         |          8.5KB |       366.5KB |  +358.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.0  |          9.0KB |       345.5KB |  +336.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.1  |          9.0KB |       325.5KB |  +316.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp2.2  |          9.0KB |       325.5KB |  +316.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp3.0  |          9.5KB |       321.5KB |  +312.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.1  |          9.5KB |       320.0KB |  +310.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net5.0         |          9.5KB |       284.0KB |  +274.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net6.0         |         10.0KB |       225.5KB |  +215.5KB |   +10.0KB |             +7.0KB |           +512bytes |      +3.5KB |
-| net7.0         |         10.0KB |       191.0KB |  +181.0KB |    +9.0KB |             +5.5KB |           +512bytes |      +3.0KB |
-| net8.0         |          9.5KB |       161.0KB |  +151.5KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
+| netstandard2.0 |          8.0KB |       368.0KB |  +360.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netstandard2.1 |          8.5KB |       323.5KB |  +315.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net461         |          8.5KB |       367.0KB |  +358.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.0KB |
+| net462         |          7.0KB |       371.5KB |  +364.5KB |    +8.0KB |             +7.0KB |              +8.0KB |     +12.5KB |
+| net47          |          7.0KB |       371.5KB |  +364.5KB |    +7.5KB |             +6.5KB |              +9.0KB |     +12.0KB |
+| net471         |          8.5KB |       369.5KB |  +361.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.0KB |
+| net472         |          8.5KB |       368.0KB |  +359.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net48          |          8.5KB |       368.0KB |  +359.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net481         |          8.5KB |       368.0KB |  +359.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.0  |          9.0KB |       347.0KB |  +338.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.1  |          9.0KB |       327.0KB |  +318.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.2  |          9.0KB |       327.0KB |  +318.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp3.0  |          9.5KB |       323.0KB |  +313.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp3.1  |          9.5KB |       321.0KB |  +311.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net5.0         |          9.5KB |       285.5KB |  +276.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net6.0         |         10.0KB |       227.0KB |  +217.0KB |    +9.5KB |             +6.5KB |           +512bytes |      +3.5KB |
+| net7.0         |         10.0KB |       192.0KB |  +182.0KB |    +9.5KB |             +6.0KB |              +1.0KB |      +3.5KB |
+| net8.0         |          9.5KB |       162.5KB |  +153.0KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
 | net9.0         |          9.5KB |       114.0KB |  +104.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
 | net10.0        |         10.0KB |        92.0KB |   +82.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
 | net11.0        |         10.0KB |        21.0KB |   +11.0KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
@@ -123,24 +123,24 @@ This project uses features from the newest stable SDK and C# language. As such c
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       539.5KB |  +531.5KB |   +15.2KB |             +7.2KB |             +12.4KB |     +17.4KB |
-| netstandard2.1 |          8.5KB |       466.9KB |  +458.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net461         |          8.5KB |       538.1KB |  +529.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net462         |          7.0KB |       543.1KB |  +536.1KB |   +15.2KB |             +8.2KB |             +13.9KB |     +17.4KB |
-| net47          |          7.0KB |       542.3KB |  +535.3KB |   +15.2KB |             +8.2KB |             +14.4KB |     +17.4KB |
-| net471         |          8.5KB |       540.0KB |  +531.5KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net472         |          8.5KB |       537.4KB |  +528.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net48          |          8.5KB |       537.4KB |  +528.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net481         |          8.5KB |       537.4KB |  +528.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.0  |          9.0KB |       506.5KB |  +497.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.1  |          9.0KB |       474.1KB |  +465.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp2.2  |          9.0KB |       474.1KB |  +465.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp3.0  |          9.5KB |       463.4KB |  +453.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.1  |          9.5KB |       461.9KB |  +452.4KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net5.0         |          9.5KB |       407.8KB |  +398.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net6.0         |         10.0KB |       329.3KB |  +319.3KB |   +17.7KB |             +8.7KB |              +1.1KB |      +4.2KB |
-| net7.0         |         10.0KB |       276.5KB |  +266.5KB |   +16.6KB |             +6.9KB |              +1.1KB |      +3.7KB |
-| net8.0         |          9.5KB |       232.7KB |  +223.2KB |   +16.0KB |          +299bytes |              +1.1KB |      +3.7KB |
+| netstandard2.0 |          8.0KB |       539.7KB |  +531.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netstandard2.1 |          8.5KB |       468.6KB |  +460.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net461         |          8.5KB |       539.8KB |  +531.3KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.4KB |
+| net462         |          7.0KB |       544.3KB |  +537.3KB |   +15.7KB |             +8.7KB |             +12.9KB |     +17.9KB |
+| net47          |          7.0KB |       544.0KB |  +537.0KB |   +15.2KB |             +8.2KB |             +13.9KB |     +17.4KB |
+| net471         |          8.5KB |       541.7KB |  +533.2KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.4KB |
+| net472         |          8.5KB |       539.1KB |  +530.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net48          |          8.5KB |       539.1KB |  +530.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net481         |          8.5KB |       539.1KB |  +530.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.0  |          9.0KB |       508.2KB |  +499.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.1  |          9.0KB |       475.8KB |  +466.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.2  |          9.0KB |       475.8KB |  +466.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp3.0  |          9.5KB |       465.1KB |  +455.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp3.1  |          9.5KB |       463.1KB |  +453.6KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net5.0         |          9.5KB |       409.5KB |  +400.0KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net6.0         |         10.0KB |       331.0KB |  +321.0KB |   +17.2KB |             +8.2KB |              +1.1KB |      +4.2KB |
+| net7.0         |         10.0KB |       277.7KB |  +267.7KB |   +17.1KB |             +7.4KB |              +1.6KB |      +4.2KB |
+| net8.0         |          9.5KB |       234.4KB |  +224.9KB |   +16.0KB |          +299bytes |              +1.1KB |      +3.7KB |
 | net9.0         |          9.5KB |       164.6KB |  +155.1KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
 | net10.0        |         10.0KB |       133.9KB |  +123.9KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
 | net11.0        |         10.0KB |        30.9KB |   +20.9KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
@@ -705,6 +705,16 @@ The class `Polyfill` includes the following extension methods:
  * `int PopCount()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.bitarray.popcount?view=net-11.0)
 
 
+#### BitConverter
+
+ * `ulong DoubleToUInt64Bits(double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.doubletouint64bits?view=net-11.0)
+ * `float Int32BitsToSingle(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.int32bitstosingle?view=net-11.0)
+ * `int SingleToInt32Bits(float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.singletoint32bits?view=net-11.0)
+ * `uint SingleToUInt32Bits(float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.singletouint32bits?view=net-11.0)
+ * `float UInt32BitsToSingle(uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.uint32bitstosingle?view=net-11.0)
+ * `double UInt64BitsToDouble(ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.uint64bitstodouble?view=net-11.0)
+
+
 #### Boolean
 
  * `bool TryFormat(Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.boolean.tryformat?view=net-11.0)
@@ -738,7 +748,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### Capture
 
- * `ValueSpan` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.capture.valuespan?view=net-11.0)
+ * `ReadOnlySpan<char> ValueSpan` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.capture.valuespan?view=net-11.0)
 
 
 #### Char
@@ -756,7 +766,9 @@ The class `Polyfill` includes the following extension methods:
  * `bool IsBetween(char, char, char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isbetween?view=net-11.0)
  * `char ToLowerOrdinal(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.tolowerordinal?view=net-11.0)
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `char ToUpperOrdinal(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.toupperordinal?view=net-11.0)
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
 
 
@@ -778,6 +790,7 @@ The class `Polyfill` includes the following extension methods:
 #### ConditionalWeakTable<TKey, TValue>
 
  * `bool Remove<TKey, TValue>(TKey, TValue) where TKey : class where TValue : class` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.conditionalweaktable-2.remove?view=net-11.0#system-runtime-compilerservices-conditionalweaktable-2-remove(-0-1@))
+   * Note: Lookup and removal are not performed under the table lock, so the operation is not atomic with regard to concurrent mutations.
    * Note: Lookup and removal are not performed under the table lock, so the operation is not atomic with regard to concurrent mutations.
 
 
@@ -831,8 +844,8 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryParse(string?, IFormatProvider?, DateTime)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparse?view=net-11.0#system-datetime-tryparse(system-string-system-iformatprovider-system-datetime@))
  * `bool TryParseExact(ReadOnlySpan<char>, ReadOnlySpan<char>, IFormatProvider?, DateTimeStyles, DateTime)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparseexact?view=net-11.0#system-datetime-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetime@))
  * `bool TryParseExact(ReadOnlySpan<char>, string, IFormatProvider?, DateTimeStyles, DateTime)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.tryparseexact?view=net-11.0#system-datetime-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetime@))
- * `Microsecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.microsecond?view=net-11.0)
- * `Nanosecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.nanosecond?view=net-11.0)
+ * `int Microsecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.microsecond?view=net-11.0)
+ * `int Nanosecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetime.nanosecond?view=net-11.0)
 
 
 #### DateTimeOffset
@@ -847,8 +860,8 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryParse(string?, IFormatProvider?, DateTimeOffset)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparse?view=net-11.0#system-datetimeoffset-tryparse(system-string-system-iformatprovider-system-datetimeoffset@))
  * `bool TryParseExact(ReadOnlySpan<char>, ReadOnlySpan<char>, IFormatProvider?, DateTimeStyles, DateTimeOffset)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparseexact?view=net-11.0#system-datetimeoffset-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetimeoffset@))
  * `bool TryParseExact(ReadOnlySpan<char>, string, IFormatProvider?, DateTimeStyles, DateTimeOffset)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.tryparseexact?view=net-11.0#system-datetimeoffset-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-iformatprovider-system-globalization-datetimestyles-system-datetimeoffset@))
- * `Microsecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.microsecond?view=net-11.0)
- * `Nanosecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.nanosecond?view=net-11.0)
+ * `int Microsecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.microsecond?view=net-11.0)
+ * `int Nanosecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.nanosecond?view=net-11.0)
 
 
 #### Decimal
@@ -872,21 +885,27 @@ The class `Polyfill` includes the following extension methods:
 #### Delegate
 
  * `InvocationListEnumerator<TDelegate> EnumerateInvocationList<TDelegate>(TDelegate?) where TDelegate : Delegate` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.delegate.enumerateinvocationlist?view=net-11.0)
- * `HasSingleTarget` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.delegate.hassingletarget?view=net-11.0)
+ * `bool HasSingleTarget` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.delegate.hassingletarget?view=net-11.0)
 
 
 #### Dictionary<TKey, TValue>
 
  * `void EnsureCapacity<TKey, TValue>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity?view=net-11.0)
    * Note: No-op on older targets; the BCL grows the backing storage.
+   * Note: No-op on older targets; the BCL grows the backing storage.
  * `DictionaryAlternateLookup<TKey, TValue, TAlternateKey> GetAlternateLookup<TKey, TValue, TAlternateKey>() where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.getalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
+   * Note: Returns the free-standing `DictionaryAlternateLookup<TKey, TValue, TAlternateKey>` rather than the BCL's nested `Dictionary<TKey, TValue>.AlternateLookup<TAlternateKey>`. Use `var` for cross-target code.
    * Note: Lookups are O(n) on older targets; the BCL is O(1).
    * Note: Returns the free-standing `DictionaryAlternateLookup<TKey, TValue, TAlternateKey>` rather than the BCL's nested `Dictionary<TKey, TValue>.AlternateLookup<TAlternateKey>`. Use `var` for cross-target code.
  * `void TrimExcess<TKey, TValue>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-11.0#system-collections-generic-dictionary-2-trimexcess(system-int32))
    * Note: No-op on older targets; the BCL shrinks the backing storage.
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
  * `void TrimExcess<TKey, TValue>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-11.0#system-collections-generic-dictionary-2-trimexcess)
    * Note: No-op on older targets; the BCL shrinks the backing storage.
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
  * `bool TryGetAlternateLookup<TKey, TValue, TAlternateKey>(DictionaryAlternateLookup<TKey, TValue, TAlternateKey>) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trygetalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
    * Note: Lookups are O(n) on older targets; the BCL is O(1).
 
 
@@ -918,7 +937,6 @@ The class `Polyfill` includes the following extension methods:
 
 #### Double
 
- * `ulong DoubleToUInt64Bits(double)`
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.double.tryformat?view=net-11.0#system-double-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.double.tryformat?view=net-11.0#system-double-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryParse(ReadOnlySpan<byte>, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.double.tryparse?view=net-11.0#system-double-tryparse(system-readonlyspan((system-byte))-system-double@))
@@ -944,8 +962,9 @@ The class `Polyfill` includes the following extension methods:
  * `string GetString(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.getstring?view=net-11.0#system-text-encoding-getstring(system-readonlyspan((system-byte))))
  * `bool TryGetBytes(ReadOnlySpan<char>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetbytes?view=net-11.0)
  * `bool TryGetChars(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetchars?view=net-11.0)
- * `Latin1` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.latin1?view=net-11.0)
- * `Preamble` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.preamble?view=net-11.0)
+ * `Encoding Latin1` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.latin1?view=net-11.0)
+ * `ReadOnlySpan<byte> Preamble` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.preamble?view=net-11.0)
+   * Note: Allocates a new array on each access, unlike the BCL property which returns a cached span.
    * Note: Allocates a new array on each access, unlike the BCL property which returns a cached span.
 
 
@@ -973,8 +992,8 @@ The class `Polyfill` includes the following extension methods:
 
 #### Environment
 
- * `ProcessId` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.environment.processid?view=net-11.0#system-environment-processid)
- * `ProcessPath` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.environment.processpath?view=net-11.0#system-environment-processpath)
+ * `int ProcessId` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.environment.processid?view=net-11.0#system-environment-processid)
+ * `string? ProcessPath` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.environment.processpath?view=net-11.0#system-environment-processpath)
 
 
 #### EqualityComparer
@@ -1064,19 +1083,24 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryParse(ReadOnlySpan<char>, IFormatProvider?, Guid)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-11.0#system-guid-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-guid@))
  * `bool TryParse(string?, IFormatProvider?, Guid)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparse?view=net-11.0#system-guid-tryparse(system-string-system-iformatprovider-system-guid@))
  * `bool TryParseExact(ReadOnlySpan<char>, ReadOnlySpan<char>, Guid)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryparseexact?view=net-11.0#system-guid-tryparseexact(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-guid@))
- * `AllBitsSet` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.allbitsset?view=net-11.0)
+ * `Guid AllBitsSet` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.allbitsset?view=net-11.0)
 
 
 #### HashSet<T>
 
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.ensurecapacity?view=net-11.0#system-collections-generic-hashset-1-ensurecapacity(system-int32))
    * Note: No-op on older targets; the BCL grows the backing storage.
+   * Note: No-op on older targets; the BCL grows the backing storage.
  * `HashSetAlternateLookup<T, TAlternate> GetAlternateLookup<T, TAlternate>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.getalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
+   * Note: Returns the free-standing `HashSetAlternateLookup<T, TAlternate>` rather than the BCL's nested `HashSet<T>.AlternateLookup<TAlternate>`. Use `var` for cross-target code.
    * Note: Lookups are O(n) on older targets; the BCL is O(1).
    * Note: Returns the free-standing `HashSetAlternateLookup<T, TAlternate>` rather than the BCL's nested `HashSet<T>.AlternateLookup<TAlternate>`. Use `var` for cross-target code.
  * `void TrimExcess<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trimexcess?view=net-11.0#system-collections-generic-hashset-1-trimexcess(system-int32))
    * Note: No-op on older targets; the BCL shrinks the backing storage.
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
  * `bool TryGetAlternateLookup<T, TAlternate>(HashSetAlternateLookup<T, TAlternate>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetalternatelookup?view=net-11.0)
+   * Note: Lookups are O(n) on older targets; the BCL is O(1).
    * Note: Lookups are O(n) on older targets; the BCL is O(1).
  * `bool TryGetValue<T>(T, T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetvalue?view=net-11.0)
 
@@ -1219,7 +1243,6 @@ The class `Polyfill` includes the following extension methods:
 
 #### Int32
 
- * `float Int32BitsToSingle(int)`
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryformat?view=net-11.0#system-int32-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryformat?view=net-11.0#system-int32-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `int Log10(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.log10?view=net-11.0)
@@ -1248,6 +1271,8 @@ The class `Polyfill` includes the following extension methods:
 
 #### Interlocked
 
+ * `T And<T>(T, T) where T : struct` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.and?view=net-11.0)
+ * `T Or<T>(T, T) where T : struct` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.or?view=net-11.0)
 
 
 #### IntPtr
@@ -1294,8 +1319,11 @@ The class `Polyfill` includes the following extension methods:
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.ensurecapacity?view=net-11.0#system-collections-generic-list-1-ensurecapacity(system-int32))
    * Note: No-op on older targets; the BCL grows the backing storage.
    * Note: Returns void on older targets; the BCL returns int (the new capacity).
+   * Note: No-op on older targets; the BCL grows the backing storage.
+   * Note: Returns void on older targets; the BCL returns int (the new capacity).
  * `void InsertRange<T>(int, ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange?view=net-11.0)
  * `void TrimExcess<T>()`
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
    * Note: No-op on older targets; the BCL shrinks the backing storage.
 
 
@@ -1428,6 +1456,7 @@ The class `Polyfill` includes the following extension methods:
  * `Task<(byte[] StandardOutput, byte[] StandardError)> ReadAllBytesAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readallbytesasync?view=net-11.0)
  * `IEnumerable<ProcessOutputLine> ReadAllLines(TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalllines?view=net-11.0)
    * Note: The timeout is measured from the point enumeration starts, since the returned sequence is lazy.
+   * Note: The timeout is measured from the point enumeration starts, since the returned sequence is lazy.
  * `IAsyncEnumerable<ProcessOutputLine> ReadAllLinesAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalllinesasync?view=net-11.0)
  * `(string StandardOutput, string StandardError) ReadAllText(TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalltext?view=net-11.0)
  * `Task<(string StandardOutput, string StandardError)> ReadAllTextAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalltextasync?view=net-11.0)
@@ -1456,6 +1485,11 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryGetProcessById(int, Process?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.trygetprocessbyid?view=net-11.0)
 
 
+#### ProcessStartInfo
+
+ * `Collection<string> ArgumentList` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.processstartinfo.argumentlist?view=net-11.0)
+
+
 #### PropertyInfo
 
  * `NullabilityState GetNullability()`
@@ -1467,7 +1501,9 @@ The class `Polyfill` includes the following extension methods:
 
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.ensurecapacity?view=net-11.0#system-collections-generic-queue-1-ensurecapacity(system-int32))
    * Note: No-op on older targets; the BCL grows the backing storage.
+   * Note: No-op on older targets; the BCL grows the backing storage.
  * `void TrimExcess<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.trimexcess?view=net-11.0#system-collections-generic-queue-1-trimexcess(system-int32))
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
    * Note: No-op on older targets; the BCL shrinks the backing storage.
  * `bool TryDequeue<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.trydequeue?view=net-11.0)
  * `bool TryPeek<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.trypeek?view=net-11.0)
@@ -1488,7 +1524,7 @@ The class `Polyfill` includes the following extension methods:
  * `float NextSingle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextsingle?view=net-11.0)
  * `void Shuffle<T>(Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-11.0#system-random-nextbytes(system-span((system-byte))))
  * `void Shuffle<T>(T[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-11.0#system-random-nextbytes(system-span((system-byte))))
- * `Shared` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.shared?view=net-11.0)
+ * `Random Shared` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.shared?view=net-11.0)
 
 
 #### RandomNumberGenerator
@@ -1524,7 +1560,9 @@ The class `Polyfill` includes the following extension methods:
  * `bool StartsWith(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith?view=net-11.0#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `int ToLowerOrdinal(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.tolowerordinal?view=net-11.0)
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `int ToUpperOrdinal(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.toupperordinal?view=net-11.0)
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `bool TryNormalize(Span<char>, int, NormalizationForm)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.stringnormalizationextensions.trynormalize?view=net-11.0#system-stringnormalizationextensions-trynormalize(system-readonlyspan((system-char))-system-span((system-char))-system-int32@-system-text-normalizationform))
 
@@ -1600,13 +1638,15 @@ The class `Polyfill` includes the following extension methods:
  * `bool Equals(Rune, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.rune.equals?view=net-11.0#system-text-rune-equals(system-text-rune-system-stringcomparison))
  * `Rune ToLowerOrdinal(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.rune.tolowerordinal?view=net-11.0)
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `Rune ToUpperOrdinal(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.rune.toupperordinal?view=net-11.0)
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
 
 
 #### RuntimeFeature
 
- * `IsMultithreadingSupported` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.runtimefeature.ismultithreadingsupported?view=net-11.0)
+ * `bool IsMultithreadingSupported` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.runtimefeature.ismultithreadingsupported?view=net-11.0)
 
 
 #### SByte
@@ -1673,8 +1713,6 @@ The class `Polyfill` includes the following extension methods:
 
 #### Single
 
- * `int SingleToInt32Bits(float)`
- * `uint SingleToUInt32Bits(float)`
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryformat?view=net-11.0#system-single-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryformat?view=net-11.0#system-single-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryParse(ReadOnlySpan<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.single.tryparse?view=net-11.0#system-single-tryparse(system-readonlyspan((system-byte))-system-single@))
@@ -1744,7 +1782,9 @@ The class `Polyfill` includes the following extension methods:
 
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.ensurecapacity?view=net-11.0)
    * Note: No-op on older targets; the BCL grows the backing storage.
+   * Note: No-op on older targets; the BCL grows the backing storage.
  * `void TrimExcess<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trimexcess?view=net-11.0#system-collections-generic-stack-1-trimexcess(system-int32))
+   * Note: No-op on older targets; the BCL shrinks the backing storage.
    * Note: No-op on older targets; the BCL shrinks the backing storage.
  * `bool TryPeek<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trypeek?view=net-11.0)
  * `bool TryPop<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trypop?view=net-11.0)
@@ -1797,7 +1837,9 @@ The class `Polyfill` includes the following extension methods:
  * `bool StartsWith(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char))
  * `string ToLowerOrdinal()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.tolowerordinal?view=net-11.0)
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `string ToUpperOrdinal()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.toupperordinal?view=net-11.0)
+   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `bool TryCopyTo(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.trycopyto?view=net-11.0)
  * `string Concat(ReadOnlySpan<object?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.concat?view=net-11.0#system-string-concat(system-readonlyspan((system-object))))
@@ -1835,6 +1877,7 @@ The class `Polyfill` includes the following extension methods:
  * `StringBuilder AppendLine(StringBuilder, StringBuilder.AppendInterpolatedStringHandler)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendline?view=net-11.0#system-text-stringbuilder-appendline(system-text-stringbuilder-appendinterpolatedstringhandler@))
  * `void CopyTo(int, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.copyto?view=net-11.0#system-text-stringbuilder-copyto(system-int32-system-span((system-char))-system-int32))
  * `StringBuilderRuneEnumerator EnumerateRunes()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.enumeraterunes?view=net-11.0)
+   * Note: Enumerates over a snapshot of the content taken when enumeration starts, so changes made to the StringBuilder while enumerating are not observed.
    * Note: Enumerates over a snapshot of the content taken when enumeration starts, so changes made to the StringBuilder while enumerating are not observed.
  * `bool Equals(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.equals?view=net-11.0#system-text-stringbuilder-equals(system-readonlyspan((system-char))))
  * `ChunkEnumerator GetChunks()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.getchunks?view=net-11.0)
@@ -1928,37 +1971,52 @@ The class `Polyfill` includes the following extension methods:
  * `TimeSpan FromMilliseconds(long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommilliseconds?view=net-11.0#system-timespan-frommilliseconds(system-int64-system-int64))
  * `TimeSpan FromMinutes(int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromminutes?view=net-11.0#system-timespan-fromminutes(system-int32-system-int32-system-int32-system-int32))
  * `TimeSpan FromSeconds(long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromseconds?view=net-11.0#system-timespan-fromseconds(system-int64-system-int64-system-int64))
- * `HoursPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.hoursperday?view=net-11.0)
+ * `int HoursPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.hoursperday?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
- * `Microseconds` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds?view=net-11.0)
- * `MicrosecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperday?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
- * `MicrosecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperhour?view=net-11.0)
+ * `int Microseconds` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds?view=net-11.0)
+ * `long MicrosecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperday?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
- * `MicrosecondsPerMillisecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondspermillisecond?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
- * `MicrosecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperminute?view=net-11.0)
+ * `long MicrosecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperhour?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
- * `MicrosecondsPerSecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondspersecond?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
- * `MillisecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperday?view=net-11.0)
+ * `long MicrosecondsPerMillisecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondspermillisecond?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
- * `MillisecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperhour?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
- * `MillisecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperminute?view=net-11.0)
+ * `long MicrosecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperminute?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
- * `MillisecondsPerSecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondspersecond?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
- * `MinutesPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.minutesperday?view=net-11.0)
+ * `long MicrosecondsPerSecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondspersecond?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
- * `MinutesPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.minutesperhour?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
- * `Nanoseconds` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds?view=net-11.0)
- * `SecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperday?view=net-11.0)
+ * `long MillisecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperday?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
- * `SecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperhour?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
- * `SecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperminute?view=net-11.0)
+ * `long MillisecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperhour?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `long MillisecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperminute?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `long MillisecondsPerSecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondspersecond?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `long MinutesPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.minutesperday?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `long MinutesPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.minutesperhour?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `int Nanoseconds` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds?view=net-11.0)
+ * `long SecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperday?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `long SecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperhour?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `long SecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperminute?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
 
 
@@ -1971,7 +2029,7 @@ The class `Polyfill` includes the following extension methods:
  * `bool IsAssignableTo(Type?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isassignableto?view=net-11.0)
  * `bool IsAssignableTo<T>()`
  * `Type? GetNullableUnderlyingType()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.getnullableunderlyingtype?view=net-11.0)
- * `IsGenericMethodParameter` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter?view=net-11.0)
+ * `bool IsGenericMethodParameter` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.type.isgenericmethodparameter?view=net-11.0)
 
 
 #### UdpClient
@@ -2008,7 +2066,6 @@ The class `Polyfill` includes the following extension methods:
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryformat?view=net-11.0#system-uint32-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryformat?view=net-11.0#system-uint32-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
- * `float UInt32BitsToSingle(uint)`
  * `uint Log10(uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-11.0#system-uint32-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint32@))
  * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-11.0#system-uint32-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uint32@))
@@ -2023,7 +2080,6 @@ The class `Polyfill` includes the following extension methods:
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryformat?view=net-11.0#system-uint64-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryformat?view=net-11.0#system-uint64-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
- * `double UInt64BitsToDouble(ulong)`
  * `ulong Log10(ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint64@))
  * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uint64@))
@@ -2050,7 +2106,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### Uri
 
- * `UriSchemeData` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uri.urischemedata?view=net-11.0)
+ * `string UriSchemeData` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uri.urischemedata?view=net-11.0)
 
 
 #### Utf8
@@ -2060,7 +2116,7 @@ The class `Polyfill` includes the following extension methods:
 
 #### ValueTask
 
- * `CompletedTask` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask.completedtask?view=net-11.0)
+ * `ValueTask CompletedTask` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask.completedtask?view=net-11.0)
 
 
 #### XDocument
@@ -2105,7 +2161,7 @@ The class `Polyfill` includes the following extension methods:
  * `Stream Open(FileAccess)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.open?view=net-11.0)
  * `Task<Stream> OpenAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.openasync?view=net-11.0#system-io-compression-ziparchiveentry-openasync(system-threading-cancellationtoken))
  * `ValueTask<Stream> OpenAsync(FileAccess, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.openasync?view=net-11.0#system-io-compression-ziparchiveentry-openasync(system-io-fileaccess-system-threading-cancellationtoken))
- * `ExternalAttributes` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.externalattributes?view=net-11.0)
+ * `int ExternalAttributes` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.externalattributes?view=net-11.0)
 
 
 #### ZipFile
@@ -2188,7 +2244,9 @@ The class `Polyfill` includes the following extension methods:
 
  * `Span<T> AsSpan<T>(List<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.collectionsmarshal.asspan?view=net-11.0)
    * Note: Reads the list's private backing array via reflection on this target.
+   * Note: Reads the list's private backing array via reflection on this target.
  * `void SetCount<T>(List<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.collectionsmarshal.setcount?view=net-11.0)
+   * Note: When growing, new elements are default(T); the BCL exposes uninitialized data.
    * Note: When growing, new elements are default(T); the BCL exposes uninitialized data.
 
 
@@ -2206,7 +2264,9 @@ The class `Polyfill` includes the following extension methods:
 
  * `bool FixedTimeEquals(ReadOnlySpan<byte>, byte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.fixedtimeequals?view=net-11.0#system-security-cryptography-cryptographicoperations-fixedtimeequals(system-readonlyspan((system-byte))-system-byte))
    * Note: Best-effort constant-time comparison; a managed loop cannot offer the same guarantees as the BCL intrinsic.
+   * Note: Best-effort constant-time comparison; a managed loop cannot offer the same guarantees as the BCL intrinsic.
  * `bool FixedTimeEquals(ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.fixedtimeequals?view=net-11.0#system-security-cryptography-cryptographicoperations-fixedtimeequals(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+   * Note: Best-effort constant-time comparison; a managed loop cannot offer the same guarantees as the BCL intrinsic.
    * Note: Best-effort constant-time comparison; a managed loop cannot offer the same guarantees as the BCL intrinsic.
  * `byte[] HashData(HashAlgorithmName, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.hashdata?view=net-11.0#system-security-cryptography-cryptographicoperations-hashdata(system-security-cryptography-hashalgorithmname-system-byte()))
  * `int HashData(HashAlgorithmName, ReadOnlySpan<byte>, Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.hashdata?view=net-11.0#system-security-cryptography-cryptographicoperations-hashdata(system-security-cryptography-hashalgorithmname-system-readonlyspan((system-byte))-system-span((system-byte))))
@@ -2233,6 +2293,7 @@ The class `Polyfill` includes the following extension methods:
  * `ValueTask<bool> VerifyHmacAsync(HashAlgorithmName, byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.verifyhmacasync?view=net-11.0#system-security-cryptography-cryptographicoperations-verifyhmacasync(system-security-cryptography-hashalgorithmname-system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
  * `ValueTask<bool> VerifyHmacAsync(HashAlgorithmName, ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.verifyhmacasync?view=net-11.0#system-security-cryptography-cryptographicoperations-verifyhmacasync(system-security-cryptography-hashalgorithmname-system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
  * `void ZeroMemory(Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.zeromemory?view=net-11.0)
+   * Note: Best-effort zeroing; unlike the BCL intrinsic the JIT may elide the clear if the buffer is not observed afterwards.
    * Note: Best-effort zeroing; unlike the BCL intrinsic the JIT may elide the clear if the buffer is not observed afterwards.
 
 

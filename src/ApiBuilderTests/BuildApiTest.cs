@@ -3,6 +3,8 @@ public class BuildApiTest
     static string polyfillDir = Path.Combine(ProjectFiles.SolutionDirectory, "Polyfill");
 
     [Test]
+    // The per-target-framework counts are read out of Split, so it has to be written first
+    [DependsOn<SplitterTests>(nameof(SplitterTests.Run))]
 #if RELEASE
     [Explicit]
 #endif
@@ -76,7 +78,8 @@ public class BuildApiTest
             "FeatureValueTask",
             "FeatureValueTuple",
             "FeatureCompression",
-            "FeatureAsyncInterfaces"
+            "FeatureAsyncInterfaces",
+            "FeatureUnsafe"
         };
 
         var options = CSharpParseOptions.Default.WithPreprocessorSymbols(featureSymbols);
@@ -145,9 +148,11 @@ public class BuildApiTest
             .ToList();
 
         var instanceMethods = ReadMethodsForFiles(instanceFiles);
+        var instanceProperties = ReadExtensionPropertiesForFiles(instanceFiles);
 
         var instanceTypeNames = instanceMethods
-            .Select(FirstParameterType);
+            .Select(SectionName)
+            .Concat(instanceProperties.Select(SectionName));
 
         var staticTypeNames = staticFiles
             .Select(Path.GetFileNameWithoutExtension)
@@ -163,7 +168,7 @@ public class BuildApiTest
         foreach (var name in typeNames.Order())
         {
             var instanceMethodsForType = instanceMethods
-                .Where(_ => FirstParameterType(_) == name)
+                .Where(_ => SectionName(_) == name)
                 .ToList();
             writer.WriteLine($"#### {name}");
             writer.WriteLine();
@@ -175,6 +180,12 @@ public class BuildApiTest
                     count++;
                     WriteSignature(method, writer);
                 }
+            }
+
+            foreach (var property in instanceProperties.Where(_ => SectionName(_) == name))
+            {
+                count++;
+                WriteSignature(property, writer);
             }
 
             var staticExtension = staticFiles
@@ -220,11 +231,36 @@ public class BuildApiTest
         ["string"] = "String"
     };
 
-    static string FirstParameterType(Method method)
+    // The api_list section a member belongs to. Members declared inside an
+    // `extension(Type)` block belong to that block's receiver type. Classic
+    // `this`-parameter extension methods belong to the type of that parameter.
+    static string SectionName(Method method) =>
+        ExtensionReceiver(method) ?? NormalizeType(method.ParameterList.Parameters[0].Type!.ToString());
+
+    static string SectionName(Property property) =>
+        ExtensionReceiver(property)!;
+
+    static string? ExtensionReceiver(Member member)
     {
-        var type = method.ParameterList.Parameters[0].Type!.ToString();
-        return langwordToType.GetValueOrDefault(type, type);
+        var receiver = member
+            .Ancestors()
+            .OfType<Type>()
+            .FirstOrDefault(_ => _.GetType().Name == "ExtensionBlockDeclarationSyntax")
+            ?.ParameterList
+            ?.Parameters
+            .FirstOrDefault()
+            ?.Type;
+
+        if (receiver == null)
+        {
+            return null;
+        }
+
+        return NormalizeType(receiver.ToString());
     }
+
+    static string NormalizeType(string type) =>
+        langwordToType.GetValueOrDefault(type, type);
 
     static List<Method> ReadMethodsForFiles(string pattern)
     {
@@ -250,6 +286,17 @@ public class BuildApiTest
             .OrderBy(Key)
             .ToList();
     }
+
+    // Properties on the `Polyfill` partial are only an API surface when they sit inside an
+    // `extension(Type)` block, so anything else (a helper on Polyfill itself) is skipped.
+    static List<Property> ReadExtensionPropertiesForFiles(IEnumerable<string> files) =>
+        files
+            .SelectMany(Identifiers.ReadTypesForFile)
+            .SelectMany(_ => _.PublicProperties())
+            .Where(_ => ExtensionReceiver(_) != null)
+            .DistinctBy(_ => (SectionName(_), _.Identifier.Text))
+            .OrderBy(_ => _.Identifier.Text)
+            .ToList();
 
     static List<Property> ReadPropertiesForFiles(string pattern)
     {
@@ -351,11 +398,11 @@ public class BuildApiTest
         WriteNotes(method, writer);
     }
 
-    static void WriteSignature(Property method, StreamWriter writer)
+    static void WriteSignature(Property property, StreamWriter writer)
     {
-        var signature = new StringBuilder(method.Identifier.Text);
+        var signature = $"{property.Type} {property.Identifier.Text}";
 
-        if (method.TryGetReference(out var reference))
+        if (property.TryGetReference(out var reference))
         {
             writer.WriteLine($" * `{signature}` [reference]({reference})");
         }
@@ -364,7 +411,7 @@ public class BuildApiTest
             writer.WriteLine($" * `{signature}`");
         }
 
-        WriteNotes(method, writer);
+        WriteNotes(property, writer);
     }
 
     static void WriteNotes(Member member, StreamWriter writer)

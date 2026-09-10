@@ -26,6 +26,8 @@ public class AssemblySizeTest
     ];
 
     [Test]
+    // The measured assemblies are compiled from Split, so it has to be written first
+    [DependsOn<SplitterTests>(nameof(SplitterTests.Run))]
 #if RELEASE
     [Explicit]
 #endif
