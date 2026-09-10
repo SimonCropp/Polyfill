@@ -1192,6 +1192,11 @@ class Consume
         var sourceContent = "Test content";
         File.WriteAllText(TestFilePath, sourceContent);
 
+#if FeatureMemory
+        ReadOnlySpan<byte> byteSpan = new byte[] { 1, 2, 3 };
+        File.WriteAllBytes(TestFilePath, byteSpan);
+#endif
+
         var fileMode = File.GetUnixFileMode(TestFilePath);
 
         // Use the | bitwise OR operator to combine multiple file modes
