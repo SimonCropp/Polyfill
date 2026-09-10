@@ -1418,6 +1418,17 @@ class Consume
         (outBytes, errBytes) = await process.ReadAllBytesAsync(CancellationToken.None);
 #endif
 
+        foreach (ProcessOutputLine syncLine in process.ReadAllLines())
+        {
+            _ = syncLine.Content;
+            _ = syncLine.StandardError;
+        }
+
+        foreach (ProcessOutputLine syncLine in process.ReadAllLines(TimeSpan.FromSeconds(1)))
+        {
+            _ = syncLine.Content;
+        }
+
 #if FeatureAsyncInterfaces
         await foreach (var line in process.ReadAllLinesAsync(CancellationToken.None))
         {
