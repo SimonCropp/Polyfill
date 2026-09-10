@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 1111**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 1119**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
@@ -35,8 +35,8 @@ The package targets `netstandard2.0` and is designed to support the following ru
 | `netcoreapp3.1` | 858 |
 | `net5.0` | 728 |
 | `net6.0` | 629 |
-| `net7.0` | 480 |
-| `net8.0` | 359 |
+| `net7.0` | 488 |
+| `net8.0` | 367 |
 | `net9.0` | 238 |
 | `net10.0` | 182 |
 | `net11.0` | 58 |
@@ -112,8 +112,8 @@ This project uses features from the newest stable SDK and C# language. As such c
 | netcoreapp3.1  |          9.5KB |       324.5KB |  +315.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
 | net5.0         |          9.5KB |       288.5KB |  +279.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | net6.0         |         10.0KB |       230.0KB |  +220.0KB |   +10.0KB |             +7.0KB |              +1.0KB |      +3.5KB |
-| net7.0         |         10.0KB |       196.5KB |  +186.5KB |    +9.5KB |             +5.5KB |           +512bytes |      +3.5KB |
-| net8.0         |          9.5KB |       166.5KB |  +157.0KB |    +8.5KB |          +512bytes |           +512bytes |      +3.5KB |
+| net7.0         |         10.0KB |       199.0KB |  +189.0KB |    +9.0KB |             +5.5KB |           +512bytes |      +3.0KB |
+| net8.0         |          9.5KB |       168.5KB |  +159.0KB |    +8.5KB |          +512bytes |              +1.0KB |      +3.5KB |
 | net9.0         |          9.5KB |       116.0KB |  +106.5KB |    +8.0KB |                    |           +512bytes |      +3.0KB |
 | net10.0        |         10.0KB |        93.5KB |   +83.5KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
 | net11.0        |         10.0KB |        21.0KB |   +11.0KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
@@ -139,8 +139,8 @@ This project uses features from the newest stable SDK and C# language. As such c
 | netcoreapp3.1  |          9.5KB |       468.3KB |  +458.8KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | net5.0         |          9.5KB |       414.2KB |  +404.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | net6.0         |         10.0KB |       335.8KB |  +325.8KB |   +17.7KB |             +8.7KB |              +1.6KB |      +4.2KB |
-| net7.0         |         10.0KB |       284.4KB |  +274.4KB |   +17.1KB |             +6.9KB |              +1.1KB |      +4.2KB |
-| net8.0         |          9.5KB |       240.7KB |  +231.2KB |   +16.0KB |          +811bytes |              +1.1KB |      +4.2KB |
+| net7.0         |         10.0KB |       287.9KB |  +277.9KB |   +16.6KB |             +6.9KB |              +1.1KB |      +3.7KB |
+| net8.0         |          9.5KB |       243.6KB |  +234.1KB |   +16.0KB |          +811bytes |              +1.6KB |      +4.2KB |
 | net9.0         |          9.5KB |       167.6KB |  +158.1KB |   +15.5KB |                    |              +1.1KB |      +3.7KB |
 | net10.0        |         10.0KB |       136.1KB |  +126.1KB |   +16.0KB |                    |              +1.1KB |      +3.7KB |
 | net11.0        |         10.0KB |        30.9KB |   +20.9KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
@@ -708,9 +708,17 @@ The class `Polyfill` includes the following extension methods:
 #### BitConverter
 
  * `ulong DoubleToUInt64Bits(double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.doubletouint64bits?view=net-11.0)
+ * `byte[] GetBytes(Int128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.getbytes?view=net-11.0#system-bitconverter-getbytes(system-int128))
+ * `byte[] GetBytes(UInt128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.getbytes?view=net-11.0#system-bitconverter-getbytes(system-uint128))
  * `float Int32BitsToSingle(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.int32bitstosingle?view=net-11.0)
  * `int SingleToInt32Bits(float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.singletoint32bits?view=net-11.0)
  * `uint SingleToUInt32Bits(float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.singletouint32bits?view=net-11.0)
+ * `Int128 ToInt128(byte[], int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.toint128?view=net-11.0#system-bitconverter-toint128(system-byte()-system-int32))
+ * `Int128 ToInt128(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.toint128?view=net-11.0#system-bitconverter-toint128(system-readonlyspan((system-byte))))
+ * `UInt128 ToUInt128(byte[], int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.touint128?view=net-11.0#system-bitconverter-touint128(system-byte()-system-int32))
+ * `UInt128 ToUInt128(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.touint128?view=net-11.0#system-bitconverter-touint128(system-readonlyspan((system-byte))))
+ * `bool TryWriteBytes(Span<byte>, Int128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-int128))
+ * `bool TryWriteBytes(Span<byte>, UInt128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-uint128))
  * `float UInt32BitsToSingle(uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.uint32bitstosingle?view=net-11.0)
  * `double UInt64BitsToDouble(ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.uint64bitstodouble?view=net-11.0)
 
@@ -2505,7 +2513,7 @@ void ObjectDisposedExceptionExample(bool isDisposed)
     ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L860-L884' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L874-L898' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -2524,7 +2532,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L890-L902' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L904-L916' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

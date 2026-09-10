@@ -326,6 +326,20 @@ class Consume
     }
 #endif
 
+#if NET7_0_OR_GREATER
+    void BitConverter_Int128_Methods()
+    {
+        var bytes = BitConverter.GetBytes((Int128) 1);
+        var unsignedBytes = BitConverter.GetBytes((UInt128) 1);
+        var signed = BitConverter.ToInt128(bytes, 0);
+        signed = BitConverter.ToInt128(bytes.AsSpan());
+        var unsigned = BitConverter.ToUInt128(unsignedBytes, 0);
+        unsigned = BitConverter.ToUInt128(unsignedBytes.AsSpan());
+        var wroteSigned = BitConverter.TryWriteBytes(bytes.AsSpan(), signed);
+        var wroteUnsigned = BitConverter.TryWriteBytes(unsignedBytes.AsSpan(), unsigned);
+    }
+#endif
+
     void VolatileBarrierUsage()
     {
         Volatile.ReadBarrier();
