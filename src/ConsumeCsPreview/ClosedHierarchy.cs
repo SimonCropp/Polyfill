@@ -5,7 +5,7 @@ namespace ConsumeCsPreview;
 // CompilerFeatureRequiredAttribute("ClosedClasses") on its constructors,
 // so this only compiles when both are polyfilled.
 
-#region ClosedHierarchy
+#region ClosedDeclaration
 
 // Only types in this file can derive from JobStatus
 closed class JobStatus;
@@ -22,8 +22,12 @@ sealed class Failed(string error) : JobStatus
     public string Error => error;
 }
 
+#endregion
+
 static class ClosedHierarchy
 {
+    #region ClosedUsage
+
     // No default arm: the switch is exhaustive because every direct descendant of
     // the closed JobStatus is handled. Without exhaustiveness this warns CS8509.
     public static string Describe(JobStatus status) =>
@@ -33,6 +37,6 @@ static class ClosedHierarchy
             Running running => $"{running.PercentComplete}% complete",
             Failed failed => $"failed: {failed.Error}"
         };
-}
 
-#endregion
+    #endregion
+}

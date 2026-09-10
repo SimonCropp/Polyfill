@@ -608,6 +608,58 @@ readonly struct IntOrString : IUnion
 <!-- endSnippet -->
 
 
+### Closed hierarchies
+
+Polyfills the marker attribute that the compiler references when emitting a [C# 15 `closed` type](https://devblogs.microsoft.com/dotnet/csharp-15-union-types/), so closed hierarchies can target older runtimes:
+
+ * [IsClosedTypeAttribute](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.isclosedtypeattribute)
+
+The type ships in net11. The compiler applies it to the closed type, listing the permitted direct descendants in `DerivedTypes`, and applies [CompilerFeatureRequiredAttribute](#compilerfeaturerequiredattribute) to the closed type's constructors. Polyfill supplies both on every earlier target.
+
+> Polyfill supplies only the attribute the generated code references. The `closed` keyword itself requires the C# 15 (or later) compiler and cannot be backported to an older compiler. Set `<LangVersion>preview</LangVersion>` while the feature is in preview.
+
+Declaring a closed hierarchy:
+
+<!-- snippet: ClosedDeclaration -->
+<a id='snippet-ClosedDeclaration'></a>
+```cs
+// Only types in this file can derive from JobStatus
+closed class JobStatus;
+
+sealed class Queued : JobStatus;
+
+sealed class Running(int percentComplete) : JobStatus
+{
+    public int PercentComplete => percentComplete;
+}
+
+sealed class Failed(string error) : JobStatus
+{
+    public string Error => error;
+}
+```
+<sup><a href='/src/ConsumeCsPreview/ClosedHierarchy.cs#L8-L25' title='Snippet source file'>snippet source</a> | <a href='#snippet-ClosedDeclaration' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+Because the hierarchy is closed, the compiler knows the full set of descendants, so a switch that handles all of them is exhaustive and needs no default arm:
+
+<!-- snippet: ClosedUsage -->
+<a id='snippet-ClosedUsage'></a>
+```cs
+// No default arm: the switch is exhaustive because every direct descendant of
+// the closed JobStatus is handled. Without exhaustiveness this warns CS8509.
+public static string Describe(JobStatus status) =>
+    status switch
+    {
+        Queued => "queued",
+        Running running => $"{running.PercentComplete}% complete",
+        Failed failed => $"failed: {failed.Error}"
+    };
+```
+<sup><a href='/src/ConsumeCsPreview/ClosedHierarchy.cs#L29-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-ClosedUsage' title='Start of snippet'>anchor</a></sup>
+<!-- endSnippet -->
+
+
 ## Extensions
 
 The class `Polyfill` includes the following extension methods:
