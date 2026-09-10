@@ -13,34 +13,34 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 1150**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 1151**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
 | Target | APIs |
 | -- | -- |
-| `net461` | 1058 |
-| `net462` | 1058 |
-| `net47` | 1057 |
-| `net471` | 1056 |
-| `net472` | 1052 |
-| `net48` | 1052 |
-| `net481` | 1052 |
-| `netstandard2.0` | 1054 |
-| `netstandard2.1` | 887 |
-| `netcoreapp2.0` | 977 |
-| `netcoreapp2.1` | 898 |
-| `netcoreapp2.2` | 898 |
-| `netcoreapp3.0` | 859 |
-| `netcoreapp3.1` | 858 |
-| `net5.0` | 736 |
-| `net6.0` | 632 |
-| `net7.0` | 491 |
-| `net8.0` | 370 |
+| `net461` | 1059 |
+| `net462` | 1059 |
+| `net47` | 1058 |
+| `net471` | 1057 |
+| `net472` | 1053 |
+| `net48` | 1053 |
+| `net481` | 1053 |
+| `netstandard2.0` | 1055 |
+| `netstandard2.1` | 888 |
+| `netcoreapp2.0` | 978 |
+| `netcoreapp2.1` | 899 |
+| `netcoreapp2.2` | 899 |
+| `netcoreapp3.0` | 860 |
+| `netcoreapp3.1` | 859 |
+| `net5.0` | 737 |
+| `net6.0` | 633 |
+| `net7.0` | 492 |
+| `net8.0` | 371 |
 | `net9.0` | 241 |
 | `net10.0` | 182 |
 | `net11.0` | 58 |
-| `uap10.0` | 1044 |
+| `uap10.0` | 1045 |
 <!-- endInclude -->
 
 
@@ -96,24 +96,24 @@ This project uses features from the newest stable SDK and C# language. As such c
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       373.5KB |  +365.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netstandard2.1 |          8.5KB |       327.0KB |  +318.5KB |    +8.5KB |             +6.5KB |              +8.5KB |     +13.5KB |
-| net461         |          8.5KB |       372.5KB |  +364.0KB |    +8.5KB |             +6.0KB |              +8.5KB |     +13.0KB |
-| net462         |          7.0KB |       377.5KB |  +370.5KB |    +7.0KB |             +6.5KB |              +7.5KB |     +11.5KB |
-| net47          |          7.0KB |       377.0KB |  +370.0KB |    +7.5KB |             +6.5KB |              +7.5KB |     +12.0KB |
-| net471         |          8.5KB |       374.5KB |  +366.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net472         |          8.5KB |       373.5KB |  +365.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net48          |          8.5KB |       373.5KB |  +365.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net481         |          8.5KB |       373.5KB |  +365.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.0  |          9.0KB |       352.5KB |  +343.5KB |    +7.5KB |             +6.5KB |              +9.0KB |     +12.0KB |
-| netcoreapp2.1  |          9.0KB |       330.5KB |  +321.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.2  |          9.0KB |       330.5KB |  +321.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.0  |          9.5KB |       326.5KB |  +317.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.1  |          9.5KB |       324.5KB |  +315.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net5.0         |          9.5KB |       290.0KB |  +280.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net6.0         |         10.0KB |       231.0KB |  +221.0KB |    +9.5KB |             +6.5KB |           +512bytes |      +3.5KB |
-| net7.0         |         10.0KB |       199.5KB |  +189.5KB |    +9.5KB |             +5.5KB |           +512bytes |      +3.5KB |
-| net8.0         |          9.5KB |       169.5KB |  +160.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| netstandard2.0 |          8.0KB |       383.5KB |  +375.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netstandard2.1 |          8.5KB |       339.0KB |  +330.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net461         |          8.5KB |       382.5KB |  +374.0KB |    +8.5KB |             +6.0KB |              +8.5KB |     +13.0KB |
+| net462         |          7.0KB |       386.0KB |  +379.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.0KB |
+| net47          |          7.0KB |       385.5KB |  +378.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net471         |          8.5KB |       384.5KB |  +376.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net472         |          8.5KB |       383.5KB |  +375.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net48          |          8.5KB |       383.5KB |  +375.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net481         |          8.5KB |       383.5KB |  +375.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.0  |          9.0KB |       362.5KB |  +353.5KB |    +7.5KB |             +5.5KB |              +8.0KB |     +12.5KB |
+| netcoreapp2.1  |          9.0KB |       342.0KB |  +333.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp2.2  |          9.0KB |       342.0KB |  +333.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp3.0  |          9.5KB |       340.5KB |  +331.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp3.1  |          9.5KB |       338.5KB |  +329.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net5.0         |          9.5KB |       304.5KB |  +295.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net6.0         |         10.0KB |       245.5KB |  +235.5KB |    +9.5KB |             +6.5KB |           +512bytes |      +3.0KB |
+| net7.0         |         10.0KB |       214.0KB |  +204.0KB |    +9.5KB |             +5.5KB |           +512bytes |      +3.5KB |
+| net8.0         |          9.5KB |       184.5KB |  +175.0KB |    +8.5KB |          +512bytes |           +512bytes |      +3.5KB |
 | net9.0         |          9.5KB |       116.5KB |  +107.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
 | net10.0        |         10.0KB |        93.5KB |   +83.5KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
 | net11.0        |         10.0KB |        21.0KB |   +11.0KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
@@ -123,24 +123,24 @@ This project uses features from the newest stable SDK and C# language. As such c
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       547.4KB |  +539.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netstandard2.1 |          8.5KB |       473.8KB |  +465.3KB |   +16.2KB |             +8.2KB |             +13.4KB |     +18.9KB |
-| net461         |          8.5KB |       547.5KB |  +539.0KB |   +16.2KB |             +7.7KB |             +13.4KB |     +18.4KB |
-| net462         |          7.0KB |       552.5KB |  +545.5KB |   +14.7KB |             +8.2KB |             +12.4KB |     +16.9KB |
-| net47          |          7.0KB |       551.7KB |  +544.7KB |   +15.2KB |             +8.2KB |             +12.4KB |     +17.4KB |
-| net471         |          8.5KB |       548.9KB |  +540.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net472         |          8.5KB |       546.8KB |  +538.3KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net48          |          8.5KB |       546.8KB |  +538.3KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net481         |          8.5KB |       546.8KB |  +538.3KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.0  |          9.0KB |       515.9KB |  +506.9KB |   +15.2KB |             +8.2KB |             +13.9KB |     +17.4KB |
-| netcoreapp2.1  |          9.0KB |       481.0KB |  +472.0KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.2  |          9.0KB |       481.0KB |  +472.0KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.0  |          9.5KB |       470.3KB |  +460.8KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.1  |          9.5KB |       468.3KB |  +458.8KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net5.0         |          9.5KB |       416.3KB |  +406.8KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net6.0         |         10.0KB |       337.2KB |  +327.2KB |   +17.2KB |             +8.2KB |              +1.1KB |      +4.2KB |
-| net7.0         |         10.0KB |       288.8KB |  +278.8KB |   +17.1KB |             +6.9KB |              +1.1KB |      +4.2KB |
-| net8.0         |          9.5KB |       245.0KB |  +235.5KB |   +16.0KB |          +299bytes |              +1.1KB |      +4.2KB |
+| netstandard2.0 |          8.0KB |       558.5KB |  +550.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netstandard2.1 |          8.5KB |       486.9KB |  +478.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net461         |          8.5KB |       558.5KB |  +550.0KB |   +16.2KB |             +7.7KB |             +13.4KB |     +18.4KB |
+| net462         |          7.0KB |       562.0KB |  +555.0KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.4KB |
+| net47          |          7.0KB |       561.3KB |  +554.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net471         |          8.5KB |       559.9KB |  +551.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net472         |          8.5KB |       557.8KB |  +549.3KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net48          |          8.5KB |       557.8KB |  +549.3KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net481         |          8.5KB |       557.8KB |  +549.3KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.0  |          9.0KB |       526.9KB |  +517.9KB |   +15.2KB |             +7.2KB |             +12.9KB |     +17.9KB |
+| netcoreapp2.1  |          9.0KB |       493.6KB |  +484.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp2.2  |          9.0KB |       493.6KB |  +484.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp3.0  |          9.5KB |       485.5KB |  +476.0KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp3.1  |          9.5KB |       483.4KB |  +473.9KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net5.0         |          9.5KB |       432.0KB |  +422.5KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net6.0         |         10.0KB |       352.8KB |  +342.8KB |   +17.2KB |             +8.2KB |              +1.1KB |      +3.7KB |
+| net7.0         |         10.0KB |       304.5KB |  +294.5KB |   +17.1KB |             +6.9KB |              +1.1KB |      +4.2KB |
+| net8.0         |          9.5KB |       261.2KB |  +251.7KB |   +16.0KB |          +811bytes |              +1.1KB |      +4.2KB |
 | net9.0         |          9.5KB |       168.5KB |  +159.0KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
 | net10.0        |         10.0KB |       136.1KB |  +126.1KB |   +16.0KB |                    |              +1.1KB |      +3.7KB |
 | net11.0        |         10.0KB |        30.9KB |   +20.9KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
@@ -1993,6 +1993,7 @@ The class `Polyfill` includes the following extension methods:
  * `Task WriteLineAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-11.0#system-io-textwriter-writelineasync(system-threading-cancellationtoken))
  * `ValueTask WriteLineAsync(ReadOnlyMemory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-11.0#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))
  * `Task WriteLineAsync(string?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-11.0#system-io-textwriter-writelineasync(system-string-system-threading-cancellationtoken))
+ * `TextWriter CreateBroadcasting(TextWriter[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.createbroadcasting?view=net-11.0)
 
 
 #### TimeOnly
@@ -2559,7 +2560,7 @@ void ObjectDisposedExceptionExample(bool isDisposed)
     ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L929-L953' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L939-L963' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -2578,7 +2579,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L959-L971' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L969-L981' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

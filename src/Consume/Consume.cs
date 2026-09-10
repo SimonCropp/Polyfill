@@ -356,6 +356,16 @@ class Consume
     }
 #endif
 
+    void TextWriter_CreateBroadcasting_Methods()
+    {
+        using var first = new StringWriter();
+        using var second = new StringWriter();
+        using var broadcast = TextWriter.CreateBroadcasting(first, second);
+        broadcast.Write("value");
+        broadcast.WriteLine();
+        broadcast.Flush();
+    }
+
 #if NET6_0_OR_GREATER
     void ISOWeek_DateOnly_Methods()
     {
