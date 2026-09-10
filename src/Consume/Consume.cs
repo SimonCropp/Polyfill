@@ -326,6 +326,12 @@ class Consume
     }
 #endif
 
+    void VolatileBarrierUsage()
+    {
+        Volatile.ReadBarrier();
+        Volatile.WriteBarrier();
+    }
+
     void UriSchemeDataUsage()
     {
         _ = Uri.UriSchemeData;

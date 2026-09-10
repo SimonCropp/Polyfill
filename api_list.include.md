@@ -1494,6 +1494,14 @@
  * `ValueTask CompletedTask` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.valuetask.completedtask?view=net-11.0)
 
 
+#### Volatile
+
+ * `void ReadBarrier()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.volatile.readbarrier?view=net-11.0)
+   * Note: Implemented as a full fence, since no one way barrier exists below net10. Correct but stronger than required, and unlike the BCL it costs a processor instruction on x86 and x64.
+ * `void WriteBarrier()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.volatile.writebarrier?view=net-11.0)
+   * Note: Implemented as a full fence, since no one way barrier exists below net10. Correct but stronger than required, and unlike the BCL it costs a processor instruction on x86 and x64.
+
+
 #### XDocument
 
  * `Task SaveAsync(Stream, SaveOptions, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.xml.linq.xdocument.saveasync?view=net-11.0#system-xml-linq-xdocument-saveasync(system-io-stream-system-xml-linq-saveoptions-system-threading-cancellationtoken))
