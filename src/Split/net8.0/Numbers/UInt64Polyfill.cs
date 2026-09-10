@@ -9,6 +9,11 @@ static partial class Polyfill
 	extension(ulong)
 	{
 		/// <summary>
+		/// Produces the full product of two unsigned 64-bit numbers.
+		/// </summary>
+		public static UInt128 BigMul(ulong left, ulong right) =>
+			(UInt128) left * right;
+		/// <summary>
 		/// Computes the base-10 logarithm of a value.
 		/// </summary>
 		public static ulong Log10(ulong value) =>

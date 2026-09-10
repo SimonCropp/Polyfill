@@ -9,6 +9,11 @@ static partial class Polyfill
 	extension(long)
 	{
 		/// <summary>
+		/// Produces the full product of two 64-bit numbers.
+		/// </summary>
+		public static Int128 BigMul(long left, long right) =>
+			(Int128) left * right;
+		/// <summary>
 		/// Computes the base-10 logarithm of a value.
 		/// </summary>
 		public static long Log10(long value)

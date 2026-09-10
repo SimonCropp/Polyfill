@@ -82,6 +82,18 @@ static partial class Polyfill
 #endif
 #endif
 
+#if !NET9_0_OR_GREATER
+
+        /// <summary>
+        /// Produces the full product of two unsigned 32-bit numbers.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint32.bigmul?view=net-11.0
+        //Note: The identical Math.BigMul overload is not polyfilled, since C# emits both static extension members onto the same class and they would collide.
+        public static ulong BigMul(uint left, uint right) =>
+            (ulong) left * right;
+
+#endif
+
         /// <summary>
         /// Computes the base-10 logarithm of a value.
         /// </summary>

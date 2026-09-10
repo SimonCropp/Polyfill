@@ -46,6 +46,11 @@ static partial class Polyfill
 			uint.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
 #endif
 		/// <summary>
+		/// Produces the full product of two unsigned 32-bit numbers.
+		/// </summary>
+		public static ulong BigMul(uint left, uint right) =>
+			(ulong) left * right;
+		/// <summary>
 		/// Computes the base-10 logarithm of a value.
 		/// </summary>
 		public static uint Log10(uint value) =>

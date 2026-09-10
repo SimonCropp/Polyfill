@@ -17,6 +17,18 @@ static partial class Polyfill
 			}
 			return Log10Core((UInt128) value);
 		}
+		/// <summary>
+		/// Produces the full product of two 128-bit numbers.
+		/// </summary>
+		public static Int128 BigMul(Int128 left, Int128 right, out Int128 lower)
+		{
+			unchecked
+			{
+				var upper = BigMulCore((UInt128) left, (UInt128) right, out var unsignedLower);
+				lower = (Int128) unsignedLower;
+				return (Int128) upper - ((left >> 127) & right) - ((right >> 127) & left);
+			}
+		}
 	}
 	static Int128 Log10Core(UInt128 value)
 	{

@@ -611,6 +611,22 @@ class Consume
 #endif
     }
 
+    void BigMul_Methods()
+    {
+        long intBigMul = int.BigMul(2, 3);
+        ulong uintBigMul = uint.BigMul(2, 3);
+        long mathHigh = Math.BigMul(2L, 3L, out var mathLow);
+        ulong mathUnsignedHigh = Math.BigMul(2UL, 3UL, out var mathUnsignedLow);
+        nint nintBigMul = nint.BigMul(2, 3, out var nintLower);
+        nuint nuintBigMul = nuint.BigMul(2, 3, out var nuintLower);
+#if NET7_0_OR_GREATER
+        Int128 longBigMul = long.BigMul(2, 3);
+        UInt128 ulongBigMul = ulong.BigMul(2, 3);
+        Int128 int128BigMul = Int128.BigMul(2, 3, out var int128Lower);
+        UInt128 uint128BigMul = UInt128.BigMul(2, 3, out var uint128Lower);
+#endif
+    }
+
     void Byte_Methods()
     {
         byte.TryParse(s: "1", provider: null, result: out _);

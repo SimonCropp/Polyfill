@@ -321,5 +321,60 @@ static partial class Polyfill
         }
 
 #endif
+
+#if !NET5_0_OR_GREATER
+
+        /// <summary>
+        /// Produces the full product of two 64-bit numbers.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.bigmul?view=net-11.0#system-math-bigmul(system-int64-system-int64-system-int64@)
+        public static long BigMul(long a, long b, out long low) =>
+            BigMulCore(a, b, out low);
+
+        /// <summary>
+        /// Produces the full product of two unsigned 64-bit numbers.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.math.bigmul?view=net-11.0#system-math-bigmul(system-uint64-system-uint64-system-uint64@)
+        public static ulong BigMul(ulong a, ulong b, out ulong low) =>
+            BigMulCore(a, b, out low);
+
+#endif
+
     }
+
+#if !NET5_0_OR_GREATER
+
+    // Splits each operand into 32-bit limbs and accumulates the four partial products,
+    // which is what the runtime falls back to when there is no widening multiply intrinsic.
+    static ulong BigMulCore(ulong left, ulong right, out ulong lower)
+    {
+        unchecked
+        {
+            var leftLower = (uint) left;
+            var leftUpper = (uint) (left >> 32);
+            var rightLower = (uint) right;
+            var rightUpper = (uint) (right >> 32);
+
+            var lowerLower = (ulong) leftLower * rightLower;
+            var middle = (ulong) leftUpper * rightLower + (lowerLower >> 32);
+            var middleLower = (ulong) leftLower * rightUpper + (uint) middle;
+
+            lower = (middleLower << 32) | (uint) lowerLower;
+            return (ulong) leftUpper * rightUpper + (middle >> 32) + (middleLower >> 32);
+        }
+    }
+
+    static long BigMulCore(long left, long right, out long lower)
+    {
+        unchecked
+        {
+            var upper = BigMulCore((ulong) left, (ulong) right, out var unsignedLower);
+            lower = (long) unsignedLower;
+            // reinterpreting the unsigned product as signed overshoots by one operand for
+            // each negative operand, so subtract the other operand for each sign bit set
+            return (long) upper - ((left >> 63) & right) - ((right >> 63) & left);
+        }
+    }
+
+#endif
 }
