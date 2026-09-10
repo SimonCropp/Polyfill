@@ -216,6 +216,23 @@ class Consume
     }
 #endif
 
+    void Interlocked_Narrow_Methods()
+    {
+        byte unsignedByte = 0;
+        sbyte signedByte = 0;
+        short signedShort = 0;
+        ushort unsignedShort = 0;
+
+        unsignedByte = Interlocked.Exchange(ref unsignedByte, 1);
+        unsignedByte = Interlocked.CompareExchange(ref unsignedByte, 1, 0);
+        signedByte = Interlocked.Exchange(ref signedByte, 1);
+        signedByte = Interlocked.CompareExchange(ref signedByte, 1, 0);
+        signedShort = Interlocked.Exchange(ref signedShort, 1);
+        signedShort = Interlocked.CompareExchange(ref signedShort, 1, 0);
+        unsignedShort = Interlocked.Exchange(ref unsignedShort, 1);
+        unsignedShort = Interlocked.CompareExchange(ref unsignedShort, 1, 0);
+    }
+
     void GuidUsage()
     {
         var guid = Guid.CreateVersion7();

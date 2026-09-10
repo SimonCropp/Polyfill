@@ -695,6 +695,22 @@
 
 #### Interlocked
 
+ * `byte CompareExchange(byte, byte, byte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.compareexchange?view=net-11.0#system-threading-interlocked-compareexchange(system-byte@-system-byte-system-byte))
+   * Note: Uses a lock rather than a hardware atomic, since no 8 bit interlocked primitive exists below net9. Correct against other Interlocked calls, but a concurrent plain write to the same location can be lost, where the BCL operation is indivisible.
+ * `sbyte CompareExchange(sbyte, sbyte, sbyte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.compareexchange?view=net-11.0#system-threading-interlocked-compareexchange(system-sbyte@-system-sbyte-system-sbyte))
+   * Note: Uses a lock rather than a hardware atomic, since no 8 bit interlocked primitive exists below net9. Correct against other Interlocked calls, but a concurrent plain write to the same location can be lost, where the BCL operation is indivisible.
+ * `short CompareExchange(short, short, short)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.compareexchange?view=net-11.0#system-threading-interlocked-compareexchange(system-int16@-system-int16-system-int16))
+   * Note: Uses a lock rather than a hardware atomic, since no 16 bit interlocked primitive exists below net9. Correct against other Interlocked calls, but a concurrent plain write to the same location can be lost, where the BCL operation is indivisible.
+ * `ushort CompareExchange(ushort, ushort, ushort)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.compareexchange?view=net-11.0#system-threading-interlocked-compareexchange(system-uint16@-system-uint16-system-uint16))
+   * Note: Uses a lock rather than a hardware atomic, since no 16 bit interlocked primitive exists below net9. Correct against other Interlocked calls, but a concurrent plain write to the same location can be lost, where the BCL operation is indivisible.
+ * `byte Exchange(byte, byte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.exchange?view=net-11.0#system-threading-interlocked-exchange(system-byte@-system-byte))
+   * Note: Uses a lock rather than a hardware atomic, since no 8 bit interlocked primitive exists below net9. Correct against other Interlocked calls, but a concurrent plain write to the same location can be lost, where the BCL operation is indivisible.
+ * `sbyte Exchange(sbyte, sbyte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.exchange?view=net-11.0#system-threading-interlocked-exchange(system-sbyte@-system-sbyte))
+   * Note: Uses a lock rather than a hardware atomic, since no 8 bit interlocked primitive exists below net9. Correct against other Interlocked calls, but a concurrent plain write to the same location can be lost, where the BCL operation is indivisible.
+ * `short Exchange(short, short)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.exchange?view=net-11.0#system-threading-interlocked-exchange(system-int16@-system-int16))
+   * Note: Uses a lock rather than a hardware atomic, since no 16 bit interlocked primitive exists below net9. Correct against other Interlocked calls, but a concurrent plain write to the same location can be lost, where the BCL operation is indivisible.
+ * `ushort Exchange(ushort, ushort)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.exchange?view=net-11.0#system-threading-interlocked-exchange(system-uint16@-system-uint16))
+   * Note: Uses a lock rather than a hardware atomic, since no 16 bit interlocked primitive exists below net9. Correct against other Interlocked calls, but a concurrent plain write to the same location can be lost, where the BCL operation is indivisible.
  * `T And<T>(T, T) where T : struct` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.and?view=net-11.0)
  * `T Or<T>(T, T) where T : struct` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.interlocked.or?view=net-11.0)
 
