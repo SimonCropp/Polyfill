@@ -20,4 +20,84 @@ static partial class Polyfill
 		}
 		throw new InvalidOperationException("An attempt was made to transition a task to a final state when it had already completed.");
 	}
+	/// <summary>
+	/// Transitions the underlying <see cref="Task"/> into the same completion state as the supplied task.
+	/// </summary>
+	public static void SetFromTask(
+		this TaskCompletionSource target,
+		Task completedTask)
+	{
+		if (!target.TrySetFromTask(completedTask))
+		{
+			throw new InvalidOperationException("An attempt was made to transition a task to a final state when it had already completed.");
+		}
+	}
+	/// <summary>
+	/// Attempts to transition the underlying <see cref="Task"/> into the same completion state as the supplied task.
+	/// </summary>
+	public static bool TrySetFromTask(
+		this TaskCompletionSource target,
+		Task completedTask)
+	{
+		GuardCompletedTask(completedTask);
+		return completedTask.Status switch
+		{
+			TaskStatus.RanToCompletion => target.TrySetResult(),
+			TaskStatus.Faulted => target.TrySetException(completedTask.Exception!.InnerExceptions),
+			_ => target.TrySetCanceled(CancellationTokenOf(completedTask))
+		};
+	}
+	/// <summary>
+	/// Transitions the underlying <see cref="Task{TResult}"/> into the same completion state as the supplied task.
+	/// </summary>
+	public static void SetFromTask<T>(
+		this TaskCompletionSource<T> target,
+		Task<T> completedTask)
+	{
+		if (!target.TrySetFromTask(completedTask))
+		{
+			throw new InvalidOperationException("An attempt was made to transition a task to a final state when it had already completed.");
+		}
+	}
+	/// <summary>
+	/// Attempts to transition the underlying <see cref="Task{TResult}"/> into the same completion state as the supplied task.
+	/// </summary>
+	public static bool TrySetFromTask<T>(
+		this TaskCompletionSource<T> target,
+		Task<T> completedTask)
+	{
+		GuardCompletedTask(completedTask);
+		return completedTask.Status switch
+		{
+			TaskStatus.RanToCompletion => target.TrySetResult(completedTask.Result),
+			TaskStatus.Faulted => target.TrySetException(completedTask.Exception!.InnerExceptions),
+			_ => target.TrySetCanceled(CancellationTokenOf(completedTask))
+		};
+	}
+	static void GuardCompletedTask(Task completedTask)
+	{
+		if (completedTask == null)
+		{
+			throw new ArgumentNullException(nameof(completedTask));
+		}
+		if (!completedTask.IsCompleted)
+		{
+			throw new ArgumentException("The provided task must have already completed.", nameof(completedTask));
+		}
+	}
+	static CancellationToken CancellationTokenOf(Task canceledTask)
+	{
+		try
+		{
+			canceledTask.GetAwaiter().GetResult();
+		}
+		catch (OperationCanceledException exception)
+		{
+			return exception.CancellationToken;
+		}
+		catch
+		{
+		}
+		return default;
+	}
 }

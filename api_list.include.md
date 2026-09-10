@@ -151,9 +151,7 @@
  * `bool IsBetween(char, char, char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.isbetween?view=net-11.0)
  * `char ToLowerOrdinal(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.tolowerordinal?view=net-11.0)
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
-   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `char ToUpperOrdinal(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.toupperordinal?view=net-11.0)
-   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
 
 
@@ -175,7 +173,6 @@
 #### ConditionalWeakTable<TKey, TValue>
 
  * `bool Remove<TKey, TValue>(TKey, TValue) where TKey : class where TValue : class` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.conditionalweaktable-2.remove?view=net-11.0#system-runtime-compilerservices-conditionalweaktable-2-remove(-0-1@))
-   * Note: Lookup and removal are not performed under the table lock, so the operation is not atomic with regard to concurrent mutations.
    * Note: Lookup and removal are not performed under the table lock, so the operation is not atomic with regard to concurrent mutations.
 
 
@@ -277,20 +274,14 @@
 
  * `void EnsureCapacity<TKey, TValue>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.ensurecapacity?view=net-11.0)
    * Note: No-op on older targets; the BCL grows the backing storage.
-   * Note: No-op on older targets; the BCL grows the backing storage.
  * `DictionaryAlternateLookup<TKey, TValue, TAlternateKey> GetAlternateLookup<TKey, TValue, TAlternateKey>() where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.getalternatelookup?view=net-11.0)
-   * Note: Lookups are O(n) on older targets; the BCL is O(1).
-   * Note: Returns the free-standing `DictionaryAlternateLookup<TKey, TValue, TAlternateKey>` rather than the BCL's nested `Dictionary<TKey, TValue>.AlternateLookup<TAlternateKey>`. Use `var` for cross-target code.
    * Note: Lookups are O(n) on older targets; the BCL is O(1).
    * Note: Returns the free-standing `DictionaryAlternateLookup<TKey, TValue, TAlternateKey>` rather than the BCL's nested `Dictionary<TKey, TValue>.AlternateLookup<TAlternateKey>`. Use `var` for cross-target code.
  * `void TrimExcess<TKey, TValue>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-11.0#system-collections-generic-dictionary-2-trimexcess(system-int32))
    * Note: No-op on older targets; the BCL shrinks the backing storage.
-   * Note: No-op on older targets; the BCL shrinks the backing storage.
  * `void TrimExcess<TKey, TValue>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trimexcess?view=net-11.0#system-collections-generic-dictionary-2-trimexcess)
    * Note: No-op on older targets; the BCL shrinks the backing storage.
-   * Note: No-op on older targets; the BCL shrinks the backing storage.
  * `bool TryGetAlternateLookup<TKey, TValue, TAlternateKey>(DictionaryAlternateLookup<TKey, TValue, TAlternateKey>) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2.trygetalternatelookup?view=net-11.0)
-   * Note: Lookups are O(n) on older targets; the BCL is O(1).
    * Note: Lookups are O(n) on older targets; the BCL is O(1).
 
 
@@ -349,7 +340,6 @@
  * `bool TryGetChars(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.trygetchars?view=net-11.0)
  * `Encoding Latin1` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.latin1?view=net-11.0)
  * `ReadOnlySpan<byte> Preamble` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.preamble?view=net-11.0)
-   * Note: Allocates a new array on each access, unlike the BCL property which returns a cached span.
    * Note: Allocates a new array on each access, unlike the BCL property which returns a cached span.
 
 
@@ -475,17 +465,12 @@
 
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.ensurecapacity?view=net-11.0#system-collections-generic-hashset-1-ensurecapacity(system-int32))
    * Note: No-op on older targets; the BCL grows the backing storage.
-   * Note: No-op on older targets; the BCL grows the backing storage.
  * `HashSetAlternateLookup<T, TAlternate> GetAlternateLookup<T, TAlternate>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.getalternatelookup?view=net-11.0)
-   * Note: Lookups are O(n) on older targets; the BCL is O(1).
-   * Note: Returns the free-standing `HashSetAlternateLookup<T, TAlternate>` rather than the BCL's nested `HashSet<T>.AlternateLookup<TAlternate>`. Use `var` for cross-target code.
    * Note: Lookups are O(n) on older targets; the BCL is O(1).
    * Note: Returns the free-standing `HashSetAlternateLookup<T, TAlternate>` rather than the BCL's nested `HashSet<T>.AlternateLookup<TAlternate>`. Use `var` for cross-target code.
  * `void TrimExcess<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trimexcess?view=net-11.0#system-collections-generic-hashset-1-trimexcess(system-int32))
    * Note: No-op on older targets; the BCL shrinks the backing storage.
-   * Note: No-op on older targets; the BCL shrinks the backing storage.
  * `bool TryGetAlternateLookup<T, TAlternate>(HashSetAlternateLookup<T, TAlternate>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetalternatelookup?view=net-11.0)
-   * Note: Lookups are O(n) on older targets; the BCL is O(1).
    * Note: Lookups are O(n) on older targets; the BCL is O(1).
  * `bool TryGetValue<T>(T, T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetvalue?view=net-11.0)
 
@@ -704,11 +689,8 @@
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.ensurecapacity?view=net-11.0#system-collections-generic-list-1-ensurecapacity(system-int32))
    * Note: No-op on older targets; the BCL grows the backing storage.
    * Note: Returns void on older targets; the BCL returns int (the new capacity).
-   * Note: No-op on older targets; the BCL grows the backing storage.
-   * Note: Returns void on older targets; the BCL returns int (the new capacity).
  * `void InsertRange<T>(int, ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.insertrange?view=net-11.0)
  * `void TrimExcess<T>()`
-   * Note: No-op on older targets; the BCL shrinks the backing storage.
    * Note: No-op on older targets; the BCL shrinks the backing storage.
 
 
@@ -841,7 +823,6 @@
  * `Task<(byte[] StandardOutput, byte[] StandardError)> ReadAllBytesAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readallbytesasync?view=net-11.0)
  * `IEnumerable<ProcessOutputLine> ReadAllLines(TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalllines?view=net-11.0)
    * Note: The timeout is measured from the point enumeration starts, since the returned sequence is lazy.
-   * Note: The timeout is measured from the point enumeration starts, since the returned sequence is lazy.
  * `IAsyncEnumerable<ProcessOutputLine> ReadAllLinesAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalllinesasync?view=net-11.0)
  * `(string StandardOutput, string StandardError) ReadAllText(TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalltext?view=net-11.0)
  * `Task<(string StandardOutput, string StandardError)> ReadAllTextAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalltextasync?view=net-11.0)
@@ -886,9 +867,7 @@
 
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.ensurecapacity?view=net-11.0#system-collections-generic-queue-1-ensurecapacity(system-int32))
    * Note: No-op on older targets; the BCL grows the backing storage.
-   * Note: No-op on older targets; the BCL grows the backing storage.
  * `void TrimExcess<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.trimexcess?view=net-11.0#system-collections-generic-queue-1-trimexcess(system-int32))
-   * Note: No-op on older targets; the BCL shrinks the backing storage.
    * Note: No-op on older targets; the BCL shrinks the backing storage.
  * `bool TryDequeue<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.trydequeue?view=net-11.0)
  * `bool TryPeek<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.queue-1.trypeek?view=net-11.0)
@@ -945,9 +924,7 @@
  * `bool StartsWith(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith?view=net-11.0#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `int ToLowerOrdinal(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.tolowerordinal?view=net-11.0)
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
-   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `int ToUpperOrdinal(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.toupperordinal?view=net-11.0)
-   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `bool TryNormalize(Span<char>, int, NormalizationForm)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.stringnormalizationextensions.trynormalize?view=net-11.0#system-stringnormalizationextensions-trynormalize(system-readonlyspan((system-char))-system-span((system-char))-system-int32@-system-text-normalizationform))
 
@@ -1023,9 +1000,7 @@
  * `bool Equals(Rune, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.rune.equals?view=net-11.0#system-text-rune-equals(system-text-rune-system-stringcomparison))
  * `Rune ToLowerOrdinal(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.rune.tolowerordinal?view=net-11.0)
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
-   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `Rune ToUpperOrdinal(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.rune.toupperordinal?view=net-11.0)
-   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
 
 
@@ -1167,9 +1142,7 @@
 
  * `void EnsureCapacity<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.ensurecapacity?view=net-11.0)
    * Note: No-op on older targets; the BCL grows the backing storage.
-   * Note: No-op on older targets; the BCL grows the backing storage.
  * `void TrimExcess<T>(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trimexcess?view=net-11.0#system-collections-generic-stack-1-trimexcess(system-int32))
-   * Note: No-op on older targets; the BCL shrinks the backing storage.
    * Note: No-op on older targets; the BCL shrinks the backing storage.
  * `bool TryPeek<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trypeek?view=net-11.0)
  * `bool TryPop<T>(T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.stack-1.trypop?view=net-11.0)
@@ -1222,9 +1195,7 @@
  * `bool StartsWith(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char))
  * `string ToLowerOrdinal()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.tolowerordinal?view=net-11.0)
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
-   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `string ToUpperOrdinal()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.toupperordinal?view=net-11.0)
-   * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `bool TryCopyTo(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.trycopyto?view=net-11.0)
  * `string Concat(ReadOnlySpan<object?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.concat?view=net-11.0#system-string-concat(system-readonlyspan((system-object))))
@@ -1263,7 +1234,6 @@
  * `void CopyTo(int, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.copyto?view=net-11.0#system-text-stringbuilder-copyto(system-int32-system-span((system-char))-system-int32))
  * `StringBuilderRuneEnumerator EnumerateRunes()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.enumeraterunes?view=net-11.0)
    * Note: Enumerates over a snapshot of the content taken when enumeration starts, so changes made to the StringBuilder while enumerating are not observed.
-   * Note: Enumerates over a snapshot of the content taken when enumeration starts, so changes made to the StringBuilder while enumerating are not observed.
  * `bool Equals(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.equals?view=net-11.0#system-text-stringbuilder-equals(system-readonlyspan((system-char))))
  * `ChunkEnumerator GetChunks()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.getchunks?view=net-11.0)
  * `Rune GetRuneAt(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.getruneat?view=net-11.0)
@@ -1296,9 +1266,21 @@
  * `Task<TResult> WaitAsync<TResult>(TimeSpan)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task-1.waitasync?view=net-11.0#system-threading-tasks-task-1-waitasync(system-timespan))
 
 
+#### TaskCompletionSource
+
+ * `void SetFromTask(Task)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource.setfromtask?view=net-11.0)
+   * Note: When the supplied task is canceled, the canceling token is recovered by observing that task, which costs a throw and catch that the BCL avoids.
+ * `bool TrySetFromTask(Task)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource.trysetfromtask?view=net-11.0)
+   * Note: When the supplied task is canceled, the canceling token is recovered by observing that task, which costs a throw and catch that the BCL avoids.
+
+
 #### TaskCompletionSource<T>
 
  * `void SetCanceled<T>(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource-1.setcanceled?view=net-11.0#system-threading-tasks-taskcompletionsource-1-setcanceled(system-threading-cancellationtoken))
+ * `void SetFromTask<T>(Task<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource-1.setfromtask?view=net-11.0)
+   * Note: When the supplied task is canceled, the canceling token is recovered by observing that task, which costs a throw and catch that the BCL avoids.
+ * `bool TrySetFromTask<T>(Task<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.taskcompletionsource-1.trysetfromtask?view=net-11.0)
+   * Note: When the supplied task is canceled, the canceling token is recovered by observing that task, which costs a throw and catch that the BCL avoids.
 
 
 #### TaskWhenEach
@@ -1358,50 +1340,35 @@
  * `TimeSpan FromSeconds(long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromseconds?view=net-11.0#system-timespan-fromseconds(system-int64-system-int64-system-int64))
  * `int HoursPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.hoursperday?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `int Microseconds` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds?view=net-11.0)
  * `long MicrosecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperday?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `long MicrosecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperhour?view=net-11.0)
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `long MicrosecondsPerMillisecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondspermillisecond?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `long MicrosecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperminute?view=net-11.0)
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `long MicrosecondsPerSecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondspersecond?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `long MillisecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperday?view=net-11.0)
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `long MillisecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperhour?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `long MillisecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperminute?view=net-11.0)
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `long MillisecondsPerSecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondspersecond?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `long MinutesPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.minutesperday?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `long MinutesPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.minutesperhour?view=net-11.0)
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `int Nanoseconds` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds?view=net-11.0)
  * `long SecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperday?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `long SecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperhour?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `long SecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperminute?view=net-11.0)
-   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
 
 
@@ -1629,9 +1596,7 @@
 
  * `Span<T> AsSpan<T>(List<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.collectionsmarshal.asspan?view=net-11.0)
    * Note: Reads the list's private backing array via reflection on this target.
-   * Note: Reads the list's private backing array via reflection on this target.
  * `void SetCount<T>(List<T>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.collectionsmarshal.setcount?view=net-11.0)
-   * Note: When growing, new elements are default(T); the BCL exposes uninitialized data.
    * Note: When growing, new elements are default(T); the BCL exposes uninitialized data.
 
 
@@ -1649,9 +1614,7 @@
 
  * `bool FixedTimeEquals(ReadOnlySpan<byte>, byte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.fixedtimeequals?view=net-11.0#system-security-cryptography-cryptographicoperations-fixedtimeequals(system-readonlyspan((system-byte))-system-byte))
    * Note: Best-effort constant-time comparison; a managed loop cannot offer the same guarantees as the BCL intrinsic.
-   * Note: Best-effort constant-time comparison; a managed loop cannot offer the same guarantees as the BCL intrinsic.
  * `bool FixedTimeEquals(ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.fixedtimeequals?view=net-11.0#system-security-cryptography-cryptographicoperations-fixedtimeequals(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
-   * Note: Best-effort constant-time comparison; a managed loop cannot offer the same guarantees as the BCL intrinsic.
    * Note: Best-effort constant-time comparison; a managed loop cannot offer the same guarantees as the BCL intrinsic.
  * `byte[] HashData(HashAlgorithmName, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.hashdata?view=net-11.0#system-security-cryptography-cryptographicoperations-hashdata(system-security-cryptography-hashalgorithmname-system-byte()))
  * `int HashData(HashAlgorithmName, ReadOnlySpan<byte>, Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.hashdata?view=net-11.0#system-security-cryptography-cryptographicoperations-hashdata(system-security-cryptography-hashalgorithmname-system-readonlyspan((system-byte))-system-span((system-byte))))
@@ -1679,7 +1642,6 @@
  * `ValueTask<bool> VerifyHmacAsync(HashAlgorithmName, ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.verifyhmacasync?view=net-11.0#system-security-cryptography-cryptographicoperations-verifyhmacasync(system-security-cryptography-hashalgorithmname-system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
  * `void ZeroMemory(Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.zeromemory?view=net-11.0)
    * Note: Best-effort zeroing; unlike the BCL intrinsic the JIT may elide the clear if the buffer is not observed afterwards.
-   * Note: Best-effort zeroing; unlike the BCL intrinsic the JIT may elide the clear if the buffer is not observed afterwards.
 
 
 #### Utf16
@@ -1687,8 +1649,6 @@
  * `int IndexOfInvalidSubsequence(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.unicode.utf16.indexofinvalidsubsequence?view=net-11.0)
  * `bool IsValid(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.unicode.utf16.isvalid?view=net-11.0)
 
-
-#### TaskCompletionSource
 
 #### UnreachableException
 
