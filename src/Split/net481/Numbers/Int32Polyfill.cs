@@ -46,6 +46,11 @@ static partial class Polyfill
 			int.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
 #endif
 		/// <summary>
+		/// Produces the full product of two 32-bit numbers.
+		/// </summary>
+		public static long BigMul(int left, int right) =>
+			(long) left * right;
+		/// <summary>
 		/// Computes the base-10 logarithm of a value.
 		/// </summary>
 		public static int Log10(int value)

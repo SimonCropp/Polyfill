@@ -82,6 +82,17 @@ static partial class Polyfill
 #endif
 #endif
 
+#if !NET9_0_OR_GREATER
+
+        /// <summary>
+        /// Produces the full product of two 32-bit numbers.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int32.bigmul?view=net-11.0
+        public static long BigMul(int left, int right) =>
+            (long) left * right;
+
+#endif
+
         /// <summary>
         /// Computes the base-10 logarithm of a value.
         /// </summary>

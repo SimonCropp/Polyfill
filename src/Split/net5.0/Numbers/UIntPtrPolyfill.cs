@@ -50,5 +50,23 @@ static partial class Polyfill
 		/// </summary>
 		public static nuint Log10(nuint value) =>
 			(nuint) Log10Core(value);
+		/// <summary>
+		/// Produces the full product of two native-sized unsigned numbers.
+		/// </summary>
+		public static nuint BigMul(nuint left, nuint right, out nuint lower)
+		{
+			unchecked
+			{
+				if (UIntPtr.Size == 4)
+				{
+					var product = (ulong) left * right;
+					lower = (nuint) (uint) product;
+					return (nuint) (uint) (product >> 32);
+				}
+				var upper = Math.BigMul((ulong) left, (ulong) right, out var low);
+				lower = (nuint) low;
+				return (nuint) upper;
+			}
+		}
 	}
 }

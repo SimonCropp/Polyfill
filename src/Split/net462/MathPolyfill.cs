@@ -253,5 +253,39 @@ static partial class Polyfill
 			}
 			return value;
 		}
+		/// <summary>
+		/// Produces the full product of two 64-bit numbers.
+		/// </summary>
+		public static long BigMul(long a, long b, out long low) =>
+			BigMulCore(a, b, out low);
+		/// <summary>
+		/// Produces the full product of two unsigned 64-bit numbers.
+		/// </summary>
+		public static ulong BigMul(ulong a, ulong b, out ulong low) =>
+			BigMulCore(a, b, out low);
+	}
+	static ulong BigMulCore(ulong left, ulong right, out ulong lower)
+	{
+		unchecked
+		{
+			var leftLower = (uint) left;
+			var leftUpper = (uint) (left >> 32);
+			var rightLower = (uint) right;
+			var rightUpper = (uint) (right >> 32);
+			var lowerLower = (ulong) leftLower * rightLower;
+			var middle = (ulong) leftUpper * rightLower + (lowerLower >> 32);
+			var middleLower = (ulong) leftLower * rightUpper + (uint) middle;
+			lower = (middleLower << 32) | (uint) lowerLower;
+			return (ulong) leftUpper * rightUpper + (middle >> 32) + (middleLower >> 32);
+		}
+	}
+	static long BigMulCore(long left, long right, out long lower)
+	{
+		unchecked
+		{
+			var upper = BigMulCore((ulong) left, (ulong) right, out var unsignedLower);
+			lower = (long) unsignedLower;
+			return (long) upper - ((left >> 63) & right) - ((right >> 63) & left);
+		}
 	}
 }

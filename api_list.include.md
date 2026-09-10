@@ -594,6 +594,7 @@
 
 #### Int128
 
+ * `Int128 BigMul(Int128, Int128, Int128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int128.bigmul?view=net-11.0)
  * `Int128 Log10(Int128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int128.log10?view=net-11.0)
 
 
@@ -615,6 +616,7 @@
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryformat?view=net-11.0#system-int32-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryformat?view=net-11.0#system-int32-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `long BigMul(int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.bigmul?view=net-11.0)
  * `int Log10(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse?view=net-11.0#system-int32-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-int32@))
  * `bool TryParse(ReadOnlySpan<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse?view=net-11.0#system-int32-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-int32@))
@@ -629,6 +631,9 @@
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryformat?view=net-11.0#system-int64-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryformat?view=net-11.0#system-int64-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `Int128 BigMul(long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.bigmul?view=net-11.0)
+   * Note: The identical Math.BigMul overload is not polyfilled, since C# emits both static extension members onto the same class and they would collide.
+   * Note: Only available on net7.0 and later, since Int128 does not exist below that.
  * `long Log10(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse?view=net-11.0#system-int64-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-int64@))
  * `bool TryParse(ReadOnlySpan<byte>, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int64.tryparse?view=net-11.0#system-int64-tryparse(system-readonlyspan((system-char))-system-globalization-numberstyles-system-iformatprovider-system-int64@))
@@ -647,6 +652,7 @@
 
 #### IntPtr
 
+ * `nint BigMul(nint, nint, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.bigmul?view=net-11.0)
  * `nint Log10(nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-intptr@))
  * `bool TryParse(ReadOnlySpan<byte>, nint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-readonlyspan((system-byte))-system-intptr@))
@@ -696,6 +702,8 @@
 
 #### Math
 
+ * `long BigMul(long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.math.bigmul?view=net-11.0#system-math-bigmul(system-int64-system-int64-system-int64@))
+ * `ulong BigMul(ulong, ulong, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.math.bigmul?view=net-11.0#system-math-bigmul(system-uint64-system-uint64-system-uint64@))
  * `byte Clamp(byte, byte, byte)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0#system-math-clamp(system-byte-system-byte-system-byte))
  * `decimal Clamp(decimal, decimal, decimal)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0#system-math-clamp(system-decimal-system-decimal-system-decimal))
  * `double Clamp(double, double, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.math.clamp?view=net-11.0#system-math-clamp(system-double-system-double-system-double))
@@ -1397,6 +1405,7 @@
 
 #### UInt128
 
+ * `UInt128 BigMul(UInt128, UInt128, UInt128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint128.bigmul?view=net-11.0)
  * `UInt128 Log10(UInt128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint128.log10?view=net-11.0)
 
 
@@ -1418,6 +1427,8 @@
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryformat?view=net-11.0#system-uint32-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryformat?view=net-11.0#system-uint32-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `ulong BigMul(uint, uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.bigmul?view=net-11.0)
+   * Note: The identical Math.BigMul overload is not polyfilled, since C# emits both static extension members onto the same class and they would collide.
  * `uint Log10(uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-11.0#system-uint32-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint32@))
  * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint32.tryparse?view=net-11.0#system-uint32-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uint32@))
@@ -1432,6 +1443,9 @@
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryformat?view=net-11.0#system-uint64-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryformat?view=net-11.0#system-uint64-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `UInt128 BigMul(ulong, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.bigmul?view=net-11.0)
+   * Note: The identical Math.BigMul overload is not polyfilled, since C# emits both static extension members onto the same class and they would collide.
+   * Note: Only available on net7.0 and later, since UInt128 does not exist below that.
  * `ulong Log10(ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uint64@))
  * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uint64.tryparse?view=net-11.0#system-uint64-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-uint64@))
@@ -1444,6 +1458,7 @@
 
 #### UIntPtr
 
+ * `nuint BigMul(nuint, nuint, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.bigmul?view=net-11.0)
  * `nuint Log10(nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.log10?view=net-11.0)
  * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-uintptr@))
  * `bool TryParse(ReadOnlySpan<byte>, nuint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.uintptr.tryparse?view=net-11.0#system-uintptr-tryparse(system-readonlyspan((system-byte))-system-uintptr@))

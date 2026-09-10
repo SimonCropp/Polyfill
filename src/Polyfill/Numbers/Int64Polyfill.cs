@@ -82,6 +82,19 @@ static partial class Polyfill
 #endif
 #endif
 
+#if NET7_0_OR_GREATER && !NET9_0_OR_GREATER
+
+        /// <summary>
+        /// Produces the full product of two 64-bit numbers.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int64.bigmul?view=net-11.0
+        //Note: The identical Math.BigMul overload is not polyfilled, since C# emits both static extension members onto the same class and they would collide.
+        //Note: Only available on net7.0 and later, since Int128 does not exist below that.
+        public static Int128 BigMul(long left, long right) =>
+            (Int128) left * right;
+
+#endif
+
         /// <summary>
         /// Computes the base-10 logarithm of a value.
         /// </summary>

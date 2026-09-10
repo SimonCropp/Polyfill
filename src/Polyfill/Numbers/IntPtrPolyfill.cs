@@ -131,6 +131,27 @@ static partial class Polyfill
 
             return (nint) Log10Core((ulong) value);
         }
+
+        /// <summary>
+        /// Produces the full product of two native-sized signed numbers.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.intptr.bigmul?view=net-11.0
+        public static nint BigMul(nint left, nint right, out nint lower)
+        {
+            unchecked
+            {
+                if (IntPtr.Size == 4)
+                {
+                    var product = (long) left * right;
+                    lower = (nint) (int) product;
+                    return (nint) (int) (product >> 32);
+                }
+
+                var upper = Math.BigMul((long) left, (long) right, out var low);
+                lower = (nint) low;
+                return (nint) upper;
+            }
+        }
     }
 }
 #endif
