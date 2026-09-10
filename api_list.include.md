@@ -711,9 +711,17 @@
 
 #### IPAddress
 
+ * `bool IsValid(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipaddress.isvalid?view=net-11.0)
+   * Note: Copies the span to a string first, so this allocates where the BCL works straight from the span.
+ * `bool IsValidUtf8(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipaddress.isvalidutf8?view=net-11.0)
+   * Note: Decodes the bytes to a string first, so this allocates where the BCL works straight from the UTF-8.
  * `IPAddress Parse(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipaddress.parse?view=net-11.0#system-net-ipaddress-parse(system-readonlyspan((system-char))))
+   * Note: Copies the span to a string first, so this allocates where the BCL works straight from the span.
  * `bool TryParse(ReadOnlySpan<byte>, IPAddress?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipaddress.tryparse?view=net-11.0#system-net-ipaddress-tryparse(system-readonlyspan((system-byte))-system-net-ipaddress@))
+   * Note: Decodes the bytes to a string first, so this allocates where the BCL works straight from the UTF-8.
+   * Note: The matching Parse(ReadOnlySpan<byte>) is not polyfilled, since it would collide with Guid.Parse(ReadOnlySpan<byte>); two static extension members with the same signature cannot coexist on one class.
  * `bool TryParse(ReadOnlySpan<char>, IPAddress?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipaddress.tryparse?view=net-11.0#system-net-ipaddress-tryparse(system-readonlyspan((system-char))-system-net-ipaddress@))
+   * Note: Copies the span to a string first, so this allocates where the BCL works straight from the span.
 
 
 #### IReadOnlyDictionary<TKey, TValue>

@@ -228,6 +228,8 @@ class Consume
 
         ReadOnlySpan<byte> byteSpan = default;
         result = IPAddress.TryParse(byteSpan, out address);
+        result = IPAddress.IsValid(charSpan);
+        result = IPAddress.IsValidUtf8(byteSpan);
     }
 #endif
 
