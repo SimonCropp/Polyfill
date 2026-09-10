@@ -326,6 +326,36 @@ class Consume
     }
 #endif
 
+#if FeatureMemory
+    void BitConverter_Span_Methods()
+    {
+        var source = new byte[16];
+        Span<byte> destination = stackalloc byte[16];
+
+        var boolean = BitConverter.ToBoolean(source.AsSpan());
+        var character = BitConverter.ToChar(source.AsSpan());
+        var int16 = BitConverter.ToInt16(source.AsSpan());
+        var int32 = BitConverter.ToInt32(source.AsSpan());
+        var int64 = BitConverter.ToInt64(source.AsSpan());
+        var single = BitConverter.ToSingle(source.AsSpan());
+        var doubleValue = BitConverter.ToDouble(source.AsSpan());
+        var uint16 = BitConverter.ToUInt16(source.AsSpan());
+        var uint32 = BitConverter.ToUInt32(source.AsSpan());
+        var uint64 = BitConverter.ToUInt64(source.AsSpan());
+
+        var wroteBoolean = BitConverter.TryWriteBytes(destination, boolean);
+        var wroteChar = BitConverter.TryWriteBytes(destination, character);
+        var wroteInt16 = BitConverter.TryWriteBytes(destination, int16);
+        var wroteInt32 = BitConverter.TryWriteBytes(destination, int32);
+        var wroteInt64 = BitConverter.TryWriteBytes(destination, int64);
+        var wroteSingle = BitConverter.TryWriteBytes(destination, single);
+        var wroteDouble = BitConverter.TryWriteBytes(destination, doubleValue);
+        var wroteUInt16 = BitConverter.TryWriteBytes(destination, uint16);
+        var wroteUInt32 = BitConverter.TryWriteBytes(destination, uint32);
+        var wroteUInt64 = BitConverter.TryWriteBytes(destination, uint64);
+    }
+#endif
+
 #if NET7_0_OR_GREATER
     void BitConverter_Int128_Methods()
     {
