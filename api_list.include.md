@@ -1293,6 +1293,24 @@
  * `StringBuilder Append(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append?view=net-11.0#system-text-stringbuilder-append(system-readonlyspan((system-char))))
  * `StringBuilder Append(StringBuilder?, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append?view=net-11.0#system-text-stringbuilder-append(system-text-stringbuilder-system-int32-system-int32))
  * `StringBuilder Append(StringBuilder, StringBuilder.AppendInterpolatedStringHandler)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append?view=net-11.0#system-text-stringbuilder-append(system-text-stringbuilder-appendinterpolatedstringhandler@))
+ * `StringBuilder AppendFormat(IFormatProvider?, string, ReadOnlySpan<object?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendformat?view=net-11.0#system-text-stringbuilder-appendformat(system-iformatprovider-system-string-system-readonlyspan((system-object))))
+   * Note: Copies the span to an array and uses the array overload, so this allocates where the BCL formats straight from the span.
+   * Note: Only reached when the argument is already a ReadOnlySpan. A loose argument list binds to the BCL array overload, exactly as it does without Polyfill.
+ * `StringBuilder AppendFormat(string, ReadOnlySpan<object?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendformat?view=net-11.0#system-text-stringbuilder-appendformat(system-string-system-readonlyspan((system-object))))
+   * Note: Copies the span to an array and uses the array overload, so this allocates where the BCL formats straight from the span.
+   * Note: Only reached when the argument is already a ReadOnlySpan. A loose argument list binds to the BCL array overload, exactly as it does without Polyfill.
+ * `StringBuilder AppendJoin(char, ReadOnlySpan<object?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-char-system-readonlyspan((system-object))))
+   * Note: Copies the span to an array and uses the array overload, so this allocates where the BCL joins straight from the span.
+   * Note: Only reached when the argument is already a ReadOnlySpan. A loose argument list binds to the array overload, exactly as it does without Polyfill.
+ * `StringBuilder AppendJoin(char, ReadOnlySpan<string?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-char-system-readonlyspan((system-string))))
+   * Note: Copies the span to an array and uses the array overload, so this allocates where the BCL joins straight from the span.
+   * Note: Only reached when the argument is already a ReadOnlySpan. A loose argument list binds to the array overload, exactly as it does without Polyfill.
+ * `StringBuilder AppendJoin(string?, ReadOnlySpan<object?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-string-system-readonlyspan((system-object))))
+   * Note: Copies the span to an array and uses the array overload, so this allocates where the BCL joins straight from the span.
+   * Note: Only reached when the argument is already a ReadOnlySpan. A loose argument list binds to the array overload, exactly as it does without Polyfill.
+ * `StringBuilder AppendJoin(string?, ReadOnlySpan<string?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-string-system-readonlyspan((system-string))))
+   * Note: Copies the span to an array and uses the array overload, so this allocates where the BCL joins straight from the span.
+   * Note: Only reached when the argument is already a ReadOnlySpan. A loose argument list binds to the array overload, exactly as it does without Polyfill.
  * `StringBuilder AppendJoin(char, object?[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-char-system-object()))
  * `StringBuilder AppendJoin(char, string?[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-char-system-string()))
  * `StringBuilder AppendJoin(string?, object?[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-string-system-object()))

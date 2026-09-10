@@ -13,34 +13,34 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 1155**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 1161**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
 | Target | APIs |
 | -- | -- |
-| `net461` | 1063 |
-| `net462` | 1063 |
-| `net47` | 1062 |
-| `net471` | 1061 |
-| `net472` | 1057 |
-| `net48` | 1057 |
-| `net481` | 1057 |
-| `netstandard2.0` | 1059 |
-| `netstandard2.1` | 892 |
-| `netcoreapp2.0` | 982 |
-| `netcoreapp2.1` | 903 |
-| `netcoreapp2.2` | 903 |
-| `netcoreapp3.0` | 864 |
-| `netcoreapp3.1` | 863 |
-| `net5.0` | 741 |
-| `net6.0` | 637 |
-| `net7.0` | 496 |
-| `net8.0` | 375 |
+| `net461` | 1069 |
+| `net462` | 1069 |
+| `net47` | 1068 |
+| `net471` | 1067 |
+| `net472` | 1063 |
+| `net48` | 1063 |
+| `net481` | 1063 |
+| `netstandard2.0` | 1065 |
+| `netstandard2.1` | 898 |
+| `netcoreapp2.0` | 988 |
+| `netcoreapp2.1` | 909 |
+| `netcoreapp2.2` | 909 |
+| `netcoreapp3.0` | 870 |
+| `netcoreapp3.1` | 869 |
+| `net5.0` | 747 |
+| `net6.0` | 643 |
+| `net7.0` | 502 |
+| `net8.0` | 381 |
 | `net9.0` | 243 |
 | `net10.0` | 182 |
 | `net11.0` | 58 |
-| `uap10.0` | 1049 |
+| `uap10.0` | 1055 |
 <!-- endInclude -->
 
 
@@ -96,24 +96,24 @@ This project uses features from the newest stable SDK and C# language. As such c
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       384.0KB |  +376.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netstandard2.1 |          8.5KB |       340.0KB |  +331.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net461         |          8.5KB |       383.0KB |  +374.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net462         |          7.0KB |       386.5KB |  +379.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net47          |          7.0KB |       386.5KB |  +379.5KB |    +8.5KB |             +6.0KB |              +8.5KB |     +13.0KB |
-| net471         |          8.5KB |       385.5KB |  +377.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net472         |          8.5KB |       384.0KB |  +375.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net48          |          8.5KB |       384.0KB |  +375.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net481         |          8.5KB |       384.0KB |  +375.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.0  |          9.0KB |       362.0KB |  +353.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.1  |          9.0KB |       343.0KB |  +334.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.2  |          9.0KB |       343.0KB |  +334.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.0  |          9.5KB |       341.0KB |  +331.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| netcoreapp3.1  |          9.5KB |       339.5KB |  +330.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net5.0         |          9.5KB |       305.0KB |  +295.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net6.0         |         10.0KB |       246.0KB |  +236.0KB |    +9.5KB |             +7.0KB |           +512bytes |      +3.5KB |
-| net7.0         |         10.0KB |       214.5KB |  +204.5KB |    +9.5KB |             +6.0KB |           +512bytes |      +3.5KB |
-| net8.0         |          9.5KB |       185.5KB |  +176.0KB |    +8.0KB |                    |           +512bytes |      +3.0KB |
+| netstandard2.0 |          8.0KB |       385.5KB |  +377.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netstandard2.1 |          8.5KB |       341.5KB |  +333.0KB |    +9.0KB |             +6.5KB |              +8.5KB |     +13.5KB |
+| net461         |          8.5KB |       384.0KB |  +375.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net462         |          7.0KB |       388.0KB |  +381.0KB |    +8.5KB |             +6.0KB |              +8.5KB |     +13.0KB |
+| net47          |          7.0KB |       387.5KB |  +380.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net471         |          8.5KB |       386.5KB |  +378.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net472         |          8.5KB |       385.5KB |  +377.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net48          |          8.5KB |       385.5KB |  +377.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.0KB |
+| net481         |          8.5KB |       385.5KB |  +377.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.0  |          9.0KB |       363.5KB |  +354.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.1  |          9.0KB |       344.0KB |  +335.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp2.2  |          9.0KB |       344.0KB |  +335.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp3.0  |          9.5KB |       342.5KB |  +333.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp3.1  |          9.5KB |       341.0KB |  +331.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net5.0         |          9.5KB |       306.5KB |  +297.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net6.0         |         10.0KB |       247.5KB |  +237.5KB |    +9.5KB |             +6.5KB |           +512bytes |      +3.0KB |
+| net7.0         |         10.0KB |       216.0KB |  +206.0KB |    +9.5KB |             +6.0KB |           +512bytes |      +3.5KB |
+| net8.0         |          9.5KB |       186.5KB |  +177.0KB |    +8.5KB |          +512bytes |           +512bytes |      +3.5KB |
 | net9.0         |          9.5KB |       117.0KB |  +107.5KB |    +8.0KB |                    |           +512bytes |      +3.0KB |
 | net10.0        |         10.0KB |        93.5KB |   +83.5KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
 | net11.0        |         10.0KB |        21.0KB |   +11.0KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
@@ -123,24 +123,24 @@ This project uses features from the newest stable SDK and C# language. As such c
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       559.3KB |  +551.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netstandard2.1 |          8.5KB |       488.3KB |  +479.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net461         |          8.5KB |       559.3KB |  +550.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net462         |          7.0KB |       562.8KB |  +555.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net47          |          7.0KB |       562.6KB |  +555.6KB |   +16.2KB |             +7.7KB |             +13.4KB |     +18.4KB |
-| net471         |          8.5KB |       561.2KB |  +552.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net472         |          8.5KB |       558.6KB |  +550.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net48          |          8.5KB |       558.6KB |  +550.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net481         |          8.5KB |       558.6KB |  +550.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.0  |          9.0KB |       526.7KB |  +517.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.1  |          9.0KB |       495.0KB |  +486.0KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.2  |          9.0KB |       495.0KB |  +486.0KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.0  |          9.5KB |       486.4KB |  +476.9KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| netcoreapp3.1  |          9.5KB |       484.8KB |  +475.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net5.0         |          9.5KB |       432.9KB |  +423.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net6.0         |         10.0KB |       353.7KB |  +343.7KB |   +17.2KB |             +8.7KB |              +1.1KB |      +4.2KB |
-| net7.0         |         10.0KB |       305.4KB |  +295.4KB |   +17.1KB |             +7.4KB |              +1.1KB |      +4.2KB |
-| net8.0         |          9.5KB |       262.6KB |  +253.1KB |   +15.5KB |          +299bytes |              +1.1KB |      +3.7KB |
+| netstandard2.0 |          8.0KB |       561.3KB |  +553.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netstandard2.1 |          8.5KB |       490.3KB |  +481.8KB |   +16.7KB |             +8.2KB |             +13.4KB |     +18.9KB |
+| net461         |          8.5KB |       560.8KB |  +552.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net462         |          7.0KB |       564.8KB |  +557.8KB |   +16.2KB |             +7.7KB |             +13.4KB |     +18.4KB |
+| net47          |          7.0KB |       564.0KB |  +557.0KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net471         |          8.5KB |       562.7KB |  +554.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net472         |          8.5KB |       560.6KB |  +552.1KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net48          |          8.5KB |       560.6KB |  +552.1KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.4KB |
+| net481         |          8.5KB |       560.6KB |  +552.1KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.0  |          9.0KB |       528.7KB |  +519.7KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.1  |          9.0KB |       496.5KB |  +487.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp2.2  |          9.0KB |       496.5KB |  +487.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp3.0  |          9.5KB |       488.3KB |  +478.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp3.1  |          9.5KB |       486.8KB |  +477.3KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net5.0         |          9.5KB |       434.8KB |  +425.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net6.0         |         10.0KB |       355.7KB |  +345.7KB |   +17.2KB |             +8.2KB |              +1.1KB |      +3.7KB |
+| net7.0         |         10.0KB |       307.3KB |  +297.3KB |   +17.1KB |             +7.4KB |              +1.1KB |      +4.2KB |
+| net8.0         |          9.5KB |       264.1KB |  +254.6KB |   +16.0KB |          +811bytes |              +1.1KB |      +4.2KB |
 | net9.0         |          9.5KB |       169.1KB |  +159.6KB |   +15.5KB |                    |              +1.1KB |      +3.7KB |
 | net10.0        |         10.0KB |       136.1KB |  +126.1KB |   +16.0KB |                    |              +1.1KB |      +3.7KB |
 | net11.0        |         10.0KB |        30.9KB |   +20.9KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
@@ -1908,6 +1908,24 @@ The class `Polyfill` includes the following extension methods:
  * `StringBuilder Append(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append?view=net-11.0#system-text-stringbuilder-append(system-readonlyspan((system-char))))
  * `StringBuilder Append(StringBuilder?, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append?view=net-11.0#system-text-stringbuilder-append(system-text-stringbuilder-system-int32-system-int32))
  * `StringBuilder Append(StringBuilder, StringBuilder.AppendInterpolatedStringHandler)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.append?view=net-11.0#system-text-stringbuilder-append(system-text-stringbuilder-appendinterpolatedstringhandler@))
+ * `StringBuilder AppendFormat(IFormatProvider?, string, ReadOnlySpan<object?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendformat?view=net-11.0#system-text-stringbuilder-appendformat(system-iformatprovider-system-string-system-readonlyspan((system-object))))
+   * Note: Copies the span to an array and uses the array overload, so this allocates where the BCL formats straight from the span.
+   * Note: Only reached when the argument is already a ReadOnlySpan. A loose argument list binds to the BCL array overload, exactly as it does without Polyfill.
+ * `StringBuilder AppendFormat(string, ReadOnlySpan<object?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendformat?view=net-11.0#system-text-stringbuilder-appendformat(system-string-system-readonlyspan((system-object))))
+   * Note: Copies the span to an array and uses the array overload, so this allocates where the BCL formats straight from the span.
+   * Note: Only reached when the argument is already a ReadOnlySpan. A loose argument list binds to the BCL array overload, exactly as it does without Polyfill.
+ * `StringBuilder AppendJoin(char, ReadOnlySpan<object?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-char-system-readonlyspan((system-object))))
+   * Note: Copies the span to an array and uses the array overload, so this allocates where the BCL joins straight from the span.
+   * Note: Only reached when the argument is already a ReadOnlySpan. A loose argument list binds to the array overload, exactly as it does without Polyfill.
+ * `StringBuilder AppendJoin(char, ReadOnlySpan<string?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-char-system-readonlyspan((system-string))))
+   * Note: Copies the span to an array and uses the array overload, so this allocates where the BCL joins straight from the span.
+   * Note: Only reached when the argument is already a ReadOnlySpan. A loose argument list binds to the array overload, exactly as it does without Polyfill.
+ * `StringBuilder AppendJoin(string?, ReadOnlySpan<object?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-string-system-readonlyspan((system-object))))
+   * Note: Copies the span to an array and uses the array overload, so this allocates where the BCL joins straight from the span.
+   * Note: Only reached when the argument is already a ReadOnlySpan. A loose argument list binds to the array overload, exactly as it does without Polyfill.
+ * `StringBuilder AppendJoin(string?, ReadOnlySpan<string?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-string-system-readonlyspan((system-string))))
+   * Note: Copies the span to an array and uses the array overload, so this allocates where the BCL joins straight from the span.
+   * Note: Only reached when the argument is already a ReadOnlySpan. A loose argument list binds to the array overload, exactly as it does without Polyfill.
  * `StringBuilder AppendJoin(char, object?[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-char-system-object()))
  * `StringBuilder AppendJoin(char, string?[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-char-system-string()))
  * `StringBuilder AppendJoin(string?, object?[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.text.stringbuilder.appendjoin?view=net-11.0#system-text-stringbuilder-appendjoin(system-string-system-object()))
@@ -2570,7 +2588,7 @@ void ObjectDisposedExceptionExample(bool isDisposed)
     ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L943-L967' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L959-L983' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -2589,7 +2607,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L973-L985' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L989-L1001' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

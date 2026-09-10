@@ -200,6 +200,22 @@ class Consume
     {
     }
 
+#if FeatureMemory
+    void StringBuilder_ParamsSpan_Methods()
+    {
+        var builder = new StringBuilder();
+        ReadOnlySpan<object?> objects = new object?[] { 1, 2 };
+        ReadOnlySpan<string?> strings = new string?[] { "a", "b" };
+
+        builder.AppendFormat("{0}{1}", objects);
+        builder.AppendFormat(CultureInfo.InvariantCulture, "{0}{1}", objects);
+        builder.AppendJoin(',', objects);
+        builder.AppendJoin(',', strings);
+        builder.AppendJoin("-", objects);
+        builder.AppendJoin("-", strings);
+    }
+#endif
+
     void GuidUsage()
     {
         var guid = Guid.CreateVersion7();
