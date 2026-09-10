@@ -1935,6 +1935,22 @@ class Consume
         timeSpan = TimeSpan.FromSeconds(1L);
         timeSpan = TimeSpan.FromSeconds(1L, 500L);
         timeSpan = TimeSpan.FromMicroseconds(1000L);
+
+        int hoursPerDay = TimeSpan.HoursPerDay;
+        long microsecondsPerDay = TimeSpan.MicrosecondsPerDay;
+        long microsecondsPerHour = TimeSpan.MicrosecondsPerHour;
+        long microsecondsPerMillisecond = TimeSpan.MicrosecondsPerMillisecond;
+        long microsecondsPerMinute = TimeSpan.MicrosecondsPerMinute;
+        long microsecondsPerSecond = TimeSpan.MicrosecondsPerSecond;
+        long millisecondsPerDay = TimeSpan.MillisecondsPerDay;
+        long millisecondsPerHour = TimeSpan.MillisecondsPerHour;
+        long millisecondsPerMinute = TimeSpan.MillisecondsPerMinute;
+        long millisecondsPerSecond = TimeSpan.MillisecondsPerSecond;
+        long minutesPerDay = TimeSpan.MinutesPerDay;
+        long minutesPerHour = TimeSpan.MinutesPerHour;
+        long secondsPerDay = TimeSpan.SecondsPerDay;
+        long secondsPerHour = TimeSpan.SecondsPerHour;
+        long secondsPerMinute = TimeSpan.SecondsPerMinute;
     }
 
     async Task TextWriter_Methods()

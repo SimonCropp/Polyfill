@@ -13,34 +13,34 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 1073**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 1088**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
 | Target | APIs |
 | -- | -- |
-| `net461` | 1004 |
-| `net462` | 1004 |
-| `net47` | 1003 |
-| `net471` | 1002 |
-| `net472` | 998 |
-| `net48` | 998 |
-| `net481` | 998 |
-| `netstandard2.0` | 1000 |
-| `netstandard2.1` | 853 |
-| `netcoreapp2.0` | 923 |
-| `netcoreapp2.1` | 864 |
-| `netcoreapp2.2` | 864 |
-| `netcoreapp3.0` | 825 |
-| `netcoreapp3.1` | 824 |
-| `net5.0` | 696 |
-| `net6.0` | 597 |
-| `net7.0` | 444 |
-| `net8.0` | 323 |
-| `net9.0` | 229 |
-| `net10.0` | 175 |
+| `net461` | 1005 |
+| `net462` | 1005 |
+| `net47` | 1004 |
+| `net471` | 1003 |
+| `net472` | 999 |
+| `net48` | 999 |
+| `net481` | 999 |
+| `netstandard2.0` | 1001 |
+| `netstandard2.1` | 854 |
+| `netcoreapp2.0` | 924 |
+| `netcoreapp2.1` | 865 |
+| `netcoreapp2.2` | 865 |
+| `netcoreapp3.0` | 826 |
+| `netcoreapp3.1` | 825 |
+| `net5.0` | 697 |
+| `net6.0` | 598 |
+| `net7.0` | 445 |
+| `net8.0` | 324 |
+| `net9.0` | 230 |
+| `net10.0` | 176 |
 | `net11.0` | 58 |
-| `uap10.0` | 990 |
+| `uap10.0` | 991 |
 <!-- endInclude -->
 
 
@@ -96,26 +96,26 @@ This project uses features from the newest stable SDK and C# language. As such c
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       365.5KB |  +357.5KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.0KB |
-| netstandard2.1 |          8.5KB |       319.5KB |  +311.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net461         |          8.5KB |       364.5KB |  +356.0KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.0KB |
-| net462         |          7.0KB |       368.0KB |  +361.0KB |    +7.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net47          |          7.0KB |       367.5KB |  +360.5KB |    +7.5KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net471         |          8.5KB |       365.5KB |  +357.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net472         |          8.5KB |       365.5KB |  +357.0KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.0KB |
-| net48          |          8.5KB |       365.5KB |  +357.0KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.0KB |
-| net481         |          8.5KB |       365.5KB |  +357.0KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.0KB |
-| netcoreapp2.0  |          9.0KB |       343.0KB |  +334.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.1  |          9.0KB |       323.0KB |  +314.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.2  |          9.0KB |       323.0KB |  +314.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp3.0  |          9.5KB |       319.0KB |  +309.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.1  |          9.5KB |       317.5KB |  +308.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net5.0         |          9.5KB |       281.5KB |  +272.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net6.0         |         10.0KB |       223.0KB |  +213.0KB |    +9.5KB |             +7.0KB |           +512bytes |      +3.5KB |
-| net7.0         |         10.0KB |       188.0KB |  +178.0KB |    +9.5KB |             +6.0KB |              +1.0KB |      +3.5KB |
-| net8.0         |          9.5KB |       158.5KB |  +149.0KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
-| net9.0         |          9.5KB |       111.5KB |  +102.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net10.0        |         10.0KB |        89.5KB |   +79.5KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
+| netstandard2.0 |          8.0KB |       368.0KB |  +360.0KB |    +7.5KB |             +5.5KB |              +7.5KB |     +12.0KB |
+| netstandard2.1 |          8.5KB |       322.0KB |  +313.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net461         |          8.5KB |       365.5KB |  +357.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net462         |          7.0KB |       370.5KB |  +363.5KB |    +7.5KB |             +6.5KB |              +9.0KB |     +12.0KB |
+| net47          |          7.0KB |       370.0KB |  +363.0KB |    +7.5KB |             +6.5KB |              +9.5KB |     +12.0KB |
+| net471         |          8.5KB |       368.0KB |  +359.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net472         |          8.5KB |       366.5KB |  +358.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net48          |          8.5KB |       366.5KB |  +358.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net481         |          8.5KB |       366.5KB |  +358.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.0  |          9.0KB |       345.5KB |  +336.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.1  |          9.0KB |       325.5KB |  +316.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp2.2  |          9.0KB |       325.5KB |  +316.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp3.0  |          9.5KB |       321.5KB |  +312.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp3.1  |          9.5KB |       320.0KB |  +310.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net5.0         |          9.5KB |       284.0KB |  +274.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net6.0         |         10.0KB |       225.5KB |  +215.5KB |   +10.0KB |             +7.0KB |           +512bytes |      +3.5KB |
+| net7.0         |         10.0KB |       191.0KB |  +181.0KB |    +9.0KB |             +5.5KB |           +512bytes |      +3.0KB |
+| net8.0         |          9.5KB |       161.0KB |  +151.5KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
+| net9.0         |          9.5KB |       114.0KB |  +104.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net10.0        |         10.0KB |        92.0KB |   +82.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
 | net11.0        |         10.0KB |        21.0KB |   +11.0KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 
 
@@ -123,26 +123,26 @@ This project uses features from the newest stable SDK and C# language. As such c
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       536.9KB |  +528.9KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
-| netstandard2.1 |          8.5KB |       464.3KB |  +455.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net461         |          8.5KB |       536.9KB |  +528.4KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
-| net462         |          7.0KB |       540.4KB |  +533.4KB |   +15.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net47          |          7.0KB |       539.7KB |  +532.7KB |   +15.2KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net471         |          8.5KB |       537.3KB |  +528.8KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net472         |          8.5KB |       536.2KB |  +527.7KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
-| net48          |          8.5KB |       536.2KB |  +527.7KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
-| net481         |          8.5KB |       536.2KB |  +527.7KB |   +15.2KB |             +6.7KB |             +12.4KB |     +17.4KB |
-| netcoreapp2.0  |          9.0KB |       503.8KB |  +494.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.1  |          9.0KB |       471.5KB |  +462.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.2  |          9.0KB |       471.5KB |  +462.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp3.0  |          9.5KB |       460.8KB |  +451.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.1  |          9.5KB |       459.2KB |  +449.7KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net5.0         |          9.5KB |       405.1KB |  +395.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net6.0         |         10.0KB |       326.7KB |  +316.7KB |   +17.2KB |             +8.7KB |              +1.1KB |      +4.2KB |
-| net7.0         |         10.0KB |       273.4KB |  +263.4KB |   +17.1KB |             +7.4KB |              +1.6KB |      +4.2KB |
-| net8.0         |          9.5KB |       230.0KB |  +220.5KB |   +16.0KB |          +299bytes |              +1.1KB |      +3.7KB |
-| net9.0         |          9.5KB |       161.9KB |  +152.4KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
-| net10.0        |         10.0KB |       131.2KB |  +121.2KB |   +16.0KB |                    |              +1.1KB |      +3.7KB |
+| netstandard2.0 |          8.0KB |       539.5KB |  +531.5KB |   +15.2KB |             +7.2KB |             +12.4KB |     +17.4KB |
+| netstandard2.1 |          8.5KB |       466.9KB |  +458.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net461         |          8.5KB |       538.1KB |  +529.6KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net462         |          7.0KB |       543.1KB |  +536.1KB |   +15.2KB |             +8.2KB |             +13.9KB |     +17.4KB |
+| net47          |          7.0KB |       542.3KB |  +535.3KB |   +15.2KB |             +8.2KB |             +14.4KB |     +17.4KB |
+| net471         |          8.5KB |       540.0KB |  +531.5KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net472         |          8.5KB |       537.4KB |  +528.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net48          |          8.5KB |       537.4KB |  +528.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net481         |          8.5KB |       537.4KB |  +528.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.0  |          9.0KB |       506.5KB |  +497.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.1  |          9.0KB |       474.1KB |  +465.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp2.2  |          9.0KB |       474.1KB |  +465.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp3.0  |          9.5KB |       463.4KB |  +453.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp3.1  |          9.5KB |       461.9KB |  +452.4KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net5.0         |          9.5KB |       407.8KB |  +398.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net6.0         |         10.0KB |       329.3KB |  +319.3KB |   +17.7KB |             +8.7KB |              +1.1KB |      +4.2KB |
+| net7.0         |         10.0KB |       276.5KB |  +266.5KB |   +16.6KB |             +6.9KB |              +1.1KB |      +3.7KB |
+| net8.0         |          9.5KB |       232.7KB |  +223.2KB |   +16.0KB |          +299bytes |              +1.1KB |      +3.7KB |
+| net9.0         |          9.5KB |       164.6KB |  +155.1KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
+| net10.0        |         10.0KB |       133.9KB |  +123.9KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
 | net11.0        |         10.0KB |        30.9KB |   +20.9KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
 <!-- endInclude -->
 
@@ -1928,8 +1928,38 @@ The class `Polyfill` includes the following extension methods:
  * `TimeSpan FromMilliseconds(long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommilliseconds?view=net-11.0#system-timespan-frommilliseconds(system-int64-system-int64))
  * `TimeSpan FromMinutes(int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromminutes?view=net-11.0#system-timespan-fromminutes(system-int32-system-int32-system-int32-system-int32))
  * `TimeSpan FromSeconds(long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromseconds?view=net-11.0#system-timespan-fromseconds(system-int64-system-int64-system-int64))
+ * `HoursPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.hoursperday?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `Microseconds` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds?view=net-11.0)
+ * `MicrosecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperday?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MicrosecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperhour?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MicrosecondsPerMillisecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondspermillisecond?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MicrosecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperminute?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MicrosecondsPerSecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondspersecond?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MillisecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperday?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MillisecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperhour?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MillisecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperminute?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MillisecondsPerSecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondspersecond?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MinutesPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.minutesperday?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MinutesPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.minutesperhour?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `Nanoseconds` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds?view=net-11.0)
+ * `SecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperday?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `SecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperhour?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `SecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperminute?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
 
 
 #### Type

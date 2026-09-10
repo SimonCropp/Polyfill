@@ -1313,8 +1313,38 @@
  * `TimeSpan FromMilliseconds(long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommilliseconds?view=net-11.0#system-timespan-frommilliseconds(system-int64-system-int64))
  * `TimeSpan FromMinutes(int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromminutes?view=net-11.0#system-timespan-fromminutes(system-int32-system-int32-system-int32-system-int32))
  * `TimeSpan FromSeconds(long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromseconds?view=net-11.0#system-timespan-fromseconds(system-int64-system-int64-system-int64))
+ * `HoursPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.hoursperday?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `Microseconds` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds?view=net-11.0)
+ * `MicrosecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperday?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MicrosecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperhour?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MicrosecondsPerMillisecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondspermillisecond?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MicrosecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperminute?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MicrosecondsPerSecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondspersecond?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MillisecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperday?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MillisecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperhour?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MillisecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperminute?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MillisecondsPerSecond` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondspersecond?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MinutesPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.minutesperday?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `MinutesPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.minutesperhour?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
  * `Nanoseconds` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds?view=net-11.0)
+ * `SecondsPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperday?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `SecondsPerHour` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperhour?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+ * `SecondsPerMinute` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperminute?view=net-11.0)
+   * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
 
 
 #### Type
