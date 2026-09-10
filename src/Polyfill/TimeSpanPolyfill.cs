@@ -57,6 +57,111 @@ static partial class Polyfill
     extension(TimeSpan)
     {
         /// <summary>
+        /// The number of hours in 1 day.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.hoursperday?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static int HoursPerDay => 24;
+
+        /// <summary>
+        /// The number of microseconds in 1 day.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperday?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static long MicrosecondsPerDay => 86_400_000_000;
+
+        /// <summary>
+        /// The number of microseconds in 1 hour.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperhour?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static long MicrosecondsPerHour => 3_600_000_000;
+
+        /// <summary>
+        /// The number of microseconds in 1 millisecond.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondspermillisecond?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static long MicrosecondsPerMillisecond => 1_000;
+
+        /// <summary>
+        /// The number of microseconds in 1 minute.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondsperminute?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static long MicrosecondsPerMinute => 60_000_000;
+
+        /// <summary>
+        /// The number of microseconds in 1 second.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microsecondspersecond?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static long MicrosecondsPerSecond => 1_000_000;
+
+        /// <summary>
+        /// The number of milliseconds in 1 day.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperday?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static long MillisecondsPerDay => 86_400_000;
+
+        /// <summary>
+        /// The number of milliseconds in 1 hour.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperhour?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static long MillisecondsPerHour => 3_600_000;
+
+        /// <summary>
+        /// The number of milliseconds in 1 minute.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondsperminute?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static long MillisecondsPerMinute => 60_000;
+
+        /// <summary>
+        /// The number of milliseconds in 1 second.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.millisecondspersecond?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static long MillisecondsPerSecond => 1_000;
+
+        /// <summary>
+        /// The number of minutes in 1 day.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.minutesperday?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static long MinutesPerDay => 1_440;
+
+        /// <summary>
+        /// The number of minutes in 1 hour.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.minutesperhour?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static long MinutesPerHour => 60;
+
+        /// <summary>
+        /// The number of seconds in 1 day.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperday?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static long SecondsPerDay => 86_400;
+
+        /// <summary>
+        /// The number of seconds in 1 hour.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperhour?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static long SecondsPerHour => 3_600;
+
+        /// <summary>
+        /// The number of seconds in 1 minute.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.secondsperminute?view=net-11.0
+        //Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
+        public static long SecondsPerMinute => 60;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of days, hours, minutes, seconds, milliseconds, and microseconds.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromdays?view=net-11.0#system-timespan-fromdays(system-int32-system-int32-system-int32-system-int32-system-int32-system-int32)

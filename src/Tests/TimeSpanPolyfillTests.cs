@@ -98,4 +98,43 @@ public class TimeSpanPolyfillTests
         var ts = TimeSpan.FromMicroseconds(1000L);
         await Assert.That(ts.TotalMilliseconds).IsEqualTo(1.0);
     }
+
+    [Test]
+    public async Task UnitConstants()
+    {
+        await Assert.That(TimeSpan.HoursPerDay).IsEqualTo(24);
+
+        await Assert.That(TimeSpan.MicrosecondsPerMillisecond).IsEqualTo(1_000L);
+        await Assert.That(TimeSpan.MicrosecondsPerSecond).IsEqualTo(1_000_000L);
+        await Assert.That(TimeSpan.MicrosecondsPerMinute).IsEqualTo(60_000_000L);
+        await Assert.That(TimeSpan.MicrosecondsPerHour).IsEqualTo(3_600_000_000L);
+        await Assert.That(TimeSpan.MicrosecondsPerDay).IsEqualTo(86_400_000_000L);
+
+        await Assert.That(TimeSpan.MillisecondsPerSecond).IsEqualTo(1_000L);
+        await Assert.That(TimeSpan.MillisecondsPerMinute).IsEqualTo(60_000L);
+        await Assert.That(TimeSpan.MillisecondsPerHour).IsEqualTo(3_600_000L);
+        await Assert.That(TimeSpan.MillisecondsPerDay).IsEqualTo(86_400_000L);
+
+        await Assert.That(TimeSpan.SecondsPerMinute).IsEqualTo(60L);
+        await Assert.That(TimeSpan.SecondsPerHour).IsEqualTo(3_600L);
+        await Assert.That(TimeSpan.SecondsPerDay).IsEqualTo(86_400L);
+
+        await Assert.That(TimeSpan.MinutesPerHour).IsEqualTo(60L);
+        await Assert.That(TimeSpan.MinutesPerDay).IsEqualTo(1_440L);
+    }
+
+    // cross-check against the TicksPer* constants, which have been in the BCL since forever
+    [Test]
+    public async Task UnitConstants_AgreeWithTicksPer()
+    {
+        // TicksPerMicrosecond is itself net7 only, so compare through milliseconds instead
+        await Assert.That(TimeSpan.MicrosecondsPerSecond).IsEqualTo(TimeSpan.MicrosecondsPerMillisecond * TimeSpan.MillisecondsPerSecond);
+        await Assert.That(TimeSpan.MillisecondsPerSecond * TimeSpan.TicksPerMillisecond).IsEqualTo(TimeSpan.TicksPerSecond);
+        await Assert.That(TimeSpan.SecondsPerMinute * TimeSpan.TicksPerSecond).IsEqualTo(TimeSpan.TicksPerMinute);
+        await Assert.That(TimeSpan.MinutesPerHour * TimeSpan.TicksPerMinute).IsEqualTo(TimeSpan.TicksPerHour);
+        await Assert.That(TimeSpan.HoursPerDay * TimeSpan.TicksPerHour).IsEqualTo(TimeSpan.TicksPerDay);
+        await Assert.That(TimeSpan.SecondsPerDay).IsEqualTo(TimeSpan.SecondsPerHour * TimeSpan.HoursPerDay);
+        await Assert.That(TimeSpan.MillisecondsPerDay).IsEqualTo(TimeSpan.MillisecondsPerHour * TimeSpan.HoursPerDay);
+        await Assert.That(TimeSpan.MicrosecondsPerDay).IsEqualTo(TimeSpan.MicrosecondsPerHour * TimeSpan.HoursPerDay);
+    }
 }

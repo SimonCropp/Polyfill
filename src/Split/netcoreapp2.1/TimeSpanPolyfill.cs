@@ -41,6 +41,66 @@ static partial class Polyfill
 	extension(TimeSpan)
 	{
 		/// <summary>
+		/// The number of hours in 1 day.
+		/// </summary>
+		public static int HoursPerDay => 24;
+		/// <summary>
+		/// The number of microseconds in 1 day.
+		/// </summary>
+		public static long MicrosecondsPerDay => 86_400_000_000;
+		/// <summary>
+		/// The number of microseconds in 1 hour.
+		/// </summary>
+		public static long MicrosecondsPerHour => 3_600_000_000;
+		/// <summary>
+		/// The number of microseconds in 1 millisecond.
+		/// </summary>
+		public static long MicrosecondsPerMillisecond => 1_000;
+		/// <summary>
+		/// The number of microseconds in 1 minute.
+		/// </summary>
+		public static long MicrosecondsPerMinute => 60_000_000;
+		/// <summary>
+		/// The number of microseconds in 1 second.
+		/// </summary>
+		public static long MicrosecondsPerSecond => 1_000_000;
+		/// <summary>
+		/// The number of milliseconds in 1 day.
+		/// </summary>
+		public static long MillisecondsPerDay => 86_400_000;
+		/// <summary>
+		/// The number of milliseconds in 1 hour.
+		/// </summary>
+		public static long MillisecondsPerHour => 3_600_000;
+		/// <summary>
+		/// The number of milliseconds in 1 minute.
+		/// </summary>
+		public static long MillisecondsPerMinute => 60_000;
+		/// <summary>
+		/// The number of milliseconds in 1 second.
+		/// </summary>
+		public static long MillisecondsPerSecond => 1_000;
+		/// <summary>
+		/// The number of minutes in 1 day.
+		/// </summary>
+		public static long MinutesPerDay => 1_440;
+		/// <summary>
+		/// The number of minutes in 1 hour.
+		/// </summary>
+		public static long MinutesPerHour => 60;
+		/// <summary>
+		/// The number of seconds in 1 day.
+		/// </summary>
+		public static long SecondsPerDay => 86_400;
+		/// <summary>
+		/// The number of seconds in 1 hour.
+		/// </summary>
+		public static long SecondsPerHour => 3_600;
+		/// <summary>
+		/// The number of seconds in 1 minute.
+		/// </summary>
+		public static long SecondsPerMinute => 60;
+		/// <summary>
 		/// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of days, hours, minutes, seconds, milliseconds, and microseconds.
 		/// </summary>
 		public static TimeSpan FromDays(int days, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0) =>
