@@ -25,6 +25,16 @@ static partial class Polyfill
 		/// </summary>
 		public static bool TryParse(ReadOnlySpan<byte> utf8Text, [NotNullWhen(true)] out IPAddress? result) =>
 			IPAddress.TryParse(Encoding.UTF8.GetString(utf8Text), out result);
+		/// <summary>
+		/// Determines whether the specified character span represents a valid IP address.
+		/// </summary>
+		public static bool IsValid(ReadOnlySpan<char> ipSpan) =>
+			IPAddress.TryParse(ipSpan.ToString(), out _);
+		/// <summary>
+		/// Determines whether the specified UTF-8 span represents a valid IP address.
+		/// </summary>
+		public static bool IsValidUtf8(ReadOnlySpan<byte> utf8Text) =>
+			IPAddress.TryParse(Encoding.UTF8.GetString(utf8Text), out _);
 	}
 }
 #endif
