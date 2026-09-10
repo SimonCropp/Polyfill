@@ -73,6 +73,12 @@ static partial class Polyfill
 			await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken);
 		}
 		/// <summary>
+		/// Creates a new file, writes the specified byte array to the file, and then closes the file.
+		/// If the target file already exists, it is truncated and overwritten.
+		/// </summary>
+		public static void WriteAllBytes(string path, ReadOnlySpan<byte> bytes) =>
+			File.WriteAllBytes(path, bytes.ToArray());
+		/// <summary>
 		/// Creates a new file, writes the specified string to the file, and then closes the file.
 		/// If the target file already exists, it is truncated and overwritten.
 		/// </summary>

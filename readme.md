@@ -13,34 +13,34 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 1161**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 1162**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
 | Target | APIs |
 | -- | -- |
-| `net461` | 1069 |
-| `net462` | 1069 |
-| `net47` | 1068 |
-| `net471` | 1067 |
-| `net472` | 1063 |
-| `net48` | 1063 |
-| `net481` | 1063 |
-| `netstandard2.0` | 1065 |
-| `netstandard2.1` | 898 |
-| `netcoreapp2.0` | 988 |
-| `netcoreapp2.1` | 909 |
-| `netcoreapp2.2` | 909 |
-| `netcoreapp3.0` | 870 |
-| `netcoreapp3.1` | 869 |
-| `net5.0` | 747 |
-| `net6.0` | 643 |
-| `net7.0` | 502 |
-| `net8.0` | 381 |
+| `net461` | 1070 |
+| `net462` | 1070 |
+| `net47` | 1069 |
+| `net471` | 1068 |
+| `net472` | 1064 |
+| `net48` | 1064 |
+| `net481` | 1064 |
+| `netstandard2.0` | 1066 |
+| `netstandard2.1` | 899 |
+| `netcoreapp2.0` | 989 |
+| `netcoreapp2.1` | 910 |
+| `netcoreapp2.2` | 910 |
+| `netcoreapp3.0` | 871 |
+| `netcoreapp3.1` | 870 |
+| `net5.0` | 748 |
+| `net6.0` | 644 |
+| `net7.0` | 503 |
+| `net8.0` | 382 |
 | `net9.0` | 243 |
 | `net10.0` | 182 |
 | `net11.0` | 58 |
-| `uap10.0` | 1055 |
+| `uap10.0` | 1056 |
 <!-- endInclude -->
 
 
@@ -97,21 +97,21 @@ This project uses features from the newest stable SDK and C# language. As such c
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
 | netstandard2.0 |          8.0KB |       385.5KB |  +377.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netstandard2.1 |          8.5KB |       341.5KB |  +333.0KB |    +9.0KB |             +6.5KB |              +8.5KB |     +13.5KB |
-| net461         |          8.5KB |       384.0KB |  +375.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net462         |          7.0KB |       388.0KB |  +381.0KB |    +8.5KB |             +6.0KB |              +8.5KB |     +13.0KB |
+| netstandard2.1 |          8.5KB |       341.5KB |  +333.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net461         |          8.5KB |       384.5KB |  +376.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net462         |          7.0KB |       388.0KB |  +381.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
 | net47          |          7.0KB |       387.5KB |  +380.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net471         |          8.5KB |       386.5KB |  +378.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net472         |          8.5KB |       385.5KB |  +377.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net48          |          8.5KB |       385.5KB |  +377.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.0KB |
-| net481         |          8.5KB |       385.5KB |  +377.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.0  |          9.0KB |       363.5KB |  +354.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp2.1  |          9.0KB |       344.0KB |  +335.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp2.2  |          9.0KB |       344.0KB |  +335.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp3.0  |          9.5KB |       342.5KB |  +333.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp3.1  |          9.5KB |       341.0KB |  +331.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net5.0         |          9.5KB |       306.5KB |  +297.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net6.0         |         10.0KB |       247.5KB |  +237.5KB |    +9.5KB |             +6.5KB |           +512bytes |      +3.0KB |
+| net471         |          8.5KB |       386.5KB |  +378.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net472         |          8.5KB |       385.5KB |  +377.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net48          |          8.5KB |       385.5KB |  +377.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net481         |          8.5KB |       385.5KB |  +377.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.0  |          9.0KB |       363.5KB |  +354.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.1  |          9.0KB |       344.5KB |  +335.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp2.2  |          9.0KB |       344.5KB |  +335.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp3.0  |          9.5KB |       342.5KB |  +333.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| netcoreapp3.1  |          9.5KB |       341.0KB |  +331.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net5.0         |          9.5KB |       306.5KB |  +297.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net6.0         |         10.0KB |       247.5KB |  +237.5KB |    +9.5KB |             +7.0KB |           +512bytes |      +3.5KB |
 | net7.0         |         10.0KB |       216.0KB |  +206.0KB |    +9.5KB |             +6.0KB |           +512bytes |      +3.5KB |
 | net8.0         |          9.5KB |       186.5KB |  +177.0KB |    +8.5KB |          +512bytes |           +512bytes |      +3.5KB |
 | net9.0         |          9.5KB |       117.0KB |  +107.5KB |    +8.0KB |                    |           +512bytes |      +3.0KB |
@@ -124,22 +124,22 @@ This project uses features from the newest stable SDK and C# language. As such c
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
 | netstandard2.0 |          8.0KB |       561.3KB |  +553.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netstandard2.1 |          8.5KB |       490.3KB |  +481.8KB |   +16.7KB |             +8.2KB |             +13.4KB |     +18.9KB |
-| net461         |          8.5KB |       560.8KB |  +552.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net462         |          7.0KB |       564.8KB |  +557.8KB |   +16.2KB |             +7.7KB |             +13.4KB |     +18.4KB |
-| net47          |          7.0KB |       564.0KB |  +557.0KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net471         |          8.5KB |       562.7KB |  +554.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net472         |          8.5KB |       560.6KB |  +552.1KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net48          |          8.5KB |       560.6KB |  +552.1KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.4KB |
-| net481         |          8.5KB |       560.6KB |  +552.1KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.0  |          9.0KB |       528.7KB |  +519.7KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp2.1  |          9.0KB |       496.5KB |  +487.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp2.2  |          9.0KB |       496.5KB |  +487.5KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp3.0  |          9.5KB |       488.3KB |  +478.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp3.1  |          9.5KB |       486.8KB |  +477.3KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net5.0         |          9.5KB |       434.8KB |  +425.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net6.0         |         10.0KB |       355.7KB |  +345.7KB |   +17.2KB |             +8.2KB |              +1.1KB |      +3.7KB |
-| net7.0         |         10.0KB |       307.3KB |  +297.3KB |   +17.1KB |             +7.4KB |              +1.1KB |      +4.2KB |
+| netstandard2.1 |          8.5KB |       490.3KB |  +481.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net461         |          8.5KB |       561.3KB |  +552.8KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net462         |          7.0KB |       564.8KB |  +557.8KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net47          |          7.0KB |       564.1KB |  +557.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net471         |          8.5KB |       562.7KB |  +554.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net472         |          8.5KB |       560.6KB |  +552.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net48          |          8.5KB |       560.6KB |  +552.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net481         |          8.5KB |       560.6KB |  +552.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.0  |          9.0KB |       528.7KB |  +519.7KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.1  |          9.0KB |       497.0KB |  +488.0KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp2.2  |          9.0KB |       497.0KB |  +488.0KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp3.0  |          9.5KB |       488.3KB |  +478.8KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| netcoreapp3.1  |          9.5KB |       486.8KB |  +477.3KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net5.0         |          9.5KB |       434.9KB |  +425.4KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net6.0         |         10.0KB |       355.7KB |  +345.7KB |   +17.2KB |             +8.7KB |              +1.1KB |      +4.2KB |
+| net7.0         |         10.0KB |       307.4KB |  +297.4KB |   +17.1KB |             +7.4KB |              +1.1KB |      +4.2KB |
 | net8.0         |          9.5KB |       264.1KB |  +254.6KB |   +16.0KB |          +811bytes |              +1.1KB |      +4.2KB |
 | net9.0         |          9.5KB |       169.1KB |  +159.6KB |   +15.5KB |                    |              +1.1KB |      +3.7KB |
 | net10.0        |         10.0KB |       136.1KB |  +126.1KB |   +16.0KB |                    |              +1.1KB |      +3.7KB |
@@ -1079,8 +1079,11 @@ The class `Polyfill` includes the following extension methods:
  * `Task<string> ReadAllTextAsync(string, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readalltextasync?view=net-11.0#system-io-file-readalltextasync(system-string-system-text-encoding-system-threading-cancellationtoken))
  * `IAsyncEnumerable<string> ReadLinesAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readlinesasync?view=net-11.0#system-io-file-readalllinesasync(system-string-system-threading-cancellationtoken))
  * `IAsyncEnumerable<string> ReadLinesAsync(string, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.readlinesasync?view=net-11.0#system-io-file-readalllinesasync(system-string-system-text-encoding-system-threading-cancellationtoken))
+ * `void WriteAllBytes(string, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writeallbytes?view=net-11.0#system-io-file-writeallbytes(system-string-system-readonlyspan((system-byte))))
+   * Note: Copies the span to an array and uses the array overload, so this allocates where the BCL writes straight from the span.
+   * Note: Only reached when the argument is already a ReadOnlySpan. A byte array binds to the BCL array overload, exactly as it does without Polyfill.
  * `Task WriteAllBytesAsync(string, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writeallbytesasync?view=net-11.0#system-io-file-writeallbytesasync(system-string-system-byte()-system-threading-cancellationtoken))
- * `Task WriteAllBytesAsync(string, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendallbytesasync?view=net-11.0#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+ * `Task WriteAllBytesAsync(string, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writeallbytesasync?view=net-11.0#system-io-file-writeallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
  * `Task WriteAllLinesAsync(string, IEnumerable<string>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealllinesasync?view=net-11.0#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-threading-cancellationtoken))
  * `Task WriteAllLinesAsync(string, IEnumerable<string>, Encoding, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealllinesasync?view=net-11.0#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken))
  * `void WriteAllText(string, ReadOnlySpan<char>, Encoding)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltext?view=net-11.0#system-io-file-writealltext(system-string-system-readonlyspan((system-char))-system-text-encoding))

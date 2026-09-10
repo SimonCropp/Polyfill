@@ -83,12 +83,22 @@ static partial class Polyfill
         /// <summary>
         /// Asynchronously creates a new file, writes the specified byte array to the file, and then closes the file. If the target file already exists, it is truncated and overwritten.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendallbytesasync?view=net-11.0#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writeallbytesasync?view=net-11.0#system-io-file-writeallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)
         public static async Task WriteAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
         {
             using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
             await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken);
         }
+
+        /// <summary>
+        /// Creates a new file, writes the specified byte array to the file, and then closes the file.
+        /// If the target file already exists, it is truncated and overwritten.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writeallbytes?view=net-11.0#system-io-file-writeallbytes(system-string-system-readonlyspan((system-byte)))
+        //Note: Copies the span to an array and uses the array overload, so this allocates where the BCL writes straight from the span.
+        //Note: Only reached when the argument is already a ReadOnlySpan. A byte array binds to the BCL array overload, exactly as it does without Polyfill.
+        public static void WriteAllBytes(string path, ReadOnlySpan<byte> bytes) =>
+            File.WriteAllBytes(path, bytes.ToArray());
 
         /// <summary>
         /// Creates a new file, writes the specified string to the file, and then closes the file.
