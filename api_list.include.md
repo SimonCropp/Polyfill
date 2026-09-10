@@ -494,6 +494,8 @@
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryformat?view=net-11.0#system-guid-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.tryformat?view=net-11.0#system-guid-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))))
+ * `int Variant` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.variant?view=net-11.0)
+ * `int Version` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.version?view=net-11.0)
  * `Guid CreateVersion7()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.createversion7?view=net-11.0#system-guid-createversion7)
  * `Guid CreateVersion7(DateTimeOffset)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.createversion7?view=net-11.0#system-guid-createversion7(system-datetimeoffset))
  * `Guid Parse(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.guid.parse?view=net-11.0#system-guid-parse(system-readonlyspan((system-byte))))

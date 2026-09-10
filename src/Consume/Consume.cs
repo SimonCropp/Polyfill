@@ -204,6 +204,8 @@ class Consume
     {
         var guid = Guid.CreateVersion7();
         guid = Guid.CreateVersion7(timestamp: DateTimeOffset.UtcNow);
+        var variant = guid.Variant;
+        var version = guid.Version;
         var result = Guid.TryParse(s: "", provider: null, result: out guid);
 #if FeatureMemory
         ReadOnlySpan<byte> byteSpan = default;
