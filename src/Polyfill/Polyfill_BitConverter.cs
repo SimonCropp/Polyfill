@@ -127,6 +127,260 @@ static partial class Polyfill
 
 #endif
 
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
+
+        /// <summary>
+        /// Converts a read-only byte span into a Boolean.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.toboolean?view=net-11.0#system-bitconverter-toboolean(system-readonlyspan((system-byte)))
+        public static bool ToBoolean(ReadOnlySpan<byte> value)
+        {
+            GuardSpan(value, 1);
+            return value[0] != 0;
+        }
+
+        /// <summary>
+        /// Converts a read-only byte span into a Char.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.tochar?view=net-11.0#system-bitconverter-tochar(system-readonlyspan((system-byte)))
+        public static char ToChar(ReadOnlySpan<byte> value)
+        {
+            GuardSpan(value, 2);
+            return MemoryMarshal.Read<char>(value);
+        }
+
+        /// <summary>
+        /// Converts a read-only byte span into a 16-bit signed integer.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.toint16?view=net-11.0#system-bitconverter-toint16(system-readonlyspan((system-byte)))
+        public static short ToInt16(ReadOnlySpan<byte> value)
+        {
+            GuardSpan(value, 2);
+            return MemoryMarshal.Read<short>(value);
+        }
+
+        /// <summary>
+        /// Converts a read-only byte span into a 32-bit signed integer.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.toint32?view=net-11.0#system-bitconverter-toint32(system-readonlyspan((system-byte)))
+        public static int ToInt32(ReadOnlySpan<byte> value)
+        {
+            GuardSpan(value, 4);
+            return MemoryMarshal.Read<int>(value);
+        }
+
+        /// <summary>
+        /// Converts a read-only byte span into a 64-bit signed integer.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.toint64?view=net-11.0#system-bitconverter-toint64(system-readonlyspan((system-byte)))
+        public static long ToInt64(ReadOnlySpan<byte> value)
+        {
+            GuardSpan(value, 8);
+            return MemoryMarshal.Read<long>(value);
+        }
+
+        /// <summary>
+        /// Converts a read-only byte span into a single-precision floating point number.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.tosingle?view=net-11.0#system-bitconverter-tosingle(system-readonlyspan((system-byte)))
+        public static float ToSingle(ReadOnlySpan<byte> value)
+        {
+            GuardSpan(value, 4);
+            return MemoryMarshal.Read<float>(value);
+        }
+
+        /// <summary>
+        /// Converts a read-only byte span into a double-precision floating point number.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.todouble?view=net-11.0#system-bitconverter-todouble(system-readonlyspan((system-byte)))
+        public static double ToDouble(ReadOnlySpan<byte> value)
+        {
+            GuardSpan(value, 8);
+            return MemoryMarshal.Read<double>(value);
+        }
+
+        /// <summary>
+        /// Converts a read-only byte span into a 16-bit unsigned integer.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.touint16?view=net-11.0#system-bitconverter-touint16(system-readonlyspan((system-byte)))
+        public static ushort ToUInt16(ReadOnlySpan<byte> value)
+        {
+            GuardSpan(value, 2);
+            return MemoryMarshal.Read<ushort>(value);
+        }
+
+        /// <summary>
+        /// Converts a read-only byte span into a 32-bit unsigned integer.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.touint32?view=net-11.0#system-bitconverter-touint32(system-readonlyspan((system-byte)))
+        public static uint ToUInt32(ReadOnlySpan<byte> value)
+        {
+            GuardSpan(value, 4);
+            return MemoryMarshal.Read<uint>(value);
+        }
+
+        /// <summary>
+        /// Converts a read-only byte span into a 64-bit unsigned integer.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.touint64?view=net-11.0#system-bitconverter-touint64(system-readonlyspan((system-byte)))
+        public static ulong ToUInt64(ReadOnlySpan<byte> value)
+        {
+            GuardSpan(value, 8);
+            return MemoryMarshal.Read<ulong>(value);
+        }
+
+        /// <summary>
+        /// Converts a Boolean into a span of bytes.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-boolean)
+        public static bool TryWriteBytes(Span<byte> destination, bool value)
+        {
+            if (destination.Length < 1)
+            {
+                return false;
+            }
+
+            destination[0] = value ? (byte) 1 : (byte) 0;
+            return true;
+        }
+
+        /// <summary>
+        /// Converts a Char into a span of bytes.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-char)
+        public static bool TryWriteBytes(Span<byte> destination, char value)
+        {
+            if (destination.Length < 2)
+            {
+                return false;
+            }
+
+            MemoryMarshal.Write(destination, ref value);
+            return true;
+        }
+
+        /// <summary>
+        /// Converts a 16-bit signed integer into a span of bytes.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-int16)
+        public static bool TryWriteBytes(Span<byte> destination, short value)
+        {
+            if (destination.Length < 2)
+            {
+                return false;
+            }
+
+            MemoryMarshal.Write(destination, ref value);
+            return true;
+        }
+
+        /// <summary>
+        /// Converts a 32-bit signed integer into a span of bytes.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-int32)
+        public static bool TryWriteBytes(Span<byte> destination, int value)
+        {
+            if (destination.Length < 4)
+            {
+                return false;
+            }
+
+            MemoryMarshal.Write(destination, ref value);
+            return true;
+        }
+
+        /// <summary>
+        /// Converts a 64-bit signed integer into a span of bytes.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-int64)
+        public static bool TryWriteBytes(Span<byte> destination, long value)
+        {
+            if (destination.Length < 8)
+            {
+                return false;
+            }
+
+            MemoryMarshal.Write(destination, ref value);
+            return true;
+        }
+
+        /// <summary>
+        /// Converts a single-precision floating point number into a span of bytes.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-single)
+        public static bool TryWriteBytes(Span<byte> destination, float value)
+        {
+            if (destination.Length < 4)
+            {
+                return false;
+            }
+
+            MemoryMarshal.Write(destination, ref value);
+            return true;
+        }
+
+        /// <summary>
+        /// Converts a double-precision floating point number into a span of bytes.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-double)
+        public static bool TryWriteBytes(Span<byte> destination, double value)
+        {
+            if (destination.Length < 8)
+            {
+                return false;
+            }
+
+            MemoryMarshal.Write(destination, ref value);
+            return true;
+        }
+
+        /// <summary>
+        /// Converts a 16-bit unsigned integer into a span of bytes.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-uint16)
+        public static bool TryWriteBytes(Span<byte> destination, ushort value)
+        {
+            if (destination.Length < 2)
+            {
+                return false;
+            }
+
+            MemoryMarshal.Write(destination, ref value);
+            return true;
+        }
+
+        /// <summary>
+        /// Converts a 32-bit unsigned integer into a span of bytes.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-uint32)
+        public static bool TryWriteBytes(Span<byte> destination, uint value)
+        {
+            if (destination.Length < 4)
+            {
+                return false;
+            }
+
+            MemoryMarshal.Write(destination, ref value);
+            return true;
+        }
+
+        /// <summary>
+        /// Converts a 64-bit unsigned integer into a span of bytes.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-uint64)
+        public static bool TryWriteBytes(Span<byte> destination, ulong value)
+        {
+            if (destination.Length < 8)
+            {
+                return false;
+            }
+
+            MemoryMarshal.Write(destination, ref value);
+            return true;
+        }
+
+#endif
+
 #if NET7_0_OR_GREATER && !NET9_0_OR_GREATER
 
         /// <summary>
@@ -275,6 +529,20 @@ static partial class Polyfill
     static void GuardSixteenBytes(ReadOnlySpan<byte> value)
     {
         if (value.Length < 16)
+        {
+            throw new ArgumentOutOfRangeException(nameof(value));
+        }
+    }
+
+#endif
+
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
+
+    // the BCL span overloads reject a short span with a plain ArgumentOutOfRangeException
+    // naming value, rather than the ArgumentException the array overloads use
+    static void GuardSpan(ReadOnlySpan<byte> value, int size)
+    {
+        if (value.Length < size)
         {
             throw new ArgumentOutOfRangeException(nameof(value));
         }
