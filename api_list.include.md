@@ -641,6 +641,14 @@
  * `ReadOnlyCollection<T> AsReadOnly<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly?view=net-11.0#system-collections-generic-collectionextensions-asreadonly-1(system-collections-generic-ilist((-0))))
 
 
+#### ImmutableDictionary
+
+ * `ImmutableDictionary<TKey, TValue> CreateRangeWithOverwrite<TKey, TValue>(IEqualityComparer<TKey>?, ReadOnlySpan<KeyValuePair<TKey, TValue>>) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable.immutabledictionary.createrangewithoverwrite?view=net-11.0#system-collections-immutable-immutabledictionary-createrangewithoverwrite-2(system-collections-generic-iequalitycomparer((-0))-system-readonlyspan((system-collections-generic-keyvaluepair((-0-1))))))
+   * Note: Only available on netcoreapp2.1 and later, since ImmutableDictionary is a separate package below that.
+ * `ImmutableDictionary<TKey, TValue> CreateRangeWithOverwrite<TKey, TValue>(ReadOnlySpan<KeyValuePair<TKey, TValue>>) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable.immutabledictionary.createrangewithoverwrite?view=net-11.0#system-collections-immutable-immutabledictionary-createrangewithoverwrite-2(system-readonlyspan((system-collections-generic-keyvaluepair((-0-1))))))
+   * Note: Only available on netcoreapp2.1 and later, since ImmutableDictionary is a separate package below that.
+
+
 #### Int128
 
  * `Int128 BigMul(Int128, Int128, Int128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.int128.bigmul?view=net-11.0)
