@@ -109,6 +109,96 @@ static partial class Polyfill
 		return (outMs.ToArray(), errMs.ToArray());
 	}
 #endif
+	/// <summary>
+	/// Reads the standard output and standard error of the process line-by-line, waiting for the process to exit.
+	/// </summary>
+	public static IEnumerable<ProcessOutputLine> ReadAllLines(this Process target, TimeSpan? timeout = default)
+	{
+		var queue = new System.Collections.Concurrent.ConcurrentQueue<ProcessOutputLine>();
+		var signal = new SemaphoreSlim(0);
+		var sync = new object();
+		var stdoutDone = false;
+		var stderrDone = false;
+		DataReceivedEventHandler outHandler = (_, e) =>
+		{
+			if (e.Data is null)
+			{
+				lock (sync) stdoutDone = true;
+			}
+			else
+			{
+				queue.Enqueue(new(e.Data, false));
+			}
+			signal.Release();
+		};
+		DataReceivedEventHandler errHandler = (_, e) =>
+		{
+			if (e.Data is null)
+			{
+				lock (sync) stderrDone = true;
+			}
+			else
+			{
+				queue.Enqueue(new(e.Data, true));
+			}
+			signal.Release();
+		};
+		target.OutputDataReceived += outHandler;
+		target.ErrorDataReceived += errHandler;
+		target.BeginOutputReadLine();
+		target.BeginErrorReadLine();
+		var watch = Stopwatch.StartNew();
+		try
+		{
+			while (true)
+			{
+				if (!signal.Wait(RemainingMilliseconds(watch, timeout)))
+				{
+					throw new TimeoutException("The process did not exit within the specified timeout.");
+				}
+				while (queue.TryDequeue(out var line))
+				{
+					yield return line;
+				}
+				bool done;
+				lock (sync)
+				{
+					done = stdoutDone && stderrDone;
+				}
+				if (done)
+				{
+					while (queue.TryDequeue(out var line))
+					{
+						yield return line;
+					}
+					yield break;
+				}
+			}
+		}
+		finally
+		{
+			target.OutputDataReceived -= outHandler;
+			target.ErrorDataReceived -= errHandler;
+			signal.Dispose();
+		}
+	}
+	static int RemainingMilliseconds(Stopwatch watch, TimeSpan? timeout)
+	{
+		if (timeout is not { } value)
+		{
+			return Timeout.Infinite;
+		}
+		var remaining = value.TotalMilliseconds - watch.Elapsed.TotalMilliseconds;
+		if (remaining <= 0)
+		{
+			return 0;
+		}
+		if (remaining > int.MaxValue)
+		{
+			return Timeout.Infinite;
+		}
+		return (int) remaining;
+	}
 #if FeatureAsyncInterfaces
 	/// <summary>
 	/// Asynchronously reads the standard output and standard error of the process line-by-line, waiting for the process to exit.

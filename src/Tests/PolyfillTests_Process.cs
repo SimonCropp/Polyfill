@@ -161,6 +161,45 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task Process_ReadAllLines()
+    {
+        using var process = StartRedirected("--info");
+        var lines = process.ReadAllLines().ToList();
+        await Assert.That(lines.Count).IsGreaterThan(0);
+        await Assert.That(lines.Any(_ => !_.StandardError)).IsTrue();
+        await Assert.That(lines.All(_ => _.Content != null)).IsTrue();
+        await Assert.That(process.HasExited).IsTrue();
+    }
+
+    [Test]
+    public async Task Process_ReadAllLines_Timeout()
+    {
+        using var process = StartRedirected("--version");
+        var lines = process.ReadAllLines(TimeSpan.FromMinutes(1)).ToList();
+        await Assert.That(lines.Count).IsGreaterThan(0);
+        var first = lines.First(_ => !_.StandardError);
+        await Assert.That(first.Content.Length).IsGreaterThan(0);
+    }
+
+    static Process StartRedirected(string arguments)
+    {
+        var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = "dotnet",
+                Arguments = arguments,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+            }
+        };
+        process.Start();
+        return process;
+    }
+
+    [Test]
     public async Task Process_Run()
     {
         var status = Process.Run("dotnet", new[] { "--info" });
