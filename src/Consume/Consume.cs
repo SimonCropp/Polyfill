@@ -1914,6 +1914,8 @@ class Consume
     void TaskCompletionSource_NonGeneric_Methods()
     {
         var tcs = new TaskCompletionSource();
+        tcs.SetFromTask(Task.CompletedTask);
+        var trySet = new TaskCompletionSource().TrySetFromTask(Task.CompletedTask);
     }
 
     void TaskCompletionSource_Generic_Methods()
@@ -1921,6 +1923,8 @@ class Consume
         var completionSource = new TaskCompletionSource<int>();
         var tokenSource = new CancellationTokenSource();
         completionSource.SetCanceled(tokenSource.Token);
+        completionSource.SetFromTask(Task.FromResult(1));
+        var trySet = new TaskCompletionSource<int>().TrySetFromTask(Task.FromResult(1));
     }
 
     void TimeSpan_Methods()

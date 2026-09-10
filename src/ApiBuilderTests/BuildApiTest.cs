@@ -2,6 +2,11 @@ public class BuildApiTest
 {
     static string polyfillDir = Path.Combine(ProjectFiles.SolutionDirectory, "Polyfill");
 
+    // Section headers already emitted by WriteExtensions. A recreated type whose later
+    // members arrive through an extension(Type) (TaskCompletionSource, for example) would
+    // otherwise get a second header of the same name further down the document.
+    static HashSet<string> writtenSections = [];
+
     [Test]
     // The per-target-framework counts are read out of Split, so it has to be written first
     [DependsOn<SplitterTests>(nameof(SplitterTests.Run))]
@@ -12,6 +17,7 @@ public class BuildApiTest
     {
         var md = Path.Combine(ProjectFiles.SolutionDirectory, "..", "api_list.include.md");
         File.Delete(md);
+        writtenSections.Clear();
         using var writer = File.CreateText(md);
         writer.NewLine = "\n";
         var count = 0;
@@ -170,6 +176,7 @@ public class BuildApiTest
             var instanceMethodsForType = instanceMethods
                 .Where(_ => SectionName(_) == name)
                 .ToList();
+            writtenSections.Add(name);
             writer.WriteLine($"#### {name}");
             writer.WriteLine();
             WriteSectionGate(name, writer);
@@ -325,10 +332,17 @@ public class BuildApiTest
 
     static void WriteType(string name, StreamWriter writer, ref int count)
     {
+        count++;
+
+        // The type's extension members already opened a section under this name
+        if (writtenSections.Contains(name))
+        {
+            return;
+        }
+
         writer.WriteLine($"#### {name}");
         writer.WriteLine();
         WriteSectionGate(name, writer);
-        count++;
     }
 
     static void WriteHelper(string name, StreamWriter writer, ref int count) =>
@@ -336,6 +350,11 @@ public class BuildApiTest
 
     static void WriteTypeMethods(string name, StreamWriter writer, ref int count, IEnumerable<Method> methods)
     {
+        if (writtenSections.Contains(name))
+        {
+            throw new($"#### {name} was already written by WriteExtensions, so these members would land under a duplicate header. Merge the files, or list the type with WriteType.");
+        }
+
         writer.WriteLine($"#### {name}");
         writer.WriteLine();
         WriteSectionGate(name, writer);

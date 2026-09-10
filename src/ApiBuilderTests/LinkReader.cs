@@ -3,10 +3,13 @@
     // A //Link: or //Note: can sit above the declaration, or between its attributes and
     // its modifiers. GetLeadingTrivia only covers the first of those, since an attribute
     // list is part of the declaration, so the modifiers are scanned as well.
+    // Where there is no attribute list the first token IS the first modifier, so the two
+    // sequences overlap and are deduplicated by position.
     static IEnumerable<SyntaxTrivia> LeadingComments(this Member member) =>
         member
             .GetLeadingTrivia()
-            .Concat(member.Modifiers.SelectMany(_ => _.LeadingTrivia));
+            .Concat(member.Modifiers.SelectMany(_ => _.LeadingTrivia))
+            .DistinctBy(_ => _.SpanStart);
 
     public static bool TryGetReference(this Member member, [NotNullWhen(true)] out string? reference)
     {
