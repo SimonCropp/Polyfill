@@ -93,14 +93,26 @@
 #### BitConverter
 
  * `ulong DoubleToUInt64Bits(double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.doubletouint64bits?view=net-11.0)
+ * `byte[] GetBytes(Half)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.getbytes?view=net-11.0#system-bitconverter-getbytes(system-half))
+   * Note: Only available on net5.0 and later, since Half does not exist below that.
  * `byte[] GetBytes(Int128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.getbytes?view=net-11.0#system-bitconverter-getbytes(system-int128))
  * `byte[] GetBytes(UInt128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.getbytes?view=net-11.0#system-bitconverter-getbytes(system-uint128))
+ * `short HalfToInt16Bits(Half)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.halftoint16bits?view=net-11.0)
+   * Note: Only available on net5.0 and later, since Half does not exist below that.
+ * `ushort HalfToUInt16Bits(Half)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.halftouint16bits?view=net-11.0)
+   * Note: Only available on net5.0 and later, since Half does not exist below that.
+ * `Half Int16BitsToHalf(short)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.int16bitstohalf?view=net-11.0)
+   * Note: Only available on net5.0 and later, since Half does not exist below that.
  * `float Int32BitsToSingle(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.int32bitstosingle?view=net-11.0)
  * `int SingleToInt32Bits(float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.singletoint32bits?view=net-11.0)
  * `uint SingleToUInt32Bits(float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.singletouint32bits?view=net-11.0)
  * `bool ToBoolean(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.toboolean?view=net-11.0#system-bitconverter-toboolean(system-readonlyspan((system-byte))))
  * `char ToChar(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.tochar?view=net-11.0#system-bitconverter-tochar(system-readonlyspan((system-byte))))
  * `double ToDouble(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.todouble?view=net-11.0#system-bitconverter-todouble(system-readonlyspan((system-byte))))
+ * `Half ToHalf(byte[], int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.tohalf?view=net-11.0#system-bitconverter-tohalf(system-byte()-system-int32))
+   * Note: Only available on net5.0 and later, since Half does not exist below that.
+ * `Half ToHalf(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.tohalf?view=net-11.0#system-bitconverter-tohalf(system-readonlyspan((system-byte))))
+   * Note: Only available on net5.0 and later, since Half does not exist below that.
  * `Int128 ToInt128(byte[], int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.toint128?view=net-11.0#system-bitconverter-toint128(system-byte()-system-int32))
  * `Int128 ToInt128(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.toint128?view=net-11.0#system-bitconverter-toint128(system-readonlyspan((system-byte))))
  * `short ToInt16(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.toint16?view=net-11.0#system-bitconverter-toint16(system-readonlyspan((system-byte))))
@@ -116,6 +128,8 @@
  * `bool TryWriteBytes(Span<byte>, char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-char))
  * `bool TryWriteBytes(Span<byte>, double)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-double))
  * `bool TryWriteBytes(Span<byte>, float)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-single))
+ * `bool TryWriteBytes(Span<byte>, Half)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-half))
+   * Note: Only available on net5.0 and later, since Half does not exist below that.
  * `bool TryWriteBytes(Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-int32))
  * `bool TryWriteBytes(Span<byte>, Int128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-int128))
  * `bool TryWriteBytes(Span<byte>, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-int64))
@@ -124,6 +138,8 @@
  * `bool TryWriteBytes(Span<byte>, UInt128)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-uint128))
  * `bool TryWriteBytes(Span<byte>, ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-uint64))
  * `bool TryWriteBytes(Span<byte>, ushort)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-uint16))
+ * `Half UInt16BitsToHalf(ushort)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.uint16bitstohalf?view=net-11.0)
+   * Note: Only available on net5.0 and later, since Half does not exist below that.
  * `float UInt32BitsToSingle(uint)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.uint32bitstosingle?view=net-11.0)
  * `double UInt64BitsToDouble(ulong)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.uint64bitstodouble?view=net-11.0)
 
