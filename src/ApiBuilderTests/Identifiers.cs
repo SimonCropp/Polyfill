@@ -36,7 +36,8 @@ public class Identifiers
         "FeatureValueTask",
         "FeatureValueTuple",
         "FeatureCompression",
-        "FeatureAsyncInterfaces"
+        "FeatureAsyncInterfaces",
+        "FeatureUnsafe"
     ];
 
     static Identifiers() =>

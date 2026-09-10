@@ -1,9 +1,16 @@
 ﻿public static class LinkReader
 {
+    // A //Link: or //Note: can sit above the declaration, or between its attributes and
+    // its modifiers. GetLeadingTrivia only covers the first of those, since an attribute
+    // list is part of the declaration, so the modifiers are scanned as well.
+    static IEnumerable<SyntaxTrivia> LeadingComments(this Member member) =>
+        member
+            .GetLeadingTrivia()
+            .Concat(member.Modifiers.SelectMany(_ => _.LeadingTrivia));
+
     public static bool TryGetReference(this Member member, [NotNullWhen(true)] out string? reference)
     {
-        var syntaxTrivia = member.GetLeadingTrivia();
-        foreach (var trivia in syntaxTrivia)
+        foreach (var trivia in member.LeadingComments())
         {
             if (!trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
             {
@@ -31,7 +38,7 @@
     public static IReadOnlyList<string> GetNotes(this Member member)
     {
         List<string>? notes = null;
-        foreach (var trivia in member.GetLeadingTrivia())
+        foreach (var trivia in member.LeadingComments())
         {
             if (!trivia.IsKind(SyntaxKind.SingleLineCommentTrivia))
             {

@@ -2,6 +2,7 @@
 
 namespace Polyfills;
 
+using System;
 using System.Text;
 
 static partial class Polyfill
@@ -25,7 +26,7 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.encoding.preamble?view=net-11.0
         //Note: Allocates a new array on each access, unlike the BCL property which returns a cached span.
-        public System.ReadOnlySpan<byte> Preamble => target.GetPreamble();
+        public ReadOnlySpan<byte> Preamble => target.GetPreamble();
     }
 #endif
 }
