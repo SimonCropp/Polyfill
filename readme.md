@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 1147**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 1150**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
@@ -34,10 +34,10 @@ The package targets `netstandard2.0` and is designed to support the following ru
 | `netcoreapp3.0` | 859 |
 | `netcoreapp3.1` | 858 |
 | `net5.0` | 736 |
-| `net6.0` | 629 |
-| `net7.0` | 488 |
-| `net8.0` | 367 |
-| `net9.0` | 238 |
+| `net6.0` | 632 |
+| `net7.0` | 491 |
+| `net8.0` | 370 |
+| `net9.0` | 241 |
 | `net10.0` | 182 |
 | `net11.0` | 58 |
 | `uap10.0` | 1044 |
@@ -111,10 +111,10 @@ This project uses features from the newest stable SDK and C# language. As such c
 | netcoreapp3.0  |          9.5KB |       326.5KB |  +317.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
 | netcoreapp3.1  |          9.5KB |       324.5KB |  +315.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
 | net5.0         |          9.5KB |       290.0KB |  +280.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net6.0         |         10.0KB |       230.0KB |  +220.0KB |   +10.0KB |             +7.0KB |              +1.0KB |      +3.5KB |
-| net7.0         |         10.0KB |       199.0KB |  +189.0KB |    +9.0KB |             +5.5KB |           +512bytes |      +3.0KB |
-| net8.0         |          9.5KB |       168.5KB |  +159.0KB |    +8.5KB |          +512bytes |              +1.0KB |      +3.5KB |
-| net9.0         |          9.5KB |       116.0KB |  +106.5KB |    +8.0KB |                    |           +512bytes |      +3.0KB |
+| net6.0         |         10.0KB |       231.0KB |  +221.0KB |    +9.5KB |             +6.5KB |           +512bytes |      +3.5KB |
+| net7.0         |         10.0KB |       199.5KB |  +189.5KB |    +9.5KB |             +5.5KB |           +512bytes |      +3.5KB |
+| net8.0         |          9.5KB |       169.5KB |  +160.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net9.0         |          9.5KB |       116.5KB |  +107.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
 | net10.0        |         10.0KB |        93.5KB |   +83.5KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
 | net11.0        |         10.0KB |        21.0KB |   +11.0KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 
@@ -138,10 +138,10 @@ This project uses features from the newest stable SDK and C# language. As such c
 | netcoreapp3.0  |          9.5KB |       470.3KB |  +460.8KB |   +16.2KB |             +8.2KB |             +13.9KB |     +18.9KB |
 | netcoreapp3.1  |          9.5KB |       468.3KB |  +458.8KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | net5.0         |          9.5KB |       416.3KB |  +406.8KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net6.0         |         10.0KB |       335.8KB |  +325.8KB |   +17.7KB |             +8.7KB |              +1.6KB |      +4.2KB |
-| net7.0         |         10.0KB |       287.9KB |  +277.9KB |   +16.6KB |             +6.9KB |              +1.1KB |      +3.7KB |
-| net8.0         |          9.5KB |       243.6KB |  +234.1KB |   +16.0KB |          +811bytes |              +1.6KB |      +4.2KB |
-| net9.0         |          9.5KB |       167.6KB |  +158.1KB |   +15.5KB |                    |              +1.1KB |      +3.7KB |
+| net6.0         |         10.0KB |       337.2KB |  +327.2KB |   +17.2KB |             +8.2KB |              +1.1KB |      +4.2KB |
+| net7.0         |         10.0KB |       288.8KB |  +278.8KB |   +17.1KB |             +6.9KB |              +1.1KB |      +4.2KB |
+| net8.0         |          9.5KB |       245.0KB |  +235.5KB |   +16.0KB |          +299bytes |              +1.1KB |      +4.2KB |
+| net9.0         |          9.5KB |       168.5KB |  +159.0KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
 | net10.0        |         10.0KB |       136.1KB |  +126.1KB |   +16.0KB |                    |              +1.1KB |      +3.7KB |
 | net11.0        |         10.0KB |        30.9KB |   +20.9KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
 <!-- endInclude -->
@@ -1340,6 +1340,16 @@ The class `Polyfill` includes the following extension methods:
 #### ISet<T>
 
  * `ReadOnlySet<T> AsReadOnly<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly?view=net-11.0#system-collections-generic-collectionextensions-asreadonly-1(system-collections-generic-iset((-0))))
+
+
+#### ISOWeek
+
+ * `int GetWeekOfYear(DateOnly)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.isoweek.getweekofyear?view=net-11.0#system-globalization-isoweek-getweekofyear(system-dateonly))
+   * Note: Only available on net6.0 and later, since DateOnly does not exist below that.
+ * `int GetYear(DateOnly)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.isoweek.getyear?view=net-11.0#system-globalization-isoweek-getyear(system-dateonly))
+   * Note: Only available on net6.0 and later, since DateOnly does not exist below that.
+ * `DateOnly ToDateOnly(int, int, DayOfWeek)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.isoweek.todateonly?view=net-11.0)
+   * Note: Only available on net6.0 and later, since DateOnly does not exist below that.
 
 
 #### KeyValuePair<TKey, TValue>
@@ -2549,7 +2559,7 @@ void ObjectDisposedExceptionExample(bool isDisposed)
     ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L919-L943' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L929-L953' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -2568,7 +2578,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L949-L961' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L959-L971' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

@@ -727,6 +727,16 @@
  * `ReadOnlySet<T> AsReadOnly<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.asreadonly?view=net-11.0#system-collections-generic-collectionextensions-asreadonly-1(system-collections-generic-iset((-0))))
 
 
+#### ISOWeek
+
+ * `int GetWeekOfYear(DateOnly)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.isoweek.getweekofyear?view=net-11.0#system-globalization-isoweek-getweekofyear(system-dateonly))
+   * Note: Only available on net6.0 and later, since DateOnly does not exist below that.
+ * `int GetYear(DateOnly)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.isoweek.getyear?view=net-11.0#system-globalization-isoweek-getyear(system-dateonly))
+   * Note: Only available on net6.0 and later, since DateOnly does not exist below that.
+ * `DateOnly ToDateOnly(int, int, DayOfWeek)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.isoweek.todateonly?view=net-11.0)
+   * Note: Only available on net6.0 and later, since DateOnly does not exist below that.
+
+
 #### KeyValuePair<TKey, TValue>
 
  * `void Deconstruct<TKey, TValue>(TKey, TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct?view=net-11.0)
