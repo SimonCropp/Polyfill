@@ -356,6 +356,16 @@ class Consume
     }
 #endif
 
+#if NET6_0_OR_GREATER
+    void ISOWeek_DateOnly_Methods()
+    {
+        var date = new DateOnly(2024, 1, 1);
+        var week = ISOWeek.GetWeekOfYear(date);
+        var year = ISOWeek.GetYear(date);
+        date = ISOWeek.ToDateOnly(year, week, DayOfWeek.Monday);
+    }
+#endif
+
 #if NET5_0_OR_GREATER
     void BitConverter_Half_Methods()
     {
