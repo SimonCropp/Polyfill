@@ -18,6 +18,9 @@ using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+#if NETCOREAPP2_1_OR_GREATER
+using System.Collections.Immutable;
+#endif
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
@@ -213,6 +216,15 @@ class Consume
         builder.AppendJoin(',', strings);
         builder.AppendJoin("-", objects);
         builder.AppendJoin("-", strings);
+    }
+#endif
+
+#if NETCOREAPP2_1_OR_GREATER
+    void ImmutableDictionary_Methods()
+    {
+        ReadOnlySpan<KeyValuePair<string, int>> items = new KeyValuePair<string, int>[] { new("a", 1) };
+        var withOverwrite = ImmutableDictionary.CreateRangeWithOverwrite<string, int>(items);
+        withOverwrite = ImmutableDictionary.CreateRangeWithOverwrite(StringComparer.Ordinal, items);
     }
 #endif
 
