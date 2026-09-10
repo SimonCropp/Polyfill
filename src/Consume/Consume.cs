@@ -356,6 +356,21 @@ class Consume
     }
 #endif
 
+#if NET5_0_OR_GREATER
+    void BitConverter_Half_Methods()
+    {
+        var value = (Half) 1.5f;
+        var bytes = BitConverter.GetBytes(value);
+        var int16Bits = BitConverter.HalfToInt16Bits(value);
+        var uint16Bits = BitConverter.HalfToUInt16Bits(value);
+        value = BitConverter.Int16BitsToHalf(int16Bits);
+        value = BitConverter.UInt16BitsToHalf(uint16Bits);
+        value = BitConverter.ToHalf(bytes, 0);
+        value = BitConverter.ToHalf(bytes.AsSpan());
+        var wrote = BitConverter.TryWriteBytes(bytes.AsSpan(), value);
+    }
+#endif
+
 #if NET7_0_OR_GREATER
     void BitConverter_Int128_Methods()
     {

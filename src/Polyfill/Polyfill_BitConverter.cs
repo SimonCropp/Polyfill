@@ -381,6 +381,112 @@ static partial class Polyfill
 
 #endif
 
+#if NET5_0_OR_GREATER && !NET6_0_OR_GREATER
+
+        /// <summary>
+        /// Returns the specified half-precision floating point value as an array of bytes.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.getbytes?view=net-11.0#system-bitconverter-getbytes(system-half)
+        //Note: Only available on net5.0 and later, since Half does not exist below that.
+        public static byte[] GetBytes(Half value)
+        {
+            var bytes = new byte[2];
+            MemoryMarshal.Write(bytes, ref value);
+            return bytes;
+        }
+
+        /// <summary>
+        /// Converts a half-precision floating point value into a 16-bit signed integer.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.halftoint16bits?view=net-11.0
+        //Note: Only available on net5.0 and later, since Half does not exist below that.
+        public static short HalfToInt16Bits(Half value)
+        {
+            Span<byte> buffer = stackalloc byte[2];
+            MemoryMarshal.Write(buffer, ref value);
+            return MemoryMarshal.Read<short>(buffer);
+        }
+
+        /// <summary>
+        /// Converts a half-precision floating point value into a 16-bit unsigned integer.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.halftouint16bits?view=net-11.0
+        //Note: Only available on net5.0 and later, since Half does not exist below that.
+        public static ushort HalfToUInt16Bits(Half value)
+        {
+            Span<byte> buffer = stackalloc byte[2];
+            MemoryMarshal.Write(buffer, ref value);
+            return MemoryMarshal.Read<ushort>(buffer);
+        }
+
+        /// <summary>
+        /// Reinterprets the specified 16-bit signed integer as a half-precision floating point value.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.int16bitstohalf?view=net-11.0
+        //Note: Only available on net5.0 and later, since Half does not exist below that.
+        public static Half Int16BitsToHalf(short value)
+        {
+            Span<byte> buffer = stackalloc byte[2];
+            MemoryMarshal.Write(buffer, ref value);
+            return MemoryMarshal.Read<Half>(buffer);
+        }
+
+        /// <summary>
+        /// Reinterprets the specified 16-bit unsigned integer as a half-precision floating point value.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.uint16bitstohalf?view=net-11.0
+        //Note: Only available on net5.0 and later, since Half does not exist below that.
+        public static Half UInt16BitsToHalf(ushort value)
+        {
+            Span<byte> buffer = stackalloc byte[2];
+            MemoryMarshal.Write(buffer, ref value);
+            return MemoryMarshal.Read<Half>(buffer);
+        }
+
+        /// <summary>
+        /// Returns a half-precision floating point number converted from two bytes at a specified position in a byte array.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.tohalf?view=net-11.0#system-bitconverter-tohalf(system-byte()-system-int32)
+        //Note: Only available on net5.0 and later, since Half does not exist below that.
+        public static Half ToHalf(byte[] value, int startIndex)
+        {
+            GuardTwoBytes(value, startIndex);
+            return MemoryMarshal.Read<Half>(value.AsSpan(startIndex));
+        }
+
+        /// <summary>
+        /// Converts a read-only byte span into a half-precision floating point value.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.tohalf?view=net-11.0#system-bitconverter-tohalf(system-readonlyspan((system-byte)))
+        //Note: Only available on net5.0 and later, since Half does not exist below that.
+        public static Half ToHalf(ReadOnlySpan<byte> value)
+        {
+            if (value.Length < 2)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value));
+            }
+
+            return MemoryMarshal.Read<Half>(value);
+        }
+
+        /// <summary>
+        /// Converts a half-precision floating point value into a span of bytes.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.bitconverter.trywritebytes?view=net-11.0#system-bitconverter-trywritebytes(system-span((system-byte))-system-half)
+        //Note: Only available on net5.0 and later, since Half does not exist below that.
+        public static bool TryWriteBytes(Span<byte> destination, Half value)
+        {
+            if (destination.Length < 2)
+            {
+                return false;
+            }
+
+            MemoryMarshal.Write(destination, ref value);
+            return true;
+        }
+
+#endif
+
 #if NET7_0_OR_GREATER && !NET9_0_OR_GREATER
 
         /// <summary>
@@ -545,6 +651,30 @@ static partial class Polyfill
         if (value.Length < size)
         {
             throw new ArgumentOutOfRangeException(nameof(value));
+        }
+    }
+
+#endif
+
+#if NET5_0_OR_GREATER && !NET6_0_OR_GREATER
+
+    // matches the validation the BCL uses for every other BitConverter array overload
+    static void GuardTwoBytes(byte[] value, int startIndex)
+    {
+        if (value == null)
+        {
+            throw new ArgumentNullException(nameof(value));
+        }
+
+        if (startIndex < 0 ||
+            startIndex >= value.Length)
+        {
+            throw new ArgumentOutOfRangeException(nameof(startIndex), "Index was out of range. Must be non-negative and less than the size of the collection.");
+        }
+
+        if (startIndex > value.Length - 2)
+        {
+            throw new ArgumentException("The array starting from the specified index is not long enough to read a value of the specified type.", nameof(value));
         }
     }
 
