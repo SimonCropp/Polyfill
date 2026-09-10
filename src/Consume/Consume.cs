@@ -1787,6 +1787,20 @@ class Consume
     {
         var builder = new StringBuilder("value");
         var moved = StringBuilder.MoveChunks(builder);
+
+#if NETCOREAPP3_0_OR_GREATER
+        foreach (Rune rune in builder.EnumerateRunes())
+        {
+            _ = rune;
+        }
+
+        Rune runeAt = builder.GetRuneAt(0);
+        bool gotRune = builder.TryGetRuneAt(0, out Rune maybeRune);
+        _ = maybeRune;
+        builder.Replace(new Rune('v'), new Rune('V'));
+        builder.Replace(new Rune('v'), new Rune('V'), 0, 1);
+#endif
+
 #if FeatureMemory
         builder.Append("suffix".AsSpan());
         var targetSpan = new Span<char>(new char[1]);

@@ -42,6 +42,7 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Buffers.SpanAction<,>))]
 [assembly: TypeForwardedTo(typeof(System.Text.SpanLineEnumerator))]
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.StackTraceHiddenAttribute))]
+[assembly: TypeForwardedTo(typeof(System.Text.StringBuilderRuneEnumerator))]
 [assembly: TypeForwardedTo(typeof(System.IO.StringStream))]
 [assembly: TypeForwardedTo(typeof(System.Diagnostics.CodeAnalysis.StringSyntaxAttribute))]
 [assembly: TypeForwardedTo(typeof(System.Runtime.InteropServices.SuppressGCTransitionAttribute))]
