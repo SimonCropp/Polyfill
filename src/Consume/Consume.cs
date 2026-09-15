@@ -1055,6 +1055,28 @@ class Consume
 #endif
     }
 
+#if FeatureNumerics && FeatureMemory
+    void BigInteger_Methods()
+    {
+        BigInteger.Parse(utf8Text: "1"u8);
+        BigInteger.Parse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null);
+        BigInteger.Parse(utf8Text: "1"u8, provider: null);
+        BigInteger.TryParse(utf8Text: "1"u8, result: out _);
+        BigInteger.TryParse(utf8Text: "1"u8, style: NumberStyles.Integer, provider: null, result: out _);
+        BigInteger.TryParse(utf8Text: "1"u8, provider: null, result: out _);
+        BigInteger.One.TryFormat(utf8Destination: new byte[10], bytesWritten: out _);
+        BigInteger.One.TryFormat(utf8Destination: new byte[10], bytesWritten: out _, format: "N0", provider: null);
+    }
+#endif
+
+#if FeatureNumerics && NET7_0_OR_GREATER
+    void Complex_Methods()
+    {
+        Complex.TryParse(utf8Text: "1"u8, style: NumberStyles.Float, provider: null, result: out _);
+        Complex.TryParse(utf8Text: "1"u8, provider: null, result: out _);
+    }
+#endif
+
     void Double_Methods()
     {
         double.TryParse(s: "1", provider: null, result: out _);

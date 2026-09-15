@@ -84,6 +84,7 @@ public class BuildApiTest
             "FeatureValueTask",
             "FeatureValueTuple",
             "FeatureCompression",
+            "FeatureNumerics",
             "FeatureAsyncInterfaces",
             "FeatureUnsafe"
         };
