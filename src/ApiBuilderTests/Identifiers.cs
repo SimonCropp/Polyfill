@@ -36,6 +36,7 @@ public class Identifiers
         "FeatureValueTask",
         "FeatureValueTuple",
         "FeatureCompression",
+        "FeatureNumerics",
         "FeatureAsyncInterfaces",
         "FeatureUnsafe"
     ];

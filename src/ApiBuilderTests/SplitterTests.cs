@@ -599,6 +599,7 @@ public class SplitterTests
         await Assert.That(Splitter.AllKnownFrameworkSymbols.Contains("FeatureValueTask")).IsFalse();
         await Assert.That(Splitter.AllKnownFrameworkSymbols.Contains("FeatureHttp")).IsFalse();
         await Assert.That(Splitter.AllKnownFrameworkSymbols.Contains("FeatureCompression")).IsFalse();
+        await Assert.That(Splitter.AllKnownFrameworkSymbols.Contains("FeatureNumerics")).IsFalse();
         await Assert.That(Splitter.AllKnownFrameworkSymbols.Contains("PolyPublic")).IsFalse();
         await Assert.That(Splitter.AllKnownFrameworkSymbols.Contains("PolyEnsure")).IsFalse();
         await Assert.That(Splitter.AllKnownFrameworkSymbols.Contains("PolyUseEmbeddedAttribute")).IsFalse();
