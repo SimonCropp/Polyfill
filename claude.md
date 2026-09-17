@@ -54,7 +54,7 @@ The NuGet package ships `.cs` files (not a DLL). The `Polyfill.nuspec` packs fil
 Polyfill uses extensive `#if` directives. Key constants:
 
 - **Framework constants**: `NETFRAMEWORK`, `NETSTANDARD`, `NETCOREAPP2X`, `NETCOREAPP3X`, `NET46X`, `NET47X`, `NET48X`
-- **Feature constants** (set by `Polyfill.targets` based on referenced packages): `FeatureMemory`, `FeatureValueTask`, `FeatureValueTuple`, `FeatureRuntimeInformation`, `FeatureHttp`, `FeatureCompression`, `FeatureAsyncInterfaces`
+- **Feature constants** (set by `Polyfill.targets` based on referenced packages): `FeatureMemory`, `FeatureValueTask`, `FeatureValueTuple`, `FeatureRuntimeInformation`, `FeatureHttp`, `FeatureCompression`, `FeatureNumerics`, `FeatureAsyncInterfaces`
 - **Consumer options**: `PolyPublic` (makes APIs public), `PolyUseEmbeddedAttribute`, `PolyEnsure`, `PolyGuard`, `PolyNullability`, `PolyArgumentExceptions`, `PolyStringInterpolation`
 - **`AllowUnsafeBlocks`** — enables unsafe polyfill variants for better performance
 

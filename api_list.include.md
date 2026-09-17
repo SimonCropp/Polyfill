@@ -63,6 +63,16 @@
  * `bool TryEncodeToChars(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.tryencodetochars?view=net-11.0)
 
 
+#### BigInteger
+
+ * `BigInteger Parse(ReadOnlySpan<byte>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.biginteger.parse?view=net-11.0#system-numerics-biginteger-parse(system-readonlyspan((system-byte))-system-iformatprovider))
+ * `BigInteger Parse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.biginteger.parse?view=net-11.0#system-numerics-biginteger-parse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider))
+ * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.biginteger.tryformat?view=net-11.0#system-numerics-biginteger-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
+ * `bool TryParse(ReadOnlySpan<byte>, BigInteger)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.biginteger.tryparse?view=net-11.0#system-numerics-biginteger-tryparse(system-readonlyspan((system-byte))-system-numerics-biginteger@))
+ * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, BigInteger)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.biginteger.tryparse?view=net-11.0#system-numerics-biginteger-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-numerics-biginteger@))
+ * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, BigInteger)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.biginteger.tryparse?view=net-11.0#system-numerics-biginteger-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-numerics-biginteger@))
+
+
 #### BinaryPrimitives
 
  * `double ReadDoubleBigEndian(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives.readdoublebigendian?view=net-11.0)
@@ -197,6 +207,13 @@
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `char ToUpperOrdinal(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.char.toupperordinal?view=net-11.0)
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
+
+
+#### Complex
+
+ * `bool TryParse(ReadOnlySpan<byte>, IFormatProvider?, Complex)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex.tryparse?view=net-11.0#system-numerics-complex-tryparse(system-readonlyspan((system-byte))-system-iformatprovider-system-numerics-complex@))
+ * `bool TryParse(ReadOnlySpan<byte>, NumberStyles, IFormatProvider?, Complex)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.numerics.complex.tryparse?view=net-11.0#system-numerics-complex-tryparse(system-readonlyspan((system-byte))-system-globalization-numberstyles-system-iformatprovider-system-numerics-complex@))
+   * Note: The matching Parse(ReadOnlySpan<byte>, ...) overloads are not polyfilled, since they would collide with BigInteger.Parse(ReadOnlySpan<byte>, ...); two static extension members with the same signature cannot coexist on one class.
 
 
 #### ConcurrentBag<T>
