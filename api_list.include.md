@@ -38,6 +38,12 @@
  * `void ThrowIfZero<T>(T) where T : struct, IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.argumentoutofrangeexception.throwifzero?view=net-11.0#system-argumentoutofrangeexception-throwifzero-1(-0-system-string))
 
 
+#### ArrayBufferWriter<T>
+
+ * `void ResetWrittenCount<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.arraybufferwriter-1.resetwrittencount?view=net-11.0)
+   * Note: Delegates to Clear(), so the written region is zeroed: O(n) where the BCL is O(1), and the reclaimed space is zeroed instead of holding the stale data the BCL leaves behind.
+
+
 #### ArraySegment<T>
 
  * `void CopyTo<T>(ArraySegment<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.arraysegment-1.copyto?view=net-11.0#system-arraysegment-1-copyto(-0()))
@@ -1819,4 +1825,6 @@
 #### WritableMemoryStream
 
 #### ReadOnlySequenceStream
+
+#### ArrayBufferWriter
 

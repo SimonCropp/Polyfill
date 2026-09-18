@@ -37,6 +37,7 @@ public class BuildApiTest
         WriteType("ReadOnlyMemoryStream", writer, ref count);
         WriteType("WritableMemoryStream", writer, ref count);
         WriteType("ReadOnlySequenceStream", writer, ref count);
+        WriteType("ArrayBufferWriter", writer, ref count);
 
         count += Directory.EnumerateFiles(polyfillDir, "*Attribute.cs", SearchOption.AllDirectories).Count();
         // Index and Range
