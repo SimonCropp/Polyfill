@@ -349,6 +349,27 @@ class Consume
             sequenceStream.Read(bytes, 0, bytes.Length);
         }
     }
+
+    void ArrayBufferWriterUsage()
+    {
+        var defaultCapacity = new System.Buffers.ArrayBufferWriter<byte>();
+        System.Buffers.IBufferWriter<byte> bufferWriter = defaultCapacity;
+
+        var writer = new System.Buffers.ArrayBufferWriter<byte>(16);
+        Span<byte> span = writer.GetSpan(4);
+        span[0] = 1;
+        writer.Advance(1);
+        Memory<byte> memory = writer.GetMemory(4);
+        memory.Span[0] = 2;
+        writer.Advance(1);
+        ReadOnlyMemory<byte> writtenMemory = writer.WrittenMemory;
+        ReadOnlySpan<byte> writtenSpan = writer.WrittenSpan;
+        int writtenCount = writer.WrittenCount;
+        int capacity = writer.Capacity;
+        int freeCapacity = writer.FreeCapacity;
+        writer.ResetWrittenCount();
+        writer.Clear();
+    }
 #endif
 
 #if FeatureMemory && !RefsBclMemory
