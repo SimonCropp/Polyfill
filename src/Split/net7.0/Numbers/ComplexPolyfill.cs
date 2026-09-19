@@ -14,12 +14,61 @@ static partial class Polyfill
 		/// Tries to parse a span of UTF-8 characters into a value.
 		/// </summary>
 		public static bool TryParse(ReadOnlySpan<byte> utf8Text, NumberStyles style, IFormatProvider? provider, out Complex result) =>
-			Complex.TryParse(Encoding.UTF8.GetString(utf8Text), style, provider, out result);
+			TryParseComplex(utf8Text, style, provider, out result);
 		/// <summary>
 		/// Tries to parse a span of UTF-8 characters into a value.
 		/// </summary>
 		public static bool TryParse(ReadOnlySpan<byte> utf8Text, IFormatProvider? provider, out Complex result) =>
-			Complex.TryParse(Encoding.UTF8.GetString(utf8Text), provider, out result);
+			TryParseComplex(utf8Text, NumberStyles.Float | NumberStyles.AllowThousands, provider, out result);
+		static bool TryParseComplex(ReadOnlySpan<byte> utf8Text, NumberStyles style, IFormatProvider? provider, out Complex result)
+		{
+			_ = double.TryParse(ReadOnlySpan<char>.Empty, style, provider, out _);
+			var text = Encoding.UTF8.GetString(utf8Text).AsSpan();
+			var openBracket = text.IndexOf('<');
+			var semicolon = text.IndexOf(';');
+			var closeBracket = text.IndexOf('>');
+			if (text.Length < 5 ||
+				openBracket == -1 ||
+				semicolon == -1 ||
+				closeBracket == -1 ||
+				openBracket > semicolon ||
+				openBracket > closeBracket ||
+				semicolon > closeBracket)
+			{
+				result = default;
+				return false;
+			}
+			if (openBracket != 0 &&
+				((style & NumberStyles.AllowLeadingWhite) == 0 ||
+				 !text[..openBracket].IsWhiteSpace()))
+			{
+				result = default;
+				return false;
+			}
+			if (!double.TryParse(text.Slice(openBracket + 1, semicolon - openBracket - 1), style, provider, out var real))
+			{
+				result = default;
+				return false;
+			}
+			if (char.IsWhiteSpace(text[semicolon + 1]))
+			{
+				semicolon++;
+			}
+			if (!double.TryParse(text.Slice(semicolon + 1, closeBracket - semicolon - 1), style, provider, out var imaginary))
+			{
+				result = default;
+				return false;
+			}
+			if (closeBracket != text.Length - 1 &&
+				((style & NumberStyles.AllowTrailingWhite) == 0 ||
+				 !text[closeBracket..].IsWhiteSpace()))
+			{
+				result = default;
+				return false;
+			}
+			result = new(real, imaginary);
+			return true;
+		}
 	}
 }
 #endif
