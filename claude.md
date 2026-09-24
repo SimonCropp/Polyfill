@@ -112,4 +112,4 @@ Polyfill uses extensive `#if` directives. Key constants:
 - `ImplicitUsings` is **disabled** — all `using` statements must be explicit
 - `Nullable` is enabled
 - **Line endings: LF** (`\n`) — do not use CRLF
-- CI: AppVeyor (Windows), builds solution then runs `run-tests.ps1`
+- CI: GitHub Actions (Windows, `.github/workflows/build.yml`), builds solution then runs `run-tests.ps1`, publishes to NuGet on a tag via trusted publishing
