@@ -179,7 +179,6 @@ static partial class Polyfill
 		{
 			target.OutputDataReceived -= outHandler;
 			target.ErrorDataReceived -= errHandler;
-			signal.Dispose();
 		}
 	}
 	static int RemainingMilliseconds(Stopwatch watch, TimeSpan? timeout)
@@ -268,7 +267,6 @@ static partial class Polyfill
 		{
 			target.OutputDataReceived -= outHandler;
 			target.ErrorDataReceived -= errHandler;
-			signal.Dispose();
 		}
 	}
 #endif

@@ -215,7 +215,7 @@ static partial class Polyfill
         {
             target.OutputDataReceived -= outHandler;
             target.ErrorDataReceived -= errHandler;
-            signal.Dispose();
+            // signal is not disposed: a handler already running can still Release it after unsubscribe
         }
     }
 
@@ -313,7 +313,7 @@ static partial class Polyfill
         {
             target.OutputDataReceived -= outHandler;
             target.ErrorDataReceived -= errHandler;
-            signal.Dispose();
+            // signal is not disposed: a handler already running can still Release it after unsubscribe
         }
     }
 #endif

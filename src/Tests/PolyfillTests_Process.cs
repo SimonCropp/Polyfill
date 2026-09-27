@@ -181,6 +181,35 @@ partial class PolyfillTests
         await Assert.That(first.Content.Length).IsGreaterThan(0);
     }
 
+    // Races the reader disposing its signal against the final handler Release.
+    // Losing the race crashes the test host with an unhandled exception on a thread pool thread.
+    [Test]
+    public async Task Process_ReadAllLines_Stress()
+    {
+        for (var i = 0; i < 100; i++)
+        {
+            using var process = StartRedirected("--version");
+            var lines = process.ReadAllLines().ToList();
+            await Assert.That(lines.Count).IsGreaterThan(0);
+        }
+    }
+
+    [Test]
+    public async Task Process_ReadAllLinesAsync_Stress()
+    {
+        for (var i = 0; i < 100; i++)
+        {
+            using var process = StartRedirected("--version");
+            var count = 0;
+            await foreach (var _ in process.ReadAllLinesAsync())
+            {
+                count++;
+            }
+
+            await Assert.That(count).IsGreaterThan(0);
+        }
+    }
+
     static Process StartRedirected(string arguments)
     {
         var process = new Process
