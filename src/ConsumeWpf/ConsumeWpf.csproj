@@ -8,6 +8,6 @@
     <PackageReference Include="System.Memory" />
     <PackageReference Include="System.Threading.Tasks.Extensions" />
   </ItemGroup>
-  <Import Project="..\TestIncludes.targets" />
-  <Import Project="..\Polyfill\Polyfill.targets" />
+  <Import Project="$(SolutionDir)\TestIncludes.targets" />
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
 </Project>
