@@ -44,6 +44,7 @@
   <Project Path="ConsumeOnlyValueTuple/ConsumeOnlyValueTuple.csproj" />
   <Project Path="ConsumeTrimmed\ConsumeTrimmed.csproj" />
   <Project Path="ConsumeUnsafe/ConsumeUnsafe.csproj" />
+  <Project Path="ConsumeWpf/ConsumeWpf.csproj" />
   <Project Path="EmbeddedTests/EmbeddedTests.csproj" />
   <Project Path="NoExtrasTests/NoExtrasTests.csproj" />
   <Project Path="NoRefsTests/NoRefsTests.csproj" />
