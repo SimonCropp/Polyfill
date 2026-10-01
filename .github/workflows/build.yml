@@ -61,6 +61,12 @@ jobs:
       - name: Build
         run: dotnet build src/Polyfill.slnx --configuration Release ${{ env.VERSION_ARGUMENT }}
 
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v3
+
+      - name: Build old-style PackageReference project
+        run: msbuild src/ConsumeOldStyle/ConsumeOldStyle.csproj /restore /p:Configuration=Release /p:SolutionDir="${{ github.workspace }}/src/"
+
       - name: Test
         shell: pwsh
         run: ./src/run-tests.ps1
