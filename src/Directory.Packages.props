@@ -6,10 +6,10 @@
   <ItemGroup>
     <PackageVersion Include="MarkdownSnippets.MsBuild" Version="28.5.0" />
     <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" Pinned="true" />
-    <PackageVersion Include="TUnit" Version="1.72.4" />
+    <PackageVersion Include="TUnit" Version="1.72.16" />
     <PackageVersion Include="ProjectDefaults" Version="1.0.182" />
     <PackageVersion Include="Microsoft.Bcl.Memory" Version="10.0.12" />
-    <PackageVersion Include="ProjectFiles" Version="1.4.0" />
+    <PackageVersion Include="ProjectFiles" Version="1.6.0" />
     <PackageVersion Include="System.Memory" Version="4.6.3" />
     <PackageVersion Include="System.Net.Http" Version="4.3.4" />
     <PackageVersion Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
