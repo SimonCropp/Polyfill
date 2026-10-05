@@ -12,7 +12,7 @@ static partial class Polyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.compilerservices.conditionalweaktable-2.remove?view=net-11.0#system-runtime-compilerservices-conditionalweaktable-2-remove(-0-1@)
     //Note: Lookup and removal are not performed under the table lock, so the operation is not atomic with regard to concurrent mutations.
-    public static bool Remove<TKey, TValue>(
+    public static bool Remove<TKey, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TValue>(
         this ConditionalWeakTable<TKey, TValue> target,
         TKey key,
         [MaybeNullWhen(false)] out TValue value)

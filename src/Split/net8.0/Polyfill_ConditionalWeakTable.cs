@@ -8,7 +8,7 @@ static partial class Polyfill
 	/// <summary>
 	/// Removes a key and its value from the table, and returns the removed value.
 	/// </summary>
-	public static bool Remove<TKey, TValue>(
+	public static bool Remove<TKey, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] TValue>(
 		this ConditionalWeakTable<TKey, TValue> target,
 		TKey key,
 		[MaybeNullWhen(false)] out TValue value)
