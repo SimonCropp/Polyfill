@@ -197,6 +197,43 @@ public class FilePolyfillTests
         await Assert.That(result).IsEqualTo(content);
     }
 
+    // With no encoding given the BCL writes UTF-8 without a byte order mark
+    [Test]
+    public async Task WriteAllTextAsync_NoEncoding_WritesNoBom()
+    {
+        await File.WriteAllTextAsync(restFilePath, "abc");
+
+        var result = File.ReadAllBytes(restFilePath);
+        await Assert.That(result.SequenceEqual("abc"u8.ToArray())).IsTrue();
+    }
+
+    [Test]
+    public async Task AppendAllTextAsync_NoEncoding_WritesNoBom()
+    {
+        await File.AppendAllTextAsync(restFilePath, "abc");
+
+        var result = File.ReadAllBytes(restFilePath);
+        await Assert.That(result.SequenceEqual("abc"u8.ToArray())).IsTrue();
+    }
+
+    [Test]
+    public async Task WriteAllLinesAsync_NoEncoding_WritesNoBom()
+    {
+        await File.WriteAllLinesAsync(restFilePath, ["abc"]);
+
+        var result = File.ReadAllBytes(restFilePath);
+        await Assert.That(result.SequenceEqual(Encoding.UTF8.GetBytes($"abc{Environment.NewLine}"))).IsTrue();
+    }
+
+    [Test]
+    public async Task AppendAllLinesAsync_NoEncoding_WritesNoBom()
+    {
+        await File.AppendAllLinesAsync(restFilePath, ["abc"]);
+
+        var result = File.ReadAllBytes(restFilePath);
+        await Assert.That(result.SequenceEqual(Encoding.UTF8.GetBytes($"abc{Environment.NewLine}"))).IsTrue();
+    }
+
     [Test]
     public async Task Move_ShouldMoveFileToNewLocation()
     {
