@@ -130,7 +130,7 @@ static partial class Polyfill
 		/// Asynchronously creates a new file, writes the specified lines to the file, and then closes the file.
 		/// </summary>
 		public static Task WriteAllLinesAsync(string path, IEnumerable<string> contents, CancellationToken cancellationToken = default) =>
-			WriteAllLinesAsync(path, contents, Encoding.UTF8, cancellationToken);
+			WriteAllLinesAsync(path, contents, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), cancellationToken);
 		/// <summary>
 		/// Asynchronously creates a new file, write the specified lines to the file by using the specified encoding, and then closes the file.
 		/// </summary>
@@ -149,7 +149,7 @@ static partial class Polyfill
 		/// Asynchronously appends lines to a file, and then closes the file. If the specified file does not exist, this method creates a file, writes the specified lines to the file, and then closes the file.
 		/// </summary>
 		public static Task AppendAllLinesAsync(string path, IEnumerable<string> contents, CancellationToken cancellationToken = default) =>
-			AppendAllLinesAsync(path, contents, Encoding.UTF8, cancellationToken);
+			AppendAllLinesAsync(path, contents, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), cancellationToken);
 		/// <summary>
 		/// Asynchronously appends lines to a file by using a specified encoding, and then closes the file. If the specified file does not exist, this method creates a file, writes the specified lines to the file, and then closes the file.
 		/// </summary>
@@ -182,7 +182,7 @@ static partial class Polyfill
 		/// Asynchronously creates a new file, writes the specified string to the file using the specified encoding, and then closes the file. If the target file already exists, it is truncated and overwritten.
 		/// </summary>
 		public static Task WriteAllTextAsync(string path, string? contents, CancellationToken cancellationToken = default) =>
-			WriteAllTextAsync(path, contents, Encoding.UTF8, cancellationToken);
+			WriteAllTextAsync(path, contents, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), cancellationToken);
 		/// <summary>
 		/// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file using the specified encoding, and then closes the file.
 		/// </summary>
@@ -198,7 +198,7 @@ static partial class Polyfill
 		/// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file, and then closes the file.
 		/// </summary>
 		public static Task AppendAllTextAsync(string path, string? contents, CancellationToken cancellationToken = default) =>
-			AppendAllTextAsync(path, contents, Encoding.UTF8, cancellationToken);
+			AppendAllTextAsync(path, contents, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false), cancellationToken);
 		/// <summary>
 		/// Asynchronously opens a binary file, reads the contents of the file into a byte array, and then closes the file.
 		/// </summary>
