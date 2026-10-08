@@ -147,6 +147,45 @@ This project uses features from the newest stable SDK and C# language. As such c
 <!-- endInclude -->
 
 
+### Trimming unused polyfills with Squash
+
+The sizes above are the cost of every polyfill, used or not. [Squash](https://github.com/SimonCropp/Squash) removes the ones a library never calls. It runs the .NET IL linker over the library's own assembly straight after the compiler, keeps the public surface and everything reachable from it, and trims the rest. Since polyfills are `internal`, any that nothing reaches are removed.
+
+```xml
+<PackageReference Include="Squash" Version="x.y.z" PrivateAssets="all" />
+```
+
+A library that uses four APIs from Polyfill 11.4.3:
+
+| Target framework | Without Squash | With Squash |
+|---|--:|--:|
+| `netstandard2.0` | 212,992 bytes | 11,776 bytes |
+| `net10.0` | 79,872 bytes | 8,704 bytes |
+
+Notes:
+
+ * Squash runs on Release builds of C# libraries by default. Debug builds are not trimmed.
+ * The build machine needs a .NET 10 or later runtime. The target framework of the library does not matter.
+ * Where the project sets `GenerateDocumentationFile`, the entries for removed polyfills are taken out of the XML documentation file as well.
+ * With `PolyPublic` the polyfills are part of the public surface, so none are removed.
+ * Members reached only through reflection, for example by a serializer, are removed. `obj/{configuration}/{framework}/Squash/removed.txt` lists everything that was trimmed. To keep a member, use `DynamicDependencyAttribute`, which Squash recognises by name, so the [polyfilled copy](#trimming-annotation-attributes) works on older frameworks.
+
+
+#### InternalsVisibleTo
+
+Squash ignores `InternalsVisibleTo` by default, so an internal used only by a friend assembly, such as a test project, is removed. To keep the library's own internals for its friends while still trimming the polyfills, name the library's namespaces:
+
+```xml
+<PropertyGroup>
+  <Squash_InternalNamespacesToKeep>MyLibrary</Squash_InternalNamespacesToKeep>
+</PropertyGroup>
+```
+
+Polyfills live in the `Polyfills` and `System.*` namespaces, so they are still trimmed. A friend assembly that uses a polyfill the library itself does not use then fails to compile against the trimmed library. Reference Polyfill from that friend assembly as well, so it has a copy of its own.
+
+See the [Squash readme](https://github.com/SimonCropp/Squash#readme) for all settings.
+
+
 ## PolyfillLib
 
 To consume Polyfill as a library (instead of a source-only package) see [PolyfillLib](polyfill-lib.md)
