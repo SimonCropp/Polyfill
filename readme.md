@@ -89,6 +89,11 @@ This project uses features from the newest stable SDK and C# language. As such c
 ```
 
 
+### SDK-style projects only
+
+Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-sdk/overview) (`<Project Sdk="...">`) are supported. Old-style (non-SDK) `.csproj` files, including those using `PackageReference`, are not supported.
+
+
 ## Assembly size impact
 
 
