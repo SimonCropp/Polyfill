@@ -1,15 +1,22 @@
+<!-- Old-style (non SDK) class library using PackageReference. Not a WPF project:
+     it verifies that feature detection reads the NuGet metadata from
+     @(ReferencePath) when @(ResolvedCompileFileDefinitions) does not exist.
+     Needs msbuild.exe, so it is not in Polyfill.slnx and is built by its own
+     step in .github/workflows/build.yml. -->
 <Project ToolsVersion="Current" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
     <Platform Condition="'$(Platform)' == ''">AnyCPU</Platform>
     <OutputType>Library</OutputType>
+    <!-- TargetFramework is not used by old-style projects, but Polyfill.targets reads it. -->
     <TargetFramework>net48</TargetFramework>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <AssemblyName>ConsumeOldStyle</AssemblyName>
     <RootNamespace>ConsumeOldStyle</RootNamespace>
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <LangVersion>latest</LangVersion>
+    <!-- CS0162: the canonical (unsplit) Polyfill source has unreachable branches on a single TFM. -->
     <NoWarn>$(NoWarn);CS0162</NoWarn>
   </PropertyGroup>
   <ItemGroup>

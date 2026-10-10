@@ -3,6 +3,8 @@
     <TargetFramework>net48</TargetFramework>
     <OutputType>WinExe</OutputType>
     <UseWPF>true</UseWPF>
+    <!-- Lets the solution build on non-Windows machines. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Memory" />
