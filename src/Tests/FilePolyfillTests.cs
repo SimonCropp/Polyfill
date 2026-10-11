@@ -164,6 +164,81 @@ public class FilePolyfillTests
         await Assert.That(result).IsEqualTo(expected);
     }
 
+    [UnsupportedOSPlatform("windows")]
+    [Test]
+    public async Task GetSetUnixFileMode_PathWithSpaces()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
+
+        var directory = Path.Combine(Path.GetTempPath(), "polyfill mode " + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        var path = Path.Combine(directory, "it's a \"file\".txt");
+        try
+        {
+            File.WriteAllText(path, "content");
+            var expected = UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead;
+
+            File.SetUnixFileMode(path, expected);
+
+            await Assert.That(File.GetUnixFileMode(path)).IsEqualTo(expected);
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [UnsupportedOSPlatform("windows")]
+    [Test]
+    public async Task GetSetUnixFileMode_MissingFile_Throws()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
+
+        var missing = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"), "missing.txt");
+
+        await Assert.That(() => File.GetUnixFileMode(missing)).Throws<IOException>();
+        await Assert.That(() => File.SetUnixFileMode(missing, UnixFileMode.UserRead)).Throws<IOException>();
+    }
+
+#if !NET7_0_OR_GREATER
+    // UnixFileModeHelper only exists where File.GetUnixFileMode is polyfilled
+    [Test]
+    [Arguments("644\n", (int) (UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead))]
+    [Arguments("644", (int) (UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead))]
+    [Arguments(" 755\r\n", (int) (UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute | UnixFileMode.GroupRead | UnixFileMode.GroupExecute | UnixFileMode.OtherRead | UnixFileMode.OtherExecute))]
+    [Arguments("4755\n", (int) (UnixFileMode.SetUser | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute | UnixFileMode.GroupRead | UnixFileMode.GroupExecute | UnixFileMode.OtherRead | UnixFileMode.OtherExecute))]
+    [Arguments("6000\n", (int) (UnixFileMode.SetUser | UnixFileMode.SetGroup))]
+    [Arguments("1777\n", (int) (UnixFileMode.StickyBit | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute | UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute | UnixFileMode.OtherRead | UnixFileMode.OtherWrite | UnixFileMode.OtherExecute))]
+    [Arguments("0\n", (int) (UnixFileMode.None))]
+    [Arguments("44\n", (int) (UnixFileMode.GroupRead | UnixFileMode.OtherRead))]
+    // BSD stat -f %p includes the file type
+    [Arguments("100644\n", (int) (UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead))]
+    [Arguments("104755\n", (int) (UnixFileMode.SetUser | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute | UnixFileMode.GroupRead | UnixFileMode.GroupExecute | UnixFileMode.OtherRead | UnixFileMode.OtherExecute))]
+    [Arguments("40700\n", (int) (UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute))]
+    public async Task UnixFileModeHelper_ParseMode(string output, int expected)
+    {
+        var mode = Polyfills.Polyfill.UnixFileModeHelper.ParseMode(output);
+
+        await Assert.That((int) mode).IsEqualTo(expected);
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments("\n")]
+    [Arguments("stat: cannot stat")]
+    [Arguments("689")]
+    public async Task UnixFileModeHelper_ParseMode_Invalid(string output)
+    {
+        await Assert.That(() => Polyfills.Polyfill.UnixFileModeHelper.ParseMode(output)).Throws<FormatException>();
+    }
+#endif
+
 #if FeatureMemory
     [Test]
     public async Task WriteAllBytesAsync()
