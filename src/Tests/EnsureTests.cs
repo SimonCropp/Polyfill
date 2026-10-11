@@ -363,6 +363,31 @@ public class EnsureTests
 #endif
 
     [Test]
+    public async Task Comparison_Nint_Messages()
+    {
+        // ReSharper disable SuggestVarOrType_BuiltInTypes
+        nint one = 1;
+        nint two = 2;
+        // ReSharper restore SuggestVarOrType_BuiltInTypes
+
+        var notLessThan = await Assert.That(() => Ensure.NotLessThan(one, two)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(notLessThan!.ParamName).IsEqualTo("one");
+        await Assert.That(notLessThan.Message).Contains("one ('1') must be greater than or equal to '2'.");
+
+        var notLessThanOrEqual = await Assert.That(() => Ensure.NotLessThanOrEqual(two, two)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(notLessThanOrEqual!.ParamName).IsEqualTo("two");
+        await Assert.That(notLessThanOrEqual.Message).Contains("two ('2') must be greater than '2'.");
+
+        var notGreaterThanOrEqual = await Assert.That(() => Ensure.NotGreaterThanOrEqual(two, two)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(notGreaterThanOrEqual!.ParamName).IsEqualTo("two");
+        await Assert.That(notGreaterThanOrEqual.Message).Contains("two ('2') must be less than '2'.");
+
+        await Assert.That(() => Ensure.NotLessThan(two, one)).ThrowsNothing();
+        await Assert.That(() => Ensure.NotLessThanOrEqual(two, one)).ThrowsNothing();
+        await Assert.That(() => Ensure.NotGreaterThanOrEqual(one, two)).ThrowsNothing();
+    }
+
+    [Test]
     public async Task NotNegativeOrZero_WithPositive_DoesNotThrow()
     {
         // ReSharper disable once SuggestVarOrType_BuiltInTypes
