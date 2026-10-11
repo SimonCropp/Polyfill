@@ -156,7 +156,16 @@ static partial class Polyfill
 
             for (var i = 0; i < source.Length; i++)
             {
-                utf8[i] = (byte) source[i];
+                var c = source[i];
+
+                // narrowing a non-ASCII char could turn it into a valid base-64 byte
+                if (c > 0x7F)
+                {
+                    utf8[i] = 0xFF;
+                    continue;
+                }
+
+                utf8[i] = (byte) c;
             }
 
             return Base64.DecodeFromUtf8(utf8, destination, out charsConsumed, out bytesWritten, isFinalBlock);

@@ -121,7 +121,13 @@ static partial class Polyfill
 			var utf8 = new byte[source.Length];
 			for (var i = 0; i < source.Length; i++)
 			{
-				utf8[i] = (byte) source[i];
+				var c = source[i];
+				if (c > 0x7F)
+				{
+					utf8[i] = 0xFF;
+					continue;
+				}
+				utf8[i] = (byte) c;
 			}
 			return Base64.DecodeFromUtf8(utf8, destination, out charsConsumed, out bytesWritten, isFinalBlock);
 		}

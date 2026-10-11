@@ -156,6 +156,20 @@ public class Base64Tests
         var decoded = Base64.DecodeFromChars(encoded.AsSpan());
         await Assert.That(decoded).IsEquivalentTo(data);
     }
+
+    [Test]
+    [Arguments("AQI\u0144", 0, 0)]
+    [Arguments("\u0141QID", 0, 0)]
+    [Arguments("AQIDAQI\u0144", 4, 3)]
+    public async Task DecodeFromChars_OperationStatus_NonAscii(string text, int expectedConsumed, int expectedWritten)
+    {
+        // U+0144 and U+0141 narrow to the bytes 'D' and 'A'
+        var destination = new byte[20];
+        var status = Base64.DecodeFromChars(text.AsSpan(), destination, out var consumed, out var written);
+        await Assert.That(status).IsEqualTo(OperationStatus.InvalidData);
+        await Assert.That(consumed).IsEqualTo(expectedConsumed);
+        await Assert.That(written).IsEqualTo(expectedWritten);
+    }
 }
 
 #endif
