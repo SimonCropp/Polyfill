@@ -84,13 +84,8 @@ static class OperatingSystemCache
             return false;
         }
 
-        if (windowsVersion == null)
-        {
-            var input = RuntimeInformation.OSDescription
-                .Replace("Microsoft Windows", string.Empty)
-                .Replace(" ", string.Empty);
-            windowsVersion = Version.Parse(input);
-        }
+        // e.g. "Microsoft Windows 10.0.19045 " or "Microsoft Windows 6.1.7601 Service Pack 1"
+        windowsVersion ??= ParseVersion(RuntimeInformation.OSDescription);
 
         return windowsVersion >= new Version(major, minor, build, revision);
     }

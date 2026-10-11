@@ -71,13 +71,7 @@ static class OperatingSystemCache
 		{
 			return false;
 		}
-		if (windowsVersion == null)
-		{
-			var input = RuntimeInformation.OSDescription
-				.Replace("Microsoft Windows", string.Empty)
-				.Replace(" ", string.Empty);
-			windowsVersion = Version.Parse(input);
-		}
+		windowsVersion ??= ParseVersion(RuntimeInformation.OSDescription);
 		return windowsVersion >= new Version(major, minor, build, revision);
 	}
 	public static bool IsAndroid()
