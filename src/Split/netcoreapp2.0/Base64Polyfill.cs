@@ -136,23 +136,15 @@ static partial class Polyfill
 		/// </summary>
 		public static bool TryDecodeFromChars(ReadOnlySpan<char> source, Span<byte> destination, out int bytesWritten)
 		{
-			try
-			{
-				var decoded = DecodeBase64(source);
-				if (decoded.Length > destination.Length)
-				{
-					bytesWritten = 0;
-					return false;
-				}
-				decoded.CopyTo(destination);
-				bytesWritten = decoded.Length;
-				return true;
-			}
-			catch (FormatException)
+			var decoded = DecodeBase64(source);
+			if (decoded.Length > destination.Length)
 			{
 				bytesWritten = 0;
 				return false;
 			}
+			decoded.CopyTo(destination);
+			bytesWritten = decoded.Length;
+			return true;
 		}
 		/// <summary>
 		/// Decodes the span of UTF-8 encoded text represented as base-64 into binary data.
