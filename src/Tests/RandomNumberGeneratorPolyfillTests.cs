@@ -98,4 +98,26 @@ public class RandomNumberGeneratorPolyfillTests
     [Test]
     public async Task GetHexString_StringLength_Invalid_Throws() =>
         await Assert.That(() => RandomNumberGenerator.GetHexString(-1)).Throws<ArgumentOutOfRangeException>();
+
+#if FeatureMemory
+    [Test]
+    [Arguments(1)]
+    [Arguments(511)]
+    [Arguments(512)]
+    [Arguments(513)]
+    // large enough that a stack buffer proportional to the destination would overflow the stack
+    [Arguments(8 * 1024 * 1024 + 1)]
+    public async Task GetHexString_Span_AnyLength(int length)
+    {
+        var chars = new char[length];
+        RandomNumberGenerator.GetHexString(chars.AsSpan());
+        await Assert.That(chars.All(c => c is (>= '0' and <= '9') or (>= 'A' and <= 'F'))).IsTrue();
+        if (length > 4096)
+        {
+            // every hex digit shows up, at both ends of the span
+            await Assert.That(chars.Take(length / 2).Distinct().Count()).IsEqualTo(16);
+            await Assert.That(chars.Skip(length / 2).Distinct().Count()).IsEqualTo(16);
+        }
+    }
+#endif
 }
