@@ -177,25 +177,17 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.trydecodefromchars?view=net-11.0
         public static bool TryDecodeFromChars(ReadOnlySpan<char> source, Span<byte> destination, out int bytesWritten)
         {
-            try
-            {
-                var decoded = DecodeBase64(source);
+            var decoded = DecodeBase64(source);
 
-                if (decoded.Length > destination.Length)
-                {
-                    bytesWritten = 0;
-                    return false;
-                }
-
-                decoded.CopyTo(destination);
-                bytesWritten = decoded.Length;
-                return true;
-            }
-            catch (FormatException)
+            if (decoded.Length > destination.Length)
             {
                 bytesWritten = 0;
                 return false;
             }
+
+            decoded.CopyTo(destination);
+            bytesWritten = decoded.Length;
+            return true;
         }
 
         /// <summary>

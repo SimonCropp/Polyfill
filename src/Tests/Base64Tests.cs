@@ -170,6 +170,22 @@ public class Base64Tests
         await Assert.That(consumed).IsEqualTo(expectedConsumed);
         await Assert.That(written).IsEqualTo(expectedWritten);
     }
+
+    [Test]
+    [Arguments("!!!!")]
+    [Arguments("AQI")]
+    [Arguments("AQ=I")]
+    public async Task TryDecodeFromChars_Invalid(string text) =>
+        await Assert.That(() => Base64.TryDecodeFromChars(text.AsSpan(), new byte[20], out _)).Throws<FormatException>();
+
+    [Test]
+    public async Task TryDecodeFromChars_TooSmall()
+    {
+        var destination = new byte[2];
+        var result = Base64.TryDecodeFromChars("AQID".AsSpan(), destination, out var bytesWritten);
+        await Assert.That(result).IsFalse();
+        await Assert.That(bytesWritten).IsEqualTo(0);
+    }
 }
 
 #endif
