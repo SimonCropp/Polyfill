@@ -148,6 +148,34 @@ public class BitConverterPolyfillTests
         var backToDouble = BitConverter.UInt64BitsToDouble(asULong);
         await Assert.That(backToDouble).IsEqualTo(original);
     }
+
+    [Test]
+    public async Task UInt32BitsToSingle_NegativeOne()
+    {
+        var result = BitConverter.UInt32BitsToSingle(0xBF800000u);
+        await Assert.That(result).IsEqualTo(-1.0f);
+    }
+
+    [Test]
+    public async Task SingleToUInt32Bits_NegativeOne()
+    {
+        var result = BitConverter.SingleToUInt32Bits(-1.0f);
+        await Assert.That(result).IsEqualTo(0xBF800000u);
+    }
+
+    [Test]
+    public async Task UInt64BitsToDouble_NegativeOne()
+    {
+        var result = BitConverter.UInt64BitsToDouble(0xBFF0000000000000ul);
+        await Assert.That(result).IsEqualTo(-1.0d);
+    }
+
+    [Test]
+    public async Task DoubleToUInt64Bits_NegativeOne()
+    {
+        var result = BitConverter.DoubleToUInt64Bits(-1.0d);
+        await Assert.That(result).IsEqualTo(0xBFF0000000000000ul);
+    }
 }
 
 #endif

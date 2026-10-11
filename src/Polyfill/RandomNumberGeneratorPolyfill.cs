@@ -24,7 +24,7 @@ static partial class Polyfill
 
             // The total possible range is [0, 4,294,967,295).
             // Subtract one to account for zero being an actual possibility.
-            var range = (uint) toExclusive - (uint) fromInclusive - 1;
+            var range = unchecked((uint) toExclusive - (uint) fromInclusive - 1);
 
             // If there is only one possible choice, nothing random will actually happen, so return
             // the only possibility.

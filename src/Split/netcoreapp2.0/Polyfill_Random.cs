@@ -84,7 +84,7 @@ static partial class Polyfill
 		{
 			return minValue;
 		}
-		var range = (ulong)(maxValue - minValue);
+		var range = unchecked((ulong)(maxValue - minValue));
 		var limit = ulong.MaxValue - ulong.MaxValue % range;
 		ulong result;
 		do
@@ -93,7 +93,7 @@ static partial class Polyfill
 			target.NextBytes(buf);
 			result = BitConverter.ToUInt64(buf, 0);
 		} while (result >= limit);
-		return (long)(result % range) + minValue;
+		return unchecked((long)(result % range) + minValue);
 	}
 	/// <summary>
 	/// Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.

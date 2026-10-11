@@ -42,7 +42,7 @@ static partial class Polyfill
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static float UInt32BitsToSingle(uint value)
 		{
-			return BitConverter.Int32BitsToSingle((int)value);
+			return BitConverter.Int32BitsToSingle(unchecked((int)value));
 		}
 		/// <summary>
 		/// Converts the specified 64-bit unsigned integer to a double-precision floating point number.
@@ -50,7 +50,7 @@ static partial class Polyfill
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static double UInt64BitsToDouble(ulong value)
 		{
-			return BitConverter.Int64BitsToDouble((long)value);
+			return BitConverter.Int64BitsToDouble(unchecked((long)value));
 		}
 		/// <summary>
 		/// Converts a single-precision floating-point value into an integer.
@@ -75,7 +75,7 @@ static partial class Polyfill
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static uint SingleToUInt32Bits(float value)
 		{
-			return (uint)BitConverter.SingleToInt32Bits(value);
+			return unchecked((uint)BitConverter.SingleToInt32Bits(value));
 		}
 		/// <summary>
 		/// Converts the specified double-precision floating point number to a 64-bit unsigned integer.
@@ -83,7 +83,7 @@ static partial class Polyfill
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static ulong DoubleToUInt64Bits(double value)
 		{
-			return (ulong)BitConverter.DoubleToInt64Bits(value);
+			return unchecked((ulong)BitConverter.DoubleToInt64Bits(value));
 		}
 		/// <summary>
 		/// Converts a read-only byte span into a Boolean.

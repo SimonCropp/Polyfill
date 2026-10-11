@@ -16,7 +16,7 @@ static partial class Polyfill
 			{
 				throw new ArgumentException("toExclusive must be greater than fromInclusive.");
 			}
-			var range = (uint) toExclusive - (uint) fromInclusive - 1;
+			var range = unchecked((uint) toExclusive - (uint) fromInclusive - 1);
 			if (range == 0)
 			{
 				return fromInclusive;

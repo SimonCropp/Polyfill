@@ -110,7 +110,7 @@ static partial class Polyfill
             return minValue;
         }
 
-        var range = (ulong)(maxValue - minValue);
+        var range = unchecked((ulong)(maxValue - minValue));
         var limit = ulong.MaxValue - ulong.MaxValue % range;
         ulong result;
         do
@@ -120,7 +120,7 @@ static partial class Polyfill
             result = BitConverter.ToUInt64(buf, 0);
         } while (result >= limit);
 
-        return (long)(result % range) + minValue;
+        return unchecked((long)(result % range) + minValue);
     }
 
     /// <summary>
