@@ -22,6 +22,8 @@ static partial class Polyfill
             return Log10Core((UInt128) value);
         }
 
+#if !NET10_0_OR_GREATER
+
         /// <summary>
         /// Produces the full product of two 128-bit numbers.
         /// </summary>
@@ -37,6 +39,8 @@ static partial class Polyfill
                 return (Int128) upper - ((left >> 127) & right) - ((right >> 127) & left);
             }
         }
+
+#endif
     }
 
     static Int128 Log10Core(UInt128 value)
