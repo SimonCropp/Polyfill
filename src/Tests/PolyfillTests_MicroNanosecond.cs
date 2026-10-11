@@ -30,6 +30,51 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task AddMicroseconds_LargeValue_KeepsPrecision()
+    {
+        // 2000000000000001 * 10 is not representable as a double, so the multiplication must not be done as a double
+        var baseDateTime = new DateTime(0);
+        await Assert.That(baseDateTime.AddMicroseconds(2000000000000001d).Ticks).IsEqualTo(20000000000000010L);
+        await Assert.That(baseDateTime.AddMicroseconds(2000000000000001.5d).Ticks).IsEqualTo(20000000000000015L);
+
+        var laterDateTime = new DateTime(20000000000000010L);
+        await Assert.That(laterDateTime.AddMicroseconds(-2000000000000001d).Ticks).IsEqualTo(0L);
+
+        var baseOffset = new DateTimeOffset(0, TimeSpan.Zero);
+        await Assert.That(baseOffset.AddMicroseconds(2000000000000001d).Ticks).IsEqualTo(20000000000000010L);
+        await Assert.That(baseOffset.AddMicroseconds(2000000000000001.5d).Ticks).IsEqualTo(20000000000000015L);
+
+        var laterOffset = new DateTimeOffset(20000000000000010L, TimeSpan.Zero);
+        await Assert.That(laterOffset.AddMicroseconds(-2000000000000001d).Ticks).IsEqualTo(0L);
+    }
+
+    [Test]
+    public async Task AddMicroseconds_Fractional()
+    {
+        var baseDateTime = new DateTime(2020, 1, 1);
+        await Assert.That((baseDateTime.AddMicroseconds(1.5) - baseDateTime).Ticks).IsEqualTo(15L);
+        await Assert.That((baseDateTime.AddMicroseconds(-1.5) - baseDateTime).Ticks).IsEqualTo(-15L);
+        await Assert.That((baseDateTime.AddMicroseconds(0.05) - baseDateTime).Ticks).IsEqualTo(0L);
+
+        var baseOffset = new DateTimeOffset(2020, 1, 1, 0, 0, 0, TimeSpan.Zero);
+        await Assert.That((baseOffset.AddMicroseconds(1.5) - baseOffset).Ticks).IsEqualTo(15L);
+        await Assert.That((baseOffset.AddMicroseconds(-1.5) - baseOffset).Ticks).IsEqualTo(-15L);
+    }
+
+    [Test]
+    public async Task AddMicroseconds_OutOfRange_Throws()
+    {
+        var baseDateTime = new DateTime(2020, 1, 1);
+        await Assert.That(() => baseDateTime.AddMicroseconds(1e30)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => baseDateTime.AddMicroseconds(-1e30)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => baseDateTime.AddMicroseconds(double.PositiveInfinity)).Throws<ArgumentOutOfRangeException>();
+
+        var baseOffset = new DateTimeOffset(2020, 1, 1, 0, 0, 0, TimeSpan.Zero);
+        await Assert.That(() => baseOffset.AddMicroseconds(1e30)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => baseOffset.AddMicroseconds(-1e30)).Throws<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
     public async Task Microsecond_and_Nanosecond()
     {
         // 1234567 sub-second ticks decompose to 123 ms, 456 µs, 700 ns
