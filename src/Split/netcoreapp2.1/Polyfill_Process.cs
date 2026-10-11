@@ -331,10 +331,9 @@ static partial class Polyfill
 	/// </summary>
 	public static async Task WaitForExitAsync(this Process target, CancellationToken cancellationToken = default)
 	{
-		cancellationToken.ThrowIfCancellationRequested();
-		if (target.HasExited)
+		if (!target.HasExited)
 		{
-			return;
+			cancellationToken.ThrowIfCancellationRequested();
 		}
 		try
 		{
@@ -342,6 +341,7 @@ static partial class Polyfill
 		}
 		catch (InvalidOperationException) when (target.HasExited)
 		{
+			await WaitUntilOutputEof(target, cancellationToken);
 			return;
 		}
 		var tcs = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -356,10 +356,50 @@ static partial class Polyfill
 					await tcs.Task.ConfigureAwait(false);
 				}
 			}
+			await WaitUntilOutputEof(target, cancellationToken);
 		}
 		finally
 		{
 			target.Exited -= handler;
+		}
+	}
+	static async Task WaitUntilOutputEof(Process target, CancellationToken cancellationToken)
+	{
+		if (!HasRedirectedOutput(target))
+		{
+			return;
+		}
+		var drain = Task.Run(() => target.WaitForExit());
+		if (!cancellationToken.CanBeCanceled)
+		{
+			await drain;
+			return;
+		}
+		var canceled = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
+		using (cancellationToken.UnsafeRegister(static (s, cancellationToken) => ((TaskCompletionSource<object>) s!).TrySetCanceled(cancellationToken), canceled))
+		{
+			if (await Task.WhenAny(drain, canceled.Task) != drain)
+			{
+				await Task.WhenAny(drain, Task.Delay(100));
+				if (!drain.IsCompleted)
+				{
+					await canceled.Task;
+				}
+			}
+			await drain;
+		}
+	}
+	static bool HasRedirectedOutput(Process target)
+	{
+		try
+		{
+			var startInfo = target.StartInfo;
+			return startInfo.RedirectStandardOutput ||
+				   startInfo.RedirectStandardError;
+		}
+		catch (InvalidOperationException)
+		{
+			return false;
 		}
 	}
 #if FeatureValueTuple

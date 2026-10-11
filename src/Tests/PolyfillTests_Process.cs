@@ -28,6 +28,57 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task Process_WaitForExitAsync_WaitsForAsyncOutput()
+    {
+        using var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = "dotnet",
+                Arguments = "--info",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+            }
+        };
+        var lines = 0;
+        var endOfOutput = false;
+        process.OutputDataReceived += (_, e) =>
+        {
+            if (e.Data is null)
+            {
+                Volatile.Write(ref endOfOutput, true);
+                return;
+            }
+
+            // a slow consumer, so the output is still being delivered when the process exits
+            Thread.Sleep(5);
+            Interlocked.Increment(ref lines);
+        };
+        process.Start();
+        process.BeginOutputReadLine();
+
+        await process.WaitForExitAsync();
+
+        await Assert.That(Volatile.Read(ref endOfOutput)).IsTrue();
+        await Assert.That(Volatile.Read(ref lines)).IsGreaterThan(0);
+    }
+
+    [Test]
+    public async Task Process_WaitForExitAsync_ExitedAndCanceled_Completes()
+    {
+        using var process = StartVersion();
+        process.WaitForExit();
+        using var cancelSource = new CancelSource();
+        cancelSource.Cancel();
+
+        // cancellation is only observed while the process is still running
+        await process.WaitForExitAsync(cancelSource.Token);
+
+        await Assert.That(process.HasExited).IsTrue();
+    }
+
+    [Test]
     public async Task Process_Kill_EntireProcessTree()
     {
         var process = new Process
