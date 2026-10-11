@@ -53,6 +53,30 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task EnumerateMatchesStatic_WithOptions()
+    {
+        var results = new List<string>();
+        foreach (var match in Regex.EnumerateMatches("a55B7b".AsSpan(), @"b\d*", RegexOptions.IgnoreCase))
+        {
+            results.Add($"{match.Index}:{match.Length}");
+        }
+
+        await Assert.That(string.Join(" ", results)).IsEqualTo("3:2 5:1");
+    }
+
+    [Test]
+    public async Task EnumerateMatchesStatic_WithOptionsAndTimeout()
+    {
+        var results = new List<string>();
+        foreach (var match in Regex.EnumerateMatches("a55B7b".AsSpan(), @"b\d*", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(10)))
+        {
+            results.Add($"{match.Index}:{match.Length}");
+        }
+
+        await Assert.That(string.Join(" ", results)).IsEqualTo("3:2 5:1");
+    }
+
+    [Test]
     public Task EnumerateMatchesStatic()
     {
         var span = "a55a".AsSpan();
