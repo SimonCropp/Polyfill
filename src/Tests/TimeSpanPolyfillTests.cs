@@ -58,6 +58,45 @@ public class TimeSpanPolyfillTests
     }
 
     [Test]
+    public async Task FromDays_LongComponents()
+    {
+        var ts = TimeSpan.FromDays(1, 2, 3L, 4L, 5L, 6L);
+        await Assert.That(ts.Ticks).IsEqualTo(new TimeSpan(1, 2, 3, 4, 5).Ticks + 60);
+
+        // values that do not fit in an Int32
+        ts = TimeSpan.FromDays(0, 0, 0L, 3_000_000_000L);
+        await Assert.That(ts.Ticks).IsEqualTo(3_000_000_000L * TimeSpan.TicksPerSecond);
+        ts = TimeSpan.FromDays(0, 0, 0L, 0L, 0L, 5_000_000_000L);
+        await Assert.That(ts.Ticks).IsEqualTo(5_000L * TimeSpan.TicksPerSecond);
+    }
+
+    [Test]
+    public async Task FromHours_LongComponents()
+    {
+        var ts = TimeSpan.FromHours(1, 2L, 3L, 4L, 5L);
+        await Assert.That(ts.Ticks).IsEqualTo(new TimeSpan(0, 1, 2, 3, 4).Ticks + 50);
+
+        // values that do not fit in an Int32
+        ts = TimeSpan.FromHours(0, 3_000_000_000L);
+        await Assert.That(ts.Ticks).IsEqualTo(3_000_000_000L * TimeSpan.TicksPerMinute);
+        ts = TimeSpan.FromHours(0, 0L, 0L, 5_000_000_000L);
+        await Assert.That(ts.Ticks).IsEqualTo(5_000_000L * TimeSpan.TicksPerSecond);
+    }
+
+    [Test]
+    public async Task FromMinutes_LongComponents()
+    {
+        var ts = TimeSpan.FromMinutes(1L, 2L, 3L, 4L);
+        await Assert.That(ts.Ticks).IsEqualTo(new TimeSpan(0, 0, 1, 2, 3).Ticks + 40);
+
+        // values that do not fit in an Int32
+        ts = TimeSpan.FromMinutes(3_000_000_000L, 0L);
+        await Assert.That(ts.Ticks).IsEqualTo(3_000_000_000L * TimeSpan.TicksPerMinute);
+        ts = TimeSpan.FromMinutes(0L, 3_000_000_000L);
+        await Assert.That(ts.Ticks).IsEqualTo(3_000_000_000L * TimeSpan.TicksPerSecond);
+    }
+
+    [Test]
     public async Task FromHours_Int()
     {
         var ts = TimeSpan.FromHours(5);

@@ -164,8 +164,8 @@ static partial class Polyfill
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of days, hours, minutes, seconds, milliseconds, and microseconds.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromdays?view=net-11.0#system-timespan-fromdays(system-int32-system-int32-system-int32-system-int32-system-int32-system-int32)
-        public static TimeSpan FromDays(int days, int hours = 0, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0) =>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromdays?view=net-11.0#system-timespan-fromdays(system-int32-system-int32-system-int64-system-int64-system-int64-system-int64)
+        public static TimeSpan FromDays(int days, int hours = 0, long minutes = 0, long seconds = 0, long milliseconds = 0, long microseconds = 0) =>
             TicksFromMicroseconds(
                 (decimal)days * MicrosecondsPerDay +
                 (decimal)hours * MicrosecondsPerHour +
@@ -177,8 +177,8 @@ static partial class Polyfill
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of hours, minutes, seconds, milliseconds, and microseconds.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromhours?view=net-11.0#system-timespan-fromhours(system-int32-system-int32-system-int32-system-int32-system-int32)
-        public static TimeSpan FromHours(int hours, int minutes = 0, int seconds = 0, int milliseconds = 0, int microseconds = 0) =>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromhours?view=net-11.0#system-timespan-fromhours(system-int32-system-int64-system-int64-system-int64-system-int64)
+        public static TimeSpan FromHours(int hours, long minutes = 0, long seconds = 0, long milliseconds = 0, long microseconds = 0) =>
             TicksFromMicroseconds(
                 (decimal)hours * MicrosecondsPerHour +
                 (decimal)minutes * MicrosecondsPerMinute +
@@ -189,8 +189,8 @@ static partial class Polyfill
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of minutes, seconds, milliseconds, and microseconds.
         /// </summary>
-        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromminutes?view=net-11.0#system-timespan-fromminutes(system-int32-system-int32-system-int32-system-int32)
-        public static TimeSpan FromMinutes(int minutes, int seconds = 0, int milliseconds = 0, int microseconds = 0) =>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromminutes?view=net-11.0#system-timespan-fromminutes(system-int64-system-int64-system-int64-system-int64)
+        public static TimeSpan FromMinutes(long minutes, long seconds = 0, long milliseconds = 0, long microseconds = 0) =>
             TicksFromMicroseconds(
                 (decimal)minutes * MicrosecondsPerMinute +
                 (decimal)seconds * MicrosecondsPerSecond +
