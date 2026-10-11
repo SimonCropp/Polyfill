@@ -65,11 +65,7 @@ static partial class Polyfill
 		{
 			await target.ConnectAsync(address, port);
 		}
-		catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
-		{
-			throw new OperationCanceledException(cancellationToken);
-		}
-		catch (SocketException) when (cancellationToken.IsCancellationRequested)
+		catch (Exception) when (cancellationToken.IsCancellationRequested)
 		{
 			throw new OperationCanceledException(cancellationToken);
 		}
@@ -85,11 +81,7 @@ static partial class Polyfill
 		{
 			await target.ConnectAsync(addresses, port);
 		}
-		catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
-		{
-			throw new OperationCanceledException(cancellationToken);
-		}
-		catch (SocketException) when (cancellationToken.IsCancellationRequested)
+		catch (Exception) when (cancellationToken.IsCancellationRequested)
 		{
 			throw new OperationCanceledException(cancellationToken);
 		}
@@ -105,11 +97,7 @@ static partial class Polyfill
 		{
 			await target.ConnectAsync(host, port);
 		}
-		catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
-		{
-			throw new OperationCanceledException(cancellationToken);
-		}
-		catch (SocketException) when (cancellationToken.IsCancellationRequested)
+		catch (Exception) when (cancellationToken.IsCancellationRequested)
 		{
 			throw new OperationCanceledException(cancellationToken);
 		}
@@ -138,11 +126,7 @@ static partial class Polyfill
 		{
 			await target.ConnectAsync(remoteEP.Address, remoteEP.Port);
 		}
-		catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
-		{
-			throw new OperationCanceledException(cancellationToken);
-		}
-		catch (SocketException) when (cancellationToken.IsCancellationRequested)
+		catch (Exception) when (cancellationToken.IsCancellationRequested)
 		{
 			throw new OperationCanceledException(cancellationToken);
 		}

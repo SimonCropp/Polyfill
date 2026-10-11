@@ -77,11 +77,9 @@ static partial class Polyfill
         {
             await target.ConnectAsync(address, port);
         }
-        catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
-        {
-            throw new OperationCanceledException(cancellationToken);
-        }
-        catch (SocketException) when (cancellationToken.IsCancellationRequested)
+        // Closing the client is what cancels the connect. What that surfaces as is runtime specific:
+        // ObjectDisposedException, SocketException, or (on .NET Framework) NullReferenceException
+        catch (Exception) when (cancellationToken.IsCancellationRequested)
         {
             throw new OperationCanceledException(cancellationToken);
         }
@@ -98,11 +96,9 @@ static partial class Polyfill
         {
             await target.ConnectAsync(addresses, port);
         }
-        catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
-        {
-            throw new OperationCanceledException(cancellationToken);
-        }
-        catch (SocketException) when (cancellationToken.IsCancellationRequested)
+        // Closing the client is what cancels the connect. What that surfaces as is runtime specific:
+        // ObjectDisposedException, SocketException, or (on .NET Framework) NullReferenceException
+        catch (Exception) when (cancellationToken.IsCancellationRequested)
         {
             throw new OperationCanceledException(cancellationToken);
         }
@@ -119,11 +115,9 @@ static partial class Polyfill
         {
             await target.ConnectAsync(host, port);
         }
-        catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
-        {
-            throw new OperationCanceledException(cancellationToken);
-        }
-        catch (SocketException) when (cancellationToken.IsCancellationRequested)
+        // Closing the client is what cancels the connect. What that surfaces as is runtime specific:
+        // ObjectDisposedException, SocketException, or (on .NET Framework) NullReferenceException
+        catch (Exception) when (cancellationToken.IsCancellationRequested)
         {
             throw new OperationCanceledException(cancellationToken);
         }
@@ -160,11 +154,9 @@ static partial class Polyfill
         {
             await target.ConnectAsync(remoteEP.Address, remoteEP.Port);
         }
-        catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
-        {
-            throw new OperationCanceledException(cancellationToken);
-        }
-        catch (SocketException) when (cancellationToken.IsCancellationRequested)
+        // Closing the client is what cancels the connect. What that surfaces as is runtime specific:
+        // ObjectDisposedException, SocketException, or (on .NET Framework) NullReferenceException
+        catch (Exception) when (cancellationToken.IsCancellationRequested)
         {
             throw new OperationCanceledException(cancellationToken);
         }
