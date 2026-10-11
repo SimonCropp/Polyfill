@@ -2,6 +2,7 @@
 namespace Polyfills;
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -15,58 +16,65 @@ static partial class Polyfill
         /// Creates an async-enumerable that yields completed tasks from the provided collection as they complete.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.wheneach?view=net-11.0#system-threading-tasks-task-wheneach(system-collections-generic-ienumerable((system-threading-tasks-task)))
-        public static async IAsyncEnumerable<Task> WhenEach(
+        public static IAsyncEnumerable<Task> WhenEach(
             IEnumerable<Task> tasks,
-            [EnumeratorCancellation] CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default)
         {
             if (tasks == null)
             {
                 throw new ArgumentNullException(nameof(tasks));
             }
 
-            var remaining = new List<Task>(tasks);
-
-            if (remaining.Count == 0)
-            {
-                yield break;
-            }
-
-            while (remaining.Count > 0)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                var completed = await Task.WhenAny(remaining).ConfigureAwait(false);
-                remaining.Remove(completed);
-                yield return completed;
-            }
+            return WhenEachIterator(new List<Task>(tasks), cancellationToken);
         }
 
         /// <summary>
         /// Creates an async-enumerable that yields completed tasks from the provided collection as they complete.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.threading.tasks.task.wheneach?view=net-11.0#system-threading-tasks-task-wheneach-1(system-collections-generic-ienumerable((system-threading-tasks-task((-0)))))
-        public static async IAsyncEnumerable<Task<TResult>> WhenEach<TResult>(
+        public static IAsyncEnumerable<Task<TResult>> WhenEach<TResult>(
             IEnumerable<Task<TResult>> tasks,
-            [EnumeratorCancellation] CancellationToken cancellationToken = default)
+            CancellationToken cancellationToken = default)
         {
             if (tasks == null)
             {
                 throw new ArgumentNullException(nameof(tasks));
             }
 
-            var remaining = new List<Task<TResult>>(tasks);
+            return WhenEachIterator(new List<Task<TResult>>(tasks), cancellationToken);
+        }
+    }
 
-            if (remaining.Count == 0)
-            {
-                yield break;
-            }
+    static async IAsyncEnumerable<T> WhenEachIterator<T>(
+        List<T> tasks,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        where T : Task
+    {
+        // Each task enqueues itself when it completes, so the next completed task is found without
+        // re-scanning every remaining task, and the wait for it can observe the cancellation token.
+        var completed = new ConcurrentQueue<T>();
 
-            while (remaining.Count > 0)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                var completed = await Task.WhenAny(remaining).ConfigureAwait(false);
-                remaining.Remove(completed);
-                yield return completed;
-            }
+        // Not disposed: tasks still pending when enumeration stops will release it later.
+        var signal = new SemaphoreSlim(0);
+
+        foreach (var task in tasks)
+        {
+            task.ContinueWith(
+                _ =>
+                {
+                    completed.Enqueue(task);
+                    signal.Release();
+                },
+                CancellationToken.None,
+                TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default);
+        }
+
+        for (var index = 0; index < tasks.Count; index++)
+        {
+            await signal.WaitAsync(cancellationToken).ConfigureAwait(false);
+            completed.TryDequeue(out var next);
+            yield return next!;
         }
     }
 }
