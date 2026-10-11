@@ -239,4 +239,44 @@ partial class PolyfillTests
             dirInfo.Delete(true);
         }
     }
+
+    [Test]
+    public async Task DirectoryInfo_EnumerationOptions_Walk()
+    {
+        var root = CreateEnumerationTree();
+        try
+        {
+            var info = new DirectoryInfo(root);
+            string Describe(IEnumerable<FileSystemInfo> infos) =>
+                DescribeEntries(root, infos.Select(_ => _.FullName));
+
+            await Assert.That(Describe(info.EnumerateFiles("*.*", new EnumerationOptions()))).IsEqualTo("B.TXT|a.txt");
+            await Assert.That(Describe(info.EnumerateFiles("*.*", new EnumerationOptions {MatchType = MatchType.Win32}))).IsEqualTo("B.TXT|LICENSE|a.txt");
+            await Assert.That(Describe(info.GetFiles("*.txt", new EnumerationOptions {MatchCasing = MatchCasing.CaseSensitive}))).IsEqualTo("a.txt");
+
+            // EnumerationOptions.MaxRecursionDepth was added in net6
+#if NETFRAMEWORK || NET6_0_OR_GREATER
+            EnumerationOptions Depth(int depth) =>
+                new()
+                {
+                    RecurseSubdirectories = true,
+                    MaxRecursionDepth = depth,
+                    MatchCasing = MatchCasing.CaseInsensitive
+                };
+
+            await Assert.That(Describe(info.GetFiles("*.txt", Depth(1)))).IsEqualTo("B.TXT|a.txt|sub/c.txt");
+            await Assert.That(Describe(info.GetDirectories("*", Depth(1)))).IsEqualTo("sub|sub/deep");
+            await Assert.That(Describe(info.GetFileSystemInfos("d*", Depth(2)))).IsEqualTo("sub/deep|sub/deep/d.txt|sub/deep/deeper");
+            await Assert.That(Describe(info.EnumerateFileSystemInfos("*", Depth(0)))).IsEqualTo("B.TXT|LICENSE|a.txt|sub");
+
+            var deep = info.GetFileSystemInfos("d*", Depth(2)).OrderBy(_ => _.FullName, StringComparer.Ordinal).ToList();
+            await Assert.That(deep[0] is DirectoryInfo).IsTrue();
+            await Assert.That(deep[1] is FileInfo).IsTrue();
+#endif
+        }
+        finally
+        {
+            Directory.Delete(root, true);
+        }
+    }
 }
