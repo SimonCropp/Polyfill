@@ -148,7 +148,6 @@ static partial class Polyfill
 			return new FileInfo(path);
 		}
 	}
-#if !NET12_0_OR_GREATER
 	extension(File)
 	{
 		/// <summary>
@@ -256,5 +255,4 @@ static partial class Polyfill
 			uint dwFlagsAndAttributes,
 			IntPtr hTemplateFile);
 	}
-#endif
 }
