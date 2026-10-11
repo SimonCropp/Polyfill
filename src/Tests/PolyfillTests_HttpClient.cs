@@ -1,4 +1,4 @@
-﻿// These tests cover HttpContent polyfills as well
+// These tests cover HttpContent polyfills as well
 
 using System.Net;
 using System.Net.Http;
@@ -342,9 +342,17 @@ partial class PolyfillTests
         }
     }
 
+    // The real .NET 5 GetStringAsync and GetByteArrayAsync stop applying the timeout once the headers arrive,
+    // and its GetStreamAsync does not dispose a failed response. Both were fixed in .NET 6.
+    static bool IsNet5Runtime => Environment.Version.Major == 5;
+
     [Test]
     public async Task HttpClientGetStringAsync_AppliesTimeoutToBody()
     {
+        if (IsNet5Runtime)
+        {
+            return;
+        }
         using var httpClient = new HttpClient(
             new ResponseHandler((_, cancel) => new(HttpStatusCode.OK) {Content = new StalledContent(cancel)}));
         httpClient.Timeout = TimeSpan.FromMilliseconds(200);
@@ -359,6 +367,11 @@ partial class PolyfillTests
     [Test]
     public async Task HttpClientGetByteArrayAsync_AppliesTimeoutToBody()
     {
+        if (IsNet5Runtime)
+        {
+            return;
+        }
+
         using var httpClient = new HttpClient(
             new ResponseHandler((_, cancel) => new(HttpStatusCode.OK) {Content = new StalledContent(cancel)}));
         httpClient.Timeout = TimeSpan.FromMilliseconds(200);
@@ -428,6 +441,11 @@ partial class PolyfillTests
             TimeSpan.FromSeconds(30));
 
         await Assert.That(exception is HttpRequestException).IsTrue();
+        if (IsNet5Runtime)
+        {
+            return;
+        }
+
         await Assert.That(response.Disposed).IsTrue();
     }
 }
