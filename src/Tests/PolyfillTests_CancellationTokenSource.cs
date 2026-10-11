@@ -73,4 +73,15 @@ partial class PolyfillTests
 
         await Assert.That(sum).IsEqualTo(iterations * (iterations + 1) / 2);
     }
+
+    [Test]
+    public async Task CancelSource_CancelAsync_Disposed()
+    {
+        var cancelSource = new CancelSource();
+        cancelSource.Dispose();
+
+        var task = cancelSource.CancelAsync();
+        await Assert.That(task.IsFaulted).IsTrue();
+        await Assert.That(async () => await task).Throws<ObjectDisposedException>();
+    }
 }
