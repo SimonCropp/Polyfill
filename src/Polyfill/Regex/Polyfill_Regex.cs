@@ -84,7 +84,7 @@ static partial class Polyfill
 
      //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-11.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char)))
     public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input) =>
-        new(input, regex, 0, 0);
+        new(input, regex, 0);
 
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-11.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))-system-int32)
     public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input, int count)
@@ -94,7 +94,7 @@ static partial class Polyfill
             throw new ArgumentOutOfRangeException(nameof(count), "Count must be non-negative.");
         }
 
-        return new ValueSplitEnumerator(input, regex, count, 0);
+        return new ValueSplitEnumerator(input, regex, count);
     }
 
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-11.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))-system-int32-system-int32)
