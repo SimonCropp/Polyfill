@@ -12,7 +12,7 @@
 | `net48` | 1079 |
 | `net481` | 1079 |
 | `netstandard2.0` | 1081 |
-| `netstandard2.1` | 914 |
+| `netstandard2.1` | 907 |
 | `netcoreapp2.0` | 1004 |
 | `netcoreapp2.1` | 927 |
 | `netcoreapp2.2` | 927 |
