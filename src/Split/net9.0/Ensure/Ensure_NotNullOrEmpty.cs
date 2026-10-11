@@ -26,7 +26,7 @@ static partial class Ensure
 		{
 			throw new ArgumentNullException(name);
 		}
-		NotEmpty(value);
+		NotEmpty(value, name);
 		return value;
 	}
 #if FeatureMemory
