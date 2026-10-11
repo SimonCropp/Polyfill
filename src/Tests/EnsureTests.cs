@@ -86,6 +86,30 @@ public class EnsureTests
         Ensure.NotNullOrEmpty(nonEmptyEnumerable);
     }
 
+#if FeatureMemory
+    [Test]
+    public async Task NotNullOrEmpty_Memory_AllowsWhiteSpace()
+    {
+        Memory<char>? whiteSpace = " \t".ToCharArray().AsMemory();
+        var result = Ensure.NotNullOrEmpty(whiteSpace);
+        await Assert.That(result.ToString()).IsEqualTo(" \t");
+
+        Memory<char>? content = "value".ToCharArray().AsMemory();
+        await Assert.That(Ensure.NotNullOrEmpty(content).ToString()).IsEqualTo("value");
+    }
+
+    [Test]
+    public async Task NotNullOrEmpty_ReadOnlyMemory_AllowsWhiteSpace()
+    {
+        ReadOnlyMemory<char>? whiteSpace = " \t".AsMemory();
+        var result = Ensure.NotNullOrEmpty(whiteSpace);
+        await Assert.That(result.ToString()).IsEqualTo(" \t");
+
+        ReadOnlyMemory<char>? content = "value".AsMemory();
+        await Assert.That(Ensure.NotNullOrEmpty(content).ToString()).IsEqualTo("value");
+    }
+#endif
+
     [Test]
     public async Task NotEmpty()
     {

@@ -64,15 +64,7 @@ static partial class Ensure
             throw new ArgumentException("Argument cannot be empty.", name);
         }
 
-        foreach (var ch in value.Value.Span)
-        {
-            if (!char.IsWhiteSpace(ch))
-            {
-                return value.Value;
-            }
-        }
-
-        throw new ArgumentException("Argument cannot be whitespace.", name);
+        return value.Value;
     }
 
     public static ReadOnlyMemory<char> NotNullOrEmpty(
@@ -89,15 +81,7 @@ static partial class Ensure
             throw new ArgumentException("Argument cannot be empty.", name);
         }
 
-        foreach (var ch in value.Value.Span)
-        {
-            if (!char.IsWhiteSpace(ch))
-            {
-                return value.Value;
-            }
-        }
-
-        throw new ArgumentException("Argument cannot be whitespace.", name);
+        return value.Value;
     }
 #endif
 }
