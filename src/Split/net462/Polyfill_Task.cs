@@ -95,26 +95,16 @@ static partial class Polyfill
 		var task = target;
 		if ((options & ConfigureAwaitOptions.ForceYielding) != 0)
 		{
-			task = ForceYieldAsync(task);
-			static async Task ForceYieldAsync(Task t)
-			{
-				await Task.Yield();
-				await t;
-			}
+			var inner = task;
+			task = Task.Run(() => inner);
 		}
 		if ((options & ConfigureAwaitOptions.SuppressThrowing) != 0)
 		{
-			task = SuppressThrowAsync(task);
-			static async Task SuppressThrowAsync(Task t)
-			{
-				try
-				{
-					await t;
-				}
-				catch
-				{
-				}
-			}
+			task = task.ContinueWith(
+				static antecedent => { _ = antecedent.Exception; },
+				CancellationToken.None,
+				TaskContinuationOptions.ExecuteSynchronously,
+				TaskScheduler.Default);
 		}
 		return task.ConfigureAwait(
 			(options & ConfigureAwaitOptions.ContinueOnCapturedContext) != 0);
@@ -132,12 +122,8 @@ static partial class Polyfill
 		var task = target;
 		if ((options & ConfigureAwaitOptions.ForceYielding) != 0)
 		{
-			task = ForceYieldAsync(task);
-			static async Task<TResult> ForceYieldAsync(Task<TResult> t)
-			{
-				await Task.Yield();
-				return await t;
-			}
+			var inner = task;
+			task = Task.Run(() => inner);
 		}
 		return task.ConfigureAwait(
 			(options & ConfigureAwaitOptions.ContinueOnCapturedContext) != 0);
