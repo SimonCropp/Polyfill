@@ -72,7 +72,7 @@ static partial class Polyfill
 		/// Searches an input span for all occurrences of a regular expression and returns a Regex.ValueMatchEnumerator to iterate over the matches.
 		/// </summary>
 		public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern, RegexOptions options) =>
-			RegexCache.GetOrAdd(pattern, options, TimeSpan.MaxValue).EnumerateMatches(input);
+			RegexCache.GetOrAdd(pattern, options, Regex.InfiniteMatchTimeout).EnumerateMatches(input);
 #endif
 #if FeatureMemory && FeatureValueTuple
 		public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern)
