@@ -108,4 +108,46 @@ partial class PolyfillTests
 
         return Task.CompletedTask;
     }
+
+    [Test]
+    public async Task ReadOnlySpan_ContainsAnyExcept_NullElements()
+    {
+        ReadOnlySpan<string?> span = new string?[] { null, "a", "b" };
+        var one = span.ContainsAnyExcept((string?)null);
+        var two = span.ContainsAnyExcept(null, "a");
+        var three = span.ContainsAnyExcept(null, "a", "b");
+        var many = span.ContainsAnyExcept(new string?[] { "a", null });
+        var none = span.ContainsAnyExcept(new string?[] { "a", null, "b" });
+        ReadOnlySpan<string?> nulls = new string?[] { null, null };
+        var onlyNulls = nulls.ContainsAnyExcept((string?)null);
+        var nullsExceptA = nulls.ContainsAnyExcept("a");
+        await Assert.That(one).IsTrue();
+        await Assert.That(two).IsTrue();
+        await Assert.That(three).IsFalse();
+        await Assert.That(many).IsTrue();
+        await Assert.That(none).IsFalse();
+        await Assert.That(onlyNulls).IsFalse();
+        await Assert.That(nullsExceptA).IsTrue();
+    }
+
+    [Test]
+    public async Task Span_ContainsAnyExcept_NullElements()
+    {
+        Span<string?> span = new string?[] { null, "a", "b" };
+        var one = span.ContainsAnyExcept((string?)null);
+        var two = span.ContainsAnyExcept(null, "a");
+        var three = span.ContainsAnyExcept(null, "a", "b");
+        var many = span.ContainsAnyExcept(new string?[] { "a", null });
+        var none = span.ContainsAnyExcept(new string?[] { "a", null, "b" });
+        Span<string?> nulls = new string?[] { null, null };
+        var onlyNulls = nulls.ContainsAnyExcept((string?)null);
+        var nullsExceptA = nulls.ContainsAnyExcept("a");
+        await Assert.That(one).IsTrue();
+        await Assert.That(two).IsTrue();
+        await Assert.That(three).IsFalse();
+        await Assert.That(many).IsTrue();
+        await Assert.That(none).IsFalse();
+        await Assert.That(onlyNulls).IsFalse();
+        await Assert.That(nullsExceptA).IsTrue();
+    }
 }
