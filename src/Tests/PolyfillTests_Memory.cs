@@ -373,6 +373,30 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task ReadOnlySpan_StartsWith_String_IsOrdinal()
+    {
+        // U+00AD (soft hyphen) is ignored by culture-sensitive comparisons
+        var ordinal = "­abc".AsSpan().StartsWith("a");
+        var culture = "­abc".AsSpan().StartsWith("a", StringComparison.InvariantCulture);
+        var match = "­abc".AsSpan().StartsWith("­a");
+        await Assert.That(ordinal).IsFalse();
+        await Assert.That(culture).IsTrue();
+        await Assert.That(match).IsTrue();
+    }
+
+    [Test]
+    public async Task ReadOnlySpan_EndsWith_String_IsOrdinal()
+    {
+        // U+00AD (soft hyphen) is ignored by culture-sensitive comparisons
+        var ordinal = "abc­".AsSpan().EndsWith("c");
+        var culture = "abc­".AsSpan().EndsWith("c", StringComparison.InvariantCulture);
+        var match = "abc­".AsSpan().EndsWith("c­");
+        await Assert.That(ordinal).IsFalse();
+        await Assert.That(culture).IsTrue();
+        await Assert.That(match).IsTrue();
+    }
+
+    [Test]
     public Task Span_StartsWith_StringComparison()
     {
         var span = (ReadOnlySpan<char>)"Hello World".AsSpan();
