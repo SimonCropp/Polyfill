@@ -296,6 +296,114 @@ partial class PolyfillTests
         await Assert.That(status.Canceled).IsTrue();
     }
 
+    // A shell that appends to beat.txt in the directory about once a second, for around 30 seconds.
+    static ProcessStartInfo HeartbeatStartInfo(string directory)
+    {
+        var startInfo = new ProcessStartInfo
+        {
+            WorkingDirectory = directory,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+        };
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            startInfo.FileName = "cmd";
+            startInfo.Arguments = "/c for /L %i in (1,1,30) do @(echo x>>beat.txt & ping -n 2 127.0.0.1 >nul)";
+        }
+        else
+        {
+            startInfo.FileName = "sh";
+            startInfo.Arguments = "-c \"i=0; while [ $i -lt 30 ]; do echo x >> beat.txt; sleep 1; i=$((i+1)); done\"";
+        }
+
+        return startInfo;
+    }
+
+    // True when the heartbeat was started and is no longer being written, so its process is gone.
+    static async Task<bool> HeartbeatStopped(string directory)
+    {
+        var beat = new FileInfo(Path.Combine(directory, "beat.txt"));
+        await Task.Delay(300);
+        beat.Refresh();
+        if (!beat.Exists)
+        {
+            return false;
+        }
+
+        var before = beat.Length;
+        await Task.Delay(2500);
+        beat.Refresh();
+        return before > 0 &&
+               before == beat.Length;
+    }
+
+    static void DeleteHeartbeatDirectory(string directory)
+    {
+        try
+        {
+            Directory.Delete(directory, true);
+        }
+        catch (IOException)
+        {
+            // still in use by a process that should have been killed, which the test has already reported
+        }
+    }
+
+    [Test]
+    public async Task Process_Run_Timeout_KillsProcessAndIsCanceled()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "polyfill_run_" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        try
+        {
+            var status = Process.Run(HeartbeatStartInfo(directory), TimeSpan.FromSeconds(1.5));
+
+            await Assert.That(status.Canceled).IsTrue();
+            await Assert.That(await HeartbeatStopped(directory)).IsTrue();
+        }
+        finally
+        {
+            DeleteHeartbeatDirectory(directory);
+        }
+    }
+
+    [Test]
+    public async Task Process_Run_Silent_Timeout_IsCanceled()
+    {
+        ProcessExitStatus status;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            status = Process.Run("ping", new[] { "-n", "30", "127.0.0.1" }, silent: true, timeout: TimeSpan.FromSeconds(1));
+        }
+        else
+        {
+            status = Process.Run("sleep", new[] { "30" }, silent: true, timeout: TimeSpan.FromSeconds(1));
+        }
+
+        await Assert.That(status.Canceled).IsTrue();
+    }
+
+    [Test]
+    public async Task Process_RunAndCaptureText_Timeout_KillsProcessAndThrows()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "polyfill_run_" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        try
+        {
+            var startInfo = HeartbeatStartInfo(directory);
+            startInfo.RedirectStandardOutput = true;
+            startInfo.RedirectStandardError = true;
+
+            await Assert.That(() => { Process.RunAndCaptureText(startInfo, TimeSpan.FromSeconds(1.5)); })
+                .Throws<TimeoutException>();
+            await Assert.That(await HeartbeatStopped(directory)).IsTrue();
+        }
+        finally
+        {
+            DeleteHeartbeatDirectory(directory);
+        }
+    }
+
     [Test]
     public async Task Process_RunAndCaptureText()
     {
