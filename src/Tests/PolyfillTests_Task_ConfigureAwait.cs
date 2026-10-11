@@ -6,6 +6,24 @@ partial class PolyfillTests
     [Test]
     public async Task Task_ConfigureAwait_ContinueOnCapturedContext() => await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ContinueOnCapturedContext);
 
+    // The BCL awaiter always reports IsCompleted as false for ForceYielding. The polyfill has to
+    // return the BCL awaiter type, so it yields by handing the task to the thread pool, and a
+    // pool thread can finish that hop before IsCompleted is read. A single read is therefore a
+    // race on older frameworks. An implementation that does not yield reports true every time,
+    // so one false in several attempts proves the yield without depending on scheduling.
+    static bool ForceYieldingYields(Func<bool> isCompleted)
+    {
+        for (var attempt = 0; attempt < 20; attempt++)
+        {
+            if (!isCompleted())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     [Test]
     public async Task Task_ConfigureAwait_ForceYielding()
     {
@@ -13,10 +31,12 @@ partial class PolyfillTests
         await Assert.That(Task.CompletedTask.IsCompleted).IsTrue();
 
         // But with ForceYielding, the awaiter should not be synchronously completed
-        var awaiter = Task.CompletedTask
-            .ConfigureAwait(ConfigureAwaitOptions.ForceYielding)
-            .GetAwaiter();
-        await Assert.That(awaiter.IsCompleted).IsFalse();
+        var yielded = ForceYieldingYields(
+            () => Task.CompletedTask
+                .ConfigureAwait(ConfigureAwaitOptions.ForceYielding)
+                .GetAwaiter()
+                .IsCompleted);
+        await Assert.That(yielded).IsTrue();
 
         // It should still complete successfully when awaited
         await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
@@ -73,10 +93,12 @@ partial class PolyfillTests
         await Assert.That(completedTask.IsCompleted).IsTrue();
 
         // But with ForceYielding, the awaiter should not be synchronously completed
-        var awaiter = completedTask
-            .ConfigureAwait(ConfigureAwaitOptions.ForceYielding)
-            .GetAwaiter();
-        await Assert.That(awaiter.IsCompleted).IsFalse();
+        var yielded = ForceYieldingYields(
+            () => completedTask
+                .ConfigureAwait(ConfigureAwaitOptions.ForceYielding)
+                .GetAwaiter()
+                .IsCompleted);
+        await Assert.That(yielded).IsTrue();
 
         // It should still return the correct result when awaited
         var result = await completedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
