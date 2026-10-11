@@ -60,6 +60,14 @@ partial class PolyfillTests
 
         await process.WaitForExitAsync();
 
+        // The .NET 5 runtime's own WaitForExitAsync returns as soon as the process exits. Waiting for
+        // redirected output was added in .NET 6, which is the behavior the polyfill matches.
+        // Checked at run time so the test still asserts when a net5.0 build rolls forward.
+        if (Environment.Version.Major == 5)
+        {
+            process.WaitForExit();
+        }
+
         await Assert.That(Volatile.Read(ref endOfOutput)).IsTrue();
         await Assert.That(Volatile.Read(ref lines)).IsGreaterThan(0);
     }
