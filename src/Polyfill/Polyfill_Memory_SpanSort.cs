@@ -12,9 +12,8 @@ static partial class Polyfill
     /// Sorts the elements in the entire <see cref="Span{T}"/> using the <see cref="IComparable{T}"/> implementation of each element of the <see cref="Span{T}"/>.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-1(system-span((-0)))
-    public static void Sort<T>(this Span<T> source)
-        where T : IComparable<T>
-        => Sort(source, (x, y) => x.CompareTo(y));
+    public static void Sort<T>(this Span<T> source) =>
+        SortCore(source, Comparer<T>.Default);
 
     /// <summary>
     /// Sorts the elements in the entire <see cref="Span{T}"/> using the specified <see cref="Comparison{T}"/>.
@@ -25,17 +24,24 @@ static partial class Polyfill
         if((Comparison<T>?)comparison is null)
             throw new ArgumentNullException(nameof(comparison));
 
+        SortCore(source, Comparer<T>.Create(comparison));
+    }
+
+    static void SortCore<T>(Span<T> source, IComparer<T> comparer)
+    {
         var array = ArrayPool<T>.Shared.Rent(source.Length);
 
         try
         {
             source.CopyTo(array);
-            Array.Sort(array, 0, source.Length, Comparer<T>.Create(comparison));
+            Array.Sort(array, 0, source.Length, comparer);
 
             array.AsSpan(0, source.Length).CopyTo(source);
         }
         finally
         {
+            // Clear the used portion so the pool does not keep the elements alive.
+            Array.Clear(array, 0, source.Length);
             ArrayPool<T>.Shared.Return(array);
         }
     }
@@ -53,10 +59,8 @@ static partial class Polyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-3(system-span((-0))-system-span((-1))-2)
     public static void Sort<TKey, TValue, TComparer>(this Span<TKey> keys, Span<TValue> values, TComparer comparer)
-        where TComparer : IComparer<TKey>
+        where TComparer : IComparer<TKey>?
     {
-        comparer = comparer is not null ? comparer : throw new ArgumentNullException(nameof(comparer));
-
         if(keys.Length != values.Length)
             throw new ArgumentException();
 
@@ -75,6 +79,9 @@ static partial class Polyfill
         }
         finally
         {
+            // Clear the used portions so the pool does not keep the elements alive.
+            Array.Clear(keysArray, 0, keys.Length);
+            Array.Clear(valsArray, 0, values.Length);
             ArrayPool<TKey>.Shared.Return(keysArray);
             ArrayPool<TValue>.Shared.Return(valsArray);
         }
