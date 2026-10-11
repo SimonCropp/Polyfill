@@ -12,6 +12,39 @@ partial class PolyfillTests
         await Assert.That(input.SequenceEqual(result)).IsTrue();
     }
 
+    // Memory that is not array-backed as far as MemoryMarshal.TryGetArray is concerned
+    class NonArrayByteMemoryManager(byte[] array) :
+        System.Buffers.MemoryManager<byte>
+    {
+        public override Span<byte> GetSpan() => array;
+
+        public override System.Buffers.MemoryHandle Pin(int elementIndex = 0) =>
+            throw new NotSupportedException();
+
+        public override void Unpin()
+        {
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+        }
+    }
+
+    [Test]
+    public async Task StreamReadAsyncMemory_NotArrayBacked()
+    {
+        var input = new byte[] {1, 2, 3};
+        using var stream = new MemoryStream(input);
+        var result = new byte[5];
+        var memory = new NonArrayByteMemoryManager(result).Memory;
+        await Assert.That(MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>) memory, out _)).IsFalse();
+
+        var read = await stream.ReadAsync(memory.Slice(1));
+
+        await Assert.That(read).IsEqualTo(3);
+        await Assert.That(result).IsEquivalentTo(new byte[] {0, 1, 2, 3, 0});
+    }
+
     [Test]
     public async Task Read_FillsBuffer_ReturnsBufferLength()
     {
