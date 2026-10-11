@@ -21,14 +21,34 @@ static partial class Polyfill
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<char>)buffer, out var segment))
+        if (MemoryMarshal.TryGetArray((ReadOnlyMemory<char>)buffer, out var segment))
         {
-            segment = new(buffer.ToArray());
+            var task = target.ReadAsync(segment.Array!, segment.Offset, segment.Count)
+                .WaitAsync(cancellationToken);
+            return new(task);
         }
 
-        var task = target.ReadAsync(segment.Array!, segment.Offset, segment.Count)
-            .WaitAsync(cancellationToken);
-        return new(task);
+        // Not array-backed: read into a rented array, then copy back into the destination.
+        var sharedBuffer = System.Buffers.ArrayPool<char>.Shared.Rent(buffer.Length);
+        return FinishReadAsync(target.ReadAsync(sharedBuffer, 0, buffer.Length), sharedBuffer, buffer, cancellationToken);
+
+        static async ValueTask<int> FinishReadAsync(Task<int> readTask, char[] localBuffer, Memory<char> localDestination, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await readTask.WaitAsync(cancellationToken).ConfigureAwait(false);
+                new ReadOnlySpan<char>(localBuffer, 0, result).CopyTo(localDestination.Span);
+                return result;
+            }
+            finally
+            {
+                // If canceled while the read is still in flight, the reader may yet write to the array, so do not pool it.
+                if (readTask.IsCompleted)
+                {
+                    System.Buffers.ArrayPool<char>.Shared.Return(localBuffer);
+                }
+            }
+        }
     }
 #endif
 
