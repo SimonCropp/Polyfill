@@ -116,21 +116,15 @@ static partial class Polyfill
         /// Asynchronously computes the hash of a stream using the specified algorithm.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.hashdataasync?view=net-11.0#system-security-cryptography-cryptographicoperations-hashdataasync(system-security-cryptography-hashalgorithmname-system-io-stream-system-threading-cancellationtoken)
-        public static ValueTask<byte[]> HashDataAsync(HashAlgorithmName hashAlgorithm, Stream source, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            return new(CryptographicOperations.HashData(hashAlgorithm, source));
-        }
+        public static ValueTask<byte[]> HashDataAsync(HashAlgorithmName hashAlgorithm, Stream source, CancellationToken cancellationToken = default) =>
+            new(HashStreamAsync(CryptographicOperationsCreateHashAlgorithm(hashAlgorithm), source, cancellationToken));
 
         /// <summary>
         /// Asynchronously computes the hash of a stream into the provided destination using the specified algorithm.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.hashdataasync?view=net-11.0#system-security-cryptography-cryptographicoperations-hashdataasync(system-security-cryptography-hashalgorithmname-system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)
-        public static ValueTask<int> HashDataAsync(HashAlgorithmName hashAlgorithm, Stream source, Memory<byte> destination, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            return new(CryptographicOperations.HashData(hashAlgorithm, source, destination.Span));
-        }
+        public static ValueTask<int> HashDataAsync(HashAlgorithmName hashAlgorithm, Stream source, Memory<byte> destination, CancellationToken cancellationToken = default) =>
+            new(HashStreamAsync(CryptographicOperationsCreateHashAlgorithm(hashAlgorithm), source, destination, cancellationToken));
 
 #endif
 
@@ -261,29 +255,22 @@ static partial class Polyfill
                 throw new ArgumentNullException(nameof(key));
             }
 
-            cancellationToken.ThrowIfCancellationRequested();
-            return new(CryptographicOperations.HmacData(hashAlgorithm, key, source));
+            return new(HashStreamAsync(CryptographicOperationsCreateHmac(hashAlgorithm, key), source, cancellationToken));
         }
 
         /// <summary>
         /// Asynchronously computes the HMAC of a stream using the specified key and algorithm.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.hmacdataasync?view=net-11.0#system-security-cryptography-cryptographicoperations-hmacdataasync(system-security-cryptography-hashalgorithmname-system-readonlymemory((system-byte))-system-io-stream-system-threading-cancellationtoken)
-        public static ValueTask<byte[]> HmacDataAsync(HashAlgorithmName hashAlgorithm, ReadOnlyMemory<byte> key, Stream source, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            return new(CryptographicOperations.HmacData(hashAlgorithm, key.Span, source));
-        }
+        public static ValueTask<byte[]> HmacDataAsync(HashAlgorithmName hashAlgorithm, ReadOnlyMemory<byte> key, Stream source, CancellationToken cancellationToken = default) =>
+            new(HashStreamAsync(CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray()), source, cancellationToken));
 
         /// <summary>
         /// Asynchronously computes the HMAC of a stream into the provided destination using the specified key and algorithm.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.hmacdataasync?view=net-11.0#system-security-cryptography-cryptographicoperations-hmacdataasync(system-security-cryptography-hashalgorithmname-system-readonlymemory((system-byte))-system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)
-        public static ValueTask<int> HmacDataAsync(HashAlgorithmName hashAlgorithm, ReadOnlyMemory<byte> key, Stream source, Memory<byte> destination, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            return new(CryptographicOperations.HmacData(hashAlgorithm, key.Span, source, destination.Span));
-        }
+        public static ValueTask<int> HmacDataAsync(HashAlgorithmName hashAlgorithm, ReadOnlyMemory<byte> key, Stream source, Memory<byte> destination, CancellationToken cancellationToken = default) =>
+            new(HashStreamAsync(CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray()), source, destination, cancellationToken));
 
 #endif
 
@@ -404,19 +391,15 @@ static partial class Polyfill
                 throw new ArgumentNullException(nameof(hash));
             }
 
-            cancellationToken.ThrowIfCancellationRequested();
-            return new(CryptographicOperations.VerifyHmac(hashAlgorithm, key, source, hash));
+            return new(VerifyHashStreamAsync(CryptographicOperationsCreateHmac(hashAlgorithm, key), source, hash, cancellationToken));
         }
 
         /// <summary>
         /// Asynchronously determines whether the HMAC of the <paramref name="source"/> stream matches <paramref name="hash"/>.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.verifyhmacasync?view=net-11.0#system-security-cryptography-cryptographicoperations-verifyhmacasync(system-security-cryptography-hashalgorithmname-system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken)
-        public static ValueTask<bool> VerifyHmacAsync(HashAlgorithmName hashAlgorithm, ReadOnlyMemory<byte> key, Stream source, ReadOnlyMemory<byte> hash, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            return new(CryptographicOperations.VerifyHmac(hashAlgorithm, key.Span, source, hash.Span));
-        }
+        public static ValueTask<bool> VerifyHmacAsync(HashAlgorithmName hashAlgorithm, ReadOnlyMemory<byte> key, Stream source, ReadOnlyMemory<byte> hash, CancellationToken cancellationToken = default) =>
+            new(VerifyHashStreamAsync(CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray()), source, hash.ToArray(), cancellationToken));
 
 #endif
     }

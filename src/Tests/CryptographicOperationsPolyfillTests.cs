@@ -100,6 +100,92 @@ public class CryptographicOperationsPolyfillTests
         var result = await CryptographicOperations.VerifyHmacAsync(HashAlgorithmName.SHA256, key, stream, mac);
         await Assert.That(result).IsTrue();
     }
+
+    [Test]
+    public async Task HashDataAsync_Stream_ReadsAsynchronously()
+    {
+        using var stream = new AsyncOnlyStream(data);
+        var actual = await CryptographicOperations.HashDataAsync(HashAlgorithmName.SHA256, stream);
+        await Assert.That(actual.SequenceEqual(ExpectedSha256())).IsTrue();
+    }
+
+    [Test]
+    public async Task HmacDataAsync_ByteArray_Stream_ReadsAsynchronously()
+    {
+        using var stream = new AsyncOnlyStream(data);
+        var actual = await CryptographicOperations.HmacDataAsync(HashAlgorithmName.SHA256, key, stream);
+        await Assert.That(actual.SequenceEqual(ExpectedHmacSha256())).IsTrue();
+    }
+
+    [Test]
+    public async Task VerifyHmacAsync_ByteArray_Stream_ReadsAsynchronously()
+    {
+        var mac = ExpectedHmacSha256();
+        using var stream = new AsyncOnlyStream(data);
+        await Assert.That(await CryptographicOperations.VerifyHmacAsync(HashAlgorithmName.SHA256, key, stream, mac)).IsTrue();
+
+        mac[0] ^= 0xFF;
+        using var tamperedStream = new AsyncOnlyStream(data);
+        await Assert.That(await CryptographicOperations.VerifyHmacAsync(HashAlgorithmName.SHA256, key, tamperedStream, mac)).IsFalse();
+    }
+
+    [Test]
+    public async Task HashDataAsync_Stream_PreCancelled_ReturnsCancelledTask()
+    {
+        using var stream = new AsyncOnlyStream(data);
+        var task = CryptographicOperations.HashDataAsync(HashAlgorithmName.SHA256, stream, new Cancel(true)).AsTask();
+        await Assert.That(task.IsCanceled).IsTrue();
+        await Assert.That(stream.ReadCount).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task HmacDataAsync_ByteArray_Stream_PreCancelled_ReturnsCancelledTask()
+    {
+        using var stream = new AsyncOnlyStream(data);
+        var task = CryptographicOperations.HmacDataAsync(HashAlgorithmName.SHA256, key, stream, new Cancel(true)).AsTask();
+        await Assert.That(task.IsCanceled).IsTrue();
+        await Assert.That(stream.ReadCount).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task VerifyHmacAsync_ByteArray_Stream_PreCancelled_ReturnsCancelledTask()
+    {
+        using var stream = new AsyncOnlyStream(data);
+        var task = CryptographicOperations.VerifyHmacAsync(HashAlgorithmName.SHA256, key, stream, ExpectedHmacSha256(), new Cancel(true)).AsTask();
+        await Assert.That(task.IsCanceled).IsTrue();
+        await Assert.That(stream.ReadCount).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task HashDataAsync_Stream_CancelledWhileReading()
+    {
+        using var source = new CancellationTokenSource();
+        using var stream = new AsyncOnlyStream(data)
+        {
+            CancelAfterFirstRead = source
+        };
+
+        var task = CryptographicOperations.HashDataAsync(HashAlgorithmName.SHA256, stream, source.Token).AsTask();
+        await Task.WhenAny(task);
+        await Assert.That(task.IsCanceled).IsTrue();
+        await Assert.That(stream.ReadCount).IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task HashDataAsync_Stream_Null_ThrowsSynchronously()
+    {
+        var exception = Assert.Throws<ArgumentNullException>(() => CryptographicOperations.HashDataAsync(HashAlgorithmName.SHA256, null!));
+        await Assert.That(exception.ParamName).IsEqualTo("source");
+    }
+
+    [Test]
+    public async Task VerifyHmacAsync_ByteArray_Stream_WrongHashLength_ThrowsSynchronously()
+    {
+        using var stream = new AsyncOnlyStream(data);
+        var exception = Assert.Throws<ArgumentException>(() => CryptographicOperations.VerifyHmacAsync(HashAlgorithmName.SHA256, key, stream, new byte[3]));
+        await Assert.That(exception.ParamName).IsEqualTo("hash");
+        await Assert.That(stream.ReadCount).IsEqualTo(0);
+    }
 #endif
 
 #if FeatureMemory
@@ -249,6 +335,84 @@ public class CryptographicOperationsPolyfillTests
         ReadOnlyMemory<byte> macMemory = ExpectedHmacSha256();
         var result = await CryptographicOperations.VerifyHmacAsync(HashAlgorithmName.SHA256, keyMemory, stream, macMemory);
         await Assert.That(result).IsTrue();
+    }
+
+    [Test]
+    public async Task HashDataAsync_Memory_ReadsAsynchronously()
+    {
+        using var stream = new AsyncOnlyStream(data);
+        Memory<byte> destination = new byte[32];
+        var written = await CryptographicOperations.HashDataAsync(HashAlgorithmName.SHA256, stream, destination);
+        await Assert.That(written).IsEqualTo(32);
+        await Assert.That(destination.ToArray().SequenceEqual(ExpectedSha256())).IsTrue();
+    }
+
+    [Test]
+    public async Task HmacDataAsync_Memory_ReadsAsynchronously()
+    {
+        ReadOnlyMemory<byte> keyMemory = key;
+        using var stream = new AsyncOnlyStream(data);
+        var actual = await CryptographicOperations.HmacDataAsync(HashAlgorithmName.SHA256, keyMemory, stream);
+        await Assert.That(actual.SequenceEqual(ExpectedHmacSha256())).IsTrue();
+
+        using var destinationStream = new AsyncOnlyStream(data);
+        Memory<byte> destination = new byte[32];
+        var written = await CryptographicOperations.HmacDataAsync(HashAlgorithmName.SHA256, keyMemory, destinationStream, destination);
+        await Assert.That(written).IsEqualTo(32);
+        await Assert.That(destination.ToArray().SequenceEqual(ExpectedHmacSha256())).IsTrue();
+    }
+
+    [Test]
+    public async Task VerifyHmacAsync_Memory_ReadsAsynchronously()
+    {
+        ReadOnlyMemory<byte> keyMemory = key;
+        var mac = ExpectedHmacSha256();
+        using var stream = new AsyncOnlyStream(data);
+        await Assert.That(await CryptographicOperations.VerifyHmacAsync(HashAlgorithmName.SHA256, keyMemory, stream, (ReadOnlyMemory<byte>) mac)).IsTrue();
+
+        mac[0] ^= 0xFF;
+        using var tamperedStream = new AsyncOnlyStream(data);
+        await Assert.That(await CryptographicOperations.VerifyHmacAsync(HashAlgorithmName.SHA256, keyMemory, tamperedStream, (ReadOnlyMemory<byte>) mac)).IsFalse();
+    }
+
+    [Test]
+    public async Task Async_Memory_PreCancelled_ReturnsCancelledTask()
+    {
+        ReadOnlyMemory<byte> keyMemory = key;
+        ReadOnlyMemory<byte> macMemory = ExpectedHmacSha256();
+        Memory<byte> destination = new byte[32];
+        var cancel = new Cancel(true);
+        using var stream = new AsyncOnlyStream(data);
+
+        var hashTask = CryptographicOperations.HashDataAsync(HashAlgorithmName.SHA256, stream, destination, cancel).AsTask();
+        await Assert.That(hashTask.IsCanceled).IsTrue();
+
+        var hmacTask = CryptographicOperations.HmacDataAsync(HashAlgorithmName.SHA256, keyMemory, stream, cancel).AsTask();
+        await Assert.That(hmacTask.IsCanceled).IsTrue();
+
+        var hmacDestinationTask = CryptographicOperations.HmacDataAsync(HashAlgorithmName.SHA256, keyMemory, stream, destination, cancel).AsTask();
+        await Assert.That(hmacDestinationTask.IsCanceled).IsTrue();
+
+        var verifyTask = CryptographicOperations.VerifyHmacAsync(HashAlgorithmName.SHA256, keyMemory, stream, macMemory, cancel).AsTask();
+        await Assert.That(verifyTask.IsCanceled).IsTrue();
+
+        await Assert.That(stream.ReadCount).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task Async_Memory_ShortDestination_ThrowsSynchronously()
+    {
+        ReadOnlyMemory<byte> keyMemory = key;
+        Memory<byte> destination = new byte[31];
+        using var stream = new AsyncOnlyStream(data);
+
+        var exception = Assert.Throws<ArgumentException>(() => CryptographicOperations.HashDataAsync(HashAlgorithmName.SHA256, stream, destination));
+        await Assert.That(exception.ParamName).IsEqualTo("destination");
+
+        exception = Assert.Throws<ArgumentException>(() => CryptographicOperations.HmacDataAsync(HashAlgorithmName.SHA256, keyMemory, stream, destination));
+        await Assert.That(exception.ParamName).IsEqualTo("destination");
+
+        await Assert.That(stream.ReadCount).IsEqualTo(0);
     }
 #endif
 #endif
