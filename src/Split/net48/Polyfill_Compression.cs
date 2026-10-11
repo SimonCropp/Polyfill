@@ -109,6 +109,7 @@ static partial class Polyfill
 				Directory.CreateDirectory(fileDestinationPath);
 				continue;
 			}
+			Directory.CreateDirectory(Path.GetDirectoryName(fileDestinationPath)!);
 			source.ExtractToFile(fileDestinationPath, overwrite: overwriteFiles);
 		}
 	}
