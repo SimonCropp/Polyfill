@@ -22,11 +22,368 @@ static partial class Polyfill
     /// Maps to <see cref="Process.Kill"/>.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.kill?view=net-11.0#system-diagnostics-process-kill(system-boolean)
+    //Note: On Unix the descendants are found by running ps before anything is killed, so a child started in between is missed. When ps is not available only the process itself is killed.
     [SupportedOSPlatform("maccatalyst")]
     [UnsupportedOSPlatform("ios")]
     [UnsupportedOSPlatform("tvos")]
-    public static void Kill(this Process target, bool entireProcessTree) =>
-        target.Kill();
+    public static void Kill(this Process target, bool entireProcessTree)
+    {
+        if (!entireProcessTree)
+        {
+            target.Kill();
+            return;
+        }
+
+        ProcessTreeHelper.Kill(target);
+    }
+
+    [ExcludeFromCodeCoverage]
+    [DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+    [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
+    static class ProcessTreeHelper
+    {
+        public static void Kill(Process target)
+        {
+            // throws InvalidOperationException when no process is associated
+            if (target.HasExited)
+            {
+                return;
+            }
+
+            var errors = new List<Exception>();
+            if (SignalHelper.IsWindows)
+            {
+                if (IsWindowsSelfOrDescendant(target))
+                {
+                    throw CallingProcessInTree();
+                }
+
+                KillWindowsTree(target, errors);
+            }
+            else
+            {
+                KillUnixTree(target, errors);
+            }
+
+            if (errors.Count != 0)
+            {
+                throw new AggregateException("Not all processes in process tree could be terminated.", errors);
+            }
+        }
+
+        static InvalidOperationException CallingProcessInTree() =>
+            new("Cannot be used to terminate a process tree containing the calling process.");
+
+        // Windows keeps the id of the parent after the parent exits, so the tree can be walked from the top down:
+        // each process is killed before its children are looked up, which stops it starting more.
+        static void KillWindowsTree(Process process, List<Exception> errors)
+        {
+            var id = process.Id;
+            var hasStartTime = TryGetStartTime(process, out var startTime);
+
+            try
+            {
+                process.Kill();
+            }
+            catch (InvalidOperationException)
+            {
+                // already exited
+            }
+            catch (Win32Exception exception)
+            {
+                // access is denied to a process that is already terminating
+                if (!HasExited(process))
+                {
+                    errors.Add(exception);
+                }
+            }
+
+            if (!hasStartTime)
+            {
+                return;
+            }
+
+            foreach (var pair in GetWindowsParentIds())
+            {
+                if (pair.Value != id ||
+                    pair.Key == id)
+                {
+                    continue;
+                }
+
+                Process child;
+                try
+                {
+                    child = Process.GetProcessById(pair.Key);
+                }
+                catch (ArgumentException)
+                {
+                    continue;
+                }
+
+                using (child)
+                {
+                    // a parent id can outlive its process and be reused, so a child must have started after its parent
+                    if (TryGetStartTime(child, out var childStartTime) &&
+                        childStartTime >= startTime)
+                    {
+                        KillWindowsTree(child, errors);
+                    }
+                }
+            }
+        }
+
+        static bool IsWindowsSelfOrDescendant(Process target)
+        {
+            var targetId = target.Id;
+            using var current = Process.GetCurrentProcess();
+            if (current.Id == targetId)
+            {
+                return true;
+            }
+
+            if (!TryGetStartTime(current, out var startTime))
+            {
+                return false;
+            }
+
+            var parents = GetWindowsParentIds();
+            var id = current.Id;
+            var visited = new HashSet<int>();
+            // walk up from the calling process
+            while (visited.Add(id) &&
+                   parents.TryGetValue(id, out var parentId))
+            {
+                // a parent id can outlive its process and be reused, so a parent must have started before its child
+                if (!TryGetStartTime(parentId, out var parentStartTime) ||
+                    parentStartTime > startTime)
+                {
+                    return false;
+                }
+
+                if (parentId == targetId)
+                {
+                    return true;
+                }
+
+                id = parentId;
+                startTime = parentStartTime;
+            }
+
+            return false;
+        }
+
+        // Unix reparents the children of a process that exits, so the descendants are collected before anything is killed.
+        static void KillUnixTree(Process target, List<Exception> errors)
+        {
+            var targetId = target.Id;
+            var parents = GetUnixParentIds();
+
+            int currentId;
+            using (var current = Process.GetCurrentProcess())
+            {
+                currentId = current.Id;
+            }
+
+            var descendants = new List<int>();
+            var pending = new Queue<int>();
+            pending.Enqueue(targetId);
+            var visited = new HashSet<int> {targetId};
+            while (pending.Count > 0)
+            {
+                var id = pending.Dequeue();
+                if (id == currentId)
+                {
+                    throw CallingProcessInTree();
+                }
+
+                foreach (var pair in parents)
+                {
+                    if (pair.Value == id &&
+                        visited.Add(pair.Key))
+                    {
+                        descendants.Add(pair.Key);
+                        pending.Enqueue(pair.Key);
+                    }
+                }
+            }
+
+            try
+            {
+                target.Kill();
+            }
+            catch (InvalidOperationException)
+            {
+                // already exited
+            }
+            catch (Win32Exception exception)
+            {
+                errors.Add(exception);
+            }
+
+            foreach (var id in descendants)
+            {
+                try
+                {
+                    SignalHelper.Send(id, (PosixSignal) SignalHelper.SigKill);
+                }
+                catch (Win32Exception exception)
+                {
+                    errors.Add(exception);
+                }
+            }
+        }
+
+        static bool HasExited(Process process)
+        {
+            try
+            {
+                return process.WaitForExit(500);
+            }
+            catch (Exception exception) when (exception is InvalidOperationException or Win32Exception)
+            {
+                return false;
+            }
+        }
+
+        static bool TryGetStartTime(int id, out DateTime startTime)
+        {
+            try
+            {
+                using var process = Process.GetProcessById(id);
+                return TryGetStartTime(process, out startTime);
+            }
+            catch (ArgumentException)
+            {
+                startTime = default;
+                return false;
+            }
+        }
+
+        static bool TryGetStartTime(Process process, out DateTime startTime)
+        {
+            try
+            {
+                startTime = process.StartTime;
+                return true;
+            }
+            catch (Exception exception) when (exception is InvalidOperationException or Win32Exception or NotSupportedException)
+            {
+                // exited, or access is denied
+                startTime = default;
+                return false;
+            }
+        }
+
+        // process id => parent process id
+        static Dictionary<int, int> GetWindowsParentIds()
+        {
+            var parents = new Dictionary<int, int>();
+            var snapshot = CreateToolhelp32Snapshot(snapProcess, 0);
+            if (snapshot == invalidHandle)
+            {
+                return parents;
+            }
+
+            try
+            {
+                var entry = new ProcessEntry
+                {
+                    Size = (uint) Marshal.SizeOf(typeof(ProcessEntry))
+                };
+                if (!Process32FirstW(snapshot, ref entry))
+                {
+                    return parents;
+                }
+
+                do
+                {
+                    parents[(int) entry.ProcessId] = (int) entry.ParentProcessId;
+                } while (Process32NextW(snapshot, ref entry));
+            }
+            finally
+            {
+                CloseHandle(snapshot);
+            }
+
+            return parents;
+        }
+
+        // process id => parent process id
+        static Dictionary<int, int> GetUnixParentIds()
+        {
+            var parents = new Dictionary<int, int>();
+            string output;
+            try
+            {
+                using var process = Process.Start(
+                    new ProcessStartInfo
+                    {
+                        FileName = "ps",
+                        Arguments = "-A -o pid=,ppid=",
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
+                    })!;
+                output = process.StandardOutput.ReadToEnd();
+                process.WaitForExit();
+            }
+            catch (Exception exception) when (exception is Win32Exception or InvalidOperationException)
+            {
+                // ps is not available, so only the process itself can be killed
+                return parents;
+            }
+
+            foreach (var line in output.Split('\n'))
+            {
+                var parts = line.Split(new[] {' ', '\t', '\r'}, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 2 &&
+                    int.TryParse(parts[0], out var id) &&
+                    int.TryParse(parts[1], out var parentId))
+                {
+                    parents[id] = parentId;
+                }
+            }
+
+            return parents;
+        }
+
+        const uint snapProcess = 2;
+        static readonly IntPtr invalidHandle = new(-1);
+
+#pragma warning disable CS0649, CS0169
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        struct ProcessEntry
+        {
+            public uint Size;
+            public uint Usage;
+            public uint ProcessId;
+            public IntPtr DefaultHeapId;
+            public uint ModuleId;
+            public uint Threads;
+            public uint ParentProcessId;
+            public int PriorityClassBase;
+            public uint Flags;
+
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+            public string ExeFile;
+        }
+#pragma warning restore CS0649, CS0169
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern IntPtr CreateToolhelp32Snapshot(uint flags, uint processId);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        static extern bool Process32FirstW(IntPtr snapshot, ref ProcessEntry entry);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        static extern bool Process32NextW(IntPtr snapshot, ref ProcessEntry entry);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool CloseHandle(IntPtr handle);
+    }
 
 #endif
 

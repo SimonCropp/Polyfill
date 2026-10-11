@@ -48,6 +48,55 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task Process_Kill_EntireProcessTree_KillsDescendants()
+    {
+        // a shell that starts a long running child, which inherits the redirected output
+        var startInfo = new ProcessStartInfo
+        {
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            RedirectStandardOutput = true,
+        };
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            startInfo.FileName = "cmd";
+            startInfo.Arguments = "/c ping -n 60 127.0.0.1";
+        }
+        else
+        {
+            startInfo.FileName = "sh";
+            startInfo.Arguments = "-c \"echo started; sleep 60; echo done\"";
+        }
+
+        using var process = Process.Start(startInfo)!;
+
+        // output has started, so the child is running
+        await process.StandardOutput.ReadLineAsync();
+
+        process.Kill(entireProcessTree: true);
+
+        // the output only ends once every process holding it has exited, which the child would not do for a minute
+        var remaining = process.StandardOutput.ReadToEndAsync();
+        var completed = await Task.WhenAny(remaining, Task.Delay(TimeSpan.FromSeconds(20)));
+        await Assert.That(completed == remaining).IsTrue();
+
+        await process.WaitForExitAsync();
+        await Assert.That(process.HasExited).IsTrue();
+    }
+
+    [Test]
+    public async Task Process_Kill_EntireProcessTree_Exited()
+    {
+        using var process = StartVersion();
+        process.WaitForExit();
+
+        // killing the tree of a process that has already exited does nothing
+        process.Kill(entireProcessTree: true);
+
+        await Assert.That(process.HasExited).IsTrue();
+    }
+
+    [Test]
     public async Task Process_ReadAllText()
     {
         using var process = new Process
