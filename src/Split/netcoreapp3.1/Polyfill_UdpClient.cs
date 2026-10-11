@@ -2,6 +2,8 @@
 #pragma warning disable
 namespace Polyfills;
 using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 #if FeatureMemory
 using System.Buffers;
 #endif
@@ -25,23 +27,50 @@ static partial class Polyfill
 		}
 		return new ValueTask<UdpReceiveResult>(ReceiveWithCancellationAsync(target, cancellationToken));
 	}
+	sealed class UdpAbandonedReceives
+	{
+		public readonly Queue<Task<UdpReceiveResult>> Queue = new();
+	}
+	static readonly ConditionalWeakTable<UdpClient, UdpAbandonedReceives> udpAbandonedReceives = new();
 	static async Task<UdpReceiveResult> ReceiveWithCancellationAsync(
 		UdpClient target,
 		CancellationToken cancellationToken)
 	{
-		using var registration = cancellationToken.Register(() => target.Close());
-		try
+		var abandoned = udpAbandonedReceives.GetOrCreateValue(target);
+		Task<UdpReceiveResult> receive;
+		lock (abandoned)
 		{
-			return await target.ReceiveAsync();
+			if (abandoned.Queue.Count > 0)
+			{
+				receive = abandoned.Queue.Dequeue();
+			}
+			else
+			{
+				receive = target.ReceiveAsync();
+			}
 		}
-		catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
+		if (!receive.IsCompleted && cancellationToken.CanBeCanceled)
 		{
-			throw new OperationCanceledException(cancellationToken);
+			var cancelled = new TaskCompletionSource<bool>();
+			using var registration = cancellationToken.Register(
+				state => ((TaskCompletionSource<bool>) state!).TrySetResult(true),
+				cancelled);
+			var completed = await Task.WhenAny(receive, cancelled.Task).ConfigureAwait(false);
+			if (completed != receive)
+			{
+				_ = receive.ContinueWith(
+					static task => _ = task.Exception,
+					CancellationToken.None,
+					TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
+					TaskScheduler.Default);
+				lock (abandoned)
+				{
+					abandoned.Queue.Enqueue(receive);
+				}
+				throw new OperationCanceledException(cancellationToken);
+			}
 		}
-		catch (SocketException) when (cancellationToken.IsCancellationRequested)
-		{
-			throw new OperationCanceledException(cancellationToken);
-		}
+		return await receive.ConfigureAwait(false);
 	}
 #if FeatureMemory
 	/// <summary>
