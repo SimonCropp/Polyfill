@@ -31,7 +31,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
 | `netcoreapp2.0` | 1004 |
 | `netcoreapp2.1` | 927 |
 | `netcoreapp2.2` | 927 |
-| `netcoreapp3.0` | 888 |
+| `netcoreapp3.0` | 887 |
 | `netcoreapp3.1` | 887 |
 | `net5.0` | 765 |
 | `net6.0` | 661 |
