@@ -36,6 +36,43 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task ZipArchive_ExtractToDirectory_Overwrite_CreatesSubdirectories()
+    {
+        var root = Path.Combine(Path.GetTempPath(), "polyfill_zip_" + Guid.NewGuid().ToString("N"));
+        var zipPath = Path.Combine(root, "archive.zip");
+        var destination = Path.Combine(root, "dest");
+        Directory.CreateDirectory(root);
+        try
+        {
+            // entries in nested directories, with no explicit entries for the directories themselves
+            using (var archive = ZipFile.Open(zipPath, ZipArchiveMode.Create))
+            {
+                foreach (var name in new[] {"root.txt", "sub/file.txt", "a/b/c.txt"})
+                {
+                    using var writer = new StreamWriter(archive.CreateEntry(name).Open());
+                    writer.Write("content of " + name);
+                }
+            }
+
+            Directory.CreateDirectory(Path.Combine(destination, "sub"));
+            File.WriteAllText(Path.Combine(destination, "sub", "file.txt"), "old");
+
+            using (var archive = ZipFile.OpenRead(zipPath))
+            {
+                archive.ExtractToDirectory(destination, overwriteFiles: true);
+            }
+
+            await Assert.That(File.ReadAllText(Path.Combine(destination, "root.txt"))).IsEqualTo("content of root.txt");
+            await Assert.That(File.ReadAllText(Path.Combine(destination, "sub", "file.txt"))).IsEqualTo("content of sub/file.txt");
+            await Assert.That(File.ReadAllText(Path.Combine(destination, "a", "b", "c.txt"))).IsEqualTo("content of a/b/c.txt");
+        }
+        finally
+        {
+            Directory.Delete(root, true);
+        }
+    }
+
+    [Test]
     public async Task ZipArchiveEntry_Open_WithFileAccess()
     {
         using var memStream = new MemoryStream();
