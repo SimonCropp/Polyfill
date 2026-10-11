@@ -118,9 +118,25 @@ static partial class Polyfill
                 cancellationToken
             );
 
-            response.EnsureSuccessStatusCode();
+            // The returned stream keeps the response alive. If no stream is returned, the response must be disposed.
+            try
+            {
+                response.EnsureSuccessStatusCode();
 
-            return await response.Content.ReadAsStreamAsync(cancellationToken);
+                var content = response.Content;
+                if (content == null)
+                {
+                    response.Dispose();
+                    return Stream.Null;
+                }
+
+                return await content.ReadAsStreamAsync(cancellationToken);
+            }
+            catch
+            {
+                response.Dispose();
+                throw;
+            }
         }
         catch (OperationCanceledException ex) when (
             ex.CancellationToken != cancellationToken &&
@@ -151,14 +167,22 @@ static partial class Polyfill
     {
         try
         {
+            // ResponseContentRead so that the client buffers the body,
+            // applying its Timeout and MaxResponseContentBufferSize to it.
             using var response = await target.GetAsync(
                 requestUri,
-                HttpCompletionOption.ResponseHeadersRead,
+                HttpCompletionOption.ResponseContentRead,
                 cancellationToken);
 
             response.EnsureSuccessStatusCode();
 
-            return await response.Content
+            var content = response.Content;
+            if (content == null)
+            {
+                return [];
+            }
+
+            return await content
                 .ReadAsByteArrayAsync(cancellationToken);
         }
         catch (OperationCanceledException exception) when (
@@ -190,14 +214,22 @@ static partial class Polyfill
     {
         try
         {
+            // ResponseContentRead so that the client buffers the body,
+            // applying its Timeout and MaxResponseContentBufferSize to it.
             using var response = await target.GetAsync(
                 requestUri,
-                HttpCompletionOption.ResponseHeadersRead,
+                HttpCompletionOption.ResponseContentRead,
                 cancellationToken);
 
             response.EnsureSuccessStatusCode();
 
-            return await response.Content
+            var content = response.Content;
+            if (content == null)
+            {
+                return string.Empty;
+            }
+
+            return await content
                 .ReadAsStringAsync(cancellationToken);
         }
         catch (OperationCanceledException exception) when (
