@@ -359,6 +359,166 @@ public class FilePolyfillTests
             File.Move(sourceFilePath, destinationFilePath, overwrite: false)).Throws<IOException>();
     }
 
+    static string CreateMoveDirectory()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "polyfill_move_" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        return directory;
+    }
+
+    [Test]
+    public async Task Move_Overwrite_ReadOnlySource()
+    {
+        var directory = CreateMoveDirectory();
+        var source = Path.Combine(directory, "source.txt");
+        var destination = Path.Combine(directory, "destination.txt");
+        try
+        {
+            File.WriteAllText(source, "new");
+            File.WriteAllText(destination, "old");
+            File.SetAttributes(source, FileAttributes.ReadOnly);
+
+            File.Move(source, destination, overwrite: true);
+
+            await Assert.That(File.Exists(source)).IsFalse();
+            await Assert.That(File.ReadAllText(destination)).IsEqualTo("new");
+            // a move keeps the attributes of the source
+            await Assert.That(File.GetAttributes(destination).HasFlag(FileAttributes.ReadOnly)).IsTrue();
+        }
+        finally
+        {
+            foreach (var file in Directory.GetFiles(directory))
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+            }
+
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task Move_Overwrite_CaseOnlyRename()
+    {
+        var directory = CreateMoveDirectory();
+        try
+        {
+            File.WriteAllText(Path.Combine(directory, "name.txt"), "content");
+
+            File.Move(Path.Combine(directory, "name.txt"), Path.Combine(directory, "NAME.txt"), overwrite: true);
+
+            var names = Directory.GetFiles(directory).Select(_ => Path.GetFileName(_)).ToList();
+            await Assert.That(names.Count).IsEqualTo(1);
+            await Assert.That(names[0]).IsEqualTo("NAME.txt");
+            await Assert.That(File.ReadAllText(Path.Combine(directory, "NAME.txt"))).IsEqualTo("content");
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task Move_Overwrite_SameMissingPath_Throws()
+    {
+        var directory = CreateMoveDirectory();
+        var missing = Path.Combine(directory, "missing.txt");
+        try
+        {
+            await Assert.That(() => File.Move(missing, missing, overwrite: true)).Throws<FileNotFoundException>();
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task Move_Overwrite_SamePath_KeepsFile()
+    {
+        var directory = CreateMoveDirectory();
+        var file = Path.Combine(directory, "file.txt");
+        try
+        {
+            File.WriteAllText(file, "content");
+
+            File.Move(file, file, overwrite: true);
+
+            await Assert.That(File.ReadAllText(file)).IsEqualTo("content");
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task Move_Overwrite_MissingSource_KeepsDestination()
+    {
+        var directory = CreateMoveDirectory();
+        var destination = Path.Combine(directory, "destination.txt");
+        try
+        {
+            File.WriteAllText(destination, "old");
+
+            await Assert.That(() => File.Move(Path.Combine(directory, "missing.txt"), destination, overwrite: true))
+                .Throws<FileNotFoundException>();
+            await Assert.That(File.ReadAllText(destination)).IsEqualTo("old");
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task Move_Overwrite_MissingDestinationDirectory_KeepsSource()
+    {
+        var directory = CreateMoveDirectory();
+        var source = Path.Combine(directory, "source.txt");
+        try
+        {
+            File.WriteAllText(source, "content");
+
+            await Assert.That(() => File.Move(source, Path.Combine(directory, "missing", "destination.txt"), overwrite: true))
+                .Throws<DirectoryNotFoundException>();
+            await Assert.That(File.ReadAllText(source)).IsEqualTo("content");
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task Move_Overwrite_ReadOnlyDestination_KeepsBoth()
+    {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            // only Windows refuses to replace a read-only file
+            return;
+        }
+
+        var directory = CreateMoveDirectory();
+        var source = Path.Combine(directory, "source.txt");
+        var destination = Path.Combine(directory, "destination.txt");
+        try
+        {
+            File.WriteAllText(source, "new");
+            File.WriteAllText(destination, "old");
+            File.SetAttributes(destination, FileAttributes.ReadOnly);
+
+            await Assert.That(() => File.Move(source, destination, overwrite: true))
+                .Throws<UnauthorizedAccessException>();
+            await Assert.That(File.ReadAllText(source)).IsEqualTo("new");
+            await Assert.That(File.ReadAllText(destination)).IsEqualTo("old");
+        }
+        finally
+        {
+            File.SetAttributes(destination, FileAttributes.Normal);
+            Directory.Delete(directory, true);
+        }
+    }
+
 #if FeatureAsyncInterfaces
 
     [Test]

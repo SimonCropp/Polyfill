@@ -4,6 +4,7 @@ namespace Polyfills;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
@@ -102,12 +103,6 @@ static partial class Polyfill
 		/// </summary>
 		public static void Move(string sourceFileName, string destFileName, bool overwrite)
 		{
-			sourceFileName = Path.GetFullPath(sourceFileName);
-			destFileName = Path.GetFullPath(destFileName);
-			if (sourceFileName == destFileName)
-			{
-				return;
-			}
 			File.Move(sourceFileName, destFileName, overwrite: overwrite);
 		}
 #if FeatureAsyncInterfaces
