@@ -16,12 +16,18 @@ static partial class Polyfill
         T equalValue,
         [MaybeNullWhen(false)] out T actualValue)
     {
+        // Contains is a hashed lookup, and handles a null value without calling comparer.GetHashCode
+        if (!target.Contains(equalValue))
+        {
+            actualValue = default;
+            return false;
+        }
+
+        // Only Equals is used to find the stored value, the same as the set does for a null value
         var comparer = target.Comparer;
-        var hashCode = comparer.GetHashCode(equalValue);
         foreach (var item in target)
         {
-            if (comparer.GetHashCode(item) == hashCode &&
-                comparer.Equals(item, equalValue))
+            if (comparer.Equals(item, equalValue))
             {
                 actualValue = item;
                 return true;

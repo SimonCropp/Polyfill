@@ -17,6 +17,36 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task TryGetValue_NullWithStringComparer()
+    {
+        var set = new HashSet<string?>(StringComparer.OrdinalIgnoreCase)
+        {
+            "Value",
+            null
+        };
+
+        var found = set.TryGetValue("VALUE", out var result);
+        await Assert.That(found).IsTrue();
+        await Assert.That(result).IsEqualTo("Value");
+
+        found = set.TryGetValue(null, out result);
+        await Assert.That(found).IsTrue();
+        await Assert.That(result).IsNull();
+
+        found = set.TryGetValue("missing", out result);
+        await Assert.That(found).IsFalse();
+        await Assert.That(result).IsNull();
+
+        var withoutNull = new HashSet<string?>(StringComparer.OrdinalIgnoreCase)
+        {
+            "Value"
+        };
+        found = withoutNull.TryGetValue(null, out result);
+        await Assert.That(found).IsFalse();
+        await Assert.That(result).IsNull();
+    }
+
+    [Test]
     public async Task HashSet_EnsureCapacity()
     {
         var set = new HashSet<int>();
