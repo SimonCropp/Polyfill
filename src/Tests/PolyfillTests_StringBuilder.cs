@@ -128,6 +128,19 @@ partial class PolyfillTests
     public async Task MoveChunks_Null_Throws() =>
         await Assert.That(() => StringBuilder.MoveChunks(null!)).Throws<ArgumentNullException>();
 
+    // Where the BCL declares StringBuilder.MoveChunks the polyfill must not be compiled: a static
+    // member of the type always wins over a static extension member, so it would be dead code.
+    [Test]
+    public async Task MoveChunks_NotPolyfilledWhereBclHasIt()
+    {
+        var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
+        Type[] parameters = [typeof(StringBuilder)];
+        var inBcl = typeof(StringBuilder).GetMethod("MoveChunks", flags, null, parameters, null) != null;
+        var inPolyfill = typeof(Polyfills.Polyfill).GetMethod("MoveChunks", flags, null, parameters, null) != null;
+
+        await Assert.That(inBcl && inPolyfill).IsFalse();
+    }
+
     [Test]
     public async Task StringBuilder_Insert_ReadOnlySpan()
     {

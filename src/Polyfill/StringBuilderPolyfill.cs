@@ -1,4 +1,4 @@
-#if !NET12_0_OR_GREATER
+#if !NET11_0_OR_GREATER
 
 namespace Polyfills;
 
