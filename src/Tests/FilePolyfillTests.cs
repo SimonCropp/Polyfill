@@ -672,6 +672,18 @@ public class FilePolyfillTests
         await Assert.That(handle.IsClosed).IsFalse();
     }
 
+    // Where the BCL declares File.OpenNullHandle the polyfill must not be compiled: a static
+    // member of the type always wins over a static extension member, so it would be dead code.
+    [Test]
+    public async Task OpenNullHandle_NotPolyfilledWhereBclHasIt()
+    {
+        var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
+        var inBcl = typeof(File).GetMethod("OpenNullHandle", flags, null, Type.EmptyTypes, null) != null;
+        var inPolyfill = typeof(Polyfills.Polyfill).GetMethod("OpenNullHandle", flags, null, Type.EmptyTypes, null) != null;
+
+        await Assert.That(inBcl && inPolyfill).IsFalse();
+    }
+
     [Test]
     public async Task CreateHardLink_CreatesLinkToExistingFile()
     {

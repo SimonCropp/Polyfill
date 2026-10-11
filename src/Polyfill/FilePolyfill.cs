@@ -532,7 +532,7 @@ static partial class Polyfill
     }
 #endif
 
-#if !NET12_0_OR_GREATER
+#if !NET11_0_OR_GREATER
     extension(File)
     {
         /// <summary>
