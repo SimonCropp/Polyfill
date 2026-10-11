@@ -103,17 +103,13 @@ static partial class Polyfill
 			{
 				throw new ArgumentNullException(nameof(hash));
 			}
-			cancellationToken.ThrowIfCancellationRequested();
-			return new(CryptographicOperations.VerifyHmac(hashAlgorithm, key, source, hash));
+			return new(VerifyHashStreamAsync(CryptographicOperationsCreateHmac(hashAlgorithm, key), source, hash, cancellationToken));
 		}
 		/// <summary>
 		/// Asynchronously determines whether the HMAC of the <paramref name="source"/> stream matches <paramref name="hash"/>.
 		/// </summary>
-		public static ValueTask<bool> VerifyHmacAsync(HashAlgorithmName hashAlgorithm, ReadOnlyMemory<byte> key, Stream source, ReadOnlyMemory<byte> hash, CancellationToken cancellationToken = default)
-		{
-			cancellationToken.ThrowIfCancellationRequested();
-			return new(CryptographicOperations.VerifyHmac(hashAlgorithm, key.Span, source, hash.Span));
-		}
+		public static ValueTask<bool> VerifyHmacAsync(HashAlgorithmName hashAlgorithm, ReadOnlyMemory<byte> key, Stream source, ReadOnlyMemory<byte> hash, CancellationToken cancellationToken = default) =>
+			new(VerifyHashStreamAsync(CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray()), source, hash.ToArray(), cancellationToken));
 	}
 	static HMAC CryptographicOperationsCreateHmac(HashAlgorithmName hashAlgorithm, byte[] key)
 	{

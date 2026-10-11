@@ -54,12 +54,8 @@ static class MD5Polyfill
         /// Asynchronously computes the hash of a stream using the MD5 algorithm.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.md5.hashdataasync?view=net-11.0#system-security-cryptography-md5-hashdataasync(system-io-stream-system-threading-cancellationtoken)
-        public static ValueTask<byte[]> HashDataAsync(Stream source, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            using var hasher = MD5.Create();
-            return new(hasher.ComputeHash(source));
-        }
+        public static ValueTask<byte[]> HashDataAsync(Stream source, CancellationToken cancellationToken = default) =>
+            new(Polyfill.HashStreamAsync(MD5.Create(), source, cancellationToken));
 #endif
 
 #if FeatureMemory
@@ -95,13 +91,8 @@ static class MD5Polyfill
         /// Asynchronously computes the hash of a stream using the MD5 algorithm.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.md5.hashdataasync?view=net-11.0#system-security-cryptography-md5-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)
-        public static ValueTask<int> HashDataAsync(Stream source, Memory<byte> destination, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            var hash = HashData(source);
-            hash.CopyTo(destination);
-            return new(hash.Length);
-        }
+        public static ValueTask<int> HashDataAsync(Stream source, Memory<byte> destination, CancellationToken cancellationToken = default) =>
+            new(Polyfill.HashStreamAsync(MD5.Create(), source, destination, cancellationToken));
 
 #endif
 

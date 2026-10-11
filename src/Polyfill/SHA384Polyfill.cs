@@ -53,12 +53,8 @@ static class SHA384Polyfill
         /// Asynchronously computes the hash of a stream using the SHA-384 algorithm.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha384.hashdataasync?view=net-11.0#system-security-cryptography-sha384-hashdataasync(system-io-stream-system-threading-cancellationtoken)
-        public static ValueTask<byte[]> HashDataAsync(Stream source, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            using var hasher = SHA384.Create();
-            return new(hasher.ComputeHash(source));
-        }
+        public static ValueTask<byte[]> HashDataAsync(Stream source, CancellationToken cancellationToken = default) =>
+            new(Polyfill.HashStreamAsync(SHA384.Create(), source, cancellationToken));
 #endif
 
 #if FeatureMemory
@@ -94,13 +90,8 @@ static class SHA384Polyfill
         /// Asynchronously computes the hash of a stream using the SHA-384 algorithm.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha384.hashdataasync?view=net-11.0#system-security-cryptography-sha384-hashdataasync(system-io-stream-system-memory((system-byte))-system-threading-cancellationtoken)
-        public static ValueTask<int> HashDataAsync(Stream source, Memory<byte> destination, CancellationToken cancellationToken = default)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            var hash = HashData(source);
-            hash.CopyTo(destination);
-            return new(hash.Length);
-        }
+        public static ValueTask<int> HashDataAsync(Stream source, Memory<byte> destination, CancellationToken cancellationToken = default) =>
+            new(Polyfill.HashStreamAsync(SHA384.Create(), source, destination, cancellationToken));
 
 #endif
 
