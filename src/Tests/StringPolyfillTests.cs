@@ -17,6 +17,18 @@ public class StringPolyfillTest
         await Assert.That(string.Join('a', (IEnumerable<string>) new List<string> {"b", "c"})).IsEqualTo("bac");
     }
 
+#if FeatureMemory
+    [Test]
+    public async Task Join_CharSeparator_ExplicitSpan()
+    {
+        var objects = string.Join(',', new ReadOnlySpan<object?>(["x", "a", "b"]));
+        var strings = string.Join(',', new ReadOnlySpan<string?>(["x", "a", "b"]));
+
+        await Assert.That(objects).IsEqualTo("x,a,b");
+        await Assert.That(strings).IsEqualTo("x,a,b");
+    }
+#endif
+
     [Test]
     public async Task Join_Objects_FirstElementNull()
     {
