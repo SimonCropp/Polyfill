@@ -2145,6 +2145,9 @@ class Consume
         timeSpan = TimeSpan.FromHours(1, 30);
         timeSpan = TimeSpan.FromMinutes(1);
         timeSpan = TimeSpan.FromMinutes(1, 30);
+        timeSpan = TimeSpan.FromDays(1, 2, 3L, 4L, 5L, 6L);
+        timeSpan = TimeSpan.FromHours(1, 2L, 3L, 4L, 5L);
+        timeSpan = TimeSpan.FromMinutes(1L, 2L, 3L, 4L);
         timeSpan = TimeSpan.FromSeconds(1L);
         timeSpan = TimeSpan.FromSeconds(1L, 500L);
         timeSpan = TimeSpan.FromMicroseconds(1000L);

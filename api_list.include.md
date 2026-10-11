@@ -1473,11 +1473,11 @@
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat?view=net-11.0#system-timespan-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat?view=net-11.0#system-timespan-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
- * `TimeSpan FromDays(int, int, int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromdays?view=net-11.0#system-timespan-fromdays(system-int32-system-int32-system-int32-system-int32-system-int32-system-int32))
- * `TimeSpan FromHours(int, int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromhours?view=net-11.0#system-timespan-fromhours(system-int32-system-int32-system-int32-system-int32-system-int32))
+ * `TimeSpan FromDays(int, int, long, long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromdays?view=net-11.0#system-timespan-fromdays(system-int32-system-int32-system-int64-system-int64-system-int64-system-int64))
+ * `TimeSpan FromHours(int, long, long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromhours?view=net-11.0#system-timespan-fromhours(system-int32-system-int64-system-int64-system-int64-system-int64))
  * `TimeSpan FromMicroseconds(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommicroseconds?view=net-11.0#system-timespan-frommicroseconds(system-int64))
  * `TimeSpan FromMilliseconds(long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommilliseconds?view=net-11.0#system-timespan-frommilliseconds(system-int64-system-int64))
- * `TimeSpan FromMinutes(int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromminutes?view=net-11.0#system-timespan-fromminutes(system-int32-system-int32-system-int32-system-int32))
+ * `TimeSpan FromMinutes(long, long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromminutes?view=net-11.0#system-timespan-fromminutes(system-int64-system-int64-system-int64-system-int64))
  * `TimeSpan FromSeconds(long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromseconds?view=net-11.0#system-timespan-fromseconds(system-int64-system-int64-system-int64))
  * `int HoursPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.hoursperday?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
