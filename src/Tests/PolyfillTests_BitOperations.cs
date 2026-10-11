@@ -66,4 +66,13 @@ partial class PolyfillTests
         await Assert.That(BitOperations.IsPow2((nuint) 0)).IsFalse();
         await Assert.That(BitOperations.IsPow2((nuint) 3)).IsFalse();
     }
+
+    [Test]
+    public async Task BitOperations_IsPow2_NativeMinValue()
+    {
+        // nint.MinValue on 64-bit, zero on 32-bit: neither is a power of two
+        var value = unchecked((nint) long.MinValue);
+        await Assert.That(BitOperations.IsPow2(value)).IsFalse();
+        await Assert.That(BitOperations.IsPow2((nint) int.MinValue)).IsFalse();
+    }
 }

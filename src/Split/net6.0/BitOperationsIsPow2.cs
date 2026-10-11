@@ -11,13 +11,13 @@ static partial class Polyfill
 		/// Determines whether the specified <see cref="nint"/> value is a power of 2.
 		/// </summary>
 		public static bool IsPow2(nint value) =>
-			(value & (value - 1)) == 0 &&
+			(value & unchecked(value - 1)) == 0 &&
 			value > 0;
 		/// <summary>
 		/// Determines whether the specified <see cref="nuint"/> value is a power of 2.
 		/// </summary>
 		public static bool IsPow2(nuint value) =>
-			(value & (value - 1)) == 0 &&
+			(value & unchecked(value - 1)) == 0 &&
 			value != 0;
 	}
 }

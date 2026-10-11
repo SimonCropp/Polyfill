@@ -120,4 +120,25 @@ public class RandomNumberGeneratorPolyfillTests
         }
     }
 #endif
+
+    [Test]
+    public async Task GetInt32_Range_Negative()
+    {
+        for (var i = 0; i < 100; i++)
+        {
+            var value = RandomNumberGenerator.GetInt32(-10, -5);
+            await Assert.That(value).IsGreaterThanOrEqualTo(-10);
+            await Assert.That(value).IsLessThan(-5);
+        }
+    }
+
+    [Test]
+    public async Task GetInt32_Range_Full()
+    {
+        for (var i = 0; i < 100; i++)
+        {
+            var value = RandomNumberGenerator.GetInt32(int.MinValue, int.MaxValue);
+            await Assert.That(value).IsLessThan(int.MaxValue);
+        }
+    }
 }

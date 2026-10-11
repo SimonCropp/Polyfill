@@ -204,4 +204,27 @@ partial class PolyfillTests
     }
 
 #endif
+
+    [Test]
+    public async Task RandomNextInt64_NegativeRange()
+    {
+        var random = new Random();
+        for (var i = 0; i < 100; i++)
+        {
+            var result = random.NextInt64(-10, -5);
+            await Assert.That(result).IsGreaterThanOrEqualTo(-10);
+            await Assert.That(result).IsLessThan(-5);
+        }
+    }
+
+    [Test]
+    public async Task RandomNextInt64_FullRange()
+    {
+        var random = new Random();
+        for (var i = 0; i < 100; i++)
+        {
+            var result = random.NextInt64(long.MinValue, long.MaxValue);
+            await Assert.That(result).IsLessThan(long.MaxValue);
+        }
+    }
 }
