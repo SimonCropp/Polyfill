@@ -315,51 +315,52 @@ static partial class Polyfill
 #endif
 
 #if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER && FeatureMemory
-#if FeatureValueTask
 
     /// <summary>
     /// Asynchronously writes a character memory region to the stream.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-11.0#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
-    public static ValueTask WriteAsync(
+    public static Task WriteAsync(
         this TextWriter target,
         ReadOnlyMemory<char> buffer,
         CancellationToken cancellationToken = default)
     {
-        cancellationToken.ThrowIfCancellationRequested();
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return Task.FromCanceled(cancellationToken);
+        }
 
         if (!MemoryMarshal.TryGetArray(buffer, out var segment))
         {
             segment = new(buffer.ToArray());
         }
 
-        var task = target.WriteAsync(segment.Array!, segment.Offset, segment.Count)
+        return target.WriteAsync(segment.Array!, segment.Offset, segment.Count)
             .WaitAsync(cancellationToken);
-        return new(task);
     }
 
     /// <summary>
     /// Asynchronously writes the text representation of a character memory region to the stream, followed by a line terminator.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-11.0#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken)
-    public static ValueTask WriteLineAsync(
+    public static Task WriteLineAsync(
         this TextWriter target,
         ReadOnlyMemory<char> buffer,
         CancellationToken cancellationToken = default)
     {
-        cancellationToken.ThrowIfCancellationRequested();
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return Task.FromCanceled(cancellationToken);
+        }
 
         if (!MemoryMarshal.TryGetArray(buffer, out var segment))
         {
             segment = new(buffer.ToArray());
         }
 
-        var task = target.WriteLineAsync(segment.Array!, segment.Offset, segment.Count)
+        return target.WriteLineAsync(segment.Array!, segment.Offset, segment.Count)
             .WaitAsync(cancellationToken);
-        return new(task);
     }
-
-#endif
 
     /// <summary>
     /// Writes a character span to the text stream.
@@ -407,7 +408,7 @@ static partial class Polyfill
 #endif
 }
 ```
-<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L233' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill_TextWriter.cs#L1-L234' title='Snippet source file'>snippet source</a> | <a href='#snippet-Polyfill_TextWriter.cs' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
