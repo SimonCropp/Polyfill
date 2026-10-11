@@ -127,8 +127,18 @@ static partial class Polyfill
     /// Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.random.nextsingle?view=net-11.0
-    public static float NextSingle(this Random target) =>
-        (float)target.NextDouble();
+    public static float NextSingle(this Random target)
+    {
+        // A double just below 1.0 rounds to 1.0f when cast, which is outside the range. So sample again.
+        while (true)
+        {
+            var value = (float) target.NextDouble();
+            if (value < 1f)
+            {
+                return value;
+            }
+        }
+    }
 
 #endif
 
