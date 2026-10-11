@@ -103,7 +103,7 @@ Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
 | netstandard2.0 |          8.0KB |       406.5KB |  +398.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
 | netstandard2.1 |          8.5KB |       351.5KB |  +343.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net461         |          8.5KB |       405.0KB |  +396.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
+| net461         |          8.5KB |       405.0KB |  +396.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.5KB |
 | net462         |          7.0KB |       408.5KB |  +401.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
 | net47          |          7.0KB |       408.5KB |  +401.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
 | net471         |          8.5KB |       407.5KB |  +399.0KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.5KB |
@@ -129,15 +129,15 @@ Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
 | netstandard2.0 |          8.0KB |       593.8KB |  +585.8KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
-| netstandard2.1 |          8.5KB |       506.6KB |  +498.1KB |   +16.6KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net461         |          8.5KB |       593.3KB |  +584.8KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
-| net462         |          7.0KB |       596.8KB |  +589.8KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
-| net47          |          7.0KB |       596.8KB |  +589.8KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
-| net471         |          8.5KB |       595.2KB |  +586.7KB |   +16.6KB |             +8.7KB |             +14.4KB |     +19.9KB |
+| netstandard2.1 |          8.5KB |       506.7KB |  +498.2KB |   +16.6KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net461         |          8.5KB |       593.4KB |  +584.9KB |   +16.6KB |             +8.7KB |             +14.4KB |     +19.9KB |
+| net462         |          7.0KB |       596.9KB |  +589.9KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
+| net47          |          7.0KB |       596.9KB |  +589.9KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
+| net471         |          8.5KB |       595.3KB |  +586.8KB |   +16.6KB |             +8.7KB |             +14.4KB |     +19.9KB |
 | net472         |          8.5KB |       593.2KB |  +584.7KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | net48          |          8.5KB |       593.2KB |  +584.7KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | net481         |          8.5KB |       593.2KB |  +584.7KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| netcoreapp2.0  |          9.0KB |       560.7KB |  +551.7KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| netcoreapp2.0  |          9.0KB |       560.8KB |  +551.8KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | netcoreapp2.1  |          9.0KB |       523.9KB |  +514.9KB |   +15.1KB |             +7.2KB |             +12.9KB |     +18.4KB |
 | netcoreapp2.2  |          9.0KB |       523.9KB |  +514.9KB |   +15.1KB |             +7.2KB |             +12.9KB |     +18.4KB |
 | netcoreapp3.0  |          9.5KB |       502.0KB |  +492.5KB |   +15.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
@@ -1768,7 +1768,7 @@ The class `Polyfill` includes the following extension methods:
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-11.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0))))
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-11.0#system-memoryextensions-commonprefixlength-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `bool Contains<T>(T, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0-system-collections-generic-iequalitycomparer((-0))))
- * `bool Contains<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0))
+ * `bool Contains<T>(T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0))
  * `bool ContainsAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `bool ContainsAnyExcept<T>(T, T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-0-0-0))
  * `bool ContainsAnyExcept<T>(T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-0-0))
@@ -1946,7 +1946,7 @@ The class `Polyfill` includes the following extension methods:
 
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-11.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0))))
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-11.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))))
- * `bool Contains<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-span((-0))-0))
+ * `bool Contains<T>(T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-span((-0))-0))
  * `bool ContainsAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-system-readonlyspan((-0))))
  * `bool ContainsAnyExcept<T>(T, T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-0-0-0))
  * `bool ContainsAnyExcept<T>(T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-0-0))
