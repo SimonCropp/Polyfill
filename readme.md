@@ -21,7 +21,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
 | -- | -- |
 | `net461` | 1085 |
 | `net462` | 1085 |
-| `net47` | 1084 |
+| `net47` | 1085 |
 | `net471` | 1083 |
 | `net472` | 1079 |
 | `net48` | 1079 |

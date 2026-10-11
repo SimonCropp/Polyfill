@@ -195,6 +195,16 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task ToHashSetComparer()
+    {
+        IEnumerable<string> enumerable = ["a", "A", "b"];
+
+        var hashSet = enumerable.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        await Assert.That(hashSet.Count).IsEqualTo(2);
+        await Assert.That(hashSet.Contains("B")).IsTrue();
+    }
+
+    [Test]
     public async Task Zip3()
     {
         var numbers = new List<int> {1};
