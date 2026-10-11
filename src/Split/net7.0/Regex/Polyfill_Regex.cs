@@ -7,14 +7,14 @@ static partial class Polyfill
 {
 #if FeatureMemory && FeatureValueTuple
 	public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input) =>
-		new(input, regex, 0, 0);
+		new(input, regex, 0);
 	public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input, int count)
 	{
 		if (count < 0)
 		{
 			throw new ArgumentOutOfRangeException(nameof(count), "Count must be non-negative.");
 		}
-		return new ValueSplitEnumerator(input, regex, count, 0);
+		return new ValueSplitEnumerator(input, regex, count);
 	}
 	public static ValueSplitEnumerator EnumerateSplits(this Regex regex, ReadOnlySpan<char> input, int count, int startat)
 	{

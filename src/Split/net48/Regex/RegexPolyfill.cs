@@ -78,17 +78,17 @@ static partial class Polyfill
 		public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern)
 		{
 			var regex = new Regex(pattern);
-			return new ValueSplitEnumerator(input, regex, 0, 0);
+			return new ValueSplitEnumerator(input, regex, 0);
 		}
 		public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options)
 		{
 			var regex = new Regex(pattern, options);
-			return new ValueSplitEnumerator(input, regex, 0, 0);
+			return new ValueSplitEnumerator(input, regex, 0);
 		}
 		public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan matchTimeout)
 		{
 			var regex = new Regex(pattern, options, matchTimeout);
-			return new ValueSplitEnumerator(input, regex, 0, 0);
+			return new ValueSplitEnumerator(input, regex, 0);
 		}
 #endif
 	}
