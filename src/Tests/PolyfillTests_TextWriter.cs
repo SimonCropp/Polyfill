@@ -81,6 +81,36 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task TextWriterWriteMemoryAsyncReturnsTask()
+    {
+        using var stream = new MemoryStream();
+        ReadOnlyMemory<char> memory = "value".ToArray();
+        using var writer = new StreamWriter(stream);
+        Task write = writer.WriteAsync(memory);
+        await write;
+        Task writeLine = writer.WriteLineAsync(memory, CancellationToken.None);
+        await writeLine;
+        await writer.FlushAsync();
+        var s = Encoding.UTF8.GetString(stream.ToArray());
+        await Assert.That(s).IsEqualTo("valuevalue" + Environment.NewLine);
+    }
+
+    [Test]
+    public async Task TextWriterWriteMemoryAsyncCancelled()
+    {
+        using var stream = new MemoryStream();
+        ReadOnlyMemory<char> memory = "value".ToArray();
+        using var writer = new StreamWriter(stream);
+        var cancelled = new CancellationToken(true);
+        Task write = writer.WriteAsync(memory, cancelled);
+        Task writeLine = writer.WriteLineAsync(memory, cancelled);
+        await Assert.That(write.IsCanceled).IsTrue();
+        await Assert.That(writeLine.IsCanceled).IsTrue();
+        await writer.FlushAsync();
+        await Assert.That(stream.Length).IsEqualTo(0L);
+    }
+
+    [Test]
     public async Task TextWriterWriteMemory()
     {
         using var stream = new MemoryStream();

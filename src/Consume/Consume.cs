@@ -2175,12 +2175,14 @@ class Consume
         await target.WriteAsync("a", CancellationToken.None);
         await target.WriteLineAsync(CancellationToken.None);
         await target.WriteLineAsync("a", CancellationToken.None);
-#if FeatureMemory && FeatureValueTask
+#if FeatureMemory
         target.WriteLine("a".AsSpan());
         target.Write("a".AsSpan());
         var memory = "a".AsMemory();
-        await target.WriteLineAsync(memory);
-        await target.WriteAsync(memory);
+        Task writeLineMemory = target.WriteLineAsync(memory);
+        Task writeMemory = target.WriteAsync(memory);
+        writeLineMemory = target.WriteLineAsync(memory, CancellationToken.None);
+        writeMemory = target.WriteAsync(memory, CancellationToken.None);
 #endif
     }
 
