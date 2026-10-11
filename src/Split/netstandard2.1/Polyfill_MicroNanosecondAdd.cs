@@ -8,10 +8,23 @@ static partial class Polyfill
 	/// Returns a new <see cref="DateTime"/> object that adds a specified number of microseconds to the value of this instance..
 	/// </summary>
 	public static DateTime AddMicroseconds(this DateTime target, double microseconds) =>
-	   target.AddTicks((long)(microseconds * 10));
+	   target.AddTicks(AddMicrosecondsToTicks(microseconds));
 	/// <summary>
 	/// Returns a new <see cref="DateTimeOffset"/> object that adds a specified number of microseconds to the value of this instance..
 	/// </summary>
 	public static DateTimeOffset AddMicroseconds(this DateTimeOffset target, double microseconds) =>
-	   target.AddTicks((long)(microseconds * 10));
+	   target.AddTicks(AddMicrosecondsToTicks(microseconds));
+	const long maxMicroseconds = 315537897600000000;
+	static long AddMicrosecondsToTicks(double microseconds)
+	{
+		if (Math.Abs(microseconds) > maxMicroseconds)
+		{
+			throw new ArgumentOutOfRangeException(nameof(microseconds), "Value to add was out of range.");
+		}
+		var integralPart = Math.Truncate(microseconds);
+		var fractionalPart = microseconds - integralPart;
+		var ticks = (long) integralPart * 10;
+		ticks += (long) (fractionalPart * 10);
+		return ticks;
+	}
 }
