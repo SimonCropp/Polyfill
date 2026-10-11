@@ -355,6 +355,55 @@ partial class PolyfillTests
     public async Task Sequence_Throws_WhenStepNegativeAndEndGreaterThanStart() =>
         await Assert.That(() => Enumerable.Sequence(1, 5, -1).ToList()).Throws<ArgumentOutOfRangeException>();
 
+    // The argument checks are not deferred, so no enumeration is needed (or wanted: a NaN used to give an endless sequence)
+    [Test]
+    public async Task Sequence_Throws_WhenStartIsNaN()
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Enumerable.Sequence(double.NaN, 1d, 1d));
+        await Assert.That(exception.ParamName).IsEqualTo("start");
+    }
+
+    [Test]
+    public async Task Sequence_Throws_WhenEndIsNaN()
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Enumerable.Sequence(0d, double.NaN, 1d));
+        await Assert.That(exception.ParamName).IsEqualTo("endInclusive");
+    }
+
+    [Test]
+    public async Task Sequence_Throws_WhenStepIsNaN()
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Enumerable.Sequence(0d, 1d, double.NaN));
+        await Assert.That(exception.ParamName).IsEqualTo("step");
+    }
+
+    [Test]
+    public async Task Sequence_Throws_WhenStepIsZeroAndStartNotEqualToEnd()
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Enumerable.Sequence(1, 5, 0));
+        await Assert.That(exception.ParamName).IsEqualTo("step");
+
+        exception = Assert.Throws<ArgumentOutOfRangeException>(() => Enumerable.Sequence(1d, 5d, -0d));
+        await Assert.That(exception.ParamName).IsEqualTo("step");
+    }
+
+    [Test]
+    public async Task Sequence_SingleValue_WhenStepIsZeroAndStartEqualsEnd()
+    {
+        var result = Enumerable.Sequence(3, 3, 0).ToList();
+        await Assert.That(result.SequenceEqual(new[] {3})).IsTrue();
+    }
+
+    [Test]
+    public async Task Sequence_Throws_WithParamName_WhenEndOnWrongSideOfStart()
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Enumerable.Sequence(5, 1, 1));
+        await Assert.That(exception.ParamName).IsEqualTo("endInclusive");
+
+        exception = Assert.Throws<ArgumentOutOfRangeException>(() => Enumerable.Sequence(1, 5, -1));
+        await Assert.That(exception.ParamName).IsEqualTo("endInclusive");
+    }
+
 #endif
 
     [Test]

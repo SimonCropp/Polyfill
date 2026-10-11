@@ -31,27 +31,51 @@ static partial class Polyfill
         public static IEnumerable<T> Sequence<T>(T start, T endInclusive, T step)
             where T : INumber<T>
         {
-            if (T.IsPositive(step))
+            if (T.IsNaN(start))
+            {
+                throw new ArgumentOutOfRangeException(nameof(start));
+            }
+
+            if (T.IsNaN(endInclusive))
+            {
+                throw new ArgumentOutOfRangeException(nameof(endInclusive));
+            }
+
+            if (T.IsNaN(step))
+            {
+                throw new ArgumentOutOfRangeException(nameof(step));
+            }
+
+            if (step > T.Zero)
             {
                 // Presumed to be the most common case, step > 0. Validate that endInclusive >= start, as otherwise we can't easily
                 // guarantee that the sequence will terminate.
                 if (endInclusive < start)
                 {
-                    throw new ArgumentOutOfRangeException("endInclusive < start");
+                    throw new ArgumentOutOfRangeException(nameof(endInclusive));
                 }
 
                 return IncrementingIterator(start, endInclusive, step);
             }
-            else
+
+            if (step < T.Zero)
             {
                 // step < 0. Validate that endInclusive <= start, as otherwise we can't easily guarantee that the sequence will terminate.
                 if (endInclusive > start)
                 {
-                    throw new ArgumentOutOfRangeException("endInclusive > start");
+                    throw new ArgumentOutOfRangeException(nameof(endInclusive));
                 }
 
                 return DecrementingIterator(start, endInclusive, step);
             }
+
+            // step == 0. The sequence can only terminate when there is a single value to yield.
+            if (start != endInclusive)
+            {
+                throw new ArgumentOutOfRangeException(nameof(step));
+            }
+
+            return Enumerable.Repeat(start, 1);
 
             static IEnumerable<T> IncrementingIterator(T current, T endInclusive, T step)
             {
