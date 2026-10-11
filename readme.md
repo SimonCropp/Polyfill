@@ -2239,6 +2239,7 @@ The class `Polyfill` includes the following extension methods:
 #### UdpClient
 
  * `ValueTask<UdpReceiveResult> ReceiveAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.receiveasync?view=net-11.0#system-net-sockets-udpclient-receiveasync(system-threading-cancellationtoken))
+   * Note: Cancellation abandons the wait, not the underlying receive, which stays in flight. Its datagram is returned by the next `ReceiveAsync(CancellationToken)` call, so after a cancellation do not mix in the other `Receive` overloads.
  * `int Send(ReadOnlySpan<byte>, IPEndPoint?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.send?view=net-11.0#system-net-sockets-udpclient-send(system-readonlyspan((system-byte))-system-net-ipendpoint))
  * `int Send(ReadOnlySpan<byte>, string?, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.send?view=net-11.0#system-net-sockets-udpclient-send(system-readonlyspan((system-byte))-system-string-system-int32))
  * `int Send(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.send?view=net-11.0#system-net-sockets-udpclient-send(system-readonlyspan((system-byte))))
