@@ -4,6 +4,7 @@ namespace Polyfills;
 using System;
 using System.IO;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 static partial class Polyfill
@@ -31,63 +32,7 @@ static partial class Polyfill
 			{
 				throw new ArgumentException("path is a zero-length string, or contains one or more invalid characters. Query for invalid characters by using the GetInvalidPathChars() method.");
 			}
-			var startInfo = new ProcessStartInfo
-			{
-				FileName = "stat",
-				Arguments = $"-c %a {Path.GetFullPath(path)}",
-				RedirectStandardOutput = true,
-				RedirectStandardInput = false,
-				UseShellExecute = false,
-				CreateNoWindow = true,
-			};
-			using var process = Process.Start(startInfo)!;
-			process.WaitForExit();
-			var output = process.StandardOutput.ReadToEnd();
-			output = output.Length == 4 ? output : output.Insert(0, "0");
-			var mode = output[0] switch
-			{
-				'1' => UnixFileMode.StickyBit,
-				'2' => UnixFileMode.SetGroup,
-				'4' => UnixFileMode.SetUser,
-				_ => UnixFileMode.None
-			};
-			mode = output[1] switch
-			{
-				'0' => mode | UnixFileMode.None,
-				'1' => mode | UnixFileMode.UserExecute,
-				'2' => mode | UnixFileMode.UserWrite,
-				'3' => mode | UnixFileMode.UserExecute | UnixFileMode.UserWrite,
-				'4' => mode | UnixFileMode.UserRead,
-				'5' => mode | UnixFileMode.UserRead | UnixFileMode.UserExecute,
-				'6' => mode | UnixFileMode.UserRead | UnixFileMode.UserWrite,
-				'7' => mode | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute,
-				_ => throw new("Invalid octal notation detected")
-			};
-			mode = output[2] switch
-			{
-				'0' => mode | UnixFileMode.None,
-				'1' => mode | UnixFileMode.GroupExecute,
-				'2' => mode | UnixFileMode.GroupWrite,
-				'3' => mode | UnixFileMode.GroupExecute | UnixFileMode.GroupWrite,
-				'4' => mode | UnixFileMode.GroupRead,
-				'5' => mode | UnixFileMode.GroupRead | UnixFileMode.GroupExecute,
-				'6' => mode | UnixFileMode.GroupRead | UnixFileMode.GroupWrite,
-				'7' => mode | UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute,
-				_ => throw new("Invalid octal notation detected")
-			};
-			mode = output[3] switch
-			{
-				'0' => mode | UnixFileMode.None,
-				'1' => mode | UnixFileMode.OtherExecute,
-				'2' => mode | UnixFileMode.OtherWrite,
-				'3' => mode | UnixFileMode.OtherExecute | UnixFileMode.OtherWrite,
-				'4' => mode | UnixFileMode.OtherRead,
-				'5' => mode | UnixFileMode.OtherRead | UnixFileMode.OtherExecute,
-				'6' => mode | UnixFileMode.OtherRead | UnixFileMode.OtherWrite,
-				'7' => mode | UnixFileMode.OtherRead | UnixFileMode.OtherWrite | UnixFileMode.OtherExecute,
-				_ => throw new("Invalid octal notation detected")
-			};
-			return mode;
+			return UnixFileModeHelper.GetMode(Path.GetFullPath(path));
 		}
 		/// <summary>
 		/// Sets the specified UnixFileMode of the file on the specified pat
@@ -170,17 +115,101 @@ static partial class Polyfill
 						throw new("Invalid notation detected");
 				}
 			}
+			UnixFileModeHelper.SetMode(Path.GetFullPath(path), string.Concat(octal));
+		}
+	}
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+	[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
+	internal static class UnixFileModeHelper
+	{
+		static readonly string[] gnuStat = ["-c", "%a"];
+		static readonly string[] bsdStat = ["-f", "%p"];
+		internal static UnixFileMode GetMode(string fullPath)
+		{
+			var first = gnuStat;
+			var second = bsdStat;
+#if FeatureRuntimeInformation
+			if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+			{
+				first = bsdStat;
+				second = gnuStat;
+			}
+#endif
+			if (Run("stat", first, fullPath, out var output, out var error) != 0 &&
+				Run("stat", second, fullPath, out output, out _) != 0)
+			{
+				throw CreateException(fullPath, error);
+			}
+			return ParseMode(output);
+		}
+		internal static void SetMode(string fullPath, string octal)
+		{
+			if (Run("chmod", [octal], fullPath, out _, out var error) != 0)
+			{
+				throw CreateException(fullPath, error);
+			}
+		}
+		/// <summary>
+		/// Parses the octal mode written by stat. The low twelve bits are the permissions, and have the same values
+		/// as <see cref="UnixFileMode"/>. Any higher bits are the file type, which BSD stat includes.
+		/// </summary>
+		internal static UnixFileMode ParseMode(string output)
+		{
+			var text = output.Trim();
+			if (text.Length is 0 or > 10)
+			{
+				throw new FormatException($"Unexpected output from stat: '{text}'.");
+			}
+			var value = 0;
+			foreach (var ch in text)
+			{
+				if (ch is < '0' or > '7')
+				{
+					throw new FormatException($"Unexpected output from stat: '{text}'.");
+				}
+				value = value * 8 + (ch - '0');
+			}
+			return (UnixFileMode) (value & 0xFFF);
+		}
+		static Exception CreateException(string fullPath, string error)
+		{
+			if (!File.Exists(fullPath) &&
+				!Directory.Exists(fullPath))
+			{
+				return new FileNotFoundException($"Could not find file '{fullPath}'.", fullPath);
+			}
+			var message = error.Trim();
+			if (message.Length == 0)
+			{
+				message = $"Unable to access the mode of '{fullPath}'.";
+			}
+			return new IOException(message);
+		}
+		static int Run(string fileName, string[] options, string fullPath, out string output, out string error)
+		{
 			var startInfo = new ProcessStartInfo
 			{
-				FileName = "chmod",
-				Arguments = $"{string.Concat(octal)} {Path.GetFullPath(path)}",
+				FileName = fileName,
 				RedirectStandardOutput = true,
+				RedirectStandardError = true,
 				RedirectStandardInput = false,
 				UseShellExecute = false,
 				CreateNoWindow = true,
 			};
+			foreach (var option in options)
+			{
+				startInfo.ArgumentList.Add(option);
+			}
+			startInfo.ArgumentList.Add(fullPath);
 			using var process = Process.Start(startInfo)!;
+			var errorTask = process.StandardError.ReadToEndAsync();
+			output = process.StandardOutput.ReadToEnd();
+			error = errorTask.GetAwaiter().GetResult();
 			process.WaitForExit();
+			return process.ExitCode;
 		}
 	}
 }
