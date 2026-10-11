@@ -63,7 +63,7 @@ static partial class Polyfill
 		using var registration = cancellationToken.Register(() => target.Close());
 		try
 		{
-			await target.ConnectAsync(address, port);
+			await target.ConnectAsync(address, port).ConfigureAwait(false);
 		}
 		catch (Exception) when (cancellationToken.IsCancellationRequested)
 		{
@@ -79,7 +79,7 @@ static partial class Polyfill
 		using var registration = cancellationToken.Register(() => target.Close());
 		try
 		{
-			await target.ConnectAsync(addresses, port);
+			await target.ConnectAsync(addresses, port).ConfigureAwait(false);
 		}
 		catch (Exception) when (cancellationToken.IsCancellationRequested)
 		{
@@ -95,7 +95,7 @@ static partial class Polyfill
 		using var registration = cancellationToken.Register(() => target.Close());
 		try
 		{
-			await target.ConnectAsync(host, port);
+			await target.ConnectAsync(host, port).ConfigureAwait(false);
 		}
 		catch (Exception) when (cancellationToken.IsCancellationRequested)
 		{
@@ -124,7 +124,7 @@ static partial class Polyfill
 		using var registration = cancellationToken.Register(() => target.Close());
 		try
 		{
-			await target.ConnectAsync(remoteEP.Address, remoteEP.Port);
+			await target.ConnectAsync(remoteEP.Address, remoteEP.Port).ConfigureAwait(false);
 		}
 		catch (Exception) when (cancellationToken.IsCancellationRequested)
 		{

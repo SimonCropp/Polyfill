@@ -44,7 +44,7 @@ static partial class XDocumentPolyfill
         public static async Task<XDocument> LoadAsync(TextReader textReader, LoadOptions options, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var content = await textReader.ReadToEndAsync();
+            var content = await textReader.ReadToEndAsync().ConfigureAwait(false);
             return XDocument.Parse(content, options);
         }
 

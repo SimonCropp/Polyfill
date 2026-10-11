@@ -34,7 +34,7 @@ static partial class Polyfill
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
-			await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
+			await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
 		}
 #if FeatureMemory
 		/// <summary>
@@ -73,7 +73,7 @@ static partial class Polyfill
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
-			await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken);
+			await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Creates a new file, writes the specified byte array to the file, and then closes the file.
@@ -121,7 +121,7 @@ static partial class Polyfill
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
-			await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
+			await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Asynchronously creates a new file, writes the specified lines to the file, and then closes the file.
@@ -139,9 +139,9 @@ static partial class Polyfill
 			foreach (var line in contents)
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				await writer.WriteLineAsync(line);
+				await writer.WriteLineAsync(line).ConfigureAwait(false);
 			}
-			await writer.FlushAsync(cancellationToken);
+			await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Asynchronously appends lines to a file, and then closes the file. If the specified file does not exist, this method creates a file, writes the specified lines to the file, and then closes the file.
@@ -159,9 +159,9 @@ static partial class Polyfill
 			foreach (var content in contents)
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				await writer.WriteLineAsync(content);
+				await writer.WriteLineAsync(content).ConfigureAwait(false);
 			}
-			await writer.FlushAsync(cancellationToken);
+			await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Asynchronously creates a new file, writes the specified string to the file using the specified encoding, and then closes the file. If the target file already exists, it is truncated and overwritten.
@@ -173,9 +173,9 @@ static partial class Polyfill
 			using var writer = new StreamWriter(stream, encoding);
 			if (contents != null)
 			{
-				await writer.WriteAsync(contents);
+				await writer.WriteAsync(contents).ConfigureAwait(false);
 			}
-			await writer.FlushAsync(cancellationToken);
+			await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Asynchronously creates a new file, writes the specified string to the file using the specified encoding, and then closes the file. If the target file already exists, it is truncated and overwritten.
@@ -190,8 +190,8 @@ static partial class Polyfill
 			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
 			using var writer = new StreamWriter(stream, encoding);
-			await writer.WriteAsync(contents);
-			await writer.FlushAsync(cancellationToken);
+			await writer.WriteAsync(contents).ConfigureAwait(false);
+			await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file, and then closes the file.
@@ -210,7 +210,7 @@ static partial class Polyfill
 			var bytesRead = 0;
 			while (bytesRead < length)
 			{
-				var read = await stream.ReadAsync(bytes, bytesRead, length - bytesRead, cancellationToken);
+				var read = await stream.ReadAsync(bytes, bytesRead, length - bytesRead, cancellationToken).ConfigureAwait(false);
 				if (read == 0)
 				{
 					throw new EndOfStreamException($"End of stream reached with {length - bytesRead} bytes left to read");
@@ -234,7 +234,7 @@ static partial class Polyfill
 			while (!reader.EndOfStream)
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				var line = await reader.ReadLineAsync();
+				var line = await reader.ReadLineAsync().ConfigureAwait(false);
 				if (line != null)
 				{
 					lines.Add(line);
@@ -253,7 +253,7 @@ static partial class Polyfill
 		public static async Task<string> ReadAllTextAsync(string path, Encoding encoding, CancellationToken cancellationToken = default)
 		{
 			using var reader = AsyncStreamReader(path, encoding);
-			return await reader.ReadToEndAsync(cancellationToken);
+			return await reader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
 		}
 		static StreamReader AsyncStreamReader(string path, Encoding encoding)
 		{
@@ -276,7 +276,7 @@ static partial class Polyfill
 			while (!reader.EndOfStream)
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				var line = await reader.ReadLineAsync();
+				var line = await reader.ReadLineAsync().ConfigureAwait(false);
 				if (line != null)
 				{
 					yield return line;

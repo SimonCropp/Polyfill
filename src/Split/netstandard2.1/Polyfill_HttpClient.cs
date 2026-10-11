@@ -61,6 +61,7 @@ static partial class Polyfill
 				requestUri,
 				HttpCompletionOption.ResponseHeadersRead,
 				cancellationToken
+<<<<<<< HEAD
 			);
 			try
 			{
@@ -78,6 +79,11 @@ static partial class Polyfill
 				response.Dispose();
 				throw;
 			}
+=======
+			).ConfigureAwait(false);
+			response.EnsureSuccessStatusCode();
+			return await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
+>>>>>>> b9d95697 (Add missing ConfigureAwait(false) to polyfill awaits)
 		}
 		catch (OperationCanceledException ex) when (
 			ex.CancellationToken != cancellationToken &&
@@ -106,6 +112,7 @@ static partial class Polyfill
 		{
 			using var response = await target.GetAsync(
 				requestUri,
+<<<<<<< HEAD
 				HttpCompletionOption.ResponseContentRead,
 				cancellationToken);
 			response.EnsureSuccessStatusCode();
@@ -116,6 +123,13 @@ static partial class Polyfill
 			}
 			return await content
 				.ReadAsByteArrayAsync(cancellationToken);
+=======
+				HttpCompletionOption.ResponseHeadersRead,
+				cancellationToken).ConfigureAwait(false);
+			response.EnsureSuccessStatusCode();
+			return await response.Content
+				.ReadAsByteArrayAsync(cancellationToken).ConfigureAwait(false);
+>>>>>>> b9d95697 (Add missing ConfigureAwait(false) to polyfill awaits)
 		}
 		catch (OperationCanceledException exception) when (
 			exception.CancellationToken != cancellationToken &&
@@ -144,6 +158,7 @@ static partial class Polyfill
 		{
 			using var response = await target.GetAsync(
 				requestUri,
+<<<<<<< HEAD
 				HttpCompletionOption.ResponseContentRead,
 				cancellationToken);
 			response.EnsureSuccessStatusCode();
@@ -154,6 +169,13 @@ static partial class Polyfill
 			}
 			return await content
 				.ReadAsStringAsync(cancellationToken);
+=======
+				HttpCompletionOption.ResponseHeadersRead,
+				cancellationToken).ConfigureAwait(false);
+			response.EnsureSuccessStatusCode();
+			return await response.Content
+				.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+>>>>>>> b9d95697 (Add missing ConfigureAwait(false) to polyfill awaits)
 		}
 		catch (OperationCanceledException exception) when (
 			exception.CancellationToken != cancellationToken &&

@@ -75,7 +75,7 @@ static partial class Polyfill
         using var registration = cancellationToken.Register(() => target.Close());
         try
         {
-            await target.ConnectAsync(address, port);
+            await target.ConnectAsync(address, port).ConfigureAwait(false);
         }
         // Closing the client is what cancels the connect. What that surfaces as is runtime specific:
         // ObjectDisposedException, SocketException, or (on .NET Framework) NullReferenceException
@@ -94,7 +94,7 @@ static partial class Polyfill
         using var registration = cancellationToken.Register(() => target.Close());
         try
         {
-            await target.ConnectAsync(addresses, port);
+            await target.ConnectAsync(addresses, port).ConfigureAwait(false);
         }
         // Closing the client is what cancels the connect. What that surfaces as is runtime specific:
         // ObjectDisposedException, SocketException, or (on .NET Framework) NullReferenceException
@@ -113,7 +113,7 @@ static partial class Polyfill
         using var registration = cancellationToken.Register(() => target.Close());
         try
         {
-            await target.ConnectAsync(host, port);
+            await target.ConnectAsync(host, port).ConfigureAwait(false);
         }
         // Closing the client is what cancels the connect. What that surfaces as is runtime specific:
         // ObjectDisposedException, SocketException, or (on .NET Framework) NullReferenceException
@@ -152,7 +152,7 @@ static partial class Polyfill
         using var registration = cancellationToken.Register(() => target.Close());
         try
         {
-            await target.ConnectAsync(remoteEP.Address, remoteEP.Port);
+            await target.ConnectAsync(remoteEP.Address, remoteEP.Port).ConfigureAwait(false);
         }
         // Closing the client is what cancels the connect. What that surfaces as is runtime specific:
         // ObjectDisposedException, SocketException, or (on .NET Framework) NullReferenceException

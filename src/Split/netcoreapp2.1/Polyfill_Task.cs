@@ -35,7 +35,7 @@ static partial class Polyfill
 		}
 		if (cancellationToken.IsCancellationRequested)
 		{
-			await Task.FromCanceled(cancellationToken);
+			await Task.FromCanceled(cancellationToken).ConfigureAwait(false);
 		}
 		if (timeout == TimeSpan.Zero)
 		{
@@ -51,7 +51,7 @@ static partial class Polyfill
 			{
 				if (cancellationToken.IsCancellationRequested)
 				{
-					await Task.FromCanceled(cancellationToken);
+					await Task.FromCanceled(cancellationToken).ConfigureAwait(false);
 				}
 				throw new TimeoutException();
 			}
@@ -80,7 +80,7 @@ static partial class Polyfill
 		TimeSpan timeout,
 		CancellationToken cancellationToken)
 	{
-		await ((Task) target).WaitAsync(timeout, cancellationToken);
+		await ((Task) target).WaitAsync(timeout, cancellationToken).ConfigureAwait(false);
 		return target.Result;
 	}
 	/// <summary>Configures an awaiter used to await this <see cref="Task"/>.</summary>

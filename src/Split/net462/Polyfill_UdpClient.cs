@@ -40,6 +40,7 @@ static partial class Polyfill
 		Task<UdpReceiveResult> receive;
 		lock (abandoned)
 		{
+<<<<<<< HEAD
 			if (abandoned.Queue.Count > 0)
 			{
 				receive = abandoned.Queue.Dequeue();
@@ -48,6 +49,9 @@ static partial class Polyfill
 			{
 				receive = target.ReceiveAsync();
 			}
+=======
+			return await target.ReceiveAsync().ConfigureAwait(false);
+>>>>>>> b9d95697 (Add missing ConfigureAwait(false) to polyfill awaits)
 		}
 		if (!receive.IsCompleted && cancellationToken.CanBeCanceled)
 		{
@@ -127,7 +131,7 @@ static partial class Polyfill
 		try
 		{
 			var bytes = datagram.ToArray();
-			return await target.SendAsync(bytes, bytes.Length);
+			return await target.SendAsync(bytes, bytes.Length).ConfigureAwait(false);
 		}
 		catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
 		{
@@ -148,7 +152,7 @@ static partial class Polyfill
 		try
 		{
 			var bytes = datagram.ToArray();
-			return await target.SendAsync(bytes, bytes.Length, endPoint);
+			return await target.SendAsync(bytes, bytes.Length, endPoint).ConfigureAwait(false);
 		}
 		catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
 		{
@@ -170,7 +174,7 @@ static partial class Polyfill
 		try
 		{
 			var bytes = datagram.ToArray();
-			return await target.SendAsync(bytes, bytes.Length, hostname, port);
+			return await target.SendAsync(bytes, bytes.Length, hostname, port).ConfigureAwait(false);
 		}
 		catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
 		{

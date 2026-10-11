@@ -94,7 +94,16 @@ static partial class Polyfill
 			ParallelOptions parallelOptions,
 			Func<T, CancellationToken, ValueTask> body)
 		{
+<<<<<<< HEAD
 			if (source is null)
+=======
+			using var semaphore = new SemaphoreSlim(
+				parallelOptions.MaxDegreeOfParallelism > 0
+					? parallelOptions.MaxDegreeOfParallelism
+					: Environment.ProcessorCount);
+			var tasks = new List<Task>();
+			await foreach (var item in source.WithCancellation(parallelOptions.CancellationToken).ConfigureAwait(false))
+>>>>>>> b9d95697 (Add missing ConfigureAwait(false) to polyfill awaits)
 			{
 				throw new ArgumentNullException(nameof(source));
 			}

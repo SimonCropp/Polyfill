@@ -73,7 +73,7 @@ static partial class Polyfill
             var canceled = false;
             try
             {
-                await process.WaitForExitAsync(cancellationToken);
+                await process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -81,7 +81,7 @@ static partial class Polyfill
                 TryKill(process);
                 try
                 {
-                    await process.WaitForExitAsync();
+                    await process.WaitForExitAsync().ConfigureAwait(false);
                 }
                 catch
                 {
@@ -166,7 +166,7 @@ static partial class Polyfill
             var canceled = false;
             try
             {
-                await process.WaitForExitAsync(cancellationToken);
+                await process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
@@ -174,14 +174,14 @@ static partial class Polyfill
                 TryKill(process);
                 try
                 {
-                    await process.WaitForExitAsync();
+                    await process.WaitForExitAsync().ConfigureAwait(false);
                 }
                 catch
                 {
                 }
             }
             var status = canceled ? new ProcessExitStatus(-1, canceled: true) : ToExitStatus(process.ExitCode);
-            return new(status, await stdoutTask, await stderrTask, pid);
+            return new(status, await stdoutTask.ConfigureAwait(false), await stderrTask.ConfigureAwait(false), pid);
         }
 
         /// <summary>
@@ -253,7 +253,7 @@ static partial class Polyfill
 
     static async Task<ProcessExitStatus> RunSilentAsync(string fileName, IEnumerable<string>? arguments, CancellationToken cancellationToken)
     {
-        var output = await Process.RunAndCaptureTextAsync(fileName, arguments, cancellationToken);
+        var output = await Process.RunAndCaptureTextAsync(fileName, arguments, cancellationToken).ConfigureAwait(false);
         return output.ExitStatus;
     }
 

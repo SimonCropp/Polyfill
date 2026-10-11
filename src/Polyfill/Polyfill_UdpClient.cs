@@ -158,7 +158,7 @@ static partial class Polyfill
         try
         {
             var bytes = datagram.ToArray();
-            return await target.SendAsync(bytes, bytes.Length);
+            return await target.SendAsync(bytes, bytes.Length).ConfigureAwait(false);
         }
         catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
         {
@@ -180,7 +180,7 @@ static partial class Polyfill
         try
         {
             var bytes = datagram.ToArray();
-            return await target.SendAsync(bytes, bytes.Length, endPoint);
+            return await target.SendAsync(bytes, bytes.Length, endPoint).ConfigureAwait(false);
         }
         catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
         {
@@ -203,7 +203,7 @@ static partial class Polyfill
         try
         {
             var bytes = datagram.ToArray();
-            return await target.SendAsync(bytes, bytes.Length, hostname, port);
+            return await target.SendAsync(bytes, bytes.Length, hostname, port).ConfigureAwait(false);
         }
         catch (ObjectDisposedException) when (cancellationToken.IsCancellationRequested)
         {
