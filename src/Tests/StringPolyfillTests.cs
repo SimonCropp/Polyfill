@@ -18,6 +18,28 @@ public class StringPolyfillTest
     }
 
     [Test]
+    public async Task Join_Objects_FirstElementNull()
+    {
+        await Assert.That(string.Join(',', new object?[] {null, "a", "b"})).IsEqualTo(",a,b");
+        await Assert.That(string.Join(',', new object?[] {null, 1, null})).IsEqualTo(",1,");
+        await Assert.That(string.Join(',', new object?[] {null})).IsEqualTo("");
+        await Assert.That(string.Join(',', new object?[] {})).IsEqualTo("");
+    }
+
+#if FeatureMemory
+    [Test]
+    public async Task Join_ObjectSpan_FirstElementNull()
+    {
+        var charSeparator = string.Join(',', new ReadOnlySpan<object?>([null, "a", "b"]));
+        var stringSeparator = string.Join(", ", new ReadOnlySpan<object?>([null, "a", 1]));
+        var empty = string.Join(", ", new ReadOnlySpan<object?>([]));
+        await Assert.That(charSeparator).IsEqualTo(",a,b");
+        await Assert.That(stringSeparator).IsEqualTo(", a, 1");
+        await Assert.That(empty).IsEqualTo("");
+    }
+#endif
+
+    [Test]
     public async Task Create() =>
         await Assert.That(
             string.Create(

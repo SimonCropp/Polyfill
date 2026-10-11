@@ -9,6 +9,19 @@ using System.Collections.Generic;
 
 static partial class Polyfill
 {
+    // string.Join(string, object[]) on .NET Framework returns an empty string when the first element is null,
+    // so convert to strings and use the string[] overload instead.
+    static string JoinObjects(string? separator, object?[] values)
+    {
+        var strings = new string?[values.Length];
+        for (var index = 0; index < values.Length; index++)
+        {
+            strings[index] = values[index]?.ToString();
+        }
+
+        return string.Join(separator, strings);
+    }
+
     extension(string)
     {
 #if FeatureMemory
@@ -20,7 +33,7 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-11.0#system-string-join(system-char-system-readonlyspan((system-object)))
         public static string Join(char separator, scoped ReadOnlySpan<object?> values) =>
-            Join(separator, values.ToArray());
+            JoinObjects(new(separator, 1), values.ToArray());
 
         /// <summary>
         /// Concatenates a span of strings, using the specified separator between each member.
@@ -181,7 +194,7 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-11.0#system-string-join(system-string-system-readonlyspan((system-object)))
         public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
-            string.Join(separator, values.ToArray());
+            JoinObjects(separator, values.ToArray());
 
         /// <summary>
         /// Concatenates the string representations of the elements in a span of objects.
@@ -215,8 +228,15 @@ static partial class Polyfill
         /// Concatenates the string representations of an array of objects, using the specified separator between each member.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.join?view=net-11.0#system-string-join(system-char-system-object())
-        public static string Join(char separator, params object?[] values) =>
-            string.Join(new(separator, 1), values);
+        public static string Join(char separator, params object?[] values)
+        {
+            if (values is null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
+            return JoinObjects(new(separator, 1), values);
+        }
 
         /// <summary>
         /// Concatenates the specified elements of a string array, using the specified separator between each element.
