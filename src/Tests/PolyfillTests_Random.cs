@@ -143,8 +143,17 @@ partial class PolyfillTests
             min = Math.Min(min, value);
         }
 
-        await Assert.That(max).IsLessThan(1.0f);
         await Assert.That(min).IsGreaterThanOrEqualTo(0.0f);
+
+        // The seeded Random in the .NET 6 and .NET 7 runtimes casts a double to a float,
+        // so the real NextSingle can return 1.0 there. That was fixed in .NET 8.
+        if (Environment.Version.Major is 6 or 7)
+        {
+            await Assert.That(max).IsLessThanOrEqualTo(1.0f);
+            return;
+        }
+
+        await Assert.That(max).IsLessThan(1.0f);
     }
 
     [Test]
