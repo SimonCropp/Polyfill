@@ -38,7 +38,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
 | `net7.0` | 522 |
 | `net8.0` | 400 |
 | `net9.0` | 253 |
-| `net10.0` | 190 |
+| `net10.0` | 186 |
 | `net11.0` | 56 |
 | `uap10.0` | 1071 |
 <!-- endInclude -->
@@ -120,7 +120,7 @@ Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-
 | net7.0         |         10.0KB |       224.5KB |  +214.5KB |    +9.5KB |             +6.0KB |           +512bytes |      +3.5KB |
 | net8.0         |          9.5KB |       196.0KB |  +186.5KB |    +8.0KB |                    |           +512bytes |      +3.0KB |
 | net9.0         |          9.5KB |       126.0KB |  +116.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net10.0        |         10.0KB |       101.5KB |   +91.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net10.0        |         10.0KB |       100.0KB |   +90.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
 | net11.0        |         10.0KB |        17.5KB |    +7.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 
 
@@ -147,7 +147,7 @@ Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-
 | net7.0         |         10.0KB |       320.3KB |  +310.3KB |   +17.0KB |             +7.4KB |              +1.1KB |      +4.2KB |
 | net8.0         |          9.5KB |       277.2KB |  +267.7KB |   +15.4KB |          +299bytes |              +1.1KB |      +3.7KB |
 | net9.0         |          9.5KB |       180.8KB |  +171.3KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
-| net10.0        |         10.0KB |       146.2KB |  +136.2KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
+| net10.0        |         10.0KB |       143.9KB |  +133.9KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
 | net11.0        |         10.0KB |        25.7KB |   +15.7KB |   +16.4KB |                    |              +1.1KB |      +4.2KB |
 <!-- endInclude -->
 

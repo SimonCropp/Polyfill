@@ -15,13 +15,19 @@ static partial class Polyfill
         public static UInt128 Log10(UInt128 value) =>
             (UInt128) Log10Core(value);
 
+#if !NET10_0_OR_GREATER
+
         /// <summary>
         /// Produces the full product of two unsigned 128-bit numbers.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.uint128.bigmul?view=net-11.0
         public static UInt128 BigMul(UInt128 left, UInt128 right, out UInt128 lower) =>
             BigMulCore(left, right, out lower);
+
+#endif
     }
+
+#if !NET10_0_OR_GREATER
 
     // Splits each operand into 64-bit limbs and accumulates the four partial products.
     // Every partial product of two 64-bit limbs is exact in 128 bits, so no wider
@@ -43,6 +49,8 @@ static partial class Polyfill
             return leftUpper * rightUpper + (middle >> 64) + (middleLower >> 64);
         }
     }
+
+#endif
 }
 
 #endif
