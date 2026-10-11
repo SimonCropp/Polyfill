@@ -1063,6 +1063,25 @@ class Consume
 
     class Order;
 
+    void DateTime_Methods()
+    {
+        var invariant = CultureInfo.InvariantCulture;
+        var parsed = DateTime.TryParse("2024-03-15", invariant, out var dateTime);
+        parsed = DateTimeOffset.TryParse("2024-03-15", invariant, out var dateTimeOffset);
+#if FeatureMemory
+        parsed = DateTime.TryParse("2024-03-15".AsSpan(), out dateTime);
+        parsed = DateTime.TryParse("2024-03-15".AsSpan(), invariant, out dateTime);
+        parsed = DateTime.TryParse("2024-03-15".AsSpan(), invariant, DateTimeStyles.None, out dateTime);
+        parsed = DateTime.TryParseExact("2024-03-15".AsSpan(), "yyyy-MM-dd", invariant, DateTimeStyles.None, out dateTime);
+        parsed = DateTime.TryParseExact("2024-03-15".AsSpan(), "yyyy-MM-dd".AsSpan(), invariant, DateTimeStyles.None, out dateTime);
+        parsed = DateTimeOffset.TryParse("2024-03-15".AsSpan(), out dateTimeOffset);
+        parsed = DateTimeOffset.TryParse("2024-03-15".AsSpan(), invariant, out dateTimeOffset);
+        parsed = DateTimeOffset.TryParse("2024-03-15".AsSpan(), invariant, DateTimeStyles.None, out dateTimeOffset);
+        parsed = DateTimeOffset.TryParseExact("2024-03-15".AsSpan(), "yyyy-MM-dd", invariant, DateTimeStyles.None, out dateTimeOffset);
+        parsed = DateTimeOffset.TryParseExact("2024-03-15".AsSpan(), "yyyy-MM-dd".AsSpan(), invariant, DateTimeStyles.None, out dateTimeOffset);
+#endif
+    }
+
     void Decimal_Methods()
     {
         decimal.TryParse(s: "1", provider: null, result: out _);
