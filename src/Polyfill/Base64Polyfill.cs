@@ -1,4 +1,4 @@
-#if FeatureMemory && !RefsBclMemory && !NET11_0_OR_GREATER
+#if FeatureMemory && !NET11_0_OR_GREATER
 
 namespace Polyfills;
 
