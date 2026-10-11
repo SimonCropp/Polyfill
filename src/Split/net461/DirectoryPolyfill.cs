@@ -4,7 +4,11 @@ namespace Polyfills;
 using System.IO;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 static partial class Polyfill
 {
 	extension(Directory)
@@ -13,23 +17,17 @@ static partial class Polyfill
 		/// Returns an enumerable collection of file names that match a search pattern and enumeration options in a specified path.
 		/// </summary>
 		public static IEnumerable<string> EnumerateFiles(string path, string searchPattern, EnumerationOptions enumerationOptions) =>
-			ApplyEnumerationOptions(
-				Directory.EnumerateFiles(path, searchPattern, ToSearchOption(enumerationOptions)),
-				enumerationOptions);
+			EnumerationWalker.EnumeratePaths(path, searchPattern, enumerationOptions, files: true, directories: false);
 		/// <summary>
 		/// Returns an enumerable collection of directory names that match a search pattern and enumeration options in a specified path.
 		/// </summary>
 		public static IEnumerable<string> EnumerateDirectories(string path, string searchPattern, EnumerationOptions enumerationOptions) =>
-			ApplyEnumerationOptions(
-				Directory.EnumerateDirectories(path, searchPattern, ToSearchOption(enumerationOptions)),
-				enumerationOptions);
+			EnumerationWalker.EnumeratePaths(path, searchPattern, enumerationOptions, files: false, directories: true);
 		/// <summary>
 		/// Returns an enumerable collection of file names and directory names that match a search pattern and enumeration options in a specified path.
 		/// </summary>
 		public static IEnumerable<string> EnumerateFileSystemEntries(string path, string searchPattern, EnumerationOptions enumerationOptions) =>
-			ApplyEnumerationOptions(
-				Directory.EnumerateFileSystemEntries(path, searchPattern, ToSearchOption(enumerationOptions)),
-				enumerationOptions);
+			EnumerationWalker.EnumeratePaths(path, searchPattern, enumerationOptions, files: true, directories: true);
 		/// <summary>
 		/// Returns the names of files that match a search pattern and enumeration options in a specified path.
 		/// </summary>
@@ -54,26 +52,345 @@ static partial class Polyfill
 			return Directory.CreateDirectory(path);
 		}
 	}
-	static SearchOption ToSearchOption(EnumerationOptions options) =>
-		options.RecurseSubdirectories ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-	static IEnumerable<string> ApplyEnumerationOptions(IEnumerable<string> source, EnumerationOptions options)
+	/// <summary>
+	/// Walks a directory tree applying <see cref="EnumerationOptions"/>, for the frameworks where the file system enumeration only understands <see cref="SearchOption"/>.
+	/// </summary>
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+	[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
+	static class EnumerationWalker
 	{
-		foreach (var item in source)
+		static readonly char[] separators = [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar];
+		internal static IEnumerable<string> EnumeratePaths(string path, string searchPattern, EnumerationOptions enumerationOptions, bool files, bool directories)
 		{
-			FileAttributes attributes;
+			if (path is null)
+			{
+				throw new ArgumentNullException(nameof(path));
+			}
+			var expression = Normalize(ref path, searchPattern, enumerationOptions);
+			return Walk(GetRoot(path), path, expression, enumerationOptions, files, directories)
+				.Select(_ => _.Key);
+		}
+		internal static IEnumerable<T> EnumerateInfos<T>(DirectoryInfo target, string searchPattern, EnumerationOptions enumerationOptions, bool files, bool directories)
+			where T : FileSystemInfo
+		{
+			var path = target.FullName;
+			var expression = Normalize(ref path, searchPattern, enumerationOptions);
+			return Walk(GetRoot(path), path, expression, enumerationOptions, files, directories)
+				.Select(_ => (T) _.Value);
+		}
+		static DirectoryInfo GetRoot(string path)
+		{
+			var root = new DirectoryInfo(path);
+			if (!root.Exists)
+			{
+				throw new DirectoryNotFoundException($"Could not find a part of the path '{root.FullName}'.");
+			}
+			return root;
+		}
+		static string Normalize(ref string path, string searchPattern, EnumerationOptions enumerationOptions)
+		{
+			if (searchPattern is null)
+			{
+				throw new ArgumentNullException(nameof(searchPattern));
+			}
+			if (enumerationOptions is null)
+			{
+				throw new ArgumentNullException(nameof(enumerationOptions));
+			}
+			var separator = searchPattern.LastIndexOfAny(separators);
+			if (separator >= 0)
+			{
+				if (Path.IsPathRooted(searchPattern))
+				{
+					throw new ArgumentException("Second path fragment must not be a drive or UNC name.", nameof(searchPattern));
+				}
+				path = Join(path, searchPattern.Substring(0, separator));
+				searchPattern = searchPattern.Substring(separator + 1);
+			}
+			if (enumerationOptions.MatchType == MatchType.Win32)
+			{
+				return TranslateWin32Expression(searchPattern);
+			}
+			return searchPattern;
+		}
+		static IEnumerable<KeyValuePair<string, FileSystemInfo>> Walk(DirectoryInfo root, string rootPath, string expression, EnumerationOptions options, bool files, bool directories)
+		{
+			var ignoreCase = IgnoreCase(options.MatchCasing);
+			var win32 = options.MatchType == MatchType.Win32;
+			var attributesToSkip = options.AttributesToSkip;
+			var ignoreInaccessible = options.IgnoreInaccessible;
+			var recurse = options.RecurseSubdirectories;
+			var pending = new Queue<PendingDirectory>();
+			pending.Enqueue(new(root, rootPath, options.MaxRecursionDepth));
+			var isRoot = true;
+			while (pending.Count > 0)
+			{
+				var current = pending.Dequeue();
+				var entries = Open(current.Info, ignoreInaccessible, isRoot);
+				isRoot = false;
+				if (entries is null)
+				{
+					continue;
+				}
+				using (entries)
+				{
+					while (true)
+					{
+						FileSystemInfo entry;
+						FileAttributes attributes;
+						try
+						{
+							if (!entries.MoveNext())
+							{
+								break;
+							}
+							entry = entries.Current;
+							attributes = entry.Attributes;
+						}
+						catch (UnauthorizedAccessException) when (ignoreInaccessible)
+						{
+							break;
+						}
+						if ((attributes & attributesToSkip) != 0)
+						{
+							continue;
+						}
+						var entryPath = Join(current.UserPath, entry.Name);
+						if (entry is DirectoryInfo directory)
+						{
+							if (recurse && current.RemainingDepth > 0)
+							{
+								pending.Enqueue(new(directory, entryPath, current.RemainingDepth - 1));
+							}
+							if (!directories)
+							{
+								continue;
+							}
+						}
+						else if (!files)
+						{
+							continue;
+						}
+						if (MatchesExpression(expression, entry.Name, ignoreCase, win32))
+						{
+							yield return new(entryPath, entry);
+						}
+					}
+				}
+			}
+		}
+		static IEnumerator<FileSystemInfo>? Open(DirectoryInfo directory, bool ignoreInaccessible, bool isRoot)
+		{
 			try
 			{
-				attributes = File.GetAttributes(item);
+				return directory.EnumerateFileSystemInfos().GetEnumerator();
 			}
-			catch (Exception) when (options.IgnoreInaccessible)
+			catch (UnauthorizedAccessException) when (ignoreInaccessible)
 			{
-				continue;
+				return null;
 			}
-			if ((attributes & options.AttributesToSkip) != 0)
+			catch (DirectoryNotFoundException) when (!isRoot)
 			{
-				continue;
+				return null;
 			}
-			yield return item;
+		}
+		static string Join(string directory, string name)
+		{
+			if (directory.Length == 0)
+			{
+				return name;
+			}
+			var last = directory[directory.Length - 1];
+			if (last == Path.DirectorySeparatorChar ||
+				last == Path.AltDirectorySeparatorChar)
+			{
+				return directory + name;
+			}
+			return directory + Path.DirectorySeparatorChar + name;
+		}
+		static bool IgnoreCase(MatchCasing matchCasing)
+		{
+			if (matchCasing == MatchCasing.CaseInsensitive)
+			{
+				return true;
+			}
+			if (matchCasing == MatchCasing.CaseSensitive)
+			{
+				return false;
+			}
+			if (Path.DirectorySeparatorChar == '\\')
+			{
+				return true;
+			}
+#if FeatureRuntimeInformation
+			return RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+#else
+			return Environment.OSVersion.Platform == PlatformID.MacOSX;
+#endif
+		}
+		/// <summary>
+		/// Converts a <see cref="MatchType.Win32"/> pattern to the form used by <see cref="MatchesExpression"/>, where
+		/// '&lt;', '&gt;' and '"' are the DOS wildcards for "*.", "?" and "." respectively.
+		/// </summary>
+		internal static string TranslateWin32Expression(string expression)
+		{
+			if (expression.Length == 0 ||
+				expression == "." ||
+				expression == "*.*")
+			{
+				return "*";
+			}
+			var builder = new StringBuilder(expression.Length);
+			for (var index = 0; index < expression.Length; index++)
+			{
+				var ch = expression[index];
+				var isLast = index == expression.Length - 1;
+				if (ch == '?')
+				{
+					builder.Append('>');
+				}
+				else if (ch != '.')
+				{
+					builder.Append(ch);
+				}
+				else if (isLast && index >= 1 && expression[index - 1] == '*')
+				{
+					builder[builder.Length - 1] = '<';
+				}
+				else if (!isLast && expression[index + 1] is '?' or '*')
+				{
+					builder.Append('"');
+				}
+				else
+				{
+					builder.Append('.');
+				}
+			}
+			return builder.ToString();
+		}
+		/// <summary>
+		/// Matches a file name against an expression. '*' is zero or more characters and '?' exactly one.
+		/// When <paramref name="win32"/> is true the expression is one produced by <see cref="TranslateWin32Expression"/>.
+		/// </summary>
+		internal static bool MatchesExpression(string expression, string name, bool ignoreCase, bool win32)
+		{
+			if (expression.Length == 0 ||
+				name.Length == 0)
+			{
+				return false;
+			}
+			return MatchesExpression(expression, 0, name, 0, ignoreCase, win32);
+		}
+		static bool MatchesExpression(string expression, int expressionIndex, string name, int nameIndex, bool ignoreCase, bool win32)
+		{
+			while (expressionIndex < expression.Length)
+			{
+				var ch = expression[expressionIndex];
+				var nameFinished = nameIndex == name.Length;
+				if (ch == '*')
+				{
+					if (expressionIndex == expression.Length - 1)
+					{
+						return true;
+					}
+					for (var index = nameIndex; index <= name.Length; index++)
+					{
+						if (MatchesExpression(expression, expressionIndex + 1, name, index, ignoreCase, win32))
+						{
+							return true;
+						}
+					}
+					return false;
+				}
+				if (win32 && ch == '<')
+				{
+					var lastPeriod = name.LastIndexOf('.');
+					for (var index = nameIndex; index <= name.Length; index++)
+					{
+						if (MatchesExpression(expression, expressionIndex + 1, name, index, ignoreCase, win32))
+						{
+							return true;
+						}
+						if (index == lastPeriod)
+						{
+							return expressionIndex + 1 == expression.Length &&
+								   index + 1 == name.Length;
+						}
+					}
+					return false;
+				}
+				if (win32 && ch == '>')
+				{
+					expressionIndex++;
+					if (nameFinished)
+					{
+						continue;
+					}
+					if (name[nameIndex] != '.')
+					{
+						nameIndex++;
+						continue;
+					}
+					if (expressionIndex == expression.Length)
+					{
+						return nameIndex + 1 == name.Length;
+					}
+					continue;
+				}
+				if (win32 && ch == '"')
+				{
+					expressionIndex++;
+					if (nameFinished)
+					{
+						continue;
+					}
+					if (name[nameIndex] != '.')
+					{
+						return false;
+					}
+					nameIndex++;
+					continue;
+				}
+				if (nameFinished)
+				{
+					return false;
+				}
+				if (ch == '?')
+				{
+					expressionIndex++;
+					nameIndex++;
+					continue;
+				}
+				if (ch == '\\' && expressionIndex + 1 < expression.Length)
+				{
+					expressionIndex++;
+					ch = expression[expressionIndex];
+				}
+				var nameChar = name[nameIndex];
+				if (ch != nameChar &&
+					!(ignoreCase && char.ToUpperInvariant(ch) == char.ToUpperInvariant(nameChar)))
+				{
+					return false;
+				}
+				expressionIndex++;
+				nameIndex++;
+			}
+			return nameIndex == name.Length;
+		}
+		readonly struct PendingDirectory
+		{
+			public PendingDirectory(DirectoryInfo info, string path, int remainingDepth)
+			{
+				Info = info;
+				UserPath = path;
+				RemainingDepth = remainingDepth;
+			}
+			public DirectoryInfo Info { get; }
+			public string UserPath { get; }
+			public int RemainingDepth { get; }
 		}
 	}
 }

@@ -11,23 +11,17 @@ static partial class Polyfill
 	/// Returns an enumerable collection of file information that matches a specified search pattern and enumeration options.
 	/// </summary>
 	public static IEnumerable<FileInfo> EnumerateFiles(this DirectoryInfo target, string searchPattern, EnumerationOptions enumerationOptions) =>
-		ApplyEnumerationOptions(
-			target.EnumerateFiles(searchPattern, ToSearchOption(enumerationOptions)),
-			enumerationOptions);
+		EnumerationWalker.EnumerateInfos<FileInfo>(target, searchPattern, enumerationOptions, files: true, directories: false);
 	/// <summary>
 	/// Returns an enumerable collection of directory information that matches a specified search pattern and enumeration options.
 	/// </summary>
 	public static IEnumerable<DirectoryInfo> EnumerateDirectories(this DirectoryInfo target, string searchPattern, EnumerationOptions enumerationOptions) =>
-		ApplyEnumerationOptions(
-			target.EnumerateDirectories(searchPattern, ToSearchOption(enumerationOptions)),
-			enumerationOptions);
+		EnumerationWalker.EnumerateInfos<DirectoryInfo>(target, searchPattern, enumerationOptions, files: false, directories: true);
 	/// <summary>
 	/// Returns an enumerable collection of file system information that matches a specified search pattern and enumeration options.
 	/// </summary>
 	public static IEnumerable<FileSystemInfo> EnumerateFileSystemInfos(this DirectoryInfo target, string searchPattern, EnumerationOptions enumerationOptions) =>
-		ApplyEnumerationOptions(
-			target.EnumerateFileSystemInfos(searchPattern, ToSearchOption(enumerationOptions)),
-			enumerationOptions);
+		EnumerationWalker.EnumerateInfos<FileSystemInfo>(target, searchPattern, enumerationOptions, files: true, directories: true);
 	/// <summary>
 	/// Returns an array of files that match a search pattern and enumeration options.
 	/// </summary>
@@ -43,25 +37,4 @@ static partial class Polyfill
 	/// </summary>
 	public static FileSystemInfo[] GetFileSystemInfos(this DirectoryInfo target, string searchPattern, EnumerationOptions enumerationOptions) =>
 		target.EnumerateFileSystemInfos(searchPattern, enumerationOptions).ToArray();
-	static IEnumerable<T> ApplyEnumerationOptions<T>(IEnumerable<T> source, EnumerationOptions options)
-		where T : FileSystemInfo
-	{
-		foreach (var item in source)
-		{
-			FileAttributes attributes;
-			try
-			{
-				attributes = item.Attributes;
-			}
-			catch (Exception) when (options.IgnoreInaccessible)
-			{
-				continue;
-			}
-			if ((attributes & options.AttributesToSkip) != 0)
-			{
-				continue;
-			}
-			yield return item;
-		}
-	}
 }
