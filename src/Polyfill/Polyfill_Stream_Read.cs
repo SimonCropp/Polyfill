@@ -26,13 +26,28 @@ static partial class Polyfill
         Memory<byte> buffer,
         CancellationToken cancellationToken = default)
     {
-        if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>) buffer, out var segment))
+        if (MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>) buffer, out var segment))
         {
-            segment = new(buffer.ToArray());
+            return new(target.ReadAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken));
         }
 
-        var task = target.ReadAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken);
-        return new(task);
+        // Not array-backed: read into a rented array, then copy back into the destination.
+        var sharedBuffer = ArrayPool<byte>.Shared.Rent(buffer.Length);
+        return FinishReadAsync(target.ReadAsync(sharedBuffer, 0, buffer.Length, cancellationToken), sharedBuffer, buffer);
+
+        static async ValueTask<int> FinishReadAsync(Task<int> readTask, byte[] localBuffer, Memory<byte> localDestination)
+        {
+            try
+            {
+                var result = await readTask.ConfigureAwait(false);
+                new ReadOnlySpan<byte>(localBuffer, 0, result).CopyTo(localDestination.Span);
+                return result;
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(localBuffer);
+            }
+        }
     }
 
 #endif
