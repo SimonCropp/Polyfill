@@ -1,4 +1,4 @@
-// These tests cover HttpContent polyfills as well
+﻿// These tests cover HttpContent polyfills as well
 
 using System.Net;
 using System.Net.Http;
