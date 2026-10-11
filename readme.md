@@ -38,13 +38,8 @@ The package targets `netstandard2.0` and is designed to support the following ru
 | `net7.0` | 522 |
 | `net8.0` | 400 |
 | `net9.0` | 253 |
-<<<<<<< HEAD
 | `net10.0` | 190 |
 | `net11.0` | 56 |
-=======
-| `net10.0` | 186 |
-| `net11.0` | 58 |
->>>>>>> 83cfa509 (Docs changes)
 | `uap10.0` | 1071 |
 <!-- endInclude -->
 
