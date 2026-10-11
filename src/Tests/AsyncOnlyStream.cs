@@ -1,6 +1,8 @@
 /// <summary>
 /// A stream that can only be read asynchronously, a byte at a time, and observes the cancellation token on every read.
 /// </summary>
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+[System.Diagnostics.DebuggerNonUserCode]
 class AsyncOnlyStream(byte[] data) :
     Stream
 {
