@@ -702,6 +702,48 @@ partial class PolyfillTests
         await Assert.That(result[2].Inner.Name).IsEqualTo("Stray");
     }
 
+    static readonly (int Id, string? Key)[] nullKeyOuter = [(1, "a"), (2, null), (3, "b"), (4, "a"), (5, null)];
+    static readonly (int Id, string? Key)[] nullKeyInner = [(10, "c"), (20, null), (30, "a"), (40, null), (50, "c"), (60, "a")];
+
+    [Test]
+    public async Task IEnumerableLeftJoinNullKeysDoNotMatch()
+    {
+        var result = nullKeyOuter.LeftJoin(
+                nullKeyInner,
+                _ => _.Key,
+                _ => _.Key,
+                (outer, inner) => $"{outer.Id}-{inner.Id}")
+            .ToList();
+
+        await Assert.That(string.Join(" ", result)).IsEqualTo("1-30 1-60 2-0 3-0 4-30 4-60 5-0");
+    }
+
+    [Test]
+    public async Task IEnumerableRightJoinNullKeysDoNotMatch()
+    {
+        var result = nullKeyOuter.RightJoin(
+                nullKeyInner,
+                _ => _.Key,
+                _ => _.Key,
+                (outer, inner) => $"{outer.Id}-{inner.Id}")
+            .ToList();
+
+        await Assert.That(string.Join(" ", result)).IsEqualTo("0-10 0-20 1-30 4-30 0-40 0-50 1-60 4-60");
+    }
+
+    [Test]
+    public async Task IEnumerableFullJoinNullKeysDoNotMatch()
+    {
+        var result = nullKeyOuter.FullJoin(
+                nullKeyInner,
+                _ => _.Key,
+                _ => _.Key,
+                (outer, inner) => $"{outer.Id}-{inner.Id}")
+            .ToList();
+
+        await Assert.That(string.Join(" ", result)).IsEqualTo("1-30 1-60 2-0 3-0 4-30 4-60 5-0 0-10 0-50 0-20 0-40");
+    }
+
     [Test]
     public async Task IEnumerableGroupJoinTuple()
     {
