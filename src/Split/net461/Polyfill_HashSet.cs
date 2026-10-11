@@ -14,12 +14,15 @@ static partial class Polyfill
 		T equalValue,
 		[MaybeNullWhen(false)] out T actualValue)
 	{
+		if (!target.Contains(equalValue))
+		{
+			actualValue = default;
+			return false;
+		}
 		var comparer = target.Comparer;
-		var hashCode = comparer.GetHashCode(equalValue);
 		foreach (var item in target)
 		{
-			if (comparer.GetHashCode(item) == hashCode &&
-				comparer.Equals(item, equalValue))
+			if (comparer.Equals(item, equalValue))
 			{
 				actualValue = item;
 				return true;
