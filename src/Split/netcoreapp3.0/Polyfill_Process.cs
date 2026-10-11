@@ -437,22 +437,22 @@ static partial class Polyfill
 	}
 	static void WaitForExitOrThrow(Process target, TimeSpan? timeout)
 	{
+		if (!TryWaitForExit(target, timeout))
+		{
+			throw new TimeoutException("The process did not exit within the specified timeout.");
+		}
+	}
+	static bool TryWaitForExit(Process target, TimeSpan? timeout)
+	{
 		if (timeout is { } value)
 		{
 			var ms = (long)value.TotalMilliseconds;
-			if (ms < 0 || ms > int.MaxValue)
+			if (ms >= 0 && ms <= int.MaxValue)
 			{
-				target.WaitForExit();
-				return;
-			}
-			if (!target.WaitForExit((int)ms))
-			{
-				throw new TimeoutException("The process did not exit within the specified timeout.");
+				return target.WaitForExit((int)ms);
 			}
 		}
-		else
-		{
-			target.WaitForExit();
-		}
+		target.WaitForExit();
+		return true;
 	}
 }

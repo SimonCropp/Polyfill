@@ -24,7 +24,13 @@ static partial class Polyfill
         public static ProcessExitStatus Run(ProcessStartInfo startInfo, TimeSpan? timeout = default)
         {
             using var process = StartOrThrow(startInfo);
-            WaitForExitOrThrow(process, timeout);
+            if (!TryWaitForExit(process, timeout))
+            {
+                // as on net11, a process that outlives the timeout is killed and reported as canceled
+                KillAndWait(process);
+                return new(-1, canceled: true);
+            }
+
             return ToExitStatus(process.ExitCode);
         }
 
@@ -40,7 +46,15 @@ static partial class Polyfill
         {
             if (silent)
             {
-                return Process.RunAndCaptureText(fileName, arguments, timeout).ExitStatus;
+                try
+                {
+                    return Process.RunAndCaptureText(fileName, arguments, timeout).ExitStatus;
+                }
+                catch (TimeoutException)
+                {
+                    // the process has been killed
+                    return new(-1, canceled: true);
+                }
             }
 
             return Process.Run(BuildStartInfo(fileName, arguments), timeout);
@@ -114,7 +128,13 @@ static partial class Polyfill
             var stdoutTask = process.StandardOutput.ReadToEndAsync();
             var stderrTask = process.StandardError.ReadToEndAsync();
             var pid = process.Id;
-            WaitForExitOrThrow(process, timeout);
+            if (!TryWaitForExit(process, timeout))
+            {
+                // as on net11, a process that outlives the timeout is killed
+                KillAndWait(process);
+                throw new TimeoutException("The operation has timed out.");
+            }
+
             var status = ToExitStatus(process.ExitCode);
             return new(status, stdoutTask.GetAwaiter().GetResult(), stderrTask.GetAwaiter().GetResult(), pid);
         }
@@ -268,6 +288,18 @@ static partial class Polyfill
         startInfo.RedirectStandardOutput = true;
         startInfo.RedirectStandardError = true;
         startInfo.UseShellExecute = false;
+    }
+
+    static void KillAndWait(Process process)
+    {
+        TryKill(process);
+        try
+        {
+            process.WaitForExit();
+        }
+        catch
+        {
+        }
     }
 
     static void TryKill(Process process)
