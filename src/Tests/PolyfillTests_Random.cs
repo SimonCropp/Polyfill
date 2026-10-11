@@ -130,6 +130,33 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task RandomNextSingle_NeverReturnsOne()
+    {
+        // With this seed a double that rounds to 1.0f is produced on call 5,800,140
+        var random = new Random(0);
+        var max = 0f;
+        var min = 1f;
+        for (var index = 0; index < 5_900_000; index++)
+        {
+            var value = random.NextSingle();
+            max = Math.Max(max, value);
+            min = Math.Min(min, value);
+        }
+
+        await Assert.That(min).IsGreaterThanOrEqualTo(0.0f);
+
+        // The seeded Random in the .NET 6 and .NET 7 runtimes casts a double to a float,
+        // so the real NextSingle can return 1.0 there. That was fixed in .NET 8.
+        if (Environment.Version.Major is 6 or 7)
+        {
+            await Assert.That(max).IsLessThanOrEqualTo(1.0f);
+            return;
+        }
+
+        await Assert.That(max).IsLessThan(1.0f);
+    }
+
+    [Test]
     public async Task RandomGetHexString()
     {
         var random = new Random();

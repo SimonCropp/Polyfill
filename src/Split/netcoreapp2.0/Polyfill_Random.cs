@@ -98,8 +98,17 @@ static partial class Polyfill
 	/// <summary>
 	/// Returns a random floating-point number that is greater than or equal to 0.0, and less than 1.0.
 	/// </summary>
-	public static float NextSingle(this Random target) =>
-		(float)target.NextDouble();
+	public static float NextSingle(this Random target)
+	{
+		while (true)
+		{
+			var value = (float) target.NextDouble();
+			if (value < 1f)
+			{
+				return value;
+			}
+		}
+	}
 	/// <summary>
 	/// Creates a string filled with random hexadecimal characters.
 	/// </summary>
