@@ -243,6 +243,8 @@ partial class PolyfillTests
         }
     }
 
+    // EnumerationOptions.MaxRecursionDepth was added in net6
+#if NETFRAMEWORK || NET6_0_OR_GREATER
     [Test]
     public async Task Directory_EnumerationOptions_MaxRecursionDepth()
     {
@@ -278,6 +280,7 @@ partial class PolyfillTests
             Directory.Delete(root, true);
         }
     }
+#endif
 
     [Test]
     public async Task Directory_EnumerationOptions_SkippedDirectoryIsNotRecursed()

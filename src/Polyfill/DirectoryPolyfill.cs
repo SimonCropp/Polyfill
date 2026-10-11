@@ -287,7 +287,7 @@ static partial class Polyfill
         }
 
         /// <summary>
-        /// Converts a <see cref="MatchType.Win32"/> pattern to the form used by <see cref="MatchesExpression"/>, where
+        /// Converts a <see cref="MatchType.Win32"/> pattern to the form used by <see cref="MatchesExpression(string, string, bool, bool)"/>, where
         /// '&lt;', '&gt;' and '"' are the DOS wildcards for "*.", "?" and "." respectively.
         /// </summary>
         internal static string TranslateWin32Expression(string expression)

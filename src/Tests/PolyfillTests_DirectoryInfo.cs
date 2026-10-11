@@ -250,6 +250,12 @@ partial class PolyfillTests
             string Describe(IEnumerable<FileSystemInfo> infos) =>
                 DescribeEntries(root, infos.Select(_ => _.FullName));
 
+            await Assert.That(Describe(info.EnumerateFiles("*.*", new EnumerationOptions()))).IsEqualTo("B.TXT|a.txt");
+            await Assert.That(Describe(info.EnumerateFiles("*.*", new EnumerationOptions {MatchType = MatchType.Win32}))).IsEqualTo("B.TXT|LICENSE|a.txt");
+            await Assert.That(Describe(info.GetFiles("*.txt", new EnumerationOptions {MatchCasing = MatchCasing.CaseSensitive}))).IsEqualTo("a.txt");
+
+            // EnumerationOptions.MaxRecursionDepth was added in net6
+#if NETFRAMEWORK || NET6_0_OR_GREATER
             EnumerationOptions Depth(int depth) =>
                 new()
                 {
@@ -257,10 +263,6 @@ partial class PolyfillTests
                     MaxRecursionDepth = depth,
                     MatchCasing = MatchCasing.CaseInsensitive
                 };
-
-            await Assert.That(Describe(info.EnumerateFiles("*.*", new EnumerationOptions()))).IsEqualTo("B.TXT|a.txt");
-            await Assert.That(Describe(info.EnumerateFiles("*.*", new EnumerationOptions {MatchType = MatchType.Win32}))).IsEqualTo("B.TXT|LICENSE|a.txt");
-            await Assert.That(Describe(info.GetFiles("*.txt", new EnumerationOptions {MatchCasing = MatchCasing.CaseSensitive}))).IsEqualTo("a.txt");
 
             await Assert.That(Describe(info.GetFiles("*.txt", Depth(1)))).IsEqualTo("B.TXT|a.txt|sub/c.txt");
             await Assert.That(Describe(info.GetDirectories("*", Depth(1)))).IsEqualTo("sub|sub/deep");
@@ -270,6 +272,7 @@ partial class PolyfillTests
             var deep = info.GetFileSystemInfos("d*", Depth(2)).OrderBy(_ => _.FullName, StringComparer.Ordinal).ToList();
             await Assert.That(deep[0] is DirectoryInfo).IsTrue();
             await Assert.That(deep[1] is FileInfo).IsTrue();
+#endif
         }
         finally
         {
