@@ -277,6 +277,19 @@ public class EnsureTests
     }
 
     [Test]
+    public async Task NotNullOrEmpty_Enumerable_PreservesParameterName()
+    {
+        var emptyException = await Assert.That(() => Ensure.NotNullOrEmpty(emptyList)).Throws<ArgumentException>();
+        await Assert.That(emptyException!.ParamName).IsEqualTo("emptyList");
+
+        var explicitNameException = await Assert.That(() => Ensure.NotNullOrEmpty(emptyArray, "explicitName")).Throws<ArgumentException>();
+        await Assert.That(explicitNameException!.ParamName).IsEqualTo("explicitName");
+
+        var nullException = await Assert.That(() => Ensure.NotNullOrEmpty(nullList)).Throws<ArgumentNullException>();
+        await Assert.That(nullException!.ParamName).IsEqualTo("nullList");
+    }
+
+    [Test]
     public async Task NotEqual_PreservesParameterName_WhenUsingCallerArgumentExpression()
     {
         var myVariable = 100;
