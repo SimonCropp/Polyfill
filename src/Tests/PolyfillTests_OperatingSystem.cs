@@ -40,6 +40,57 @@ partial class PolyfillTests
         await Assert.That(actual).IsEqualTo(expected);
     }
 
+    [Test]
+    public async Task IsMacOSVersionAtLeast_CurrentPlatform()
+    {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+        {
+            await Assert.That(OperatingSystem.IsMacOSVersionAtLeast(1)).IsFalse();
+            return;
+        }
+
+        // every runtime these tests target needs a macOS newer than 10.12
+        await Assert.That(OperatingSystem.IsMacOSVersionAtLeast(10)).IsTrue();
+        await Assert.That(OperatingSystem.IsMacOSVersionAtLeast(10, 12)).IsTrue();
+        await Assert.That(OperatingSystem.IsMacOSVersionAtLeast(10, 12, 0)).IsTrue();
+        await Assert.That(OperatingSystem.IsMacOSVersionAtLeast(1000)).IsFalse();
+    }
+
+    [Test]
+    public async Task IsAndroidVersionAtLeast_CurrentPlatform()
+    {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Create("ANDROID")))
+        {
+            await Assert.That(OperatingSystem.IsAndroidVersionAtLeast(1)).IsFalse();
+            return;
+        }
+
+        await Assert.That(OperatingSystem.IsAndroidVersionAtLeast(1)).IsTrue();
+        await Assert.That(OperatingSystem.IsAndroidVersionAtLeast(1000)).IsFalse();
+    }
+
+#if !NET
+    // OperatingSystemCache only exists where OperatingSystem.Is*VersionAtLeast is polyfilled
+    [Test]
+    // sw_vers -productVersion
+    [Arguments("14.5\n", "14.5.0.0")]
+    [Arguments("10.15.7\n", "10.15.7.0")]
+    [Arguments("15\n", "15.0.0.0")]
+    // getprop ro.build.version.release
+    [Arguments("14\n", "14.0.0.0")]
+    [Arguments("8.1.0\r\n", "8.1.0.0")]
+    [Arguments("ProductVersion:\t14.5\n", "14.5.0.0")]
+    public async Task OperatingSystemCache_ParseVersion_CommandOutput(string output, string expected)
+    {
+        var version = Polyfills.OperatingSystemCache.ParseVersion(output);
+
+        await Assert.That(version).IsEqualTo(Version.Parse(expected));
+        // a version is at least itself, with or without the trailing components
+        await Assert.That(version >= new Version(version.Major, version.Minor, version.Build, version.Revision)).IsTrue();
+        await Assert.That(version >= new Version(version.Major, 0, 0, 0)).IsTrue();
+    }
+#endif
+
 #if NETSTANDARD2_1 || NETCOREAPP3_1_OR_GREATER
     [Test]
     public async Task IsOperatingSystemFreeBSD()
