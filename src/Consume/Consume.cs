@@ -1414,6 +1414,8 @@ class Consume
         var minBy = enumerable.MinBy(_ => _);
         var distinctBy = enumerable.DistinctBy(_ => _);
         var skipLast = enumerable.SkipLast(1);
+        var toHashSet = enumerable.ToHashSet();
+        var toHashSetComparer = enumerable.ToHashSet(StringComparer.OrdinalIgnoreCase);
         int[] numbers = [1, 2, 3, 4];
         string[] words = ["one", "two", "three"];
         var numbersAndWords = numbers.Zip(words, (first, second) => first + " " + second);

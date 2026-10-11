@@ -1,4 +1,4 @@
-#if NET471 || NET46X || NETSTANDARD2_0
+#if NET47 || NET471 || NET46X || NETSTANDARD2_0
 
 namespace Polyfills;
 
