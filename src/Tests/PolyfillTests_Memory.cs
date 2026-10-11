@@ -167,9 +167,9 @@ partial class PolyfillTests
     [Test]
     public async Task ReadOnlySpan_Contains_NullElements()
     {
-        ReadOnlySpan<string?> span = new string?[] { null, "a" };
+        ReadOnlySpan<string> span = new[] { null!, "a" };
         var foundValue = span.Contains("a");
-        var foundNull = span.Contains(null);
+        var foundNull = span.Contains(null!);
         var foundMissing = span.Contains("b");
         await Assert.That(foundValue).IsTrue();
         await Assert.That(foundNull).IsTrue();
@@ -179,9 +179,9 @@ partial class PolyfillTests
     [Test]
     public async Task Span_Contains_NullElements()
     {
-        Span<string?> span = new string?[] { null, "a" };
+        Span<string> span = new[] { null!, "a" };
         var foundValue = span.Contains("a");
-        var foundNull = span.Contains(null);
+        var foundNull = span.Contains(null!);
         var foundMissing = span.Contains("b");
         await Assert.That(foundValue).IsTrue();
         await Assert.That(foundNull).IsTrue();
@@ -191,9 +191,9 @@ partial class PolyfillTests
     [Test]
     public async Task Array_Contains_NullElements()
     {
-        var array = new string?[] { null, "a" };
+        var array = new[] { null!, "a" };
         await Assert.That(array.Contains("a")).IsTrue();
-        await Assert.That(array.Contains(null)).IsTrue();
+        await Assert.That(array.Contains(null!)).IsTrue();
         await Assert.That(array.Contains("b")).IsFalse();
     }
 
