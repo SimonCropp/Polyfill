@@ -112,4 +112,87 @@ partial class PolyfillTests
 
         await Assert.That(exception!.ParamName).IsEqualTo("options");
     }
+
+    // A context whose Post never runs the callback, as when the context thread is blocked.
+    class ConfigureAwaitBlockedContext :
+        System.Threading.SynchronizationContext
+    {
+        public override void Post(System.Threading.SendOrPostCallback callback, object? state)
+        {
+        }
+    }
+
+    static Task<bool> ConfigureAwaitCompletesOnBlockedContext(Func<Task> func)
+    {
+        var completion = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var thread = new System.Threading.Thread(() =>
+        {
+            System.Threading.SynchronizationContext.SetSynchronizationContext(new ConfigureAwaitBlockedContext());
+            try
+            {
+                completion.SetResult(func().Wait(TimeSpan.FromSeconds(10)));
+            }
+            catch (Exception exception)
+            {
+                completion.SetException(exception);
+            }
+        })
+        {
+            IsBackground = true
+        };
+        thread.Start();
+        return completion.Task;
+    }
+
+    [Test]
+    public async Task Task_ConfigureAwait_ForceYielding_DoesNotCaptureContext()
+    {
+        var completed = await ConfigureAwaitCompletesOnBlockedContext(
+            async () => await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding));
+        await Assert.That(completed).IsTrue();
+    }
+
+    [Test]
+    public async Task TaskT_ConfigureAwait_ForceYielding_DoesNotCaptureContext()
+    {
+        var result = 0;
+        var completed = await ConfigureAwaitCompletesOnBlockedContext(
+            async () => result = await Task.FromResult(42).ConfigureAwait(ConfigureAwaitOptions.ForceYielding));
+        await Assert.That(completed).IsTrue();
+        await Assert.That(result).IsEqualTo(42);
+    }
+
+    [Test]
+    public async Task Task_ConfigureAwait_SuppressThrowing_DoesNotCaptureContext()
+    {
+        var completed = await ConfigureAwaitCompletesOnBlockedContext(
+            async () =>
+            {
+                var task = Task.Delay(50)
+                    .ContinueWith(_ => throw new InvalidOperationException("test"), TaskScheduler.Default);
+                await task.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+            });
+        await Assert.That(completed).IsTrue();
+    }
+
+    [Test]
+    public async Task Task_ConfigureAwait_SuppressThrowing_Pending()
+    {
+        var source = new TaskCompletionSource<int>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var awaiter = ((Task) source.Task)
+            .ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing)
+            .GetAwaiter();
+        await Assert.That(awaiter.IsCompleted).IsFalse();
+
+        source.SetException(new InvalidOperationException("test"));
+        await ((Task) source.Task).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+    }
+
+    [Test]
+    public async Task TaskT_ConfigureAwait_ForceYielding_Faulted()
+    {
+        var task = Task.FromException<int>(new InvalidOperationException("test"));
+        await Assert.That(async () => await task.ConfigureAwait(ConfigureAwaitOptions.ForceYielding))
+            .Throws<InvalidOperationException>();
+    }
 }
