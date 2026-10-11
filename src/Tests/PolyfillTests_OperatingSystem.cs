@@ -105,5 +105,48 @@ partial class PolyfillTests
 
         await Assert.That(actual).IsEqualTo(expected);
     }
+
+    [Test]
+    public async Task IsWindowsVersionAtLeast_CurrentVersion()
+    {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            await Assert.That(OperatingSystem.IsWindowsVersionAtLeast(1)).IsFalse();
+            return;
+        }
+
+        // e.g. "Microsoft Windows 10.0.19045"
+        var match = Regex.Match(RuntimeInformation.OSDescription, @"(\d+)\.(\d+)\.(\d+)");
+        await Assert.That(match.Success).IsTrue();
+        int major = int.Parse(match.Groups[1].Value);
+        int minor = int.Parse(match.Groups[2].Value);
+        int build = int.Parse(match.Groups[3].Value);
+
+        // the running version is at least itself, however many components are requested
+        await Assert.That(OperatingSystem.IsWindowsVersionAtLeast(major)).IsTrue();
+        await Assert.That(OperatingSystem.IsWindowsVersionAtLeast(major, minor)).IsTrue();
+        await Assert.That(OperatingSystem.IsWindowsVersionAtLeast(major, minor, build)).IsTrue();
+        await Assert.That(OperatingSystem.IsWindowsVersionAtLeast(major, minor, build - 1)).IsTrue();
+
+        await Assert.That(OperatingSystem.IsWindowsVersionAtLeast(major, minor, build + 1)).IsFalse();
+        await Assert.That(OperatingSystem.IsWindowsVersionAtLeast(major, minor + 1)).IsFalse();
+        await Assert.That(OperatingSystem.IsWindowsVersionAtLeast(major + 1)).IsFalse();
+    }
+
+#if !NET
+    // OperatingSystemCache only exists where OperatingSystem.Is*VersionAtLeast is polyfilled
+    [Test]
+    [Arguments("Microsoft Windows 10.0.19045 ", "10.0.19045.0")]
+    [Arguments("Microsoft Windows 10.0.19045", "10.0.19045.0")]
+    [Arguments("Microsoft Windows 6.1.7601 Service Pack 1", "6.1.7601.0")]
+    [Arguments("Microsoft Windows 10.0.22631.4460", "10.0.22631.4460")]
+    [Arguments("10.0", "10.0.0.0")]
+    public async Task OperatingSystemCache_ParseVersion(string input, string expected)
+    {
+        var version = Polyfills.OperatingSystemCache.ParseVersion(input);
+
+        await Assert.That(version).IsEqualTo(Version.Parse(expected));
+    }
+#endif
 #endif
 }
