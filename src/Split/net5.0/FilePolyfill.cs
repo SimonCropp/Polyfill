@@ -32,6 +32,7 @@ static partial class Polyfill
 		/// </summary>
 		public static async Task AppendAllBytesAsync(string path, byte[] bytes, CancellationToken cancellationToken = default)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
 			await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
 		}
@@ -70,6 +71,7 @@ static partial class Polyfill
 		/// </summary>
 		public static async Task WriteAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
 			await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken);
 		}

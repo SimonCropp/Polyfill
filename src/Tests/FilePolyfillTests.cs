@@ -115,6 +115,66 @@ public class FilePolyfillTests
     }
 
     [Test]
+    public async Task WriteAndAppendAsync_CancelledToken_LeavesFileUntouched()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        try
+        {
+            var cancelSource = new CancelSource();
+            cancelSource.Cancel();
+            var token = cancelSource.Token;
+            var bytes = Encoding.UTF8.GetBytes("new");
+            var lines = new[] {"new"};
+            var operations = new Dictionary<string, Func<string, Task>>
+            {
+                ["WriteAllBytesAsync"] = path => File.WriteAllBytesAsync(path, bytes, token),
+                ["WriteAllLinesAsync"] = path => File.WriteAllLinesAsync(path, lines, token),
+                ["WriteAllLinesAsyncEncoding"] = path => File.WriteAllLinesAsync(path, lines, Encoding.UTF8, token),
+                ["WriteAllTextAsync"] = path => File.WriteAllTextAsync(path, "new", token),
+                ["WriteAllTextAsyncEncoding"] = path => File.WriteAllTextAsync(path, "new", Encoding.UTF8, token),
+                ["AppendAllBytesAsync"] = path => File.AppendAllBytesAsync(path, bytes, token),
+                ["AppendAllLinesAsync"] = path => File.AppendAllLinesAsync(path, lines, token),
+                ["AppendAllTextAsync"] = path => File.AppendAllTextAsync(path, "new", token),
+#if FeatureMemory
+                ["WriteAllBytesAsyncMemory"] = path => File.WriteAllBytesAsync(path, new ReadOnlyMemory<byte>(bytes), token),
+                ["AppendAllBytesAsyncMemory"] = path => File.AppendAllBytesAsync(path, new ReadOnlyMemory<byte>(bytes), token),
+#endif
+            };
+
+            foreach (var operation in operations)
+            {
+                var existing = Path.Combine(directory, operation.Key + ".existing.txt");
+                var missing = Path.Combine(directory, operation.Key + ".missing.txt");
+                File.WriteAllText(existing, "original");
+
+                foreach (var path in new[] {existing, missing})
+                {
+                    Exception? exception = null;
+                    try
+                    {
+                        await operation.Value(path);
+                    }
+                    catch (Exception e)
+                    {
+                        exception = e;
+                    }
+
+                    await Assert.That(exception is OperationCanceledException).IsTrue();
+                }
+
+                // an already cancelled token must not create or truncate the file
+                await Assert.That(File.ReadAllText(existing)).IsEqualTo("original");
+                await Assert.That(File.Exists(missing)).IsFalse();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
     public async Task AppendAllTextAsync()
     {
         var content = "Hello, Async Text!";

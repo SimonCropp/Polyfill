@@ -36,6 +36,7 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendallbytesasync?view=net-11.0#system-io-file-appendallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)
         public static async Task AppendAllBytesAsync(string path, byte[] bytes, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
             await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
         }
@@ -87,6 +88,7 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writeallbytesasync?view=net-11.0#system-io-file-writeallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)
         public static async Task WriteAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
             await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken);
         }
@@ -155,6 +157,7 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writeallbytesasync?view=net-11.0#system-io-file-writeallbytesasync(system-string-system-byte()-system-threading-cancellationtoken)
         public static async Task WriteAllBytesAsync(string path, byte[] bytes, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
             await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
         }
@@ -172,6 +175,7 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealllinesasync?view=net-11.0#system-io-file-writealllinesasync(system-string-system-collections-generic-ienumerable((system-string))-system-text-encoding-system-threading-cancellationtoken)
         public static async Task WriteAllLinesAsync(string path, IEnumerable<string> contents, Encoding encoding, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
             using var writer = new StreamWriter(stream, encoding);
 
@@ -220,6 +224,7 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.writealltextasync?view=net-11.0#system-io-file-writealltextasync(system-string-system-string-system-text-encoding-system-threading-cancellationtoken)
         public static async Task WriteAllTextAsync(string path, string? contents, Encoding encoding, CancellationToken cancellationToken = default)
         {
+            cancellationToken.ThrowIfCancellationRequested();
             using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
             using var writer = new StreamWriter(stream, encoding);
 
