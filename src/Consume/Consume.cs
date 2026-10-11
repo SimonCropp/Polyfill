@@ -372,7 +372,7 @@ class Consume
     }
 #endif
 
-#if FeatureMemory && !RefsBclMemory
+#if FeatureMemory
     void Base64Usage()
     {
         ReadOnlySpan<byte> source = default;
