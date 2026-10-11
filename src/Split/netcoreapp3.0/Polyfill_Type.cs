@@ -35,6 +35,10 @@ static partial class Polyfill
 		this Type type,
 		MemberInfo member)
 	{
+		if (member is null)
+		{
+			throw new ArgumentNullException(nameof(member));
+		}
 		const BindingFlags all = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
 		foreach (var info in type.GetMembers(all))
 		{
@@ -43,6 +47,6 @@ static partial class Polyfill
 				return info;
 			}
 		}
-		throw new MissingMemberException(type.FullName, member.Name);
+		throw new ArgumentException($"A MemberInfo that matches '{member.Name}' could not be found.", nameof(member));
 	}
 }

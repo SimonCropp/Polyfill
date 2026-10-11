@@ -147,6 +147,26 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task GetMemberWithSameMetadataDefinitionAs_NotFound()
+    {
+        var method = typeof(Uri).GetMethod("ToString", Type.EmptyTypes)!;
+
+        var exception = await Assert.That(() => typeof(string).GetMemberWithSameMetadataDefinitionAs(method))
+            .ThrowsExactly<ArgumentException>();
+
+        await Assert.That(exception!.ParamName).IsEqualTo("member");
+    }
+
+    [Test]
+    public async Task GetMemberWithSameMetadataDefinitionAs_Null()
+    {
+        var exception = await Assert.That(() => typeof(string).GetMemberWithSameMetadataDefinitionAs(null!))
+            .ThrowsExactly<ArgumentNullException>();
+
+        await Assert.That(exception!.ParamName).IsEqualTo("member");
+    }
+
+    [Test]
     public async Task IsGenericMethodParameter()
     {
         var method = typeof(List<>).GetMethod("Add")!;
