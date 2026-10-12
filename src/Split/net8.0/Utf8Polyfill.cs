@@ -13,6 +13,10 @@ static partial class Polyfill
 		/// </summary>
 		public static int IndexOfInvalidSubsequence(ReadOnlySpan<byte> value)
 		{
+			if (Utf8.IsValid(value))
+			{
+				return -1;
+			}
 			var i = 0;
 			while (i < value.Length)
 			{
