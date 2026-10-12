@@ -350,6 +350,90 @@ partial class PolyfillTests
 
         await Assert.That(enumerable.SkipLast(1).SequenceEqual(["a"])).IsTrue();
     }
+    static IEnumerable<int> SkipLastSource(int count, StrongBox<int> pulled)
+    {
+        for (var index = 0; index < count; index++)
+        {
+            pulled.Value++;
+            yield return index;
+        }
+    }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(2)]
+    [Arguments(10)]
+    public async Task SkipLast_AllSourceKinds(int count)
+    {
+        foreach (var skip in new[] {int.MinValue, -1, 0, 1, 2, 3, 9, 10, 11, 100, int.MaxValue})
+        {
+            var expected = Enumerable.Range(0, Math.Max(0, count - Math.Max(0, skip))).ToArray();
+            var array = Enumerable.Range(0, count).ToArray();
+
+            await Assert.That(array.SkipLast(skip).SequenceEqual(expected)).IsTrue();
+            await Assert.That(array.ToList().SkipLast(skip).SequenceEqual(expected)).IsTrue();
+            await Assert.That(new Queue<int>(array).SkipLast(skip).SequenceEqual(expected)).IsTrue();
+            await Assert.That(new HashSet<int>(array).SkipLast(skip).SequenceEqual(expected)).IsTrue();
+            await Assert.That(SkipLastSource(count, new(0)).SkipLast(skip).SequenceEqual(expected)).IsTrue();
+
+            // the result can be enumerated more than once
+            var skipped = SkipLastSource(count, new(0)).SkipLast(skip);
+            await Assert.That(skipped.SequenceEqual(expected)).IsTrue();
+            await Assert.That(skipped.SequenceEqual(expected)).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task SkipLast_ReferenceTypesAndNulls()
+    {
+        IEnumerable<string?> enumerable = new List<string?> {"a", null, "c", null}.Where(_ => true);
+        await Assert.That(enumerable.SkipLast(1).SequenceEqual(["a", null, "c"])).IsTrue();
+        await Assert.That(enumerable.SkipLast(3).SequenceEqual(["a"])).IsTrue();
+    }
+
+    [Test]
+    public async Task SkipLast_IsStreaming()
+    {
+        var pulled = new StrongBox<int>(0);
+        var result = SkipLastSource(1_000_000, pulled).SkipLast(3).Take(3).ToList();
+
+        await Assert.That(result.SequenceEqual([0, 1, 2])).IsTrue();
+        // only the 3 items yielded and the 3 held back are needed
+        await Assert.That(pulled.Value).IsLessThanOrEqualTo(7);
+    }
+
+    [Test]
+    public async Task SkipLast_IsDeferred()
+    {
+        var pulled = new StrongBox<int>(0);
+        var skipped = SkipLastSource(5, pulled).SkipLast(2);
+        await Assert.That(pulled.Value).IsEqualTo(0);
+
+        var list = new List<int> {0, 1, 2, 3};
+        var fromList = list.SkipLast(1);
+        var fromListNone = list.SkipLast(0);
+        list.Add(4);
+
+        // .NET 5 fixes the bounds of SkipLast over a list when it is called
+        if (Environment.Version.Major != 5)
+        {
+            await Assert.That(fromList.SequenceEqual([0, 1, 2, 3])).IsTrue();
+        }
+
+        await Assert.That(fromListNone.SequenceEqual([0, 1, 2, 3, 4])).IsTrue();
+
+        await Assert.That(skipped.SequenceEqual([0, 1, 2])).IsTrue();
+        await Assert.That(pulled.Value).IsEqualTo(5);
+    }
+
+    [Test]
+    public async Task SkipLast_Null_ThrowsWhenCalled()
+    {
+        IEnumerable<int> source = null!;
+        await Assert.That(() => source.SkipLast(1)).Throws<ArgumentNullException>();
+        await Assert.That(() => source.SkipLast(0)).Throws<ArgumentNullException>();
+    }
 
     [Test]
     public async Task ToHashSet()
