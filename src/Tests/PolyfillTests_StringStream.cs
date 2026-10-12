@@ -1,5 +1,6 @@
 #if FeatureMemory
 using System.IO;
+using System.Linq;
 using System.Text;
 
 partial class PolyfillTests
@@ -340,6 +341,197 @@ partial class PolyfillTests
 
         await Assert.That(async () => await stream.CopyToAsync(destination, 81920, cancelSource.Token))
             .Throws<OperationCanceledException>();
+    }
+
+    // Text mixing one, two and three byte UTF-8 sequences with surrogate pairs, so that every read
+    // size below splits a multi-byte sequence or a surrogate pair somewhere.
+    const string stringStreamMixedText = "a\u00e9\u4f60\U0001F30D-\U0001F600\u00fc\u597d z\U00010348\u20ac!";
+
+    static IEnumerable<Encoding> StringStreamEncodings()
+    {
+        yield return new UTF8Encoding(false);
+        yield return new UnicodeEncoding(false, false);
+        yield return new UnicodeEncoding(true, false);
+        yield return new UTF32Encoding(false, false);
+        yield return Encoding.ASCII;
+    }
+
+    static readonly int[] stringStreamReadSizes = [1, 2, 3, 4, 5, 7, 16, 61, 4096];
+
+    static string RepeatStringStreamText()
+    {
+        var builder = new StringBuilder();
+        for (var index = 0; index < 40; index++)
+        {
+            builder.Append(stringStreamMixedText);
+        }
+
+        return builder.ToString();
+    }
+
+    static string? CompareStringStreamReads(Func<Encoding, StringStream> create, string text)
+    {
+        foreach (var encoding in StringStreamEncodings())
+        {
+            var expected = encoding.GetBytes(text);
+            foreach (var size in stringStreamReadSizes)
+            {
+                using var stream = create(encoding);
+                using var accumulator = new MemoryStream();
+                // Read into the middle of a larger buffer so that the offset is honoured too
+                var buffer = new byte[size + 6];
+                int read;
+                while ((read = stream.Read(buffer, 3, size)) > 0)
+                {
+                    accumulator.Write(buffer, 3, read);
+                }
+
+                if (!accumulator.ToArray().SequenceEqual(expected))
+                {
+                    return $"{encoding.WebName} with read size {size}";
+                }
+
+                if (buffer[0] != 0 || buffer[2] != 0 || buffer[size + 3] != 0 || buffer[size + 5] != 0)
+                {
+                    return $"{encoding.WebName} with read size {size} wrote outside the requested range";
+                }
+            }
+        }
+
+        return null;
+    }
+
+    [Test]
+    public async Task StringStream_StringBacked_AllReadSizes_MatchGetBytes()
+    {
+        var text = RepeatStringStreamText();
+
+        var failure = CompareStringStreamReads(encoding => new StringStream(text, encoding), text);
+
+        await Assert.That(failure).IsNull();
+    }
+
+    [Test]
+    public async Task StringStream_StringSliceBacked_AllReadSizes_MatchGetBytes()
+    {
+        var text = RepeatStringStreamText();
+        var padded = "\u4f60xx" + text + "yy\U0001F30D";
+
+        var failure = CompareStringStreamReads(encoding => new StringStream(padded.AsMemory(3, text.Length), encoding), text);
+
+        await Assert.That(failure).IsNull();
+    }
+
+    [Test]
+    public async Task StringStream_ArrayBacked_AllReadSizes_MatchGetBytes()
+    {
+        var text = RepeatStringStreamText();
+        var chars = ("\u4f60xx" + text + "yy\U0001F30D").ToCharArray();
+        var snapshot = (char[]) chars.Clone();
+
+        var failure = CompareStringStreamReads(encoding => new StringStream(new ReadOnlyMemory<char>(chars, 3, text.Length), encoding), text);
+
+        await Assert.That(failure).IsNull();
+        // The backing array is read in place and must be left untouched
+        await Assert.That(chars.SequenceEqual(snapshot)).IsTrue();
+    }
+
+    [Test]
+    public async Task StringStream_MemoryManagerBacked_AllReadSizes_MatchGetBytes()
+    {
+        var text = RepeatStringStreamText();
+        var chars = ("\u4f60xx" + text + "yy\U0001F30D").ToCharArray();
+        ReadOnlyMemory<char> memory = new NonArrayCharMemoryManager(chars).Memory.Slice(3, text.Length);
+        await Assert.That(MemoryMarshal.TryGetArray(memory, out _)).IsFalse();
+        await Assert.That(MemoryMarshal.TryGetString(memory, out _, out _, out _)).IsFalse();
+
+        var failure = CompareStringStreamReads(encoding => new StringStream(memory, encoding), text);
+
+        await Assert.That(failure).IsNull();
+    }
+
+    [Test]
+    public async Task StringStream_SingleShot_AllSources_MatchGetBytes()
+    {
+        // A buffer large enough for the whole payload takes the stateless single-shot path
+        var text = RepeatStringStreamText();
+        var chars = ("xx" + text + "yy").ToCharArray();
+        var sources = new[]
+        {
+            text.AsMemory(),
+            ("xx" + text + "yy").AsMemory(2, text.Length),
+            new ReadOnlyMemory<char>(chars, 2, text.Length),
+            new NonArrayCharMemoryManager(chars).Memory.Slice(2, text.Length)
+        };
+
+        foreach (var encoding in StringStreamEncodings())
+        {
+            var expected = encoding.GetBytes(text);
+            foreach (var source in sources)
+            {
+                using var stream = new StringStream(source, encoding);
+                var buffer = new byte[encoding.GetMaxByteCount(text.Length) + 5];
+
+                var read = stream.Read(buffer, 5, buffer.Length - 5);
+
+                await Assert.That(read).IsEqualTo(expected.Length);
+                await Assert.That(buffer.AsSpan(5, read).SequenceEqual(expected)).IsTrue();
+                await Assert.That(stream.Read(buffer, 0, buffer.Length)).IsEqualTo(0);
+            }
+        }
+    }
+
+    [Test]
+    public async Task StringStream_EmptySources_ReadZero()
+    {
+        var sources = new[]
+        {
+            default,
+            string.Empty.AsMemory(),
+            "abc".AsMemory(1, 0),
+            new ReadOnlyMemory<char>(['a', 'b'], 1, 0),
+            new NonArrayCharMemoryManager(['a', 'b']).Memory.Slice(1, 0)
+        };
+
+        foreach (var source in sources)
+        {
+            foreach (var size in new[] {1, 64})
+            {
+                using var stream = new StringStream(source, Encoding.Unicode);
+
+                await Assert.That(stream.Read(new byte[size], 0, size)).IsEqualTo(0);
+                await Assert.That(stream.ReadByte()).IsEqualTo(-1);
+            }
+        }
+    }
+
+    [Test]
+    public async Task StringStream_ReadByte_AllSources_MatchGetBytes()
+    {
+        var chars = ("xx" + stringStreamMixedText + "yy").ToCharArray();
+        var sources = new[]
+        {
+            stringStreamMixedText.AsMemory(),
+            new ReadOnlyMemory<char>(chars, 2, stringStreamMixedText.Length),
+            new NonArrayCharMemoryManager(chars).Memory.Slice(2, stringStreamMixedText.Length)
+        };
+
+        foreach (var encoding in StringStreamEncodings())
+        {
+            var expected = encoding.GetBytes(stringStreamMixedText);
+            foreach (var source in sources)
+            {
+                using var stream = new StringStream(source, encoding);
+                var actual = new List<byte>();
+                int value;
+                while ((value = stream.ReadByte()) != -1)
+                {
+                    actual.Add((byte) value);
+                }
+
+                await Assert.That(actual.SequenceEqual(expected)).IsTrue();
+            }
+        }
     }
 
     static byte[] ReadToEnd(Stream stream)

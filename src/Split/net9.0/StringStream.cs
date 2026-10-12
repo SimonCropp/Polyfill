@@ -4,8 +4,10 @@
 #if FeatureMemory
 #pragma warning disable
 namespace System.IO;
+using System.Buffers;
 using System.Text;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
@@ -115,7 +117,7 @@ sealed class StringStream :
 			text.Length <= (int.MaxValue / maxBytesPerChar) - 1 &&
 			count >= encoding.GetMaxByteCount(text.Length))
 		{
-			var written = EncodeAll(text.Span, buffer, offset, count);
+			var written = EncodeAll(buffer, offset, count);
 			charPosition = text.Length;
 			encoderFlushed = true;
 			return written;
@@ -135,13 +137,13 @@ sealed class StringStream :
 		}
 		if (charPosition < text.Length)
 		{
-			var remaining = text.Span.Slice(charPosition);
+			var remainingChars = text.Length - charPosition;
 			var availableBytes = count - totalBytesWritten;
 			if (availableBytes < maxBytesPerChar)
 			{
 				pendingBytes ??= new byte[encoding.GetMaxByteCount(2)];
-				var charsToEncode = Math.Min(2, remaining.Length);
-				Convert(remaining.Slice(0, charsToEncode), pendingBytes, pendingBytes.Length, flush: false, out var charsUsed, out var bytesUsed);
+				var charsToEncode = Math.Min(2, remainingChars);
+				Convert(charPosition, charsToEncode, pendingBytes, 0, pendingBytes.Length, flush: false, out var charsUsed, out var bytesUsed);
 				charPosition += charsUsed;
 				var toCopy = Math.Min(bytesUsed, availableBytes);
 				Array.Copy(pendingBytes, 0, buffer, offset + totalBytesWritten, toCopy);
@@ -151,7 +153,7 @@ sealed class StringStream :
 			}
 			else
 			{
-				Convert(remaining, buffer, offset + totalBytesWritten, availableBytes, flush: false, out var charsUsed, out var bytesUsed);
+				Convert(charPosition, remainingChars, buffer, offset + totalBytesWritten, availableBytes, flush: false, out var charsUsed, out var bytesUsed);
 				charPosition += charsUsed;
 				totalBytesWritten += bytesUsed;
 			}
@@ -161,7 +163,7 @@ sealed class StringStream :
 			pendingCount == 0)
 		{
 			pendingBytes ??= new byte[encoding.GetMaxByteCount(2)];
-			Convert(ReadOnlySpan<char>.Empty, pendingBytes, pendingBytes.Length, flush: true, out _, out var flushBytes);
+			Convert(text.Length, 0, pendingBytes, 0, pendingBytes.Length, flush: true, out _, out var flushBytes);
 			encoderFlushed = true;
 			if (flushBytes > 0)
 			{
@@ -182,15 +184,13 @@ sealed class StringStream :
 		return totalBytesWritten;
 	}
 	Encoder GetEncoder() => encoder ??= encoding.GetEncoder();
-	int EncodeAll(ReadOnlySpan<char> chars, byte[] bytes, int byteIndex, int byteCount)
+	int EncodeAll(byte[] bytes, int byteIndex, int byteCount)
 	{
-		return encoding.GetBytes(chars, bytes.AsSpan(byteIndex, byteCount));
+		return encoding.GetBytes(text.Span, bytes.AsSpan(byteIndex, byteCount));
 	}
-	void Convert(ReadOnlySpan<char> chars, byte[] bytes, int byteCount, bool flush, out int charsUsed, out int bytesUsed) =>
-		Convert(chars, bytes, 0, byteCount, flush, out charsUsed, out bytesUsed);
-	void Convert(ReadOnlySpan<char> chars, byte[] bytes, int byteIndex, int byteCount, bool flush, out int charsUsed, out int bytesUsed)
+	void Convert(int charIndex, int charCount, byte[] bytes, int byteIndex, int byteCount, bool flush, out int charsUsed, out int bytesUsed)
 	{
-		GetEncoder().Convert(chars, bytes.AsSpan(byteIndex, byteCount), flush, out charsUsed, out bytesUsed, out _);
+		GetEncoder().Convert(text.Span.Slice(charIndex, charCount), bytes.AsSpan(byteIndex, byteCount), flush, out charsUsed, out bytesUsed, out _);
 	}
 	/// <inheritdoc/>
 	public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
