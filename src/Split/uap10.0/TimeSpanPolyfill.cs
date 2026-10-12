@@ -10,18 +10,12 @@ static partial class Polyfill
 		/// Gets the nanosecond component of the time represented by the current <see cref="TimeSpan"/> object.
 		/// </summary>
 		public int Nanoseconds =>
-			(int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
+			(int) (target.Ticks % TicksPerMicrosecond) * 100;
 		/// <summary>
 		/// Gets the microsecond component of the time represented by the current <see cref="TimeSpan"/> object.
 		/// </summary>
 		public int Microseconds =>
-			(int) (target.TicksComponent() / TicksPerMicrosecond % 1000);
-		long TicksComponent()
-		{
-			var noSeconds = new TimeSpan(target.Days, target.Hours, target.Minutes, 0);
-			var secondsPart = target - noSeconds;
-			return secondsPart.Ticks;
-		}
+			(int) (target.Ticks / TicksPerMicrosecond % 1000);
 	}
 	const long MicrosecondsToTicks = TimeSpan.TicksPerMillisecond / 1000;
 	const long MicrosecondsPerMillisecond = 1_000;

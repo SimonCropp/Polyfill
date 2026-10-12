@@ -14,26 +14,21 @@ static partial class Polyfill
 
     extension(DateTimeOffset target)
     {
+        // The offset is a whole number of minutes, so the UTC ticks have the same sub-second part as the clock time
+
         /// <summary>
         /// Gets the nanosecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.nanosecond?view=net-11.0
         public int Nanosecond =>
-            (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
+            (int) (target.UtcTicks % TicksPerMicrosecond) * 100;
 
         /// <summary>
         /// Gets the microsecond component of the time represented by the current <see cref="DateTimeOffset"/> object.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetimeoffset.microsecond?view=net-11.0
         public int Microsecond =>
-            (int) (target.TicksComponent() / TicksPerMicrosecond % 1000);
-
-        long TicksComponent()
-        {
-            var noSeconds = new DateTimeOffset(target.Year, target.Month, target.Day, target.Hour, target.Minute, 0, target.Offset);
-            var secondsPart = target - noSeconds;
-            return secondsPart.Ticks;
-        }
+            (int) (target.UtcTicks / TicksPerMicrosecond % 1000);
     }
 
 #endif
