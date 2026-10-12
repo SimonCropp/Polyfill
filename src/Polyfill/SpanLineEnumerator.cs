@@ -25,7 +25,6 @@ ref struct SpanLineEnumerator
 {
     ReadOnlySpan<char> remaining;
     bool isActive;
-    ReadOnlySpan<char> newlines = "\r\f\u0085\u2028\u2029\n".AsSpan();
 
     internal SpanLineEnumerator(ReadOnlySpan<char> buffer)
     {
@@ -45,8 +44,7 @@ ref struct SpanLineEnumerator
             return false;
         }
 
-        //TODO: revisit when SearchValues is implemented
-        var index = remaining.IndexOfAny(newlines);
+        var index = IndexOfNewline(remaining);
 
         var remainingLength = (uint)remaining.Length;
         if ((uint)index < remainingLength)
@@ -69,6 +67,21 @@ ref struct SpanLineEnumerator
         remaining = default;
         isActive = false;
         return true;
+    }
+
+    // A single pass over the span. IndexOfAny with six values rescans the remainder once per value on runtimes
+    // without a vectorized implementation, which is quadratic when only the last value occurs.
+    static int IndexOfNewline(ReadOnlySpan<char> span)
+    {
+        for (var index = 0; index < span.Length; index++)
+        {
+            if (span[index] is '\n' or '\r' or '\f' or '\u0085' or '\u2028' or '\u2029')
+            {
+                return index;
+            }
+        }
+
+        return -1;
     }
 }
 #else
