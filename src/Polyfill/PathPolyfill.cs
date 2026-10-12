@@ -4,6 +4,8 @@ namespace Polyfills;
 
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
 
 static partial class Polyfill
 {
@@ -182,61 +184,159 @@ static partial class Polyfill
             relativeTo = Path.GetFullPath(relativeTo);
             path = Path.GetFullPath(path);
 
-            // Hardcoded case-insensitive since this polyfill only compiles on Windows targets (netfx/netstandard2.0)
-            var comparison = StringComparison.OrdinalIgnoreCase;
-
-            // Normalize: strip trailing separator for comparison
-            var normalizedFrom = relativeTo.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            var normalizedTo = path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-
-            if (string.Equals(normalizedFrom, normalizedTo, comparison))
+            var ignoreCase = !IsPathCaseSensitive();
+            var comparison = StringComparison.Ordinal;
+            if (ignoreCase)
             {
-                return ".";
+                comparison = StringComparison.OrdinalIgnoreCase;
             }
 
-            // Check if paths share the same root
-            var rootFrom = Path.GetPathRoot(relativeTo);
-            var rootTo = Path.GetPathRoot(path);
-
-            if (!string.Equals(rootFrom, rootTo, comparison))
+            // Paths with different roots have nothing to be relative to, so the "to" path is returned as is
+            if (!string.Equals(Path.GetPathRoot(relativeTo), Path.GetPathRoot(path), comparison))
             {
                 return path;
             }
 
-            // Ensure both paths end with a separator so Uri treats them as directories
-            if (!IsDirectorySeparator(relativeTo[relativeTo.Length - 1]))
+            var commonLength = GetCommonPathLength(relativeTo, path, ignoreCase);
+            if (commonLength == 0)
             {
-                relativeTo += Path.DirectorySeparatorChar;
+                return path;
             }
 
-            if (!IsDirectorySeparator(path[path.Length - 1]))
+            // Trailing separators aren't significant for comparison
+            var relativeToLength = relativeTo.Length;
+            if (IsDirectorySeparator(relativeTo[relativeToLength - 1]))
             {
-                path += Path.DirectorySeparatorChar;
+                relativeToLength--;
             }
 
-            var fromUri = new Uri(relativeTo);
-            var toUri = new Uri(path);
-
-            var relativeUri = fromUri.MakeRelativeUri(toUri);
-            var result = Uri.UnescapeDataString(relativeUri.ToString());
-
-            if (Path.DirectorySeparatorChar != '/')
+            var pathEndsInSeparator = IsDirectorySeparator(path[path.Length - 1]);
+            var pathLength = path.Length;
+            if (pathEndsInSeparator)
             {
-                result = result.Replace('/', Path.DirectorySeparatorChar);
+                pathLength--;
             }
 
-            // Remove trailing separator from result
-            if (result.Length > 0 && IsDirectorySeparator(result[result.Length - 1]))
-            {
-                result = result.Substring(0, result.Length - 1);
-            }
-
-            if (result.Length == 0)
+            // Effectively the same path
+            if (relativeToLength == pathLength &&
+                commonLength >= relativeToLength)
             {
                 return ".";
             }
 
-            return result;
+            // The paths share a root, so the result is one ".." for each segment of the "from" path past
+            // the common part, followed by what is left of the "to" path:
+            //
+            //  C:\Foo      C:\Bar      common 3 -> ..\Bar
+            //  C:\Foo      C:\Foo\Bar  common 6 -> Bar
+            //  C:\Foo\Bar  C:\Bar\Bar  common 3 -> ..\..\Bar\Bar
+            //  C:\Foo\Foo  C:\Foo\Bar  common 7 -> ..\Bar
+            StringBuilder? builder = null;
+            if (commonLength < relativeToLength)
+            {
+                builder = new(Math.Max(relativeTo.Length, path.Length));
+                builder.Append("..");
+
+                for (var index = commonLength + 1; index < relativeToLength; index++)
+                {
+                    if (IsDirectorySeparator(relativeTo[index]))
+                    {
+                        builder.Append(Path.DirectorySeparatorChar);
+                        builder.Append("..");
+                    }
+                }
+            }
+            else if (IsDirectorySeparator(path[commonLength]))
+            {
+                // No parent segments, so skip the separator that follows the common part
+                commonLength++;
+            }
+
+            // The rest of the "to" path, with its trailing separator added back
+            var differenceLength = pathLength - commonLength;
+            if (pathEndsInSeparator)
+            {
+                differenceLength++;
+            }
+
+            if (builder == null)
+            {
+                if (differenceLength <= 0)
+                {
+                    return string.Empty;
+                }
+
+                return path.Substring(commonLength, differenceLength);
+            }
+
+            if (differenceLength > 0)
+            {
+                builder.Append(Path.DirectorySeparatorChar);
+                builder.Append(path, commonLength, differenceLength);
+            }
+
+            return builder.ToString();
+        }
+
+        // Windows and macOS file systems are case insensitive by default
+        static bool IsPathCaseSensitive()
+        {
+            if (Path.DirectorySeparatorChar == '\\')
+            {
+                return false;
+            }
+
+#if FeatureRuntimeInformation
+            return !RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+#else
+            return Environment.OSVersion.Platform != PlatformID.MacOSX;
+#endif
+        }
+
+        // The length of the leading part the two paths share, ending on a segment boundary
+        static int GetCommonPathLength(string first, string second, bool ignoreCase)
+        {
+            var commonChars = 0;
+            var shortest = Math.Min(first.Length, second.Length);
+            while (commonChars < shortest)
+            {
+                var left = first[commonChars];
+                var right = second[commonChars];
+                if (left != right &&
+                    !(ignoreCase && char.ToUpperInvariant(left) == char.ToUpperInvariant(right)))
+                {
+                    break;
+                }
+
+                commonChars++;
+            }
+
+            if (commonChars == 0)
+            {
+                return 0;
+            }
+
+            // One path is a prefix of the other and stops at the end of a segment
+            if (commonChars == first.Length &&
+                (commonChars == second.Length || IsDirectorySeparator(second[commonChars])))
+            {
+                return commonChars;
+            }
+
+            if (commonChars == second.Length &&
+                IsDirectorySeparator(first[commonChars]))
+            {
+                return commonChars;
+            }
+
+            // The match may have stopped in the middle of a segment, for example C:\Foodie and C:\Foobar
+            while (commonChars > 0 &&
+                   !IsDirectorySeparator(first[commonChars - 1]))
+            {
+                commonChars--;
+            }
+
+            return commonChars;
         }
 #endif
 
