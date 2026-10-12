@@ -2,6 +2,10 @@
 #pragma warning disable
 namespace Polyfills;
 using System.Collections;
+#if FeatureMemory
+using System.Buffers;
+#endif
+using System.Numerics;
 static partial class Polyfill
 {
 	/// <summary>
@@ -9,14 +13,61 @@ static partial class Polyfill
 	/// </summary>
 	public static int PopCount(this BitArray target)
 	{
-		var count = 0;
-		for (var index = 0; index < target.Length; index++)
+		var length = target.Length;
+		if (length == 0)
 		{
-			if (target[index])
-			{
-				count++;
-			}
+			return 0;
 		}
-		return count;
+		var words = CopyBitArrayWords(target, length, out var wordCount);
+		try
+		{
+			var count = 0;
+			for (var index = 0; index < wordCount; index++)
+			{
+				count += PopCountBitArrayWord(unchecked((uint) words[index]));
+			}
+			return count;
+		}
+		finally
+		{
+			ReturnBitArrayWords(words);
+		}
+	}
+	/// <summary>
+	/// Copies the bits of a non-empty <see cref="BitArray"/> into 32 bit words, one bit of the array per bit of a word,
+	/// lowest bit first. The bits of the last word that lie past <paramref name="length"/> are cleared: the
+	/// <see cref="BitArray"/> does not keep them zeroed, for example after <see cref="BitArray.Not"/>.
+	/// The result is longer than <paramref name="wordCount"/> when it comes from the pool.
+	/// </summary>
+	static int[] CopyBitArrayWords(BitArray target, int length, out int wordCount)
+	{
+		wordCount = (length - 1) / 32 + 1;
+#if FeatureMemory
+		var words = ArrayPool<int>.Shared.Rent(wordCount);
+#else
+		var words = new int[wordCount];
+#endif
+		target.CopyTo(words, 0);
+		words[wordCount - 1] &= LastBitArrayWordMask(length);
+		return words;
+	}
+	static void ReturnBitArrayWords(int[] words)
+	{
+#if FeatureMemory
+		ArrayPool<int>.Shared.Return(words);
+#endif
+	}
+	static int LastBitArrayWordMask(int length)
+	{
+		var used = length % 32;
+		if (used == 0)
+		{
+			return -1;
+		}
+		return (1 << used) - 1;
+	}
+	static int PopCountBitArrayWord(uint value)
+	{
+		return BitOperations.PopCount(value);
 	}
 }
