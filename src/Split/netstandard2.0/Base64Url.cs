@@ -282,7 +282,7 @@ static class Base64Url
 	public static OperationStatus DecodeFromUtf8(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesConsumed, out int bytesWritten, bool isFinalBlock = true)
 	{
 		var chars = BytesToChars(source);
-		var status = DecodeFromChars(chars, destination, out bytesWritten, out var charsConsumed, isFinalBlock);
+		var status = DecodeFromChars(chars, destination, out var charsConsumed, out bytesWritten, isFinalBlock);
 		bytesConsumed = charsConsumed;
 		return status;
 	}

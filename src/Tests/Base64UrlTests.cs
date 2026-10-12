@@ -398,6 +398,17 @@ public class Base64UrlTests
         await Assert.That(consumed).IsEqualTo(4);
         await Assert.That(written).IsEqualTo(3);
     }
+
+    [Test]
+    public async Task DecodeFromUtf8_OperationStatus_Done()
+    {
+        var destination = new byte[20];
+        var status = Base64Url.DecodeFromUtf8("AQID"u8, destination, out var bytesConsumed, out var bytesWritten);
+        await Assert.That(status).IsEqualTo(OperationStatus.Done);
+        await Assert.That(bytesConsumed).IsEqualTo(4);
+        await Assert.That(bytesWritten).IsEqualTo(3);
+        await Assert.That(destination.AsSpan(0, 3).ToArray()).IsEquivalentTo(new byte[] {1, 2, 3});
+    }
 }
 
 #endif
