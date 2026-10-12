@@ -1,6 +1,9 @@
 namespace Polyfills;
 
 using System;
+#if FeatureMemory
+using System.Buffers;
+#endif
 using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -79,7 +82,27 @@ static partial class Polyfill
         public static void AppendAllBytes(string path, ReadOnlySpan<byte> bytes)
         {
             using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
-            stream.Write(bytes.ToArray(), 0, bytes.Length);
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            stream.Write(bytes);
+#else
+            // Stream has no span overload here. Copy through a pooled buffer a chunk at a time, so that
+            // a large payload does not need an array of its own size.
+            var buffer = ArrayPool<byte>.Shared.Rent(Math.Min(bytes.Length, 81920));
+            try
+            {
+                while (!bytes.IsEmpty)
+                {
+                    var chunk = bytes.Slice(0, Math.Min(bytes.Length, buffer.Length));
+                    chunk.CopyTo(buffer);
+                    stream.Write(buffer, 0, chunk.Length);
+                    bytes = bytes.Slice(chunk.Length);
+                }
+            }
+            finally
+            {
+                ArrayPool<byte>.Shared.Return(buffer);
+            }
+#endif
         }
 
         /// <summary>
@@ -90,7 +113,7 @@ static partial class Polyfill
         {
             cancellationToken.ThrowIfCancellationRequested();
             using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
-            await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken).ConfigureAwait(false);
+            await WriteMemoryAsync(stream, bytes, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -124,8 +147,29 @@ static partial class Polyfill
         /// If the file doesn't exist, this method creates a new file. If the operation is canceled, the task will return in a canceled state.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.file.appendallbytesasync?view=net-11.0#system-io-file-appendallbytesasync(system-string-system-readonlymemory((system-byte))-system-threading-cancellationtoken)
-        public static Task AppendAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default) =>
-            AppendAllBytesAsync(path, bytes.ToArray(), cancellationToken);
+        public static async Task AppendAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
+            await WriteMemoryAsync(stream, bytes, cancellationToken).ConfigureAwait(false);
+        }
+
+        // Writes the memory without copying it where that is possible: through the memory overload of
+        // Stream.WriteAsync where there is one, otherwise by reaching the array behind the memory.
+        static Task WriteMemoryAsync(FileStream stream, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken)
+        {
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            return stream.WriteAsync(bytes, cancellationToken).AsTask();
+#else
+            if (!MemoryMarshal.TryGetArray(bytes, out var segment) ||
+                segment.Array == null)
+            {
+                segment = new(bytes.ToArray());
+            }
+
+            return stream.WriteAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken);
+#endif
+        }
 
 #endif
 

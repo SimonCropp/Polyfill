@@ -744,4 +744,251 @@ public class FilePolyfillTests
         await Assert.That(() =>
             fileInfo.CreateAsHardLink("nonexistent.txt")).Throws<IOException>();
     }
+
+#if FeatureMemory
+    static string CreateBytesTestDirectory()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "PolyfillFileBytes_" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        return directory;
+    }
+
+    static byte[] BytesPayload(int length, int seed)
+    {
+        var data = new byte[length];
+        new Random(seed).NextBytes(data);
+        return data;
+    }
+
+    static byte[] Concat(byte[] first, byte[] second)
+    {
+        var result = new byte[first.Length + second.Length];
+        Array.Copy(first, result, first.Length);
+        Array.Copy(second, 0, result, first.Length, second.Length);
+        return result;
+    }
+
+    // Memory that is not array-backed as far as MemoryMarshal.TryGetArray is concerned
+    [ExcludeFromCodeCoverage]
+    [System.Diagnostics.DebuggerNonUserCode]
+    sealed class NonArrayFileBytesMemoryManager(byte[] array) :
+        System.Buffers.MemoryManager<byte>
+    {
+        public override Span<byte> GetSpan() => array;
+
+        // FileStream pins the memory it is given on runtimes that write it directly
+        public override System.Buffers.MemoryHandle Pin(int elementIndex = 0) =>
+            array.AsMemory(elementIndex).Pin();
+
+        public override void Unpin()
+        {
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+        }
+    }
+
+    // The sizes cover an empty payload, one smaller than the FileStream buffer, one a little larger
+    // and one large enough to be written in several pieces
+    static readonly int[] bytesPayloadSizes = [0, 1, 100, 4096, 5000, 81920, 81921, 300_000];
+
+    [Test]
+    public async Task AppendAllBytes_Span_AppendsOnlyTheSlice()
+    {
+        var directory = CreateBytesTestDirectory();
+        try
+        {
+            foreach (var size in bytesPayloadSizes)
+            {
+                var path = Path.Combine(directory, $"span{size}.bin");
+                var existing = BytesPayload(10, 1);
+                var buffer = BytesPayload(size + 7, 2);
+                var snapshot = (byte[]) buffer.Clone();
+                var expected = buffer.AsSpan(3, size).ToArray();
+
+                // creates the file
+                File.AppendAllBytes(path, existing.AsSpan());
+                // appends to it
+                File.AppendAllBytes(path, new ReadOnlySpan<byte>(buffer, 3, size));
+
+                await Assert.That(File.ReadAllBytes(path).SequenceEqual(Concat(existing, expected))).IsTrue();
+                await Assert.That(buffer.SequenceEqual(snapshot)).IsTrue();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task AppendAllBytes_Span_StackMemory()
+    {
+        var directory = CreateBytesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "stack.bin");
+            AppendFromStack(path);
+            AppendFromStack(path);
+
+            await Assert.That(File.ReadAllBytes(path).SequenceEqual(new byte[] {1, 2, 3, 4, 5, 1, 2, 3, 4, 5})).IsTrue();
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+
+        static void AppendFromStack(string path)
+        {
+            Span<byte> bytes = stackalloc byte[] {1, 2, 3, 4, 5};
+            File.AppendAllBytes(path, bytes);
+        }
+    }
+
+    [Test]
+    public async Task WriteAllBytesAsync_Memory_WritesOnlyTheSlice()
+    {
+        var directory = CreateBytesTestDirectory();
+        try
+        {
+            foreach (var size in bytesPayloadSizes)
+            {
+                var buffer = BytesPayload(size + 7, 3);
+                var snapshot = (byte[]) buffer.Clone();
+                var expected = buffer.AsSpan(3, size).ToArray();
+                var sources = new Dictionary<string, ReadOnlyMemory<byte>>
+                {
+                    ["array"] = new ReadOnlyMemory<byte>(buffer, 3, size),
+                    ["manager"] = new NonArrayFileBytesMemoryManager(buffer).Memory.Slice(3, size)
+                };
+
+                foreach (var source in sources)
+                {
+                    var path = Path.Combine(directory, $"{source.Key}{size}.bin");
+                    // an existing longer file is truncated
+                    File.WriteAllBytes(path, BytesPayload(size + 50, 4));
+
+                    await File.WriteAllBytesAsync(path, source.Value);
+
+                    await Assert.That(File.ReadAllBytes(path).SequenceEqual(expected)).IsTrue();
+
+                    var missing = Path.Combine(directory, $"{source.Key}{size}.missing.bin");
+                    await File.WriteAllBytesAsync(missing, source.Value);
+
+                    await Assert.That(File.ReadAllBytes(missing).SequenceEqual(expected)).IsTrue();
+                }
+
+                await Assert.That(buffer.SequenceEqual(snapshot)).IsTrue();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task WriteAllBytesAsync_Memory_Default_CreatesEmptyFile()
+    {
+        var directory = CreateBytesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "empty.bin");
+            File.WriteAllBytes(path, [1, 2, 3]);
+
+            await File.WriteAllBytesAsync(path, default(ReadOnlyMemory<byte>));
+
+            await Assert.That(File.ReadAllBytes(path).Length).IsEqualTo(0);
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task AppendAllBytesAsync_Memory_AppendsOnlyTheSlice()
+    {
+        var directory = CreateBytesTestDirectory();
+        try
+        {
+            foreach (var size in bytesPayloadSizes)
+            {
+                var existing = BytesPayload(10, 5);
+                var buffer = BytesPayload(size + 7, 6);
+                var snapshot = (byte[]) buffer.Clone();
+                var expected = buffer.AsSpan(3, size).ToArray();
+                var sources = new Dictionary<string, ReadOnlyMemory<byte>>
+                {
+                    ["array"] = new ReadOnlyMemory<byte>(buffer, 3, size),
+                    ["manager"] = new NonArrayFileBytesMemoryManager(buffer).Memory.Slice(3, size)
+                };
+
+                foreach (var source in sources)
+                {
+                    var path = Path.Combine(directory, $"{source.Key}{size}.bin");
+
+                    // creates the file
+                    await File.AppendAllBytesAsync(path, new ReadOnlyMemory<byte>(existing));
+                    // appends to it, twice
+                    await File.AppendAllBytesAsync(path, source.Value);
+                    await File.AppendAllBytesAsync(path, source.Value);
+
+                    await Assert.That(File.ReadAllBytes(path).SequenceEqual(Concat(Concat(existing, expected), expected))).IsTrue();
+                }
+
+                await Assert.That(buffer.SequenceEqual(snapshot)).IsTrue();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task AppendAllBytesAsync_Memory_Default_LeavesContentUntouched()
+    {
+        var directory = CreateBytesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "empty.bin");
+            File.WriteAllBytes(path, [1, 2, 3]);
+
+            await File.AppendAllBytesAsync(path, default(ReadOnlyMemory<byte>));
+
+            await Assert.That(File.ReadAllBytes(path).SequenceEqual(new byte[] {1, 2, 3})).IsTrue();
+
+            var missing = Path.Combine(directory, "missing.bin");
+            await File.AppendAllBytesAsync(missing, default(ReadOnlyMemory<byte>));
+
+            await Assert.That(File.Exists(missing)).IsTrue();
+            await Assert.That(File.ReadAllBytes(missing).Length).IsEqualTo(0);
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task BytesMemoryOverloads_MissingDirectory_Throw()
+    {
+        var directory = CreateBytesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "missing", "file.bin");
+            ReadOnlyMemory<byte> bytes = new byte[] {1, 2, 3};
+
+            await Assert.That(async () => await File.WriteAllBytesAsync(path, bytes)).Throws<DirectoryNotFoundException>();
+            await Assert.That(async () => await File.AppendAllBytesAsync(path, bytes)).Throws<DirectoryNotFoundException>();
+            await Assert.That(() => File.AppendAllBytes(path, new byte[] {1, 2, 3}.AsSpan())).Throws<DirectoryNotFoundException>();
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+#endif
 }
