@@ -13,3 +13,4 @@ nul
 .claude/settings.local.json
 *TestResults*
 *.lnk
+/.claude/worktrees
