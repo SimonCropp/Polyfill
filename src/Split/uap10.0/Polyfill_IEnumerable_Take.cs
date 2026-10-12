@@ -98,6 +98,21 @@ static partial class Polyfill
 	}
 	static IEnumerable<TSource> TakeRangeIterator<TSource>(IEnumerable<TSource> source, int startIndex, int endIndex)
 	{
+		if (source is IList<TSource> list)
+		{
+			return TakeRangeListIterator(list, startIndex, endIndex);
+		}
+		return TakeRangeEnumerableIterator(source, startIndex, endIndex);
+	}
+	static IEnumerable<TSource> TakeRangeListIterator<TSource>(IList<TSource> source, int startIndex, int endIndex)
+	{
+		for (var index = startIndex; index < endIndex && index < source.Count; index++)
+		{
+			yield return source[index];
+		}
+	}
+	static IEnumerable<TSource> TakeRangeEnumerableIterator<TSource>(IEnumerable<TSource> source, int startIndex, int endIndex)
+	{
 		using var e = source.GetEnumerator();
 		var index = 0;
 		while (index < startIndex && e.MoveNext())
