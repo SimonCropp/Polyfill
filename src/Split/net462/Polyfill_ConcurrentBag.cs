@@ -9,9 +9,8 @@ static partial class Polyfill
 	/// </summary>
 	public static void Clear<T>(this ConcurrentBag<T> target)
 	{
-		while (!target.IsEmpty)
+		while (target.TryTake(out _))
 		{
-			target.TryTake(out _);
 		}
 	}
 }
