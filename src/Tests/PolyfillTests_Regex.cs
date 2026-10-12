@@ -52,6 +52,178 @@ partial class PolyfillTests
         return Task.CompletedTask;
     }
 
+    static string DescribeMatches(MatchCollection matches)
+    {
+        var results = new List<string>();
+        for (var index = 0; index < matches.Count; index++)
+        {
+            var match = matches[index];
+            results.Add($"{match.Index}:{match.Length}");
+        }
+
+        return string.Join(" ", results);
+    }
+
+    [Test]
+    public async Task EnumerateMatches_SameAsMatches()
+    {
+        (string pattern, RegexOptions options)[] patterns =
+        [
+            (@"\d+", RegexOptions.None),
+            (@"\w+", RegexOptions.None),
+            // empty matches, which have to advance the scan by one char
+            ("a*", RegexOptions.None),
+            ("", RegexOptions.None),
+            (@"\b", RegexOptions.None),
+            ("$", RegexOptions.None),
+            ("^", RegexOptions.Multiline),
+            // anchors and lookbehind see the text before startat
+            ("^a", RegexOptions.None),
+            (@"\Ga", RegexOptions.None),
+            ("(?<=a)b", RegexOptions.None),
+            ("(?<!a)b", RegexOptions.None),
+            ("ab|b", RegexOptions.IgnoreCase),
+            (@"\d+", RegexOptions.RightToLeft),
+            ("a*", RegexOptions.RightToLeft),
+            ("", RegexOptions.RightToLeft),
+            ("zzz", RegexOptions.None),
+        ];
+        string[] inputs =
+        [
+            "",
+            "a",
+            "a55a",
+            "12 345 6",
+            "aaa",
+            "abab ab\nab aab bab",
+            "no digits here",
+            "AB aB b",
+        ];
+        var failures = new List<string>();
+
+        foreach (var (pattern, options) in patterns)
+        {
+            var regex = new Regex(pattern, options);
+            foreach (var input in inputs)
+            {
+                var results = new List<string>();
+                foreach (var match in regex.EnumerateMatches(input.AsSpan()))
+                {
+                    results.Add($"{match.Index}:{match.Length}");
+                }
+
+                var expected = DescribeMatches(regex.Matches(input));
+                if (string.Join(" ", results) != expected)
+                {
+                    failures.Add($"'{pattern}' ({options}) on '{input}': '{string.Join(" ", results)}' expected '{expected}'");
+                }
+
+                for (var startAt = 0; startAt <= input.Length; startAt++)
+                {
+                    results.Clear();
+                    foreach (var match in regex.EnumerateMatches(input.AsSpan(), startAt))
+                    {
+                        results.Add($"{match.Index}:{match.Length}");
+                    }
+
+                    expected = DescribeMatches(regex.Matches(input, startAt));
+                    if (string.Join(" ", results) != expected)
+                    {
+                        failures.Add($"'{pattern}' ({options}) on '{input}' from {startAt}: '{string.Join(" ", results)}' expected '{expected}'");
+                    }
+                }
+            }
+        }
+
+        await Assert.That(failures).IsEmpty();
+    }
+
+    [Test]
+    public async Task EnumerateMatches_FindsMatchesLazily()
+    {
+        // The second match attempt backtracks catastrophically on runtimes without a non-backtracking
+        // optimization for it, and would hit the timeout. Reading only the first match must not run it.
+        var regex = new Regex("ab|(a+)+$", RegexOptions.None, TimeSpan.FromSeconds(5));
+        var input = "ab " + new string('a', 60) + "!";
+
+        var enumerator = regex.EnumerateMatches(input.AsSpan());
+        var moved = enumerator.MoveNext();
+        var index = enumerator.Current.Index;
+        var length = enumerator.Current.Length;
+
+        await Assert.That(moved).IsTrue();
+        await Assert.That(index).IsEqualTo(0);
+        await Assert.That(length).IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task EnumerateMatches_MoveNextAfterEnd()
+    {
+        var regex = new Regex(@"\d");
+        var enumerator = regex.EnumerateMatches("a1b2".AsSpan());
+
+        var first = enumerator.MoveNext();
+        var firstIndex = enumerator.Current.Index;
+        var second = enumerator.MoveNext();
+        var secondIndex = enumerator.Current.Index;
+        var third = enumerator.MoveNext();
+        var fourth = enumerator.MoveNext();
+
+        await Assert.That(first).IsTrue();
+        await Assert.That(firstIndex).IsEqualTo(1);
+        await Assert.That(second).IsTrue();
+        await Assert.That(secondIndex).IsEqualTo(3);
+        await Assert.That(third).IsFalse();
+        await Assert.That(fourth).IsFalse();
+    }
+
+    [Test]
+    public async Task EnumerateMatches_NoMatch()
+    {
+        var regex = new Regex(@"\d");
+        var enumerator = regex.EnumerateMatches("abc".AsSpan());
+
+        var first = enumerator.MoveNext();
+        var second = enumerator.MoveNext();
+
+        await Assert.That(first).IsFalse();
+        await Assert.That(second).IsFalse();
+    }
+
+    [Test]
+    public async Task EnumerateMatches_InvalidStartAt()
+    {
+        var regex = new Regex(@"\d");
+
+        await Assert.That(() =>
+        {
+            foreach (var match in regex.EnumerateMatches("abc".AsSpan(), -1))
+            {
+            }
+        }).Throws<ArgumentOutOfRangeException>();
+
+        // Past the end the BCL (net7 and up) yields no matches, where the polyfill has always thrown.
+        var count = 0;
+        var threw = false;
+        try
+        {
+            foreach (var match in regex.EnumerateMatches("ab1".AsSpan(), 4))
+            {
+                count++;
+            }
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            threw = true;
+        }
+
+        await Assert.That(count).IsEqualTo(0);
+        if (Environment.Version.Major < 7)
+        {
+            await Assert.That(threw).IsTrue();
+        }
+    }
+
     [Test]
     public async Task EnumerateMatchesStatic_WithOptions()
     {
