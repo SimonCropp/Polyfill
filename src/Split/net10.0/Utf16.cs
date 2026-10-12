@@ -22,6 +22,7 @@ static class Utf16
 	/// </summary>
 	public static int IndexOfInvalidSubsequence(ReadOnlySpan<char> value)
 	{
+		var run = 0;
 		for (var i = 0; i < value.Length; i++)
 		{
 			var c = value[i];
@@ -33,10 +34,21 @@ static class Utf16
 					return i;
 				}
 				i++;
+				run = 0;
 			}
 			else if (char.IsLowSurrogate(c))
 			{
 				return i;
+			}
+			else if (++run == 16)
+			{
+				var offset = value.Slice(i + 1).IndexOfAnyInRange('\uD800', '\uDFFF');
+				if (offset < 0)
+				{
+					return -1;
+				}
+				i += offset;
+				run = 0;
 			}
 		}
 		return -1;
