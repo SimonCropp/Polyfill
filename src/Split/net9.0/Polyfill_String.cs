@@ -52,13 +52,29 @@ static partial class Polyfill
 	/// <summary>
 	/// Returns a copy of this string converted to lowercase using ordinal casing rules.
 	/// </summary>
-	public static string ToLowerOrdinal(this string target) =>
-		ToOrdinalCase(target, toUpper: false);
+	public static string ToLowerOrdinal(this string target)
+	{
+		if (IsAsciiString(target))
+		{
+			return target.ToLowerInvariant();
+		}
+		return ToOrdinalCase(target, toUpper: false);
+	}
 	/// <summary>
 	/// Returns a copy of this string converted to uppercase using ordinal casing rules.
 	/// </summary>
-	public static string ToUpperOrdinal(this string target) =>
-		ToOrdinalCase(target, toUpper: true);
+	public static string ToUpperOrdinal(this string target)
+	{
+		if (IsAsciiString(target))
+		{
+			return target.ToUpperInvariant();
+		}
+		return ToOrdinalCase(target, toUpper: true);
+	}
+	static bool IsAsciiString(string value)
+	{
+		return Ascii.IsValid(value);
+	}
 	static string ToOrdinalCase(string target, bool toUpper)
 	{
 		if (target.Length == 0)
