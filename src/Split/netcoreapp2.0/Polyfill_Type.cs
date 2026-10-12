@@ -110,6 +110,10 @@ static partial class Polyfill
 	/// <summary>
 	/// Searches for the MemberInfo on the current Type that matches the specified MemberInfo.
 	/// </summary>
+	[UnconditionalSuppressMessage(
+		"ReflectionAnalysis",
+		"IL2070:UnrecognizedReflectionPattern",
+		Justification = "This is finding the MemberInfo with the same MetadataToken as specified MemberInfo. If the specified MemberInfo exists and wasn't trimmed, then the current Type's MemberInfo couldn't have been trimmed.")]
 	public static MemberInfo GetMemberWithSameMetadataDefinitionAs(
 		this Type type,
 		MemberInfo member)
