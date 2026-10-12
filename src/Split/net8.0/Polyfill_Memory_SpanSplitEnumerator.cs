@@ -72,8 +72,7 @@ static partial class Polyfill
 					break;
 				case SpanSplitEnumeratorMode.Any:
 					separatorLength = 1;
-					separatorIndex = _source.Slice(_startNext)
-						.IndexOfAny(_separatorBuffer);
+					separatorIndex = IndexOfAnySeparator(_source.Slice(_startNext), _separatorBuffer);
 					break;
 				case SpanSplitEnumeratorMode.Sequence:
 					separatorIndex = _source.Slice(_startNext).IndexOf(_separatorBuffer);
@@ -111,6 +110,14 @@ static partial class Polyfill
 		const string whitespaces = "\t\n\v\f\r\u0020\u0085\u00a0\u1680\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u2028\u2029\u202f\u205f\u3000";
 		public static readonly SearchValues<char> WhiteSpaceChars =
 			SearchValues.Create(whitespaces.AsSpan());
+	}
+	/// <summary>
+	/// Finds the first element of <paramref name="span"/> that equals any of <paramref name="separators"/>.
+	/// </summary>
+	static int IndexOfAnySeparator<T>(ReadOnlySpan<T> span, ReadOnlySpan<T> separators)
+		where T : IEquatable<T>
+	{
+		return span.IndexOfAny(separators);
 	}
 }
 #endif

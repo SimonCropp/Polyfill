@@ -180,6 +180,91 @@ partial class PolyfillTests
         await Assert.That(SliceOf(",,a,,b,,c", ranges, count)).IsEquivalentTo(new[] {"a", "b,,c"});
     }
 
+    [Test]
+    public async Task SplitAny_Chars_SeparatorCounts_MatchStringSplit()
+    {
+        string[] inputs =
+        [
+            "a",
+            ",",
+            "/",
+            "abc",
+            "a,b;c|d-e+f/g",
+            "a/b/c/d",
+            "/a/b/",
+            ",;|-+/",
+            "//,,;;",
+            "a,,b;;c//d",
+            "no separators here",
+            "trailing/",
+            ",leading",
+        ];
+        const string allSeparators = ",;|-+/";
+        var failures = new List<string>();
+
+        // 1 to 3 separators take the fixed arity path below net7, 4 or more are matched a char at a time
+        for (var separatorCount = 1; separatorCount <= allSeparators.Length; separatorCount++)
+        {
+            char[][] separatorSets =
+            [
+                allSeparators.Substring(0, separatorCount).ToCharArray(),
+                allSeparators.Substring(allSeparators.Length - separatorCount).ToCharArray()
+            ];
+            foreach (var separators in separatorSets)
+            {
+                foreach (var input in inputs)
+                {
+                    foreach (var options in new[] {StringSplitOptions.None, StringSplitOptions.RemoveEmptyEntries})
+                    {
+                        var expected = input.Split(separators, options);
+                        var ranges = new Range[input.Length + 2];
+                        var count = MemoryExtensions.SplitAny(input.AsSpan(), ranges, separators, options);
+                        var actual = SliceOf(input, ranges, count);
+                        if (string.Join("\n", actual) != string.Join("\n", expected) ||
+                            count != expected.Length)
+                        {
+                            failures.Add($"'{input}' split on '{new string(separators)}' ({options})");
+                        }
+                    }
+                }
+            }
+        }
+
+        await Assert.That(failures).IsEmpty();
+    }
+
+    [Test]
+    public async Task SplitAny_Chars_LastSlotGetsRemainder()
+    {
+        var ranges = new Range[3];
+        var count = MemoryExtensions.SplitAny("a,b;c|d-e".AsSpan(), ranges, ",;|-".AsSpan());
+        await Assert.That(count).IsEqualTo(3);
+        await Assert.That(SliceOf("a,b;c|d-e", ranges, count)).IsEquivalentTo(new[] {"a", "b", "c|d-e"});
+    }
+
+    [Test]
+    public async Task SplitAny_Chars_ManyWords()
+    {
+        var builder = new StringBuilder();
+        for (var index = 0; index < 4000; index++)
+        {
+            builder.Append("word").Append(index).Append(' ');
+        }
+
+        var input = builder.ToString();
+        var ranges = new Range[5000];
+
+        var twoSeparators = MemoryExtensions.SplitAny(input.AsSpan(), ranges, "\t ".AsSpan());
+        var first = input[ranges[0]];
+        var last = input[ranges[3999]];
+        var fiveSeparators = MemoryExtensions.SplitAny(input.AsSpan(), ranges, "\t;,| ".AsSpan());
+
+        await Assert.That(twoSeparators).IsEqualTo(4001);
+        await Assert.That(fiveSeparators).IsEqualTo(4001);
+        await Assert.That(first).IsEqualTo("word0");
+        await Assert.That(last).IsEqualTo("word3999");
+    }
+
     static string[] SliceOf(string source, Range[] ranges, int count)
     {
         var result = new string[count];

@@ -17,6 +17,8 @@ static partial class Polyfill
 		Sequence,
 		/// <summary>The separator is an empty sequence, such that no splits should be performed.</summary>
 		EmptySequence,
+		/// <summary>No separators were provided for a span of <see cref="char"/>, so each whitespace character is a separator.</summary>
+		WhiteSpace,
 	}
 }
 #endif
