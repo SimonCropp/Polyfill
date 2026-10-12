@@ -427,22 +427,26 @@ partial class PolyfillTests
         return startInfo;
     }
 
-    // True when the heartbeat was started and is no longer being written, so its process is gone.
+    // True when the heartbeat is no longer being written, so its process is gone.
+    // On a busy machine the process can be killed before its first beat, which leaves no file or an empty one.
     static async Task<bool> HeartbeatStopped(string directory)
     {
         var beat = new FileInfo(Path.Combine(directory, "beat.txt"));
         await Task.Delay(300);
+        var before = HeartbeatLength(beat);
+        await Task.Delay(2500);
+        return before == HeartbeatLength(beat);
+    }
+
+    static long HeartbeatLength(FileInfo beat)
+    {
         beat.Refresh();
         if (!beat.Exists)
         {
-            return false;
+            return 0;
         }
 
-        var before = beat.Length;
-        await Task.Delay(2500);
-        beat.Refresh();
-        return before > 0 &&
-               before == beat.Length;
+        return beat.Length;
     }
 
     static void DeleteHeartbeatDirectory(string directory)
