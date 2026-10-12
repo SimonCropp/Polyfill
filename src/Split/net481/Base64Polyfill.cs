@@ -41,19 +41,19 @@ static partial class Polyfill
 		/// </summary>
 		public static int EncodeToChars(ReadOnlySpan<byte> source, Span<char> destination)
 		{
-			var encoded = EncodeBase64(source);
-			if (encoded.Length > destination.Length)
+			if (!TryEncodeBase64(source, destination, out var charsWritten))
 			{
 				throw new ArgumentException("Destination is too small.", nameof(destination));
 			}
-			encoded.AsSpan().CopyTo(destination);
-			return encoded.Length;
+			return charsWritten;
 		}
 		/// <summary>
 		/// Encodes the span of binary data into UTF-16 encoded text represented as base-64.
 		/// </summary>
-		public static char[] EncodeToChars(ReadOnlySpan<byte> source) =>
-			EncodeBase64(source).ToCharArray();
+		public static char[] EncodeToChars(ReadOnlySpan<byte> source)
+		{
+			return EncodeBase64(source).ToCharArray();
+		}
 		/// <summary>
 		/// Encodes the span of binary data into UTF-16 encoded text represented as base-64.
 		/// </summary>
@@ -70,29 +70,15 @@ static partial class Polyfill
 		/// <summary>
 		/// Tries to encode the span of binary data into UTF-16 encoded text represented as base-64.
 		/// </summary>
-		public static bool TryEncodeToChars(ReadOnlySpan<byte> source, Span<char> destination, out int charsWritten)
-		{
-			var encoded = EncodeBase64(source);
-			if (encoded.Length > destination.Length)
-			{
-				charsWritten = 0;
-				return false;
-			}
-			encoded.AsSpan().CopyTo(destination);
-			charsWritten = encoded.Length;
-			return true;
-		}
+		public static bool TryEncodeToChars(ReadOnlySpan<byte> source, Span<char> destination, out int charsWritten) =>
+			TryEncodeBase64(source, destination, out charsWritten);
 		/// <summary>
 		/// Encodes the span of binary data into a byte array of UTF-8 encoded text represented as base-64.
 		/// </summary>
 		public static byte[] EncodeToUtf8(ReadOnlySpan<byte> source)
 		{
-			var encoded = EncodeBase64(source);
-			var result = new byte[encoded.Length];
-			for (var i = 0; i < encoded.Length; i++)
-			{
-				result[i] = (byte) encoded[i];
-			}
+			var result = new byte[(source.Length + 2) / 3 * 4];
+			Base64.EncodeToUtf8(source, result, out _, out _);
 			return result;
 		}
 		/// <summary>
@@ -105,13 +91,11 @@ static partial class Polyfill
 		/// </summary>
 		public static int DecodeFromChars(ReadOnlySpan<char> source, Span<byte> destination)
 		{
-			var decoded = DecodeBase64(source);
-			if (decoded.Length > destination.Length)
+			if (!TryDecodeBase64(source, destination, out var bytesWritten))
 			{
 				throw new ArgumentException("Destination is too small.", nameof(destination));
 			}
-			decoded.CopyTo(destination);
-			return decoded.Length;
+			return bytesWritten;
 		}
 		/// <summary>
 		/// Decodes the span of UTF-16 encoded text represented as base-64 into binary data.
@@ -134,18 +118,8 @@ static partial class Polyfill
 		/// <summary>
 		/// Tries to decode the span of UTF-16 encoded text represented as base-64 into binary data.
 		/// </summary>
-		public static bool TryDecodeFromChars(ReadOnlySpan<char> source, Span<byte> destination, out int bytesWritten)
-		{
-			var decoded = DecodeBase64(source);
-			if (decoded.Length > destination.Length)
-			{
-				bytesWritten = 0;
-				return false;
-			}
-			decoded.CopyTo(destination);
-			bytesWritten = decoded.Length;
-			return true;
-		}
+		public static bool TryDecodeFromChars(ReadOnlySpan<char> source, Span<byte> destination, out int bytesWritten) =>
+			TryDecodeBase64(source, destination, out bytesWritten);
 		/// <summary>
 		/// Decodes the span of UTF-8 encoded text represented as base-64 into binary data.
 		/// </summary>
@@ -162,10 +136,46 @@ static partial class Polyfill
 			}
 			return System.Convert.FromBase64CharArray(chars, 0, chars.Length);
 		}
-		static string EncodeBase64(ReadOnlySpan<byte> source) =>
-			source.IsEmpty ? string.Empty : System.Convert.ToBase64String(source.ToArray());
-		static byte[] DecodeBase64(ReadOnlySpan<char> source) =>
-			source.IsEmpty ? Array.Empty<byte>() : System.Convert.FromBase64CharArray(source.ToArray(), 0, source.Length);
+		static string EncodeBase64(ReadOnlySpan<byte> source)
+		{
+			if (source.IsEmpty)
+			{
+				return string.Empty;
+			}
+			return System.Convert.ToBase64String(source.ToArray());
+		}
+		static bool TryEncodeBase64(ReadOnlySpan<byte> source, Span<char> destination, out int charsWritten)
+		{
+			var encoded = EncodeBase64(source);
+			if (encoded.Length > destination.Length)
+			{
+				charsWritten = 0;
+				return false;
+			}
+			encoded.AsSpan().CopyTo(destination);
+			charsWritten = encoded.Length;
+			return true;
+		}
+		static byte[] DecodeBase64(ReadOnlySpan<char> source)
+		{
+			if (source.IsEmpty)
+			{
+				return Array.Empty<byte>();
+			}
+			return System.Convert.FromBase64CharArray(source.ToArray(), 0, source.Length);
+		}
+		static bool TryDecodeBase64(ReadOnlySpan<char> source, Span<byte> destination, out int bytesWritten)
+		{
+			var decoded = DecodeBase64(source);
+			if (decoded.Length > destination.Length)
+			{
+				bytesWritten = 0;
+				return false;
+			}
+			decoded.CopyTo(destination);
+			bytesWritten = decoded.Length;
+			return true;
+		}
 	}
 }
 #endif
