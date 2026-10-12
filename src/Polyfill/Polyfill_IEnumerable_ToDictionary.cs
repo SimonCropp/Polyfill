@@ -16,7 +16,18 @@ static partial class Polyfill
         IEqualityComparer<TKey>? comparer = null)
         where TKey : notnull
     {
-        var result = new Dictionary<TKey, TValue>(comparer);
+        // Size the dictionary once when the count is known, instead of growing it while adding
+        var capacity = 0;
+        if (source is ICollection<KeyValuePair<TKey, TValue>> collection)
+        {
+            capacity = collection.Count;
+        }
+        else if (source is IReadOnlyCollection<KeyValuePair<TKey, TValue>> readOnlyCollection)
+        {
+            capacity = readOnlyCollection.Count;
+        }
+
+        var result = new Dictionary<TKey, TValue>(capacity, comparer);
         foreach (var pair in source)
         {
             result.Add(pair.Key, pair.Value);
