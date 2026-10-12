@@ -61,6 +61,8 @@ static partial class Polyfill
 		}
 		return result;
 	}
+	[ThreadStatic]
+	static byte[]? randomNextInt64Buffer;
 	/// <summary>
 	/// Returns a non-negative random integer.
 	/// </summary>
@@ -87,11 +89,11 @@ static partial class Polyfill
 		var range = unchecked((ulong)(maxValue - minValue));
 		var limit = ulong.MaxValue - ulong.MaxValue % range;
 		ulong result;
+		var buffer = randomNextInt64Buffer ??= new byte[8];
 		do
 		{
-			var buf = new byte[8];
-			target.NextBytes(buf);
-			result = BitConverter.ToUInt64(buf, 0);
+			target.NextBytes(buffer);
+			result = BitConverter.ToUInt64(buffer, 0);
 		} while (result >= limit);
 		return unchecked((long)(result % range) + minValue);
 	}
