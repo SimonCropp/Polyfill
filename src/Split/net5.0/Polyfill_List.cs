@@ -13,10 +13,55 @@ static partial class Polyfill
 	/// <summary>Adds the elements of the specified span to the end of the <see cref="List{T}"/>.</summary>
 	public static void AddRange<T>(this List<T> target, ReadOnlySpan<T> source)
 	{
+		if (source.IsEmpty)
+		{
+			return;
+		}
+		var length = source.Length;
+		if (length >= blockCopyThreshold
+		   )
+		{
+			var pool = System.Buffers.ArrayPool<T>.Shared;
+			var buffer = pool.Rent(length);
+			try
+			{
+				source.CopyTo(buffer);
+				target.AddRange(new ArraySegment<T>(buffer, 0, length));
+			}
+			finally
+			{
+				ReturnToPool(pool, buffer, length);
+			}
+			return;
+		}
+		var required = target.Count + length;
+		var capacity = target.Capacity;
+		if (required > capacity)
+		{
+			var newCapacity = capacity * 2;
+			if ((uint) newCapacity > 0x7FEFFFFF)
+			{
+				newCapacity = 0x7FEFFFFF;
+			}
+			if (newCapacity < required)
+			{
+				newCapacity = required;
+			}
+			target.Capacity = newCapacity;
+		}
 		foreach (var item in source)
 		{
 			target.Add(item);
 		}
+	}
+	const int blockCopyThreshold = 64;
+	static void ReturnToPool<T>(System.Buffers.ArrayPool<T> pool, T[] buffer, int length)
+	{
+		if (!typeof(T).IsPrimitive)
+		{
+			Array.Clear(buffer, 0, length);
+		}
+		pool.Return(buffer);
 	}
 	/// <summary>Inserts the elements of a span into the <see cref="List{T}"/> at the specified index.</summary>
 	public static void InsertRange<T>(this List<T> target, int index, ReadOnlySpan<T> source)
@@ -58,10 +103,7 @@ static partial class Polyfill
 		{
 			throw new ArgumentException("Destination is too short.", nameof(destination));
 		}
-		for (var index = 0; index < target.Count; index++)
-		{
-			destination[index] = target[index];
-		}
+		System.Runtime.InteropServices.CollectionsMarshal.AsSpan(target).CopyTo(destination);
 	}
 #endif
 	/// <summary>
