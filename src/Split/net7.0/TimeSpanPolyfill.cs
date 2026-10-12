@@ -19,6 +19,49 @@ static partial class Polyfill
 		}
 		return new((long)ticks);
 	}
+	const long MaxFastPathTicks = long.MaxValue / 8;
+	static bool IsWithin(long value, long bound) =>
+		value >= -bound && value <= bound;
+	static TimeSpan FromComponents(long days, long hours, long minutes, long seconds, long milliseconds, long microseconds)
+	{
+		if (IsWithin(days, MaxFastPathTicks / TimeSpan.TicksPerDay) &&
+			IsWithin(hours, MaxFastPathTicks / TimeSpan.TicksPerHour) &&
+			IsWithin(minutes, MaxFastPathTicks / TimeSpan.TicksPerMinute) &&
+			IsWithin(seconds, MaxFastPathTicks / TimeSpan.TicksPerSecond) &&
+			IsWithin(milliseconds, MaxFastPathTicks / TimeSpan.TicksPerMillisecond) &&
+			IsWithin(microseconds, MaxFastPathTicks / MicrosecondsToTicks))
+		{
+			return new(
+				days * TimeSpan.TicksPerDay +
+				hours * TimeSpan.TicksPerHour +
+				minutes * TimeSpan.TicksPerMinute +
+				seconds * TimeSpan.TicksPerSecond +
+				milliseconds * TimeSpan.TicksPerMillisecond +
+				microseconds * MicrosecondsToTicks);
+		}
+		decimal total = microseconds;
+		if (days != 0)
+		{
+			total += (decimal)days * MicrosecondsPerDay;
+		}
+		if (hours != 0)
+		{
+			total += (decimal)hours * MicrosecondsPerHour;
+		}
+		if (minutes != 0)
+		{
+			total += (decimal)minutes * MicrosecondsPerMinute;
+		}
+		if (seconds != 0)
+		{
+			total += (decimal)seconds * MicrosecondsPerSecond;
+		}
+		if (milliseconds != 0)
+		{
+			total += (decimal)milliseconds * MicrosecondsPerMillisecond;
+		}
+		return TicksFromMicroseconds(total);
+	}
 	extension(TimeSpan)
 	{
 		/// <summary>
@@ -85,51 +128,31 @@ static partial class Polyfill
 		/// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of days, hours, minutes, seconds, milliseconds, and microseconds.
 		/// </summary>
 		public static TimeSpan FromDays(int days, int hours = 0, long minutes = 0, long seconds = 0, long milliseconds = 0, long microseconds = 0) =>
-			TicksFromMicroseconds(
-				(decimal)days * MicrosecondsPerDay +
-				(decimal)hours * MicrosecondsPerHour +
-				(decimal)minutes * MicrosecondsPerMinute +
-				(decimal)seconds * MicrosecondsPerSecond +
-				(decimal)milliseconds * MicrosecondsPerMillisecond +
-				microseconds);
+			FromComponents(days, hours, minutes, seconds, milliseconds, microseconds);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of hours, minutes, seconds, milliseconds, and microseconds.
 		/// </summary>
 		public static TimeSpan FromHours(int hours, long minutes = 0, long seconds = 0, long milliseconds = 0, long microseconds = 0) =>
-			TicksFromMicroseconds(
-				(decimal)hours * MicrosecondsPerHour +
-				(decimal)minutes * MicrosecondsPerMinute +
-				(decimal)seconds * MicrosecondsPerSecond +
-				(decimal)milliseconds * MicrosecondsPerMillisecond +
-				microseconds);
+			FromComponents(0, hours, minutes, seconds, milliseconds, microseconds);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of minutes, seconds, milliseconds, and microseconds.
 		/// </summary>
 		public static TimeSpan FromMinutes(long minutes, long seconds = 0, long milliseconds = 0, long microseconds = 0) =>
-			TicksFromMicroseconds(
-				(decimal)minutes * MicrosecondsPerMinute +
-				(decimal)seconds * MicrosecondsPerSecond +
-				(decimal)milliseconds * MicrosecondsPerMillisecond +
-				microseconds);
+			FromComponents(0, 0, minutes, seconds, milliseconds, microseconds);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of seconds, milliseconds, and microseconds.
 		/// </summary>
 		public static TimeSpan FromSeconds(long seconds, long milliseconds = 0, long microseconds = 0) =>
-			TicksFromMicroseconds(
-				(decimal)seconds * MicrosecondsPerSecond +
-				(decimal)milliseconds * MicrosecondsPerMillisecond +
-				microseconds);
+			FromComponents(0, 0, 0, seconds, milliseconds, microseconds);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of milliseconds and microseconds.
 		/// </summary>
 		public static TimeSpan FromMilliseconds(long milliseconds, long microseconds = 0) =>
-			TicksFromMicroseconds(
-				(decimal)milliseconds * MicrosecondsPerMillisecond +
-				microseconds);
+			FromComponents(0, 0, 0, 0, milliseconds, microseconds);
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of microseconds.
 		/// </summary>
 		public static TimeSpan FromMicroseconds(long microseconds) =>
-			TicksFromMicroseconds(microseconds);
+			FromComponents(0, 0, 0, 0, 0, microseconds);
 	}
 }
