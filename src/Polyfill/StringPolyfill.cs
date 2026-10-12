@@ -96,7 +96,7 @@ static partial class Polyfill
 
             return result;
 #else
-            return Join(separator, values.ToArray());
+            return string.Join(separator, values.ToArray());
 #endif
         }
 
