@@ -445,7 +445,12 @@ static partial class Polyfill
         }
 
         // the parameterless WaitForExit is the only public way to wait for the end of that output
-        var drain = Task.Run(() => target.WaitForExit());
+        var started = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var drain = Task.Run(() =>
+        {
+            started.TrySetResult(null);
+            target.WaitForExit();
+        });
         if (!cancellationToken.CanBeCanceled)
         {
             await drain;
@@ -458,7 +463,9 @@ static partial class Polyfill
             if (await Task.WhenAny(drain, canceled.Task) != drain)
             {
                 // Cancellation only applies while output is still pending. When there is none the drain is
-                // about to finish, so give it the chance to rather than report a cancellation.
+                // about to finish, so give it the chance to rather than report a cancellation. That chance
+                // is measured from when the drain starts running, which a busy thread pool can delay.
+                await Task.WhenAny(drain, started.Task);
                 await Task.WhenAny(drain, Task.Delay(100));
                 if (!drain.IsCompleted)
                 {

@@ -71,11 +71,11 @@ partial class PolyfillTests
 
     static async Task CancelPendingConnect(Func<TcpClient, int, Cancel, ValueTask> connect)
     {
-        // A loopback port with nothing listening. On Windows the connect stays pending while it is retried
-        var listener = new TcpListener(IPAddress.Loopback, 0);
-        listener.Start();
-        var port = ((IPEndPoint) listener.LocalEndpoint).Port;
-        listener.Stop();
+        // A loopback port with nothing listening. On Windows the connect stays pending while it is retried.
+        // The port stays bound for the whole test, so a listener in a test running in parallel cannot be given it
+        using var reserved = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        reserved.Bind(new IPEndPoint(IPAddress.Loopback, 0));
+        var port = ((IPEndPoint) reserved.LocalEndPoint!).Port;
 
         using var source = new CancellationTokenSource();
         using var client = new TcpClient();
