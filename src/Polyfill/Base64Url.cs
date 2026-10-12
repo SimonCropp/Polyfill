@@ -56,9 +56,10 @@ static class Base64Url
 
         var length = EncodedLength(source.Length);
 
-        if (length <= 256)
+        // 256 bytes of stack and no more: a larger buffer that is filled and then turned into a string measures markedly slower
+        if (length <= 128)
         {
-            Span<char> buffer = stackalloc char[256];
+            Span<char> buffer = stackalloc char[128];
             buffer = buffer.Slice(0, length);
             Encode(source, buffer);
             return buffer.ToString();

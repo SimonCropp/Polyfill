@@ -43,9 +43,9 @@ static class Base64Url
 			return string.Empty;
 		}
 		var length = EncodedLength(source.Length);
-		if (length <= 256)
+		if (length <= 128)
 		{
-			Span<char> buffer = stackalloc char[256];
+			Span<char> buffer = stackalloc char[128];
 			buffer = buffer.Slice(0, length);
 			Encode(source, buffer);
 			return buffer.ToString();

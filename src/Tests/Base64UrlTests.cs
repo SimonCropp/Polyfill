@@ -509,6 +509,26 @@ public class Base64UrlTests
     }
 
     [Test]
+    [Arguments(93)]
+    [Arguments(94)]
+    [Arguments(95)]
+    [Arguments(96)]
+    [Arguments(97)]
+    [Arguments(98)]
+    [Arguments(191)]
+    [Arguments(192)]
+    [Arguments(193)]
+    public async Task EncodeToString_AroundStackBufferSize(int length)
+    {
+        // 96 bytes encode to the 128 chars that are built on the stack
+        var source = PatternBytes(length);
+        var first = Base64Url.EncodeToString(source);
+        var second = Base64Url.EncodeToString(source);
+        await Assert.That(first).IsEqualTo(ReferenceEncode(source));
+        await Assert.That(second).IsEqualTo(first);
+    }
+
+    [Test]
     public async Task EncodeToString_Large()
     {
         var source = PatternBytes(100_000);
