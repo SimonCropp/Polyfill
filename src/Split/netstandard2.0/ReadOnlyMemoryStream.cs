@@ -29,6 +29,7 @@ sealed class ReadOnlyMemoryStream :
 	ReadOnlyMemory<byte> memory;
 	long position;
 	bool disposed;
+	Task<int>? lastReadTask;
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ReadOnlyMemoryStream"/> class over the specified <see cref="ReadOnlyMemory{Byte}"/>.
 	/// </summary>
@@ -102,7 +103,18 @@ sealed class ReadOnlyMemoryStream :
 		{
 			return Task.FromCanceled<int>(cancellationToken);
 		}
-		return Task.FromResult(Read(buffer, offset, count));
+		return ReadTask(Read(buffer, offset, count));
+	}
+	Task<int> ReadTask(int read)
+	{
+		var task = lastReadTask;
+		if (task != null && task.Result == read)
+		{
+			return task;
+		}
+		task = Task.FromResult(read);
+		lastReadTask = task;
+		return task;
 	}
 	int Remaining(int count)
 	{
