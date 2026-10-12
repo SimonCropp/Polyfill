@@ -32,8 +32,7 @@ static partial class Polyfill
 			_source = source;
 			if (typeof(T) == typeof(char) && separators.Length == 0)
 			{
-				_separatorBuffer = WhiteSpaceChars.AsSpan<T>();
-				_splitMode = SpanSplitEnumeratorMode.Any;
+				_splitMode = SpanSplitEnumeratorMode.WhiteSpace;
 				return;
 			}
 			_separatorBuffer = separators;
@@ -65,8 +64,11 @@ static partial class Polyfill
 					break;
 				case SpanSplitEnumeratorMode.Any:
 					separatorLength = 1;
-					separatorIndex = _source.Slice(_startNext)
-						.IndexOfAny(_separatorBuffer);
+					separatorIndex = IndexOfAnySeparator(_source.Slice(_startNext), _separatorBuffer);
+					break;
+				case SpanSplitEnumeratorMode.WhiteSpace:
+					separatorIndex = IndexOfWhiteSpaceSeparator(_source.Slice(_startNext));
+					separatorLength = 1;
 					break;
 				case SpanSplitEnumeratorMode.Sequence:
 					separatorIndex = _source.Slice(_startNext).IndexOf(_separatorBuffer);
@@ -108,6 +110,37 @@ static partial class Polyfill
 					.ToArray();
 			}
 		}
+	}
+	/// <summary>
+	/// Finds the first element of <paramref name="span"/> that equals any of <paramref name="separators"/>.
+	/// </summary>
+	static int IndexOfAnySeparator<T>(ReadOnlySpan<T> span, ReadOnlySpan<T> separators)
+		where T : IEquatable<T>
+	{
+		return span.IndexOfAny(separators);
+	}
+	/// <summary>
+	/// Finds the first whitespace separator in a span of <see cref="char"/>.
+	/// </summary>
+	static int IndexOfWhiteSpaceSeparator<T>(ReadOnlySpan<T> span)
+	{
+		for (var index = 0; index < span.Length; index++)
+		{
+			if (IsWhiteSpaceSeparator((char)(object)span[index]!))
+			{
+				return index;
+			}
+		}
+		return -1;
+	}
+	static bool IsWhiteSpaceSeparator(char value)
+	{
+		if (value < '\u0080')
+		{
+			return value == ' ' ||
+				   value is >= '\t' and <= '\r';
+		}
+		return value is '\u0085' or '\u00A0' or '\u1680' or >= '\u2000' and <= '\u200A' or '\u2028' or '\u2029' or '\u202F' or '\u205F' or '\u3000';
 	}
 }
 #endif

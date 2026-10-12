@@ -62,8 +62,7 @@ static partial class Polyfill
                 _searchValues = Unsafe.As<SearchValues<T>>(WhiteSpaceChars);
                 _splitMode = SpanSplitEnumeratorMode.SearchValues;
 #else
-                _separatorBuffer = WhiteSpaceChars.AsSpan<T>();
-                _splitMode = SpanSplitEnumeratorMode.Any;
+                _splitMode = SpanSplitEnumeratorMode.WhiteSpace;
 #endif
                 return;
             }
@@ -127,9 +126,15 @@ static partial class Polyfill
                         break;
                     }
 #endif
-                    separatorIndex = _source.Slice(_startNext)
-                        .IndexOfAny(_separatorBuffer);
+                    separatorIndex = IndexOfAnySeparator(_source.Slice(_startNext), _separatorBuffer);
                     break;
+
+#if !NET8_0
+                case SpanSplitEnumeratorMode.WhiteSpace:
+                    separatorIndex = IndexOfWhiteSpaceSeparator(_source.Slice(_startNext));
+                    separatorLength = 1;
+                    break;
+#endif
 
                 case SpanSplitEnumeratorMode.Sequence:
                     separatorIndex = _source.Slice(_startNext).IndexOf(_separatorBuffer);
@@ -195,5 +200,84 @@ static partial class Polyfill
         }
 #endif
     }
+
+    /// <summary>
+    /// Finds the first element of <paramref name="span"/> that equals any of <paramref name="separators"/>.
+    /// </summary>
+    static int IndexOfAnySeparator<T>(ReadOnlySpan<T> span, ReadOnlySpan<T> separators)
+        where T : IEquatable<T>
+    {
+#if NET7_0_OR_GREATER
+        return span.IndexOfAny(separators);
+#else
+        // Before net7 IndexOfAny(span, values) can scan the whole of span once per value, which makes a split
+        // loop quadratic whenever one of the values is rare. The fixed arity overloads, and the walk below,
+        // visit each element once.
+        if (default(T) != null)
+        {
+            switch (separators.Length)
+            {
+                case 1:
+                    return span.IndexOf(separators[0]);
+                case 2:
+                    return span.IndexOfAny(separators[0], separators[1]);
+                case 3:
+                    return span.IndexOfAny(separators[0], separators[1], separators[2]);
+            }
+        }
+
+        for (var index = 0; index < span.Length; index++)
+        {
+            var item = span[index];
+            for (var separatorIndex = 0; separatorIndex < separators.Length; separatorIndex++)
+            {
+                var separator = separators[separatorIndex];
+                if (item is null)
+                {
+                    if (separator is null)
+                    {
+                        return index;
+                    }
+                }
+                else if (item.Equals(separator))
+                {
+                    return index;
+                }
+            }
+        }
+
+        return -1;
+#endif
+    }
+
+#if !NET8_0
+    /// <summary>
+    /// Finds the first whitespace separator in a span of <see cref="char"/>.
+    /// </summary>
+    static int IndexOfWhiteSpaceSeparator<T>(ReadOnlySpan<T> span)
+    {
+        for (var index = 0; index < span.Length; index++)
+        {
+            if (IsWhiteSpaceSeparator((char)(object)span[index]!))
+            {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
+    // The same characters as SpanSplitEnumerator<T>.whitespaces. Not char.IsWhiteSpace, which also accepts U+001C to U+001F.
+    static bool IsWhiteSpaceSeparator(char value)
+    {
+        if (value < '\u0080')
+        {
+            return value == ' ' ||
+                   value is >= '\t' and <= '\r';
+        }
+
+        return value is '\u0085' or '\u00A0' or '\u1680' or >= '\u2000' and <= '\u200A' or '\u2028' or '\u2029' or '\u202F' or '\u205F' or '\u3000';
+    }
+#endif
 }
 #endif

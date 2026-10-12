@@ -230,7 +230,7 @@ static partial class Polyfill
                     break;
 
                 case SplitRangesMode.AnyChars:
-                    idx = slice.IndexOfAny(charSeparators);
+                    idx = IndexOfAnySeparator(slice, charSeparators);
                     break;
 
                 case SplitRangesMode.AnyWhitespace:

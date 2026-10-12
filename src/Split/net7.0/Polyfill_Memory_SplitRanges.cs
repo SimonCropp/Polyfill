@@ -187,7 +187,7 @@ static partial class Polyfill
 					len = charSeparators.Length;
 					break;
 				case SplitRangesMode.AnyChars:
-					idx = slice.IndexOfAny(charSeparators);
+					idx = IndexOfAnySeparator(slice, charSeparators);
 					break;
 				case SplitRangesMode.AnyWhitespace:
 					for (var i = 0; i < slice.Length; i++)
