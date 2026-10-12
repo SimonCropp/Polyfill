@@ -30,6 +30,7 @@ sealed class WritableMemoryStream :
 	long length;
 	long position;
 	bool disposed;
+	Task<int>? lastReadTask;
 	/// <summary>
 	/// Initializes a new instance of the <see cref="WritableMemoryStream"/> class over the specified <see cref="Memory{Byte}"/>.
 	/// </summary>
@@ -131,7 +132,18 @@ sealed class WritableMemoryStream :
 		{
 			return Task.FromCanceled<int>(cancellationToken);
 		}
-		return Task.FromResult(Read(buffer, offset, count));
+		return ReadTask(Read(buffer, offset, count));
+	}
+	Task<int> ReadTask(int read)
+	{
+		var task = lastReadTask;
+		if (task != null && task.Result == read)
+		{
+			return task;
+		}
+		task = Task.FromResult(read);
+		lastReadTask = task;
+		return task;
 	}
 	/// <inheritdoc/>
 	public override void Write(byte[] buffer, int offset, int count)
