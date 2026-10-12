@@ -29,7 +29,9 @@ static partial class Polyfill
 		public static byte[] HashData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> source)
 		{
 			using var hasher = CryptographicOperationsCreateHashAlgorithm(hashAlgorithm);
-			return hasher.ComputeHash(source.ToArray());
+			var hash = new byte[hasher.HashSize / 8];
+			hasher.TryComputeHash(source, hash, out _);
+			return hash;
 		}
 		/// <summary>
 		/// Computes the hash of data into the provided destination using the specified algorithm.
@@ -73,15 +75,7 @@ static partial class Polyfill
 		public static bool TryHashData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
 		{
 			using var hasher = CryptographicOperationsCreateHashAlgorithm(hashAlgorithm);
-			var hash = hasher.ComputeHash(source.ToArray());
-			if (destination.Length < hash.Length)
-			{
-				bytesWritten = 0;
-				return false;
-			}
-			hash.CopyTo(destination);
-			bytesWritten = hash.Length;
-			return true;
+			return hasher.TryComputeHash(source, destination, out bytesWritten);
 		}
 		/// <summary>
 		/// Asynchronously computes the hash of a stream using the specified algorithm.
@@ -131,7 +125,9 @@ static partial class Polyfill
 		public static byte[] HmacData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source)
 		{
 			using var hmac = CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray());
-			return hmac.ComputeHash(source.ToArray());
+			var mac = new byte[hmac.HashSize / 8];
+			hmac.TryComputeHash(source, mac, out _);
+			return mac;
 		}
 		/// <summary>
 		/// Computes the HMAC of data into the provided destination using the specified key and algorithm.
@@ -175,15 +171,7 @@ static partial class Polyfill
 		public static bool TryHmacData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
 		{
 			using var hmac = CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray());
-			var mac = hmac.ComputeHash(source.ToArray());
-			if (destination.Length < mac.Length)
-			{
-				bytesWritten = 0;
-				return false;
-			}
-			mac.CopyTo(destination);
-			bytesWritten = mac.Length;
-			return true;
+			return hmac.TryComputeHash(source, destination, out bytesWritten);
 		}
 		/// <summary>
 		/// Asynchronously computes the HMAC of a stream using the specified key and algorithm.
@@ -258,14 +246,14 @@ static partial class Polyfill
 		/// </summary>
 		public static bool VerifyHmac(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source, ReadOnlySpan<byte> hash)
 		{
-			using var hmac = CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray());
-			var hashSizeInBytes = hmac.HashSize / 8;
+			var hashSizeInBytes = CryptographicOperationsHashSize(hashAlgorithm);
 			if (hash.Length != hashSizeInBytes)
 			{
 				throw new ArgumentException($"The hash must be {hashSizeInBytes} bytes in length.", nameof(hash));
 			}
-			var mac = hmac.ComputeHash(source.ToArray());
-			return CryptographicOperations.FixedTimeEquals(mac, hash);
+			Span<byte> mac = stackalloc byte[64];
+			CryptographicOperations.TryHmacData(hashAlgorithm, key, source, mac, out var bytesWritten);
+			return CryptographicOperations.FixedTimeEquals(mac.Slice(0, bytesWritten), hash);
 		}
 		/// <summary>
 		/// Determines whether the HMAC of the <paramref name="source"/> stream matches <paramref name="hash"/>, using a comparison whose time does not depend on the contents.
@@ -316,6 +304,19 @@ static partial class Polyfill
 			"SHA384" => SHA384.Create(),
 			"SHA512" => SHA512.Create(),
 			"MD5" => MD5.Create(),
+			_ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
+		};
+	}
+	static int CryptographicOperationsHashSize(HashAlgorithmName hashAlgorithm)
+	{
+		var name = hashAlgorithm.Name;
+		return name switch
+		{
+			"SHA256" => 32,
+			"SHA1" => 20,
+			"SHA384" => 48,
+			"SHA512" => 64,
+			"MD5" => 16,
 			_ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
 		};
 	}

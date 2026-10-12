@@ -63,14 +63,14 @@ static partial class Polyfill
 		/// </summary>
 		public static bool VerifyHmac(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source, ReadOnlySpan<byte> hash)
 		{
-			using var hmac = CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray());
-			var hashSizeInBytes = hmac.HashSize / 8;
+			var hashSizeInBytes = CryptographicOperationsHashSize(hashAlgorithm);
 			if (hash.Length != hashSizeInBytes)
 			{
 				throw new ArgumentException($"The hash must be {hashSizeInBytes} bytes in length.", nameof(hash));
 			}
-			var mac = hmac.ComputeHash(source.ToArray());
-			return CryptographicOperations.FixedTimeEquals(mac, hash);
+			Span<byte> mac = stackalloc byte[64];
+			CryptographicOperations.TryHmacData(hashAlgorithm, key, source, mac, out var bytesWritten);
+			return CryptographicOperations.FixedTimeEquals(mac.Slice(0, bytesWritten), hash);
 		}
 		/// <summary>
 		/// Determines whether the HMAC of the <paramref name="source"/> stream matches <paramref name="hash"/>, using a comparison whose time does not depend on the contents.
@@ -110,6 +110,19 @@ static partial class Polyfill
 		/// </summary>
 		public static ValueTask<bool> VerifyHmacAsync(HashAlgorithmName hashAlgorithm, ReadOnlyMemory<byte> key, Stream source, ReadOnlyMemory<byte> hash, CancellationToken cancellationToken = default) =>
 			new(VerifyHashStreamAsync(CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray()), source, hash.ToArray(), cancellationToken));
+	}
+	static int CryptographicOperationsHashSize(HashAlgorithmName hashAlgorithm)
+	{
+		var name = hashAlgorithm.Name;
+		return name switch
+		{
+			"SHA256" => 32,
+			"SHA1" => 20,
+			"SHA384" => 48,
+			"SHA512" => 64,
+			"MD5" => 16,
+			_ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
+		};
 	}
 	static HMAC CryptographicOperationsCreateHmac(HashAlgorithmName hashAlgorithm, byte[] key)
 	{
