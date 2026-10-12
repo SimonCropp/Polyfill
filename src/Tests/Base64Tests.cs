@@ -126,6 +126,166 @@ public class Base64Tests
         await Assert.That(decoded).IsEquivalentTo(HelloBytes);
     }
 
+    static byte[] StatusPatternBytes(int length)
+    {
+        var bytes = new byte[length];
+
+        for (var i = 0; i < length; i++)
+        {
+            bytes[i] = unchecked((byte) (i * 37 + 11));
+        }
+
+        return bytes;
+    }
+
+    [Test]
+    public async Task OperationStatus_AllLengths_MatchConvert()
+    {
+        var failures = new System.Collections.Generic.List<string>();
+
+        // 0 to 400 covers every remainder, and both the stack and the pooled buffers
+        for (var length = 0; length <= 400; length++)
+        {
+            var source = StatusPatternBytes(length);
+            var expected = Convert.ToBase64String(source);
+
+            void Check(string name, bool condition)
+            {
+                if (!condition)
+                {
+                    failures.Add($"{name} length {length}");
+                }
+            }
+
+            // one spare element, to check nothing is written past the end
+            var chars = new char[expected.Length + 1];
+            chars[expected.Length] = '!';
+            var status = Base64.EncodeToChars(source, chars, out var consumed, out var written);
+            Check("EncodeToChars", status == OperationStatus.Done && consumed == length && written == expected.Length && new string(chars) == expected + "!");
+
+            // a destination far larger than needed
+            chars = new char[expected.Length + 5000];
+            status = Base64.EncodeToChars(source, chars, out consumed, out written);
+            Check("EncodeToChars large destination", status == OperationStatus.Done && consumed == length && written == expected.Length && new string(chars, 0, written) == expected && chars[written] == '\0');
+
+            var bytes = new byte[length + 1];
+            bytes[length] = 0xEE;
+            status = Base64.DecodeFromChars(expected.AsSpan(), bytes, out consumed, out written);
+            Check("DecodeFromChars", status == OperationStatus.Done && consumed == expected.Length && written == length && bytes.AsSpan(0, length).SequenceEqual(source) && bytes[length] == 0xEE);
+
+            if (length > 0)
+            {
+                // only the complete groups that fit are written
+                var fit = (expected.Length - 1) / 4;
+                chars = new char[expected.Length - 1];
+                status = Base64.EncodeToChars(source, chars, out consumed, out written);
+                Check("EncodeToChars too small", status == OperationStatus.DestinationTooSmall && consumed == fit * 3 && written == fit * 4 && new string(chars, 0, written) == expected.Substring(0, written));
+            }
+
+            if (length >= 3)
+            {
+                var complete = length / 3;
+                bytes = new byte[complete * 3 - 1];
+                status = Base64.DecodeFromChars(expected.AsSpan(), bytes, out consumed, out written);
+                Check("DecodeFromChars too small", status == OperationStatus.DestinationTooSmall && consumed == (complete - 1) * 4 && written == (complete - 1) * 3 && bytes.AsSpan(0, written).SequenceEqual(source.AsSpan(0, written)));
+            }
+        }
+
+        await Assert.That(failures).IsEmpty();
+    }
+
+    [Test]
+    [Arguments(10)]
+    [Arguments(1000)]
+    public async Task EncodeToChars_OperationStatus_NotFinalBlock(int length)
+    {
+        var source = StatusPatternBytes(length);
+        var expected = Convert.ToBase64String(source);
+        var complete = length / 3;
+
+        // the trailing partial group is left for the next block
+        var destination = new char[expected.Length + 10];
+        var status = Base64.EncodeToChars(source, destination, out var consumed, out var written, isFinalBlock: false);
+        var text = new string(destination, 0, written);
+        await Assert.That(status).IsEqualTo(OperationStatus.NeedMoreData);
+        await Assert.That(consumed).IsEqualTo(complete * 3);
+        await Assert.That(written).IsEqualTo(complete * 4);
+        await Assert.That(text).IsEqualTo(expected.Substring(0, complete * 4));
+
+        destination = new char[complete * 4 - 1];
+        status = Base64.EncodeToChars(source, destination, out consumed, out written, isFinalBlock: false);
+        text = new string(destination, 0, written);
+        await Assert.That(status).IsEqualTo(OperationStatus.DestinationTooSmall);
+        await Assert.That(consumed).IsEqualTo((complete - 1) * 3);
+        await Assert.That(written).IsEqualTo((complete - 1) * 4);
+        await Assert.That(text).IsEqualTo(expected.Substring(0, (complete - 1) * 4));
+
+        status = Base64.EncodeToChars(source.AsSpan(0, complete * 3), destination, out consumed, out written, isFinalBlock: false);
+        await Assert.That(status).IsEqualTo(OperationStatus.DestinationTooSmall);
+
+        destination = new char[complete * 4];
+        status = Base64.EncodeToChars(source.AsSpan(0, complete * 3), destination, out consumed, out written, isFinalBlock: false);
+        text = new string(destination);
+
+        // System.Memory reports NeedMoreData for a block that is not final, even when nothing is left over
+        await Assert.That(status is OperationStatus.Done or OperationStatus.NeedMoreData).IsTrue();
+        await Assert.That(consumed).IsEqualTo(complete * 3);
+        await Assert.That(written).IsEqualTo(complete * 4);
+        await Assert.That(text).IsEqualTo(expected.Substring(0, complete * 4));
+    }
+
+    [Test]
+    public async Task EncodeToChars_OperationStatus_EmptyDestination()
+    {
+        var status = Base64.EncodeToChars(HelloBytes, Span<char>.Empty, out var consumed, out var written);
+        await Assert.That(status).IsEqualTo(OperationStatus.DestinationTooSmall);
+        await Assert.That(consumed).IsEqualTo(0);
+        await Assert.That(written).IsEqualTo(0);
+
+        status = Base64.EncodeToChars(ReadOnlySpan<byte>.Empty, Span<char>.Empty, out consumed, out written);
+        await Assert.That(status).IsEqualTo(OperationStatus.Done);
+        await Assert.That(consumed).IsEqualTo(0);
+        await Assert.That(written).IsEqualTo(0);
+    }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(400)]
+    public async Task DecodeFromChars_OperationStatus_NotFinalBlock(int prefixLength)
+    {
+        // a long prefix takes the pooled buffer path
+        var prefix = Convert.ToBase64String(StatusPatternBytes(prefixLength / 4 * 3));
+        var text = prefix + "AQIDAQ";
+        var destination = new byte[text.Length];
+        var status = Base64.DecodeFromChars(text.AsSpan(), destination, out var consumed, out var written, isFinalBlock: false);
+        await Assert.That(status).IsEqualTo(OperationStatus.NeedMoreData);
+        await Assert.That(consumed).IsEqualTo(prefix.Length + 4);
+        await Assert.That(written).IsEqualTo(prefix.Length / 4 * 3 + 3);
+    }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(400)]
+    public async Task DecodeFromChars_OperationStatus_Invalid(int prefixLength)
+    {
+        var prefixBytes = StatusPatternBytes(prefixLength / 4 * 3);
+        var prefix = Convert.ToBase64String(prefixBytes);
+        var destination = new byte[prefix.Length + 20];
+
+        var status = Base64.DecodeFromChars((prefix + "AQID!!!!").AsSpan(), destination, out var consumed, out var written);
+        var decoded = destination.AsSpan(0, prefixBytes.Length).ToArray();
+        await Assert.That(status).IsEqualTo(OperationStatus.InvalidData);
+        await Assert.That(consumed).IsEqualTo(prefix.Length + 4);
+        await Assert.That(written).IsEqualTo(prefixBytes.Length + 3);
+        await Assert.That(decoded).IsEquivalentTo(prefixBytes);
+
+        // U+0141 narrows to the byte 'A'
+        status = Base64.DecodeFromChars((prefix + "AQIDŁQID").AsSpan(), destination, out consumed, out written);
+        await Assert.That(status).IsEqualTo(OperationStatus.InvalidData);
+        await Assert.That(consumed).IsEqualTo(prefix.Length + 4);
+        await Assert.That(written).IsEqualTo(prefixBytes.Length + 3);
+    }
+
     [Test]
     public async Task TryDecodeFromChars_Success()
     {

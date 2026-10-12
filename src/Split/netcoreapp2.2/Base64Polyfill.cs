@@ -61,7 +61,19 @@ static partial class Polyfill
 		/// </summary>
 		public static OperationStatus EncodeToChars(ReadOnlySpan<byte> source, Span<char> destination, out int bytesConsumed, out int charsWritten, bool isFinalBlock = true)
 		{
-			var utf8 = new byte[destination.Length];
+			var length = (int) Math.Min(destination.Length, ((long) source.Length + 2) / 3 * 4);
+			if (length <= 256)
+			{
+				Span<byte> buffer = stackalloc byte[256];
+				return EncodeViaUtf8(source, buffer.Slice(0, length), destination, out bytesConsumed, out charsWritten, isFinalBlock);
+			}
+			var rented = ArrayPool<byte>.Shared.Rent(length);
+			var status = EncodeViaUtf8(source, rented.AsSpan(0, length), destination, out bytesConsumed, out charsWritten, isFinalBlock);
+			ArrayPool<byte>.Shared.Return(rented);
+			return status;
+		}
+		static OperationStatus EncodeViaUtf8(ReadOnlySpan<byte> source, Span<byte> utf8, Span<char> destination, out int bytesConsumed, out int charsWritten, bool isFinalBlock)
+		{
 			var status = Base64.EncodeToUtf8(source, utf8, out bytesConsumed, out charsWritten, isFinalBlock);
 			for (var i = 0; i < charsWritten; i++)
 			{
@@ -104,7 +116,18 @@ static partial class Polyfill
 		/// </summary>
 		public static OperationStatus DecodeFromChars(ReadOnlySpan<char> source, Span<byte> destination, out int charsConsumed, out int bytesWritten, bool isFinalBlock = true)
 		{
-			var utf8 = new byte[source.Length];
+			if (source.Length <= 256)
+			{
+				Span<byte> buffer = stackalloc byte[256];
+				return DecodeViaUtf8(source, buffer.Slice(0, source.Length), destination, out charsConsumed, out bytesWritten, isFinalBlock);
+			}
+			var rented = ArrayPool<byte>.Shared.Rent(source.Length);
+			var status = DecodeViaUtf8(source, rented.AsSpan(0, source.Length), destination, out charsConsumed, out bytesWritten, isFinalBlock);
+			ArrayPool<byte>.Shared.Return(rented);
+			return status;
+		}
+		static OperationStatus DecodeViaUtf8(ReadOnlySpan<char> source, Span<byte> utf8, Span<byte> destination, out int charsConsumed, out int bytesWritten, bool isFinalBlock)
+		{
 			for (var i = 0; i < source.Length; i++)
 			{
 				var c = source[i];
