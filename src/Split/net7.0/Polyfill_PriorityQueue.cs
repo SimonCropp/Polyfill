@@ -16,15 +16,16 @@ static partial class Polyfill
 		IEqualityComparer<TElement>? equalityComparer = null)
 	{
 		equalityComparer ??= EqualityComparer<TElement>.Default;
-		var items = target.UnorderedItems.ToList();
 		var foundIndex = -1;
-		for (var i = 0; i < items.Count; i++)
+		var index = 0;
+		foreach (var item in target.UnorderedItems)
 		{
-			if (equalityComparer.Equals(items[i].Element, element))
+			if (equalityComparer.Equals(item.Element, element))
 			{
-				foundIndex = i;
+				foundIndex = index;
 				break;
 			}
+			index++;
 		}
 		if (foundIndex < 0)
 		{
@@ -32,10 +33,17 @@ static partial class Polyfill
 			priority = default!;
 			return false;
 		}
+		var items = new (TElement Element, TPriority Priority)[target.Count];
+		index = 0;
+		foreach (var item in target.UnorderedItems)
+		{
+			items[index] = item;
+			index++;
+		}
 		removedElement = items[foundIndex].Element;
 		priority = items[foundIndex].Priority;
 		target.Clear();
-		for (var i = 0; i < items.Count; i++)
+		for (var i = 0; i < items.Length; i++)
 		{
 			if (i != foundIndex)
 			{

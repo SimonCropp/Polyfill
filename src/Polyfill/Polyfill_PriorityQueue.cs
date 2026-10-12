@@ -20,15 +20,18 @@ static partial class Polyfill
     {
         equalityComparer ??= EqualityComparer<TElement>.Default;
 
-        var items = target.UnorderedItems.ToList();
+        // Look for the element before copying anything, so a miss does not allocate
         var foundIndex = -1;
-        for (var i = 0; i < items.Count; i++)
+        var index = 0;
+        foreach (var item in target.UnorderedItems)
         {
-            if (equalityComparer.Equals(items[i].Element, element))
+            if (equalityComparer.Equals(item.Element, element))
             {
-                foundIndex = i;
+                foundIndex = index;
                 break;
             }
+
+            index++;
         }
 
         if (foundIndex < 0)
@@ -38,11 +41,21 @@ static partial class Polyfill
             return false;
         }
 
+        var items = new (TElement Element, TPriority Priority)[target.Count];
+        index = 0;
+        foreach (var item in target.UnorderedItems)
+        {
+            items[index] = item;
+            index++;
+        }
+
         removedElement = items[foundIndex].Element;
         priority = items[foundIndex].Priority;
 
+        // Enqueue one at a time, in the order the queue held them. EnqueueRange would heapify,
+        // which can leave items of equal priority in a different order.
         target.Clear();
-        for (var i = 0; i < items.Count; i++)
+        for (var i = 0; i < items.Length; i++)
         {
             if (i != foundIndex)
             {
