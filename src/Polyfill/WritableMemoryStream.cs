@@ -187,6 +187,17 @@ sealed class WritableMemoryStream :
         Advance(count);
     }
 
+    // Stream.WriteByte allocates a one byte array and calls Write, so write straight into the memory.
+    /// <inheritdoc/>
+    public override void WriteByte(byte value)
+    {
+        ThrowIfDisposed();
+        GuardCapacity(1);
+
+        memory.Span[(int)position] = value;
+        Advance(1);
+    }
+
     /// <inheritdoc/>
     public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
     {
