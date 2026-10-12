@@ -40,7 +40,6 @@ static partial class Polyfill
 		Task<UdpReceiveResult> receive;
 		lock (abandoned)
 		{
-<<<<<<< HEAD
 			if (abandoned.Queue.Count > 0)
 			{
 				receive = abandoned.Queue.Dequeue();
@@ -49,9 +48,6 @@ static partial class Polyfill
 			{
 				receive = target.ReceiveAsync();
 			}
-=======
-			return await target.ReceiveAsync().ConfigureAwait(false);
->>>>>>> b9d95697 (Add missing ConfigureAwait(false) to polyfill awaits)
 		}
 		if (!receive.IsCompleted && cancellationToken.CanBeCanceled)
 		{
