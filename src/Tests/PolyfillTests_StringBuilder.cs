@@ -142,6 +142,99 @@ partial class PolyfillTests
         await Assert.That(list[0]).IsEqualTo("a");
         await Assert.That(list[1]).IsEqualTo("bb");
     }
+    static string JoinChunks(StringBuilder builder)
+    {
+        var joined = new StringBuilder();
+        foreach (var chunk in builder.GetChunks())
+        {
+            joined.Append(chunk.ToString());
+        }
+
+        return joined.ToString();
+    }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(2)]
+    [Arguments(7)]
+    [Arguments(8)]
+    [Arguments(9)]
+    [Arguments(10)]
+    [Arguments(200)]
+    public async Task GetChunks_MatchesToString(int appends)
+    {
+        // a capacity of 1 and appends of growing length force a new chunk for most appends,
+        // covering builders either side of the 8 chunk threshold
+        var builder = new StringBuilder(1);
+        for (var index = 0; index < appends; index++)
+        {
+            builder.Append((char) ('a' + index % 26), index % 5 + 1);
+        }
+
+        var expected = builder.ToString();
+        await Assert.That(JoinChunks(builder)).IsEqualTo(expected);
+
+        // chunks are in order, and their lengths add up to the length of the builder
+        var total = 0;
+        var position = 0;
+        var inOrder = true;
+        foreach (var chunk in builder.GetChunks())
+        {
+            total += chunk.Length;
+            inOrder &= expected.Substring(position, chunk.Length) == chunk.ToString();
+            position += chunk.Length;
+        }
+
+        await Assert.That(total).IsEqualTo(builder.Length);
+        await Assert.That(inOrder).IsTrue();
+
+        // enumerating again gives the same result
+        await Assert.That(JoinChunks(builder)).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task GetChunks_AfterEdits()
+    {
+        var builder = new StringBuilder(2);
+        for (var index = 0; index < 30; index++)
+        {
+            builder.Append($"item{index};");
+        }
+
+        await Assert.That(JoinChunks(builder)).IsEqualTo(builder.ToString());
+
+        builder.Insert(7, "inserted");
+        await Assert.That(JoinChunks(builder)).IsEqualTo(builder.ToString());
+
+        builder.Remove(3, 40);
+        await Assert.That(JoinChunks(builder)).IsEqualTo(builder.ToString());
+
+        builder.Replace("item", "i");
+        await Assert.That(JoinChunks(builder)).IsEqualTo(builder.ToString());
+
+        builder.Length = 5;
+        await Assert.That(JoinChunks(builder)).IsEqualTo(builder.ToString());
+        await Assert.That(builder.ToString().Length).IsEqualTo(5);
+
+        builder.Clear();
+        await Assert.That(JoinChunks(builder)).IsEqualTo("");
+
+        builder.Append("again");
+        await Assert.That(JoinChunks(builder)).IsEqualTo("again");
+    }
+
+    [Test]
+    public async Task GetChunks_SeparateBuilders()
+    {
+        var first = new StringBuilder("first", 5);
+        first.Append("-more");
+        var second = new StringBuilder("second");
+
+        await Assert.That(JoinChunks(first)).IsEqualTo("first-more");
+        await Assert.That(JoinChunks(second)).IsEqualTo("second");
+        await Assert.That(JoinChunks(first)).IsEqualTo("first-more");
+    }
 
 #endif
 
