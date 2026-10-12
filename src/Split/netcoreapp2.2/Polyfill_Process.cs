@@ -369,7 +369,12 @@ static partial class Polyfill
 		{
 			return;
 		}
-		var drain = Task.Run(() => target.WaitForExit());
+		var started = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
+		var drain = Task.Run(() =>
+		{
+			started.TrySetResult(null);
+			target.WaitForExit();
+		});
 		if (!cancellationToken.CanBeCanceled)
 		{
 			await drain;
@@ -380,6 +385,7 @@ static partial class Polyfill
 		{
 			if (await Task.WhenAny(drain, canceled.Task) != drain)
 			{
+				await Task.WhenAny(drain, started.Task);
 				await Task.WhenAny(drain, Task.Delay(100));
 				if (!drain.IsCompleted)
 				{
