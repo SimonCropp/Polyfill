@@ -120,7 +120,7 @@ static partial class Polyfill
 		/// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
 		/// </summary>
 		public static string ToHexStringLower(ReadOnlySpan<byte> bytes) =>
-			Polyfill.ToHexStringLower(bytes.ToArray());
+			ToHexStringCore(bytes, "0123456789abcdef");
 		/// <summary>
 		/// Converts a span of 8-bit unsigned integers to its equivalent span representation that is encoded with uppercase hex characters.
 		/// </summary>
@@ -200,6 +200,18 @@ static partial class Polyfill
 				destination[index++] = hexAlphabet[b >> 4];
 				destination[index++] = hexAlphabet[b & 0xF];
 			}
+		}
+		static string ToHexStringCore(ReadOnlySpan<byte> bytes, string hexAlphabet)
+		{
+			var chars = new char[bytes.Length * 2];
+			var charIndex = 0;
+			for (var i = 0; i < bytes.Length; i++)
+			{
+				var b = bytes[i];
+				chars[charIndex++] = hexAlphabet[b >> 4];
+				chars[charIndex++] = hexAlphabet[b & 0xF];
+			}
+			return new(chars);
 		}
 		static void WriteHexBytes(ReadOnlySpan<byte> source, Span<byte> destination, string hexAlphabet)
 		{
