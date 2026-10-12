@@ -200,19 +200,10 @@ static partial class Polyfill
 					}
 					break;
 				case SplitRangesMode.AnyStrings:
-					for (var s = 0; s < stringSeparators.Length; s++)
+					idx = IndexOfAnyStringSeparator(slice, stringSeparators, out var stringSeparatorLength);
+					if (idx >= 0)
 					{
-						var sep = stringSeparators[s];
-						if (string.IsNullOrEmpty(sep))
-						{
-							continue;
-						}
-						var found = slice.IndexOf(sep.AsSpan());
-						if (found >= 0 && (idx < 0 || found < idx))
-						{
-							idx = found;
-							len = sep.Length;
-						}
+						len = stringSeparatorLength;
 					}
 					break;
 			}
@@ -226,6 +217,38 @@ static partial class Polyfill
 		separatorIndex = from + idx;
 		separatorLength = len;
 		return true;
+	}
+	/// <summary>
+	/// Finds the leftmost position in <paramref name="span"/> at which one of <paramref name="separators"/> occurs.
+	/// Walks the positions once, testing the separators in array order at each one, so ties resolve to the first
+	/// separator in the array, matching the BCL's MakeSeparatorListAny behaviour. Searching the whole span once per
+	/// separator instead would rescan it for every separator that is rare or absent, on every call.
+	/// </summary>
+	static int IndexOfAnyStringSeparator(ReadOnlySpan<char> span, ReadOnlySpan<string> separators, out int separatorLength)
+	{
+		for (var index = 0; index < span.Length; index++)
+		{
+			var current = span[index];
+			var remaining = span.Length - index;
+			for (var separatorIndex = 0; separatorIndex < separators.Length; separatorIndex++)
+			{
+				var separator = separators[separatorIndex];
+				if (string.IsNullOrEmpty(separator) ||
+					separator[0] != current ||
+					separator.Length > remaining)
+				{
+					continue;
+				}
+				if (separator.Length == 1 ||
+					span.Slice(index + 1, separator.Length - 1).SequenceEqual(separator.AsSpan(1)))
+				{
+					separatorLength = separator.Length;
+					return index;
+				}
+			}
+		}
+		separatorLength = 0;
+		return -1;
 	}
 	static void TrimSplitEntry(ReadOnlySpan<char> source, ref int startInclusive, ref int endExclusive)
 	{
