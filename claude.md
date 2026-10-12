@@ -113,3 +113,7 @@ Polyfill uses extensive `#if` directives. Key constants:
 - `Nullable` is enabled
 - **Line endings: LF** (`\n`) — do not use CRLF
 - CI: GitHub Actions (Windows, `.github/workflows/build.yml`), builds solution then runs `run-tests.ps1`, publishes to NuGet on a tag via trusted publishing
+
+## Review History
+
+- **2026-10-11** — perf and bug scan of `src/Polyfill/`
