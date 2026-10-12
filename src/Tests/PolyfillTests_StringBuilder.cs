@@ -22,6 +22,86 @@ partial class PolyfillTests
         await Assert.That(span is "value").IsTrue();
     }
 
+    static StringBuilder BuildMultiChunkBuilder(int length)
+    {
+        // a small initial capacity and many appends leave the builder holding many chunks
+        var builder = new StringBuilder(16);
+        var index = 0;
+        while (builder.Length < length)
+        {
+            builder.Append((char) ('a' + index % 26));
+            if (index % 7 == 0)
+            {
+                builder.Append("0123456789", 0, Math.Min(10, length - builder.Length));
+            }
+
+            index++;
+        }
+
+        return builder;
+    }
+
+    [Test]
+    [Arguments(0, 50000)]
+    [Arguments(0, 1)]
+    [Arguments(0, 16383)]
+    [Arguments(0, 16384)]
+    [Arguments(0, 16385)]
+    [Arguments(1, 16384)]
+    [Arguments(1, 32768)]
+    [Arguments(1, 32769)]
+    [Arguments(17, 40000)]
+    [Arguments(16383, 2)]
+    [Arguments(33000, 17000)]
+    [Arguments(49999, 1)]
+    [Arguments(25000, 0)]
+    [Arguments(50000, 0)]
+    public async Task StringBuilderCopyTo_MultiChunk(int sourceIndex, int count)
+    {
+        var builder = BuildMultiChunkBuilder(50000);
+        var expected = builder.ToString();
+        var destination = new char[count + 3];
+#if NET6_0_OR_GREATER
+        Array.Fill(destination, '#');
+#else
+        for (var index = 0; index < destination.Length; index++)
+        {
+            destination[index] = '#';
+        }
+#endif
+
+        builder.CopyTo(sourceIndex, destination.AsSpan(), count);
+
+        await Assert.That(builder.Length).IsEqualTo(50000);
+        await Assert.That(new string(destination, 0, count)).IsEqualTo(expected.Substring(sourceIndex, count));
+        // nothing past count is written
+        await Assert.That(new string(destination, count, 3)).IsEqualTo("###");
+        // the builder itself is untouched
+        await Assert.That(builder.ToString()).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task StringBuilderCopyTo_ExactDestination()
+    {
+        var builder = BuildMultiChunkBuilder(40000);
+        var destination = new char[40000];
+
+        builder.CopyTo(0, destination.AsSpan(), 40000);
+
+        await Assert.That(new string(destination)).IsEqualTo(builder.ToString());
+    }
+
+    [Test]
+    public async Task StringBuilderCopyTo_Empty()
+    {
+        var destination = new[] {'#', '#'};
+
+        new StringBuilder().CopyTo(0, destination.AsSpan(), 0);
+        new StringBuilder("abc").CopyTo(3, Span<char>.Empty, 0);
+
+        await Assert.That(new string(destination)).IsEqualTo("##");
+    }
+
     [Test]
     public async Task StringBuilderCopyTo_InvalidArgs()
     {
