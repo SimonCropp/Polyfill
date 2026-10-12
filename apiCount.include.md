@@ -13,7 +13,7 @@
 | `net481` | 1081 |
 | `netstandard2.0` | 1083 |
 | `netstandard2.1` | 908 |
-| `netcoreapp2.0` | 1006 |
+| `netcoreapp2.0` | 1009 |
 | `netcoreapp2.1` | 922 |
 | `netcoreapp2.2` | 922 |
 | `netcoreapp3.0` | 880 |

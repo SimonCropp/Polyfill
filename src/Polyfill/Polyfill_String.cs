@@ -44,27 +44,6 @@ static partial class Polyfill
         };
 
     /// <summary>
-    /// Returns a value indicating whether a specified character occurs within this string, using the specified comparison rules.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-11.0#system-string-contains(system-char-system-stringcomparison)
-    public static bool Contains(this string target, char value, StringComparison comparisonType) =>
-        target.IndexOf(value, comparisonType) >= 0;
-
-    /// <summary>
-    /// Reports the zero-based index of the first occurrence of the specified Unicode character in this string. A parameter specifies the type of search to use for the specified character.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-char-system-stringcomparison)
-    public static int IndexOf(this string target, char value, StringComparison comparisonType) =>
-        target.IndexOf(value.ToString(), comparisonType);
-
-    /// <summary>
-    /// Returns a value indicating whether a specified string occurs within this string, using the specified comparison rules.
-    /// </summary>
-    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-11.0#system-string-contains(system-string-system-stringcomparison)
-    public static bool Contains(this string target, string value, StringComparison comparisonType) =>
-        target.IndexOf(value, comparisonType) >= 0;
-
-    /// <summary>
     /// Determines whether this string instance starts with the specified character.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char)
@@ -131,6 +110,27 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-11.0#system-string-contains(system-char)
     public static bool Contains(this string target, char value) =>
         target.IndexOf(value) >= 0;
+
+    /// <summary>
+    /// Returns a value indicating whether a specified character occurs within this string, using the specified comparison rules.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-11.0#system-string-contains(system-char-system-stringcomparison)
+    public static bool Contains(this string target, char value, StringComparison comparisonType) =>
+        target.IndexOf(value, comparisonType) >= 0;
+
+    /// <summary>
+    /// Reports the zero-based index of the first occurrence of the specified Unicode character in this string. A parameter specifies the type of search to use for the specified character.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-char-system-stringcomparison)
+    public static int IndexOf(this string target, char value, StringComparison comparisonType) =>
+        target.IndexOf(value.ToString(), comparisonType);
+
+    /// <summary>
+    /// Returns a value indicating whether a specified string occurs within this string, using the specified comparison rules.
+    /// </summary>
+    //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-11.0#system-string-contains(system-string-system-stringcomparison)
+    public static bool Contains(this string target, string value, StringComparison comparisonType) =>
+        target.IndexOf(value, comparisonType) >= 0;
 #endif
 
 #if !NET11_0_OR_GREATER

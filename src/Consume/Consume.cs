@@ -1994,6 +1994,10 @@ class Consume
     void String_Methods()
     {
         var contains = "a b".Contains(' ');
+        var containsCharComparison = "a b".Contains(' ', StringComparison.Ordinal);
+        var containsStringComparison = "a b".Contains("B", StringComparison.OrdinalIgnoreCase);
+        var indexOfCharComparison = "a b".IndexOf('B', StringComparison.OrdinalIgnoreCase);
+        var hashCodeComparison = "a b".GetHashCode(StringComparison.OrdinalIgnoreCase);
         var endsWith = "value".EndsWith('a');
 
         var splitChar = "a b".Split(' ', StringSplitOptions.RemoveEmptyEntries);
