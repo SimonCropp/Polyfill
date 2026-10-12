@@ -35,10 +35,36 @@ static partial class Polyfill
             throw new ArgumentOutOfRangeException(nameof(index));
         }
 
-        for (var i = 0; i < source.Length; i++)
+        if (source.IsEmpty)
         {
-            var item = source[i];
-            target.Insert(i + index, item);
+            return;
+        }
+
+        if (source.Length == 1)
+        {
+            target.Insert(index, source[0]);
+            return;
+        }
+
+        // List<T>.InsertRange moves the tail once and block copies an ICollection<T>,
+        // where inserting one item at a time moves the tail for every item.
+        var length = source.Length;
+        var pool = System.Buffers.ArrayPool<T>.Shared;
+        var buffer = pool.Rent(length);
+        try
+        {
+            source.CopyTo(buffer);
+            target.InsertRange(index, new ArraySegment<T>(buffer, 0, length));
+        }
+        finally
+        {
+            // Do not keep references alive in the pool
+            if (!typeof(T).IsPrimitive)
+            {
+                Array.Clear(buffer, 0, length);
+            }
+
+            pool.Return(buffer);
         }
     }
 
