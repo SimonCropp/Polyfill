@@ -396,11 +396,10 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.waitforexitasync?view=net-11.0
     public static async Task WaitForExitAsync(this Process target, CancellationToken cancellationToken = default)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        if (target.HasExited)
+        // a token that is already canceled only throws while the process is still running
+        if (!target.HasExited)
         {
-            return;
+            cancellationToken.ThrowIfCancellationRequested();
         }
 
         try
@@ -409,6 +408,7 @@ static partial class Polyfill
         }
         catch (InvalidOperationException) when (target.HasExited)
         {
+            await WaitUntilOutputEof(target, cancellationToken);
             return;
         }
 
@@ -426,10 +426,62 @@ static partial class Polyfill
                     await tcs.Task.ConfigureAwait(false);
                 }
             }
+
+            await WaitUntilOutputEof(target, cancellationToken);
         }
         finally
         {
             target.Exited -= handler;
+        }
+    }
+
+    // Exited is raised as soon as the process ends, which can be before redirected output that is being read
+    // asynchronously (BeginOutputReadLine/BeginErrorReadLine) has been delivered.
+    static async Task WaitUntilOutputEof(Process target, CancellationToken cancellationToken)
+    {
+        if (!HasRedirectedOutput(target))
+        {
+            return;
+        }
+
+        // the parameterless WaitForExit is the only public way to wait for the end of that output
+        var drain = Task.Run(() => target.WaitForExit());
+        if (!cancellationToken.CanBeCanceled)
+        {
+            await drain;
+            return;
+        }
+
+        var canceled = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
+        using (cancellationToken.UnsafeRegister(static (s, cancellationToken) => ((TaskCompletionSource<object>) s!).TrySetCanceled(cancellationToken), canceled))
+        {
+            if (await Task.WhenAny(drain, canceled.Task) != drain)
+            {
+                // Cancellation only applies while output is still pending. When there is none the drain is
+                // about to finish, so give it the chance to rather than report a cancellation.
+                await Task.WhenAny(drain, Task.Delay(100));
+                if (!drain.IsCompleted)
+                {
+                    await canceled.Task;
+                }
+            }
+
+            await drain;
+        }
+    }
+
+    static bool HasRedirectedOutput(Process target)
+    {
+        try
+        {
+            var startInfo = target.StartInfo;
+            return startInfo.RedirectStandardOutput ||
+                   startInfo.RedirectStandardError;
+        }
+        catch (InvalidOperationException)
+        {
+            // the process was not started by this object, so it has no redirected output
+            return false;
         }
     }
 #endif
