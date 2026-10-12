@@ -3,6 +3,8 @@
 namespace Polyfills;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
 static partial class Polyfill
 {
 	extension(Path)
