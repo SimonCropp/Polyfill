@@ -310,14 +310,13 @@ static partial class Polyfill
             var lines = new List<string>();
             using var reader = AsyncStreamReader(path, encoding);
 
-            while (!reader.EndOfStream)
+            // Reading until ReadLineAsync returns null, rather than testing EndOfStream before each
+            // line, keeps every read asynchronous: EndOfStream refills an empty buffer with a blocking read.
+            string? line;
+            while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var line = await reader.ReadLineAsync().ConfigureAwait(false);
-                if (line != null)
-                {
-                    lines.Add(line);
-                }
+                lines.Add(line);
             }
 
             return lines.ToArray();
@@ -363,14 +362,13 @@ static partial class Polyfill
         {
             using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: true);
             using var reader = new StreamReader(stream, encoding);
-            while (!reader.EndOfStream)
+            // Reading until ReadLineAsync returns null, rather than testing EndOfStream before each
+            // line, keeps every read asynchronous: EndOfStream refills an empty buffer with a blocking read.
+            string? line;
+            while ((line = await reader.ReadLineAsync().ConfigureAwait(false)) != null)
             {
                 cancellationToken.ThrowIfCancellationRequested();
-                var line = await reader.ReadLineAsync().ConfigureAwait(false);
-                if (line != null)
-                {
-                    yield return line;
-                }
+                yield return line;
             }
         }
 

@@ -744,4 +744,265 @@ public class FilePolyfillTests
         await Assert.That(() =>
             fileInfo.CreateAsHardLink("nonexistent.txt")).Throws<IOException>();
     }
+
+    static string CreateReadLinesTestDirectory()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "PolyfillFileReadLines_" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        return directory;
+    }
+
+    // File contents chosen around the reader's buffer sizes (1024 and 4096 bytes), so that lines end
+    // exactly on, just before and just after a buffer boundary, and line terminators get split by one.
+    static IEnumerable<string> ReadLinesContents()
+    {
+        yield return "";
+        yield return "\n";
+        yield return "\r\n";
+        yield return "\r";
+        yield return "\n\n\n";
+        yield return "single line without terminator";
+        yield return "one\ntwo\r\nthree\rfour";
+        yield return "one\ntwo\r\nthree\rfour\n";
+        yield return "trailing blank lines\n\n\n";
+        yield return "\n\nleading blank lines";
+        yield return "a\u00e9\u4f60\U0001F30D\nb\u00e9\u4f60\U0001F30D\r\n";
+
+        foreach (var boundary in new[] {1024, 2048, 4096, 8192})
+        {
+            foreach (var delta in new[] {-2, -1, 0, 1, 2})
+            {
+                foreach (var terminator in new[] {"\n", "\r\n", "\r", ""})
+                {
+                    // the first line ends boundary + delta bytes into the file
+                    var length = boundary + delta - terminator.Length;
+                    yield return new string('x', length) + terminator;
+                    yield return new string('x', length) + terminator + "next";
+                    yield return new string('x', length) + terminator + "next\n";
+                }
+            }
+        }
+
+        // many lines of the same length, so that buffer boundaries land on every position of a line
+        var builder = new StringBuilder();
+        for (var index = 0; index < 5000; index++)
+        {
+            builder.Append("line ").Append(index % 10).Append("\r\n");
+        }
+
+        yield return builder.ToString();
+
+        // lines that are each exactly one buffer long
+        builder.Clear();
+        for (var index = 0; index < 20; index++)
+        {
+            builder.Append('y', 1023).Append('\n');
+        }
+
+        yield return builder.ToString();
+
+        // one line much longer than any buffer
+        yield return new string('z', 100_000);
+        yield return new string('z', 100_000) + "\n" + new string('w', 50_000);
+    }
+
+    [Test]
+    public async Task ReadAllLinesAsync_MatchesReadAllLines()
+    {
+        var directory = CreateReadLinesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "lines.txt");
+            var index = 0;
+            foreach (var content in ReadLinesContents())
+            {
+                index++;
+                File.WriteAllText(path, content, new UTF8Encoding(false));
+                var expected = File.ReadAllLines(path);
+
+                var actual = await File.ReadAllLinesAsync(path);
+
+                if (!actual.SequenceEqual(expected))
+                {
+                    throw new($"ReadAllLinesAsync differs from ReadAllLines for content {index} ({content.Length} chars): {actual.Length} lines rather than {expected.Length}");
+                }
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task ReadAllLinesAsync_Encodings_MatchReadAllLines()
+    {
+        var directory = CreateReadLinesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "lines.txt");
+            var builder = new StringBuilder();
+            for (var index = 0; index < 3000; index++)
+            {
+                builder.Append("a\u00e9\u4f60\U0001F30D ").Append(index).Append(index % 2 == 0 ? "\n" : "\r\n");
+            }
+
+            var content = builder.ToString();
+            var encodings = new Encoding[]
+            {
+                new UTF8Encoding(false),
+                new UTF8Encoding(true),
+                new UnicodeEncoding(false, true),
+                new UnicodeEncoding(true, true),
+                new UTF32Encoding(false, true)
+            };
+            foreach (var encoding in encodings)
+            {
+                File.WriteAllText(path, content, encoding);
+                var expected = File.ReadAllLines(path, encoding);
+
+                await Assert.That((await File.ReadAllLinesAsync(path, encoding)).SequenceEqual(expected)).IsTrue();
+
+                // a byte order mark overrides the encoding that was asked for
+                if (encoding.GetPreamble().Length > 0)
+                {
+                    await Assert.That((await File.ReadAllLinesAsync(path)).SequenceEqual(expected)).IsTrue();
+                    await Assert.That((await File.ReadAllLinesAsync(path, Encoding.ASCII)).SequenceEqual(expected)).IsTrue();
+                }
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task ReadAllLinesAsync_CanceledToken_ThrowsAndReleasesFile()
+    {
+        var directory = CreateReadLinesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "lines.txt");
+            File.WriteAllText(path, "one\ntwo\n");
+            using var cancelSource = new CancelSource();
+            cancelSource.Cancel();
+
+            await Assert.That(async () => await File.ReadAllLinesAsync(path, cancelSource.Token))
+                .Throws<OperationCanceledException>();
+
+            // the file is not left open
+            File.Delete(path);
+            await Assert.That(File.Exists(path)).IsFalse();
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+#if FeatureAsyncInterfaces
+    [Test]
+    public async Task ReadLinesAsync_MatchesReadAllLines()
+    {
+        var directory = CreateReadLinesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "lines.txt");
+            var index = 0;
+            foreach (var content in ReadLinesContents())
+            {
+                index++;
+                File.WriteAllText(path, content, new UTF8Encoding(false));
+                var expected = File.ReadAllLines(path);
+
+                var actual = new List<string>();
+                await foreach (var line in File.ReadLinesAsync(path))
+                {
+                    actual.Add(line);
+                }
+
+                if (!actual.SequenceEqual(expected))
+                {
+                    throw new($"ReadLinesAsync differs from ReadAllLines for content {index} ({content.Length} chars): {actual.Count} lines rather than {expected.Length}");
+                }
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task ReadLinesAsync_CanceledWhileEnumerating_ThrowsAndReleasesFile()
+    {
+        var directory = CreateReadLinesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "lines.txt");
+            File.WriteAllLines(path, Enumerable.Range(0, 5000).Select(_ => "line " + _));
+            using var source = new CancelSource();
+            var read = new List<string>();
+
+            await Assert.That(async () =>
+                {
+                    await foreach (var line in File.ReadLinesAsync(path, source.Token))
+                    {
+                        read.Add(line);
+                        if (read.Count == 10)
+                        {
+                            source.Cancel();
+                        }
+                    }
+                })
+                .Throws<OperationCanceledException>();
+
+            // The BCL only notices the cancellation at its next read from the file, so it may hand
+            // out a few more lines that it had already buffered. Either way the lines that were
+            // returned are the first ones, in order, and the enumeration stops well short of the end.
+            await Assert.That(read.Count >= 10).IsTrue();
+            await Assert.That(read.Count < 1000).IsTrue();
+            await Assert.That(read.SequenceEqual(Enumerable.Range(0, read.Count).Select(_ => "line " + _))).IsTrue();
+
+            // the file is not left open
+            File.Delete(path);
+            await Assert.That(File.Exists(path)).IsFalse();
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task ReadLinesAsync_StoppingEarly_ReleasesFile()
+    {
+        var directory = CreateReadLinesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "lines.txt");
+            File.WriteAllLines(path, Enumerable.Range(0, 5000).Select(_ => "line " + _));
+            var read = new List<string>();
+
+            await foreach (var line in File.ReadLinesAsync(path))
+            {
+                read.Add(line);
+                if (read.Count == 3)
+                {
+                    break;
+                }
+            }
+
+            await Assert.That(read.SequenceEqual(new[] {"line 0", "line 1", "line 2"})).IsTrue();
+
+            File.Delete(path);
+            await Assert.That(File.Exists(path)).IsFalse();
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+#endif
 }
