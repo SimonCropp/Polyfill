@@ -21,12 +21,25 @@ static partial class Polyfill
 		Memory<byte> buffer,
 		CancellationToken cancellationToken = default)
 	{
-		if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>) buffer, out var segment))
+		if (MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>) buffer, out var segment))
 		{
-			segment = new(buffer.ToArray());
+			return new(target.ReadAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken));
 		}
-		var task = target.ReadAsync(segment.Array!, segment.Offset, segment.Count, cancellationToken);
-		return new(task);
+		var sharedBuffer = ArrayPool<byte>.Shared.Rent(buffer.Length);
+		return FinishReadAsync(target.ReadAsync(sharedBuffer, 0, buffer.Length, cancellationToken), sharedBuffer, buffer);
+		static async ValueTask<int> FinishReadAsync(Task<int> readTask, byte[] localBuffer, Memory<byte> localDestination)
+		{
+			try
+			{
+				var result = await readTask.ConfigureAwait(false);
+				new ReadOnlySpan<byte>(localBuffer, 0, result).CopyTo(localDestination.Span);
+				return result;
+			}
+			finally
+			{
+				ArrayPool<byte>.Shared.Return(localBuffer);
+			}
+		}
 	}
 #endif
 #if FeatureMemory
@@ -73,7 +86,7 @@ static partial class Polyfill
 		int totalRead = 0;
 		while (totalRead < count)
 		{
-			int read = await target.ReadAsync(buffer, offset + totalRead, count - totalRead, cancellationToken);
+			int read = await target.ReadAsync(buffer, offset + totalRead, count - totalRead, cancellationToken).ConfigureAwait(false);
 			if (read == 0)
 			{
 				if (true)
@@ -154,7 +167,7 @@ static partial class Polyfill
 	/// Asynchronously reads bytes from the current stream, advances the position within the stream until the buffer is filled, and monitors cancellation requests
 	/// </summary>
 	public static async ValueTask ReadExactlyAsync(this Stream target, Memory<byte> buffer, CancellationToken cancellationToken = default) =>
-		await target.ReadAtLeastAsync(buffer, buffer.Length, true, cancellationToken);
+		await target.ReadAtLeastAsync(buffer, buffer.Length, true, cancellationToken).ConfigureAwait(false);
 	/// <summary>
 	/// Asynchronously reads at least a minimum number of bytes from the current stream, advances the position within the stream by the number of bytes read, and monitors cancellation requests.
 	/// </summary>

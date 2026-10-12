@@ -41,6 +41,40 @@ public class Sha1PolyfillTests
         var actualHash = await SHA1.HashDataAsync(stream);
         await Assert.That(actualHash.SequenceEqual(expected)).IsTrue();
     }
+
+    [Test]
+    public async Task HashDataAsync_Stream_ReadsAsynchronously()
+    {
+        using var stream = new AsyncOnlyStream(data);
+
+        var actualHash = await SHA1.HashDataAsync(stream);
+        await Assert.That(actualHash.SequenceEqual(expected)).IsTrue();
+    }
+
+    [Test]
+    public async Task HashDataAsync_Stream_PreCancelled_ReturnsCancelledTask()
+    {
+        using var stream = new AsyncOnlyStream(data);
+
+        var task = SHA1.HashDataAsync(stream, new Cancel(true)).AsTask();
+        await Assert.That(task.IsCanceled).IsTrue();
+        await Assert.That(stream.ReadCount).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task HashDataAsync_Stream_CancelledWhileReading()
+    {
+        using var source = new CancellationTokenSource();
+        using var stream = new AsyncOnlyStream(data)
+        {
+            CancelAfterFirstRead = source
+        };
+
+        var task = SHA1.HashDataAsync(stream, source.Token).AsTask();
+        await Task.WhenAny(task);
+        await Assert.That(task.IsCanceled).IsTrue();
+        await Assert.That(stream.ReadCount).IsEqualTo(1);
+    }
 #endif
 
 #if FeatureMemory
@@ -65,6 +99,39 @@ public class Sha1PolyfillTests
         var length = await SHA1.HashDataAsync(stream, destination);
         await Assert.That(length).IsEqualTo(expected.Length);
         await Assert.That(expected.AsSpan().SequenceEqual(destination.Span)).IsTrue();
+    }
+
+    [Test]
+    public async Task HashDataAsync_Memory_ReadsAsynchronously()
+    {
+        using var stream = new AsyncOnlyStream(data);
+        Memory<byte> destination = new byte[expected.Length];
+
+        var length = await SHA1.HashDataAsync(stream, destination);
+        await Assert.That(length).IsEqualTo(expected.Length);
+        await Assert.That(destination.ToArray().SequenceEqual(expected)).IsTrue();
+    }
+
+    [Test]
+    public async Task HashDataAsync_Memory_PreCancelled_ReturnsCancelledTask()
+    {
+        using var stream = new AsyncOnlyStream(data);
+        Memory<byte> destination = new byte[expected.Length];
+
+        var task = SHA1.HashDataAsync(stream, destination, new Cancel(true)).AsTask();
+        await Assert.That(task.IsCanceled).IsTrue();
+        await Assert.That(stream.ReadCount).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task HashDataAsync_Memory_ShortDestination_ThrowsSynchronously()
+    {
+        using var stream = new AsyncOnlyStream(data);
+        Memory<byte> destination = new byte[expected.Length - 1];
+
+        var exception = Assert.Throws<ArgumentException>(() => SHA1.HashDataAsync(stream, destination));
+        await Assert.That(exception.ParamName).IsEqualTo("destination");
+        await Assert.That(stream.ReadCount).IsEqualTo(0);
     }
 #endif
 

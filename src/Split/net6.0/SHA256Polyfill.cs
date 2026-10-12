@@ -32,11 +32,8 @@ static class SHA256Polyfill
 		/// <summary>
 		/// Asynchronously computes the hash of a stream using the SHA-256 algorithm.
 		/// </summary>
-		public static ValueTask<byte[]> HashDataAsync(Stream source, CancellationToken cancellationToken = default)
-		{
-			using var hasher = SHA256.Create();
-			return new(hasher.ComputeHash(source));
-		}
+		public static ValueTask<byte[]> HashDataAsync(Stream source, CancellationToken cancellationToken = default) =>
+			new(Polyfill.HashStreamAsync(SHA256.Create(), source, cancellationToken));
 #endif
 #if FeatureMemory
 		/// <summary>
@@ -52,13 +49,8 @@ static class SHA256Polyfill
 		/// <summary>
 		/// Asynchronously computes the hash of a stream using the SHA-256 algorithm.
 		/// </summary>
-		public static ValueTask<int> HashDataAsync(Stream source, Memory<byte> destination, CancellationToken cancellationToken = default)
-		{
-			cancellationToken.ThrowIfCancellationRequested();
-			var hash = HashData(source);
-			hash.CopyTo(destination);
-			return new(hash.Length);
-		}
+		public static ValueTask<int> HashDataAsync(Stream source, Memory<byte> destination, CancellationToken cancellationToken = default) =>
+			new(Polyfill.HashStreamAsync(SHA256.Create(), source, destination, cancellationToken));
 #endif
 #endif
 	}

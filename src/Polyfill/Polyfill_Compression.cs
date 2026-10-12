@@ -145,6 +145,8 @@ static partial class Polyfill
                 continue;
             }
 
+            // the archive may not contain an explicit entry for the parent directory
+            Directory.CreateDirectory(Path.GetDirectoryName(fileDestinationPath)!);
             source.ExtractToFile(fileDestinationPath, overwrite: overwriteFiles);
         }
     }

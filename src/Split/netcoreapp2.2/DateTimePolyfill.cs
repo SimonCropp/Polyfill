@@ -37,26 +37,6 @@ static partial class Polyfill
 		/// </summary>
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out DateTime result) =>
 			DateTime.TryParse(s.ToString(), provider, DateTimeStyles.None, out result);
-		/// <summary>
-		/// Tries to parse a span of characters into a value.
-		/// </summary>
-		public static bool TryParse(ReadOnlySpan<char> s, out DateTime result) =>
-			DateTime.TryParse(s.ToString(), null, DateTimeStyles.None, out result);
-		/// <summary>
-		/// Tries to parse a span of characters into a value.
-		/// </summary>
-		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, DateTimeStyles styles, out DateTime result) =>
-			DateTime.TryParse(s.ToString(), provider, styles, out result);
-		/// <summary>
-		/// Tries to parse a span of characters into a value.
-		/// </summary>
-		public static bool TryParseExact(ReadOnlySpan<char> s, string format, IFormatProvider? provider, DateTimeStyles style, out DateTime result) =>
-			DateTime.TryParseExact(s.ToString(), format, provider, style, out result);
-		/// <summary>
-		/// Tries to parse a span of characters into a value.
-		/// </summary>
-		public static bool TryParseExact(ReadOnlySpan<char> s, ReadOnlySpan<char> format, IFormatProvider? provider, DateTimeStyles styles, out DateTime result) =>
-			DateTime.TryParseExact(s.ToString(), format.ToString(), provider, styles, out result);
 #endif
 	}
 }

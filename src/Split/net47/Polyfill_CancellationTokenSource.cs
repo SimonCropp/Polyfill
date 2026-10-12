@@ -13,7 +13,11 @@ static partial class Polyfill
 			return Task.CompletedTask;
 		}
 		var task = Task.Run(target.Cancel);
-		while (!target.IsCancellationRequested) ;
+		var spinner = new SpinWait();
+		while (!target.IsCancellationRequested && !task.IsCompleted)
+		{
+			spinner.SpinOnce();
+		}
 		return task;
 	}
 }

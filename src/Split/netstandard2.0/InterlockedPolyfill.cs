@@ -17,6 +17,20 @@ static partial class Polyfill
 		public static T And<T>(ref T location1, T value)
 			where T : struct
 		{
+			if (Unsafe.SizeOf<T>() == sizeof(byte))
+			{
+				ref var loc = ref Unsafe.As<T, byte>(ref location1);
+				var val = Unsafe.As<T, byte>(ref value);
+				var result = InterlockedAnd(ref loc, val);
+				return Unsafe.As<byte, T>(ref result);
+			}
+			if (Unsafe.SizeOf<T>() == sizeof(ushort))
+			{
+				ref var loc = ref Unsafe.As<T, ushort>(ref location1);
+				var val = Unsafe.As<T, ushort>(ref value);
+				var result = InterlockedAnd(ref loc, val);
+				return Unsafe.As<ushort, T>(ref result);
+			}
 			if (Unsafe.SizeOf<T>() == sizeof(int))
 			{
 				ref var loc = ref Unsafe.As<T, int>(ref location1);
@@ -39,6 +53,20 @@ static partial class Polyfill
 		public static T Or<T>(ref T location1, T value)
 			where T : struct
 		{
+			if (Unsafe.SizeOf<T>() == sizeof(byte))
+			{
+				ref var loc = ref Unsafe.As<T, byte>(ref location1);
+				var val = Unsafe.As<T, byte>(ref value);
+				var result = InterlockedOr(ref loc, val);
+				return Unsafe.As<byte, T>(ref result);
+			}
+			if (Unsafe.SizeOf<T>() == sizeof(ushort))
+			{
+				ref var loc = ref Unsafe.As<T, ushort>(ref location1);
+				var val = Unsafe.As<T, ushort>(ref value);
+				var result = InterlockedOr(ref loc, val);
+				return Unsafe.As<ushort, T>(ref result);
+			}
 			if (Unsafe.SizeOf<T>() == sizeof(int))
 			{
 				ref var loc = ref Unsafe.As<T, int>(ref location1);
@@ -54,6 +82,62 @@ static partial class Polyfill
 				return Unsafe.As<long, T>(ref result);
 			}
 			throw new System.NotSupportedException();
+		}
+	}
+	static byte InterlockedAnd(ref byte location, byte value)
+	{
+		var current = location;
+		while (true)
+		{
+			var newValue = (byte) (current & value);
+			var oldValue = Interlocked.CompareExchange(ref location, newValue, current);
+			if (oldValue == current)
+			{
+				return oldValue;
+			}
+			current = oldValue;
+		}
+	}
+	static ushort InterlockedAnd(ref ushort location, ushort value)
+	{
+		var current = location;
+		while (true)
+		{
+			var newValue = (ushort) (current & value);
+			var oldValue = Interlocked.CompareExchange(ref location, newValue, current);
+			if (oldValue == current)
+			{
+				return oldValue;
+			}
+			current = oldValue;
+		}
+	}
+	static byte InterlockedOr(ref byte location, byte value)
+	{
+		var current = location;
+		while (true)
+		{
+			var newValue = (byte) (current | value);
+			var oldValue = Interlocked.CompareExchange(ref location, newValue, current);
+			if (oldValue == current)
+			{
+				return oldValue;
+			}
+			current = oldValue;
+		}
+	}
+	static ushort InterlockedOr(ref ushort location, ushort value)
+	{
+		var current = location;
+		while (true)
+		{
+			var newValue = (ushort) (current | value);
+			var oldValue = Interlocked.CompareExchange(ref location, newValue, current);
+			if (oldValue == current)
+			{
+				return oldValue;
+			}
+			current = oldValue;
 		}
 	}
 	static int InterlockedAnd(ref int location, int value)

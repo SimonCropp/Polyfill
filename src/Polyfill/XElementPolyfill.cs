@@ -1,5 +1,5 @@
 
-#if !NETCOREAPP2_0_OR_GREATER && !NETSTANDARD2
+#if !NETCOREAPP2_0_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
 
 namespace Polyfills;
 
@@ -44,7 +44,7 @@ static partial class XElementPolyfill
         public static async Task<XElement> LoadAsync(TextReader textReader, LoadOptions options, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var content = await textReader.ReadToEndAsync();
+            var content = await textReader.ReadToEndAsync().ConfigureAwait(false);
             return XElement.Parse(content, options);
         }
 

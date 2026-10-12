@@ -33,7 +33,7 @@ static partial class Ensure
 		{
 			throw new ArgumentNullException(name);
 		}
-		NotEmpty(value);
+		NotEmpty(value, name);
 		return value;
 	}
 #if FeatureMemory
@@ -49,14 +49,7 @@ static partial class Ensure
 		{
 			throw new ArgumentException("Argument cannot be empty.", name);
 		}
-		foreach (var ch in value.Value.Span)
-		{
-			if (!char.IsWhiteSpace(ch))
-			{
-				return value.Value;
-			}
-		}
-		throw new ArgumentException("Argument cannot be whitespace.", name);
+		return value.Value;
 	}
 	public static ReadOnlyMemory<char> NotNullOrEmpty(
 		[NotNull] ReadOnlyMemory<char>? value,
@@ -70,14 +63,7 @@ static partial class Ensure
 		{
 			throw new ArgumentException("Argument cannot be empty.", name);
 		}
-		foreach (var ch in value.Value.Span)
-		{
-			if (!char.IsWhiteSpace(ch))
-			{
-				return value.Value;
-			}
-		}
-		throw new ArgumentException("Argument cannot be whitespace.", name);
+		return value.Value;
 	}
 #endif
 }

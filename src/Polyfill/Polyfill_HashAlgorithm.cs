@@ -1,0 +1,116 @@
+#if FeatureValueTask && !NET11_0_OR_GREATER
+
+namespace Polyfills;
+
+using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Threading;
+using System.Threading.Tasks;
+
+static partial class Polyfill
+{
+    // Shared by the HashDataAsync, HmacDataAsync and VerifyHmacAsync polyfills.
+    // The arguments are validated synchronously, then the stream is read asynchronously.
+    // Each method takes ownership of, and disposes, the algorithm.
+    internal static Task<byte[]> HashStreamAsync(
+        HashAlgorithm algorithm,
+        Stream source,
+        CancellationToken cancellationToken)
+    {
+        if (source == null)
+        {
+            algorithm.Dispose();
+            throw new ArgumentNullException(nameof(source));
+        }
+
+        return HashStreamCoreAsync(algorithm, source, cancellationToken);
+    }
+
+    static async Task<byte[]> HashStreamCoreAsync(
+        HashAlgorithm algorithm,
+        Stream source,
+        CancellationToken cancellationToken)
+    {
+        using (algorithm)
+        {
+            // Throwing here results in a cancelled task for an already cancelled token
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var buffer = new byte[4096];
+            while (true)
+            {
+                var read = await source.ReadAsync(buffer, 0, buffer.Length, cancellationToken).ConfigureAwait(false);
+                if (read <= 0)
+                {
+                    break;
+                }
+
+                algorithm.TransformBlock(buffer, 0, read, null, 0);
+            }
+
+            algorithm.TransformFinalBlock(buffer, 0, 0);
+            return algorithm.Hash!;
+        }
+    }
+
+    internal static Task<bool> VerifyHashStreamAsync(
+        HashAlgorithm algorithm,
+        Stream source,
+        byte[] hash,
+        CancellationToken cancellationToken)
+    {
+        var hashSizeInBytes = algorithm.HashSize / 8;
+        if (hash.Length != hashSizeInBytes)
+        {
+            algorithm.Dispose();
+            throw new ArgumentException($"The hash must be {hashSizeInBytes} bytes in length.", nameof(hash));
+        }
+
+        var task = HashStreamAsync(algorithm, source, cancellationToken);
+        return Verify(task, hash);
+
+        static async Task<bool> Verify(Task<byte[]> task, byte[] hash)
+        {
+            var computed = await task.ConfigureAwait(false);
+
+            // The time taken must not depend on the contents
+            var accum = 0;
+            for (var i = 0; i < computed.Length; i++)
+            {
+                accum |= computed[i] - hash[i];
+            }
+
+            return accum == 0;
+        }
+    }
+
+#if FeatureMemory
+
+    internal static Task<int> HashStreamAsync(
+        HashAlgorithm algorithm,
+        Stream source,
+        Memory<byte> destination,
+        CancellationToken cancellationToken)
+    {
+        if (destination.Length < algorithm.HashSize / 8)
+        {
+            algorithm.Dispose();
+            throw new ArgumentException("Destination is too short.", nameof(destination));
+        }
+
+        var task = HashStreamAsync(algorithm, source, cancellationToken);
+        return CopyTo(task, destination);
+
+        static async Task<int> CopyTo(Task<byte[]> task, Memory<byte> destination)
+        {
+            var hash = await task.ConfigureAwait(false);
+            hash.CopyTo(destination);
+            return hash.Length;
+        }
+    }
+
+#endif
+}
+
+#endif

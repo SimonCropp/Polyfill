@@ -5,6 +5,15 @@ using System;
 using System.Collections.Generic;
 static partial class Polyfill
 {
+	static string JoinObjects(string? separator, object?[] values)
+	{
+		var strings = new string?[values.Length];
+		for (var index = 0; index < values.Length; index++)
+		{
+			strings[index] = values[index]?.ToString();
+		}
+		return string.Join(separator, strings);
+	}
 	extension(string)
 	{
 #if FeatureMemory
@@ -12,7 +21,7 @@ static partial class Polyfill
 		/// Concatenates the string representations of a span of objects, using the specified separator between each member.
 		/// </summary>
 		public static string Join(char separator, scoped ReadOnlySpan<object?> values) =>
-			Join(separator, values.ToArray());
+			JoinObjects(new(separator, 1), values.ToArray());
 		/// <summary>
 		/// Concatenates a span of strings, using the specified separator between each member.
 		/// </summary>
@@ -61,7 +70,7 @@ static partial class Polyfill
 			}
 			return result;
 #else
-			return Join(separator, values.ToArray());
+			return string.Join(separator, values.ToArray());
 #endif
 		}
 		/// <summary>
@@ -124,7 +133,7 @@ static partial class Polyfill
 		/// Concatenates the string representations of a span of objects, using the specified separator between each member.
 		/// </summary>
 		public static string Join(string? separator, scoped ReadOnlySpan<object?> values) =>
-			string.Join(separator, values.ToArray());
+			JoinObjects(separator, values.ToArray());
 		/// <summary>
 		/// Concatenates the string representations of the elements in a span of objects.
 		/// </summary>

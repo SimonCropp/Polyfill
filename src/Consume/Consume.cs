@@ -372,7 +372,7 @@ class Consume
     }
 #endif
 
-#if FeatureMemory && !RefsBclMemory
+#if FeatureMemory
     void Base64Usage()
     {
         ReadOnlySpan<byte> source = default;
@@ -1063,6 +1063,25 @@ class Consume
 
     class Order;
 
+    void DateTime_Methods()
+    {
+        var invariant = CultureInfo.InvariantCulture;
+        var parsed = DateTime.TryParse("2024-03-15", invariant, out var dateTime);
+        parsed = DateTimeOffset.TryParse("2024-03-15", invariant, out var dateTimeOffset);
+#if FeatureMemory
+        parsed = DateTime.TryParse("2024-03-15".AsSpan(), out dateTime);
+        parsed = DateTime.TryParse("2024-03-15".AsSpan(), invariant, out dateTime);
+        parsed = DateTime.TryParse("2024-03-15".AsSpan(), invariant, DateTimeStyles.None, out dateTime);
+        parsed = DateTime.TryParseExact("2024-03-15".AsSpan(), "yyyy-MM-dd", invariant, DateTimeStyles.None, out dateTime);
+        parsed = DateTime.TryParseExact("2024-03-15".AsSpan(), "yyyy-MM-dd".AsSpan(), invariant, DateTimeStyles.None, out dateTime);
+        parsed = DateTimeOffset.TryParse("2024-03-15".AsSpan(), out dateTimeOffset);
+        parsed = DateTimeOffset.TryParse("2024-03-15".AsSpan(), invariant, out dateTimeOffset);
+        parsed = DateTimeOffset.TryParse("2024-03-15".AsSpan(), invariant, DateTimeStyles.None, out dateTimeOffset);
+        parsed = DateTimeOffset.TryParseExact("2024-03-15".AsSpan(), "yyyy-MM-dd", invariant, DateTimeStyles.None, out dateTimeOffset);
+        parsed = DateTimeOffset.TryParseExact("2024-03-15".AsSpan(), "yyyy-MM-dd".AsSpan(), invariant, DateTimeStyles.None, out dateTimeOffset);
+#endif
+    }
+
     void Decimal_Methods()
     {
         decimal.TryParse(s: "1", provider: null, result: out _);
@@ -1274,9 +1293,7 @@ class Consume
         // Use the | bitwise OR operator to combine multiple file modes
         File.SetUnixFileMode(TestFilePath, UnixFileMode.OtherRead | UnixFileMode.OtherWrite);
 
-#if !NET11_0_OR_GREATER
         using var nullHandle = File.OpenNullHandle();
-#endif
 
         var hardLink = File.CreateHardLink("hardlink.txt", TestFilePath);
         var fileInfo = new FileInfo("hardlink2.txt");
@@ -1414,6 +1431,8 @@ class Consume
         var minBy = enumerable.MinBy(_ => _);
         var distinctBy = enumerable.DistinctBy(_ => _);
         var skipLast = enumerable.SkipLast(1);
+        var toHashSet = enumerable.ToHashSet();
+        var toHashSetComparer = enumerable.ToHashSet(StringComparer.OrdinalIgnoreCase);
         int[] numbers = [1, 2, 3, 4];
         string[] words = ["one", "two", "three"];
         var numbersAndWords = numbers.Zip(words, (first, second) => first + " " + second);
@@ -1975,6 +1994,10 @@ class Consume
     void String_Methods()
     {
         var contains = "a b".Contains(' ');
+        var containsCharComparison = "a b".Contains(' ', StringComparison.Ordinal);
+        var containsStringComparison = "a b".Contains("B", StringComparison.OrdinalIgnoreCase);
+        var indexOfCharComparison = "a b".IndexOf('B', StringComparison.OrdinalIgnoreCase);
+        var hashCodeComparison = "a b".GetHashCode(StringComparison.OrdinalIgnoreCase);
         var endsWith = "value".EndsWith('a');
 
         var splitChar = "a b".Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -2145,6 +2168,9 @@ class Consume
         timeSpan = TimeSpan.FromHours(1, 30);
         timeSpan = TimeSpan.FromMinutes(1);
         timeSpan = TimeSpan.FromMinutes(1, 30);
+        timeSpan = TimeSpan.FromDays(1, 2, 3L, 4L, 5L, 6L);
+        timeSpan = TimeSpan.FromHours(1, 2L, 3L, 4L, 5L);
+        timeSpan = TimeSpan.FromMinutes(1L, 2L, 3L, 4L);
         timeSpan = TimeSpan.FromSeconds(1L);
         timeSpan = TimeSpan.FromSeconds(1L, 500L);
         timeSpan = TimeSpan.FromMicroseconds(1000L);
@@ -2175,12 +2201,14 @@ class Consume
         await target.WriteAsync("a", CancellationToken.None);
         await target.WriteLineAsync(CancellationToken.None);
         await target.WriteLineAsync("a", CancellationToken.None);
-#if FeatureMemory && FeatureValueTask
+#if FeatureMemory
         target.WriteLine("a".AsSpan());
         target.Write("a".AsSpan());
         var memory = "a".AsMemory();
-        await target.WriteLineAsync(memory);
-        await target.WriteAsync(memory);
+        Task writeLineMemory = target.WriteLineAsync(memory);
+        Task writeMemory = target.WriteAsync(memory);
+        writeLineMemory = target.WriteLineAsync(memory, CancellationToken.None);
+        writeMemory = target.WriteAsync(memory, CancellationToken.None);
 #endif
     }
 

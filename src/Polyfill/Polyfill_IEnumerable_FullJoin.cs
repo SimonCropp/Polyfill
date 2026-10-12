@@ -32,20 +32,40 @@ static partial class Polyfill
         IEqualityComparer<TKey>? comparer)
     {
         comparer ??= EqualityComparer<TKey>.Default;
-        var innerLookup = inner.ToLookup(innerKeySelector, comparer);
+
+        // a null key never matches, not even another null key.
+        // so null keyed inner elements are kept out of the lookup, and yielded last as unmatched
+        var keyedInner = new List<KeyValuePair<TKey, TInner>>();
+        var nullKeyedInner = new List<TInner>();
+        foreach (var innerElement in inner)
+        {
+            var key = innerKeySelector(innerElement);
+            if (key is null)
+            {
+                nullKeyedInner.Add(innerElement);
+                continue;
+            }
+
+            keyedInner.Add(new(key, innerElement));
+        }
+
+        var innerLookup = keyedInner.ToLookup(_ => _.Key, _ => _.Value, comparer);
         var outerKeys = new HashSet<TKey>(comparer);
 
         foreach (var outerElement in outer)
         {
             var key = outerKeySelector(outerElement);
-            outerKeys.Add(key);
-            var innerGroup = innerLookup[key];
             var hasMatch = false;
 
-            foreach (var innerElement in innerGroup)
+            if (key is not null)
             {
-                hasMatch = true;
-                yield return resultSelector(outerElement, innerElement);
+                outerKeys.Add(key);
+
+                foreach (var innerElement in innerLookup[key])
+                {
+                    hasMatch = true;
+                    yield return resultSelector(outerElement, innerElement);
+                }
             }
 
             if (!hasMatch)
@@ -65,6 +85,11 @@ static partial class Polyfill
             {
                 yield return resultSelector(default, innerElement);
             }
+        }
+
+        foreach (var innerElement in nullKeyedInner)
+        {
+            yield return resultSelector(default, innerElement);
         }
     }
 

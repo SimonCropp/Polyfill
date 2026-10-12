@@ -591,6 +591,59 @@ public class SplitterTests
         await Assert.That(Splitter.AllKnownFrameworkSymbols.Contains("NETCOREAPP")).IsTrue();
     }
 
+    // A misspelt framework symbol (for example NETSTANDARD2 instead of NETSTANDARD2_0) is never
+    // defined, so the condition it appears in silently evaluates the wrong way on every framework.
+    // Symbols for a framework newer than any targeted one (NET{n}_0_OR_GREATER) are allowed, since
+    // they are legitimately used to guard APIs that are announced but not yet shipped.
+    [Test]
+    public async Task SourceFiles_UseOnlyKnownFrameworkSymbols()
+    {
+        var polyfillDir = Path.Combine(ProjectFiles.SolutionDirectory, "Polyfill");
+        var unknown = new List<string>();
+        foreach (var file in Directory.EnumerateFiles(polyfillDir, "*.cs", SearchOption.AllDirectories))
+        {
+            var relative = Path.GetRelativePath(polyfillDir, file).Replace('\\', '/');
+            if (relative.StartsWith("bin/") || relative.StartsWith("obj/"))
+            {
+                continue;
+            }
+
+            foreach (var line in File.ReadLines(file))
+            {
+                var trimmed = line.TrimStart();
+                if (!trimmed.StartsWith("#if ") && !trimmed.StartsWith("#elif "))
+                {
+                    continue;
+                }
+
+                foreach (Match match in Regex.Matches(trimmed, @"\bNET[A-Z0-9_]*\b"))
+                {
+                    var symbol = match.Value;
+                    if (Splitter.AllKnownFrameworkSymbols.Contains(symbol) ||
+                        IsFutureFramework(symbol))
+                    {
+                        continue;
+                    }
+
+                    unknown.Add($"{relative}: {symbol}");
+                }
+            }
+        }
+
+        await Assert.That(unknown).IsEmpty();
+
+        static bool IsFutureFramework(string symbol)
+        {
+            var match = Regex.Match(symbol, @"^NET(\d+)_0_OR_GREATER$");
+            if (!match.Success)
+            {
+                return false;
+            }
+
+            return !Splitter.AllKnownFrameworkSymbols.Contains($"NET{match.Groups[1].Value}_0");
+        }
+    }
+
     [Test]
     public async Task FeatureSymbols_NotInKnownSymbols()
     {

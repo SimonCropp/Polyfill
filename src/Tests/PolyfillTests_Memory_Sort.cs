@@ -103,6 +103,51 @@ partial class PolyfillTests
         await Assert.That(string.Join(",", values)).IsEqualTo(string.Join(",", expectedValues));
     }
 
+    [Test]
+    public async Task SpanSort_NullElements_SortedFirst()
+    {
+        string?[] items = ["b", null, "a", null];
+
+        items.AsSpan().Sort();
+
+        await Assert.That(string.Join(",", items.Select(_ => _ ?? "null"))).IsEqualTo("null,null,a,b");
+    }
+
+    [Test]
+    public async Task SpanSort_NonGenericComparable()
+    {
+        // object does not implement IComparable<T>; the default comparer is used
+        object[] items = [3, 1, 2];
+
+        items.AsSpan().Sort();
+
+        await Assert.That(string.Join(",", items)).IsEqualTo("1,2,3");
+    }
+
+    [Test]
+    public async Task SpanSort_KeysAndValues_NullComparer_UsesDefault()
+    {
+        int[] keys = [3, 1, 2];
+        string[] values = ["three", "one", "two"];
+
+        keys.AsSpan().Sort(values.AsSpan(), (IComparer<int>?)null);
+
+        await Assert.That(string.Join(",", keys)).IsEqualTo("1,2,3");
+        await Assert.That(string.Join(",", values)).IsEqualTo("one,two,three");
+    }
+
+    [Test]
+    public async Task SpanSort_KeysAndValues_NullKeys_SortedFirst()
+    {
+        string?[] keys = ["b", null, "a"];
+        int[] values = [0, 1, 2];
+
+        keys.AsSpan().Sort(values.AsSpan());
+
+        await Assert.That(string.Join(",", keys.Select(_ => _ ?? "null"))).IsEqualTo("null,a,b");
+        await Assert.That(string.Join(",", values)).IsEqualTo("1,2,0");
+    }
+
 #if !NET5_0_OR_GREATER
     [Test]
     public async Task SpanSort_NullComparison_ThrowsArgumentNullException()
@@ -126,19 +171,6 @@ partial class PolyfillTests
         await Assert.ThrowsAsync<ArgumentException>(async () =>
         {
             keys.AsSpan().Sort(values);
-            await Task.CompletedTask;
-        });
-    }
-
-    [Test]
-    public async Task SpanSort_KeysAndValues_NullComparer_ThrowsArgumentNullException()
-    {
-        int[] keys = [3, 1, 2];
-        string[] values = ["three", "one", "two"];
-
-        await Assert.ThrowsAsync<ArgumentNullException>(async () =>
-        {
-            keys.AsSpan().Sort(values, (IComparer<int>)null!);
             await Task.CompletedTask;
         });
     }

@@ -4,6 +4,7 @@ namespace Polyfills;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
@@ -31,8 +32,9 @@ static partial class Polyfill
 		/// </summary>
 		public static async Task AppendAllBytesAsync(string path, byte[] bytes, CancellationToken cancellationToken = default)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
-			await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
+			await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
 		}
 #if FeatureMemory
 		/// <summary>
@@ -69,8 +71,9 @@ static partial class Polyfill
 		/// </summary>
 		public static async Task WriteAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
-			await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken);
+			await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Creates a new file, writes the specified byte array to the file, and then closes the file.
@@ -102,16 +105,9 @@ static partial class Polyfill
 		/// </summary>
 		public static void Move(string sourceFileName, string destFileName, bool overwrite)
 		{
-			sourceFileName = Path.GetFullPath(sourceFileName);
-			destFileName = Path.GetFullPath(destFileName);
-			if (sourceFileName == destFileName)
-			{
-				return;
-			}
 			if (overwrite)
 			{
-				File.Copy(sourceFileName, destFileName, overwrite: true);
-				File.Delete(sourceFileName);
+				FileMoveHelper.MoveAndOverwrite(sourceFileName, destFileName);
 			}
 			else
 			{
@@ -123,8 +119,9 @@ static partial class Polyfill
 		/// </summary>
 		public static async Task WriteAllBytesAsync(string path, byte[] bytes, CancellationToken cancellationToken = default)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
-			await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
+			await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Asynchronously creates a new file, writes the specified lines to the file, and then closes the file.
@@ -136,14 +133,15 @@ static partial class Polyfill
 		/// </summary>
 		public static async Task WriteAllLinesAsync(string path, IEnumerable<string> contents, Encoding encoding, CancellationToken cancellationToken = default)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
 			using var writer = new StreamWriter(stream, encoding);
 			foreach (var line in contents)
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				await writer.WriteLineAsync(line);
+				await writer.WriteLineAsync(line).ConfigureAwait(false);
 			}
-			await writer.FlushAsync(cancellationToken);
+			await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Asynchronously appends lines to a file, and then closes the file. If the specified file does not exist, this method creates a file, writes the specified lines to the file, and then closes the file.
@@ -161,22 +159,23 @@ static partial class Polyfill
 			foreach (var content in contents)
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				await writer.WriteLineAsync(content);
+				await writer.WriteLineAsync(content).ConfigureAwait(false);
 			}
-			await writer.FlushAsync(cancellationToken);
+			await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Asynchronously creates a new file, writes the specified string to the file using the specified encoding, and then closes the file. If the target file already exists, it is truncated and overwritten.
 		/// </summary>
 		public static async Task WriteAllTextAsync(string path, string? contents, Encoding encoding, CancellationToken cancellationToken = default)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
 			using var writer = new StreamWriter(stream, encoding);
 			if (contents != null)
 			{
-				await writer.WriteAsync(contents);
+				await writer.WriteAsync(contents).ConfigureAwait(false);
 			}
-			await writer.FlushAsync(cancellationToken);
+			await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Asynchronously creates a new file, writes the specified string to the file using the specified encoding, and then closes the file. If the target file already exists, it is truncated and overwritten.
@@ -191,8 +190,8 @@ static partial class Polyfill
 			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
 			using var writer = new StreamWriter(stream, encoding);
-			await writer.WriteAsync(contents);
-			await writer.FlushAsync(cancellationToken);
+			await writer.WriteAsync(contents).ConfigureAwait(false);
+			await writer.FlushAsync(cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Asynchronously opens a file or creates the file if it does not already exist, appends the specified string to the file, and then closes the file.
@@ -215,7 +214,7 @@ static partial class Polyfill
 			var bytesRead = 0;
 			while (bytesRead < length)
 			{
-				var read = await stream.ReadAsync(bytes, bytesRead, length - bytesRead, cancellationToken);
+				var read = await stream.ReadAsync(bytes, bytesRead, length - bytesRead, cancellationToken).ConfigureAwait(false);
 				if (read == 0)
 				{
 					throw new EndOfStreamException($"End of stream reached with {length - bytesRead} bytes left to read");
@@ -239,7 +238,7 @@ static partial class Polyfill
 			while (!reader.EndOfStream)
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				var line = await reader.ReadLineAsync();
+				var line = await reader.ReadLineAsync().ConfigureAwait(false);
 				if (line != null)
 				{
 					lines.Add(line);
@@ -258,7 +257,7 @@ static partial class Polyfill
 		public static async Task<string> ReadAllTextAsync(string path, Encoding encoding, CancellationToken cancellationToken = default)
 		{
 			using var reader = AsyncStreamReader(path, encoding);
-			return await reader.ReadToEndAsync(cancellationToken);
+			return await reader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
 		}
 		static StreamReader AsyncStreamReader(string path, Encoding encoding)
 		{
@@ -281,7 +280,7 @@ static partial class Polyfill
 			while (!reader.EndOfStream)
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				var line = await reader.ReadLineAsync();
+				var line = await reader.ReadLineAsync().ConfigureAwait(false);
 				if (line != null)
 				{
 					yield return line;
@@ -289,6 +288,113 @@ static partial class Polyfill
 			}
 		}
 #endif
+	}
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+	[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
+	static class FileMoveHelper
+	{
+		const uint MOVEFILE_REPLACE_EXISTING = 1;
+		const uint MOVEFILE_COPY_ALLOWED = 2;
+		const int ERROR_FILE_NOT_FOUND = 2;
+		const int ERROR_PATH_NOT_FOUND = 3;
+		const int ERROR_ACCESS_DENIED = 5;
+		const int EPERM = 1;
+		const int ENOENT = 2;
+		const int EACCES = 13;
+		const int EXDEV = 18;
+		internal static void MoveAndOverwrite(string sourceFileName, string destFileName)
+		{
+			ValidatePath(sourceFileName, nameof(sourceFileName));
+			ValidatePath(destFileName, nameof(destFileName));
+			var source = Path.GetFullPath(sourceFileName);
+			var dest = Path.GetFullPath(destFileName);
+			if (!File.Exists(source))
+			{
+				throw new FileNotFoundException($"Could not find file '{source}'.", source);
+			}
+#if FeatureRuntimeInformation
+			if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+#else
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+#endif
+			{
+				if (!MoveFileExW(ToExtendedPath(source), ToExtendedPath(dest), MOVEFILE_REPLACE_EXISTING | MOVEFILE_COPY_ALLOWED))
+				{
+					throw CreateWindowsException(Marshal.GetLastWin32Error(), source);
+				}
+				return;
+			}
+			if (rename(source, dest) == 0)
+			{
+				return;
+			}
+			var error = Marshal.GetLastWin32Error();
+			if (error == EXDEV)
+			{
+				File.Copy(source, dest, overwrite: true);
+				File.Delete(source);
+				return;
+			}
+			throw CreateUnixException(error, source, dest);
+		}
+		static void ValidatePath(string path, string paramName)
+		{
+			if (path is null)
+			{
+				throw new ArgumentNullException(paramName);
+			}
+			if (path.Length == 0)
+			{
+				throw new ArgumentException("The value cannot be an empty string.", paramName);
+			}
+		}
+		static string ToExtendedPath(string fullPath)
+		{
+			if (fullPath.Length < 260 ||
+				fullPath.StartsWith(@"\\?\", StringComparison.Ordinal))
+			{
+				return fullPath;
+			}
+			if (fullPath.StartsWith(@"\\", StringComparison.Ordinal))
+			{
+				return @"\\?\UNC\" + fullPath.Substring(2);
+			}
+			return @"\\?\" + fullPath;
+		}
+		static Exception CreateWindowsException(int error, string source)
+		{
+			switch (error)
+			{
+				case ERROR_FILE_NOT_FOUND:
+					return new FileNotFoundException($"Could not find file '{source}'.", source);
+				case ERROR_PATH_NOT_FOUND:
+					return new DirectoryNotFoundException("Could not find a part of the path.");
+				case ERROR_ACCESS_DENIED:
+					return new UnauthorizedAccessException("Access to the path is denied.");
+				default:
+					return new IOException(new Win32Exception(error).Message, unchecked((int) 0x80070000) | error);
+			}
+		}
+		static Exception CreateUnixException(int error, string source, string dest)
+		{
+			switch (error)
+			{
+				case ENOENT:
+					return new DirectoryNotFoundException("Could not find a part of the path.");
+				case EPERM:
+				case EACCES:
+					return new UnauthorizedAccessException("Access to the path is denied.");
+				default:
+					return new IOException($"Unable to move file '{source}' to '{dest}'.", error);
+			}
+		}
+		[DllImport("kernel32.dll", EntryPoint = "MoveFileExW", CharSet = CharSet.Unicode, SetLastError = true)]
+		static extern bool MoveFileExW(string lpExistingFileName, string lpNewFileName, uint dwFlags);
+		[DllImport("libc", SetLastError = true)]
+		static extern int rename(string oldpath, string newpath);
 	}
 	extension(File)
 	{
@@ -306,7 +412,6 @@ static partial class Polyfill
 			return new FileInfo(path);
 		}
 	}
-#if !NET12_0_OR_GREATER
 	extension(File)
 	{
 		/// <summary>
@@ -414,5 +519,4 @@ static partial class Polyfill
 			uint dwFlagsAndAttributes,
 			IntPtr hTemplateFile);
 	}
-#endif
 }

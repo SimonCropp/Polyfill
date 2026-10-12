@@ -48,13 +48,16 @@ static partial class Polyfill
         foreach (var innerElement in inner)
         {
             var key = innerKeySelector(innerElement);
-            var outerGroup = outerLookup[key];
             var hasMatch = false;
 
-            foreach (var outerElement in outerGroup)
+            // a null key never matches, not even another null key
+            if (key is not null)
             {
-                hasMatch = true;
-                yield return resultSelector(outerElement, innerElement);
+                foreach (var outerElement in outerLookup[key])
+                {
+                    hasMatch = true;
+                    yield return resultSelector(outerElement, innerElement);
+                }
             }
 
             if (!hasMatch)

@@ -9,6 +9,25 @@ public class BigMulTests
     static long[] longs = [0, 1, -1, 2, -2, 0x0123456789ABCDEF, unchecked((long) 0xFEDCBA9876543210), long.MaxValue, long.MinValue];
     static ulong[] ulongs = [0, 1, 2, 0x0123456789ABCDEF, 0x8000_0000_0000_0000, ulong.MaxValue];
 
+    // Where the BCL declares BigMul the polyfill must not be compiled: a static member of the
+    // type always wins over a static extension member, so the polyfill would be dead code.
+    [Test]
+    public async Task NotPolyfilledWhereBclHasIt()
+    {
+        var duplicates = typeof(Polyfills.Polyfill)
+            .GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static)
+            .Where(_ => _.Name == "BigMul")
+            .Where(_ =>
+            {
+                var parameters = _.GetParameters().Select(_ => _.ParameterType).ToArray();
+                return parameters[0].GetMethod("BigMul", BindingFlags.Public | BindingFlags.Static, null, parameters, null) != null;
+            })
+            .Select(_ => _.ToString())
+            .ToList();
+
+        await Assert.That(duplicates).IsEmpty();
+    }
+
     [Test]
     public async Task Int32()
     {

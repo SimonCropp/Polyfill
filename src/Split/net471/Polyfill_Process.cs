@@ -22,18 +22,318 @@ static partial class Polyfill
 	[SupportedOSPlatform("maccatalyst")]
 	[UnsupportedOSPlatform("ios")]
 	[UnsupportedOSPlatform("tvos")]
-	public static void Kill(this Process target, bool entireProcessTree) =>
-		target.Kill();
+	public static void Kill(this Process target, bool entireProcessTree)
+	{
+		if (!entireProcessTree)
+		{
+			target.Kill();
+			return;
+		}
+		ProcessTreeHelper.Kill(target);
+	}
+	[ExcludeFromCodeCoverage]
+	[DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+	[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
+	static class ProcessTreeHelper
+	{
+		public static void Kill(Process target)
+		{
+			if (target.HasExited)
+			{
+				return;
+			}
+			var errors = new List<Exception>();
+			if (SignalHelper.IsWindows)
+			{
+				if (IsWindowsSelfOrDescendant(target))
+				{
+					throw CallingProcessInTree();
+				}
+				KillWindowsTree(target, errors);
+			}
+			else
+			{
+				KillUnixTree(target, errors);
+			}
+			if (errors.Count != 0)
+			{
+				throw new AggregateException("Not all processes in process tree could be terminated.", errors);
+			}
+		}
+		static InvalidOperationException CallingProcessInTree() =>
+			new("Cannot be used to terminate a process tree containing the calling process.");
+		static void KillWindowsTree(Process process, List<Exception> errors)
+		{
+			var id = process.Id;
+			var hasStartTime = TryGetStartTime(process, out var startTime);
+			try
+			{
+				process.Kill();
+			}
+			catch (InvalidOperationException)
+			{
+			}
+			catch (Win32Exception exception)
+			{
+				if (!HasExited(process))
+				{
+					errors.Add(exception);
+				}
+			}
+			if (!hasStartTime)
+			{
+				return;
+			}
+			foreach (var pair in GetWindowsParentIds())
+			{
+				if (pair.Value != id ||
+					pair.Key == id)
+				{
+					continue;
+				}
+				Process child;
+				try
+				{
+					child = Process.GetProcessById(pair.Key);
+				}
+				catch (ArgumentException)
+				{
+					continue;
+				}
+				using (child)
+				{
+					if (TryGetStartTime(child, out var childStartTime) &&
+						childStartTime >= startTime)
+					{
+						KillWindowsTree(child, errors);
+					}
+				}
+			}
+		}
+		static bool IsWindowsSelfOrDescendant(Process target)
+		{
+			var targetId = target.Id;
+			using var current = Process.GetCurrentProcess();
+			if (current.Id == targetId)
+			{
+				return true;
+			}
+			if (!TryGetStartTime(current, out var startTime))
+			{
+				return false;
+			}
+			var parents = GetWindowsParentIds();
+			var id = current.Id;
+			var visited = new HashSet<int>();
+			while (visited.Add(id) &&
+				   parents.TryGetValue(id, out var parentId))
+			{
+				if (!TryGetStartTime(parentId, out var parentStartTime) ||
+					parentStartTime > startTime)
+				{
+					return false;
+				}
+				if (parentId == targetId)
+				{
+					return true;
+				}
+				id = parentId;
+				startTime = parentStartTime;
+			}
+			return false;
+		}
+		static void KillUnixTree(Process target, List<Exception> errors)
+		{
+			var targetId = target.Id;
+			var parents = GetUnixParentIds();
+			int currentId;
+			using (var current = Process.GetCurrentProcess())
+			{
+				currentId = current.Id;
+			}
+			var descendants = new List<int>();
+			var pending = new Queue<int>();
+			pending.Enqueue(targetId);
+			var visited = new HashSet<int> {targetId};
+			while (pending.Count > 0)
+			{
+				var id = pending.Dequeue();
+				if (id == currentId)
+				{
+					throw CallingProcessInTree();
+				}
+				foreach (var pair in parents)
+				{
+					if (pair.Value == id &&
+						visited.Add(pair.Key))
+					{
+						descendants.Add(pair.Key);
+						pending.Enqueue(pair.Key);
+					}
+				}
+			}
+			try
+			{
+				target.Kill();
+			}
+			catch (InvalidOperationException)
+			{
+			}
+			catch (Win32Exception exception)
+			{
+				errors.Add(exception);
+			}
+			foreach (var id in descendants)
+			{
+				try
+				{
+					SignalHelper.Send(id, (PosixSignal) SignalHelper.SigKill);
+				}
+				catch (Win32Exception exception)
+				{
+					errors.Add(exception);
+				}
+			}
+		}
+		static bool HasExited(Process process)
+		{
+			try
+			{
+				return process.WaitForExit(500);
+			}
+			catch (Exception exception) when (exception is InvalidOperationException or Win32Exception)
+			{
+				return false;
+			}
+		}
+		static bool TryGetStartTime(int id, out DateTime startTime)
+		{
+			try
+			{
+				using var process = Process.GetProcessById(id);
+				return TryGetStartTime(process, out startTime);
+			}
+			catch (ArgumentException)
+			{
+				startTime = default;
+				return false;
+			}
+		}
+		static bool TryGetStartTime(Process process, out DateTime startTime)
+		{
+			try
+			{
+				startTime = process.StartTime;
+				return true;
+			}
+			catch (Exception exception) when (exception is InvalidOperationException or Win32Exception or NotSupportedException)
+			{
+				startTime = default;
+				return false;
+			}
+		}
+		static Dictionary<int, int> GetWindowsParentIds()
+		{
+			var parents = new Dictionary<int, int>();
+			var snapshot = CreateToolhelp32Snapshot(snapProcess, 0);
+			if (snapshot == invalidHandle)
+			{
+				return parents;
+			}
+			try
+			{
+				var entry = new ProcessEntry
+				{
+					Size = (uint) Marshal.SizeOf(typeof(ProcessEntry))
+				};
+				if (!Process32FirstW(snapshot, ref entry))
+				{
+					return parents;
+				}
+				do
+				{
+					parents[(int) entry.ProcessId] = (int) entry.ParentProcessId;
+				} while (Process32NextW(snapshot, ref entry));
+			}
+			finally
+			{
+				CloseHandle(snapshot);
+			}
+			return parents;
+		}
+		static Dictionary<int, int> GetUnixParentIds()
+		{
+			var parents = new Dictionary<int, int>();
+			string output;
+			try
+			{
+				using var process = Process.Start(
+					new ProcessStartInfo
+					{
+						FileName = "ps",
+						Arguments = "-A -o pid=,ppid=",
+						RedirectStandardOutput = true,
+						UseShellExecute = false,
+						CreateNoWindow = true
+					})!;
+				output = process.StandardOutput.ReadToEnd();
+				process.WaitForExit();
+			}
+			catch (Exception exception) when (exception is Win32Exception or InvalidOperationException)
+			{
+				return parents;
+			}
+			foreach (var line in output.Split('\n'))
+			{
+				var parts = line.Split(new[] {' ', '\t', '\r'}, StringSplitOptions.RemoveEmptyEntries);
+				if (parts.Length == 2 &&
+					int.TryParse(parts[0], out var id) &&
+					int.TryParse(parts[1], out var parentId))
+				{
+					parents[id] = parentId;
+				}
+			}
+			return parents;
+		}
+		const uint snapProcess = 2;
+		static readonly IntPtr invalidHandle = new(-1);
+#pragma warning disable CS0649, CS0169
+		[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+		struct ProcessEntry
+		{
+			public uint Size;
+			public uint Usage;
+			public uint ProcessId;
+			public IntPtr DefaultHeapId;
+			public uint ModuleId;
+			public uint Threads;
+			public uint ParentProcessId;
+			public int PriorityClassBase;
+			public uint Flags;
+			[MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+			public string ExeFile;
+		}
+#pragma warning restore CS0649, CS0169
+		[DllImport("kernel32.dll", SetLastError = true)]
+		static extern IntPtr CreateToolhelp32Snapshot(uint flags, uint processId);
+		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+		static extern bool Process32FirstW(IntPtr snapshot, ref ProcessEntry entry);
+		[DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+		static extern bool Process32NextW(IntPtr snapshot, ref ProcessEntry entry);
+		[DllImport("kernel32.dll", SetLastError = true)]
+		static extern bool CloseHandle(IntPtr handle);
+	}
 	/// <summary>
 	/// Instructs the Process component to wait for the associated process to exit, or
 	/// for the <paramref name="cancellationToken"/> to be canceled.
 	/// </summary>
 	public static async Task WaitForExitAsync(this Process target, CancellationToken cancellationToken = default)
 	{
-		cancellationToken.ThrowIfCancellationRequested();
-		if (target.HasExited)
+		if (!target.HasExited)
 		{
-			return;
+			cancellationToken.ThrowIfCancellationRequested();
 		}
 		try
 		{
@@ -41,6 +341,7 @@ static partial class Polyfill
 		}
 		catch (InvalidOperationException) when (target.HasExited)
 		{
+			await WaitUntilOutputEof(target, cancellationToken);
 			return;
 		}
 		var tcs = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -52,13 +353,59 @@ static partial class Polyfill
 			{
 				using (cancellationToken.UnsafeRegister(static (s, cancellationToken) => ((TaskCompletionSource<object>) s!).TrySetCanceled(cancellationToken), tcs))
 				{
-					await tcs.Task;
+					await tcs.Task.ConfigureAwait(false);
 				}
 			}
+			await WaitUntilOutputEof(target, cancellationToken);
 		}
 		finally
 		{
 			target.Exited -= handler;
+		}
+	}
+	static async Task WaitUntilOutputEof(Process target, CancellationToken cancellationToken)
+	{
+		if (!HasRedirectedOutput(target))
+		{
+			return;
+		}
+		var started = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
+		var drain = Task.Run(() =>
+		{
+			started.TrySetResult(null);
+			target.WaitForExit();
+		});
+		if (!cancellationToken.CanBeCanceled)
+		{
+			await drain;
+			return;
+		}
+		var canceled = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
+		using (cancellationToken.UnsafeRegister(static (s, cancellationToken) => ((TaskCompletionSource<object>) s!).TrySetCanceled(cancellationToken), canceled))
+		{
+			if (await Task.WhenAny(drain, canceled.Task) != drain)
+			{
+				await Task.WhenAny(drain, started.Task);
+				await Task.WhenAny(drain, Task.Delay(100));
+				if (!drain.IsCompleted)
+				{
+					await canceled.Task;
+				}
+			}
+			await drain;
+		}
+	}
+	static bool HasRedirectedOutput(Process target)
+	{
+		try
+		{
+			var startInfo = target.StartInfo;
+			return startInfo.RedirectStandardOutput ||
+				   startInfo.RedirectStandardError;
+		}
+		catch (InvalidOperationException)
+		{
+			return false;
 		}
 	}
 #if FeatureValueTuple
@@ -79,8 +426,8 @@ static partial class Polyfill
 	{
 		var stdoutTask = target.StandardOutput.ReadToEndAsync();
 		var stderrTask = target.StandardError.ReadToEndAsync();
-		await target.WaitForExitAsync(cancellationToken);
-		return (await stdoutTask, await stderrTask);
+		await target.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
+		return (await stdoutTask.ConfigureAwait(false), await stderrTask.ConfigureAwait(false));
 	}
 	/// <summary>
 	/// Reads the standard output and standard error of the process as bytes, waiting for the process to exit.
@@ -104,8 +451,8 @@ static partial class Polyfill
 		var errMs = new MemoryStream();
 		var outTask = target.StandardOutput.BaseStream.CopyToAsync(outMs, 81920, cancellationToken);
 		var errTask = target.StandardError.BaseStream.CopyToAsync(errMs, 81920, cancellationToken);
-		await target.WaitForExitAsync(cancellationToken);
-		await Task.WhenAll(outTask, errTask);
+		await target.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
+		await Task.WhenAll(outTask, errTask).ConfigureAwait(false);
 		return (outMs.ToArray(), errMs.ToArray());
 	}
 #endif
@@ -243,7 +590,7 @@ static partial class Polyfill
 		{
 			while (true)
 			{
-				await signal.WaitAsync(cancellationToken);
+				await signal.WaitAsync(cancellationToken).ConfigureAwait(false);
 				while (queue.TryDequeue(out var line))
 				{
 					yield return line;
@@ -338,7 +685,7 @@ static partial class Polyfill
 	[UnsupportedOSPlatform("tvos")]
 	public static async Task<ProcessExitStatus> WaitForExitStatusAsync(this Process target, CancellationToken cancellationToken = default)
 	{
-		await target.WaitForExitAsync(cancellationToken);
+		await target.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
 		return ToExitStatus(target.ExitCode);
 	}
 	static ProcessExitStatus ToExitStatus(int exitCode)
@@ -446,22 +793,22 @@ static partial class Polyfill
 	}
 	static void WaitForExitOrThrow(Process target, TimeSpan? timeout)
 	{
+		if (!TryWaitForExit(target, timeout))
+		{
+			throw new TimeoutException("The process did not exit within the specified timeout.");
+		}
+	}
+	static bool TryWaitForExit(Process target, TimeSpan? timeout)
+	{
 		if (timeout is { } value)
 		{
 			var ms = (long)value.TotalMilliseconds;
-			if (ms < 0 || ms > int.MaxValue)
+			if (ms >= 0 && ms <= int.MaxValue)
 			{
-				target.WaitForExit();
-				return;
-			}
-			if (!target.WaitForExit((int)ms))
-			{
-				throw new TimeoutException("The process did not exit within the specified timeout.");
+				return target.WaitForExit((int)ms);
 			}
 		}
-		else
-		{
-			target.WaitForExit();
-		}
+		target.WaitForExit();
+		return true;
 	}
 }

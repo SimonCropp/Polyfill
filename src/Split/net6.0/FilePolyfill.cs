@@ -4,6 +4,7 @@ namespace Polyfills;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
@@ -31,8 +32,9 @@ static partial class Polyfill
 		/// </summary>
 		public static async Task AppendAllBytesAsync(string path, byte[] bytes, CancellationToken cancellationToken = default)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
-			await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
+			await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
 		}
 #if FeatureMemory
 		/// <summary>
@@ -69,8 +71,9 @@ static partial class Polyfill
 		/// </summary>
 		public static async Task WriteAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
 		{
+			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
-			await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken);
+			await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Creates a new file, writes the specified byte array to the file, and then closes the file.
@@ -102,12 +105,6 @@ static partial class Polyfill
 		/// </summary>
 		public static void Move(string sourceFileName, string destFileName, bool overwrite)
 		{
-			sourceFileName = Path.GetFullPath(sourceFileName);
-			destFileName = Path.GetFullPath(destFileName);
-			if (sourceFileName == destFileName)
-			{
-				return;
-			}
 			File.Move(sourceFileName, destFileName, overwrite: overwrite);
 		}
 #if FeatureAsyncInterfaces
@@ -126,7 +123,7 @@ static partial class Polyfill
 			while (!reader.EndOfStream)
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				var line = await reader.ReadLineAsync();
+				var line = await reader.ReadLineAsync().ConfigureAwait(false);
 				if (line != null)
 				{
 					yield return line;
@@ -151,7 +148,6 @@ static partial class Polyfill
 			return new FileInfo(path);
 		}
 	}
-#if !NET12_0_OR_GREATER
 	extension(File)
 	{
 		/// <summary>
@@ -211,5 +207,4 @@ static partial class Polyfill
 		[DllImport("libc", SetLastError = true)]
 		static extern int link(string oldpath, string newpath);
 	}
-#endif
 }

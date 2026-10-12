@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>WinExe</OutputType>
+    <UseWPF>true</UseWPF>
+    <!-- Lets the solution build on non-Windows machines. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Memory" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)\TestIncludes.targets" />
+  <Import Project="$(SolutionDir)\Polyfill\Polyfill.targets" />
+</Project>

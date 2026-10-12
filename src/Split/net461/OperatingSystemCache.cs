@@ -5,6 +5,7 @@ namespace Polyfills;
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 [ExcludeFromCodeCoverage]
@@ -44,14 +45,8 @@ static class OperatingSystemCache
 		{
 			return false;
 		}
-		if (macOSVersion == null)
-		{
-			var versionString = RunProcess("/usr/bin/sw_vers", "")
-				.Replace("ProductVersion:", string.Empty)
-				.Replace(" ", string.Empty);
-			macOSVersion = Version.Parse(versionString.Split(Environment.NewLine.ToCharArray())[0]);
-		}
-		return macOSVersion >= new Version(major, minor, build);
+		macOSVersion ??= ParseVersion(RunProcess("/usr/bin/sw_vers", "-productVersion"));
+		return macOSVersion >= new Version(major, minor, build, 0);
 	}
 	public static bool IsFreeBSDVersionAtLeast(int major, int minor, int build = 0, int revision = 0)
 	{
@@ -76,13 +71,7 @@ static class OperatingSystemCache
 		{
 			return false;
 		}
-		if (windowsVersion == null)
-		{
-			var input = RuntimeInformation.OSDescription
-				.Replace("Microsoft Windows", string.Empty)
-				.Replace(" ", string.Empty);
-			windowsVersion = Version.Parse(input);
-		}
+		windowsVersion ??= ParseVersion(RuntimeInformation.OSDescription);
 		return windowsVersion >= new Version(major, minor, build, revision);
 	}
 	public static bool IsAndroid()
@@ -99,13 +88,32 @@ static class OperatingSystemCache
 		{
 			return false;
 		}
-		if (androidVersion == null)
-		{
-			var result = RunProcess("getprop", "ro.build.version.release")
-				.Replace(" ", string.Empty);
-			androidVersion = Version.Parse(result);
-		}
+		androidVersion ??= ParseVersion(RunProcess("getprop", "ro.build.version.release"));
 		return androidVersion >= new Version(major, minor, build, revision);
+	}
+	/// <summary>
+	/// Parses the first version number found in <paramref name="input"/>, ignoring any surrounding text.
+	/// Components that are not present are set to 0, so the result can be compared to a four part version.
+	/// </summary>
+	internal static Version ParseVersion(string input)
+	{
+		var start = 0;
+		while (start < input.Length && !char.IsDigit(input[start]))
+		{
+			start++;
+		}
+		var end = start;
+		while (end < input.Length && (char.IsDigit(input[end]) || input[end] == '.'))
+		{
+			end++;
+		}
+		var parts = input.Substring(start, end - start).Split(new[] {'.'}, StringSplitOptions.RemoveEmptyEntries);
+		var components = new int[4];
+		for (var index = 0; index < parts.Length && index < components.Length; index++)
+		{
+			components[index] = int.Parse(parts[index], CultureInfo.InvariantCulture);
+		}
+		return new(components[0], components[1], components[2], components[3]);
 	}
 }
 #endif

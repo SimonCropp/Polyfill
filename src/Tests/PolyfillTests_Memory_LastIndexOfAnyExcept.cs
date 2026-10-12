@@ -89,4 +89,40 @@ partial class PolyfillTests
         var result = span.LastIndexOfAnyExcept(1);
         await Assert.That(result).IsEqualTo(-1);
     }
+
+    [Test]
+    public async Task ReadOnlySpan_LastIndexOfAnyExcept_NullElements()
+    {
+        ReadOnlySpan<string?> span = new string?[] { null, "a", "b", "c" };
+        var one = span.LastIndexOfAnyExcept((string?)null);
+        var two = span.LastIndexOfAnyExcept(null, "a");
+        var three = span.LastIndexOfAnyExcept(null, "a", "b");
+        var many = span.LastIndexOfAnyExcept(new string?[] { "a", null });
+        var none = span.LastIndexOfAnyExcept(new string?[] { "a", null, "b", "c" });
+        var exceptC = span.LastIndexOfAnyExcept("c");
+        await Assert.That(one).IsEqualTo(3);
+        await Assert.That(two).IsEqualTo(3);
+        await Assert.That(three).IsEqualTo(3);
+        await Assert.That(many).IsEqualTo(3);
+        await Assert.That(none).IsEqualTo(-1);
+        await Assert.That(exceptC).IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task Span_LastIndexOfAnyExcept_NullElements()
+    {
+        Span<string?> span = new string?[] { null, "a", "b", "c" };
+        var one = span.LastIndexOfAnyExcept((string?)null);
+        var two = span.LastIndexOfAnyExcept(null, "a");
+        var three = span.LastIndexOfAnyExcept(null, "a", "b");
+        var many = span.LastIndexOfAnyExcept(new string?[] { "a", null });
+        var none = span.LastIndexOfAnyExcept(new string?[] { "a", null, "b", "c" });
+        var exceptC = span.LastIndexOfAnyExcept("c");
+        await Assert.That(one).IsEqualTo(3);
+        await Assert.That(two).IsEqualTo(3);
+        await Assert.That(three).IsEqualTo(3);
+        await Assert.That(many).IsEqualTo(3);
+        await Assert.That(none).IsEqualTo(-1);
+        await Assert.That(exceptC).IsEqualTo(2);
+    }
 }

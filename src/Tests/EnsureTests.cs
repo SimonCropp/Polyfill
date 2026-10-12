@@ -86,6 +86,30 @@ public class EnsureTests
         Ensure.NotNullOrEmpty(nonEmptyEnumerable);
     }
 
+#if FeatureMemory
+    [Test]
+    public async Task NotNullOrEmpty_Memory_AllowsWhiteSpace()
+    {
+        Memory<char>? whiteSpace = " \t".ToCharArray().AsMemory();
+        var result = Ensure.NotNullOrEmpty(whiteSpace);
+        await Assert.That(result.ToString()).IsEqualTo(" \t");
+
+        Memory<char>? content = "value".ToCharArray().AsMemory();
+        await Assert.That(Ensure.NotNullOrEmpty(content).ToString()).IsEqualTo("value");
+    }
+
+    [Test]
+    public async Task NotNullOrEmpty_ReadOnlyMemory_AllowsWhiteSpace()
+    {
+        ReadOnlyMemory<char>? whiteSpace = " \t".AsMemory();
+        var result = Ensure.NotNullOrEmpty(whiteSpace);
+        await Assert.That(result.ToString()).IsEqualTo(" \t");
+
+        ReadOnlyMemory<char>? content = "value".AsMemory();
+        await Assert.That(Ensure.NotNullOrEmpty(content).ToString()).IsEqualTo("value");
+    }
+#endif
+
     [Test]
     public async Task NotEmpty()
     {
@@ -277,6 +301,19 @@ public class EnsureTests
     }
 
     [Test]
+    public async Task NotNullOrEmpty_Enumerable_PreservesParameterName()
+    {
+        var emptyException = await Assert.That(() => Ensure.NotNullOrEmpty(emptyList)).Throws<ArgumentException>();
+        await Assert.That(emptyException!.ParamName).IsEqualTo("emptyList");
+
+        var explicitNameException = await Assert.That(() => Ensure.NotNullOrEmpty(emptyArray, "explicitName")).Throws<ArgumentException>();
+        await Assert.That(explicitNameException!.ParamName).IsEqualTo("explicitName");
+
+        var nullException = await Assert.That(() => Ensure.NotNullOrEmpty(nullList)).Throws<ArgumentNullException>();
+        await Assert.That(nullException!.ParamName).IsEqualTo("nullList");
+    }
+
+    [Test]
     public async Task NotEqual_PreservesParameterName_WhenUsingCallerArgumentExpression()
     {
         var myVariable = 100;
@@ -324,6 +361,31 @@ public class EnsureTests
         }
     }
 #endif
+
+    [Test]
+    public async Task Comparison_Nint_Messages()
+    {
+        // ReSharper disable SuggestVarOrType_BuiltInTypes
+        nint one = 1;
+        nint two = 2;
+        // ReSharper restore SuggestVarOrType_BuiltInTypes
+
+        var notLessThan = await Assert.That(() => Ensure.NotLessThan(one, two)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(notLessThan!.ParamName).IsEqualTo("one");
+        await Assert.That(notLessThan.Message).Contains("one ('1') must be greater than or equal to '2'.");
+
+        var notLessThanOrEqual = await Assert.That(() => Ensure.NotLessThanOrEqual(two, two)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(notLessThanOrEqual!.ParamName).IsEqualTo("two");
+        await Assert.That(notLessThanOrEqual.Message).Contains("two ('2') must be greater than '2'.");
+
+        var notGreaterThanOrEqual = await Assert.That(() => Ensure.NotGreaterThanOrEqual(two, two)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(notGreaterThanOrEqual!.ParamName).IsEqualTo("two");
+        await Assert.That(notGreaterThanOrEqual.Message).Contains("two ('2') must be less than '2'.");
+
+        await Assert.That(() => Ensure.NotLessThan(two, one)).ThrowsNothing();
+        await Assert.That(() => Ensure.NotLessThanOrEqual(two, one)).ThrowsNothing();
+        await Assert.That(() => Ensure.NotGreaterThanOrEqual(one, two)).ThrowsNothing();
+    }
 
     [Test]
     public async Task NotNegativeOrZero_WithPositive_DoesNotThrow()

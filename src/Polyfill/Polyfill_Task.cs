@@ -45,7 +45,7 @@ static partial class Polyfill
 
         if (cancellationToken.IsCancellationRequested)
         {
-            await Task.FromCanceled(cancellationToken);
+            await Task.FromCanceled(cancellationToken).ConfigureAwait(false);
         }
 
         if (timeout == TimeSpan.Zero)
@@ -65,7 +65,7 @@ static partial class Polyfill
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
-                    await Task.FromCanceled(cancellationToken);
+                    await Task.FromCanceled(cancellationToken).ConfigureAwait(false);
                 }
 
                 throw new TimeoutException();
@@ -102,7 +102,7 @@ static partial class Polyfill
         TimeSpan timeout,
         CancellationToken cancellationToken)
     {
-        await ((Task) target).WaitAsync(timeout, cancellationToken);
+        await ((Task) target).WaitAsync(timeout, cancellationToken).ConfigureAwait(false);
         return target.Result;
     }
 
@@ -124,29 +124,20 @@ static partial class Polyfill
 
         if ((options & ConfigureAwaitOptions.ForceYielding) != 0)
         {
-            task = ForceYieldAsync(task);
-
-            static async Task ForceYieldAsync(Task t)
-            {
-                await Task.Yield();
-                await t;
-            }
+            // Task.Run always queues to the thread pool, so the current SynchronizationContext is never captured.
+            var inner = task;
+            task = Task.Run(() => inner);
         }
 
         if ((options & ConfigureAwaitOptions.SuppressThrowing) != 0)
         {
-            task = SuppressThrowAsync(task);
-
-            static async Task SuppressThrowAsync(Task t)
-            {
-                try
-                {
-                    await t;
-                }
-                catch
-                {
-                }
-            }
+            // The continuation completes successfully whatever the outcome of the antecedent.
+            // Reading Exception marks it as observed, without the cost of a throw and catch.
+            task = task.ContinueWith(
+                static antecedent => { _ = antecedent.Exception; },
+                CancellationToken.None,
+                TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default);
         }
 
         return task.ConfigureAwait(
@@ -169,13 +160,9 @@ static partial class Polyfill
 
         if ((options & ConfigureAwaitOptions.ForceYielding) != 0)
         {
-            task = ForceYieldAsync(task);
-
-            static async Task<TResult> ForceYieldAsync(Task<TResult> t)
-            {
-                await Task.Yield();
-                return await t;
-            }
+            // Task.Run always queues to the thread pool, so the current SynchronizationContext is never captured.
+            var inner = task;
+            task = Task.Run(() => inner);
         }
 
         return task.ConfigureAwait(

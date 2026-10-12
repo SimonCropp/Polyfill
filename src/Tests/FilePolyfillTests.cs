@@ -115,6 +115,66 @@ public class FilePolyfillTests
     }
 
     [Test]
+    public async Task WriteAndAppendAsync_CancelledToken_LeavesFileUntouched()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        try
+        {
+            var cancelSource = new CancelSource();
+            cancelSource.Cancel();
+            var token = cancelSource.Token;
+            var bytes = Encoding.UTF8.GetBytes("new");
+            var lines = new[] {"new"};
+            var operations = new Dictionary<string, Func<string, Task>>
+            {
+                ["WriteAllBytesAsync"] = path => File.WriteAllBytesAsync(path, bytes, token),
+                ["WriteAllLinesAsync"] = path => File.WriteAllLinesAsync(path, lines, token),
+                ["WriteAllLinesAsyncEncoding"] = path => File.WriteAllLinesAsync(path, lines, Encoding.UTF8, token),
+                ["WriteAllTextAsync"] = path => File.WriteAllTextAsync(path, "new", token),
+                ["WriteAllTextAsyncEncoding"] = path => File.WriteAllTextAsync(path, "new", Encoding.UTF8, token),
+                ["AppendAllBytesAsync"] = path => File.AppendAllBytesAsync(path, bytes, token),
+                ["AppendAllLinesAsync"] = path => File.AppendAllLinesAsync(path, lines, token),
+                ["AppendAllTextAsync"] = path => File.AppendAllTextAsync(path, "new", token),
+#if FeatureMemory
+                ["WriteAllBytesAsyncMemory"] = path => File.WriteAllBytesAsync(path, new ReadOnlyMemory<byte>(bytes), token),
+                ["AppendAllBytesAsyncMemory"] = path => File.AppendAllBytesAsync(path, new ReadOnlyMemory<byte>(bytes), token),
+#endif
+            };
+
+            foreach (var operation in operations)
+            {
+                var existing = Path.Combine(directory, operation.Key + ".existing.txt");
+                var missing = Path.Combine(directory, operation.Key + ".missing.txt");
+                File.WriteAllText(existing, "original");
+
+                foreach (var path in new[] {existing, missing})
+                {
+                    Exception? exception = null;
+                    try
+                    {
+                        await operation.Value(path);
+                    }
+                    catch (Exception e)
+                    {
+                        exception = e;
+                    }
+
+                    await Assert.That(exception is OperationCanceledException).IsTrue();
+                }
+
+                // an already cancelled token must not create or truncate the file
+                await Assert.That(File.ReadAllText(existing)).IsEqualTo("original");
+                await Assert.That(File.Exists(missing)).IsFalse();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
     public async Task AppendAllTextAsync()
     {
         var content = "Hello, Async Text!";
@@ -163,6 +223,81 @@ public class FilePolyfillTests
 
         await Assert.That(result).IsEqualTo(expected);
     }
+
+    [UnsupportedOSPlatform("windows")]
+    [Test]
+    public async Task GetSetUnixFileMode_PathWithSpaces()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
+
+        var directory = Path.Combine(Path.GetTempPath(), "polyfill mode " + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        var path = Path.Combine(directory, "it's a \"file\".txt");
+        try
+        {
+            File.WriteAllText(path, "content");
+            var expected = UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead;
+
+            File.SetUnixFileMode(path, expected);
+
+            await Assert.That(File.GetUnixFileMode(path)).IsEqualTo(expected);
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [UnsupportedOSPlatform("windows")]
+    [Test]
+    public async Task GetSetUnixFileMode_MissingFile_Throws()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
+
+        var missing = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"), "missing.txt");
+
+        await Assert.That(() => File.GetUnixFileMode(missing)).Throws<IOException>();
+        await Assert.That(() => File.SetUnixFileMode(missing, UnixFileMode.UserRead)).Throws<IOException>();
+    }
+
+#if !NET7_0_OR_GREATER
+    // UnixFileModeHelper only exists where File.GetUnixFileMode is polyfilled
+    [Test]
+    [Arguments("644\n", (int) (UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead))]
+    [Arguments("644", (int) (UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead))]
+    [Arguments(" 755\r\n", (int) (UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute | UnixFileMode.GroupRead | UnixFileMode.GroupExecute | UnixFileMode.OtherRead | UnixFileMode.OtherExecute))]
+    [Arguments("4755\n", (int) (UnixFileMode.SetUser | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute | UnixFileMode.GroupRead | UnixFileMode.GroupExecute | UnixFileMode.OtherRead | UnixFileMode.OtherExecute))]
+    [Arguments("6000\n", (int) (UnixFileMode.SetUser | UnixFileMode.SetGroup))]
+    [Arguments("1777\n", (int) (UnixFileMode.StickyBit | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute | UnixFileMode.GroupRead | UnixFileMode.GroupWrite | UnixFileMode.GroupExecute | UnixFileMode.OtherRead | UnixFileMode.OtherWrite | UnixFileMode.OtherExecute))]
+    [Arguments("0\n", (int) (UnixFileMode.None))]
+    [Arguments("44\n", (int) (UnixFileMode.GroupRead | UnixFileMode.OtherRead))]
+    // BSD stat -f %p includes the file type
+    [Arguments("100644\n", (int) (UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.GroupRead | UnixFileMode.OtherRead))]
+    [Arguments("104755\n", (int) (UnixFileMode.SetUser | UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute | UnixFileMode.GroupRead | UnixFileMode.GroupExecute | UnixFileMode.OtherRead | UnixFileMode.OtherExecute))]
+    [Arguments("40700\n", (int) (UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute))]
+    public async Task UnixFileModeHelper_ParseMode(string output, int expected)
+    {
+        var mode = Polyfills.Polyfill.UnixFileModeHelper.ParseMode(output);
+
+        await Assert.That((int) mode).IsEqualTo(expected);
+    }
+
+    [Test]
+    [Arguments("")]
+    [Arguments("\n")]
+    [Arguments("stat: cannot stat")]
+    [Arguments("689")]
+    public async Task UnixFileModeHelper_ParseMode_Invalid(string output)
+    {
+        await Assert.That(() => Polyfills.Polyfill.UnixFileModeHelper.ParseMode(output)).Throws<FormatException>();
+    }
+#endif
 
 #if FeatureMemory
     [Test]
@@ -284,6 +419,166 @@ public class FilePolyfillTests
             File.Move(sourceFilePath, destinationFilePath, overwrite: false)).Throws<IOException>();
     }
 
+    static string CreateMoveDirectory()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "polyfill_move_" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        return directory;
+    }
+
+    [Test]
+    public async Task Move_Overwrite_ReadOnlySource()
+    {
+        var directory = CreateMoveDirectory();
+        var source = Path.Combine(directory, "source.txt");
+        var destination = Path.Combine(directory, "destination.txt");
+        try
+        {
+            File.WriteAllText(source, "new");
+            File.WriteAllText(destination, "old");
+            File.SetAttributes(source, FileAttributes.ReadOnly);
+
+            File.Move(source, destination, overwrite: true);
+
+            await Assert.That(File.Exists(source)).IsFalse();
+            await Assert.That(File.ReadAllText(destination)).IsEqualTo("new");
+            // a move keeps the attributes of the source
+            await Assert.That(File.GetAttributes(destination).HasFlag(FileAttributes.ReadOnly)).IsTrue();
+        }
+        finally
+        {
+            foreach (var file in Directory.GetFiles(directory))
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+            }
+
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task Move_Overwrite_CaseOnlyRename()
+    {
+        var directory = CreateMoveDirectory();
+        try
+        {
+            File.WriteAllText(Path.Combine(directory, "name.txt"), "content");
+
+            File.Move(Path.Combine(directory, "name.txt"), Path.Combine(directory, "NAME.txt"), overwrite: true);
+
+            var names = Directory.GetFiles(directory).Select(_ => Path.GetFileName(_)).ToList();
+            await Assert.That(names.Count).IsEqualTo(1);
+            await Assert.That(names[0]).IsEqualTo("NAME.txt");
+            await Assert.That(File.ReadAllText(Path.Combine(directory, "NAME.txt"))).IsEqualTo("content");
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task Move_Overwrite_SameMissingPath_Throws()
+    {
+        var directory = CreateMoveDirectory();
+        var missing = Path.Combine(directory, "missing.txt");
+        try
+        {
+            await Assert.That(() => File.Move(missing, missing, overwrite: true)).Throws<FileNotFoundException>();
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task Move_Overwrite_SamePath_KeepsFile()
+    {
+        var directory = CreateMoveDirectory();
+        var file = Path.Combine(directory, "file.txt");
+        try
+        {
+            File.WriteAllText(file, "content");
+
+            File.Move(file, file, overwrite: true);
+
+            await Assert.That(File.ReadAllText(file)).IsEqualTo("content");
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task Move_Overwrite_MissingSource_KeepsDestination()
+    {
+        var directory = CreateMoveDirectory();
+        var destination = Path.Combine(directory, "destination.txt");
+        try
+        {
+            File.WriteAllText(destination, "old");
+
+            await Assert.That(() => File.Move(Path.Combine(directory, "missing.txt"), destination, overwrite: true))
+                .Throws<FileNotFoundException>();
+            await Assert.That(File.ReadAllText(destination)).IsEqualTo("old");
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task Move_Overwrite_MissingDestinationDirectory_KeepsSource()
+    {
+        var directory = CreateMoveDirectory();
+        var source = Path.Combine(directory, "source.txt");
+        try
+        {
+            File.WriteAllText(source, "content");
+
+            await Assert.That(() => File.Move(source, Path.Combine(directory, "missing", "destination.txt"), overwrite: true))
+                .Throws<DirectoryNotFoundException>();
+            await Assert.That(File.ReadAllText(source)).IsEqualTo("content");
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task Move_Overwrite_ReadOnlyDestination_KeepsBoth()
+    {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            // only Windows refuses to replace a read-only file
+            return;
+        }
+
+        var directory = CreateMoveDirectory();
+        var source = Path.Combine(directory, "source.txt");
+        var destination = Path.Combine(directory, "destination.txt");
+        try
+        {
+            File.WriteAllText(source, "new");
+            File.WriteAllText(destination, "old");
+            File.SetAttributes(destination, FileAttributes.ReadOnly);
+
+            await Assert.That(() => File.Move(source, destination, overwrite: true))
+                .Throws<UnauthorizedAccessException>();
+            await Assert.That(File.ReadAllText(source)).IsEqualTo("new");
+            await Assert.That(File.ReadAllText(destination)).IsEqualTo("old");
+        }
+        finally
+        {
+            File.SetAttributes(destination, FileAttributes.Normal);
+            Directory.Delete(directory, true);
+        }
+    }
+
 #if FeatureAsyncInterfaces
 
     [Test]
@@ -375,6 +670,18 @@ public class FilePolyfillTests
 
         await Assert.That(handle.IsInvalid).IsFalse();
         await Assert.That(handle.IsClosed).IsFalse();
+    }
+
+    // Where the BCL declares File.OpenNullHandle the polyfill must not be compiled: a static
+    // member of the type always wins over a static extension member, so it would be dead code.
+    [Test]
+    public async Task OpenNullHandle_NotPolyfilledWhereBclHasIt()
+    {
+        var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
+        var inBcl = typeof(File).GetMethod("OpenNullHandle", flags, null, Type.EmptyTypes, null) != null;
+        var inPolyfill = typeof(Polyfills.Polyfill).GetMethod("OpenNullHandle", flags, null, Type.EmptyTypes, null) != null;
+
+        await Assert.That(inBcl && inPolyfill).IsFalse();
     }
 
     [Test]

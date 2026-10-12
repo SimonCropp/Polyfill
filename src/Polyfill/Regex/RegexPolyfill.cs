@@ -105,7 +105,7 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratematches?view=net-11.0#system-text-regularexpressions-regex-enumeratematches(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions)
         public static ValueMatchEnumerator EnumerateMatches(ReadOnlySpan<char> input, string pattern, RegexOptions options) =>
-            RegexCache.GetOrAdd(pattern, options, TimeSpan.MaxValue).EnumerateMatches(input);
+            RegexCache.GetOrAdd(pattern, options, Regex.InfiniteMatchTimeout).EnumerateMatches(input);
 #endif
 #endif
 
@@ -115,21 +115,21 @@ static partial class Polyfill
         public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern)
         {
             var regex = new Regex(pattern);
-            return new ValueSplitEnumerator(input, regex, 0, 0);
+            return new ValueSplitEnumerator(input, regex, 0);
         }
 
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-11.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions)
         public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options)
         {
             var regex = new Regex(pattern, options);
-            return new ValueSplitEnumerator(input, regex, 0, 0);
+            return new ValueSplitEnumerator(input, regex, 0);
         }
 
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-11.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan)
         public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan matchTimeout)
         {
             var regex = new Regex(pattern, options, matchTimeout);
-            return new ValueSplitEnumerator(input, regex, 0, 0);
+            return new ValueSplitEnumerator(input, regex, 0);
         }
 
 #endif

@@ -3,15 +3,17 @@
 #if FeatureMemory
 namespace Polyfills;
 using System;
+using System.Collections.Generic;
 static partial class Polyfill
 {
 	/// <summary>Searches for any value other than the specified <paramref name="value"/>.</summary>
 	public static bool ContainsAnyExcept<T>(this ReadOnlySpan<T> span, T value)
-		where T : IEquatable<T>
+		where T : IEquatable<T>?
 	{
+		var comparer = EqualityComparer<T>.Default;
 		for (var i = 0; i < span.Length; i++)
 		{
-			if (!span[i].Equals(value))
+			if (!comparer.Equals(span[i], value))
 			{
 				return true;
 			}
@@ -20,12 +22,13 @@ static partial class Polyfill
 	}
 	/// <summary>Searches for any value other than <paramref name="value0"/> or <paramref name="value1"/>.</summary>
 	public static bool ContainsAnyExcept<T>(this ReadOnlySpan<T> span, T value0, T value1)
-		where T : IEquatable<T>
+		where T : IEquatable<T>?
 	{
+		var comparer = EqualityComparer<T>.Default;
 		for (var i = 0; i < span.Length; i++)
 		{
 			var item = span[i];
-			if (!item.Equals(value0) && !item.Equals(value1))
+			if (!comparer.Equals(item, value0) && !comparer.Equals(item, value1))
 			{
 				return true;
 			}
@@ -34,12 +37,13 @@ static partial class Polyfill
 	}
 	/// <summary>Searches for any value other than <paramref name="value0"/>, <paramref name="value1"/>, or <paramref name="value2"/>.</summary>
 	public static bool ContainsAnyExcept<T>(this ReadOnlySpan<T> span, T value0, T value1, T value2)
-		where T : IEquatable<T>
+		where T : IEquatable<T>?
 	{
+		var comparer = EqualityComparer<T>.Default;
 		for (var i = 0; i < span.Length; i++)
 		{
 			var item = span[i];
-			if (!item.Equals(value0) && !item.Equals(value1) && !item.Equals(value2))
+			if (!comparer.Equals(item, value0) && !comparer.Equals(item, value1) && !comparer.Equals(item, value2))
 			{
 				return true;
 			}
@@ -48,11 +52,12 @@ static partial class Polyfill
 	}
 	/// <summary>Searches for any value other than the specified <paramref name="values"/>.</summary>
 	public static bool ContainsAnyExcept<T>(this ReadOnlySpan<T> span, ReadOnlySpan<T> values)
-		where T : IEquatable<T>
+		where T : IEquatable<T>?
 	{
+		var comparer = EqualityComparer<T>.Default;
 		for (var i = 0; i < span.Length; i++)
 		{
-			if (!values.Contains(span[i]))
+			if (!ContainsValue(values, span[i], comparer))
 			{
 				return true;
 			}
@@ -61,19 +66,30 @@ static partial class Polyfill
 	}
 	/// <summary>Searches for any value other than the specified <paramref name="value"/>.</summary>
 	public static bool ContainsAnyExcept<T>(this Span<T> span, T value)
-		where T : IEquatable<T> =>
+		where T : IEquatable<T>? =>
 		ContainsAnyExcept((ReadOnlySpan<T>)span, value);
 	/// <summary>Searches for any value other than <paramref name="value0"/> or <paramref name="value1"/>.</summary>
 	public static bool ContainsAnyExcept<T>(this Span<T> span, T value0, T value1)
-		where T : IEquatable<T> =>
+		where T : IEquatable<T>? =>
 		ContainsAnyExcept((ReadOnlySpan<T>)span, value0, value1);
 	/// <summary>Searches for any value other than <paramref name="value0"/>, <paramref name="value1"/>, or <paramref name="value2"/>.</summary>
 	public static bool ContainsAnyExcept<T>(this Span<T> span, T value0, T value1, T value2)
-		where T : IEquatable<T> =>
+		where T : IEquatable<T>? =>
 		ContainsAnyExcept((ReadOnlySpan<T>)span, value0, value1, value2);
 	/// <summary>Searches for any value other than the specified <paramref name="values"/>.</summary>
 	public static bool ContainsAnyExcept<T>(this Span<T> span, ReadOnlySpan<T> values)
-		where T : IEquatable<T> =>
+		where T : IEquatable<T>? =>
 		ContainsAnyExcept((ReadOnlySpan<T>)span, values);
+	static bool ContainsValue<T>(ReadOnlySpan<T> values, T value, EqualityComparer<T> comparer)
+	{
+		for (var i = 0; i < values.Length; i++)
+		{
+			if (comparer.Equals(values[i], value))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }
 #endif

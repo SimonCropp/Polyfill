@@ -195,6 +195,16 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task ToHashSetComparer()
+    {
+        IEnumerable<string> enumerable = ["a", "A", "b"];
+
+        var hashSet = enumerable.ToHashSet(StringComparer.OrdinalIgnoreCase);
+        await Assert.That(hashSet.Count).IsEqualTo(2);
+        await Assert.That(hashSet.Contains("B")).IsTrue();
+    }
+
+    [Test]
     public async Task Zip3()
     {
         var numbers = new List<int> {1};
@@ -354,6 +364,55 @@ partial class PolyfillTests
     [Test]
     public async Task Sequence_Throws_WhenStepNegativeAndEndGreaterThanStart() =>
         await Assert.That(() => Enumerable.Sequence(1, 5, -1).ToList()).Throws<ArgumentOutOfRangeException>();
+
+    // The argument checks are not deferred, so no enumeration is needed (or wanted: a NaN used to give an endless sequence)
+    [Test]
+    public async Task Sequence_Throws_WhenStartIsNaN()
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Enumerable.Sequence(double.NaN, 1d, 1d));
+        await Assert.That(exception.ParamName).IsEqualTo("start");
+    }
+
+    [Test]
+    public async Task Sequence_Throws_WhenEndIsNaN()
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Enumerable.Sequence(0d, double.NaN, 1d));
+        await Assert.That(exception.ParamName).IsEqualTo("endInclusive");
+    }
+
+    [Test]
+    public async Task Sequence_Throws_WhenStepIsNaN()
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Enumerable.Sequence(0d, 1d, double.NaN));
+        await Assert.That(exception.ParamName).IsEqualTo("step");
+    }
+
+    [Test]
+    public async Task Sequence_Throws_WhenStepIsZeroAndStartNotEqualToEnd()
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Enumerable.Sequence(1, 5, 0));
+        await Assert.That(exception.ParamName).IsEqualTo("step");
+
+        exception = Assert.Throws<ArgumentOutOfRangeException>(() => Enumerable.Sequence(1d, 5d, -0d));
+        await Assert.That(exception.ParamName).IsEqualTo("step");
+    }
+
+    [Test]
+    public async Task Sequence_SingleValue_WhenStepIsZeroAndStartEqualsEnd()
+    {
+        var result = Enumerable.Sequence(3, 3, 0).ToList();
+        await Assert.That(result.SequenceEqual(new[] {3})).IsTrue();
+    }
+
+    [Test]
+    public async Task Sequence_Throws_WithParamName_WhenEndOnWrongSideOfStart()
+    {
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Enumerable.Sequence(5, 1, 1));
+        await Assert.That(exception.ParamName).IsEqualTo("endInclusive");
+
+        exception = Assert.Throws<ArgumentOutOfRangeException>(() => Enumerable.Sequence(1, 5, -1));
+        await Assert.That(exception.ParamName).IsEqualTo("endInclusive");
+    }
 
 #endif
 
@@ -651,6 +710,48 @@ partial class PolyfillTests
         await Assert.That(result[1].Inner.Name).IsNull();
         await Assert.That(result[2].Outer).IsNull();
         await Assert.That(result[2].Inner.Name).IsEqualTo("Stray");
+    }
+
+    static readonly (int Id, string? Key)[] nullKeyOuter = [(1, "a"), (2, null), (3, "b"), (4, "a"), (5, null)];
+    static readonly (int Id, string? Key)[] nullKeyInner = [(10, "c"), (20, null), (30, "a"), (40, null), (50, "c"), (60, "a")];
+
+    [Test]
+    public async Task IEnumerableLeftJoinNullKeysDoNotMatch()
+    {
+        var result = nullKeyOuter.LeftJoin(
+                nullKeyInner,
+                _ => _.Key,
+                _ => _.Key,
+                (outer, inner) => $"{outer.Id}-{inner.Id}")
+            .ToList();
+
+        await Assert.That(string.Join(" ", result)).IsEqualTo("1-30 1-60 2-0 3-0 4-30 4-60 5-0");
+    }
+
+    [Test]
+    public async Task IEnumerableRightJoinNullKeysDoNotMatch()
+    {
+        var result = nullKeyOuter.RightJoin(
+                nullKeyInner,
+                _ => _.Key,
+                _ => _.Key,
+                (outer, inner) => $"{outer.Id}-{inner.Id}")
+            .ToList();
+
+        await Assert.That(string.Join(" ", result)).IsEqualTo("0-10 0-20 1-30 4-30 0-40 0-50 1-60 4-60");
+    }
+
+    [Test]
+    public async Task IEnumerableFullJoinNullKeysDoNotMatch()
+    {
+        var result = nullKeyOuter.FullJoin(
+                nullKeyInner,
+                _ => _.Key,
+                _ => _.Key,
+                (outer, inner) => $"{outer.Id}-{inner.Id}")
+            .ToList();
+
+        await Assert.That(string.Join(" ", result)).IsEqualTo("1-30 1-60 2-0 3-0 4-30 4-60 5-0 0-10 0-50 0-20 0-40");
     }
 
     [Test]

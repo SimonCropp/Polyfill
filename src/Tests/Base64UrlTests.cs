@@ -2,6 +2,7 @@
 
 using System.Buffers;
 using System.Buffers.Text;
+using System.Text;
 
 public class Base64UrlTests
 {
@@ -281,6 +282,132 @@ public class Base64UrlTests
         await Assert.That(status).IsEqualTo(OperationStatus.Done);
         await Assert.That(charsConsumed).IsEqualTo(HelloEncoded.Length);
         await Assert.That(bytesWritten).IsEqualTo(HelloBytes.Length);
+    }
+
+    [Test]
+    [Arguments("AQ==", new byte[] {1})]
+    [Arguments("AQ=", new byte[] {1})]
+    [Arguments("AQ%%", new byte[] {1})]
+    [Arguments("AQ=%", new byte[] {1})]
+    [Arguments("AQ= =", new byte[] {1})]
+    [Arguments("AQI=", new byte[] {1, 2})]
+    [Arguments("AQI%", new byte[] {1, 2})]
+    [Arguments("AQIDAQ==", new byte[] {1, 2, 3, 1})]
+    [Arguments("AQID\n", new byte[] {1, 2, 3})]
+    [Arguments(" A Q\tI\rD\n", new byte[] {1, 2, 3})]
+    [Arguments("AQIDAQID AQ", new byte[] {1, 2, 3, 1, 2, 3, 1})]
+    [Arguments(" ", new byte[0])]
+    public async Task Decode_PaddingAndWhitespace(string text, byte[] expected)
+    {
+        var utf8 = Encoding.UTF8.GetBytes(text);
+
+        await Assert.That(Base64Url.DecodeFromChars(text.AsSpan())).IsEquivalentTo(expected);
+        await Assert.That(Base64Url.DecodeFromUtf8(utf8)).IsEquivalentTo(expected);
+
+        var destination = new byte[20];
+        var written = Base64Url.DecodeFromChars(text.AsSpan(), destination);
+        await Assert.That(destination.AsSpan(0, written).ToArray()).IsEquivalentTo(expected);
+
+        destination = new byte[20];
+        var success = Base64Url.TryDecodeFromChars(text.AsSpan(), destination, out written);
+        await Assert.That(success).IsTrue();
+        await Assert.That(destination.AsSpan(0, written).ToArray()).IsEquivalentTo(expected);
+
+        destination = new byte[20];
+        success = Base64Url.TryDecodeFromUtf8(utf8, destination, out written);
+        await Assert.That(success).IsTrue();
+        await Assert.That(destination.AsSpan(0, written).ToArray()).IsEquivalentTo(expected);
+
+        destination = new byte[20];
+        var status = Base64Url.DecodeFromChars(text.AsSpan(), destination, out var consumed, out written);
+        await Assert.That(status).IsEqualTo(OperationStatus.Done);
+        await Assert.That(consumed).IsEqualTo(text.Length);
+        await Assert.That(destination.AsSpan(0, written).ToArray()).IsEquivalentTo(expected);
+
+        var inPlace = (byte[]) utf8.Clone();
+        written = Base64Url.DecodeFromUtf8InPlace(inPlace);
+        await Assert.That(inPlace.AsSpan(0, written).ToArray()).IsEquivalentTo(expected);
+
+        var valid = Base64Url.IsValid(text.AsSpan(), out var decodedLength);
+        await Assert.That(valid).IsTrue();
+        await Assert.That(decodedLength).IsEqualTo(expected.Length);
+
+        valid = Base64Url.IsValid(utf8, out decodedLength);
+        await Assert.That(valid).IsTrue();
+        await Assert.That(decodedLength).IsEqualTo(expected.Length);
+    }
+
+    [Test]
+    [Arguments("AQ===")]
+    [Arguments("AQID=")]
+    [Arguments("AQ=I")]
+    [Arguments("A=")]
+    [Arguments("=")]
+    [Arguments("====")]
+    [Arguments("AQ==AQID")]
+    [Arguments("AQ%3D")]
+    [Arguments("AQID\f")]
+    [Arguments("AQ\v==")]
+    [Arguments("AR==")]
+    [Arguments("AR")]
+    [Arguments("AQJ")]
+    public async Task Decode_InvalidPaddingAndWhitespace(string text)
+    {
+        var utf8 = Encoding.UTF8.GetBytes(text);
+
+        await Assert.That(() => Base64Url.DecodeFromChars(text.AsSpan())).Throws<FormatException>();
+        await Assert.That(() => Base64Url.DecodeFromUtf8(utf8)).Throws<FormatException>();
+        await Assert.That(() => Base64Url.TryDecodeFromChars(text.AsSpan(), new byte[20], out _)).Throws<FormatException>();
+        await Assert.That(() => Base64Url.TryDecodeFromUtf8(utf8, new byte[20], out _)).Throws<FormatException>();
+
+        var status = Base64Url.DecodeFromChars(text.AsSpan(), new byte[20], out _, out _);
+        await Assert.That(status).IsEqualTo(OperationStatus.InvalidData);
+
+        var valid = Base64Url.IsValid(text.AsSpan(), out var decodedLength);
+        await Assert.That(valid).IsFalse();
+        await Assert.That(decodedLength).IsEqualTo(0);
+
+        valid = Base64Url.IsValid(utf8, out decodedLength);
+        await Assert.That(valid).IsFalse();
+        await Assert.That(decodedLength).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task DecodeFromChars_OperationStatus_Blocks()
+    {
+        var destination = new byte[20];
+
+        var status = Base64Url.DecodeFromChars("AQIDAQ".AsSpan(), destination, out var consumed, out var written, isFinalBlock: false);
+        await Assert.That(status).IsEqualTo(OperationStatus.NeedMoreData);
+        await Assert.That(consumed).IsEqualTo(4);
+        await Assert.That(written).IsEqualTo(3);
+
+        // padding is only valid in the final block
+        status = Base64Url.DecodeFromChars("AQIDAQ==".AsSpan(), destination, out consumed, out written, isFinalBlock: false);
+        await Assert.That(status).IsEqualTo(OperationStatus.InvalidData);
+        await Assert.That(consumed).IsEqualTo(4);
+        await Assert.That(written).IsEqualTo(3);
+
+        status = Base64Url.DecodeFromChars("AQID!".AsSpan(), destination, out consumed, out written);
+        await Assert.That(status).IsEqualTo(OperationStatus.InvalidData);
+        await Assert.That(consumed).IsEqualTo(4);
+        await Assert.That(written).IsEqualTo(3);
+
+        status = Base64Url.DecodeFromChars("AQIDAQ==".AsSpan(), new byte[3], out consumed, out written);
+        await Assert.That(status).IsEqualTo(OperationStatus.DestinationTooSmall);
+        await Assert.That(consumed).IsEqualTo(4);
+        await Assert.That(written).IsEqualTo(3);
+    }
+
+    [Test]
+    public async Task DecodeFromUtf8_OperationStatus_Done()
+    {
+        var destination = new byte[20];
+        var status = Base64Url.DecodeFromUtf8("AQID"u8, destination, out var bytesConsumed, out var bytesWritten);
+        await Assert.That(status).IsEqualTo(OperationStatus.Done);
+        await Assert.That(bytesConsumed).IsEqualTo(4);
+        await Assert.That(bytesWritten).IsEqualTo(3);
+        await Assert.That(destination.AsSpan(0, 3).ToArray()).IsEquivalentTo(new byte[] {1, 2, 3});
     }
 }
 

@@ -132,6 +132,8 @@ static partial class Polyfill
             return (nint) Log10Core((ulong) value);
         }
 
+#if !NET10_0_OR_GREATER
+
         /// <summary>
         /// Produces the full product of two native-sized signed numbers.
         /// </summary>
@@ -152,6 +154,8 @@ static partial class Polyfill
                 return (nint) upper;
             }
         }
+
+#endif
     }
 }
 #endif

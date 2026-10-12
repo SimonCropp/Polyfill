@@ -8,8 +8,9 @@ As a result, in the context of a project producing nuget package, that project s
 
 For example:
 
- * If a nuget's minimum target is net6, then the resulting TargetFrameworks should also include net7.0 and net8.0
- * If a nuget's minimum target is net471, then the resulting TargetFrameworks should also include net472 and net48"
+ * If a nuget's minimum target is net8.0, then the resulting TargetFrameworks should also include net9.0, net10.0 and net11.0
+ * If a nuget's minimum target is net471, then the resulting TargetFrameworks should also include net472 and net48
+ * If a nuget targets netstandard, then the resulting TargetFrameworks should also include the .NET Framework targets up to net48 and the .NET targets up to net11.0
 
 
 ## Negative impacts
@@ -63,6 +64,11 @@ The time taken to load and JIT code is proportional to the amount of IL in that 
 
 At build time, if a project is detected to not properly multi target, then a warning is recorded.
 
+The warning is raised when a project that produces a nuget (`GeneratePackageOnBuild`) has `TargetFrameworks` that:
+
+ * Include a .NET, .NET Core or .NET Standard target, but not the newest .NET target (`net11.0`).
+ * Include a .NET Framework or .NET Standard target, but not the newest .NET Framework target (`net48` or `net481`).
+
 
 ### Missing multi-target detection
 
@@ -76,12 +82,14 @@ At build time, if a project is detected to not properly multi target, then a war
                $(LowerFrameworks.Contains('net6')) OR
                $(LowerFrameworks.Contains('net7')) OR
                $(LowerFrameworks.Contains('net8')) OR
+               $(LowerFrameworks.Contains('net9')) OR
+               $(LowerFrameworks.Contains('net10')) OR
                $(LowerFrameworks.Contains('netstandard')) OR
                $(LowerFrameworks.Contains('netcore')))
                AND
-               !$(LowerFrameworks.Contains('net9'))
+               !$(LowerFrameworks.Contains('net11'))
                AND
-               !$(LowerFramework.Contains('net9'))"
+               !$(LowerFramework.Contains('net11'))"
     >true</MaxNetRequired>
   <MaxNetClassicRequired>false</MaxNetClassicRequired>
   <MaxNetClassicRequired
@@ -96,7 +104,7 @@ At build time, if a project is detected to not properly multi target, then a war
     >true</MaxNetClassicRequired>
 </PropertyGroup>
 ```
-<sup><a href='/src/Polyfill/Polyfill.targets#L34-L61' title='Snippet source file'>snippet source</a> | <a href='#snippet-MaxNetRequired' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill.targets#L34-L63' title='Snippet source file'>snippet source</a> | <a href='#snippet-MaxNetRequired' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -112,15 +120,16 @@ At build time, if a project is detected to not properly multi target, then a war
   <Warning
       Code="PolyfillTargetsForNuget"
       Text="Projects that produce a nuget and consume Polyfill:
-For best performance all frameworks from the lowest TargetFramework up to and including net48 should be targeted.
+For best performance all frameworks from the lowest TargetFramework up to and including the newest one should be targeted. The newest is net48 for .NET Framework and net11.0 for .NET.
 For example:
 * If a nuget's minimum target is net47, then the resulting TargetFrameworks should include net471, net472, and net48.
-* If a nuget's minimum target net6, then the resulting TargetFrameworks should include net7.0 and net8.0."
+* If a nuget's minimum target is net8.0, then the resulting TargetFrameworks should include net9.0, net10.0, and net11.0.
+* If a nuget targets netstandard, then the resulting TargetFrameworks should also include the .NET Framework targets up to net48 and the .NET targets up to net11.0."
       HelpLink="https://github.com/SimonCropp/Polyfill#targetframeworks"
-      Condition="$(MaxNetRequired)" />
+      Condition="$(MaxNetRequired) Or $(MaxNetClassicRequired)" />
 </Target>
 ```
-<sup><a href='/src/Polyfill/Polyfill.targets#L62-L77' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillValidateNugetTargets' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Polyfill/Polyfill.targets#L64-L80' title='Snippet source file'>snippet source</a> | <a href='#snippet-PolyfillValidateNugetTargets' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

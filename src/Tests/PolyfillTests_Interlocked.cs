@@ -64,6 +64,97 @@ partial class PolyfillTests
         await Assert.That(original).IsEqualTo(Permissions.Read);
         await Assert.That(permissions).IsEqualTo(Permissions.Read | Permissions.Write);
     }
+
+    [Flags]
+    enum ByteFlags : byte
+    {
+        None = 0,
+        A = 1,
+        B = 2,
+        High = 0x80
+    }
+
+    [Flags]
+    enum ShortFlags : short
+    {
+        None = 0,
+        A = 1,
+        B = 2,
+        High = 0x4000
+    }
+
+    [Test]
+    public async Task InterlockedAndByteEnum()
+    {
+        var value = ByteFlags.A | ByteFlags.B | ByteFlags.High;
+        var original = Interlocked.And(ref value, ByteFlags.A | ByteFlags.High);
+        await Assert.That(original).IsEqualTo(ByteFlags.A | ByteFlags.B | ByteFlags.High);
+        await Assert.That(value).IsEqualTo(ByteFlags.A | ByteFlags.High);
+    }
+
+    [Test]
+    public async Task InterlockedOrByteEnum()
+    {
+        var value = ByteFlags.A;
+        var original = Interlocked.Or(ref value, ByteFlags.High);
+        await Assert.That(original).IsEqualTo(ByteFlags.A);
+        await Assert.That(value).IsEqualTo(ByteFlags.A | ByteFlags.High);
+    }
+
+    [Test]
+    public async Task InterlockedAndShortEnum()
+    {
+        var value = ShortFlags.A | ShortFlags.B | ShortFlags.High;
+        var original = Interlocked.And(ref value, ShortFlags.B | ShortFlags.High);
+        await Assert.That(original).IsEqualTo(ShortFlags.A | ShortFlags.B | ShortFlags.High);
+        await Assert.That(value).IsEqualTo(ShortFlags.B | ShortFlags.High);
+    }
+
+    [Test]
+    public async Task InterlockedOrShortEnum()
+    {
+        var value = ShortFlags.A;
+        var original = Interlocked.Or(ref value, ShortFlags.High);
+        await Assert.That(original).IsEqualTo(ShortFlags.A);
+        await Assert.That(value).IsEqualTo(ShortFlags.A | ShortFlags.High);
+    }
+
+    [Test]
+    public async Task InterlockedAndOrSmallIntegers()
+    {
+        byte byteValue = 0xFF;
+        await Assert.That(Interlocked.And<byte>(ref byteValue, 0x0F)).IsEqualTo((byte) 0xFF);
+        await Assert.That(byteValue).IsEqualTo((byte) 0x0F);
+        await Assert.That(Interlocked.Or<byte>(ref byteValue, 0xF0)).IsEqualTo((byte) 0x0F);
+        await Assert.That(byteValue).IsEqualTo((byte) 0xFF);
+
+        sbyte sbyteValue = -1;
+        await Assert.That(Interlocked.And<sbyte>(ref sbyteValue, 0x0F)).IsEqualTo((sbyte) -1);
+        await Assert.That(sbyteValue).IsEqualTo((sbyte) 0x0F);
+        await Assert.That(Interlocked.Or<sbyte>(ref sbyteValue, -128)).IsEqualTo((sbyte) 0x0F);
+        await Assert.That(sbyteValue).IsEqualTo((sbyte) -113);
+
+        short shortValue = -1;
+        await Assert.That(Interlocked.And<short>(ref shortValue, 0x0FF0)).IsEqualTo((short) -1);
+        await Assert.That(shortValue).IsEqualTo((short) 0x0FF0);
+        await Assert.That(Interlocked.Or<short>(ref shortValue, 0x000F)).IsEqualTo((short) 0x0FF0);
+        await Assert.That(shortValue).IsEqualTo((short) 0x0FFF);
+
+        ushort ushortValue = 0xFFFF;
+        await Assert.That(Interlocked.And<ushort>(ref ushortValue, 0x0FF0)).IsEqualTo((ushort) 0xFFFF);
+        await Assert.That(ushortValue).IsEqualTo((ushort) 0x0FF0);
+        await Assert.That(Interlocked.Or<ushort>(ref ushortValue, 0xF000)).IsEqualTo((ushort) 0x0FF0);
+        await Assert.That(ushortValue).IsEqualTo((ushort) 0xFFF0);
+    }
+
+    [Test]
+    public async Task InterlockedAndDoesNotDisturbAdjacentBytes()
+    {
+        var values = new byte[] {0xAA, 0xFF, 0xBB};
+        var original = Interlocked.And<byte>(ref values[1], 0x0F);
+        await Assert.That(original).IsEqualTo((byte) 0xFF);
+        await Assert.That(values).IsEquivalentTo(new byte[] {0xAA, 0x0F, 0xBB});
+    }
 }
 
 #endif

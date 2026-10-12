@@ -33,8 +33,8 @@ static partial class Polyfill
 	{
 		var stdoutTask = target.StandardOutput.ReadToEndAsync();
 		var stderrTask = target.StandardError.ReadToEndAsync();
-		await target.WaitForExitAsync(cancellationToken);
-		return (await stdoutTask, await stderrTask);
+		await target.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
+		return (await stdoutTask.ConfigureAwait(false), await stderrTask.ConfigureAwait(false));
 	}
 	/// <summary>
 	/// Reads the standard output and standard error of the process as bytes, waiting for the process to exit.
@@ -58,8 +58,8 @@ static partial class Polyfill
 		var errMs = new MemoryStream();
 		var outTask = target.StandardOutput.BaseStream.CopyToAsync(outMs, 81920, cancellationToken);
 		var errTask = target.StandardError.BaseStream.CopyToAsync(errMs, 81920, cancellationToken);
-		await target.WaitForExitAsync(cancellationToken);
-		await Task.WhenAll(outTask, errTask);
+		await target.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
+		await Task.WhenAll(outTask, errTask).ConfigureAwait(false);
 		return (outMs.ToArray(), errMs.ToArray());
 	}
 #endif
@@ -197,7 +197,7 @@ static partial class Polyfill
 		{
 			while (true)
 			{
-				await signal.WaitAsync(cancellationToken);
+				await signal.WaitAsync(cancellationToken).ConfigureAwait(false);
 				while (queue.TryDequeue(out var line))
 				{
 					yield return line;
@@ -292,7 +292,7 @@ static partial class Polyfill
 	[UnsupportedOSPlatform("tvos")]
 	public static async Task<ProcessExitStatus> WaitForExitStatusAsync(this Process target, CancellationToken cancellationToken = default)
 	{
-		await target.WaitForExitAsync(cancellationToken);
+		await target.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
 		return ToExitStatus(target.ExitCode);
 	}
 	static ProcessExitStatus ToExitStatus(int exitCode)
@@ -400,22 +400,22 @@ static partial class Polyfill
 	}
 	static void WaitForExitOrThrow(Process target, TimeSpan? timeout)
 	{
+		if (!TryWaitForExit(target, timeout))
+		{
+			throw new TimeoutException("The process did not exit within the specified timeout.");
+		}
+	}
+	static bool TryWaitForExit(Process target, TimeSpan? timeout)
+	{
 		if (timeout is { } value)
 		{
 			var ms = (long)value.TotalMilliseconds;
-			if (ms < 0 || ms > int.MaxValue)
+			if (ms >= 0 && ms <= int.MaxValue)
 			{
-				target.WaitForExit();
-				return;
-			}
-			if (!target.WaitForExit((int)ms))
-			{
-				throw new TimeoutException("The process did not exit within the specified timeout.");
+				return target.WaitForExit((int)ms);
 			}
 		}
-		else
-		{
-			target.WaitForExit();
-		}
+		target.WaitForExit();
+		return true;
 	}
 }

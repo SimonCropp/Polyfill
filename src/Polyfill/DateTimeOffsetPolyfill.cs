@@ -1,6 +1,6 @@
 #nullable enable
 
-#if !NET8_0_OR_GREATER
+#if !NET7_0_OR_GREATER
 
 namespace Polyfills;
 
@@ -51,7 +51,7 @@ static partial class Polyfill
 
 #if FeatureMemory
 
-#if !NET8_0_OR_GREATER
+#if !NET7_0_OR_GREATER
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>
@@ -60,7 +60,7 @@ static partial class Polyfill
             DateTimeOffset.TryParse(s.ToString(), provider, DateTimeStyles.None, out result);
 #endif
 
-#if !(NETSTANDARD2_1 || NETSTANDARD2_1_OR_GREATER || NET5_0_OR_GREATER)
+#if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
         /// <summary>
         /// Tries to parse a span of characters into a value.
         /// </summary>

@@ -21,8 +21,15 @@ static partial class Polyfill
 	public static bool StartsWith(
 		this ReadOnlySpan<char> target,
 		string other,
-		StringComparison comparison = StringComparison.CurrentCulture) =>
+		StringComparison comparison) =>
 		target.StartsWith(other.AsSpan(), comparison);
+	/// <summary>
+	/// Determines whether a read-only character span begins with a specified value. Values are compared ordinally.
+	/// </summary>
+	public static bool StartsWith(
+		this ReadOnlySpan<char> target,
+		string other) =>
+		target.StartsWith(other.AsSpan());
 	/// <summary>
 	/// Determines whether a specified sequence appears at the start of a span.
 	/// </summary>

@@ -17,6 +17,40 @@ public class StringPolyfillTest
         await Assert.That(string.Join('a', (IEnumerable<string>) new List<string> {"b", "c"})).IsEqualTo("bac");
     }
 
+#if FeatureMemory
+    [Test]
+    public async Task Join_CharSeparator_ExplicitSpan()
+    {
+        var objects = string.Join(',', new ReadOnlySpan<object?>(["x", "a", "b"]));
+        var strings = string.Join(',', new ReadOnlySpan<string?>(["x", "a", "b"]));
+
+        await Assert.That(objects).IsEqualTo("x,a,b");
+        await Assert.That(strings).IsEqualTo("x,a,b");
+    }
+#endif
+
+    [Test]
+    public async Task Join_Objects_FirstElementNull()
+    {
+        await Assert.That(string.Join(',', new object?[] {null, "a", "b"})).IsEqualTo(",a,b");
+        await Assert.That(string.Join(',', new object?[] {null, 1, null})).IsEqualTo(",1,");
+        await Assert.That(string.Join(',', new object?[] {null})).IsEqualTo("");
+        await Assert.That(string.Join(',', new object?[] {})).IsEqualTo("");
+    }
+
+#if FeatureMemory
+    [Test]
+    public async Task Join_ObjectSpan_FirstElementNull()
+    {
+        var charSeparator = string.Join(',', new ReadOnlySpan<object?>([null, "a", "b"]));
+        var stringSeparator = string.Join(", ", new ReadOnlySpan<object?>([null, "a", 1]));
+        var empty = string.Join(", ", new ReadOnlySpan<object?>([]));
+        await Assert.That(charSeparator).IsEqualTo(",a,b");
+        await Assert.That(stringSeparator).IsEqualTo(", a, 1");
+        await Assert.That(empty).IsEqualTo("");
+    }
+#endif
+
     [Test]
     public async Task Create() =>
         await Assert.That(

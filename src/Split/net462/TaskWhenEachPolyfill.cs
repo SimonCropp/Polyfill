@@ -3,6 +3,7 @@
 #if FeatureAsyncInterfaces
 namespace Polyfills;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -14,50 +15,54 @@ static partial class Polyfill
 		/// <summary>
 		/// Creates an async-enumerable that yields completed tasks from the provided collection as they complete.
 		/// </summary>
-		public static async IAsyncEnumerable<Task> WhenEach(
+		public static IAsyncEnumerable<Task> WhenEach(
 			IEnumerable<Task> tasks,
-			[EnumeratorCancellation] CancellationToken cancellationToken = default)
+			CancellationToken cancellationToken = default)
 		{
 			if (tasks == null)
 			{
 				throw new ArgumentNullException(nameof(tasks));
 			}
-			var remaining = new List<Task>(tasks);
-			if (remaining.Count == 0)
-			{
-				yield break;
-			}
-			while (remaining.Count > 0)
-			{
-				cancellationToken.ThrowIfCancellationRequested();
-				var completed = await Task.WhenAny(remaining).ConfigureAwait(false);
-				remaining.Remove(completed);
-				yield return completed;
-			}
+			return WhenEachIterator(new List<Task>(tasks), cancellationToken);
 		}
 		/// <summary>
 		/// Creates an async-enumerable that yields completed tasks from the provided collection as they complete.
 		/// </summary>
-		public static async IAsyncEnumerable<Task<TResult>> WhenEach<TResult>(
+		public static IAsyncEnumerable<Task<TResult>> WhenEach<TResult>(
 			IEnumerable<Task<TResult>> tasks,
-			[EnumeratorCancellation] CancellationToken cancellationToken = default)
+			CancellationToken cancellationToken = default)
 		{
 			if (tasks == null)
 			{
 				throw new ArgumentNullException(nameof(tasks));
 			}
-			var remaining = new List<Task<TResult>>(tasks);
-			if (remaining.Count == 0)
-			{
-				yield break;
-			}
-			while (remaining.Count > 0)
-			{
-				cancellationToken.ThrowIfCancellationRequested();
-				var completed = await Task.WhenAny(remaining).ConfigureAwait(false);
-				remaining.Remove(completed);
-				yield return completed;
-			}
+			return WhenEachIterator(new List<Task<TResult>>(tasks), cancellationToken);
+		}
+	}
+	static async IAsyncEnumerable<T> WhenEachIterator<T>(
+		List<T> tasks,
+		[EnumeratorCancellation] CancellationToken cancellationToken = default)
+		where T : Task
+	{
+		var completed = new ConcurrentQueue<T>();
+		var signal = new SemaphoreSlim(0);
+		foreach (var task in tasks)
+		{
+			task.ContinueWith(
+				_ =>
+				{
+					completed.Enqueue(task);
+					signal.Release();
+				},
+				CancellationToken.None,
+				TaskContinuationOptions.ExecuteSynchronously,
+				TaskScheduler.Default);
+		}
+		for (var index = 0; index < tasks.Count; index++)
+		{
+			await signal.WaitAsync(cancellationToken).ConfigureAwait(false);
+			completed.TryDequeue(out var next);
+			yield return next!;
 		}
 	}
 }

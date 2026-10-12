@@ -125,6 +125,8 @@ static partial class Polyfill
         public static nuint Log10(nuint value) =>
             (nuint) Log10Core(value);
 
+#if !NET10_0_OR_GREATER
+
         /// <summary>
         /// Produces the full product of two native-sized unsigned numbers.
         /// </summary>
@@ -145,6 +147,8 @@ static partial class Polyfill
                 return (nuint) upper;
             }
         }
+
+#endif
     }
 }
 #endif

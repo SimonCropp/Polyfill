@@ -26,6 +26,101 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task Type_GetMethod_UsesBinderForAssignableTypes()
+    {
+        const BindingFlags flags = BindingFlags.Public | BindingFlags.Static;
+
+        // no WriteLine(Uri) exists, so the binder selects WriteLine(object)
+        var method = typeof(Console).GetMethod("WriteLine", 0, flags, null, [typeof(Uri)], null);
+
+        await Assert.That(method).IsNotNull();
+        await Assert.That(method!.GetParameters()[0].ParameterType).IsEqualTo(typeof(object));
+    }
+
+    [Test]
+    public async Task Type_GetMethod_ExactMatchPreferred()
+    {
+        const BindingFlags flags = BindingFlags.Public | BindingFlags.Static;
+
+        var method = typeof(Console).GetMethod("WriteLine", 0, flags, null, [typeof(string)], null);
+
+        await Assert.That(method).IsNotNull();
+        await Assert.That(method!.GetParameters()[0].ParameterType).IsEqualTo(typeof(string));
+    }
+
+    [Test]
+    public async Task Type_GetMethod_NoApplicableMethod()
+    {
+        const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
+
+        var method = typeof(string).GetMethod("Substring", 0, flags, null, [typeof(string)], null);
+
+        await Assert.That(method).IsNull();
+    }
+
+    [Test]
+    public async Task Type_GetMethod_IgnoreCase()
+    {
+        const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
+
+        var caseSensitive = typeof(string).GetMethod("substring", 0, flags, null, [typeof(int)], null);
+        var ignoreCase = typeof(string).GetMethod("substring", 0, flags | BindingFlags.IgnoreCase, null, [typeof(int)], null);
+
+        await Assert.That(caseSensitive).IsNull();
+        await Assert.That(ignoreCase).IsNotNull();
+        await Assert.That(ignoreCase!.Name).IsEqualTo("Substring");
+    }
+
+    class LastCandidateBinder :
+        Binder
+    {
+        public int SelectMethodCalls;
+
+        public override MethodBase? SelectMethod(BindingFlags bindingAttr, MethodBase[] match, Type[] types, ParameterModifier[]? modifiers)
+        {
+            SelectMethodCalls++;
+            foreach (var candidate in match)
+            {
+                if (candidate.GetParameters()[0].ParameterType == typeof(object))
+                {
+                    return candidate;
+                }
+            }
+
+            return null;
+        }
+
+        public override FieldInfo BindToField(BindingFlags bindingAttr, FieldInfo[] match, object value, CultureInfo? culture) =>
+            throw new NotSupportedException();
+
+        public override MethodBase BindToMethod(BindingFlags bindingAttr, MethodBase[] match, ref object?[] args, ParameterModifier[]? modifiers, CultureInfo? culture, string[]? names, out object? state) =>
+            throw new NotSupportedException();
+
+        public override object ChangeType(object value, Type type, CultureInfo? culture) =>
+            throw new NotSupportedException();
+
+        public override void ReorderArgumentArray(ref object?[] args, object state) =>
+            throw new NotSupportedException();
+
+        public override PropertyInfo? SelectProperty(BindingFlags bindingAttr, PropertyInfo[] match, Type? returnType, Type[]? indexes, ParameterModifier[]? modifiers) =>
+            throw new NotSupportedException();
+    }
+
+    [Test]
+    public async Task Type_GetMethod_UsesSuppliedBinder()
+    {
+        const BindingFlags flags = BindingFlags.Public | BindingFlags.Static;
+        var binder = new LastCandidateBinder();
+
+        // the default binder would select WriteLine(string)
+        var method = typeof(Console).GetMethod("WriteLine", 0, flags, binder, [typeof(string)], null);
+
+        await Assert.That(binder.SelectMethodCalls).IsEqualTo(1);
+        await Assert.That(method).IsNotNull();
+        await Assert.That(method!.GetParameters()[0].ParameterType).IsEqualTo(typeof(object));
+    }
+
+    [Test]
     public async Task MemberInfo_HasSameMetadataDefinitionAs_Null_Throws()
     {
         var member = typeof(string).GetMethod("Trim", Type.EmptyTypes)!;
@@ -49,6 +144,26 @@ partial class PolyfillTests
         var method = typeof(string).GetMethod("Contains", [typeof(string)])!;
         var found = typeof(string).GetMemberWithSameMetadataDefinitionAs(method);
         await Assert.That(found.Name).IsEqualTo("Contains");
+    }
+
+    [Test]
+    public async Task GetMemberWithSameMetadataDefinitionAs_NotFound()
+    {
+        var method = typeof(Uri).GetMethod("ToString", Type.EmptyTypes)!;
+
+        var exception = await Assert.That(() => typeof(string).GetMemberWithSameMetadataDefinitionAs(method))
+            .ThrowsExactly<ArgumentException>();
+
+        await Assert.That(exception!.ParamName).IsEqualTo("member");
+    }
+
+    [Test]
+    public async Task GetMemberWithSameMetadataDefinitionAs_Null()
+    {
+        var exception = await Assert.That(() => typeof(string).GetMemberWithSameMetadataDefinitionAs(null!))
+            .ThrowsExactly<ArgumentNullException>();
+
+        await Assert.That(exception!.ParamName).IsEqualTo("member");
     }
 
     [Test]

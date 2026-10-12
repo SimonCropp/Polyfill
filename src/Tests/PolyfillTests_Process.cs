@@ -28,6 +28,65 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task Process_WaitForExitAsync_WaitsForAsyncOutput()
+    {
+        using var process = new Process
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = "dotnet",
+                Arguments = "--info",
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                RedirectStandardOutput = true,
+            }
+        };
+        var lines = 0;
+        var endOfOutput = false;
+        process.OutputDataReceived += (_, e) =>
+        {
+            if (e.Data is null)
+            {
+                Volatile.Write(ref endOfOutput, true);
+                return;
+            }
+
+            // a slow consumer, so the output is still being delivered when the process exits
+            Thread.Sleep(5);
+            Interlocked.Increment(ref lines);
+        };
+        process.Start();
+        process.BeginOutputReadLine();
+
+        await process.WaitForExitAsync();
+
+        // The .NET 5 runtime's own WaitForExitAsync returns as soon as the process exits. Waiting for
+        // redirected output was added in .NET 6, which is the behavior the polyfill matches.
+        // Checked at run time so the test still asserts when a net5.0 build rolls forward.
+        if (Environment.Version.Major == 5)
+        {
+            process.WaitForExit();
+        }
+
+        await Assert.That(Volatile.Read(ref endOfOutput)).IsTrue();
+        await Assert.That(Volatile.Read(ref lines)).IsGreaterThan(0);
+    }
+
+    [Test]
+    public async Task Process_WaitForExitAsync_ExitedAndCanceled_Completes()
+    {
+        using var process = StartVersion();
+        process.WaitForExit();
+        using var cancelSource = new CancelSource();
+        cancelSource.Cancel();
+
+        // cancellation is only observed while the process is still running
+        await process.WaitForExitAsync(cancelSource.Token);
+
+        await Assert.That(process.HasExited).IsTrue();
+    }
+
+    [Test]
     public async Task Process_Kill_EntireProcessTree()
     {
         var process = new Process
@@ -44,6 +103,55 @@ partial class PolyfillTests
         process.Start();
         process.Kill(entireProcessTree: true);
         await process.WaitForExitAsync();
+        await Assert.That(process.HasExited).IsTrue();
+    }
+
+    [Test]
+    public async Task Process_Kill_EntireProcessTree_KillsDescendants()
+    {
+        // a shell that starts a long running child, which inherits the redirected output
+        var startInfo = new ProcessStartInfo
+        {
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            RedirectStandardOutput = true,
+        };
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            startInfo.FileName = "cmd";
+            startInfo.Arguments = "/c ping -n 60 127.0.0.1";
+        }
+        else
+        {
+            startInfo.FileName = "sh";
+            startInfo.Arguments = "-c \"echo started; sleep 60; echo done\"";
+        }
+
+        using var process = Process.Start(startInfo)!;
+
+        // output has started, so the child is running
+        await process.StandardOutput.ReadLineAsync();
+
+        process.Kill(entireProcessTree: true);
+
+        // the output only ends once every process holding it has exited, which the child would not do for a minute
+        var remaining = process.StandardOutput.ReadToEndAsync();
+        var completed = await Task.WhenAny(remaining, Task.Delay(TimeSpan.FromSeconds(20)));
+        await Assert.That(completed == remaining).IsTrue();
+
+        await process.WaitForExitAsync();
+        await Assert.That(process.HasExited).IsTrue();
+    }
+
+    [Test]
+    public async Task Process_Kill_EntireProcessTree_Exited()
+    {
+        using var process = StartVersion();
+        process.WaitForExit();
+
+        // killing the tree of a process that has already exited does nothing
+        process.Kill(entireProcessTree: true);
+
         await Assert.That(process.HasExited).IsTrue();
     }
 
@@ -294,6 +402,118 @@ partial class PolyfillTests
         source.Cancel();
         var status = await Process.RunAsync("dotnet", new[] { "--info" }, cancellationToken: source.Token);
         await Assert.That(status.Canceled).IsTrue();
+    }
+
+    // A shell that appends to beat.txt in the directory about once a second, for around 30 seconds.
+    static ProcessStartInfo HeartbeatStartInfo(string directory)
+    {
+        var startInfo = new ProcessStartInfo
+        {
+            WorkingDirectory = directory,
+            UseShellExecute = false,
+            CreateNoWindow = true,
+        };
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            startInfo.FileName = "cmd";
+            startInfo.Arguments = "/c for /L %i in (1,1,30) do @(echo x>>beat.txt & ping -n 2 127.0.0.1 >nul)";
+        }
+        else
+        {
+            startInfo.FileName = "sh";
+            startInfo.Arguments = "-c \"i=0; while [ $i -lt 30 ]; do echo x >> beat.txt; sleep 1; i=$((i+1)); done\"";
+        }
+
+        return startInfo;
+    }
+
+    // True when the heartbeat is no longer being written, so its process is gone.
+    // On a busy machine the process can be killed before its first beat, which leaves no file or an empty one.
+    static async Task<bool> HeartbeatStopped(string directory)
+    {
+        var beat = new FileInfo(Path.Combine(directory, "beat.txt"));
+        await Task.Delay(300);
+        var before = HeartbeatLength(beat);
+        await Task.Delay(2500);
+        return before == HeartbeatLength(beat);
+    }
+
+    static long HeartbeatLength(FileInfo beat)
+    {
+        beat.Refresh();
+        if (!beat.Exists)
+        {
+            return 0;
+        }
+
+        return beat.Length;
+    }
+
+    static void DeleteHeartbeatDirectory(string directory)
+    {
+        try
+        {
+            Directory.Delete(directory, true);
+        }
+        catch (IOException)
+        {
+            // still in use by a process that should have been killed, which the test has already reported
+        }
+    }
+
+    [Test]
+    public async Task Process_Run_Timeout_KillsProcessAndIsCanceled()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "polyfill_run_" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        try
+        {
+            var status = Process.Run(HeartbeatStartInfo(directory), TimeSpan.FromSeconds(1.5));
+
+            await Assert.That(status.Canceled).IsTrue();
+            await Assert.That(await HeartbeatStopped(directory)).IsTrue();
+        }
+        finally
+        {
+            DeleteHeartbeatDirectory(directory);
+        }
+    }
+
+    [Test]
+    public async Task Process_Run_Silent_Timeout_IsCanceled()
+    {
+        ProcessExitStatus status;
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            status = Process.Run("ping", new[] { "-n", "30", "127.0.0.1" }, silent: true, timeout: TimeSpan.FromSeconds(1));
+        }
+        else
+        {
+            status = Process.Run("sleep", new[] { "30" }, silent: true, timeout: TimeSpan.FromSeconds(1));
+        }
+
+        await Assert.That(status.Canceled).IsTrue();
+    }
+
+    [Test]
+    public async Task Process_RunAndCaptureText_Timeout_KillsProcessAndThrows()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "polyfill_run_" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        try
+        {
+            var startInfo = HeartbeatStartInfo(directory);
+            startInfo.RedirectStandardOutput = true;
+            startInfo.RedirectStandardError = true;
+
+            await Assert.That(() => { Process.RunAndCaptureText(startInfo, TimeSpan.FromSeconds(1.5)); })
+                .Throws<TimeoutException>();
+            await Assert.That(await HeartbeatStopped(directory)).IsTrue();
+        }
+        finally
+        {
+            DeleteHeartbeatDirectory(directory);
+        }
     }
 
     [Test]

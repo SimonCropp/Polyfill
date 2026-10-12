@@ -24,7 +24,7 @@ static partial class Polyfill
 
             // The total possible range is [0, 4,294,967,295).
             // Subtract one to account for zero being an actual possibility.
-            var range = (uint) toExclusive - (uint) fromInclusive - 1;
+            var range = unchecked((uint) toExclusive - (uint) fromInclusive - 1);
 
             // If there is only one possible choice, nothing random will actually happen, so return
             // the only possibility.
@@ -157,23 +157,30 @@ static partial class Polyfill
                 return;
             }
 
-            // Each byte gives two hex chars
-            var byteCount = (destination.Length + 1) / 2;
-            Span<byte> bytes = stackalloc byte[byteCount];
-            RandomNumberGenerator.Fill(bytes);
-
             ReadOnlySpan<char> hex = lowercase
                 ? "0123456789abcdef".AsSpan()
                 : "0123456789ABCDEF".AsSpan();
 
+            // Fill through a fixed size buffer so the stack use does not grow with the destination
+            Span<byte> buffer = stackalloc byte[256];
+
             var charIndex = 0;
-            for (var i = 0; i < bytes.Length && charIndex < destination.Length; i++)
+            while (charIndex < destination.Length)
             {
-                var b = bytes[i];
-                destination[charIndex++] = hex[b >> 4];
-                if (charIndex < destination.Length)
+                // Each byte gives two hex chars
+                var remaining = destination.Length - charIndex;
+                var byteCount = Math.Min(buffer.Length, remaining / 2 + remaining % 2);
+                var bytes = buffer.Slice(0, byteCount);
+                RandomNumberGenerator.Fill(bytes);
+
+                for (var i = 0; i < bytes.Length && charIndex < destination.Length; i++)
                 {
-                    destination[charIndex++] = hex[b & 0xF];
+                    var b = bytes[i];
+                    destination[charIndex++] = hex[b >> 4];
+                    if (charIndex < destination.Length)
+                    {
+                        destination[charIndex++] = hex[b & 0xF];
+                    }
                 }
             }
         }

@@ -2,6 +2,7 @@
 #pragma warning disable
 namespace Polyfills;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Linq;
@@ -47,44 +48,44 @@ static partial class Polyfill
 				throw new ArgumentNullException(nameof(types));
 			}
 		}
-		var methods = target.GetMethods(bindingAttr);
-		if (genericParameterCount == 0)
+		var comparison = StringComparison.Ordinal;
+		if ((bindingAttr & BindingFlags.IgnoreCase) != 0)
 		{
-			foreach (var method in methods)
-			{
-				if (method.IsGenericMethod)
-				{
-					continue;
-				}
-				if (IsMatch(method))
-				{
-					return method;
-				}
-			}
+			comparison = StringComparison.OrdinalIgnoreCase;
 		}
-		else
+		var candidates = new List<MethodBase>();
+		foreach (var method in target.GetMethods(bindingAttr))
 		{
-			foreach (var method in methods)
+			if (!string.Equals(name, method.Name, comparison))
 			{
-				if (!method.IsGenericMethod)
-				{
-					continue;
-				}
-				var genericArguments = method.GetGenericArguments();
-				if (genericParameterCount != genericArguments.Length)
-				{
-					continue;
-				}
-				if (IsMatch(method))
-				{
-					return method;
-				}
+				continue;
 			}
+			var genericArgumentCount = 0;
+			if (method.IsGenericMethod)
+			{
+				genericArgumentCount = method.GetGenericArguments().Length;
+			}
+			if (genericParameterCount != genericArgumentCount)
+			{
+				continue;
+			}
+			if (method.GetParameters().Length != types.Length)
+			{
+				continue;
+			}
+			candidates.Add(method);
 		}
-		return null;
-		bool IsMatch(MethodInfo method) =>
-			name == method.Name &&
-			method.GetParameters().Select(_ => _.ParameterType).SequenceEqual(types);
+		if (candidates.Count == 0)
+		{
+			return null;
+		}
+		if (types.Length == 0 &&
+			candidates.Count == 1)
+		{
+			return (MethodInfo) candidates[0];
+		}
+		binder ??= Type.DefaultBinder;
+		return binder.SelectMethod(bindingAttr, candidates.ToArray(), types, modifiers) as MethodInfo;
 	}
 	/// <summary>
 	/// Searches for the specified method whose parameters match the specified generic parameter count, argument types and modifiers, using the specified binding constraints.
@@ -113,6 +114,10 @@ static partial class Polyfill
 		this Type type,
 		MemberInfo member)
 	{
+		if (member is null)
+		{
+			throw new ArgumentNullException(nameof(member));
+		}
 		const BindingFlags all = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance;
 		foreach (var info in type.GetMembers(all))
 		{
@@ -121,6 +126,6 @@ static partial class Polyfill
 				return info;
 			}
 		}
-		throw new MissingMemberException(type.FullName, member.Name);
+		throw new ArgumentException($"A MemberInfo that matches '{member.Name}' could not be found.", nameof(member));
 	}
 }

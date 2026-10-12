@@ -37,7 +37,7 @@ static partial class Ensure
             return value;
         }
 
-        throw new ArgumentOutOfRangeException(name, value, $"{name} ('{value}') must be less than or equal to '{other}'.");
+        throw new ArgumentOutOfRangeException(name, value, $"{name} ('{value}') must be less than '{other}'.");
     }
 #endif
 }

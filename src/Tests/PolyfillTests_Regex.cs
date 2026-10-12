@@ -53,6 +53,30 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task EnumerateMatchesStatic_WithOptions()
+    {
+        var results = new List<string>();
+        foreach (var match in Regex.EnumerateMatches("a55B7b".AsSpan(), @"b\d*", RegexOptions.IgnoreCase))
+        {
+            results.Add($"{match.Index}:{match.Length}");
+        }
+
+        await Assert.That(string.Join(" ", results)).IsEqualTo("3:2 5:1");
+    }
+
+    [Test]
+    public async Task EnumerateMatchesStatic_WithOptionsAndTimeout()
+    {
+        var results = new List<string>();
+        foreach (var match in Regex.EnumerateMatches("a55B7b".AsSpan(), @"b\d*", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(10)))
+        {
+            results.Add($"{match.Index}:{match.Length}");
+        }
+
+        await Assert.That(string.Join(" ", results)).IsEqualTo("3:2 5:1");
+    }
+
+    [Test]
     public Task EnumerateMatchesStatic()
     {
         var span = "a55a".AsSpan();
@@ -103,6 +127,89 @@ partial class PolyfillTests
         var match = Regex.Match("hello 42 world", @"\d+");
         await Assert.That(match.Success).IsTrue();
         await Assert.That(match.ValueSpan.SequenceEqual("42".AsSpan())).IsTrue();
+    }
+
+    static string SplitRanges(Regex regex, string input)
+    {
+        var results = new List<string>();
+        foreach (var range in regex.EnumerateSplits(input.AsSpan()))
+        {
+            results.Add(range.ToString());
+        }
+
+        return string.Join(" ", results);
+    }
+
+    static string SplitRanges(Regex regex, string input, int count)
+    {
+        var results = new List<string>();
+        foreach (var range in regex.EnumerateSplits(input.AsSpan(), count))
+        {
+            results.Add(range.ToString());
+        }
+
+        return string.Join(" ", results);
+    }
+
+    static string SplitRanges(Regex regex, string input, int count, int startat)
+    {
+        var results = new List<string>();
+        foreach (var range in regex.EnumerateSplits(input.AsSpan(), count, startat))
+        {
+            results.Add(range.ToString());
+        }
+
+        return string.Join(" ", results);
+    }
+
+    [Test]
+    public async Task EnumerateSplits_CaptureGroups_NotIncluded()
+    {
+        await Assert.That(SplitRanges(new("(-)"), "a-b")).IsEqualTo("0..1 2..3");
+        await Assert.That(SplitRanges(new(@"(\d)"), "a1b2c")).IsEqualTo("0..1 2..3 4..5");
+        await Assert.That(SplitRanges(new(@"(\d)", RegexOptions.RightToLeft), "a1b2c")).IsEqualTo("4..5 2..3 0..1");
+    }
+
+    [Test]
+    public async Task EnumerateSplits_RightToLeft()
+    {
+        var regex = new Regex(",", RegexOptions.RightToLeft);
+        await Assert.That(SplitRanges(regex, "a,b,c")).IsEqualTo("4..5 2..3 0..1");
+        await Assert.That(SplitRanges(regex, "a,b,c", 2)).IsEqualTo("4..5 0..3");
+        await Assert.That(SplitRanges(regex, "a,b,c", 0, 3)).IsEqualTo("2..5 0..1");
+        await Assert.That(SplitRanges(regex, "a,b,c", 0, 0)).IsEqualTo("0..5");
+        await Assert.That(SplitRanges(regex, "a,b,c", 2, 5)).IsEqualTo("4..5 0..3");
+
+        var results = new List<string>();
+        foreach (var range in Regex.EnumerateSplits("a,b,c".AsSpan(), ",", RegexOptions.RightToLeft))
+        {
+            results.Add(range.ToString());
+        }
+
+        await Assert.That(string.Join(" ", results)).IsEqualTo("4..5 2..3 0..1");
+    }
+
+    [Test]
+    public async Task EnumerateSplits_CountAndStartat_Ranges()
+    {
+        var regex = new Regex(",");
+        await Assert.That(SplitRanges(regex, "a,b,c,d", 2)).IsEqualTo("0..1 2..7");
+        await Assert.That(SplitRanges(regex, "a,b,c,d", 3)).IsEqualTo("0..1 2..3 4..7");
+        await Assert.That(SplitRanges(regex, "a,b,c,d", 0, 2)).IsEqualTo("0..3 4..5 6..7");
+        await Assert.That(SplitRanges(regex, "a,b,c,d", 0, 7)).IsEqualTo("0..7");
+        await Assert.That(SplitRanges(regex, "a,b,c,d", 2, 2)).IsEqualTo("0..3 4..7");
+        await Assert.That(SplitRanges(regex, "a,b,c,d", 2, 4)).IsEqualTo("0..5 6..7");
+    }
+
+    [Test]
+    public async Task EnumerateSplits_EmptyMatches()
+    {
+        await Assert.That(SplitRanges(new(""), "abc")).IsEqualTo("0..0 0..1 1..2 2..3 3..3");
+        await Assert.That(SplitRanges(new("", RegexOptions.RightToLeft), "abc")).IsEqualTo("3..3 2..3 1..2 0..1 0..0");
+        await Assert.That(SplitRanges(new(""), "abc", 3)).IsEqualTo("0..0 0..1 1..3");
+        await Assert.That(SplitRanges(new("(?<=,)"), "a,b,c,d")).IsEqualTo("0..2 2..4 4..6 6..7");
+        await Assert.That(SplitRanges(new(""), "")).IsEqualTo("0..0 0..0");
+        await Assert.That(SplitRanges(new(@"\b"), "ab")).IsEqualTo("0..0 0..2 2..2");
     }
 
     [Test]

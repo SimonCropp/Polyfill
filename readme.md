@@ -13,34 +13,34 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 1182**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 1184**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
 | Target | APIs |
 | -- | -- |
-| `net461` | 1085 |
-| `net462` | 1085 |
-| `net47` | 1084 |
-| `net471` | 1083 |
-| `net472` | 1079 |
-| `net48` | 1079 |
-| `net481` | 1079 |
-| `netstandard2.0` | 1081 |
-| `netstandard2.1` | 914 |
-| `netcoreapp2.0` | 1004 |
-| `netcoreapp2.1` | 927 |
-| `netcoreapp2.2` | 927 |
-| `netcoreapp3.0` | 888 |
-| `netcoreapp3.1` | 887 |
-| `net5.0` | 765 |
-| `net6.0` | 661 |
-| `net7.0` | 522 |
+| `net461` | 1087 |
+| `net462` | 1087 |
+| `net47` | 1087 |
+| `net471` | 1085 |
+| `net472` | 1081 |
+| `net48` | 1081 |
+| `net481` | 1081 |
+| `netstandard2.0` | 1083 |
+| `netstandard2.1` | 908 |
+| `netcoreapp2.0` | 1009 |
+| `netcoreapp2.1` | 922 |
+| `netcoreapp2.2` | 922 |
+| `netcoreapp3.0` | 880 |
+| `netcoreapp3.1` | 880 |
+| `net5.0` | 764 |
+| `net6.0` | 660 |
+| `net7.0` | 519 |
 | `net8.0` | 400 |
 | `net9.0` | 253 |
-| `net10.0` | 190 |
-| `net11.0` | 58 |
-| `uap10.0` | 1071 |
+| `net10.0` | 186 |
+| `net11.0` | 56 |
+| `uap10.0` | 1073 |
 <!-- endInclude -->
 
 
@@ -89,6 +89,11 @@ This project uses features from the newest stable SDK and C# language. As such c
 ```
 
 
+### SDK-style projects only
+
+Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-sdk/overview) (`<Project Sdk="...">`) are supported. Old-style (non-SDK) `.csproj` files, including those using `PackageReference`, are not supported.
+
+
 ## Assembly size impact
 
 
@@ -96,54 +101,54 @@ This project uses features from the newest stable SDK and C# language. As such c
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       390.5KB |  +382.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netstandard2.1 |          8.5KB |       344.5KB |  +336.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net461         |          8.5KB |       389.0KB |  +380.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net462         |          7.0KB |       392.5KB |  +385.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net47          |          7.0KB |       392.5KB |  +385.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net471         |          8.5KB |       391.5KB |  +383.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net472         |          8.5KB |       390.0KB |  +381.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net48          |          8.5KB |       390.0KB |  +381.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net481         |          8.5KB |       390.0KB |  +381.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| netcoreapp2.0  |          9.0KB |       368.0KB |  +359.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp2.1  |          9.0KB |       350.5KB |  +341.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp2.2  |          9.0KB |       350.5KB |  +341.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp3.0  |          9.5KB |       347.0KB |  +337.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.1  |          9.5KB |       345.0KB |  +335.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net5.0         |          9.5KB |       310.5KB |  +301.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net6.0         |         10.0KB |       252.0KB |  +242.0KB |    +9.5KB |             +6.5KB |           +512bytes |      +3.0KB |
-| net7.0         |         10.0KB |       221.5KB |  +211.5KB |    +9.5KB |             +6.0KB |           +512bytes |      +3.5KB |
-| net8.0         |          9.5KB |       191.5KB |  +182.0KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
-| net9.0         |          9.5KB |       120.0KB |  +110.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net10.0        |         10.0KB |        95.5KB |   +85.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net11.0        |         10.0KB |        21.0KB |   +11.0KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
+| netstandard2.0 |          8.0KB |       410.0KB |  +402.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
+| netstandard2.1 |          8.5KB |       355.0KB |  +346.5KB |    +8.5KB |             +6.0KB |              +9.0KB |     +13.5KB |
+| net461         |          8.5KB |       408.5KB |  +400.0KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.5KB |
+| net462         |          7.0KB |       412.0KB |  +405.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
+| net47          |          7.0KB |       412.0KB |  +405.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
+| net471         |          8.5KB |       411.0KB |  +402.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.5KB |
+| net472         |          8.5KB |       410.0KB |  +401.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net48          |          8.5KB |       410.0KB |  +401.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net481         |          8.5KB |       410.0KB |  +401.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| netcoreapp2.0  |          9.0KB |       387.5KB |  +378.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| netcoreapp2.1  |          9.0KB |       363.5KB |  +354.5KB |    +7.5KB |             +5.5KB |              +8.0KB |     +13.0KB |
+| netcoreapp2.2  |          9.0KB |       364.0KB |  +355.0KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.5KB |
+| netcoreapp3.0  |          9.5KB |       352.0KB |  +342.5KB |    +8.0KB |             +6.5KB |              +9.5KB |     +12.5KB |
+| netcoreapp3.1  |          9.5KB |       352.0KB |  +342.5KB |    +8.0KB |             +6.5KB |              +9.5KB |     +12.5KB |
+| net5.0         |          9.5KB |       315.5KB |  +306.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net6.0         |         10.0KB |       255.0KB |  +245.0KB |    +9.5KB |             +6.5KB |           +512bytes |      +3.0KB |
+| net7.0         |         10.0KB |       223.5KB |  +213.5KB |    +9.5KB |             +6.0KB |              +1.0KB |      +3.5KB |
+| net8.0         |          9.5KB |       196.0KB |  +186.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net9.0         |          9.5KB |       126.5KB |  +117.0KB |    +8.0KB |                    |           +512bytes |      +3.0KB |
+| net10.0        |         10.0KB |       100.5KB |   +90.5KB |    +8.0KB |                    |           +512bytes |      +3.0KB |
+| net11.0        |         10.0KB |        17.5KB |    +7.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 
 
 ### Assembly Sizes with EmbedUntrackedSources
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       568.9KB |  +560.9KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netstandard2.1 |          8.5KB |       494.7KB |  +486.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net461         |          8.5KB |       568.4KB |  +559.9KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net462         |          7.0KB |       571.9KB |  +564.9KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net47          |          7.0KB |       571.7KB |  +564.7KB |   +16.2KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net471         |          8.5KB |       570.3KB |  +561.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net472         |          8.5KB |       567.8KB |  +559.3KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net48          |          8.5KB |       567.8KB |  +559.3KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net481         |          8.5KB |       567.8KB |  +559.3KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| netcoreapp2.0  |          9.0KB |       535.8KB |  +526.8KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp2.1  |          9.0KB |       506.1KB |  +497.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp2.2  |          9.0KB |       506.1KB |  +497.1KB |   +16.7KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp3.0  |          9.5KB |       494.7KB |  +485.2KB |   +16.7KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.1  |          9.5KB |       492.7KB |  +483.2KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net5.0         |          9.5KB |       440.8KB |  +431.3KB |   +16.7KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net6.0         |         10.0KB |       362.1KB |  +352.1KB |   +17.2KB |             +8.2KB |              +1.1KB |      +3.7KB |
-| net7.0         |         10.0KB |       315.5KB |  +305.5KB |   +17.1KB |             +7.4KB |              +1.1KB |      +4.2KB |
-| net8.0         |          9.5KB |       271.1KB |  +261.6KB |   +16.0KB |          +299bytes |              +1.1KB |      +3.7KB |
-| net9.0         |          9.5KB |       173.6KB |  +164.1KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
-| net10.0        |         10.0KB |       139.1KB |  +129.1KB |   +16.0KB |                    |              +1.1KB |      +4.2KB |
-| net11.0        |         10.0KB |        30.9KB |   +20.9KB |   +16.5KB |                    |              +1.1KB |      +4.2KB |
+| netstandard2.0 |          8.0KB |       597.7KB |  +589.7KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
+| netstandard2.1 |          8.5KB |       510.5KB |  +502.0KB |   +16.1KB |             +7.7KB |             +13.9KB |     +18.9KB |
+| net461         |          8.5KB |       597.2KB |  +588.7KB |   +16.6KB |             +8.7KB |             +14.4KB |     +19.9KB |
+| net462         |          7.0KB |       600.7KB |  +593.7KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
+| net47          |          7.0KB |       600.7KB |  +593.7KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
+| net471         |          8.5KB |       599.1KB |  +590.6KB |   +16.6KB |             +8.7KB |             +14.4KB |     +19.9KB |
+| net472         |          8.5KB |       597.1KB |  +588.6KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net48          |          8.5KB |       597.1KB |  +588.6KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net481         |          8.5KB |       597.1KB |  +588.6KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| netcoreapp2.0  |          9.0KB |       564.7KB |  +555.7KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| netcoreapp2.1  |          9.0KB |       526.1KB |  +517.1KB |   +15.1KB |             +7.2KB |             +12.9KB |     +18.4KB |
+| netcoreapp2.2  |          9.0KB |       526.6KB |  +517.6KB |   +15.1KB |             +6.7KB |             +12.4KB |     +17.9KB |
+| netcoreapp3.0  |          9.5KB |       504.1KB |  +494.6KB |   +15.6KB |             +8.2KB |             +14.4KB |     +17.9KB |
+| netcoreapp3.1  |          9.5KB |       504.1KB |  +494.6KB |   +15.6KB |             +8.2KB |             +14.4KB |     +17.9KB |
+| net5.0         |          9.5KB |       449.5KB |  +440.0KB |   +16.6KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net6.0         |         10.0KB |       367.6KB |  +357.6KB |   +17.1KB |             +8.2KB |              +1.1KB |      +3.7KB |
+| net7.0         |         10.0KB |       318.7KB |  +308.7KB |   +17.0KB |             +7.4KB |              +1.6KB |      +4.2KB |
+| net8.0         |          9.5KB |       277.2KB |  +267.7KB |   +15.9KB |          +299bytes |              +1.1KB |      +4.2KB |
+| net9.0         |          9.5KB |       181.3KB |  +171.8KB |   +15.4KB |                    |              +1.1KB |      +3.7KB |
+| net10.0        |         10.0KB |       144.4KB |  +134.4KB |   +15.4KB |                    |              +1.1KB |      +3.7KB |
+| net11.0        |         10.0KB |        25.7KB |   +15.7KB |   +16.4KB |                    |              +1.1KB |      +4.2KB |
 <!-- endInclude -->
 
 
@@ -1647,6 +1652,7 @@ The class `Polyfill` includes the following extension methods:
 #### Process
 
  * `void Kill(bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.kill?view=net-11.0#system-diagnostics-process-kill(system-boolean))
+   * Note: On Unix the descendants are found by running ps before anything is killed, so a child started in between is missed. When ps is not available only the process itself is killed.
  * `(byte[] StandardOutput, byte[] StandardError) ReadAllBytes(TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readallbytes?view=net-11.0)
  * `Task<(byte[] StandardOutput, byte[] StandardError)> ReadAllBytesAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readallbytesasync?view=net-11.0)
  * `IEnumerable<ProcessOutputLine> ReadAllLines(TimeSpan?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.process.readalllines?view=net-11.0)
@@ -1736,7 +1742,8 @@ The class `Polyfill` includes the following extension methods:
 #### ReadOnlySpan<char>
 
  * `bool ContainsAnyWhiteSpace()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanywhitespace?view=net-11.0)
- * `bool EndsWith(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith?view=net-11.0#system-memoryextensions-endswith-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
+ * `bool EndsWith(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith?view=net-11.0#system-memoryextensions-endswith(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-stringcomparison))
+ * `bool EndsWith(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith?view=net-11.0#system-memoryextensions-endswith-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `SpanLineEnumerator EnumerateLines()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines?view=net-11.0#system-memoryextensions-enumeratelines(system-readonlyspan((system-char))))
  * `int GetNormalizedLength(NormalizationForm)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.stringnormalizationextensions.getnormalizedlength?view=net-11.0#system-stringnormalizationextensions-getnormalizedlength(system-readonlyspan((system-char))-system-text-normalizationform))
  * `int IndexOfAnyExceptWhiteSpace()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexceptwhitespace?view=net-11.0)
@@ -1749,7 +1756,8 @@ The class `Polyfill` includes the following extension methods:
  * `int Split(Span<Range>, ReadOnlySpan<char>, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split?view=net-11.0#system-memoryextensions-split(system-readonlyspan((system-char))-system-span((system-range))-system-readonlyspan((system-char))-system-stringsplitoptions))
  * `int SplitAny(Span<Range>, ReadOnlySpan<char>, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany?view=net-11.0#system-memoryextensions-splitany(system-readonlyspan((system-char))-system-span((system-range))-system-readonlyspan((system-char))-system-stringsplitoptions))
  * `int SplitAny(Span<Range>, ReadOnlySpan<string>, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany?view=net-11.0#system-memoryextensions-splitany(system-readonlyspan((system-char))-system-span((system-range))-system-readonlyspan((system-string))-system-stringsplitoptions))
- * `bool StartsWith(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith?view=net-11.0#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
+ * `bool StartsWith(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith?view=net-11.0#system-memoryextensions-startswith(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-stringcomparison))
+ * `bool StartsWith(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith?view=net-11.0#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `int ToLowerOrdinal(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.tolowerordinal?view=net-11.0)
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `int ToUpperOrdinal(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.toupperordinal?view=net-11.0)
@@ -1762,11 +1770,11 @@ The class `Polyfill` includes the following extension methods:
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-11.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0))))
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-11.0#system-memoryextensions-commonprefixlength-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `bool Contains<T>(T, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0-system-collections-generic-iequalitycomparer((-0))))
- * `bool Contains<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0))
- * `bool ContainsAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
- * `bool ContainsAnyExcept<T>(T, T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-0-0-0))
- * `bool ContainsAnyExcept<T>(T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-0-0))
- * `bool ContainsAnyExcept<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-0))
+ * `bool Contains<T>(T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0))
+ * `bool ContainsAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
+ * `bool ContainsAnyExcept<T>(T, T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-0-0-0))
+ * `bool ContainsAnyExcept<T>(T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-0-0))
+ * `bool ContainsAnyExcept<T>(T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-readonlyspan((-0))-0))
  * `bool ContainsAnyExceptInRange<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexceptinrange?view=net-11.0#system-memoryextensions-containsanyexceptinrange-1(system-readonlyspan((-0))-0-0))
  * `bool ContainsAnyInRange<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyinrange?view=net-11.0#system-memoryextensions-containsanyinrange-1(system-readonlyspan((-0))-0-0))
  * `int CountAny<T>(ReadOnlySpan<T>, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.countany?view=net-11.0#system-memoryextensions-countany-1(system-readonlyspan((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0))))
@@ -1775,14 +1783,14 @@ The class `Polyfill` includes the following extension methods:
  * `bool EndsWith<T>(T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith?view=net-11.0#system-memoryextensions-endswith-1(system-readonlyspan((-0))-0))
  * `int IndexOf<T>(T, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexof?view=net-11.0#system-memoryextensions-indexof-1(system-readonlyspan((-0))-0-system-collections-generic-iequalitycomparer((-0))))
  * `int IndexOfAny<T>(ReadOnlySpan<T>, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.countany?view=net-11.0#system-memoryextensions-countany-1(system-readonlyspan((-0))-system-buffers-searchvalues((-0))))
- * `int IndexOfAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
- * `int IndexOfAnyExcept<T>(T, T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-readonlyspan((-0))-0-0-0))
- * `int IndexOfAnyExcept<T>(T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-readonlyspan((-0))-0-0))
- * `int IndexOfAnyExcept<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-readonlyspan((-0))-0))
- * `int LastIndexOfAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
- * `int LastIndexOfAnyExcept<T>(T, T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-readonlyspan((-0))-0-0-0))
- * `int LastIndexOfAnyExcept<T>(T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-readonlyspan((-0))-0-0))
- * `int LastIndexOfAnyExcept<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-readonlyspan((-0))-0))
+ * `int IndexOfAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
+ * `int IndexOfAnyExcept<T>(T, T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-readonlyspan((-0))-0-0-0))
+ * `int IndexOfAnyExcept<T>(T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-readonlyspan((-0))-0-0))
+ * `int IndexOfAnyExcept<T>(T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-readonlyspan((-0))-0))
+ * `int LastIndexOfAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
+ * `int LastIndexOfAnyExcept<T>(T, T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-readonlyspan((-0))-0-0-0))
+ * `int LastIndexOfAnyExcept<T>(T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-readonlyspan((-0))-0-0))
+ * `int LastIndexOfAnyExcept<T>(T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-readonlyspan((-0))-0))
  * `T? Max<T>(IComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.max?view=net-11.0#system-memoryextensions-max-1(system-readonlyspan((-0))-system-collections-generic-icomparer((-0))))
  * `T? Max<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.max?view=net-11.0#system-memoryextensions-max-1(system-readonlyspan((-0))))
  * `T? Min<T>(IComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.min?view=net-11.0#system-memoryextensions-min-1(system-readonlyspan((-0))-system-collections-generic-icomparer((-0))))
@@ -1940,28 +1948,28 @@ The class `Polyfill` includes the following extension methods:
 
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>, IEqualityComparer<T>?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-11.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))-system-collections-generic-iequalitycomparer((-0))))
  * `int CommonPrefixLength<T>(ReadOnlySpan<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.commonprefixlength?view=net-11.0#system-memoryextensions-commonprefixlength-1(system-span((-0))-system-readonlyspan((-0))))
- * `bool Contains<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-span((-0))-0))
- * `bool ContainsAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-system-readonlyspan((-0))))
- * `bool ContainsAnyExcept<T>(T, T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-0-0-0))
- * `bool ContainsAnyExcept<T>(T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-0-0))
- * `bool ContainsAnyExcept<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-0))
+ * `bool Contains<T>(T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-span((-0))-0))
+ * `bool ContainsAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-system-readonlyspan((-0))))
+ * `bool ContainsAnyExcept<T>(T, T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-0-0-0))
+ * `bool ContainsAnyExcept<T>(T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-0-0))
+ * `bool ContainsAnyExcept<T>(T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexcept?view=net-11.0#system-memoryextensions-containsanyexcept-1(system-span((-0))-0))
  * `bool ContainsAnyExceptInRange<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyexceptinrange?view=net-11.0#system-memoryextensions-containsanyexceptinrange-1(system-span((-0))-0-0))
  * `bool ContainsAnyInRange<T>(T, T) where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanyinrange?view=net-11.0#system-memoryextensions-containsanyinrange-1(system-span((-0))-0-0))
- * `int IndexOfAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-span((-0))-system-readonlyspan((-0))))
- * `int IndexOfAnyExcept<T>(T, T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-span((-0))-0-0-0))
- * `int IndexOfAnyExcept<T>(T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-span((-0))-0-0))
- * `int IndexOfAnyExcept<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-span((-0))-0))
- * `int LastIndexOfAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-span((-0))-system-readonlyspan((-0))))
- * `int LastIndexOfAnyExcept<T>(T, T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-span((-0))-0-0-0))
- * `int LastIndexOfAnyExcept<T>(T, T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-span((-0))-0-0))
- * `int LastIndexOfAnyExcept<T>(T) where T : IEquatable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-span((-0))-0))
+ * `int IndexOfAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-span((-0))-system-readonlyspan((-0))))
+ * `int IndexOfAnyExcept<T>(T, T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-span((-0))-0-0-0))
+ * `int IndexOfAnyExcept<T>(T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-span((-0))-0-0))
+ * `int IndexOfAnyExcept<T>(T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexcept?view=net-11.0#system-memoryextensions-indexofanyexcept-1(system-span((-0))-0))
+ * `int LastIndexOfAnyExcept<T>(ReadOnlySpan<T>) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-span((-0))-system-readonlyspan((-0))))
+ * `int LastIndexOfAnyExcept<T>(T, T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-span((-0))-0-0-0))
+ * `int LastIndexOfAnyExcept<T>(T, T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-span((-0))-0-0))
+ * `int LastIndexOfAnyExcept<T>(T) where T : IEquatable<T>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.lastindexofanyexcept?view=net-11.0#system-memoryextensions-lastindexofanyexcept-1(system-span((-0))-0))
  * `void Sort<T>(Comparison<T>)`
- * `void Sort<T>() where T : IComparable<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-1(system-span((-0))))
+ * `void Sort<T>()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-1(system-span((-0))))
 
 
 #### Span<TKey>
 
- * `void Sort<TKey, TValue, TComparer>(Span<TValue>, TComparer) where TComparer : IComparer<TKey>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-3(system-span((-0))-system-span((-1))-2))
+ * `void Sort<TKey, TValue, TComparer>(Span<TValue>, TComparer) where TComparer : IComparer<TKey>?` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-3(system-span((-0))-system-span((-1))-2))
  * `void Sort<TKey, TValue>(Span<TValue>, Comparison<TKey>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-2(system-span((-0))-system-span((-1))-system-comparison((-0))))
  * `void Sort<TKey, TValue>(Span<TValue>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.sort?view=net-11.0#system-memoryextensions-sort-2(system-span((-0))-system-span((-1))))
 
@@ -2155,12 +2163,12 @@ The class `Polyfill` includes the following extension methods:
  * `Task FlushAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.flushasync?view=net-11.0#system-io-textwriter-flushasync(system-threading-cancellationtoken))
  * `void Write(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write?view=net-11.0#system-io-textwriter-write(system-readonlyspan((system-char))))
  * `void Write(StringBuilder?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write?view=net-11.0#system-io-textwriter-write(system-text-stringbuilder))
- * `ValueTask WriteAsync(ReadOnlyMemory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-11.0#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))
+ * `Task WriteAsync(ReadOnlyMemory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-11.0#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))
  * `Task WriteAsync(string?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-11.0#system-io-textwriter-writeasync(system-string-system-threading-cancellationtoken))
  * `Task WriteAsync(StringBuilder?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-11.0#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))
  * `void WriteLine(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline?view=net-11.0#system-io-textwriter-writeline(system-readonlyspan((system-char))))
  * `Task WriteLineAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-11.0#system-io-textwriter-writelineasync(system-threading-cancellationtoken))
- * `ValueTask WriteLineAsync(ReadOnlyMemory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-11.0#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))
+ * `Task WriteLineAsync(ReadOnlyMemory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-11.0#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))
  * `Task WriteLineAsync(string?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-11.0#system-io-textwriter-writelineasync(system-string-system-threading-cancellationtoken))
  * `TextWriter CreateBroadcasting(TextWriter[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.createbroadcasting?view=net-11.0)
 
@@ -2179,11 +2187,11 @@ The class `Polyfill` includes the following extension methods:
 
  * `bool TryFormat(Span<byte>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat?view=net-11.0#system-timespan-tryformat(system-span((system-byte))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
  * `bool TryFormat(Span<char>, int, ReadOnlySpan<char>, IFormatProvider?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.tryformat?view=net-11.0#system-timespan-tryformat(system-span((system-char))-system-int32@-system-readonlyspan((system-char))-system-iformatprovider))
- * `TimeSpan FromDays(int, int, int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromdays?view=net-11.0#system-timespan-fromdays(system-int32-system-int32-system-int32-system-int32-system-int32-system-int32))
- * `TimeSpan FromHours(int, int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromhours?view=net-11.0#system-timespan-fromhours(system-int32-system-int32-system-int32-system-int32-system-int32))
+ * `TimeSpan FromDays(int, int, long, long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromdays?view=net-11.0#system-timespan-fromdays(system-int32-system-int32-system-int64-system-int64-system-int64-system-int64))
+ * `TimeSpan FromHours(int, long, long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromhours?view=net-11.0#system-timespan-fromhours(system-int32-system-int64-system-int64-system-int64-system-int64))
  * `TimeSpan FromMicroseconds(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommicroseconds?view=net-11.0#system-timespan-frommicroseconds(system-int64))
  * `TimeSpan FromMilliseconds(long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommilliseconds?view=net-11.0#system-timespan-frommilliseconds(system-int64-system-int64))
- * `TimeSpan FromMinutes(int, int, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromminutes?view=net-11.0#system-timespan-fromminutes(system-int32-system-int32-system-int32-system-int32))
+ * `TimeSpan FromMinutes(long, long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromminutes?view=net-11.0#system-timespan-fromminutes(system-int64-system-int64-system-int64-system-int64))
  * `TimeSpan FromSeconds(long, long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromseconds?view=net-11.0#system-timespan-fromseconds(system-int64-system-int64-system-int64))
  * `int HoursPerDay` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.timespan.hoursperday?view=net-11.0)
    * Note: A property rather than a const, since extension members cannot declare constants, so it cannot be used in a constant expression.
@@ -2234,6 +2242,7 @@ The class `Polyfill` includes the following extension methods:
 #### UdpClient
 
  * `ValueTask<UdpReceiveResult> ReceiveAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.receiveasync?view=net-11.0#system-net-sockets-udpclient-receiveasync(system-threading-cancellationtoken))
+   * Note: Cancellation abandons the wait, not the underlying receive, which stays in flight. Its datagram is returned by the next `ReceiveAsync(CancellationToken)` call, so after a cancellation do not mix in the other `Receive` overloads.
  * `int Send(ReadOnlySpan<byte>, IPEndPoint?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.send?view=net-11.0#system-net-sockets-udpclient-send(system-readonlyspan((system-byte))-system-net-ipendpoint))
  * `int Send(ReadOnlySpan<byte>, string?, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.send?view=net-11.0#system-net-sockets-udpclient-send(system-readonlyspan((system-byte))-system-string-system-int32))
  * `int Send(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.udpclient.send?view=net-11.0#system-net-sockets-udpclient-send(system-readonlyspan((system-byte))))

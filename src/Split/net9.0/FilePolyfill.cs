@@ -4,6 +4,7 @@ namespace Polyfills;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
@@ -30,7 +31,6 @@ static partial class Polyfill
 			return new FileInfo(path);
 		}
 	}
-#if !NET12_0_OR_GREATER
 	extension(File)
 	{
 		/// <summary>
@@ -90,5 +90,4 @@ static partial class Polyfill
 		[DllImport("libc", SetLastError = true)]
 		static extern int link(string oldpath, string newpath);
 	}
-#endif
 }

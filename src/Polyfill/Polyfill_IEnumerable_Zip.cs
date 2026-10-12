@@ -24,7 +24,7 @@ static partial class Polyfill
     }
 #endif
 
-#if !NETCOREAPP3_1_OR_GREATER
+#if !NETCOREAPP3_0_OR_GREATER
 
     /// <summary>
     /// Produces a sequence of tuples with elements from the two specified sequences.

@@ -2,7 +2,6 @@
 #pragma warning disable
 #if FeatureMemory && FeatureValueTuple
 namespace System.Text.RegularExpressions;
-using System.Collections.Generic;
 using System;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
@@ -22,71 +21,89 @@ ref struct ValueSplitEnumerator
 {
 	private readonly ReadOnlySpan<char> _input;
 	private readonly Regex _regex;
-	private readonly int _count;
 	private readonly int _startat;
-	private Range[]? _ranges;
-	private int _currentIndex;
-	private bool _initialized;
+	private int _remaining;
+	private Match? _match;
+	private int _previous;
+	private bool _completed;
+	private Range _current;
+	internal ValueSplitEnumerator(ReadOnlySpan<char> input, Regex regex, int count)
+		: this(input, regex, count, GetDefaultStartat(input, regex))
+	{
+	}
 	internal ValueSplitEnumerator(ReadOnlySpan<char> input, Regex regex, int count, int startat)
 	{
 		_input = input;
 		_regex = regex;
-		_count = count;
 		_startat = startat;
-		_ranges = null;
-		_currentIndex = -1;
-		_initialized = false;
+		_remaining = count;
+		if (count == 0)
+		{
+			_remaining = int.MaxValue;
+		}
+		_match = null;
+		_previous = 0;
+		if (regex.RightToLeft)
+		{
+			_previous = input.Length;
+		}
+		_completed = false;
+		_current = default;
 	}
-	public Range Current => _ranges![_currentIndex];
-	public ValueSplitEnumerator GetEnumerator() => this;
+	static int GetDefaultStartat(ReadOnlySpan<char> input, Regex regex)
+	{
+		if (regex.RightToLeft)
+		{
+			return input.Length;
+		}
+		return 0;
+	}
+	public readonly Range Current => _current;
+	public readonly ValueSplitEnumerator GetEnumerator() => this;
 	public bool MoveNext()
 	{
-		if (!_initialized)
+		if (_completed)
 		{
-			Initialize();
-			_initialized = true;
+			return false;
 		}
-		_currentIndex++;
-		return _currentIndex < _ranges!.Length;
-	}
-	private void Initialize()
-	{
-		string inputString = _input.ToString();
-		string[] splits;
-		if (_count == 0 && _startat == 0)
+		if (_remaining > 1)
 		{
-			splits = _regex.Split(inputString);
-		}
-		else if (_startat == 0)
-		{
-			splits = _regex.Split(inputString, _count == 0 ? int.MaxValue : _count);
-		}
-		else
-		{
-			splits = _regex.Split(inputString, _count == 0 ? int.MaxValue : _count, _startat);
-		}
-		var ranges = new List<Range>();
-		int currentPos = 0;
-		for (int i = 0; i < splits.Length; i++)
-		{
-			int length = splits[i].Length;
-			int start = currentPos;
-			int end = currentPos + length;
-			ranges.Add(new Range(start, end));
-			if (i < splits.Length - 1)
+			Match match;
+			if (_match is null)
 			{
-				Match match = _regex.Match(inputString, end);
-				if (match.Success)
+				match = _regex.Match(_input.ToString(), _startat);
+			}
+			else
+			{
+				match = _match.NextMatch();
+			}
+			if (match.Success)
+			{
+				_match = match;
+				_remaining--;
+				if (_regex.RightToLeft)
 				{
-					currentPos = match.Index + match.Length;
+					_current = new Range(match.Index + match.Length, _previous);
+					_previous = match.Index;
 				}
 				else
 				{
-					currentPos = end;
+					_current = new Range(_previous, match.Index);
+					_previous = match.Index + match.Length;
 				}
+				return true;
 			}
 		}
-		_ranges = ranges.ToArray();
+		_completed = true;
+		if (_regex.RightToLeft)
+		{
+			_current = new Range(0, _previous);
+		}
+		else
+		{
+			_current = new Range(_previous, _input.Length);
+		}
+		return true;
 	}
 }
 #endif

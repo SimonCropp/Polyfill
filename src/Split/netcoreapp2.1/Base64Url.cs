@@ -216,8 +216,16 @@ static class Base64Url
 		{
 			return Array.Empty<byte>();
 		}
-		Validate(source);
-		return DecodeCore(source);
+		var buffer = new byte[GetMaxDecodedLength(source.Length)];
+		if (Decode(source, buffer, true, out _, out var bytesWritten, true) != OperationStatus.Done)
+		{
+			throw new FormatException("The input is not a valid Base64Url string.");
+		}
+		if (bytesWritten == buffer.Length)
+		{
+			return buffer;
+		}
+		return buffer.AsSpan(0, bytesWritten).ToArray();
 	}
 	/// <summary>Decodes the span of UTF-16 encoded text represented as base-64-url into binary data.</summary>
 	public static int DecodeFromChars(ReadOnlySpan<char> source, Span<byte> destination)
@@ -233,91 +241,21 @@ static class Base64Url
 	/// <summary>Decodes the span of UTF-16 encoded text represented as base-64-url into binary data.</summary>
 	public static OperationStatus DecodeFromChars(ReadOnlySpan<char> source, Span<byte> destination, out int charsConsumed, out int bytesWritten, bool isFinalBlock = true)
 	{
-		if (source.IsEmpty)
-		{
-			bytesWritten = 0;
-			charsConsumed = 0;
-			return OperationStatus.Done;
-		}
-		for (var i = 0; i < source.Length; i++)
-		{
-			if (!IsValidBase64UrlChar(source[i]))
-			{
-				bytesWritten = 0;
-				charsConsumed = i;
-				return OperationStatus.InvalidData;
-			}
-		}
-		var completeGroups = source.Length / 4;
-		var remainingChars = source.Length % 4;
-		if (!isFinalBlock)
-		{
-			var maxOutputBytes = completeGroups * 3;
-			var groupsWeCanFit = Math.Min(completeGroups, maxOutputBytes <= destination.Length ? completeGroups : destination.Length / 3);
-			charsConsumed = groupsWeCanFit * 4;
-			if (charsConsumed > 0)
-			{
-				var decoded = DecodeCore(source.Slice(0, charsConsumed));
-				decoded.CopyTo(destination);
-				bytesWritten = decoded.Length;
-			}
-			else
-			{
-				bytesWritten = 0;
-			}
-			if (groupsWeCanFit < completeGroups)
-			{
-				return OperationStatus.DestinationTooSmall;
-			}
-			return remainingChars > 0 ? OperationStatus.NeedMoreData : OperationStatus.Done;
-		}
-		var totalBytes = GetMaxDecodedLength(source.Length);
-		if (totalBytes <= destination.Length)
-		{
-			if (source.Length % 4 == 1)
-			{
-				bytesWritten = 0;
-				charsConsumed = source.Length - 1;
-				return OperationStatus.InvalidData;
-			}
-			var decoded2 = DecodeCore(source);
-			decoded2.CopyTo(destination);
-			bytesWritten = decoded2.Length;
-			charsConsumed = source.Length;
-			return OperationStatus.Done;
-		}
-		var fitting = Math.Min(completeGroups, destination.Length / 3);
-		charsConsumed = fitting * 4;
-		if (charsConsumed > 0)
-		{
-			var decoded3 = DecodeCore(source.Slice(0, charsConsumed));
-			decoded3.CopyTo(destination);
-			bytesWritten = decoded3.Length;
-		}
-		else
-		{
-			bytesWritten = 0;
-		}
-		return OperationStatus.DestinationTooSmall;
+		return Decode(source, destination, true, out charsConsumed, out bytesWritten, isFinalBlock);
 	}
 	/// <summary>Tries to decode the span of UTF-16 encoded text represented as base-64-url into binary data.</summary>
 	public static bool TryDecodeFromChars(ReadOnlySpan<char> source, Span<byte> destination, out int bytesWritten)
 	{
-		if (source.IsEmpty)
+		var status = Decode(source, destination, true, out _, out bytesWritten, true);
+		if (status == OperationStatus.Done)
 		{
-			bytesWritten = 0;
 			return true;
 		}
-		Validate(source);
-		var decoded = DecodeCore(source);
-		if (decoded.Length > destination.Length)
+		if (status == OperationStatus.DestinationTooSmall)
 		{
-			bytesWritten = 0;
 			return false;
 		}
-		decoded.CopyTo(destination);
-		bytesWritten = decoded.Length;
-		return true;
+		throw new FormatException("The input is not a valid Base64Url string.");
 	}
 	/// <summary>Decodes the span of UTF-8 encoded text represented as base-64-url into binary data.</summary>
 	public static byte[] DecodeFromUtf8(ReadOnlySpan<byte> source)
@@ -344,7 +282,7 @@ static class Base64Url
 	public static OperationStatus DecodeFromUtf8(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesConsumed, out int bytesWritten, bool isFinalBlock = true)
 	{
 		var chars = BytesToChars(source);
-		var status = DecodeFromChars(chars, destination, out bytesWritten, out var charsConsumed, isFinalBlock);
+		var status = DecodeFromChars(chars, destination, out var charsConsumed, out bytesWritten, isFinalBlock);
 		bytesConsumed = charsConsumed;
 		return status;
 	}
@@ -368,26 +306,12 @@ static class Base64Url
 	/// <summary>Validates that the specified span of UTF-16 text is valid base-64-url, and outputs the decoded length.</summary>
 	public static bool IsValid(ReadOnlySpan<char> base64UrlText, out int decodedLength)
 	{
-		if (base64UrlText.IsEmpty)
+		if (Decode(base64UrlText, default, false, out _, out decodedLength, true) == OperationStatus.Done)
 		{
-			decodedLength = 0;
 			return true;
 		}
-		if (base64UrlText.Length % 4 == 1)
-		{
-			decodedLength = 0;
-			return false;
-		}
-		for (var i = 0; i < base64UrlText.Length; i++)
-		{
-			if (!IsValidBase64UrlChar(base64UrlText[i]))
-			{
-				decodedLength = 0;
-				return false;
-			}
-		}
-		decodedLength = GetMaxDecodedLength(base64UrlText.Length);
-		return true;
+		decodedLength = 0;
+		return false;
 	}
 	/// <summary>Validates that the specified span of UTF-8 text is valid base-64-url.</summary>
 	public static bool IsValid(ReadOnlySpan<byte> utf8Base64UrlText) =>
@@ -395,26 +319,8 @@ static class Base64Url
 	/// <summary>Validates that the specified span of UTF-8 text is valid base-64-url, and outputs the decoded length.</summary>
 	public static bool IsValid(ReadOnlySpan<byte> utf8Base64UrlText, out int decodedLength)
 	{
-		if (utf8Base64UrlText.IsEmpty)
-		{
-			decodedLength = 0;
-			return true;
-		}
-		if (utf8Base64UrlText.Length % 4 == 1)
-		{
-			decodedLength = 0;
-			return false;
-		}
-		for (var i = 0; i < utf8Base64UrlText.Length; i++)
-		{
-			if (!IsValidBase64UrlByte(utf8Base64UrlText[i]))
-			{
-				decodedLength = 0;
-				return false;
-			}
-		}
-		decodedLength = GetMaxDecodedLength(utf8Base64UrlText.Length);
-		return true;
+		var chars = BytesToChars(utf8Base64UrlText);
+		return IsValid(chars, out decodedLength);
 	}
 	static string ToBase64UrlString(string base64)
 	{
@@ -435,43 +341,143 @@ static class Base64Url
 		}
 		return new string(chars);
 	}
-	static byte[] DecodeCore(ReadOnlySpan<char> source)
+	static OperationStatus Decode(ReadOnlySpan<char> source, Span<byte> destination, bool write, out int charsConsumed, out int bytesWritten, bool isFinalBlock)
 	{
-		var padded = source.Length + (4 - source.Length % 4) % 4;
-		var chars = new char[padded];
-		for (var i = 0; i < source.Length; i++)
+		charsConsumed = 0;
+		bytesWritten = 0;
+		Span<int> quantum = stackalloc int[4];
+		var count = 0;
+		var index = 0;
+		for (; index < source.Length; index++)
 		{
-			chars[i] = source[i] switch
+			var c = source[index];
+			if (c is ' ' or '\t' or '\r' or '\n')
 			{
-				'-' => '+',
-				'_' => '/',
-				_ => source[i]
-			};
-		}
-		for (var i = source.Length; i < padded; i++)
-		{
-			chars[i] = '=';
-		}
-		return Convert.FromBase64String(new string(chars));
-	}
-	static void Validate(ReadOnlySpan<char> source)
-	{
-		if (source.Length % 4 == 1)
-		{
-			throw new FormatException("The input is not a valid Base64Url string.");
-		}
-		for (var i = 0; i < source.Length; i++)
-		{
-			if (!IsValidBase64UrlChar(source[i]))
+				continue;
+			}
+			quantum[count] = DecodeValue(c);
+			count++;
+			if (count < 4)
 			{
-				throw new FormatException("The input is not a valid Base64Url string.");
+				continue;
+			}
+			if (quantum[0] < 0 || quantum[1] < 0 || quantum[2] < 0 || quantum[3] < 0)
+			{
+				if (isFinalBlock)
+				{
+					index++;
+					break;
+				}
+				return OperationStatus.InvalidData;
+			}
+			if (write)
+			{
+				if (destination.Length - bytesWritten < 3)
+				{
+					return OperationStatus.DestinationTooSmall;
+				}
+				destination[bytesWritten] = (byte) (quantum[0] << 2 | quantum[1] >> 4);
+				destination[bytesWritten + 1] = (byte) ((quantum[1] & 0xF) << 4 | quantum[2] >> 2);
+				destination[bytesWritten + 2] = (byte) ((quantum[2] & 0x3) << 6 | quantum[3]);
+			}
+			bytesWritten += 3;
+			charsConsumed = index + 1;
+			count = 0;
+		}
+		if (!isFinalBlock)
+		{
+			if (count > 0)
+			{
+				return OperationStatus.NeedMoreData;
+			}
+			charsConsumed = source.Length;
+			return OperationStatus.Done;
+		}
+		for (; index < source.Length; index++)
+		{
+			if (source[index] is not (' ' or '\t' or '\r' or '\n'))
+			{
+				return OperationStatus.InvalidData;
 			}
 		}
+		if (count == 0)
+		{
+			charsConsumed = source.Length;
+			return OperationStatus.Done;
+		}
+		var dataChars = 0;
+		while (dataChars < count && quantum[dataChars] >= 0)
+		{
+			dataChars++;
+		}
+		if (dataChars < 2)
+		{
+			return OperationStatus.InvalidData;
+		}
+		for (var i = dataChars; i < count; i++)
+		{
+			if (quantum[i] != paddingValue)
+			{
+				return OperationStatus.InvalidData;
+			}
+		}
+		var remaining = dataChars - 1;
+		if (write && destination.Length - bytesWritten < remaining)
+		{
+			return OperationStatus.DestinationTooSmall;
+		}
+		if (dataChars == 2)
+		{
+			if ((quantum[1] & 0xF) != 0)
+			{
+				return OperationStatus.InvalidData;
+			}
+		}
+		else if ((quantum[2] & 0x3) != 0)
+		{
+			return OperationStatus.InvalidData;
+		}
+		if (write)
+		{
+			destination[bytesWritten] = (byte) (quantum[0] << 2 | quantum[1] >> 4);
+			if (dataChars == 3)
+			{
+				destination[bytesWritten + 1] = (byte) ((quantum[1] & 0xF) << 4 | quantum[2] >> 2);
+			}
+		}
+		bytesWritten += remaining;
+		charsConsumed = source.Length;
+		return OperationStatus.Done;
 	}
-	static bool IsValidBase64UrlChar(char c) =>
-		c is (>= 'A' and <= 'Z') or (>= 'a' and <= 'z') or (>= '0' and <= '9') or '-' or '_';
-	static bool IsValidBase64UrlByte(byte b) =>
-		b is (>= (byte)'A' and <= (byte)'Z') or (>= (byte)'a' and <= (byte)'z') or (>= (byte)'0' and <= (byte)'9') or (byte)'-' or (byte)'_';
+	const int paddingValue = -2;
+	static int DecodeValue(char c)
+	{
+		if (c is >= 'A' and <= 'Z')
+		{
+			return c - 'A';
+		}
+		if (c is >= 'a' and <= 'z')
+		{
+			return c - 'a' + 26;
+		}
+		if (c is >= '0' and <= '9')
+		{
+			return c - '0' + 52;
+		}
+		if (c == '-')
+		{
+			return 62;
+		}
+		if (c == '_')
+		{
+			return 63;
+		}
+		if (c is '=' or '%')
+		{
+			return paddingValue;
+		}
+		return -1;
+	}
 	static void WriteStringToBytes(string source, Span<byte> destination)
 	{
 		for (var i = 0; i < source.Length; i++)

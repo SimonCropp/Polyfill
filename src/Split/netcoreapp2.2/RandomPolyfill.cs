@@ -11,8 +11,17 @@ static partial class Polyfill
 	{
 		[ThreadStatic]
 		static Random? random;
+		static readonly Random seedSource = new();
 		[MethodImpl(MethodImplOptions.NoInlining)]
-		static Random Create() => random = new();
+		static Random Create()
+		{
+			int seed;
+			lock (seedSource)
+			{
+				seed = seedSource.Next();
+			}
+			return random = new(seed);
+		}
 		static Random LocalRandom => random ?? Create();
 		public override int Next() => LocalRandom.Next();
 		public override int Next(int maxValue) => LocalRandom.Next(maxValue);

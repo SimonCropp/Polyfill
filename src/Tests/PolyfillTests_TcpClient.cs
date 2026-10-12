@@ -52,4 +52,55 @@ partial class PolyfillTests
         await Assert.ThrowsAsync<OperationCanceledException>(
             async () => await client.ConnectAsync(endpoint, cancel));
     }
+
+    [Test]
+    public Task TcpClientConnectAsync_IPAddress_CancelledWhilePending_ThrowsOperationCanceledException() =>
+        CancelPendingConnect((client, port, cancel) => client.ConnectAsync(IPAddress.Loopback, port, cancel));
+
+    [Test]
+    public Task TcpClientConnectAsync_IPAddressArray_CancelledWhilePending_ThrowsOperationCanceledException() =>
+        CancelPendingConnect((client, port, cancel) => client.ConnectAsync(new[] {IPAddress.Loopback}, port, cancel));
+
+    [Test]
+    public Task TcpClientConnectAsync_Host_CancelledWhilePending_ThrowsOperationCanceledException() =>
+        CancelPendingConnect((client, port, cancel) => client.ConnectAsync("localhost", port, cancel));
+
+    [Test]
+    public Task TcpClientConnectAsync_IPEndPoint_CancelledWhilePending_ThrowsOperationCanceledException() =>
+        CancelPendingConnect((client, port, cancel) => client.ConnectAsync(new IPEndPoint(IPAddress.Loopback, port), cancel));
+
+    static async Task CancelPendingConnect(Func<TcpClient, int, Cancel, ValueTask> connect)
+    {
+        // A loopback port with nothing listening. On Windows the connect stays pending while it is retried.
+        // The port stays bound for the whole test, so a listener in a test running in parallel cannot be given it
+        using var reserved = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        reserved.Bind(new IPEndPoint(IPAddress.Loopback, 0));
+        var port = ((IPEndPoint) reserved.LocalEndPoint!).Port;
+
+        using var source = new CancellationTokenSource();
+        using var client = new TcpClient();
+        var task = connect(client, port, source.Token).AsTask();
+
+        await Task.WhenAny(task, Task.Delay(100));
+        if (task.IsCompleted)
+        {
+            // Refused immediately (non Windows), so there is no pending connect to cancel
+            await Assert.That(task.IsFaulted).IsTrue();
+            return;
+        }
+
+        source.Cancel();
+
+        Exception? exception = null;
+        try
+        {
+            await task;
+        }
+        catch (Exception caught)
+        {
+            exception = caught;
+        }
+
+        await Assert.That(exception is OperationCanceledException).IsTrue();
+    }
 }

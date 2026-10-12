@@ -15,8 +15,22 @@ static partial class Polyfill
         [ThreadStatic]
         static Random? random;
 
+        // On .NET Framework `new Random()` is seeded from the tick count, so instances created
+        // together (e.g. by threads started at the same time) would produce identical sequences.
+        // Instead each thread's instance takes its seed from a single process-wide source.
+        static readonly Random seedSource = new();
+
         [MethodImpl(MethodImplOptions.NoInlining)]
-        static Random Create() => random = new();
+        static Random Create()
+        {
+            int seed;
+            lock (seedSource)
+            {
+                seed = seedSource.Next();
+            }
+
+            return random = new(seed);
+        }
 
         static Random LocalRandom => random ?? Create();
 

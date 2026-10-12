@@ -100,7 +100,7 @@ static partial class Polyfill
 		{
 			foreach (var chunk in builder.GetChunks())
 			{
-				await target.WriteAsync(chunk, cancel);
+				await target.WriteAsync(chunk, cancel).ConfigureAwait(false);
 			}
 		}
 #else
@@ -108,42 +108,44 @@ static partial class Polyfill
 #endif
 	}
 #if FeatureMemory
-#if FeatureValueTask
 	/// <summary>
 	/// Asynchronously writes a character memory region to the stream.
 	/// </summary>
-	public static ValueTask WriteAsync(
+	public static Task WriteAsync(
 		this TextWriter target,
 		ReadOnlyMemory<char> buffer,
 		CancellationToken cancellationToken = default)
 	{
-		cancellationToken.ThrowIfCancellationRequested();
+		if (cancellationToken.IsCancellationRequested)
+		{
+			return Task.FromCanceled(cancellationToken);
+		}
 		if (!MemoryMarshal.TryGetArray(buffer, out var segment))
 		{
 			segment = new(buffer.ToArray());
 		}
-		var task = target.WriteAsync(segment.Array!, segment.Offset, segment.Count)
+		return target.WriteAsync(segment.Array!, segment.Offset, segment.Count)
 			.WaitAsync(cancellationToken);
-		return new(task);
 	}
 	/// <summary>
 	/// Asynchronously writes the text representation of a character memory region to the stream, followed by a line terminator.
 	/// </summary>
-	public static ValueTask WriteLineAsync(
+	public static Task WriteLineAsync(
 		this TextWriter target,
 		ReadOnlyMemory<char> buffer,
 		CancellationToken cancellationToken = default)
 	{
-		cancellationToken.ThrowIfCancellationRequested();
+		if (cancellationToken.IsCancellationRequested)
+		{
+			return Task.FromCanceled(cancellationToken);
+		}
 		if (!MemoryMarshal.TryGetArray(buffer, out var segment))
 		{
 			segment = new(buffer.ToArray());
 		}
-		var task = target.WriteLineAsync(segment.Array!, segment.Offset, segment.Count)
+		return target.WriteLineAsync(segment.Array!, segment.Offset, segment.Count)
 			.WaitAsync(cancellationToken);
-		return new(task);
 	}
-#endif
 	/// <summary>
 	/// Writes a character span to the text stream.
 	/// </summary>

@@ -18,7 +18,13 @@ static partial class Polyfill
 
         var task = Task.Run(target.Cancel);
 
-        while (!target.IsCancellationRequested) ;
+        // Cancel flips IsCancellationRequested before it runs the callbacks. Wait for that so the request is
+        // visible on return, backing off instead of hot-spinning, and stop if Cancel threw (e.g. a disposed source).
+        var spinner = new SpinWait();
+        while (!target.IsCancellationRequested && !task.IsCompleted)
+        {
+            spinner.SpinOnce();
+        }
 
         return task;
     }

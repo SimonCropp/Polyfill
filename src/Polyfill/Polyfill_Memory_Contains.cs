@@ -28,11 +28,12 @@ static partial class Polyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-readonlyspan((-0))-0)
     public static bool Contains<T>(this ReadOnlySpan<T> target, T value)
-        where T : IEquatable<T>
+        where T : IEquatable<T>?
     {
+        var comparer = EqualityComparer<T>.Default;
         for (var index = 0; index < target.Length; index++)
         {
-            if (target[index].Equals(value))
+            if (comparer.Equals(target[index], value))
             {
                 return true;
             }
@@ -46,11 +47,12 @@ static partial class Polyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.contains?view=net-11.0#system-memoryextensions-contains-1(system-span((-0))-0)
     public static bool Contains<T>(this Span<T> target, T value)
-        where T : IEquatable<T>
+        where T : IEquatable<T>?
     {
+        var comparer = EqualityComparer<T>.Default;
         for (var index = 0; index < target.Length; index++)
         {
-            if (target[index].Equals(value))
+            if (comparer.Equals(target[index], value))
             {
                 return true;
             }
