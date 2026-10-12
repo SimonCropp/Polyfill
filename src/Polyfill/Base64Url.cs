@@ -54,94 +54,61 @@ static class Base64Url
             return string.Empty;
         }
 
-        var base64 = Convert.ToBase64String(source.ToArray());
-        return ToBase64UrlString(base64);
+        var length = EncodedLength(source.Length);
+
+        if (length <= 256)
+        {
+            Span<char> buffer = stackalloc char[256];
+            buffer = buffer.Slice(0, length);
+            Encode(source, buffer);
+            return buffer.ToString();
+        }
+
+        var rented = ArrayPool<char>.Shared.Rent(length);
+        Encode(source, rented);
+        var result = new string(rented, 0, length);
+        ArrayPool<char>.Shared.Return(rented);
+        return result;
     }
 
     /// <summary>Encodes the span of binary data into UTF-16 encoded text represented as base-64-url.</summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64url.encodetochars?view=net-11.0#system-buffers-text-base64url-encodetochars(system-readonlyspan((system-byte))-system-span((system-char)))
     public static int EncodeToChars(ReadOnlySpan<byte> source, Span<char> destination)
     {
-        var encoded = EncodeToString(source);
+        var length = EncodedLength(source.Length);
 
-        if (encoded.Length > destination.Length)
+        if (length > destination.Length)
         {
             throw new ArgumentException("Destination is too small.", nameof(destination));
         }
 
-        encoded.AsSpan().CopyTo(destination);
-        return encoded.Length;
+        Encode(source, destination);
+        return length;
     }
 
     /// <summary>Encodes the span of binary data into UTF-16 encoded text represented as base-64-url.</summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64url.encodetochars?view=net-11.0#system-buffers-text-base64url-encodetochars(system-readonlyspan((system-byte))-system-span((system-char))-system-int32@-system-int32@-system-boolean)
     public static OperationStatus EncodeToChars(ReadOnlySpan<byte> source, Span<char> destination, out int bytesConsumed, out int charsWritten, bool isFinalBlock = true)
     {
-        if (source.IsEmpty)
-        {
-            charsWritten = 0;
-            bytesConsumed = 0;
-            return OperationStatus.Done;
-        }
-
-        var completeGroups = source.Length / 3;
-        var remainingBytes = source.Length % 3;
-
-        if (!isFinalBlock)
-        {
-            var groupsWeCanFit = Math.Min(completeGroups, destination.Length / 4);
-            bytesConsumed = groupsWeCanFit * 3;
-            charsWritten = groupsWeCanFit * 4;
-
-            if (bytesConsumed > 0)
-            {
-                EncodeToString(source.Slice(0, bytesConsumed)).AsSpan().CopyTo(destination);
-            }
-
-            if (groupsWeCanFit < completeGroups)
-            {
-                return OperationStatus.DestinationTooSmall;
-            }
-
-            return remainingBytes > 0 ? OperationStatus.NeedMoreData : OperationStatus.Done;
-        }
-
-        var totalChars = GetEncodedLength(source.Length);
-
-        if (totalChars <= destination.Length)
-        {
-            EncodeToString(source).AsSpan().CopyTo(destination);
-            charsWritten = totalChars;
-            bytesConsumed = source.Length;
-            return OperationStatus.Done;
-        }
-
-        var fitting = destination.Length / 4;
-        bytesConsumed = fitting * 3;
-        charsWritten = fitting * 4;
-
-        if (bytesConsumed > 0)
-        {
-            EncodeToString(source.Slice(0, bytesConsumed)).AsSpan().CopyTo(destination);
-        }
-
-        return OperationStatus.DestinationTooSmall;
+        var status = PlanEncode(source.Length, destination.Length, isFinalBlock, out bytesConsumed, out charsWritten);
+        Encode(source.Slice(0, bytesConsumed), destination);
+        return status;
     }
 
     /// <summary>Tries to encode the span of binary data into UTF-16 encoded text represented as base-64-url.</summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64url.tryencodetochars?view=net-11.0
     public static bool TryEncodeToChars(ReadOnlySpan<byte> source, Span<char> destination, out int charsWritten)
     {
-        var encoded = EncodeToString(source);
+        var length = EncodedLength(source.Length);
 
-        if (encoded.Length > destination.Length)
+        if (length > destination.Length)
         {
             charsWritten = 0;
             return false;
         }
 
-        encoded.AsSpan().CopyTo(destination);
-        charsWritten = encoded.Length;
+        Encode(source, destination);
+        charsWritten = length;
         return true;
     }
 
@@ -149,14 +116,8 @@ static class Base64Url
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64url.encodetoutf8?view=net-11.0#system-buffers-text-base64url-encodetoutf8(system-readonlyspan((system-byte)))
     public static byte[] EncodeToUtf8(ReadOnlySpan<byte> source)
     {
-        var chars = EncodeToString(source);
-        var result = new byte[chars.Length];
-
-        for (var i = 0; i < chars.Length; i++)
-        {
-            result[i] = (byte)chars[i];
-        }
-
+        var result = new byte[EncodedLength(source.Length)];
+        Encode(source, result);
         return result;
     }
 
@@ -164,86 +125,40 @@ static class Base64Url
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64url.encodetoutf8?view=net-11.0#system-buffers-text-base64url-encodetoutf8(system-readonlyspan((system-byte))-system-span((system-byte)))
     public static int EncodeToUtf8(ReadOnlySpan<byte> source, Span<byte> destination)
     {
-        var encoded = EncodeToString(source);
+        var length = EncodedLength(source.Length);
 
-        if (encoded.Length > destination.Length)
+        if (length > destination.Length)
         {
             throw new ArgumentException("Destination is too small.", nameof(destination));
         }
 
-        WriteStringToBytes(encoded, destination);
-        return encoded.Length;
+        Encode(source, destination);
+        return length;
     }
 
     /// <summary>Encodes the span of binary data into UTF-8 encoded text represented as base-64-url.</summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64url.encodetoutf8?view=net-11.0#system-buffers-text-base64url-encodetoutf8(system-readonlyspan((system-byte))-system-span((system-byte))-system-int32@-system-int32@-system-boolean)
     public static OperationStatus EncodeToUtf8(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesConsumed, out int bytesWritten, bool isFinalBlock = true)
     {
-        if (source.IsEmpty)
-        {
-            bytesWritten = 0;
-            bytesConsumed = 0;
-            return OperationStatus.Done;
-        }
-
-        var completeGroups = source.Length / 3;
-        var remainingBytes = source.Length % 3;
-
-        if (!isFinalBlock)
-        {
-            var groupsWeCanFit = Math.Min(completeGroups, destination.Length / 4);
-            bytesConsumed = groupsWeCanFit * 3;
-            bytesWritten = groupsWeCanFit * 4;
-
-            if (bytesConsumed > 0)
-            {
-                WriteStringToBytes(EncodeToString(source.Slice(0, bytesConsumed)), destination);
-            }
-
-            if (groupsWeCanFit < completeGroups)
-            {
-                return OperationStatus.DestinationTooSmall;
-            }
-
-            return remainingBytes > 0 ? OperationStatus.NeedMoreData : OperationStatus.Done;
-        }
-
-        var totalBytes = GetEncodedLength(source.Length);
-
-        if (totalBytes <= destination.Length)
-        {
-            WriteStringToBytes(EncodeToString(source), destination);
-            bytesWritten = totalBytes;
-            bytesConsumed = source.Length;
-            return OperationStatus.Done;
-        }
-
-        var fitting = destination.Length / 4;
-        bytesConsumed = fitting * 3;
-        bytesWritten = fitting * 4;
-
-        if (bytesConsumed > 0)
-        {
-            WriteStringToBytes(EncodeToString(source.Slice(0, bytesConsumed)), destination);
-        }
-
-        return OperationStatus.DestinationTooSmall;
+        var status = PlanEncode(source.Length, destination.Length, isFinalBlock, out bytesConsumed, out bytesWritten);
+        Encode(source.Slice(0, bytesConsumed), destination);
+        return status;
     }
 
     /// <summary>Tries to encode the span of binary data into UTF-8 encoded text represented as base-64-url.</summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64url.tryencodetoutf8?view=net-11.0
     public static bool TryEncodeToUtf8(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
     {
-        var encoded = EncodeToString(source);
+        var length = EncodedLength(source.Length);
 
-        if (encoded.Length > destination.Length)
+        if (length > destination.Length)
         {
             bytesWritten = 0;
             return false;
         }
 
-        WriteStringToBytes(encoded, destination);
-        bytesWritten = encoded.Length;
+        Encode(source, destination);
+        bytesWritten = length;
         return true;
     }
 
@@ -256,7 +171,7 @@ static class Base64Url
             throw new ArgumentOutOfRangeException(nameof(dataLength));
         }
 
-        var encodedLength = GetEncodedLength(dataLength);
+        var encodedLength = EncodedLength(dataLength);
 
         if (encodedLength > buffer.Length)
         {
@@ -264,10 +179,40 @@ static class Base64Url
             return false;
         }
 
-        var source = buffer.Slice(0, dataLength).ToArray();
-        var encoded = EncodeToString(source);
-        WriteStringToBytes(encoded, buffer);
-        bytesWritten = encoded.Length;
+        // The output of a group never starts before its input, so encoding from the last group to
+        // the first reads every byte before it is overwritten.
+        var map = encodeMap;
+        var groups = dataLength / 3;
+        var sourceIndex = groups * 3;
+        var destinationIndex = groups * 4;
+        var remaining = dataLength - sourceIndex;
+
+        if (remaining == 1)
+        {
+            var value = buffer[sourceIndex] << 16;
+            buffer[destinationIndex] = (byte) map[value >> 18];
+            buffer[destinationIndex + 1] = (byte) map[value >> 12 & 0x3F];
+        }
+        else if (remaining == 2)
+        {
+            var value = buffer[sourceIndex] << 16 | buffer[sourceIndex + 1] << 8;
+            buffer[destinationIndex] = (byte) map[value >> 18];
+            buffer[destinationIndex + 1] = (byte) map[value >> 12 & 0x3F];
+            buffer[destinationIndex + 2] = (byte) map[value >> 6 & 0x3F];
+        }
+
+        while (sourceIndex > 0)
+        {
+            sourceIndex -= 3;
+            destinationIndex -= 4;
+            var value = buffer[sourceIndex] << 16 | buffer[sourceIndex + 1] << 8 | buffer[sourceIndex + 2];
+            buffer[destinationIndex] = (byte) map[value >> 18];
+            buffer[destinationIndex + 1] = (byte) map[value >> 12 & 0x3F];
+            buffer[destinationIndex + 2] = (byte) map[value >> 6 & 0x3F];
+            buffer[destinationIndex + 3] = (byte) map[value & 0x3F];
+        }
+
+        bytesWritten = encodedLength;
         return true;
     }
 
@@ -423,28 +368,115 @@ static class Base64Url
         return IsValid(chars, out decodedLength);
     }
 
-    static string ToBase64UrlString(string base64)
+    const string encodeMap = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+
+    static int EncodedLength(int bytesLength) =>
+        checked((int) (((long) bytesLength * 4 + 2) / 3));
+
+    // Works out how much of the source an encode with the given destination size consumes.
+    static OperationStatus PlanEncode(int sourceLength, int destinationLength, bool isFinalBlock, out int bytesConsumed, out int written)
     {
-        var len = base64.Length;
-
-        while (len > 0 && base64[len - 1] == '=')
+        if (isFinalBlock)
         {
-            len--;
-        }
+            var total = EncodedLength(sourceLength);
 
-        var chars = new char[len];
-
-        for (var i = 0; i < len; i++)
-        {
-            chars[i] = base64[i] switch
+            if (total <= destinationLength)
             {
-                '+' => '-',
-                '/' => '_',
-                _ => base64[i]
-            };
+                bytesConsumed = sourceLength;
+                written = total;
+                return OperationStatus.Done;
+            }
         }
 
-        return new string(chars);
+        // only complete groups are written when the whole of the source cannot be
+        var completeGroups = sourceLength / 3;
+        var groups = Math.Min(completeGroups, destinationLength / 4);
+        bytesConsumed = groups * 3;
+        written = groups * 4;
+
+        if (isFinalBlock || groups < completeGroups)
+        {
+            return OperationStatus.DestinationTooSmall;
+        }
+
+        if (sourceLength % 3 > 0)
+        {
+            return OperationStatus.NeedMoreData;
+        }
+
+        return OperationStatus.Done;
+    }
+
+    // Encodes all of source. The destination must hold EncodedLength(source.Length) chars.
+    static void Encode(ReadOnlySpan<byte> source, Span<char> destination)
+    {
+        var map = encodeMap;
+        var sourceIndex = 0;
+        var destinationIndex = 0;
+        var end = source.Length - 2;
+
+        while (sourceIndex < end)
+        {
+            var value = source[sourceIndex] << 16 | source[sourceIndex + 1] << 8 | source[sourceIndex + 2];
+            destination[destinationIndex] = map[value >> 18];
+            destination[destinationIndex + 1] = map[value >> 12 & 0x3F];
+            destination[destinationIndex + 2] = map[value >> 6 & 0x3F];
+            destination[destinationIndex + 3] = map[value & 0x3F];
+            sourceIndex += 3;
+            destinationIndex += 4;
+        }
+
+        var remaining = source.Length - sourceIndex;
+
+        if (remaining == 1)
+        {
+            var value = source[sourceIndex] << 16;
+            destination[destinationIndex] = map[value >> 18];
+            destination[destinationIndex + 1] = map[value >> 12 & 0x3F];
+        }
+        else if (remaining == 2)
+        {
+            var value = source[sourceIndex] << 16 | source[sourceIndex + 1] << 8;
+            destination[destinationIndex] = map[value >> 18];
+            destination[destinationIndex + 1] = map[value >> 12 & 0x3F];
+            destination[destinationIndex + 2] = map[value >> 6 & 0x3F];
+        }
+    }
+
+    // Encodes all of source. The destination must hold EncodedLength(source.Length) bytes.
+    static void Encode(ReadOnlySpan<byte> source, Span<byte> destination)
+    {
+        var map = encodeMap;
+        var sourceIndex = 0;
+        var destinationIndex = 0;
+        var end = source.Length - 2;
+
+        while (sourceIndex < end)
+        {
+            var value = source[sourceIndex] << 16 | source[sourceIndex + 1] << 8 | source[sourceIndex + 2];
+            destination[destinationIndex] = (byte) map[value >> 18];
+            destination[destinationIndex + 1] = (byte) map[value >> 12 & 0x3F];
+            destination[destinationIndex + 2] = (byte) map[value >> 6 & 0x3F];
+            destination[destinationIndex + 3] = (byte) map[value & 0x3F];
+            sourceIndex += 3;
+            destinationIndex += 4;
+        }
+
+        var remaining = source.Length - sourceIndex;
+
+        if (remaining == 1)
+        {
+            var value = source[sourceIndex] << 16;
+            destination[destinationIndex] = (byte) map[value >> 18];
+            destination[destinationIndex + 1] = (byte) map[value >> 12 & 0x3F];
+        }
+        else if (remaining == 2)
+        {
+            var value = source[sourceIndex] << 16 | source[sourceIndex + 1] << 8;
+            destination[destinationIndex] = (byte) map[value >> 18];
+            destination[destinationIndex + 1] = (byte) map[value >> 12 & 0x3F];
+            destination[destinationIndex + 2] = (byte) map[value >> 6 & 0x3F];
+        }
     }
 
     // Decodes block by block. Whitespace (space, tab, CR, LF) is skipped anywhere, and the final
@@ -620,14 +652,6 @@ static class Base64Url
         }
 
         return -1;
-    }
-
-    static void WriteStringToBytes(string source, Span<byte> destination)
-    {
-        for (var i = 0; i < source.Length; i++)
-        {
-            destination[i] = (byte)source[i];
-        }
     }
 
     static char[] BytesToChars(ReadOnlySpan<byte> source)
