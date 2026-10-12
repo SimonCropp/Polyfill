@@ -267,16 +267,159 @@ static partial class Polyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.tolowerordinal?view=net-11.0
     //Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
-    public static string ToLowerOrdinal(this string target) =>
-        ToOrdinalCase(target, toUpper: false);
+    public static string ToLowerOrdinal(this string target)
+    {
+#if !NETFRAMEWORK
+        // ASCII has no chars that ordinal casing treats differently, and invariant casing of an ASCII string is
+        // vectorized. Any other string is cased a char at a time: off .NET Framework that is the quicker of the
+        // two for text that is mostly ASCII and Latin-1.
+        if (IsAsciiString(target))
+        {
+            return target.ToLowerInvariant();
+        }
+
+        return ToOrdinalCase(target, toUpper: false);
+#else
+        // Invariant casing does the bulk of the work in one call. It maps char for char, so only the chars it
+        // changed need the ordinal check, and only the ones failing it are put back.
+        var lower = target.ToLowerInvariant();
+        if (lower.Length != target.Length)
+        {
+            return ToOrdinalCase(target, toUpper: false);
+        }
+
+        char[]? chars = null;
+        for (var index = 0; index < target.Length; index++)
+        {
+            var current = target[index];
+            var lowered = lower[index];
+
+            // An unchanged char needs no check, and nor does an ASCII one, which always stays in its class.
+            if (lowered == current ||
+                current < '\u0080')
+            {
+                continue;
+            }
+
+            if (char.IsSurrogate(current))
+            {
+                // One half of a surrogate pair changed, so check the pair as the scalar it encodes. A low
+                // surrogate that follows a high surrogate is always the second half of a pair.
+                var start = -1;
+                if (char.IsLowSurrogate(current))
+                {
+                    if (index > 0 &&
+                        char.IsHighSurrogate(target[index - 1]))
+                    {
+                        start = index - 1;
+                    }
+                }
+                else if (index + 1 < target.Length &&
+                         char.IsLowSurrogate(target[index + 1]))
+                {
+                    start = index;
+                }
+
+                if (start < 0)
+                {
+                    // a surrogate on its own is not a scalar, and is left alone
+                    chars ??= lower.ToCharArray();
+                    chars[index] = current;
+                    continue;
+                }
+
+                var cased = ToOrdinalCaseSurrogatePair(target.Substring(start, 2), toUpper: false);
+                if (cased[0] != lower[start] ||
+                    cased[1] != lower[start + 1])
+                {
+                    chars ??= lower.ToCharArray();
+                    chars[start] = cased[0];
+                    chars[start + 1] = cased[1];
+                }
+
+                continue;
+            }
+
+            // Ordinal lower casing must never move a character out of its ordinal upper-casing class.
+            // See ToLowerOrdinalChar.
+            if (ToUpperOrdinalChar(lowered) != ToUpperOrdinalChar(current))
+            {
+                chars ??= lower.ToCharArray();
+                chars[index] = current;
+            }
+        }
+
+        if (chars == null)
+        {
+            return lower;
+        }
+
+        return new(chars);
+#endif
+    }
 
     /// <summary>
     /// Returns a copy of this string converted to uppercase using ordinal casing rules.
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.string.toupperordinal?view=net-11.0
     //Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
-    public static string ToUpperOrdinal(this string target) =>
-        ToOrdinalCase(target, toUpper: true);
+    public static string ToUpperOrdinal(this string target)
+    {
+#if !NETFRAMEWORK
+        // See ToLowerOrdinal
+        if (IsAsciiString(target))
+        {
+            return target.ToUpperInvariant();
+        }
+
+        return ToOrdinalCase(target, toUpper: true);
+#else
+        // Invariant casing does the bulk of the work in one call, and maps char for char.
+        var upper = target.ToUpperInvariant();
+        if (upper.Length != target.Length)
+        {
+            return ToOrdinalCase(target, toUpper: true);
+        }
+
+        // ordinal casing leaves the long s uncased, where invariant casing maps it to S
+        const char longS = '\u017F';
+        var index = target.IndexOf(longS);
+        if (index < 0)
+        {
+            return upper;
+        }
+
+        var chars = upper.ToCharArray();
+        for (; index < chars.Length; index++)
+        {
+            if (target[index] == longS)
+            {
+                chars[index] = longS;
+            }
+        }
+
+        return new(chars);
+#endif
+    }
+
+#if !NETFRAMEWORK
+    static bool IsAsciiString(string value)
+    {
+#if NET8_0_OR_GREATER
+        return Ascii.IsValid(value);
+#else
+        foreach (var current in value)
+        {
+            if (current > '\u007F')
+            {
+                return false;
+            }
+        }
+
+        return true;
+#endif
+    }
+#endif
 
     static string ToOrdinalCase(string target, bool toUpper)
     {

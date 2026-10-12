@@ -197,13 +197,93 @@ static partial class Polyfill
 	/// <summary>
 	/// Returns a copy of this string converted to lowercase using ordinal casing rules.
 	/// </summary>
-	public static string ToLowerOrdinal(this string target) =>
-		ToOrdinalCase(target, toUpper: false);
+	public static string ToLowerOrdinal(this string target)
+	{
+		var lower = target.ToLowerInvariant();
+		if (lower.Length != target.Length)
+		{
+			return ToOrdinalCase(target, toUpper: false);
+		}
+		char[]? chars = null;
+		for (var index = 0; index < target.Length; index++)
+		{
+			var current = target[index];
+			var lowered = lower[index];
+			if (lowered == current ||
+				current < '\u0080')
+			{
+				continue;
+			}
+			if (char.IsSurrogate(current))
+			{
+				var start = -1;
+				if (char.IsLowSurrogate(current))
+				{
+					if (index > 0 &&
+						char.IsHighSurrogate(target[index - 1]))
+					{
+						start = index - 1;
+					}
+				}
+				else if (index + 1 < target.Length &&
+						 char.IsLowSurrogate(target[index + 1]))
+				{
+					start = index;
+				}
+				if (start < 0)
+				{
+					chars ??= lower.ToCharArray();
+					chars[index] = current;
+					continue;
+				}
+				var cased = ToOrdinalCaseSurrogatePair(target.Substring(start, 2), toUpper: false);
+				if (cased[0] != lower[start] ||
+					cased[1] != lower[start + 1])
+				{
+					chars ??= lower.ToCharArray();
+					chars[start] = cased[0];
+					chars[start + 1] = cased[1];
+				}
+				continue;
+			}
+			if (ToUpperOrdinalChar(lowered) != ToUpperOrdinalChar(current))
+			{
+				chars ??= lower.ToCharArray();
+				chars[index] = current;
+			}
+		}
+		if (chars == null)
+		{
+			return lower;
+		}
+		return new(chars);
+	}
 	/// <summary>
 	/// Returns a copy of this string converted to uppercase using ordinal casing rules.
 	/// </summary>
-	public static string ToUpperOrdinal(this string target) =>
-		ToOrdinalCase(target, toUpper: true);
+	public static string ToUpperOrdinal(this string target)
+	{
+		var upper = target.ToUpperInvariant();
+		if (upper.Length != target.Length)
+		{
+			return ToOrdinalCase(target, toUpper: true);
+		}
+		const char longS = '\u017F';
+		var index = target.IndexOf(longS);
+		if (index < 0)
+		{
+			return upper;
+		}
+		var chars = upper.ToCharArray();
+		for (; index < chars.Length; index++)
+		{
+			if (target[index] == longS)
+			{
+				chars[index] = longS;
+			}
+		}
+		return new(chars);
+	}
 	static string ToOrdinalCase(string target, bool toUpper)
 	{
 		if (target.Length == 0)
