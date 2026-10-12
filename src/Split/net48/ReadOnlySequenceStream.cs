@@ -31,6 +31,7 @@ sealed class ReadOnlySequenceStream :
 	ReadOnlySequence<byte> sequence;
 	SequencePosition position;
 	bool disposed;
+	Task<int>? lastReadTask;
 	/// <summary>
 	/// Initializes a new instance of the <see cref="ReadOnlySequenceStream"/> class over the specified <see cref="ReadOnlySequence{Byte}"/>.
 	/// </summary>
@@ -92,7 +93,18 @@ sealed class ReadOnlySequenceStream :
 		{
 			return Task.FromCanceled<int>(cancellationToken);
 		}
-		return Task.FromResult(Read(buffer, offset, count));
+		return ReadTask(Read(buffer, offset, count));
+	}
+	Task<int> ReadTask(int read)
+	{
+		var task = lastReadTask;
+		if (task != null && task.Result == read)
+		{
+			return task;
+		}
+		task = Task.FromResult(read);
+		lastReadTask = task;
+		return task;
 	}
 	/// <summary>Sets the position within the stream. Not supported; always throws a <see cref="NotSupportedException"/>.</summary>
 	/// <exception cref="NotSupportedException">In all cases.</exception>

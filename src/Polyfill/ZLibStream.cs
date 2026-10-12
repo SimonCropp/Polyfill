@@ -307,13 +307,25 @@ sealed class ZLibStream : Stream
     void UpdateAdler32(byte[] buffer, int offset, int count)
     {
         const uint modAdler = 65521;
+        // The largest number of bytes that can be summed, starting from a and b both below modAdler,
+        // before b can overflow a uint (NMAX in zlib). Reducing once per block rather than once per
+        // byte gives the same checksum.
+        const int maxDeferred = 5552;
         var a = adler32 & 0xFFFF;
         var b = (adler32 >> 16) & 0xFFFF;
 
-        for (var i = offset; i < offset + count; i++)
+        var end = offset + count;
+        while (offset < end)
         {
-            a = (a + buffer[i]) % modAdler;
-            b = (b + a) % modAdler;
+            var blockEnd = offset + Math.Min(end - offset, maxDeferred);
+            for (; offset < blockEnd; offset++)
+            {
+                a += buffer[offset];
+                b += a;
+            }
+
+            a %= modAdler;
+            b %= modAdler;
         }
 
         adler32 = (b << 16) | a;

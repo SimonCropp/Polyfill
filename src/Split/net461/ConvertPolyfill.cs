@@ -57,8 +57,10 @@ static partial class Polyfill
 		/// <summary>
 		/// Converts the span, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
 		/// </summary>
-		public static byte[] FromHexString(ReadOnlySpan<char> chars) =>
-			Polyfill.FromHexString(chars.ToString());
+		public static byte[] FromHexString(ReadOnlySpan<char> chars)
+		{
+			return Polyfill.FromHexString(chars.ToString());
+		}
 		/// <summary>
 		/// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
 		/// </summary>

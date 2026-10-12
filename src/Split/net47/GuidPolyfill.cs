@@ -22,25 +22,12 @@ static partial class Polyfill
 		public static Guid CreateVersion7(DateTimeOffset timestamp)
 		{
 			var unixMilliseconds = timestamp.ToUnixTimeMilliseconds();
-			var timeBytes = BitConverter.GetBytes(unixMilliseconds);
-			if (BitConverter.IsLittleEndian)
-			{
-				Array.Reverse(timeBytes);
-			}
-			var randomBytes = new byte[10];
-			using (var numberGenerator = RandomNumberGenerator.Create())
-			{
-				numberGenerator.GetBytes(randomBytes);
-			}
-			var uuidBytes = new byte[16];
-			Array.Copy(timeBytes, 2, uuidBytes, 0, 6);
-			Array.Copy(randomBytes, 0, uuidBytes, 6, 10);
-			uuidBytes[6] = (byte) ((uuidBytes[6] & 0x0F) | 0x70);
-			uuidBytes[8] = (byte) ((uuidBytes[8] & 0x3F) | 0x80);
-			Array.Reverse(uuidBytes, 0, 4);
-			Array.Reverse(uuidBytes, 4, 2);
-			Array.Reverse(uuidBytes, 6, 2);
-			return new(uuidBytes);
+			var random = Guid.NewGuid().ToByteArray();
+			var a = unchecked((int) (unixMilliseconds >> 16));
+			var b = unchecked((short) unixMilliseconds);
+			var c = unchecked((short) (0x7000 | ((random[6] | (random[7] << 8)) & 0x0FFF)));
+			var d = (byte) ((random[8] & 0x3F) | 0x80);
+			return new(a, b, c, d, random[9], random[10], random[11], random[12], random[13], random[14], random[15]);
 		}
 #if FeatureMemory
 		/// <summary>

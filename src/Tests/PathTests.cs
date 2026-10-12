@@ -98,6 +98,141 @@ public class PathTests
             .IsEqualTo(@"file%20name");
     }
 
+    // Expected values are what Path.GetRelativePath returns on net10 on Windows
+    static readonly (string relativeTo, string path, string expected)[] relativePathCases =
+    [
+        (@"C:\", @"C:\", @"."),
+        (@"C:\a", @"C:\a", @"."),
+        (@"C:\a", @"C:\a\", @"."),
+        (@"C:\a\", @"C:\a", @"."),
+        (@"C:\a\", @"C:\a\", @"."),
+        (@"C:\a", @"C:\a\b", @"b"),
+        (@"C:\a", @"C:\a\b\", @"b\"),
+        (@"C:\a\", @"C:\a\b", @"b"),
+        (@"C:\a\", @"C:\a\b\", @"b\"),
+        (@"C:\a\b", @"C:\a", @".."),
+        (@"C:\a\b", @"C:\a\", @".."),
+        (@"C:\a\b\", @"C:\a", @".."),
+        (@"C:\a\b\", @"C:\a\", @".."),
+        (@"C:\a\b\c", @"C:\a\x\y", @"..\..\x\y"),
+        (@"C:\a\b\c", @"C:\a\x\y\", @"..\..\x\y\"),
+        (@"C:\a\b\c\", @"C:\a\x\y\", @"..\..\x\y\"),
+        (@"C:\a\b\c\d\e", @"C:\a\b", @"..\..\.."),
+        (@"C:\a", @"C:\a\b\c\d", @"b\c\d"),
+        (@"C:\Foodie", @"C:\Foobar", @"..\Foobar"),
+        (@"C:\Foo", @"C:\Foobar", @"..\Foobar"),
+        (@"C:\Foobar", @"C:\Foo", @"..\Foo"),
+        (@"C:\Foo\Bar", @"C:\Bar\Bar", @"..\..\Bar\Bar"),
+        (@"C:\Foo\Foo", @"C:\Foo\Bar", @"..\Bar"),
+        (@"C:\", @"C:\a", @"a"),
+        (@"C:\", @"C:\a\", @"a\"),
+        (@"C:\a", @"C:\", @".."),
+        (@"C:\a\b", @"C:\", @"..\.."),
+        (@"C:\a\b\", @"C:\", @"..\.."),
+        (@"C:\a", @"D:\a", @"D:\a"),
+        (@"C:\a", @"D:\a\", @"D:\a\"),
+        (@"C:\", @"D:\", @"D:\"),
+        (@"C:\a\b", @"D:\a\b\c", @"D:\a\b\c"),
+        (@"C:\A\b", @"c:\a\B\c", @"c"),
+        (@"C:\FOO", @"c:\foo", @"."),
+        (@"C:\FOO\", @"c:\foo", @"."),
+        (@"C:\FOO\x", @"C:\foo\Y", @"..\Y"),
+        (@"C:\Foo\Bar", @"C:\foo\baz\", @"..\baz\"),
+        (@"c:\a", @"C:\b", @"..\b"),
+        (@"C:\É", @"C:\é\x", @"x"),
+        (@"C:\base", @"C:\base\file%20name", @"file%20name"),
+        (@"C:\base", @"C:\base\a%2Db", @"a%2Db"),
+        (@"C:\base", @"C:\base\a%2Db\", @"a%2Db\"),
+        (@"C:\ba%2Dse\x", @"C:\ba%2Dse\y", @"..\y"),
+        (@"C:\ba%2Dse\x", @"C:\ba-se\y", @"..\..\ba-se\y"),
+        (@"C:\base", @"C:\base\100%", @"100%"),
+        (@"C:\base", @"C:\base\%41", @"%41"),
+        (@"C:\a%20b", @"C:\a b", @"..\a b"),
+        (@"C:\base", @"C:\base\file#1", @"file#1"),
+        (@"C:\base\a#b", @"C:\base\c#d\", @"..\c#d\"),
+        (@"C:\base", @"C:\base\a&b+c=d", @"a&b+c=d"),
+        (@"C:\my folder", @"C:\my folder\sub dir", @"sub dir"),
+        (@"C:\my folder\one two", @"C:\my folder\three four\", @"..\three four\"),
+        (@"C:\bäse\x", @"C:\bäse\ÿ", @"..\ÿ"),
+        (@"C:\日本\x", @"C:\日本\語\", @"..\語\"),
+        (@"C:/a/b", @"C:/a/c/", @"..\c\"),
+        (@"C:/a/b/", @"C:\a\b\c/d", @"c\d"),
+        (@"C:\a\b\..\c", @"C:\a\.\d", @"..\d"),
+        (@"C:\a\b\..\..\c", @"C:\c\d\..\", @"."),
+        (@"C:\a\.hidden", @"C:\a\..b", @"..\..b"),
+        (@"C:\a\b.txt", @"C:\a\b.txt.bak", @"..\b.txt.bak"),
+        (@"\\server\share\a", @"\\server\share\b", @"..\b"),
+        (@"\\server\share\a", @"\\server\share\a\b\", @"b\"),
+        (@"\\server\share\a", @"\\server\other\b", @"\\server\other\b"),
+        (@"\\server\share\a", @"\\other\share\a", @"\\other\share\a"),
+        (@"\\server\share", @"\\server\share\a\", @"a\"),
+        (@"\\server\share\", @"\\server\share\a", @"a"),
+        (@"\\Server\Share\a", @"\\server\share\A", @"."),
+        (@"\\server\share\a", @"C:\a", @"C:\a"),
+        (@"C:\a", @"\\server\share\a", @"\\server\share\a"),
+        (@"a\b", @"a\c", @"..\c"),
+        (@"a\b", @"a\c\", @"..\c\"),
+        (@"a", @"a\b\", @"b\"),
+        (@"a\b\", @"a", @".."),
+        (@".", @"x", @"x"),
+        (@"x\y", @".", @"..\.."),
+        (@"..\a", @"..\b\c", @"..\b\c")
+    ];
+
+    [Test]
+    public async Task GetRelativePath_MatchesBcl()
+    {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
+
+        var failures = new List<string>();
+        foreach (var (relativeTo, path, expected) in relativePathCases)
+        {
+            var actual = Path.GetRelativePath(relativeTo, path);
+            if (actual != expected)
+            {
+                failures.Add($"GetRelativePath({relativeTo}, {path}) returned {actual} rather than {expected}");
+            }
+        }
+
+        await Assert.That(string.Join(Environment.NewLine, failures)).IsEqualTo(string.Empty);
+    }
+
+    [Test]
+    public async Task GetRelativePath_ResultCombinesBackToPath()
+    {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
+
+        // Combining the result with the "from" path has to lead back to the "to" path
+        foreach (var (relativeTo, path, _) in relativePathCases)
+        {
+            var relative = Path.GetRelativePath(relativeTo, path);
+            var combined = Path.GetFullPath(Path.Combine(Path.GetFullPath(relativeTo), relative));
+
+            await Assert.That(string.Equals(combined.TrimEnd('\\'), Path.GetFullPath(path).TrimEnd('\\'), StringComparison.OrdinalIgnoreCase)).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task GetRelativePath_RelativeInputsUseCurrentDirectory()
+    {
+        if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
+            return;
+        }
+
+        var current = Directory.GetCurrentDirectory();
+
+        await Assert.That(Path.GetRelativePath(current, "child")).IsEqualTo("child");
+        await Assert.That(Path.GetRelativePath("child", current)).IsEqualTo("..");
+        await Assert.That(Path.GetRelativePath(".", Path.Combine(current, "a", "b") + "\\")).IsEqualTo(@"a\b\");
+    }
+
     [Test]
     public async Task GetRelativePath_ThrowsOnNull()
     {

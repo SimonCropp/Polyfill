@@ -1,5 +1,7 @@
 #if FeatureMemory
 using System.IO;
+using System.Threading;
+using System.Linq;
 
 partial class PolyfillTests
 {
@@ -211,6 +213,60 @@ partial class PolyfillTests
         await Assert.That(stream.Position).IsEqualTo(100L);
     }
 
+    // ReadAsync may hand back a cached task when consecutive reads return the same count, so pin that
+    // every task carries the count of its own read, including tasks that are awaited only later.
+    [Test]
+    public async Task WritableMemoryStream_ReadAsync_RepeatedReads_ReturnOwnCounts()
+    {
+        var data = new byte[10];
+        for (var index = 0; index < data.Length; index++)
+        {
+            data[index] = (byte) (index + 1);
+        }
+
+        using var stream = new WritableMemoryStream(data.ToArray());
+        var buffer = new byte[16];
+        var requested = new[] {3, 3, 0, 3, 4, 0, 4, 4};
+        var expected = new[] {3, 3, 0, 3, 1, 0, 0, 0};
+        var tasks = new List<Task<int>>();
+        var offset = 0;
+        for (var index = 0; index < requested.Length; index++)
+        {
+            var task = stream.ReadAsync(buffer, offset, requested[index]);
+            await Assert.That(task.IsCompleted).IsTrue();
+            await Assert.That(task.Result).IsEqualTo(expected[index]);
+            tasks.Add(task);
+            offset += expected[index];
+        }
+
+        // Earlier tasks still report their own count after later reads returned different ones
+        for (var index = 0; index < tasks.Count; index++)
+        {
+            await Assert.That(await tasks[index]).IsEqualTo(expected[index]);
+        }
+
+        await Assert.That(buffer.AsSpan(0, 10).SequenceEqual(data)).IsTrue();
+        await Assert.That(buffer.AsSpan(10).ToArray().All(_ => _ == 0)).IsTrue();
+    }
+
+    [Test]
+    public async Task WritableMemoryStream_ReadAsync_Canceled_DoesNotDisturbLaterReads()
+    {
+        using var stream = new WritableMemoryStream(new byte[] {1, 2, 3, 4, 5});
+        var buffer = new byte[4];
+
+        await Assert.That(await stream.ReadAsync(buffer, 0, 2)).IsEqualTo(2);
+
+        var canceled = stream.ReadAsync(buffer, 2, 2, new CancellationToken(true));
+        await Assert.That(canceled.IsCanceled).IsTrue();
+
+        // The canceled read consumed nothing
+        await Assert.That(await stream.ReadAsync(buffer, 2, 2)).IsEqualTo(2);
+        await Assert.That(buffer).IsEquivalentTo(new byte[] {1, 2, 3, 4});
+        await Assert.That(await stream.ReadAsync(buffer, 0, 2)).IsEqualTo(1);
+        await Assert.That(await stream.ReadAsync(buffer, 0, 2)).IsEqualTo(0);
+    }
+
     [Test]
     public async Task WritableMemoryStream_WriteAsync()
     {
@@ -220,6 +276,160 @@ partial class PolyfillTests
         await stream.WriteAsync(new byte[] { 1, 2, 3 }, 0, 3);
 
         await Assert.That(backing).IsEquivalentTo(new byte[] { 1, 2, 3, 0 });
+    }
+
+    [Test]
+    public async Task WritableMemoryStream_WriteByte_WritesAndAdvances()
+    {
+        var backing = new byte[] { 9, 9, 9, 9 };
+        using var stream = new WritableMemoryStream(backing);
+
+        stream.WriteByte(1);
+        stream.WriteByte(2);
+
+        await Assert.That(stream.Position).IsEqualTo(2L);
+        await Assert.That(stream.Length).IsEqualTo(4L);
+        await Assert.That(backing).IsEquivalentTo(new byte[] { 1, 2, 9, 9 });
+    }
+
+    [Test]
+    public async Task WritableMemoryStream_WriteByte_GrowsLengthAfterShrink()
+    {
+        var backing = new byte[] { 9, 9, 9, 9 };
+        using var stream = new WritableMemoryStream(backing);
+        stream.SetLength(0);
+
+        stream.WriteByte(1);
+        await Assert.That(stream.Length).IsEqualTo(1L);
+        stream.WriteByte(2);
+
+        await Assert.That(stream.Length).IsEqualTo(2L);
+        await Assert.That(stream.Position).IsEqualTo(2L);
+        await Assert.That(backing).IsEquivalentTo(new byte[] { 1, 2, 9, 9 });
+    }
+
+    [Test]
+    public async Task WritableMemoryStream_WriteByte_AfterGapClearsSkippedBytes()
+    {
+        var backing = new byte[] { 9, 9, 9, 9, 9, 9 };
+        using var stream = new WritableMemoryStream(backing);
+        stream.SetLength(1);
+        stream.Position = 4;
+
+        stream.WriteByte(7);
+
+        await Assert.That(stream.Length).IsEqualTo(5L);
+        await Assert.That(stream.Position).IsEqualTo(5L);
+        await Assert.That(backing).IsEquivalentTo(new byte[] { 9, 0, 0, 0, 7, 9 });
+    }
+
+    [Test]
+    public async Task WritableMemoryStream_WriteByte_LastByteOfCapacity()
+    {
+        var backing = new byte[3];
+        using var stream = new WritableMemoryStream(backing);
+        stream.Position = 2;
+
+        stream.WriteByte(5);
+
+        await Assert.That(backing).IsEquivalentTo(new byte[] { 0, 0, 5 });
+        await Assert.That(stream.Position).IsEqualTo(3L);
+        await Assert.That(() => stream.WriteByte(6)).Throws<NotSupportedException>();
+        await Assert.That(stream.Position).IsEqualTo(3L);
+        await Assert.That(stream.Length).IsEqualTo(3L);
+        await Assert.That(backing).IsEquivalentTo(new byte[] { 0, 0, 5 });
+    }
+
+    [Test]
+    public async Task WritableMemoryStream_WriteByte_EmptyStreamThrows()
+    {
+        using var stream = new WritableMemoryStream(Memory<byte>.Empty);
+
+        await Assert.That(() => stream.WriteByte(1)).Throws<NotSupportedException>();
+        await Assert.That(stream.Position).IsEqualTo(0L);
+    }
+
+    [Test]
+    public async Task WritableMemoryStream_WriteByte_PositionAtIntMaxValueThrows()
+    {
+        var backing = new byte[] { 9, 9 };
+        using var stream = new WritableMemoryStream(backing);
+        stream.Position = int.MaxValue;
+
+        await Assert.That(() => stream.WriteByte(1)).Throws<NotSupportedException>();
+        await Assert.That(backing).IsEquivalentTo(new byte[] { 9, 9 });
+    }
+
+    [Test]
+    public async Task WritableMemoryStream_WriteByte_Disposed_Throws()
+    {
+        var stream = new WritableMemoryStream(new byte[4]);
+        stream.Dispose();
+
+        await Assert.That(() => stream.WriteByte(1)).Throws<ObjectDisposedException>();
+    }
+
+    // WriteByte has to behave exactly like a one byte Write. Drive two streams through the same
+    // sequence of seeks, truncations and writes and compare everything observable after each step.
+    [Test]
+    public async Task WritableMemoryStream_WriteByte_MatchesSingleByteWrite()
+    {
+        var random = new Random(12345);
+        for (var round = 0; round < 50; round++)
+        {
+            var capacity = random.Next(0, 12);
+            var viaWriteByteBacking = new byte[capacity + 4];
+            var viaWriteBacking = new byte[capacity + 4];
+            random.NextBytes(viaWriteByteBacking);
+            Array.Copy(viaWriteByteBacking, viaWriteBacking, viaWriteBacking.Length);
+            using var viaWriteByte = new WritableMemoryStream(viaWriteByteBacking.AsMemory(2, capacity));
+            using var viaWrite = new WritableMemoryStream(viaWriteBacking.AsMemory(2, capacity));
+
+            for (var step = 0; step < 60; step++)
+            {
+                switch (random.Next(0, 4))
+                {
+                    case 0:
+                        var position = random.Next(0, capacity + 3);
+                        viaWriteByte.Position = position;
+                        viaWrite.Position = position;
+                        break;
+                    case 1:
+                        var length = random.Next(0, capacity + 1);
+                        viaWriteByte.SetLength(length);
+                        viaWrite.SetLength(length);
+                        break;
+                    default:
+                        var value = (byte) random.Next(1, 256);
+                        Exception? writeByteException = null;
+                        Exception? writeException = null;
+                        try
+                        {
+                            viaWriteByte.WriteByte(value);
+                        }
+                        catch (Exception exception)
+                        {
+                            writeByteException = exception;
+                        }
+
+                        try
+                        {
+                            viaWrite.Write([value], 0, 1);
+                        }
+                        catch (Exception exception)
+                        {
+                            writeException = exception;
+                        }
+
+                        await Assert.That(writeByteException?.GetType()).IsEqualTo(writeException?.GetType());
+                        break;
+                }
+
+                await Assert.That(viaWriteByte.Position).IsEqualTo(viaWrite.Position);
+                await Assert.That(viaWriteByte.Length).IsEqualTo(viaWrite.Length);
+                await Assert.That(viaWriteByteBacking.AsSpan().SequenceEqual(viaWriteBacking)).IsTrue();
+            }
+        }
     }
 
     [Test]

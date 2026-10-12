@@ -15,21 +15,14 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.nanosecond?view=net-11.0
         public int Nanosecond =>
-            (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
+            (int) (target.Ticks % TicksPerMicrosecond) * 100;
 
         /// <summary>
         /// Gets the microsecond component of the time represented by the current <see cref="DateTime"/> object.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.datetime.microsecond?view=net-11.0
         public int Microsecond =>
-            (int) (target.TicksComponent() / TicksPerMicrosecond % 1000);
-
-        long TicksComponent()
-        {
-            var noSeconds = new DateTime(target.Year, target.Month, target.Day, target.Hour, target.Minute, 0, target.Kind);
-            var secondsPart = target - noSeconds;
-            return secondsPart.Ticks;
-        }
+            (int) (target.Ticks / TicksPerMicrosecond % 1000);
     }
 
 #endif

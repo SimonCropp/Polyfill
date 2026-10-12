@@ -35,8 +35,8 @@ The package targets `netstandard2.0` and is designed to support the following ru
 | `netcoreapp3.1` | 880 |
 | `net5.0` | 764 |
 | `net6.0` | 660 |
-| `net7.0` | 519 |
-| `net8.0` | 400 |
+| `net7.0` | 520 |
+| `net8.0` | 401 |
 | `net9.0` | 253 |
 | `net10.0` | 186 |
 | `net11.0` | 56 |

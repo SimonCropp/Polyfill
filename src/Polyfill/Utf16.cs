@@ -27,6 +27,10 @@ static class Utf16
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.unicode.utf16.indexofinvalidsubsequence?view=net-11.0
     public static int IndexOfInvalidSubsequence(ReadOnlySpan<char> value)
     {
+#if NET8_0_OR_GREATER
+        // the number of chars in a row that were not surrogates
+        var run = 0;
+#endif
         for (var i = 0; i < value.Length; i++)
         {
             var c = value[i];
@@ -40,12 +44,31 @@ static class Utf16
 
                 // valid surrogate pair, skip the low surrogate
                 i++;
+#if NET8_0_OR_GREATER
+                run = 0;
+#endif
             }
             else if (char.IsLowSurrogate(c))
             {
                 // a low surrogate not preceded by a high surrogate
                 return i;
             }
+#if NET8_0_OR_GREATER
+            else if (++run == 16)
+            {
+                // Only surrogates can be ill-formed. Once the text looks free of them, jump to the next one with
+                // a vectorized search. Text dense with surrogate pairs stays on the per char path.
+                var offset = value.Slice(i + 1).IndexOfAnyInRange('\uD800', '\uDFFF');
+                if (offset < 0)
+                {
+                    return -1;
+                }
+
+                // the loop increment moves on to the surrogate
+                i += offset;
+                run = 0;
+            }
+#endif
         }
 
         return -1;

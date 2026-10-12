@@ -61,6 +61,8 @@ static partial class Polyfill
 		}
 		return result;
 	}
+	[ThreadStatic]
+	static byte[]? randomNextInt64Buffer;
 	/// <summary>
 	/// Returns a non-negative random integer.
 	/// </summary>
@@ -87,11 +89,11 @@ static partial class Polyfill
 		var range = unchecked((ulong)(maxValue - minValue));
 		var limit = ulong.MaxValue - ulong.MaxValue % range;
 		ulong result;
+		var buffer = randomNextInt64Buffer ??= new byte[8];
 		do
 		{
-			var buf = new byte[8];
-			target.NextBytes(buf);
-			result = BitConverter.ToUInt64(buf, 0);
+			target.NextBytes(buffer);
+			result = BitConverter.ToUInt64(buffer, 0);
 		} while (result >= limit);
 		return unchecked((long)(result % range) + minValue);
 	}
@@ -168,6 +170,8 @@ static partial class Polyfill
 	}
 #endif
 #if FeatureMemory
+	[ThreadStatic]
+	static byte[]? randomNextBytesBuffer;
 	/// <summary>
 	/// Fills the elements of a specified span of bytes with random numbers.
 	/// </summary>
@@ -175,9 +179,24 @@ static partial class Polyfill
 		this Random target,
 		Span<byte> buffer)
 	{
-		var array = new byte[buffer.Length];
-		target.NextBytes(array);
-		array.CopyTo(buffer);
+		if (target.GetType() != typeof(Random))
+		{
+			var array = new byte[buffer.Length];
+			target.NextBytes(array);
+			array.CopyTo(buffer);
+			return;
+		}
+		var chunk = randomNextBytesBuffer ??= new byte[256];
+		while (buffer.Length >= chunk.Length)
+		{
+			target.NextBytes(chunk);
+			chunk.CopyTo(buffer);
+			buffer = buffer.Slice(chunk.Length);
+		}
+		for (var i = 0; i < buffer.Length; i++)
+		{
+			buffer[i] = (byte) (target.Next() % 256);
+		}
 	}
 #endif
 	/// <summary>

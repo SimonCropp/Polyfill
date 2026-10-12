@@ -15,6 +15,15 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.unicode.utf8.indexofinvalidsubsequence?view=net-11.0
         public static int IndexOfInvalidSubsequence(ReadOnlySpan<byte> value)
         {
+#if NET8_0_OR_GREATER
+            // Well-formed input, the common case, is settled by the vectorized BCL validator.
+            // Only ill-formed input goes on to the scan below, which locates the offending sequence.
+            if (Utf8.IsValid(value))
+            {
+                return -1;
+            }
+#endif
+
             // Validation follows the Unicode well-formed UTF-8 byte sequence table (Table 3-7).
             var i = 0;
             while (i < value.Length)

@@ -22,6 +22,86 @@ partial class PolyfillTests
         await Assert.That(span is "value").IsTrue();
     }
 
+    static StringBuilder BuildMultiChunkBuilder(int length)
+    {
+        // a small initial capacity and many appends leave the builder holding many chunks
+        var builder = new StringBuilder(16);
+        var index = 0;
+        while (builder.Length < length)
+        {
+            builder.Append((char) ('a' + index % 26));
+            if (index % 7 == 0)
+            {
+                builder.Append("0123456789", 0, Math.Min(10, length - builder.Length));
+            }
+
+            index++;
+        }
+
+        return builder;
+    }
+
+    [Test]
+    [Arguments(0, 50000)]
+    [Arguments(0, 1)]
+    [Arguments(0, 16383)]
+    [Arguments(0, 16384)]
+    [Arguments(0, 16385)]
+    [Arguments(1, 16384)]
+    [Arguments(1, 32768)]
+    [Arguments(1, 32769)]
+    [Arguments(17, 40000)]
+    [Arguments(16383, 2)]
+    [Arguments(33000, 17000)]
+    [Arguments(49999, 1)]
+    [Arguments(25000, 0)]
+    [Arguments(50000, 0)]
+    public async Task StringBuilderCopyTo_MultiChunk(int sourceIndex, int count)
+    {
+        var builder = BuildMultiChunkBuilder(50000);
+        var expected = builder.ToString();
+        var destination = new char[count + 3];
+#if NET6_0_OR_GREATER
+        Array.Fill(destination, '#');
+#else
+        for (var index = 0; index < destination.Length; index++)
+        {
+            destination[index] = '#';
+        }
+#endif
+
+        builder.CopyTo(sourceIndex, destination.AsSpan(), count);
+
+        await Assert.That(builder.Length).IsEqualTo(50000);
+        await Assert.That(new string(destination, 0, count)).IsEqualTo(expected.Substring(sourceIndex, count));
+        // nothing past count is written
+        await Assert.That(new string(destination, count, 3)).IsEqualTo("###");
+        // the builder itself is untouched
+        await Assert.That(builder.ToString()).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task StringBuilderCopyTo_ExactDestination()
+    {
+        var builder = BuildMultiChunkBuilder(40000);
+        var destination = new char[40000];
+
+        builder.CopyTo(0, destination.AsSpan(), 40000);
+
+        await Assert.That(new string(destination)).IsEqualTo(builder.ToString());
+    }
+
+    [Test]
+    public async Task StringBuilderCopyTo_Empty()
+    {
+        var destination = new[] {'#', '#'};
+
+        new StringBuilder().CopyTo(0, destination.AsSpan(), 0);
+        new StringBuilder("abc").CopyTo(3, Span<char>.Empty, 0);
+
+        await Assert.That(new string(destination)).IsEqualTo("##");
+    }
+
     [Test]
     public async Task StringBuilderCopyTo_InvalidArgs()
     {
@@ -61,6 +141,99 @@ partial class PolyfillTests
 
         await Assert.That(list[0]).IsEqualTo("a");
         await Assert.That(list[1]).IsEqualTo("bb");
+    }
+    static string JoinChunks(StringBuilder builder)
+    {
+        var joined = new StringBuilder();
+        foreach (var chunk in builder.GetChunks())
+        {
+            joined.Append(chunk.ToString());
+        }
+
+        return joined.ToString();
+    }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(2)]
+    [Arguments(7)]
+    [Arguments(8)]
+    [Arguments(9)]
+    [Arguments(10)]
+    [Arguments(200)]
+    public async Task GetChunks_MatchesToString(int appends)
+    {
+        // a capacity of 1 and appends of growing length force a new chunk for most appends,
+        // covering builders either side of the 8 chunk threshold
+        var builder = new StringBuilder(1);
+        for (var index = 0; index < appends; index++)
+        {
+            builder.Append((char) ('a' + index % 26), index % 5 + 1);
+        }
+
+        var expected = builder.ToString();
+        await Assert.That(JoinChunks(builder)).IsEqualTo(expected);
+
+        // chunks are in order, and their lengths add up to the length of the builder
+        var total = 0;
+        var position = 0;
+        var inOrder = true;
+        foreach (var chunk in builder.GetChunks())
+        {
+            total += chunk.Length;
+            inOrder &= expected.Substring(position, chunk.Length) == chunk.ToString();
+            position += chunk.Length;
+        }
+
+        await Assert.That(total).IsEqualTo(builder.Length);
+        await Assert.That(inOrder).IsTrue();
+
+        // enumerating again gives the same result
+        await Assert.That(JoinChunks(builder)).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task GetChunks_AfterEdits()
+    {
+        var builder = new StringBuilder(2);
+        for (var index = 0; index < 30; index++)
+        {
+            builder.Append($"item{index};");
+        }
+
+        await Assert.That(JoinChunks(builder)).IsEqualTo(builder.ToString());
+
+        builder.Insert(7, "inserted");
+        await Assert.That(JoinChunks(builder)).IsEqualTo(builder.ToString());
+
+        builder.Remove(3, 40);
+        await Assert.That(JoinChunks(builder)).IsEqualTo(builder.ToString());
+
+        builder.Replace("item", "i");
+        await Assert.That(JoinChunks(builder)).IsEqualTo(builder.ToString());
+
+        builder.Length = 5;
+        await Assert.That(JoinChunks(builder)).IsEqualTo(builder.ToString());
+        await Assert.That(builder.ToString().Length).IsEqualTo(5);
+
+        builder.Clear();
+        await Assert.That(JoinChunks(builder)).IsEqualTo("");
+
+        builder.Append("again");
+        await Assert.That(JoinChunks(builder)).IsEqualTo("again");
+    }
+
+    [Test]
+    public async Task GetChunks_SeparateBuilders()
+    {
+        var first = new StringBuilder("first", 5);
+        first.Append("-more");
+        var second = new StringBuilder("second");
+
+        await Assert.That(JoinChunks(first)).IsEqualTo("first-more");
+        await Assert.That(JoinChunks(second)).IsEqualTo("second");
+        await Assert.That(JoinChunks(first)).IsEqualTo("first-more");
     }
 
 #endif
@@ -156,6 +329,87 @@ partial class PolyfillTests
         var target = new StringBuilder();
         target.Append(source, 1, 3);
         await Assert.That(target.ToString()).IsEqualTo("ell");
+    }
+
+    [Test]
+    [Arguments(0, 5)]
+    [Arguments(0, 1)]
+    [Arguments(4, 1)]
+    [Arguments(2, 3)]
+    [Arguments(1, 3)]
+    [Arguments(0, 0)]
+    [Arguments(5, 0)]
+    public async Task StringBuilder_Append_StringBuilder_Ranges(int startIndex, int count)
+    {
+        var source = new StringBuilder("hello");
+        var target = new StringBuilder("<");
+
+        var result = target.Append(source, startIndex, count);
+
+        await Assert.That(ReferenceEquals(result, target)).IsTrue();
+        await Assert.That(target.ToString()).IsEqualTo("<" + "hello".Substring(startIndex, count));
+        await Assert.That(source.ToString()).IsEqualTo("hello");
+    }
+
+    [Test]
+    [Arguments(0, 30000)]
+    [Arguments(0, 1)]
+    [Arguments(1, 29999)]
+    [Arguments(7999, 2)]
+    [Arguments(12345, 6789)]
+    [Arguments(29999, 1)]
+    public async Task StringBuilder_Append_StringBuilder_MultiChunkSource(int startIndex, int count)
+    {
+        // many small appends leave the source holding many chunks
+        var source = new StringBuilder(16);
+        for (var index = 0; source.Length < 30000; index++)
+        {
+            source.Append((char) ('a' + index % 26));
+        }
+
+        var expected = source.ToString();
+        var target = new StringBuilder("prefix");
+
+        target.Append(source, startIndex, count);
+        target.Append(source, startIndex, count);
+
+        var range = expected.Substring(startIndex, count);
+        await Assert.That(target.ToString()).IsEqualTo("prefix" + range + range);
+        await Assert.That(source.ToString()).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task StringBuilder_Append_StringBuilder_Self()
+    {
+        var builder = new StringBuilder("hello");
+
+        builder.Append(builder, 1, 3);
+
+        await Assert.That(builder.ToString()).IsEqualTo("helloell");
+    }
+
+    [Test]
+    public async Task StringBuilder_Append_StringBuilder_OutOfRange()
+    {
+        var value = new StringBuilder("world");
+
+        await Assert.That(() => new StringBuilder().Append(value, 0, 6)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => new StringBuilder().Append(value, 3, 3)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => new StringBuilder().Append(value, 5, 1)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => new StringBuilder().Append(value, 6, 1)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => new StringBuilder().Append(value, int.MaxValue, 1)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => new StringBuilder().Append(value, 1, int.MaxValue)).Throws<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
+    public async Task StringBuilder_Append_StringBuilder_Null()
+    {
+        var target = new StringBuilder("a");
+
+        target.Append((StringBuilder?) null, 0, 0);
+
+        await Assert.That(target.ToString()).IsEqualTo("a");
+        await Assert.That(() => new StringBuilder().Append((StringBuilder?) null, 0, 1)).Throws<ArgumentNullException>();
     }
 
     [Test]

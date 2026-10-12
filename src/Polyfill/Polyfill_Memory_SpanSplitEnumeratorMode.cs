@@ -22,6 +22,9 @@ static partial class Polyfill
         /// <summary>The separator is an empty sequence, such that no splits should be performed.</summary>
         EmptySequence,
 
+        /// <summary>No separators were provided for a span of <see cref="char"/>, so each whitespace character is a separator.</summary>
+        WhiteSpace,
+
 #if NET8_0
         /// <summary>
         /// A <see cref="SearchValues{Char}"/> was provided and should behave the same as with <see cref="Any"/> but with the separators in the <see cref="SearchValues"/>

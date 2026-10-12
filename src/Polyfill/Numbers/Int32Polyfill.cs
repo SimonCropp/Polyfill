@@ -75,7 +75,11 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.int32.tryparse?view=net-11.0#system-int32-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-int32@)
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out int result) =>
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            int.TryParse(s, NumberStyles.Integer, provider, out result);
+#else
             int.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
+#endif
 
 #endif
 

@@ -41,14 +41,14 @@ static partial class Polyfill
         {
             var unixMilliseconds = timestamp.ToUnixTimeMilliseconds();
 
+#if NET8_0_OR_GREATER
+
             var timeBytes = BitConverter.GetBytes(unixMilliseconds);
 
             if (BitConverter.IsLittleEndian)
             {
                 Array.Reverse(timeBytes);
             }
-
-#if NET8_0_OR_GREATER
 
             Span<byte> uuidBytes = stackalloc byte[16];
             timeBytes.AsSpan(2, 6).CopyTo(uuidBytes);
@@ -67,29 +67,22 @@ static partial class Polyfill
 
 #else
 
-            var randomBytes = new byte[10];
+            // As the BCL does: take the random bits from a new (version 4) Guid, then overwrite the
+            // timestamp, version and variant. ToByteArray lays the Guid out as a little-endian int
+            // and two little-endian shorts followed by eight bytes.
+            var random = Guid.NewGuid().ToByteArray();
 
-            using (var numberGenerator = RandomNumberGenerator.Create())
-            {
-                numberGenerator.GetBytes(randomBytes);
-            }
+            // unix_ts_ms: the low 48 bits of the timestamp, big-endian across the first two fields
+            var a = unchecked((int) (unixMilliseconds >> 16));
+            var b = unchecked((short) unixMilliseconds);
 
-            var uuidBytes = new byte[16];
-            Array.Copy(timeBytes, 2, uuidBytes, 0, 6);
-            Array.Copy(randomBytes, 0, uuidBytes, 6, 10);
+            // ver (0b0111) followed by the 12 random bits of rand_a
+            var c = unchecked((short) (0x7000 | ((random[6] | (random[7] << 8)) & 0x0FFF)));
 
-            uuidBytes[6] = (byte) ((uuidBytes[6] & 0x0F) | 0x70);
+            // var (0b10) followed by the first 6 random bits of rand_b
+            var d = (byte) ((random[8] & 0x3F) | 0x80);
 
-            uuidBytes[8] = (byte) ((uuidBytes[8] & 0x3F) | 0x80);
-
-            // new Guid(byte[]) reads the first three fields as little-endian, so reverse
-            // them to preserve the RFC 9562 big-endian layout (matching the bigEndian
-            // constructor used on NET8_0_OR_GREATER).
-            Array.Reverse(uuidBytes, 0, 4);
-            Array.Reverse(uuidBytes, 4, 2);
-            Array.Reverse(uuidBytes, 6, 2);
-
-            return new(uuidBytes);
+            return new(a, b, c, d, random[9], random[10], random[11], random[12], random[13], random[14], random[15]);
 #endif
         }
 

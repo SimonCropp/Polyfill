@@ -3,6 +3,7 @@
 namespace Polyfills;
 
 using System;
+using System.Buffers;
 using System.Text;
 
 static partial class Polyfill
@@ -37,9 +38,27 @@ static partial class Polyfill
             throw new ArgumentException("The destination span is too short to hold the requested characters.", nameof(destination));
         }
 
-        for (var index = 0; index < count; index++)
+        if (count == 0)
         {
-            destination[index] = target[sourceIndex + index];
+            return;
+        }
+
+        // The indexer walks the chunk list on every call, so copy in blocks through the array overload instead.
+        var buffer = ArrayPool<char>.Shared.Rent(Math.Min(count, 16384));
+        try
+        {
+            var copied = 0;
+            while (copied < count)
+            {
+                var length = Math.Min(count - copied, buffer.Length);
+                target.CopyTo(sourceIndex + copied, buffer, 0, length);
+                buffer.AsSpan(0, length).CopyTo(destination.Slice(copied));
+                copied += length;
+            }
+        }
+        finally
+        {
+            ArrayPool<char>.Shared.Return(buffer);
         }
     }
 }

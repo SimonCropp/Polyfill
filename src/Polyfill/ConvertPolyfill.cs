@@ -82,15 +82,45 @@ static partial class Polyfill
         /// Converts the span, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.fromhexstring?view=net-11.0#system-convert-fromhexstring(system-readonlyspan((system-char)))
-        public static byte[] FromHexString(ReadOnlySpan<char> chars) =>
-            Polyfill.FromHexString(chars.ToString());
+        public static byte[] FromHexString(ReadOnlySpan<char> chars)
+        {
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            // Reads the span directly rather than copying it to a string first. Not done where Span comes from
+            // the System.Memory package (.NET Framework): its indexer is slow enough there that the copy is faster.
+            if (chars.Length % 2 != 0)
+                throw new FormatException("Hex string must have an even length.");
+
+            var result = new byte[chars.Length / 2];
+
+            for (var i = 0; i < result.Length; i++)
+            {
+                var hi = GetHexVal(chars[i * 2]);
+                if (hi < 0)
+                    throw new FormatException($"Invalid hex character: {chars[i * 2]}");
+
+                var lo = GetHexVal(chars[i * 2 + 1]);
+                if (lo < 0)
+                    throw new FormatException($"Invalid hex character: {chars[i * 2 + 1]}");
+
+                result[i] = (byte)((hi << 4) + lo);
+            }
+
+            return result;
+#else
+            return Polyfill.FromHexString(chars.ToString());
+#endif
+        }
 
         /// <summary>
         /// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstring?view=net-11.0#system-convert-tohexstring(system-readonlyspan((system-byte)))
         public static string ToHexString(ReadOnlySpan<byte> bytes) =>
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            ToHexStringCore(bytes, "0123456789ABCDEF");
+#else
             Polyfill.ToHexString(bytes.ToArray());
+#endif
 #endif
 
 #if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER
@@ -292,7 +322,11 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.convert.tohexstringlower?view=net-11.0#system-convert-tohexstringlower(system-readonlyspan((system-byte)))
         public static string ToHexStringLower(ReadOnlySpan<byte> bytes) =>
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            ToHexStringCore(bytes, "0123456789abcdef");
+#else
             Polyfill.ToHexStringLower(bytes.ToArray());
+#endif
 
         /// <summary>
         /// Converts a span of 8-bit unsigned integers to its equivalent span representation that is encoded with uppercase hex characters.
@@ -391,6 +425,25 @@ static partial class Polyfill
                 destination[index++] = hexAlphabet[b & 0xF];
             }
         }
+
+#if !NET9_0_OR_GREATER && (NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER)
+        // Reads the span directly rather than copying it to an array first. Not used where Span comes from
+        // the System.Memory package (.NET Framework): its indexer is slow enough there that the copy is faster.
+        static string ToHexStringCore(ReadOnlySpan<byte> bytes, string hexAlphabet)
+        {
+            var chars = new char[bytes.Length * 2];
+            var charIndex = 0;
+
+            for (var i = 0; i < bytes.Length; i++)
+            {
+                var b = bytes[i];
+                chars[charIndex++] = hexAlphabet[b >> 4];
+                chars[charIndex++] = hexAlphabet[b & 0xF];
+            }
+
+            return new(chars);
+        }
+#endif
 
         static void WriteHexBytes(ReadOnlySpan<byte> source, Span<byte> destination, string hexAlphabet)
         {

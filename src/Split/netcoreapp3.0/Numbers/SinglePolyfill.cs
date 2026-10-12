@@ -33,7 +33,7 @@ static partial class Polyfill
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out float result) =>
-			float.TryParse(s.ToString(), NumberStyles.Float | NumberStyles.AllowThousands,provider, out result);
+			float.TryParse(s, NumberStyles.Float | NumberStyles.AllowThousands,provider, out result);
 #endif
 	}
 }

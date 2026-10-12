@@ -275,6 +275,209 @@ public class CryptographicOperationsPolyfillTests
         await Assert.That(written).IsEqualTo(0);
     }
 
+    static byte[] ReferenceHash(string name, byte[] input)
+    {
+        using HashAlgorithm hasher = name switch
+        {
+            "MD5" => MD5.Create(),
+            "SHA1" => SHA1.Create(),
+            "SHA256" => SHA256.Create(),
+            "SHA384" => SHA384.Create(),
+            _ => SHA512.Create()
+        };
+        return hasher.ComputeHash(input);
+    }
+
+    static byte[] ReferenceMac(string name, byte[] macKey, byte[] input)
+    {
+        using HMAC hmac = name switch
+        {
+            "MD5" => new HMACMD5(macKey),
+            "SHA1" => new HMACSHA1(macKey),
+            "SHA256" => new HMACSHA256(macKey),
+            "SHA384" => new HMACSHA384(macKey),
+            _ => new HMACSHA512(macKey)
+        };
+        return hmac.ComputeHash(input);
+    }
+
+    [Test]
+    [Arguments("MD5")]
+    [Arguments("SHA1")]
+    [Arguments("SHA256")]
+    [Arguments("SHA384")]
+    [Arguments("SHA512")]
+    public async Task AllOverloads_MatchReference(string name)
+    {
+        var algorithm = new HashAlgorithmName(name);
+        var problems = new List<string>();
+
+        // keys shorter than, equal to and longer than the block size of the algorithm
+        foreach (var keyLength in new[] {1, 6, 64, 128, 200})
+        {
+            var macKey = new byte[keyLength];
+            for (var i = 0; i < macKey.Length; i++)
+            {
+                macKey[i] = unchecked((byte) (i * 7 + 3));
+            }
+
+            foreach (var length in new[] {0, 1, 55, 56, 64, 111, 112, 128, 1000, 100_000})
+            {
+                // a margin either side of the input, so that the span is not the whole of an array
+                var buffer = new byte[length + 7];
+                for (var i = 0; i < buffer.Length; i++)
+                {
+                    buffer[i] = unchecked((byte) (i * 31 + 7));
+                }
+
+                var input = buffer.AsSpan(3, length).ToArray();
+                var expectedHash = ReferenceHash(name, input);
+                var expectedMac = ReferenceMac(name, macKey, input);
+                var size = expectedHash.Length;
+
+                void Check(string check, bool condition)
+                {
+                    if (!condition)
+                    {
+                        problems.Add($"{check} key {keyLength} length {length}");
+                    }
+                }
+
+                Check("HashData array", CryptographicOperations.HashData(algorithm, input).SequenceEqual(expectedHash));
+                Check("HashData span", CryptographicOperations.HashData(algorithm, new ReadOnlySpan<byte>(buffer, 3, length)).SequenceEqual(expectedHash));
+
+                // one spare byte, to check nothing is written past the hash
+                var destination = new byte[size + 1];
+                destination[size] = 0xEE;
+                var written = CryptographicOperations.HashData(algorithm, new ReadOnlySpan<byte>(buffer, 3, length), destination);
+                Check("HashData destination", written == size && destination.AsSpan(0, size).SequenceEqual(expectedHash) && destination[size] == 0xEE);
+
+                destination = new byte[size];
+                var success = CryptographicOperations.TryHashData(algorithm, new ReadOnlySpan<byte>(buffer, 3, length), destination, out written);
+                Check("TryHashData", success && written == size && destination.SequenceEqual(expectedHash));
+
+                destination = new byte[size - 1];
+                success = CryptographicOperations.TryHashData(algorithm, new ReadOnlySpan<byte>(buffer, 3, length), destination, out written);
+                Check("TryHashData too short", !success && written == 0 && destination.All(_ => _ == 0));
+
+                Check("HmacData array", CryptographicOperations.HmacData(algorithm, macKey, input).SequenceEqual(expectedMac));
+                Check("HmacData span", CryptographicOperations.HmacData(algorithm, macKey.AsSpan(), new ReadOnlySpan<byte>(buffer, 3, length)).SequenceEqual(expectedMac));
+
+                destination = new byte[size + 1];
+                destination[size] = 0xEE;
+                written = CryptographicOperations.HmacData(algorithm, macKey.AsSpan(), new ReadOnlySpan<byte>(buffer, 3, length), destination);
+                Check("HmacData destination", written == size && destination.AsSpan(0, size).SequenceEqual(expectedMac) && destination[size] == 0xEE);
+
+                destination = new byte[size];
+                success = CryptographicOperations.TryHmacData(algorithm, macKey.AsSpan(), new ReadOnlySpan<byte>(buffer, 3, length), destination, out written);
+                Check("TryHmacData", success && written == size && destination.SequenceEqual(expectedMac));
+
+                destination = new byte[size - 1];
+                success = CryptographicOperations.TryHmacData(algorithm, macKey.AsSpan(), new ReadOnlySpan<byte>(buffer, 3, length), destination, out written);
+                Check("TryHmacData too short", !success && written == 0 && destination.All(_ => _ == 0));
+
+                Check("VerifyHmac array", CryptographicOperations.VerifyHmac(algorithm, macKey, input, expectedMac));
+                Check("VerifyHmac span", CryptographicOperations.VerifyHmac(algorithm, macKey.AsSpan(), new ReadOnlySpan<byte>(buffer, 3, length), expectedMac.AsSpan()));
+
+                // a difference in the first and in the last byte
+                foreach (var index in new[] {0, size - 1})
+                {
+                    var tampered = (byte[]) expectedMac.Clone();
+                    tampered[index] ^= 0x80;
+                    Check("VerifyHmac array tampered", !CryptographicOperations.VerifyHmac(algorithm, macKey, input, tampered));
+                    Check("VerifyHmac span tampered", !CryptographicOperations.VerifyHmac(algorithm, macKey.AsSpan(), new ReadOnlySpan<byte>(buffer, 3, length), tampered.AsSpan()));
+                }
+
+                for (var i = 0; i < buffer.Length; i++)
+                {
+                    if (buffer[i] != unchecked((byte) (i * 31 + 7)))
+                    {
+                        problems.Add($"input changed at {i} length {length}");
+                        break;
+                    }
+                }
+            }
+        }
+
+        await Assert.That(problems).IsEmpty();
+    }
+
+    [Test]
+    public async Task UnknownAlgorithm_Throws()
+    {
+        var unknown = new HashAlgorithmName("NOPE");
+        var destination = new byte[64];
+
+        await Assert.That(() => CryptographicOperations.HashData(unknown, data)).Throws<CryptographicException>();
+        await Assert.That(() => CryptographicOperations.HashData(unknown, data.AsSpan())).Throws<CryptographicException>();
+        await Assert.That(() => CryptographicOperations.HashData(unknown, data.AsSpan(), destination)).Throws<CryptographicException>();
+        await Assert.That(() => CryptographicOperations.TryHashData(unknown, data.AsSpan(), destination, out _)).Throws<CryptographicException>();
+        await Assert.That(() => CryptographicOperations.HmacData(unknown, key, data)).Throws<CryptographicException>();
+        await Assert.That(() => CryptographicOperations.HmacData(unknown, key.AsSpan(), data.AsSpan())).Throws<CryptographicException>();
+        await Assert.That(() => CryptographicOperations.HmacData(unknown, key.AsSpan(), data.AsSpan(), destination)).Throws<CryptographicException>();
+        await Assert.That(() => CryptographicOperations.TryHmacData(unknown, key.AsSpan(), data.AsSpan(), destination, out _)).Throws<CryptographicException>();
+        await Assert.That(() => CryptographicOperations.VerifyHmac(unknown, key.AsSpan(), data.AsSpan(), destination.AsSpan())).Throws<CryptographicException>();
+    }
+
+    [Test]
+    public async Task VerifyHmac_Span_WrongHashLength_Throws()
+    {
+        var mac = ExpectedHmacSha256();
+        await Assert.That(() => CryptographicOperations.VerifyHmac(HashAlgorithmName.SHA256, key.AsSpan(), data.AsSpan(), mac.AsSpan(0, 31))).Throws<ArgumentException>();
+        await Assert.That(() => CryptographicOperations.VerifyHmac(HashAlgorithmName.SHA256, key.AsSpan(), data.AsSpan(), new byte[33].AsSpan())).Throws<ArgumentException>();
+        await Assert.That(() => CryptographicOperations.VerifyHmac(HashAlgorithmName.SHA256, key, data, new byte[31])).Throws<ArgumentException>();
+    }
+
+    [Test]
+    public async Task HmacData_DestinationTooShort_Throws()
+    {
+        var exception = await Assert.That(() =>
+            {
+                var destination = new byte[31];
+                CryptographicOperations.HmacData(HashAlgorithmName.SHA256, key.AsSpan(), data.AsSpan(), destination);
+            })
+            .Throws<ArgumentException>();
+        await Assert.That(exception!.Message.StartsWith("Destination is too short.")).IsTrue();
+    }
+
+    [Test]
+    public async Task HashAndHmac_Concurrent()
+    {
+        var input = new byte[5000];
+        for (var i = 0; i < input.Length; i++)
+        {
+            input[i] = unchecked((byte) (i * 13));
+        }
+
+        var expectedHash = ReferenceHash("SHA256", input);
+        var expectedMac = ReferenceMac("SHA256", key, input);
+
+        var tasks = new List<Task<bool>>();
+        for (var t = 0; t < 4; t++)
+        {
+            tasks.Add(Task.Run(() =>
+            {
+                var destination = new byte[32];
+                for (var i = 0; i < 500; i++)
+                {
+                    if (!CryptographicOperations.TryHashData(HashAlgorithmName.SHA256, input.AsSpan(), destination, out _) ||
+                        !destination.SequenceEqual(expectedHash) ||
+                        !CryptographicOperations.TryHmacData(HashAlgorithmName.SHA256, key.AsSpan(), input.AsSpan(), destination, out _) ||
+                        !destination.SequenceEqual(expectedMac) ||
+                        !CryptographicOperations.VerifyHmac(HashAlgorithmName.SHA256, key.AsSpan(), input.AsSpan(), expectedMac.AsSpan()))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }));
+        }
+
+        var results = await Task.WhenAll(tasks);
+        await Assert.That(results.All(_ => _)).IsTrue();
+    }
+
     [Test]
     public async Task HmacData_Span()
     {
@@ -305,6 +508,132 @@ public class CryptographicOperationsPolyfillTests
         var mac = ExpectedHmacSha256();
         mac[0] ^= 0xFF;
         await Assert.That(CryptographicOperations.VerifyHmac(HashAlgorithmName.SHA256, key.AsSpan(), data.AsSpan(), mac.AsSpan())).IsFalse();
+    }
+
+    static HashAlgorithm CreateHash(string name) =>
+        name switch
+        {
+            "MD5" => MD5.Create(),
+            "SHA1" => SHA1.Create(),
+            "SHA256" => SHA256.Create(),
+            "SHA384" => SHA384.Create(),
+            _ => SHA512.Create()
+        };
+
+    static HMAC CreateHmac(string name) =>
+        name switch
+        {
+            "MD5" => new HMACMD5(key),
+            "SHA1" => new HMACSHA1(key),
+            "SHA256" => new HMACSHA256(key),
+            "SHA384" => new HMACSHA384(key),
+            _ => new HMACSHA512(key)
+        };
+
+    [Test]
+    [Arguments("MD5")]
+    [Arguments("SHA1")]
+    [Arguments("SHA256")]
+    [Arguments("SHA384")]
+    [Arguments("SHA512")]
+    public async Task HashAndHmac_Span_AnyLength(string name)
+    {
+        var algorithm = new HashAlgorithmName(name);
+        var failures = new List<string>();
+
+        // up to several chunks of the buffer the input is fed through
+        foreach (var length in new[] {0, 1, 63, 64, 65, 4096, 65535, 65536, 65537, 200_000})
+        {
+            // a margin either side of the input, so that the span is not the whole of an array
+            var buffer = new byte[length + 7];
+            for (var i = 0; i < buffer.Length; i++)
+            {
+                buffer[i] = unchecked((byte) (i * 31 + 7));
+            }
+
+            var input = buffer.AsSpan(3, length).ToArray();
+            byte[] expectedHash;
+            using (var hasher = CreateHash(name))
+            {
+                expectedHash = hasher.ComputeHash(input);
+            }
+
+            byte[] expectedMac;
+            using (var hmac = CreateHmac(name))
+            {
+                expectedMac = hmac.ComputeHash(input);
+            }
+
+            var size = expectedHash.Length;
+
+            void Check(string check, bool condition)
+            {
+                if (!condition)
+                {
+                    failures.Add($"{check} length {length}");
+                }
+            }
+
+            Check("HashData", CryptographicOperations.HashData(algorithm, new ReadOnlySpan<byte>(buffer, 3, length)).SequenceEqual(expectedHash));
+
+            // one spare byte, to check nothing is written past the hash
+            var destination = new byte[size + 1];
+            destination[size] = 0xEE;
+            var written = CryptographicOperations.HashData(algorithm, new ReadOnlySpan<byte>(buffer, 3, length), destination);
+            Check("HashData destination", written == size && destination.AsSpan(0, size).SequenceEqual(expectedHash) && destination[size] == 0xEE);
+
+            destination = new byte[size + 1];
+            destination[size] = 0xEE;
+            var success = CryptographicOperations.TryHashData(algorithm, new ReadOnlySpan<byte>(buffer, 3, length), destination, out written);
+            Check("TryHashData", success && written == size && destination.AsSpan(0, size).SequenceEqual(expectedHash) && destination[size] == 0xEE);
+
+            destination = new byte[size - 1];
+            success = CryptographicOperations.TryHashData(algorithm, new ReadOnlySpan<byte>(buffer, 3, length), destination, out written);
+            Check("TryHashData too short", !success && written == 0 && destination.All(_ => _ == 0));
+
+            Check("HmacData", CryptographicOperations.HmacData(algorithm, key.AsSpan(), new ReadOnlySpan<byte>(buffer, 3, length)).SequenceEqual(expectedMac));
+
+            destination = new byte[size + 1];
+            destination[size] = 0xEE;
+            written = CryptographicOperations.HmacData(algorithm, key.AsSpan(), new ReadOnlySpan<byte>(buffer, 3, length), destination);
+            Check("HmacData destination", written == size && destination.AsSpan(0, size).SequenceEqual(expectedMac) && destination[size] == 0xEE);
+
+            destination = new byte[size + 1];
+            destination[size] = 0xEE;
+            success = CryptographicOperations.TryHmacData(algorithm, key.AsSpan(), new ReadOnlySpan<byte>(buffer, 3, length), destination, out written);
+            Check("TryHmacData", success && written == size && destination.AsSpan(0, size).SequenceEqual(expectedMac) && destination[size] == 0xEE);
+
+            destination = new byte[size - 1];
+            success = CryptographicOperations.TryHmacData(algorithm, key.AsSpan(), new ReadOnlySpan<byte>(buffer, 3, length), destination, out written);
+            Check("TryHmacData too short", !success && written == 0 && destination.All(_ => _ == 0));
+
+            Check("VerifyHmac", CryptographicOperations.VerifyHmac(algorithm, key.AsSpan(), new ReadOnlySpan<byte>(buffer, 3, length), expectedMac.AsSpan()));
+            expectedMac[size - 1] ^= 1;
+            Check("VerifyHmac tampered", !CryptographicOperations.VerifyHmac(algorithm, key.AsSpan(), new ReadOnlySpan<byte>(buffer, 3, length), expectedMac.AsSpan()));
+
+            for (var i = 0; i < buffer.Length; i++)
+            {
+                if (buffer[i] != unchecked((byte) (i * 31 + 7)))
+                {
+                    failures.Add($"input changed at {i} length {length}");
+                    break;
+                }
+            }
+        }
+
+        await Assert.That(failures).IsEmpty();
+    }
+
+    [Test]
+    public async Task HmacData_Span_DestinationTooShort()
+    {
+        var exception = await Assert.That(() =>
+            {
+                var destination = new byte[8];
+                CryptographicOperations.HmacData(HashAlgorithmName.SHA256, key.AsSpan(), data.AsSpan(), destination);
+            })
+            .Throws<ArgumentException>();
+        await Assert.That(exception!.Message.StartsWith("Destination is too short.")).IsTrue();
     }
 
 #if FeatureValueTask

@@ -3,6 +3,12 @@
 namespace Polyfills;
 
 using System.Collections;
+#if FeatureMemory
+using System.Buffers;
+#endif
+#if NETCOREAPP3_0_OR_GREATER
+using System.Numerics;
+#endif
 
 static partial class Polyfill
 {
@@ -14,15 +20,30 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.bitarray.hasallset?view=net-11.0
     public static bool HasAllSet(this BitArray target)
     {
-        for (var index = 0; index < target.Length; index++)
+        var length = target.Length;
+        if (length == 0)
         {
-            if (!target[index])
-            {
-                return false;
-            }
+            return true;
         }
 
-        return true;
+        var words = CopyBitArrayWords(target, length, out var wordCount);
+        try
+        {
+            // every word before the last is fully used
+            for (var index = 0; index < wordCount - 1; index++)
+            {
+                if (words[index] != -1)
+                {
+                    return false;
+                }
+            }
+
+            return words[wordCount - 1] == LastBitArrayWordMask(length);
+        }
+        finally
+        {
+            ReturnBitArrayWords(words);
+        }
     }
 
     /// <summary>
@@ -31,15 +52,29 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.bitarray.hasanyset?view=net-11.0
     public static bool HasAnySet(this BitArray target)
     {
-        for (var index = 0; index < target.Length; index++)
+        var length = target.Length;
+        if (length == 0)
         {
-            if (target[index])
-            {
-                return true;
-            }
+            return false;
         }
 
-        return false;
+        var words = CopyBitArrayWords(target, length, out var wordCount);
+        try
+        {
+            for (var index = 0; index < wordCount; index++)
+            {
+                if (words[index] != 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        finally
+        {
+            ReturnBitArrayWords(words);
+        }
     }
 
 #endif
@@ -50,16 +85,80 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.bitarray.popcount?view=net-11.0
     public static int PopCount(this BitArray target)
     {
-        var count = 0;
-        for (var index = 0; index < target.Length; index++)
+        var length = target.Length;
+        if (length == 0)
         {
-            if (target[index])
-            {
-                count++;
-            }
+            return 0;
         }
 
-        return count;
+        var words = CopyBitArrayWords(target, length, out var wordCount);
+        try
+        {
+            var count = 0;
+            for (var index = 0; index < wordCount; index++)
+            {
+                count += PopCountBitArrayWord(unchecked((uint) words[index]));
+            }
+
+            return count;
+        }
+        finally
+        {
+            ReturnBitArrayWords(words);
+        }
+    }
+
+    /// <summary>
+    /// Copies the bits of a non-empty <see cref="BitArray"/> into 32 bit words, one bit of the array per bit of a word,
+    /// lowest bit first. The bits of the last word that lie past <paramref name="length"/> are cleared: the
+    /// <see cref="BitArray"/> does not keep them zeroed, for example after <see cref="BitArray.Not"/>.
+    /// The result is longer than <paramref name="wordCount"/> when it comes from the pool.
+    /// </summary>
+    static int[] CopyBitArrayWords(BitArray target, int length, out int wordCount)
+    {
+        wordCount = (length - 1) / 32 + 1;
+#if FeatureMemory
+        var words = ArrayPool<int>.Shared.Rent(wordCount);
+#else
+        var words = new int[wordCount];
+#endif
+        target.CopyTo(words, 0);
+        words[wordCount - 1] &= LastBitArrayWordMask(length);
+        return words;
+    }
+
+    static void ReturnBitArrayWords(int[] words)
+    {
+#if FeatureMemory
+        ArrayPool<int>.Shared.Return(words);
+#endif
+    }
+
+    // The bits of the last word that are in use: all 32 when length is a multiple of 32.
+    static int LastBitArrayWordMask(int length)
+    {
+        var used = length % 32;
+        if (used == 0)
+        {
+            return -1;
+        }
+
+        return (1 << used) - 1;
+    }
+
+    static int PopCountBitArrayWord(uint value)
+    {
+#if NETCOREAPP3_0_OR_GREATER
+        return BitOperations.PopCount(value);
+#else
+        unchecked
+        {
+            value -= (value >> 1) & 0x55555555;
+            value = (value & 0x33333333) + ((value >> 2) & 0x33333333);
+            value = (value + (value >> 4)) & 0x0F0F0F0F;
+            return (int) ((value * 0x01010101) >> 24);
+        }
+#endif
     }
 }
 

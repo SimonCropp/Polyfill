@@ -19,7 +19,7 @@ static partial class Polyfill
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out byte result) =>
-			byte.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
+			byte.TryParse(s, NumberStyles.Integer, provider, out result);
 		/// <summary>
 		/// Tries to parse a span of UTF-8 characters into a value.
 		/// </summary>

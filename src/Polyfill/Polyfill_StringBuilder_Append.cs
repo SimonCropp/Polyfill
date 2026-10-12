@@ -38,7 +38,13 @@ static partial class Polyfill
             return target;
         }
 
-        return target.Append(value.ToString(), startIndex, count);
+        if (startIndex > value.Length - count)
+        {
+            throw new ArgumentOutOfRangeException(nameof(startIndex));
+        }
+
+        // Only materialize the requested range, not the whole of value.
+        return target.Append(value.ToString(startIndex, count));
     }
 
 #endif

@@ -2,9 +2,84 @@
 #pragma warning disable
 namespace Polyfills;
 using System;
+#if FeatureMemory
+using System.Buffers;
+using System.Buffers.Binary;
+#endif
 using System.Security.Cryptography;
 static partial class Polyfill
 {
+	static class SharedRandomNumberGenerator
+	{
+		internal static readonly RandomNumberGenerator Instance = RandomNumberGenerator.Create();
+		[ThreadStatic]
+		static byte[]? buffer;
+		internal static uint NextUInt32()
+		{
+			var bytes = buffer ??= new byte[4];
+			Instance.GetBytes(bytes);
+			var value = BitConverter.ToUInt32(bytes, 0);
+			Array.Clear(bytes, 0, bytes.Length);
+			return value;
+		}
+	}
+#if FeatureMemory
+	static uint RandomNumberGeneratorNext(uint range, Span<byte> buffer, ref int position)
+	{
+		var mask = range;
+		mask |= mask >> 1;
+		mask |= mask >> 2;
+		mask |= mask >> 4;
+		mask |= mask >> 8;
+		mask |= mask >> 16;
+		while (true)
+		{
+			if (position == buffer.Length)
+			{
+				RandomNumberGenerator.Fill(buffer);
+				position = 0;
+			}
+			var value = BinaryPrimitives.ReadUInt32LittleEndian(buffer.Slice(position)) & mask;
+			position += 4;
+			if (value <= range)
+			{
+				return value;
+			}
+		}
+	}
+	static int RandomNumberGeneratorBufferSize(int count)
+	{
+		if (count >= 64)
+		{
+			return 256;
+		}
+		return count * 4;
+	}
+	static void RandomNumberGeneratorGetItems<T>(ReadOnlySpan<T> choices, Span<T> destination, Span<byte> buffer)
+	{
+		var range = (uint) choices.Length - 1;
+		var position = buffer.Length;
+		for (var i = 0; i < destination.Length; i++)
+		{
+			destination[i] = choices[(int) RandomNumberGeneratorNext(range, buffer, ref position)];
+		}
+	}
+	static void RandomNumberGeneratorShuffle<T>(Span<T> values, Span<byte> buffer)
+	{
+		var n = values.Length;
+		var position = buffer.Length;
+		for (var i = 0; i < n - 1; i++)
+		{
+			var j = i + (int) RandomNumberGeneratorNext((uint) (n - i - 1), buffer, ref position);
+			if (i != j)
+			{
+				var temp = values[i];
+				values[i] = values[j];
+				values[j] = temp;
+			}
+		}
+	}
+#endif
 	extension(RandomNumberGenerator)
 	{
 		/// <summary>
@@ -28,12 +103,9 @@ static partial class Polyfill
 			mask |= mask >> 8;
 			mask |= mask >> 16;
 			uint value;
-			var bytes = new byte[4];
-			using var generator = RandomNumberGenerator.Create();
 			do
 			{
-				generator.GetBytes(bytes);
-				value = BitConverter.ToUInt32(bytes, 0) & mask;
+				value = SharedRandomNumberGenerator.NextUInt32() & mask;
 			} while (value > range);
 			return (int) (fromInclusive + value);
 		}
@@ -57,9 +129,8 @@ static partial class Polyfill
 			{
 				throw new ArgumentOutOfRangeException(nameof(count), "Value is negative.");
 			}
-			using var generator = RandomNumberGenerator.Create();
 			var bytes = new byte[count];
-			generator.GetBytes(bytes);
+			SharedRandomNumberGenerator.Instance.GetBytes(bytes);
 			return bytes;
 		}
 #if FeatureMemory
@@ -68,10 +139,25 @@ static partial class Polyfill
 		/// </summary>
 		public static void Fill(Span<byte> data)
 		{
-			using var generator = RandomNumberGenerator.Create();
-			var bytes = new byte[data.Length];
-			generator.GetBytes(bytes);
-			bytes.CopyTo(data);
+			if (data.IsEmpty)
+			{
+				return;
+			}
+			var rented = ArrayPool<byte>.Shared.Rent(Math.Min(data.Length, 4096));
+			try
+			{
+				while (!data.IsEmpty)
+				{
+					SharedRandomNumberGenerator.Instance.GetBytes(rented);
+					var count = Math.Min(data.Length, rented.Length);
+					rented.AsSpan(0, count).CopyTo(data);
+					data = data.Slice(count);
+				}
+			}
+			finally
+			{
+				ArrayPool<byte>.Shared.Return(rented, clearArray: true);
+			}
 		}
 		/// <summary>
 		///   Fills the elements of a specified span with items chosen at random from the provided set of choices.
@@ -82,10 +168,8 @@ static partial class Polyfill
 			{
 				throw new ArgumentException("Empty span", nameof(choices));
 			}
-			for (var i = 0; i < destination.Length; i++)
-			{
-				destination[i] = choices[RandomNumberGenerator.GetInt32(choices.Length)];
-			}
+			Span<byte> buffer = stackalloc byte[256];
+			RandomNumberGeneratorGetItems(choices, destination, buffer.Slice(0, RandomNumberGeneratorBufferSize(destination.Length)));
 		}
 		/// <summary>
 		///   Creates an array populated with items chosen at random from choices.
@@ -101,6 +185,13 @@ static partial class Polyfill
 		/// </summary>
 		public static string GetString(ReadOnlySpan<char> choices, int length)
 		{
+			if (length is >= 0 and <= 256)
+			{
+				Span<char> buffer = stackalloc char[256];
+				buffer = buffer.Slice(0, length);
+				GetItems(choices, buffer);
+				return buffer.ToString();
+			}
 			var result = new char[length];
 			GetItems(choices, result);
 			return new(result);
@@ -141,17 +232,8 @@ static partial class Polyfill
 		/// </summary>
 		public static void Shuffle<T>(Span<T> values)
 		{
-			var n = values.Length;
-			for (int i = 0; i < n - 1; i++)
-			{
-				var j = RandomNumberGenerator.GetInt32(i, n);
-				if (i != j)
-				{
-					var temp = values[i];
-					values[i] = values[j];
-					values[j] = temp;
-				}
-			}
+			Span<byte> buffer = stackalloc byte[256];
+			RandomNumberGeneratorShuffle(values, buffer.Slice(0, RandomNumberGeneratorBufferSize(values.Length)));
 		}
 #endif
 		/// <summary>

@@ -249,5 +249,126 @@ public class Sha256PolyfillTests
 
         return Task.CompletedTask;
     }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(55)]
+    [Arguments(56)]
+    [Arguments(63)]
+    [Arguments(64)]
+    [Arguments(65)]
+    [Arguments(127)]
+    [Arguments(128)]
+    [Arguments(129)]
+    [Arguments(4096)]
+    [Arguments(65535)]
+    [Arguments(65536)]
+    [Arguments(65537)]
+    [Arguments(200_000)]
+    public async Task HashData_Span_AnyLength(int length)
+    {
+        // a margin either side of the input, so that the span is not the whole of an array
+        var buffer = new byte[length + 7];
+        for (var i = 0; i < buffer.Length; i++)
+        {
+            buffer[i] = unchecked((byte) (i * 31 + 7));
+        }
+
+        var input = buffer.AsSpan(3, length).ToArray();
+        byte[] reference;
+        using (var hasher = SHA256.Create())
+        {
+            reference = hasher.ComputeHash(input);
+        }
+
+        var fromArray = SHA256.HashData(input);
+        var fromSpan = SHA256.HashData(new ReadOnlySpan<byte>(buffer, 3, length));
+
+        // one spare byte, to check nothing is written past the hash
+        var destination = new byte[reference.Length + 1];
+        destination[reference.Length] = 0xEE;
+        var written = SHA256.HashData(new ReadOnlySpan<byte>(buffer, 3, length), destination);
+
+        var tryDestination = new byte[reference.Length + 1];
+        tryDestination[reference.Length] = 0xEE;
+        var success = SHA256.TryHashData(new ReadOnlySpan<byte>(buffer, 3, length), tryDestination, out var tryWritten);
+
+        var exactDestination = new byte[reference.Length];
+        var exactSuccess = SHA256.TryHashData(new ReadOnlySpan<byte>(buffer, 3, length), exactDestination, out var exactWritten);
+
+        var shortDestination = new byte[reference.Length - 1];
+        var shortSuccess = SHA256.TryHashData(new ReadOnlySpan<byte>(buffer, 3, length), shortDestination, out var shortWritten);
+
+        await Assert.That(fromArray).IsEquivalentTo(reference);
+        await Assert.That(fromSpan).IsEquivalentTo(reference);
+
+        await Assert.That(written).IsEqualTo(reference.Length);
+        await Assert.That(destination.AsSpan(0, written).ToArray()).IsEquivalentTo(reference);
+        await Assert.That(destination[reference.Length]).IsEqualTo((byte) 0xEE);
+
+        await Assert.That(success).IsTrue();
+        await Assert.That(tryWritten).IsEqualTo(reference.Length);
+        await Assert.That(tryDestination.AsSpan(0, tryWritten).ToArray()).IsEquivalentTo(reference);
+        await Assert.That(tryDestination[reference.Length]).IsEqualTo((byte) 0xEE);
+
+        await Assert.That(exactSuccess).IsTrue();
+        await Assert.That(exactWritten).IsEqualTo(reference.Length);
+        await Assert.That(exactDestination).IsEquivalentTo(reference);
+
+        await Assert.That(shortSuccess).IsFalse();
+        await Assert.That(shortWritten).IsEqualTo(0);
+        await Assert.That(shortDestination).IsEquivalentTo(new byte[reference.Length - 1]);
+
+        // the input is left as it was
+        for (var i = 0; i < buffer.Length; i++)
+        {
+            if (buffer[i] != unchecked((byte) (i * 31 + 7)))
+            {
+                Assert.Fail($"Input changed at {i}");
+            }
+        }
+    }
+
+    [Test]
+    public async Task HashData_Span_RepeatedAndConcurrent()
+    {
+        var first = new byte[70_000];
+        var second = new byte[33];
+        for (var i = 0; i < first.Length; i++)
+        {
+            first[i] = unchecked((byte) (i * 13));
+        }
+
+        for (var i = 0; i < second.Length; i++)
+        {
+            second[i] = unchecked((byte) (i * 17 + 1));
+        }
+
+        var firstExpected = SHA256.HashData(first);
+        var secondExpected = SHA256.HashData(second);
+
+        // the pooled buffer is shared, so a result must not depend on what was hashed before or alongside
+        var tasks = new List<Task<bool>>();
+        for (var t = 0; t < 4; t++)
+        {
+            tasks.Add(Task.Run(() =>
+            {
+                for (var i = 0; i < 50; i++)
+                {
+                    if (!SHA256.HashData(new ReadOnlySpan<byte>(first)).SequenceEqual(firstExpected) ||
+                        !SHA256.HashData(new ReadOnlySpan<byte>(second)).SequenceEqual(secondExpected))
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }));
+        }
+
+        var results = await Task.WhenAll(tasks);
+        await Assert.That(results.All(_ => _)).IsTrue();
+    }
 #endif
 }

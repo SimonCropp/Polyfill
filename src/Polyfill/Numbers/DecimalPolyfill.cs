@@ -73,7 +73,11 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.decimal.tryparse?view=net-11.0#system-decimal-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-decimal@)
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out decimal result) =>
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            decimal.TryParse(s, NumberStyles.Number, provider, out result);
+#else
             decimal.TryParse(s.ToString(), NumberStyles.Number, provider, out result);
+#endif
 
 #endif
 

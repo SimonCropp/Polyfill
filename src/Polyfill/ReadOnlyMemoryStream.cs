@@ -35,6 +35,7 @@ sealed class ReadOnlyMemoryStream :
     ReadOnlyMemory<byte> memory;
     long position;
     bool disposed;
+    Task<int>? lastReadTask;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ReadOnlyMemoryStream"/> class over the specified <see cref="ReadOnlyMemory{Byte}"/>.
@@ -145,7 +146,23 @@ sealed class ReadOnlyMemoryStream :
             return Task.FromCanceled<int>(cancellationToken);
         }
 
-        return Task.FromResult(Read(buffer, offset, count));
+        return ReadTask(Read(buffer, offset, count));
+    }
+
+    // Reads complete synchronously, and consecutive reads usually return the same count (a full buffer),
+    // so hand back the previous task when its result matches rather than allocating one per call. This is
+    // what MemoryStream does.
+    Task<int> ReadTask(int read)
+    {
+        var task = lastReadTask;
+        if (task != null && task.Result == read)
+        {
+            return task;
+        }
+
+        task = Task.FromResult(read);
+        lastReadTask = task;
+        return task;
     }
 
     // The number of bytes a read of the requested size can serve from the current position.

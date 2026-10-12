@@ -33,7 +33,7 @@ static partial class Polyfill
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out ushort result) =>
-			ushort.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
+			ushort.TryParse(s, NumberStyles.Integer, provider, out result);
 #endif
 		/// <summary>
 		/// Computes the base-10 logarithm of a value.

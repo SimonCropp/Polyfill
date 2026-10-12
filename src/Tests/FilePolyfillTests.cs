@@ -94,6 +94,267 @@ public class FilePolyfillTests
             await File.ReadAllLinesAsync(nonExistent)).Throws<FileNotFoundException>();
     }
 
+    static string CreateReadLinesTestDirectory()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "PolyfillFileReadLines_" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        return directory;
+    }
+
+    // File contents chosen around the reader's buffer sizes (1024 and 4096 bytes), so that lines end
+    // exactly on, just before and just after a buffer boundary, and line terminators get split by one.
+    static IEnumerable<string> ReadLinesContents()
+    {
+        yield return "";
+        yield return "\n";
+        yield return "\r\n";
+        yield return "\r";
+        yield return "\n\n\n";
+        yield return "single line without terminator";
+        yield return "one\ntwo\r\nthree\rfour";
+        yield return "one\ntwo\r\nthree\rfour\n";
+        yield return "trailing blank lines\n\n\n";
+        yield return "\n\nleading blank lines";
+        yield return "a\u00e9\u4f60\U0001F30D\nb\u00e9\u4f60\U0001F30D\r\n";
+
+        foreach (var boundary in new[] {1024, 2048, 4096, 8192})
+        {
+            foreach (var delta in new[] {-2, -1, 0, 1, 2})
+            {
+                foreach (var terminator in new[] {"\n", "\r\n", "\r", ""})
+                {
+                    // the first line ends boundary + delta bytes into the file
+                    var length = boundary + delta - terminator.Length;
+                    yield return new string('x', length) + terminator;
+                    yield return new string('x', length) + terminator + "next";
+                    yield return new string('x', length) + terminator + "next\n";
+                }
+            }
+        }
+
+        // many lines of the same length, so that buffer boundaries land on every position of a line
+        var builder = new StringBuilder();
+        for (var index = 0; index < 5000; index++)
+        {
+            builder.Append("line ").Append(index % 10).Append("\r\n");
+        }
+
+        yield return builder.ToString();
+
+        // lines that are each exactly one buffer long
+        builder.Clear();
+        for (var index = 0; index < 20; index++)
+        {
+            builder.Append('y', 1023).Append('\n');
+        }
+
+        yield return builder.ToString();
+
+        // one line much longer than any buffer
+        yield return new string('z', 100_000);
+        yield return new string('z', 100_000) + "\n" + new string('w', 50_000);
+    }
+
+    [Test]
+    public async Task ReadAllLinesAsync_MatchesReadAllLines()
+    {
+        var directory = CreateReadLinesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "lines.txt");
+            var index = 0;
+            foreach (var content in ReadLinesContents())
+            {
+                index++;
+                File.WriteAllText(path, content, new UTF8Encoding(false));
+                var expected = File.ReadAllLines(path);
+
+                var actual = await File.ReadAllLinesAsync(path);
+
+                if (!actual.SequenceEqual(expected))
+                {
+                    throw new($"ReadAllLinesAsync differs from ReadAllLines for content {index} ({content.Length} chars): {actual.Length} lines rather than {expected.Length}");
+                }
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task ReadAllLinesAsync_Encodings_MatchReadAllLines()
+    {
+        var directory = CreateReadLinesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "lines.txt");
+            var builder = new StringBuilder();
+            for (var index = 0; index < 3000; index++)
+            {
+                builder.Append("a\u00e9\u4f60\U0001F30D ").Append(index).Append(index % 2 == 0 ? "\n" : "\r\n");
+            }
+
+            var content = builder.ToString();
+            var encodings = new Encoding[]
+            {
+                new UTF8Encoding(false),
+                new UTF8Encoding(true),
+                new UnicodeEncoding(false, true),
+                new UnicodeEncoding(true, true),
+                new UTF32Encoding(false, true)
+            };
+            foreach (var encoding in encodings)
+            {
+                File.WriteAllText(path, content, encoding);
+                var expected = File.ReadAllLines(path, encoding);
+
+                await Assert.That((await File.ReadAllLinesAsync(path, encoding)).SequenceEqual(expected)).IsTrue();
+
+                // a byte order mark overrides the encoding that was asked for
+                if (encoding.GetPreamble().Length > 0)
+                {
+                    await Assert.That((await File.ReadAllLinesAsync(path)).SequenceEqual(expected)).IsTrue();
+                    await Assert.That((await File.ReadAllLinesAsync(path, Encoding.ASCII)).SequenceEqual(expected)).IsTrue();
+                }
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task ReadAllLinesAsync_CanceledToken_ThrowsAndReleasesFile()
+    {
+        var directory = CreateReadLinesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "lines.txt");
+            File.WriteAllText(path, "one\ntwo\n");
+            using var cancelSource = new CancelSource();
+            cancelSource.Cancel();
+
+            await Assert.That(async () => await File.ReadAllLinesAsync(path, cancelSource.Token))
+                .Throws<OperationCanceledException>();
+
+            // the file is not left open
+            File.Delete(path);
+            await Assert.That(File.Exists(path)).IsFalse();
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+#if FeatureAsyncInterfaces
+    [Test]
+    public async Task ReadLinesAsync_MatchesReadAllLines()
+    {
+        var directory = CreateReadLinesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "lines.txt");
+            var index = 0;
+            foreach (var content in ReadLinesContents())
+            {
+                index++;
+                File.WriteAllText(path, content, new UTF8Encoding(false));
+                var expected = File.ReadAllLines(path);
+
+                var actual = new List<string>();
+                await foreach (var line in File.ReadLinesAsync(path))
+                {
+                    actual.Add(line);
+                }
+
+                if (!actual.SequenceEqual(expected))
+                {
+                    throw new($"ReadLinesAsync differs from ReadAllLines for content {index} ({content.Length} chars): {actual.Count} lines rather than {expected.Length}");
+                }
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task ReadLinesAsync_CanceledWhileEnumerating_ThrowsAndReleasesFile()
+    {
+        var directory = CreateReadLinesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "lines.txt");
+            File.WriteAllLines(path, Enumerable.Range(0, 5000).Select(_ => "line " + _));
+            using var source = new CancelSource();
+            var read = new List<string>();
+
+            await Assert.That(async () =>
+                {
+                    await foreach (var line in File.ReadLinesAsync(path, source.Token))
+                    {
+                        read.Add(line);
+                        if (read.Count == 10)
+                        {
+                            source.Cancel();
+                        }
+                    }
+                })
+                .Throws<OperationCanceledException>();
+
+            // The BCL only notices the cancellation at its next read from the file, so it may hand
+            // out a few more lines that it had already buffered. Either way the lines that were
+            // returned are the first ones, in order, and the enumeration stops well short of the end.
+            await Assert.That(read.Count >= 10).IsTrue();
+            await Assert.That(read.Count < 1000).IsTrue();
+            await Assert.That(read.SequenceEqual(Enumerable.Range(0, read.Count).Select(_ => "line " + _))).IsTrue();
+
+            // the file is not left open
+            File.Delete(path);
+            await Assert.That(File.Exists(path)).IsFalse();
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task ReadLinesAsync_StoppingEarly_ReleasesFile()
+    {
+        var directory = CreateReadLinesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "lines.txt");
+            File.WriteAllLines(path, Enumerable.Range(0, 5000).Select(_ => "line " + _));
+            var read = new List<string>();
+
+            await foreach (var line in File.ReadLinesAsync(path))
+            {
+                read.Add(line);
+                if (read.Count == 3)
+                {
+                    break;
+                }
+            }
+
+            await Assert.That(read.SequenceEqual(new[] {"line 0", "line 1", "line 2"})).IsTrue();
+
+            File.Delete(path);
+            await Assert.That(File.Exists(path)).IsFalse();
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+#endif
+
     [Test]
     public async Task ReadAllLinesAsync_ThrowsIfCancelled()
     {
@@ -744,4 +1005,251 @@ public class FilePolyfillTests
         await Assert.That(() =>
             fileInfo.CreateAsHardLink("nonexistent.txt")).Throws<IOException>();
     }
+
+#if FeatureMemory
+    static string CreateBytesTestDirectory()
+    {
+        var directory = Path.Combine(Path.GetTempPath(), "PolyfillFileBytes_" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(directory);
+        return directory;
+    }
+
+    static byte[] BytesPayload(int length, int seed)
+    {
+        var data = new byte[length];
+        new Random(seed).NextBytes(data);
+        return data;
+    }
+
+    static byte[] Concat(byte[] first, byte[] second)
+    {
+        var result = new byte[first.Length + second.Length];
+        Array.Copy(first, result, first.Length);
+        Array.Copy(second, 0, result, first.Length, second.Length);
+        return result;
+    }
+
+    // Memory that is not array-backed as far as MemoryMarshal.TryGetArray is concerned
+    [ExcludeFromCodeCoverage]
+    [System.Diagnostics.DebuggerNonUserCode]
+    sealed class NonArrayFileBytesMemoryManager(byte[] array) :
+        System.Buffers.MemoryManager<byte>
+    {
+        public override Span<byte> GetSpan() => array;
+
+        // FileStream pins the memory it is given on runtimes that write it directly
+        public override System.Buffers.MemoryHandle Pin(int elementIndex = 0) =>
+            array.AsMemory(elementIndex).Pin();
+
+        public override void Unpin()
+        {
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+        }
+    }
+
+    // The sizes cover an empty payload, one smaller than the FileStream buffer, one a little larger
+    // and one large enough to be written in several pieces
+    static readonly int[] bytesPayloadSizes = [0, 1, 100, 4096, 5000, 81920, 81921, 300_000];
+
+    [Test]
+    public async Task AppendAllBytes_Span_AppendsOnlyTheSlice()
+    {
+        var directory = CreateBytesTestDirectory();
+        try
+        {
+            foreach (var size in bytesPayloadSizes)
+            {
+                var path = Path.Combine(directory, $"span{size}.bin");
+                var existing = BytesPayload(10, 1);
+                var buffer = BytesPayload(size + 7, 2);
+                var snapshot = (byte[]) buffer.Clone();
+                var expected = buffer.AsSpan(3, size).ToArray();
+
+                // creates the file
+                File.AppendAllBytes(path, existing.AsSpan());
+                // appends to it
+                File.AppendAllBytes(path, new ReadOnlySpan<byte>(buffer, 3, size));
+
+                await Assert.That(File.ReadAllBytes(path).SequenceEqual(Concat(existing, expected))).IsTrue();
+                await Assert.That(buffer.SequenceEqual(snapshot)).IsTrue();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task AppendAllBytes_Span_StackMemory()
+    {
+        var directory = CreateBytesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "stack.bin");
+            AppendFromStack(path);
+            AppendFromStack(path);
+
+            await Assert.That(File.ReadAllBytes(path).SequenceEqual(new byte[] {1, 2, 3, 4, 5, 1, 2, 3, 4, 5})).IsTrue();
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+
+        static void AppendFromStack(string path)
+        {
+            Span<byte> bytes = stackalloc byte[] {1, 2, 3, 4, 5};
+            File.AppendAllBytes(path, bytes);
+        }
+    }
+
+    [Test]
+    public async Task WriteAllBytesAsync_Memory_WritesOnlyTheSlice()
+    {
+        var directory = CreateBytesTestDirectory();
+        try
+        {
+            foreach (var size in bytesPayloadSizes)
+            {
+                var buffer = BytesPayload(size + 7, 3);
+                var snapshot = (byte[]) buffer.Clone();
+                var expected = buffer.AsSpan(3, size).ToArray();
+                var sources = new Dictionary<string, ReadOnlyMemory<byte>>
+                {
+                    ["array"] = new ReadOnlyMemory<byte>(buffer, 3, size),
+                    ["manager"] = new NonArrayFileBytesMemoryManager(buffer).Memory.Slice(3, size)
+                };
+
+                foreach (var source in sources)
+                {
+                    var path = Path.Combine(directory, $"{source.Key}{size}.bin");
+                    // an existing longer file is truncated
+                    File.WriteAllBytes(path, BytesPayload(size + 50, 4));
+
+                    await File.WriteAllBytesAsync(path, source.Value);
+
+                    await Assert.That(File.ReadAllBytes(path).SequenceEqual(expected)).IsTrue();
+
+                    var missing = Path.Combine(directory, $"{source.Key}{size}.missing.bin");
+                    await File.WriteAllBytesAsync(missing, source.Value);
+
+                    await Assert.That(File.ReadAllBytes(missing).SequenceEqual(expected)).IsTrue();
+                }
+
+                await Assert.That(buffer.SequenceEqual(snapshot)).IsTrue();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task WriteAllBytesAsync_Memory_Default_CreatesEmptyFile()
+    {
+        var directory = CreateBytesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "empty.bin");
+            File.WriteAllBytes(path, [1, 2, 3]);
+
+            await File.WriteAllBytesAsync(path, default(ReadOnlyMemory<byte>));
+
+            await Assert.That(File.ReadAllBytes(path).Length).IsEqualTo(0);
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task AppendAllBytesAsync_Memory_AppendsOnlyTheSlice()
+    {
+        var directory = CreateBytesTestDirectory();
+        try
+        {
+            foreach (var size in bytesPayloadSizes)
+            {
+                var existing = BytesPayload(10, 5);
+                var buffer = BytesPayload(size + 7, 6);
+                var snapshot = (byte[]) buffer.Clone();
+                var expected = buffer.AsSpan(3, size).ToArray();
+                var sources = new Dictionary<string, ReadOnlyMemory<byte>>
+                {
+                    ["array"] = new ReadOnlyMemory<byte>(buffer, 3, size),
+                    ["manager"] = new NonArrayFileBytesMemoryManager(buffer).Memory.Slice(3, size)
+                };
+
+                foreach (var source in sources)
+                {
+                    var path = Path.Combine(directory, $"{source.Key}{size}.bin");
+
+                    // creates the file
+                    await File.AppendAllBytesAsync(path, new ReadOnlyMemory<byte>(existing));
+                    // appends to it, twice
+                    await File.AppendAllBytesAsync(path, source.Value);
+                    await File.AppendAllBytesAsync(path, source.Value);
+
+                    await Assert.That(File.ReadAllBytes(path).SequenceEqual(Concat(Concat(existing, expected), expected))).IsTrue();
+                }
+
+                await Assert.That(buffer.SequenceEqual(snapshot)).IsTrue();
+            }
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task AppendAllBytesAsync_Memory_Default_LeavesContentUntouched()
+    {
+        var directory = CreateBytesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "empty.bin");
+            File.WriteAllBytes(path, [1, 2, 3]);
+
+            await File.AppendAllBytesAsync(path, default(ReadOnlyMemory<byte>));
+
+            await Assert.That(File.ReadAllBytes(path).SequenceEqual(new byte[] {1, 2, 3})).IsTrue();
+
+            var missing = Path.Combine(directory, "missing.bin");
+            await File.AppendAllBytesAsync(missing, default(ReadOnlyMemory<byte>));
+
+            await Assert.That(File.Exists(missing)).IsTrue();
+            await Assert.That(File.ReadAllBytes(missing).Length).IsEqualTo(0);
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+
+    [Test]
+    public async Task BytesMemoryOverloads_MissingDirectory_Throw()
+    {
+        var directory = CreateBytesTestDirectory();
+        try
+        {
+            var path = Path.Combine(directory, "missing", "file.bin");
+            ReadOnlyMemory<byte> bytes = new byte[] {1, 2, 3};
+
+            await Assert.That(async () => await File.WriteAllBytesAsync(path, bytes)).Throws<DirectoryNotFoundException>();
+            await Assert.That(async () => await File.AppendAllBytesAsync(path, bytes)).Throws<DirectoryNotFoundException>();
+            await Assert.That(() => File.AppendAllBytes(path, new byte[] {1, 2, 3}.AsSpan())).Throws<DirectoryNotFoundException>();
+        }
+        finally
+        {
+            Directory.Delete(directory, true);
+        }
+    }
+#endif
 }

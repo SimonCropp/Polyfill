@@ -204,7 +204,7 @@ static class CryptographicOperations
 	public static byte[] HashData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> source)
 	{
 		using var hasher = CreateHashAlgorithm(hashAlgorithm);
-		return hasher.ComputeHash(source.ToArray());
+		return Polyfills.Polyfill.HashSpan(hasher, source);
 	}
 	/// <summary>
 	/// Computes the hash of data into the provided destination using the specified algorithm.
@@ -236,15 +236,7 @@ static class CryptographicOperations
 	public static bool TryHashData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
 	{
 		using var hasher = CreateHashAlgorithm(hashAlgorithm);
-		var hash = hasher.ComputeHash(source.ToArray());
-		if (destination.Length < hash.Length)
-		{
-			bytesWritten = 0;
-			return false;
-		}
-		hash.CopyTo(destination);
-		bytesWritten = hash.Length;
-		return true;
+		return Polyfills.Polyfill.TryHashSpan(hasher, source, destination, out bytesWritten);
 	}
 	/// <summary>
 	/// Computes the HMAC of data using the specified key and algorithm.
@@ -252,7 +244,7 @@ static class CryptographicOperations
 	public static byte[] HmacData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source)
 	{
 		using var hmac = CreateHmac(hashAlgorithm, key.ToArray());
-		return hmac.ComputeHash(source.ToArray());
+		return Polyfills.Polyfill.HashSpan(hmac, source);
 	}
 	/// <summary>
 	/// Computes the HMAC of data into the provided destination using the specified key and algorithm.
@@ -296,15 +288,7 @@ static class CryptographicOperations
 	public static bool TryHmacData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
 	{
 		using var hmac = CreateHmac(hashAlgorithm, key.ToArray());
-		var mac = hmac.ComputeHash(source.ToArray());
-		if (destination.Length < mac.Length)
-		{
-			bytesWritten = 0;
-			return false;
-		}
-		mac.CopyTo(destination);
-		bytesWritten = mac.Length;
-		return true;
+		return Polyfills.Polyfill.TryHashSpan(hmac, source, destination, out bytesWritten);
 	}
 	/// <summary>
 	/// Determines whether the HMAC of <paramref name="source"/> matches <paramref name="hash"/>, using a comparison whose time does not depend on the contents.
@@ -317,7 +301,7 @@ static class CryptographicOperations
 		{
 			throw new ArgumentException($"The hash must be {hashSizeInBytes} bytes in length.", nameof(hash));
 		}
-		var mac = hmac.ComputeHash(source.ToArray());
+		var mac = Polyfills.Polyfill.HashSpan(hmac, source);
 		return FixedTimeEquals(mac, hash);
 	}
 	/// <summary>

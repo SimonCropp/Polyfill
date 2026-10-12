@@ -544,4 +544,157 @@ public class ConvertPolyfillTests
         var result = Convert.FromHexString(hexString);
         await Assert.That(result.SequenceEqual(new byte[] { 0x0F, 0xA3, 0x5C })).IsTrue();
     }
+
+    static byte[] HexPatternBytes(int length)
+    {
+        var bytes = new byte[length];
+
+        for (var i = 0; i < length; i++)
+        {
+            bytes[i] = unchecked((byte) (i * 37 + 11));
+        }
+
+        return bytes;
+    }
+
+    [Test]
+    public async Task Hex_Arrays_AllLengths_MatchBitConverter()
+    {
+        var failures = new List<string>();
+
+        // 0 to 300 covers both sides of the 128 byte stack buffer
+        for (var length = 0; length <= 300; length++)
+        {
+            // a margin either side of the input
+            var buffer = HexPatternBytes(length + 7);
+            var input = new byte[length];
+            Array.Copy(buffer, 3, input, 0, length);
+            var upper = BitConverter.ToString(input).Replace("-", "");
+            var lower = upper.ToLowerInvariant();
+
+            void Check(string name, bool condition)
+            {
+                if (!condition)
+                {
+                    failures.Add($"{name} length {length}");
+                }
+            }
+
+            Check("ToHexString array", Convert.ToHexString(input) == upper);
+            Check("ToHexString offset", Convert.ToHexString(buffer, 3, length) == upper);
+            Check("ToHexStringLower array", Convert.ToHexStringLower(input) == lower);
+            Check("ToHexStringLower offset", Convert.ToHexStringLower(buffer, 3, length) == lower);
+            Check("FromHexString upper", Convert.FromHexString(upper).SequenceEqual(input));
+            Check("FromHexString lower", Convert.FromHexString(lower).SequenceEqual(input));
+        }
+
+        await Assert.That(failures).IsEmpty();
+    }
+
+#if FeatureMemory
+    [Test]
+    public async Task Hex_Spans_AllLengths_MatchBitConverter()
+    {
+        var failures = new List<string>();
+
+        for (var length = 0; length <= 300; length++)
+        {
+            // a margin either side of the input, so that the span is not the whole of an array
+            var buffer = HexPatternBytes(length + 7);
+            var input = buffer.AsSpan(3, length).ToArray();
+            var upper = BitConverter.ToString(input).Replace("-", "");
+            var lower = upper.ToLowerInvariant();
+
+            // upper and lower case digits alternating
+            var mixedChars = upper.ToCharArray();
+            for (var i = 0; i < mixedChars.Length; i += 2)
+            {
+                mixedChars[i] = char.ToLowerInvariant(mixedChars[i]);
+            }
+
+            var mixed = new string(mixedChars);
+
+            void Check(string name, bool condition)
+            {
+                if (!condition)
+                {
+                    failures.Add($"{name} length {length}");
+                }
+            }
+
+            Check("ToHexString span", Convert.ToHexString(new ReadOnlySpan<byte>(buffer, 3, length)) == upper);
+            Check("ToHexStringLower span", Convert.ToHexStringLower(new ReadOnlySpan<byte>(buffer, 3, length)) == lower);
+
+            // the chars are a slice of a longer string of valid hex digits
+            Check("FromHexString span upper", Convert.FromHexString(("AB" + upper + "CD").AsSpan(2, upper.Length)).SequenceEqual(input));
+            Check("FromHexString span lower", Convert.FromHexString(("ab" + lower + "cd").AsSpan(2, lower.Length)).SequenceEqual(input));
+            Check("FromHexString span mixed", Convert.FromHexString(("ab" + mixed + "cd").AsSpan(2, mixed.Length)).SequenceEqual(input));
+        }
+
+        await Assert.That(failures).IsEmpty();
+    }
+
+    [Test]
+    public async Task ToHexString_Span_Large()
+    {
+        var input = HexPatternBytes(100_000);
+        var upper = BitConverter.ToString(input).Replace("-", "");
+
+        await Assert.That(Convert.ToHexString(new ReadOnlySpan<byte>(input))).IsEqualTo(upper);
+        await Assert.That(Convert.ToHexStringLower(new ReadOnlySpan<byte>(input))).IsEqualTo(upper.ToLowerInvariant());
+        await Assert.That(Convert.FromHexString(upper.AsSpan()).SequenceEqual(input)).IsTrue();
+    }
+
+    [Test]
+    public async Task Hex_Span_AllByteValues()
+    {
+        var input = new byte[256];
+        for (var i = 0; i < input.Length; i++)
+        {
+            input[i] = (byte) i;
+        }
+
+        var upper = string.Concat(input.Select(_ => _.ToString("X2")));
+        var lower = string.Concat(input.Select(_ => _.ToString("x2")));
+
+        await Assert.That(Convert.ToHexString(new ReadOnlySpan<byte>(input))).IsEqualTo(upper);
+        await Assert.That(Convert.ToHexStringLower(new ReadOnlySpan<byte>(input))).IsEqualTo(lower);
+        await Assert.That(Convert.FromHexString(upper.AsSpan()).SequenceEqual(input)).IsTrue();
+        await Assert.That(Convert.FromHexString(lower.AsSpan()).SequenceEqual(input)).IsTrue();
+    }
+
+    [Test]
+    [Arguments("0")]
+    [Arguments("0FA")]
+    [Arguments("0FA3C")]
+    public async Task FromHexString_Span_OddLength_ThrowsFormatException(string text) =>
+        await Assert.That(() => Convert.FromHexString(text.AsSpan())).Throws<FormatException>();
+
+    [Test]
+    [Arguments("G0")]
+    [Arguments("0G")]
+    [Arguments("0FZ3")]
+    [Arguments("0F3Z")]
+    [Arguments("0F 3")]
+    [Arguments("0x0F")]
+    [Arguments("-1")]
+    [Arguments("0F١١")]
+    [Arguments("０１")]
+    [Arguments("0F:A")]
+    [Arguments("0F@A")]
+    [Arguments("0F`A")]
+    [Arguments("0FgA")]
+    [Arguments("0F/A")]
+    public async Task FromHexString_Span_InvalidCharacter_ThrowsFormatException(string text) =>
+        await Assert.That(() => Convert.FromHexString(text.AsSpan())).Throws<FormatException>();
+
+    [Test]
+    public async Task FromHexString_Span_Empty()
+    {
+        var result = Convert.FromHexString(ReadOnlySpan<char>.Empty);
+        await Assert.That(result).IsEmpty();
+        await Assert.That(Convert.ToHexString(ReadOnlySpan<byte>.Empty)).IsEqualTo(string.Empty);
+        await Assert.That(Convert.ToHexStringLower(ReadOnlySpan<byte>.Empty)).IsEqualTo(string.Empty);
+    }
+#endif
 }

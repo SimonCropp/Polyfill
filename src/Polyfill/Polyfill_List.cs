@@ -20,10 +20,73 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.addrange?view=net-11.0
     public static void AddRange<T>(this List<T> target, ReadOnlySpan<T> source)
     {
+        if (source.IsEmpty)
+        {
+            return;
+        }
+
+        var length = source.Length;
+
+        // List<T>.AddRange block copies an ICollection<T>. On .NET Framework it goes through an extra
+        // temporary array, which only pays off when the items can be block copied without GC bookkeeping.
+        if (length >= blockCopyThreshold
+#if !NETCOREAPP
+            && typeof(T).IsPrimitive
+#endif
+           )
+        {
+            var pool = System.Buffers.ArrayPool<T>.Shared;
+            var buffer = pool.Rent(length);
+            try
+            {
+                source.CopyTo(buffer);
+                target.AddRange(new ArraySegment<T>(buffer, 0, length));
+            }
+            finally
+            {
+                ReturnToPool(pool, buffer, length);
+            }
+
+            return;
+        }
+
+        // Grow once, using the same doubling as List<T>, instead of several times while adding
+        var required = target.Count + length;
+        var capacity = target.Capacity;
+        if (required > capacity)
+        {
+            var newCapacity = capacity * 2;
+            if ((uint) newCapacity > 0x7FEFFFFF)
+            {
+                newCapacity = 0x7FEFFFFF;
+            }
+
+            if (newCapacity < required)
+            {
+                newCapacity = required;
+            }
+
+            target.Capacity = newCapacity;
+        }
+
         foreach (var item in source)
         {
             target.Add(item);
         }
+    }
+
+    // Below this the cost of renting a buffer outweighs the block copy
+    const int blockCopyThreshold = 64;
+
+    static void ReturnToPool<T>(System.Buffers.ArrayPool<T> pool, T[] buffer, int length)
+    {
+        // Do not keep references alive in the pool
+        if (!typeof(T).IsPrimitive)
+        {
+            Array.Clear(buffer, 0, length);
+        }
+
+        pool.Return(buffer);
     }
 
     /// <summary>Inserts the elements of a span into the <see cref="List{T}"/> at the specified index.</summary>
@@ -35,10 +98,36 @@ static partial class Polyfill
             throw new ArgumentOutOfRangeException(nameof(index));
         }
 
-        for (var i = 0; i < source.Length; i++)
+        if (source.IsEmpty)
         {
-            var item = source[i];
-            target.Insert(i + index, item);
+            return;
+        }
+
+        if (source.Length == 1)
+        {
+            target.Insert(index, source[0]);
+            return;
+        }
+
+        // List<T>.InsertRange moves the tail once and block copies an ICollection<T>,
+        // where inserting one item at a time moves the tail for every item.
+        var length = source.Length;
+        var pool = System.Buffers.ArrayPool<T>.Shared;
+        var buffer = pool.Rent(length);
+        try
+        {
+            source.CopyTo(buffer);
+            target.InsertRange(index, new ArraySegment<T>(buffer, 0, length));
+        }
+        finally
+        {
+            // Do not keep references alive in the pool
+            if (!typeof(T).IsPrimitive)
+            {
+                Array.Clear(buffer, 0, length);
+            }
+
+            pool.Return(buffer);
         }
     }
 
@@ -51,10 +140,32 @@ static partial class Polyfill
             throw new ArgumentException("Destination is too short.", nameof(destination));
         }
 
-        for (var index = 0; index < target.Count; index++)
+#if NET5_0_OR_GREATER
+        System.Runtime.InteropServices.CollectionsMarshal.AsSpan(target).CopyTo(destination);
+#else
+        var count = target.Count;
+        if (count < blockCopyThreshold)
         {
-            destination[index] = target[index];
+            for (var index = 0; index < count; index++)
+            {
+                destination[index] = target[index];
+            }
+
+            return;
         }
+
+        var pool = System.Buffers.ArrayPool<T>.Shared;
+        var buffer = pool.Rent(count);
+        try
+        {
+            target.CopyTo(0, buffer, 0, count);
+            new ReadOnlySpan<T>(buffer, 0, count).CopyTo(destination);
+        }
+        finally
+        {
+            ReturnToPool(pool, buffer, count);
+        }
+#endif
     }
 #endif
 

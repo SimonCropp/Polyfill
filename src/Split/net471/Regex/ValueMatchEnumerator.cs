@@ -20,24 +20,45 @@ ref struct ValueMatchEnumerator
 {
 	ReadOnlySpan<char> _input;
 	ValueMatch _current;
-	MatchCollection matchCollection;
-	int index = 0;
+	readonly Regex _regex;
+	readonly string _inputString;
+	readonly int _startAt;
+	Match? _match;
 	internal ValueMatchEnumerator(Regex regex, ReadOnlySpan<char> input, int startAt)
 	{
-		matchCollection = regex.Matches(input.ToString(), startAt);
+		if ((uint)startAt > (uint)input.Length)
+		{
+			throw new ArgumentOutOfRangeException("startat");
+		}
+		_regex = regex;
+		_inputString = input.ToString();
+		_startAt = startAt;
+		_match = null;
 		_input = input;
 		_current = default;
 	}
 	public readonly ValueMatchEnumerator GetEnumerator() => this;
 	public bool MoveNext()
 	{
-		if (index == matchCollection.Count)
+		Match match;
+		if (_match is null)
+		{
+			match = _regex.Match(_inputString, _startAt);
+		}
+		else if (_match.Success)
+		{
+			match = _match.NextMatch();
+		}
+		else
 		{
 			return false;
 		}
-		var match = matchCollection[index];
+		_match = match;
+		if (!match.Success)
+		{
+			return false;
+		}
 		_current = new ValueMatch(match.Index, match.Length);
-		index++;
 		return true;
 	}
 	public readonly ValueMatch Current => _current;

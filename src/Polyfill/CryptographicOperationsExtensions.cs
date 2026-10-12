@@ -34,8 +34,12 @@ static partial class Polyfill
                 throw new ArgumentNullException(nameof(source));
             }
 
+#if NET5_0_OR_GREATER
+            return CryptographicOperationsHashData(hashAlgorithm, source);
+#else
             using var hasher = CryptographicOperationsCreateHashAlgorithm(hashAlgorithm);
             return hasher.ComputeHash(source);
+#endif
         }
 
         /// <summary>
@@ -44,8 +48,14 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.hashdata?view=net-11.0#system-security-cryptography-cryptographicoperations-hashdata(system-security-cryptography-hashalgorithmname-system-readonlyspan((system-byte)))
         public static byte[] HashData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> source)
         {
+#if NET5_0_OR_GREATER
+            return CryptographicOperationsHashData(hashAlgorithm, source);
+#else
             using var hasher = CryptographicOperationsCreateHashAlgorithm(hashAlgorithm);
-            return hasher.ComputeHash(source.ToArray());
+            var hash = new byte[hasher.HashSize / 8];
+            hasher.TryComputeHash(source, hash, out _);
+            return hash;
+#endif
         }
 
         /// <summary>
@@ -99,17 +109,12 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.tryhashdata?view=net-11.0
         public static bool TryHashData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
         {
+#if NET5_0_OR_GREATER
+            return CryptographicOperationsTryHashData(hashAlgorithm, source, destination, out bytesWritten);
+#else
             using var hasher = CryptographicOperationsCreateHashAlgorithm(hashAlgorithm);
-            var hash = hasher.ComputeHash(source.ToArray());
-            if (destination.Length < hash.Length)
-            {
-                bytesWritten = 0;
-                return false;
-            }
-
-            hash.CopyTo(destination);
-            bytesWritten = hash.Length;
-            return true;
+            return hasher.TryComputeHash(source, destination, out bytesWritten);
+#endif
         }
 
         /// <summary>
@@ -146,8 +151,12 @@ static partial class Polyfill
                 throw new ArgumentNullException(nameof(source));
             }
 
+#if NET6_0_OR_GREATER
+            return CryptographicOperationsHmacData(hashAlgorithm, key, source);
+#else
             using var hmac = CryptographicOperationsCreateHmac(hashAlgorithm, key);
             return hmac.ComputeHash(source);
+#endif
         }
 
         /// <summary>
@@ -176,8 +185,14 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.hmacdata?view=net-11.0#system-security-cryptography-cryptographicoperations-hmacdata(system-security-cryptography-hashalgorithmname-system-readonlyspan((system-byte))-system-readonlyspan((system-byte)))
         public static byte[] HmacData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source)
         {
+#if NET6_0_OR_GREATER
+            return CryptographicOperationsHmacData(hashAlgorithm, key, source);
+#else
             using var hmac = CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray());
-            return hmac.ComputeHash(source.ToArray());
+            var mac = new byte[hmac.HashSize / 8];
+            hmac.TryComputeHash(source, mac, out _);
+            return mac;
+#endif
         }
 
         /// <summary>
@@ -231,17 +246,12 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.tryhmacdata?view=net-11.0
         public static bool TryHmacData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
         {
+#if NET6_0_OR_GREATER
+            return CryptographicOperationsTryHmacData(hashAlgorithm, key, source, destination, out bytesWritten);
+#else
             using var hmac = CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray());
-            var mac = hmac.ComputeHash(source.ToArray());
-            if (destination.Length < mac.Length)
-            {
-                bytesWritten = 0;
-                return false;
-            }
-
-            mac.CopyTo(destination);
-            bytesWritten = mac.Length;
-            return true;
+            return hmac.TryComputeHash(source, destination, out bytesWritten);
+#endif
         }
 
         /// <summary>
@@ -342,15 +352,15 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.cryptographicoperations.verifyhmac?view=net-11.0#system-security-cryptography-cryptographicoperations-verifyhmac(system-security-cryptography-hashalgorithmname-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte)))
         public static bool VerifyHmac(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source, ReadOnlySpan<byte> hash)
         {
-            using var hmac = CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray());
-            var hashSizeInBytes = hmac.HashSize / 8;
+            var hashSizeInBytes = CryptographicOperationsHashSize(hashAlgorithm);
             if (hash.Length != hashSizeInBytes)
             {
                 throw new ArgumentException($"The hash must be {hashSizeInBytes} bytes in length.", nameof(hash));
             }
 
-            var mac = hmac.ComputeHash(source.ToArray());
-            return CryptographicOperations.FixedTimeEquals(mac, hash);
+            Span<byte> mac = stackalloc byte[64];
+            CryptographicOperations.TryHmacData(hashAlgorithm, key, source, mac, out var bytesWritten);
+            return CryptographicOperations.FixedTimeEquals(mac.Slice(0, bytesWritten), hash);
         }
 
         /// <summary>
@@ -422,7 +432,98 @@ static partial class Polyfill
 
 #endif
 
+#if NET5_0_OR_GREATER && !NET9_0_OR_GREATER
+
+    // The static one-shots hash without creating an algorithm instance or copying the input
+    static byte[] CryptographicOperationsHashData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> source)
+    {
+        var name = hashAlgorithm.Name;
+        return name switch
+        {
+            "SHA256" => SHA256.HashData(source),
+            "SHA1" => SHA1.HashData(source),
+            "SHA384" => SHA384.HashData(source),
+            "SHA512" => SHA512.HashData(source),
+            "MD5" => MD5.HashData(source),
+            _ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
+        };
+    }
+
+    static bool CryptographicOperationsTryHashData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
+    {
+        var name = hashAlgorithm.Name;
+        switch (name)
+        {
+            case "SHA256":
+                return SHA256.TryHashData(source, destination, out bytesWritten);
+            case "SHA1":
+                return SHA1.TryHashData(source, destination, out bytesWritten);
+            case "SHA384":
+                return SHA384.TryHashData(source, destination, out bytesWritten);
+            case "SHA512":
+                return SHA512.TryHashData(source, destination, out bytesWritten);
+            case "MD5":
+                return MD5.TryHashData(source, destination, out bytesWritten);
+            default:
+                throw new CryptographicException($"'{name}' is not a known hash algorithm.");
+        }
+    }
+
+#endif
+
+#if NET6_0_OR_GREATER && !NET9_0_OR_GREATER
+
+    static byte[] CryptographicOperationsHmacData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source)
+    {
+        var name = hashAlgorithm.Name;
+        return name switch
+        {
+            "SHA256" => HMACSHA256.HashData(key, source),
+            "SHA1" => HMACSHA1.HashData(key, source),
+            "SHA384" => HMACSHA384.HashData(key, source),
+            "SHA512" => HMACSHA512.HashData(key, source),
+            "MD5" => HMACMD5.HashData(key, source),
+            _ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
+        };
+    }
+
+    static bool CryptographicOperationsTryHmacData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
+    {
+        var name = hashAlgorithm.Name;
+        switch (name)
+        {
+            case "SHA256":
+                return HMACSHA256.TryHashData(key, source, destination, out bytesWritten);
+            case "SHA1":
+                return HMACSHA1.TryHashData(key, source, destination, out bytesWritten);
+            case "SHA384":
+                return HMACSHA384.TryHashData(key, source, destination, out bytesWritten);
+            case "SHA512":
+                return HMACSHA512.TryHashData(key, source, destination, out bytesWritten);
+            case "MD5":
+                return HMACMD5.TryHashData(key, source, destination, out bytesWritten);
+            default:
+                throw new CryptographicException($"'{name}' is not a known hash algorithm.");
+        }
+    }
+
+#endif
+
 #if !NET11_0_OR_GREATER
+
+    static int CryptographicOperationsHashSize(HashAlgorithmName hashAlgorithm)
+    {
+        var name = hashAlgorithm.Name;
+        return name switch
+        {
+            "SHA256" => 32,
+            "SHA1" => 20,
+            "SHA384" => 48,
+            "SHA512" => 64,
+            "MD5" => 16,
+            _ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
+        };
+    }
 
     static HMAC CryptographicOperationsCreateHmac(HashAlgorithmName hashAlgorithm, byte[] key)
     {

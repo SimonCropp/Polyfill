@@ -75,7 +75,11 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.sbyte.tryparse?view=net-11.0#system-sbyte-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-sbyte@)
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out sbyte result) =>
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            sbyte.TryParse(s, NumberStyles.Integer, provider, out result);
+#else
             sbyte.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
+#endif
 
 #endif
 

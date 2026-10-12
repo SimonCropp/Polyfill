@@ -111,7 +111,11 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.intptr.tryparse?view=net-11.0#system-intptr-tryparse(system-readonlyspan((system-char))-system-iformatprovider-system-intptr@)
         public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out nint result) =>
+#if NET6_0_OR_GREATER
+            nint.TryParse(s, NumberStyles.Integer, provider, out result);
+#else
             nint.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
+#endif
 
 #endif
 

@@ -80,6 +80,9 @@ static partial class Polyfill
 
 #if !NET6_0_OR_GREATER
 
+    [ThreadStatic]
+    static byte[]? randomNextInt64Buffer;
+
     /// <summary>
     /// Returns a non-negative random integer.
     /// </summary>
@@ -113,11 +116,14 @@ static partial class Polyfill
         var range = unchecked((ulong)(maxValue - minValue));
         var limit = ulong.MaxValue - ulong.MaxValue % range;
         ulong result;
+
+        // One buffer per thread rather than one per attempt. It is still filled by NextBytes(byte[]),
+        // so the values drawn from the generator are the same.
+        var buffer = randomNextInt64Buffer ??= new byte[8];
         do
         {
-            var buf = new byte[8];
-            target.NextBytes(buf);
-            result = BitConverter.ToUInt64(buf, 0);
+            target.NextBytes(buffer);
+            result = BitConverter.ToUInt64(buffer, 0);
         } while (result >= limit);
 
         return unchecked((long)(result % range) + minValue);
@@ -221,6 +227,9 @@ static partial class Polyfill
 
 #if !NETCOREAPP2_1_OR_GREATER && !NETSTANDARD2_1_OR_GREATER && FeatureMemory
 
+    [ThreadStatic]
+    static byte[]? randomNextBytesBuffer;
+
     /// <summary>
     /// Fills the elements of a specified span of bytes with random numbers.
     /// </summary>
@@ -229,9 +238,31 @@ static partial class Polyfill
         this Random target,
         Span<byte> buffer)
     {
-        var array = new byte[buffer.Length];
-        target.NextBytes(array);
-        array.CopyTo(buffer);
+        // A derived type may fill an array in a way of its own, so it gets one array the size of the span
+        if (target.GetType() != typeof(Random))
+        {
+            var array = new byte[buffer.Length];
+            target.NextBytes(array);
+            array.CopyTo(buffer);
+            return;
+        }
+
+        // Random.NextBytes(byte[]) sets each byte to the low 8 bits of the next sample, which is what
+        // Next() % 256 is. So filling in chunks, and the rest one byte at a time, gives the same bytes
+        // and leaves the generator in the same state as filling one array the size of the span.
+        var chunk = randomNextBytesBuffer ??= new byte[256];
+
+        while (buffer.Length >= chunk.Length)
+        {
+            target.NextBytes(chunk);
+            chunk.CopyTo(buffer);
+            buffer = buffer.Slice(chunk.Length);
+        }
+
+        for (var i = 0; i < buffer.Length; i++)
+        {
+            buffer[i] = (byte) (target.Next() % 256);
+        }
     }
 #endif
 

@@ -258,6 +258,161 @@ partial class PolyfillTests
             throw new Exception("Expected MoveNext to return false after all elements");
     }
 
+    static List<Range> ExpectedSplitAny<T>(T[] value, T[] separators)
+    {
+        var comparer = EqualityComparer<T>.Default;
+        var expected = new List<Range>();
+        var start = 0;
+        for (var index = 0; index < value.Length; index++)
+        {
+            foreach (var separator in separators)
+            {
+                if (comparer.Equals(value[index], separator))
+                {
+                    expected.Add(new(start, index));
+                    start = index + 1;
+                    break;
+                }
+            }
+        }
+
+        expected.Add(new(start, value.Length));
+        return expected;
+    }
+
+    static void AssertSplitAny<T>(T[] value, T[] separators)
+        where T : IEquatable<T> =>
+        AssertEnsureCorrectEnumeration(
+            new ReadOnlySpan<T>(value).SplitAny(separators),
+            ExpectedSplitAny(value, separators).ToArray());
+
+    [Test]
+    public Task SplitAny_SeparatorCounts()
+    {
+        string[] inputs =
+        [
+            "",
+            "a",
+            ",",
+            "/",
+            "abc",
+            "a,b;c|d-e+f/g",
+            "a/b/c/d",
+            "/a/b/",
+            ",;|-+/",
+            "//,,;;",
+            "a,,b;;c//d",
+            "no separators here",
+            "trailing/",
+            ",leading",
+        ];
+        const string allSeparators = ",;|-+/";
+
+        // 1 to 3 separators take the fixed arity path below net7, 4 or more are matched an element at a time
+        for (var count = 1; count <= allSeparators.Length; count++)
+        {
+            var charSeparators = allSeparators.Substring(0, count).ToCharArray();
+            var lastCharSeparators = allSeparators.Substring(allSeparators.Length - count).ToCharArray();
+            foreach (var input in inputs)
+            {
+                var chars = input.ToCharArray();
+                AssertSplitAny(chars, charSeparators);
+                AssertSplitAny(chars, lastCharSeparators);
+
+                AssertSplitAny(Array.ConvertAll(chars, _ => (int) _), Array.ConvertAll(charSeparators, _ => (int) _));
+                AssertSplitAny(Array.ConvertAll(chars, _ => (int) _), Array.ConvertAll(lastCharSeparators, _ => (int) _));
+
+                AssertSplitAny(Array.ConvertAll(chars, _ => (byte) _), Array.ConvertAll(charSeparators, _ => (byte) _));
+
+                AssertSplitAny(Array.ConvertAll(chars, _ => _.ToString()), Array.ConvertAll(charSeparators, _ => _.ToString()));
+                AssertSplitAny(Array.ConvertAll(chars, _ => _.ToString()), Array.ConvertAll(lastCharSeparators, _ => _.ToString()));
+
+                AssertSplitAny(Array.ConvertAll(chars, _ => new CustomStruct(_)), Array.ConvertAll(charSeparators, _ => new CustomStruct(_)));
+                AssertSplitAny(Array.ConvertAll(chars, _ => new CustomClass(_)), Array.ConvertAll(lastCharSeparators, _ => new CustomClass(_)));
+            }
+        }
+
+        return Task.CompletedTask;
+    }
+
+    [Test]
+    public Task SplitAny_DuplicateSeparators()
+    {
+        AssertSplitAny("a,b;c".ToCharArray(), (char[]) [',', ',']);
+        AssertSplitAny("a,b;c".ToCharArray(), (char[]) [',', ';', ',']);
+        AssertSplitAny("a,b;c".ToCharArray(), (char[]) [',', ';', ',', ';', ',']);
+        return Task.CompletedTask;
+    }
+
+    [Test]
+    public Task SplitAny_NullElements()
+    {
+        AssertSplitAny((string[]) ["a", null, "b"], (string[]) [null, "x"]);
+        AssertSplitAny((string[]) ["a", null, "b"], (string[]) ["x", "y", "z", null]);
+        AssertSplitAny((string[]) ["a", null, "b"], (string[]) ["b"]);
+        AssertSplitAny((string[]) ["a", null, "b"], (string[]) ["x", "y", "z", "a"]);
+        return Task.CompletedTask;
+    }
+
+    [Test]
+    public Task SplitAny_ManyWords()
+    {
+        var builder = new StringBuilder();
+        for (var index = 0; index < 4000; index++)
+        {
+            builder.Append("word").Append(index).Append(' ');
+        }
+
+        var chars = builder.ToString().ToCharArray();
+        AssertSplitAny(chars, (char[]) ['\t', ' ']);
+        AssertSplitAny(chars, (char[]) ['\t', ';', ',', '|', ' ']);
+        return Task.CompletedTask;
+    }
+
+    [Test]
+    public async Task SplitAny_NoSeparators_SplitsCharsOnWhiteSpace()
+    {
+        var splitting = new List<int>();
+        for (var value = 0; value <= char.MaxValue; value++)
+        {
+            var input = "a" + (char) value + "b";
+            var count = 0;
+            foreach (var range in input.AsSpan().SplitAny(ReadOnlySpan<char>.Empty))
+            {
+                count++;
+            }
+
+            if (count != 1)
+            {
+                splitting.Add(value);
+            }
+        }
+
+        int[] expected =
+        [
+            0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x20, 0x85, 0xA0, 0x1680,
+            0x2000, 0x2001, 0x2002, 0x2003, 0x2004, 0x2005, 0x2006, 0x2007, 0x2008, 0x2009, 0x200A,
+            0x2028, 0x2029, 0x202F, 0x205F, 0x3000
+        ];
+        await Assert.That(string.Join(",", splitting)).IsEqualTo(string.Join(",", expected));
+    }
+
+    [Test]
+    public Task SplitAny_NoSeparators_WhiteSpaceRanges()
+    {
+        var chars = " a\tb \r\nc ".ToCharArray();
+        AssertEnsureCorrectEnumeration(
+            new ReadOnlySpan<char>(chars).SplitAny(ReadOnlySpan<char>.Empty),
+            [0..0, 1..2, 3..4, 5..5, 6..6, 7..8, 9..9]);
+        AssertEnsureCorrectEnumeration(
+            new ReadOnlySpan<char>([]).SplitAny(ReadOnlySpan<char>.Empty),
+            [0..0]);
+        AssertEnsureCorrectEnumeration(
+            new ReadOnlySpan<char>("abc".ToCharArray()).SplitAny(ReadOnlySpan<char>.Empty),
+            [0..3]);
+        return Task.CompletedTask;
+    }
+
     public record struct CustomStruct(int value);
 
     public record CustomClass(int value);

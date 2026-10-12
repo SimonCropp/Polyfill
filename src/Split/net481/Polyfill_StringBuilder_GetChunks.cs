@@ -4,28 +4,42 @@
 namespace Polyfills;
 using System;
 using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 static partial class Polyfill
 {
-	static FieldInfo chunkCharsField = GetStringBuilderField("m_ChunkChars");
-	static FieldInfo chunkPreviousField = GetStringBuilderField("m_ChunkPrevious");
-	static FieldInfo chunkLengthField = GetStringBuilderField("m_ChunkLength");
-	static FieldInfo GetStringBuilderField(string name)
+	static class StringBuilderChunkAccessors
 	{
-		var field = typeof(StringBuilder).GetField(name, BindingFlags.Instance | BindingFlags.NonPublic);
-		if (field != null)
+		public static readonly Func<StringBuilder, char[]> Chars = Create<char[]>("m_ChunkChars");
+		public static readonly Func<StringBuilder, StringBuilder?> Previous = Create<StringBuilder?>("m_ChunkPrevious");
+		public static readonly Func<StringBuilder, int> Length = Create<int>("m_ChunkLength");
+		static Func<StringBuilder, TField> Create<TField>(string name)
 		{
-			return field;
+			var field = typeof(StringBuilder).GetField(name, BindingFlags.Instance | BindingFlags.NonPublic);
+			if (field == null)
+			{
+				throw new($"Expected to find field '{name}' on StringBuilder");
+			}
+			try
+			{
+				var builder = Expression.Parameter(typeof(StringBuilder), "builder");
+				return Expression
+					.Lambda<Func<StringBuilder, TField>>(Expression.Field(builder, field), builder)
+					.Compile();
+			}
+			catch (Exception)
+			{
+				return builder => (TField) field.GetValue(builder)!;
+			}
 		}
-		throw new($"Expected to find field '{name}' on StringBuilder");
 	}
 	static int GetChunkLength(StringBuilder stringBuilder) =>
-		(int) chunkLengthField.GetValue(stringBuilder)!;
+		StringBuilderChunkAccessors.Length(stringBuilder);
 	static char[] GetChunkChars(StringBuilder stringBuilder) =>
-		(char[]) chunkCharsField.GetValue(stringBuilder)!;
+		StringBuilderChunkAccessors.Chars(stringBuilder);
 	static StringBuilder? GetChunkPrevious(StringBuilder stringBuilder) =>
-		(StringBuilder?) chunkPreviousField.GetValue(stringBuilder);
+		StringBuilderChunkAccessors.Previous(stringBuilder);
 	/// <summary>
 	/// GetChunks returns ChunkEnumerator that follows the IEnumerable pattern and
 	/// thus can be used in a C# 'foreach' statements to retrieve the data in the StringBuilder

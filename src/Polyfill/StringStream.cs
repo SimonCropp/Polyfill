@@ -8,8 +8,10 @@
 
 namespace System.IO;
 
+using System.Buffers;
 using System.Text;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
@@ -152,7 +154,7 @@ sealed class StringStream :
             text.Length <= (int.MaxValue / maxBytesPerChar) - 1 &&
             count >= encoding.GetMaxByteCount(text.Length))
         {
-            var written = EncodeAll(text.Span, buffer, offset, count);
+            var written = EncodeAll(buffer, offset, count);
             charPosition = text.Length;
             encoderFlushed = true;
             return written;
@@ -177,7 +179,7 @@ sealed class StringStream :
 
         if (charPosition < text.Length)
         {
-            var remaining = text.Span.Slice(charPosition);
+            var remainingChars = text.Length - charPosition;
             var availableBytes = count - totalBytesWritten;
 
             // If the caller's buffer may be too small for even one encoded scalar, encode into the
@@ -186,8 +188,8 @@ sealed class StringStream :
             if (availableBytes < maxBytesPerChar)
             {
                 pendingBytes ??= new byte[encoding.GetMaxByteCount(2)];
-                var charsToEncode = Math.Min(2, remaining.Length);
-                Convert(remaining.Slice(0, charsToEncode), pendingBytes, pendingBytes.Length, flush: false, out var charsUsed, out var bytesUsed);
+                var charsToEncode = Math.Min(2, remainingChars);
+                Convert(charPosition, charsToEncode, pendingBytes, 0, pendingBytes.Length, flush: false, out var charsUsed, out var bytesUsed);
                 charPosition += charsUsed;
 
                 var toCopy = Math.Min(bytesUsed, availableBytes);
@@ -201,7 +203,7 @@ sealed class StringStream :
             {
                 // Encode directly into the caller's buffer. Only flush on the final block so encoder
                 // state is preserved for stateful encodings.
-                Convert(remaining, buffer, offset + totalBytesWritten, availableBytes, flush: false, out var charsUsed, out var bytesUsed);
+                Convert(charPosition, remainingChars, buffer, offset + totalBytesWritten, availableBytes, flush: false, out var charsUsed, out var bytesUsed);
                 charPosition += charsUsed;
                 totalBytesWritten += bytesUsed;
             }
@@ -215,7 +217,7 @@ sealed class StringStream :
             pendingCount == 0)
         {
             pendingBytes ??= new byte[encoding.GetMaxByteCount(2)];
-            Convert(ReadOnlySpan<char>.Empty, pendingBytes, pendingBytes.Length, flush: true, out _, out var flushBytes);
+            Convert(text.Length, 0, pendingBytes, 0, pendingBytes.Length, flush: true, out _, out var flushBytes);
             encoderFlushed = true;
 
             if (flushBytes > 0)
@@ -242,31 +244,77 @@ sealed class StringStream :
     Encoder GetEncoder() => encoder ??= encoding.GetEncoder();
 
     // Stateless single-shot encode of the whole text into the caller's buffer at byteIndex.
-    int EncodeAll(ReadOnlySpan<char> chars, byte[] bytes, int byteIndex, int byteCount)
+    int EncodeAll(byte[] bytes, int byteIndex, int byteCount)
     {
 #if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        return encoding.GetBytes(chars, bytes.AsSpan(byteIndex, byteCount));
+        return encoding.GetBytes(text.Span, bytes.AsSpan(byteIndex, byteCount));
 #else
-        var charArray = chars.ToArray();
-        return encoding.GetBytes(charArray, 0, charArray.Length, bytes, byteIndex);
+        // The span based Encoding.GetBytes does not exist here, so reach the backing string or array
+        // rather than copying the text.
+        if (MemoryMarshal.TryGetString(text, out var value, out var start, out var length))
+        {
+            return encoding.GetBytes(value, start, length, bytes, byteIndex);
+        }
+
+        if (MemoryMarshal.TryGetArray(text, out var segment))
+        {
+            if (segment.Count == 0)
+            {
+                return encoding.GetBytes(Array.Empty<char>(), 0, 0, bytes, byteIndex);
+            }
+
+            return encoding.GetBytes(segment.Array!, segment.Offset, segment.Count, bytes, byteIndex);
+        }
+
+        var rented = ArrayPool<char>.Shared.Rent(text.Length);
+        try
+        {
+            text.Span.CopyTo(rented);
+            return encoding.GetBytes(rented, 0, text.Length, bytes, byteIndex);
+        }
+        finally
+        {
+            ArrayPool<char>.Shared.Return(rented);
+        }
 #endif
     }
 
-    // Stateful incremental encode of chars into bytes[byteIndex..byteIndex+byteCount].
-    void Convert(ReadOnlySpan<char> chars, byte[] bytes, int byteCount, bool flush, out int charsUsed, out int bytesUsed) =>
-        Convert(chars, bytes, 0, byteCount, flush, out charsUsed, out bytesUsed);
-
-    void Convert(ReadOnlySpan<char> chars, byte[] bytes, int byteIndex, int byteCount, bool flush, out int charsUsed, out int bytesUsed)
+    // Stateful incremental encode of text[charIndex..charIndex+charCount] into bytes[byteIndex..byteIndex+byteCount].
+    void Convert(int charIndex, int charCount, byte[] bytes, int byteIndex, int byteCount, bool flush, out int charsUsed, out int bytesUsed)
     {
 #if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        GetEncoder().Convert(chars, bytes.AsSpan(byteIndex, byteCount), flush, out charsUsed, out bytesUsed, out _);
+        GetEncoder().Convert(text.Span.Slice(charIndex, charCount), bytes.AsSpan(byteIndex, byteCount), flush, out charsUsed, out bytesUsed, out _);
 #else
         // The array based Encoder.Convert overload (available on every TFM) requires a char[]. Cap the
         // slice at byteCount chars: a complete char never encodes to fewer than one byte, so the
-        // encoder can never consume more chars than there are output bytes, and bounding the copy this
-        // way keeps a streamed read linear rather than quadratic.
-        var charArray = chars.Slice(0, Math.Min(chars.Length, byteCount)).ToArray();
-        GetEncoder().Convert(charArray, 0, charArray.Length, bytes, byteIndex, byteCount, flush, out charsUsed, out bytesUsed, out _);
+        // encoder can never consume more chars than there are output bytes, and bounding the slice
+        // this way keeps a streamed read linear rather than quadratic.
+        charCount = Math.Min(charCount, byteCount);
+        if (charCount == 0)
+        {
+            GetEncoder().Convert(Array.Empty<char>(), 0, 0, bytes, byteIndex, byteCount, flush, out charsUsed, out bytesUsed, out _);
+            return;
+        }
+
+        // Array backed text is handed to the encoder as is.
+        if (MemoryMarshal.TryGetArray(text, out var segment))
+        {
+            GetEncoder().Convert(segment.Array!, segment.Offset + charIndex, charCount, bytes, byteIndex, byteCount, flush, out charsUsed, out bytesUsed, out _);
+            return;
+        }
+
+        // Otherwise (a string or a MemoryManager) copy the slice into a pooled buffer, so that a
+        // read does not allocate a char[] of its own.
+        var rented = ArrayPool<char>.Shared.Rent(charCount);
+        try
+        {
+            text.Span.Slice(charIndex, charCount).CopyTo(rented);
+            GetEncoder().Convert(rented, 0, charCount, bytes, byteIndex, byteCount, flush, out charsUsed, out bytesUsed, out _);
+        }
+        finally
+        {
+            ArrayPool<char>.Shared.Return(rented);
+        }
 #endif
     }
 

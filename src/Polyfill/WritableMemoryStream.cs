@@ -38,6 +38,7 @@ sealed class WritableMemoryStream :
     long length;
     long position;
     bool disposed;
+    Task<int>? lastReadTask;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WritableMemoryStream"/> class over the specified <see cref="Memory{Byte}"/>.
@@ -166,7 +167,23 @@ sealed class WritableMemoryStream :
             return Task.FromCanceled<int>(cancellationToken);
         }
 
-        return Task.FromResult(Read(buffer, offset, count));
+        return ReadTask(Read(buffer, offset, count));
+    }
+
+    // Reads complete synchronously, and consecutive reads usually return the same count (a full buffer),
+    // so hand back the previous task when its result matches rather than allocating one per call. This is
+    // what MemoryStream does.
+    Task<int> ReadTask(int read)
+    {
+        var task = lastReadTask;
+        if (task != null && task.Result == read)
+        {
+            return task;
+        }
+
+        task = Task.FromResult(read);
+        lastReadTask = task;
+        return task;
     }
 
     /// <inheritdoc/>
@@ -185,6 +202,17 @@ sealed class WritableMemoryStream :
 
         buffer.AsSpan(offset, count).CopyTo(memory.Span.Slice((int)position, count));
         Advance(count);
+    }
+
+    // Stream.WriteByte allocates a one byte array and calls Write, so write straight into the memory.
+    /// <inheritdoc/>
+    public override void WriteByte(byte value)
+    {
+        ThrowIfDisposed();
+        GuardCapacity(1);
+
+        memory.Span[(int)position] = value;
+        Advance(1);
     }
 
     /// <inheritdoc/>

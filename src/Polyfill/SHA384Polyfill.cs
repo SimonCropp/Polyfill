@@ -79,7 +79,7 @@ static class SHA384Polyfill
         public static byte[] HashData(ReadOnlySpan<byte> source)
         {
             using var hasher = SHA384.Create();
-            return hasher.ComputeHash(source.ToArray());
+            return Polyfill.HashSpan(hasher, source);
         }
 
 #endif
@@ -103,9 +103,8 @@ static class SHA384Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.sha384.hashdata?view=net-11.0#system-security-cryptography-sha384-hashdata(system-readonlyspan((system-byte))-system-span((system-byte)))
         public static int HashData(ReadOnlySpan<byte> source, Span<byte> destination)
         {
-            var hash = HashData(source);
-            hash.CopyTo(destination);
-            return hash.Length;
+            using var hasher = SHA384.Create();
+            return Polyfill.HashSpan(hasher, source, destination);
         }
 
         /// <summary>
@@ -115,17 +114,7 @@ static class SHA384Polyfill
         public static bool TryHashData(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
         {
             using var hasher = SHA384.Create();
-            var hash = hasher.ComputeHash(source.ToArray());
-
-            if (destination.Length < hash.Length)
-            {
-                bytesWritten = 0;
-                return false;
-            }
-
-            hash.CopyTo(destination);
-            bytesWritten = hash.Length;
-            return true;
+            return Polyfill.TryHashSpan(hasher, source, destination, out bytesWritten);
         }
 
 #endif

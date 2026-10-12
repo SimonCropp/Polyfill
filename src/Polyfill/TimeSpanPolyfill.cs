@@ -12,21 +12,14 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.nanoseconds?view=net-11.0
         public int Nanoseconds =>
-            (int) (target.TicksComponent() % TicksPerMicrosecond) * 100;
+            (int) (target.Ticks % TicksPerMicrosecond) * 100;
 
         /// <summary>
         /// Gets the microsecond component of the time represented by the current <see cref="TimeSpan"/> object.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.microseconds?view=net-11.0
         public int Microseconds =>
-            (int) (target.TicksComponent() / TicksPerMicrosecond % 1000);
-
-        long TicksComponent()
-        {
-            var noSeconds = new TimeSpan(target.Days, target.Hours, target.Minutes, 0);
-            var secondsPart = target - noSeconds;
-            return secondsPart.Ticks;
-        }
+            (int) (target.Ticks / TicksPerMicrosecond % 1000);
     }
 #endif
 
@@ -52,6 +45,64 @@ static partial class Polyfill
         }
 
         return new((long)ticks);
+    }
+
+    // The decimal accumulation above costs hundreds of nanoseconds. When every component is small
+    // enough that its own tick count is at most an eighth of long.MaxValue, the (at most six)
+    // components cannot overflow an Int64 between them, so the ticks can be summed directly and
+    // the result is always in range. Anything larger takes the decimal path, which decides
+    // whether the total overflows.
+    const long MaxFastPathTicks = long.MaxValue / 8;
+
+    static bool IsWithin(long value, long bound) =>
+        value >= -bound && value <= bound;
+
+    static TimeSpan FromComponents(long days, long hours, long minutes, long seconds, long milliseconds, long microseconds)
+    {
+        if (IsWithin(days, MaxFastPathTicks / TimeSpan.TicksPerDay) &&
+            IsWithin(hours, MaxFastPathTicks / TimeSpan.TicksPerHour) &&
+            IsWithin(minutes, MaxFastPathTicks / TimeSpan.TicksPerMinute) &&
+            IsWithin(seconds, MaxFastPathTicks / TimeSpan.TicksPerSecond) &&
+            IsWithin(milliseconds, MaxFastPathTicks / TimeSpan.TicksPerMillisecond) &&
+            IsWithin(microseconds, MaxFastPathTicks / MicrosecondsToTicks))
+        {
+            return new(
+                days * TimeSpan.TicksPerDay +
+                hours * TimeSpan.TicksPerHour +
+                minutes * TimeSpan.TicksPerMinute +
+                seconds * TimeSpan.TicksPerSecond +
+                milliseconds * TimeSpan.TicksPerMillisecond +
+                microseconds * MicrosecondsToTicks);
+        }
+
+        // Components an overload does not have arrive as zero; leave them out of the decimal sum
+        decimal total = microseconds;
+        if (days != 0)
+        {
+            total += (decimal)days * MicrosecondsPerDay;
+        }
+
+        if (hours != 0)
+        {
+            total += (decimal)hours * MicrosecondsPerHour;
+        }
+
+        if (minutes != 0)
+        {
+            total += (decimal)minutes * MicrosecondsPerMinute;
+        }
+
+        if (seconds != 0)
+        {
+            total += (decimal)seconds * MicrosecondsPerSecond;
+        }
+
+        if (milliseconds != 0)
+        {
+            total += (decimal)milliseconds * MicrosecondsPerMillisecond;
+        }
+
+        return TicksFromMicroseconds(total);
     }
 
     extension(TimeSpan)
@@ -166,62 +217,42 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromdays?view=net-11.0#system-timespan-fromdays(system-int32-system-int32-system-int64-system-int64-system-int64-system-int64)
         public static TimeSpan FromDays(int days, int hours = 0, long minutes = 0, long seconds = 0, long milliseconds = 0, long microseconds = 0) =>
-            TicksFromMicroseconds(
-                (decimal)days * MicrosecondsPerDay +
-                (decimal)hours * MicrosecondsPerHour +
-                (decimal)minutes * MicrosecondsPerMinute +
-                (decimal)seconds * MicrosecondsPerSecond +
-                (decimal)milliseconds * MicrosecondsPerMillisecond +
-                microseconds);
+            FromComponents(days, hours, minutes, seconds, milliseconds, microseconds);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of hours, minutes, seconds, milliseconds, and microseconds.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromhours?view=net-11.0#system-timespan-fromhours(system-int32-system-int64-system-int64-system-int64-system-int64)
         public static TimeSpan FromHours(int hours, long minutes = 0, long seconds = 0, long milliseconds = 0, long microseconds = 0) =>
-            TicksFromMicroseconds(
-                (decimal)hours * MicrosecondsPerHour +
-                (decimal)minutes * MicrosecondsPerMinute +
-                (decimal)seconds * MicrosecondsPerSecond +
-                (decimal)milliseconds * MicrosecondsPerMillisecond +
-                microseconds);
+            FromComponents(0, hours, minutes, seconds, milliseconds, microseconds);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of minutes, seconds, milliseconds, and microseconds.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromminutes?view=net-11.0#system-timespan-fromminutes(system-int64-system-int64-system-int64-system-int64)
         public static TimeSpan FromMinutes(long minutes, long seconds = 0, long milliseconds = 0, long microseconds = 0) =>
-            TicksFromMicroseconds(
-                (decimal)minutes * MicrosecondsPerMinute +
-                (decimal)seconds * MicrosecondsPerSecond +
-                (decimal)milliseconds * MicrosecondsPerMillisecond +
-                microseconds);
+            FromComponents(0, 0, minutes, seconds, milliseconds, microseconds);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of seconds, milliseconds, and microseconds.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.fromseconds?view=net-11.0#system-timespan-fromseconds(system-int64-system-int64-system-int64)
         public static TimeSpan FromSeconds(long seconds, long milliseconds = 0, long microseconds = 0) =>
-            TicksFromMicroseconds(
-                (decimal)seconds * MicrosecondsPerSecond +
-                (decimal)milliseconds * MicrosecondsPerMillisecond +
-                microseconds);
+            FromComponents(0, 0, 0, seconds, milliseconds, microseconds);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of milliseconds and microseconds.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommilliseconds?view=net-11.0#system-timespan-frommilliseconds(system-int64-system-int64)
         public static TimeSpan FromMilliseconds(long milliseconds, long microseconds = 0) =>
-            TicksFromMicroseconds(
-                (decimal)milliseconds * MicrosecondsPerMillisecond +
-                microseconds);
+            FromComponents(0, 0, 0, 0, milliseconds, microseconds);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeSpan"/> structure to a specified number of microseconds.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.timespan.frommicroseconds?view=net-11.0#system-timespan-frommicroseconds(system-int64)
         public static TimeSpan FromMicroseconds(long microseconds) =>
-            TicksFromMicroseconds(microseconds);
+            FromComponents(0, 0, 0, 0, 0, microseconds);
     }
 #endif
 }
