@@ -116,7 +116,7 @@ static partial class Polyfill
                 requestUri,
                 HttpCompletionOption.ResponseHeadersRead,
                 cancellationToken
-            );
+            ).ConfigureAwait(false);
 
             // The returned stream keeps the response alive. If no stream is returned, the response must be disposed.
             try
@@ -130,7 +130,7 @@ static partial class Polyfill
                     return Stream.Null;
                 }
 
-                return await content.ReadAsStreamAsync(cancellationToken);
+                return await content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
             }
             catch
             {
@@ -172,7 +172,7 @@ static partial class Polyfill
             using var response = await target.GetAsync(
                 requestUri,
                 HttpCompletionOption.ResponseContentRead,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
 
@@ -183,7 +183,7 @@ static partial class Polyfill
             }
 
             return await content
-                .ReadAsByteArrayAsync(cancellationToken);
+                .ReadAsByteArrayAsync(cancellationToken).ConfigureAwait(false);
         }
         catch (OperationCanceledException exception) when (
             exception.CancellationToken != cancellationToken &&
@@ -219,7 +219,7 @@ static partial class Polyfill
             using var response = await target.GetAsync(
                 requestUri,
                 HttpCompletionOption.ResponseContentRead,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             response.EnsureSuccessStatusCode();
 
@@ -230,7 +230,7 @@ static partial class Polyfill
             }
 
             return await content
-                .ReadAsStringAsync(cancellationToken);
+                .ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
         }
         catch (OperationCanceledException exception) when (
             exception.CancellationToken != cancellationToken &&

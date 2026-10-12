@@ -35,7 +35,7 @@ static partial class XElementPolyfill
 		public static async Task<XElement> LoadAsync(TextReader textReader, LoadOptions options, CancellationToken cancellationToken)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
-			var content = await textReader.ReadToEndAsync();
+			var content = await textReader.ReadToEndAsync().ConfigureAwait(false);
 			return XElement.Parse(content, options);
 		}
 		/// <summary>

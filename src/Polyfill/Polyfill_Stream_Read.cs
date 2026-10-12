@@ -104,7 +104,7 @@ static partial class Polyfill
         int totalRead = 0;
         while (totalRead < count)
         {
-            int read = await target.ReadAsync(buffer, offset + totalRead, count - totalRead, cancellationToken);
+            int read = await target.ReadAsync(buffer, offset + totalRead, count - totalRead, cancellationToken).ConfigureAwait(false);
 
             if (read == 0)
             {
@@ -206,7 +206,7 @@ static partial class Polyfill
     /// </summary>
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.io.stream.readexactlyasync?view=net-11.0#system-io-stream-readexactlyasync(system-memory((system-byte))-system-threading-cancellationtoken)
     public static async ValueTask ReadExactlyAsync(this Stream target, Memory<byte> buffer, CancellationToken cancellationToken = default) =>
-        await target.ReadAtLeastAsync(buffer, buffer.Length, true, cancellationToken);
+        await target.ReadAtLeastAsync(buffer, buffer.Length, true, cancellationToken).ConfigureAwait(false);
 
     /// <summary>
     /// Asynchronously reads at least a minimum number of bytes from the current stream, advances the position within the stream by the number of bytes read, and monitors cancellation requests.

@@ -305,7 +305,7 @@ static partial class Polyfill
         {
             foreach (var chunk in builder.GetChunks())
             {
-                await target.WriteAsync(chunk, cancel);
+                await target.WriteAsync(chunk, cancel).ConfigureAwait(false);
             }
         }
 #else

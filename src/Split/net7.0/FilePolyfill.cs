@@ -34,7 +34,7 @@ static partial class Polyfill
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
-			await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
+			await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken).ConfigureAwait(false);
 		}
 #if FeatureMemory
 		/// <summary>
@@ -73,7 +73,7 @@ static partial class Polyfill
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
-			await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken);
+			await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Creates a new file, writes the specified byte array to the file, and then closes the file.

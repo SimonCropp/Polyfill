@@ -423,7 +423,7 @@ static partial class Polyfill
             {
                 using (cancellationToken.UnsafeRegister(static (s, cancellationToken) => ((TaskCompletionSource<object>) s!).TrySetCanceled(cancellationToken), tcs))
                 {
-                    await tcs.Task;
+                    await tcs.Task.ConfigureAwait(false);
                 }
             }
         }
@@ -457,8 +457,8 @@ static partial class Polyfill
     {
         var stdoutTask = target.StandardOutput.ReadToEndAsync();
         var stderrTask = target.StandardError.ReadToEndAsync();
-        await target.WaitForExitAsync(cancellationToken);
-        return (await stdoutTask, await stderrTask);
+        await target.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
+        return (await stdoutTask.ConfigureAwait(false), await stderrTask.ConfigureAwait(false));
     }
 
     /// <summary>
@@ -486,8 +486,8 @@ static partial class Polyfill
         var errMs = new MemoryStream();
         var outTask = target.StandardOutput.BaseStream.CopyToAsync(outMs, 81920, cancellationToken);
         var errTask = target.StandardError.BaseStream.CopyToAsync(errMs, 81920, cancellationToken);
-        await target.WaitForExitAsync(cancellationToken);
-        await Task.WhenAll(outTask, errTask);
+        await target.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
+        await Task.WhenAll(outTask, errTask).ConfigureAwait(false);
         return (outMs.ToArray(), errMs.ToArray());
     }
 #endif
@@ -646,7 +646,7 @@ static partial class Polyfill
         {
             while (true)
             {
-                await signal.WaitAsync(cancellationToken);
+                await signal.WaitAsync(cancellationToken).ConfigureAwait(false);
                 while (queue.TryDequeue(out var line))
                 {
                     yield return line;
@@ -761,7 +761,7 @@ static partial class Polyfill
     [UnsupportedOSPlatform("tvos")]
     public static async Task<ProcessExitStatus> WaitForExitStatusAsync(this Process target, CancellationToken cancellationToken = default)
     {
-        await target.WaitForExitAsync(cancellationToken);
+        await target.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
         return ToExitStatus(target.ExitCode);
     }
 
