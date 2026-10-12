@@ -247,7 +247,13 @@ partial class PolyfillTests
         var fromList = list.SkipLast(1);
         var fromListNone = list.SkipLast(0);
         list.Add(4);
-        await Assert.That(fromList.SequenceEqual([0, 1, 2, 3])).IsTrue();
+
+        // .NET 5 fixes the bounds of SkipLast over a list when it is called
+        if (Environment.Version.Major != 5)
+        {
+            await Assert.That(fromList.SequenceEqual([0, 1, 2, 3])).IsTrue();
+        }
+
         await Assert.That(fromListNone.SequenceEqual([0, 1, 2, 3, 4])).IsTrue();
 
         await Assert.That(skipped.SequenceEqual([0, 1, 2])).IsTrue();
