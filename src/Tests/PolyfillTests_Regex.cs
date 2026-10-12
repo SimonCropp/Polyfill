@@ -17,6 +17,135 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task RegexCountStatic_RepeatedCalls()
+    {
+        // the second and later calls are served by the regex cache
+        for (var iteration = 0; iteration < 3; iteration++)
+        {
+            await Assert.That(Regex.Count("a1b22c333", @"\d+")).IsEqualTo(3);
+            await Assert.That(Regex.Count("no digits", @"\d+")).IsEqualTo(0);
+            await Assert.That(Regex.Count("", @"\d+")).IsEqualTo(0);
+            await Assert.That(Regex.Count("a1b22c333", @"\d")).IsEqualTo(6);
+        }
+    }
+
+    [Test]
+    public async Task RegexCountStatic_SamePatternDifferentOptions()
+    {
+        // the options and the timeout are part of the cache key, so these must not share a regex
+        for (var iteration = 0; iteration < 3; iteration++)
+        {
+            await Assert.That(Regex.Count("aAbB", "[a-b]")).IsEqualTo(2);
+            await Assert.That(Regex.Count("aAbB", "[a-b]", RegexOptions.IgnoreCase)).IsEqualTo(4);
+            await Assert.That(Regex.Count("aAbB", "[a-b]", RegexOptions.None)).IsEqualTo(2);
+            await Assert.That(Regex.Count("aAbB", "[a-b]", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant)).IsEqualTo(4);
+            await Assert.That(Regex.Count("aAbB", "[a-b]", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(10))).IsEqualTo(4);
+            await Assert.That(Regex.Count("aAbB", "[a-b]", RegexOptions.None, TimeSpan.FromSeconds(10))).IsEqualTo(2);
+            await Assert.That(Regex.Count("aAbB", "[a-b]", RegexOptions.None, TimeSpan.FromSeconds(20))).IsEqualTo(2);
+            await Assert.That(Regex.Count("a\nb", "^.$", RegexOptions.Multiline)).IsEqualTo(2);
+            await Assert.That(Regex.Count("a\nb", "^.$")).IsEqualTo(0);
+            await Assert.That(Regex.Count("ab", "a b", RegexOptions.IgnorePatternWhitespace)).IsEqualTo(1);
+            await Assert.That(Regex.Count("ab", "a b")).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task RegexCountStatic_ManyPatterns()
+    {
+        // more distinct patterns than the cache holds, so entries are evicted and constructed again
+        var failures = new List<string>();
+        for (var iteration = 0; iteration < 3; iteration++)
+        {
+            for (var length = 1; length <= 40; length++)
+            {
+                var input = new string('x', 120);
+                var count = Regex.Count(input, "x{" + length + "}");
+                if (count != 120 / length)
+                {
+                    failures.Add($"x{{{length}}}: {count}");
+                }
+            }
+        }
+
+        await Assert.That(failures).IsEmpty();
+    }
+
+    [Test]
+    public async Task RegexCountStatic_Concurrent()
+    {
+        var failures = 0;
+        Parallel.For(
+            0,
+            2000,
+            index =>
+            {
+                var length = index % 30 + 1;
+                var input = new string('y', 90);
+                if (Regex.Count(input, "y{" + length + "}") != 90 / length ||
+                    Regex.Count(input, "Y{" + length + "}", RegexOptions.IgnoreCase) != 90 / length)
+                {
+                    Interlocked.Increment(ref failures);
+                }
+            });
+
+        await Assert.That(failures).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task RegexCountStatic_UsesCurrentCulture()
+    {
+        // Under tr-TR "I" and "i" are not a case pair. A regex cached under one culture must not be served
+        // to a caller running under the other.
+        var original = CultureInfo.CurrentCulture;
+        int english;
+        int expectedEnglish;
+        int turkish;
+        int expectedTurkish;
+        int invariantEnglish;
+        int invariantTurkish;
+        try
+        {
+            CultureInfo.CurrentCulture = new("en-US");
+            expectedEnglish = new Regex("i", RegexOptions.IgnoreCase).Count("I i");
+            english = Regex.Count("I i", "i", RegexOptions.IgnoreCase);
+            invariantEnglish = Regex.Count("I i", "i", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+
+            CultureInfo.CurrentCulture = new("tr-TR");
+            expectedTurkish = new Regex("i", RegexOptions.IgnoreCase).Count("I i");
+            turkish = Regex.Count("I i", "i", RegexOptions.IgnoreCase);
+            invariantTurkish = Regex.Count("I i", "i", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+        }
+        finally
+        {
+            CultureInfo.CurrentCulture = original;
+        }
+
+        await Assert.That(english).IsEqualTo(expectedEnglish);
+        await Assert.That(turkish).IsEqualTo(expectedTurkish);
+        await Assert.That(invariantEnglish).IsEqualTo(2);
+        await Assert.That(invariantTurkish).IsEqualTo(2);
+    }
+
+    [Test]
+    public async Task RegexCountStatic_InvalidArguments()
+    {
+        // a pattern that fails to parse is never cached, so it throws every time
+        for (var iteration = 0; iteration < 2; iteration++)
+        {
+            await Assert.That(() => Regex.Count("abc", "(")).Throws<ArgumentException>();
+            await Assert.That(() => Regex.Count("abc", "(", RegexOptions.IgnoreCase)).Throws<ArgumentException>();
+            await Assert.That(() => Regex.Count("abc", "(", RegexOptions.None, TimeSpan.FromSeconds(1))).Throws<ArgumentException>();
+        }
+
+        await Assert.That(() => Regex.Count("abc", null!)).Throws<ArgumentNullException>();
+        await Assert.That(() => Regex.Count("abc", null!, RegexOptions.None)).Throws<ArgumentNullException>();
+        await Assert.That(() => Regex.Count("abc", null!, RegexOptions.None, TimeSpan.FromSeconds(1))).Throws<ArgumentNullException>();
+        await Assert.That(() => Regex.Count((string) null!, "a")).Throws<ArgumentNullException>();
+        await Assert.That(() => Regex.Count("abc", "a", RegexOptions.None, TimeSpan.Zero)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => Regex.Count("abc", "a", (RegexOptions) 0x10000)).Throws<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
     public async Task RegexIsMatch()
     {
         var regex = new Regex(@"\d+");
@@ -501,6 +630,81 @@ partial class PolyfillTests
         }
 
         await Assert.That(results.SequenceEqual(["one", "two", "three"])).IsTrue();
+    }
+
+    static string StaticSplit(string input, string pattern)
+    {
+        var results = new List<string>();
+        foreach (var range in Regex.EnumerateSplits(input.AsSpan(), pattern))
+        {
+            results.Add(input[range]);
+        }
+
+        return string.Join("|", results);
+    }
+
+    static string StaticSplit(string input, string pattern, RegexOptions options)
+    {
+        var results = new List<string>();
+        foreach (var range in Regex.EnumerateSplits(input.AsSpan(), pattern, options))
+        {
+            results.Add(input[range]);
+        }
+
+        return string.Join("|", results);
+    }
+
+    static string StaticSplit(string input, string pattern, RegexOptions options, TimeSpan timeout)
+    {
+        var results = new List<string>();
+        foreach (var range in Regex.EnumerateSplits(input.AsSpan(), pattern, options, timeout))
+        {
+            results.Add(input[range]);
+        }
+
+        return string.Join("|", results);
+    }
+
+    [Test]
+    public async Task EnumerateSplits_StaticMethod_RepeatedCalls()
+    {
+        // the second and later calls are served by the regex cache, keyed on pattern, options and timeout
+        for (var iteration = 0; iteration < 3; iteration++)
+        {
+            await Assert.That(StaticSplit("one,two,,three", ",")).IsEqualTo("one|two||three");
+            await Assert.That(StaticSplit("", ",")).IsEqualTo("");
+            await Assert.That(StaticSplit("none", ",")).IsEqualTo("none");
+            await Assert.That(StaticSplit("aXbxc", "x")).IsEqualTo("aXb|c");
+            await Assert.That(StaticSplit("aXbxc", "x", RegexOptions.IgnoreCase)).IsEqualTo("a|b|c");
+            await Assert.That(StaticSplit("aXbxc", "x", RegexOptions.None)).IsEqualTo("aXb|c");
+            await Assert.That(StaticSplit("aXbxc", "x", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(10))).IsEqualTo("a|b|c");
+            await Assert.That(StaticSplit("aXbxc", "x", RegexOptions.None, TimeSpan.FromSeconds(10))).IsEqualTo("aXb|c");
+            await Assert.That(StaticSplit("aXbxc", "x", RegexOptions.RightToLeft)).IsEqualTo("c|aXb");
+        }
+    }
+
+    [Test]
+    public async Task RegexCountSpanStatic_RepeatedCalls()
+    {
+        for (var iteration = 0; iteration < 3; iteration++)
+        {
+            await Assert.That(Regex.Count("a1b22c333".AsSpan(), @"\d+")).IsEqualTo(3);
+            await Assert.That(Regex.Count("aAbB".AsSpan(), "[a-b]")).IsEqualTo(2);
+            await Assert.That(Regex.Count("aAbB".AsSpan(), "[a-b]", RegexOptions.IgnoreCase)).IsEqualTo(4);
+            await Assert.That(Regex.Count("aAbB".AsSpan(), "[a-b]", RegexOptions.IgnoreCase, TimeSpan.FromSeconds(10))).IsEqualTo(4);
+            await Assert.That(Regex.Count("aAbB".AsSpan(), "[a-b]", RegexOptions.None, TimeSpan.FromSeconds(10))).IsEqualTo(2);
+            await Assert.That(Regex.Count("".AsSpan(), "[a-b]")).IsEqualTo(0);
+        }
+    }
+
+    [Test]
+    public async Task EnumerateSplits_StaticMethod_InvalidPattern()
+    {
+        for (var iteration = 0; iteration < 2; iteration++)
+        {
+            await Assert.That(() => StaticSplit("abc", "(")).Throws<ArgumentException>();
+            await Assert.That(() => StaticSplit("abc", "(", RegexOptions.IgnoreCase)).Throws<ArgumentException>();
+        }
     }
 
     [Test]

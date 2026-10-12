@@ -24,21 +24,21 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string-system-string)
         public static int Count(string input, string pattern) =>
-            new Regex(pattern).Count(input);
+            RegexCache.GetOrAdd(pattern).Count(input);
 
         /// <summary>
         /// Searches an input string for all occurrences of a regular expression and returns the number of matches.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions)
         public static int Count(string input, string pattern, RegexOptions options) =>
-            new Regex(pattern, options).Count(input);
+            RegexCache.GetOrAdd(pattern, options).Count(input);
 
         /// <summary>
         /// Searches an input string for all occurrences of a regular expression and returns the number of matches.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-string-system-string-system-text-regularexpressions-regexoptions-system-timespan)
         public static int Count(string input, string pattern, RegexOptions options, TimeSpan matchTimeout) =>
-            new Regex(pattern, options, matchTimeout).Count(input);
+            RegexCache.GetOrAdd(pattern, options, matchTimeout).Count(input);
 
 #endif
 
@@ -49,21 +49,21 @@ static partial class Polyfill
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-readonlyspan((system-char))-system-string)
         public static int Count(ReadOnlySpan<char> input, string pattern) =>
-            new Regex(pattern).Count(input);
+            RegexCache.GetOrAdd(pattern).Count(input);
 
         /// <summary>
         /// Searches an input span for all occurrences of a regular expression and returns the number of matches.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions)
         public static int Count(ReadOnlySpan<char> input, string pattern, RegexOptions options) =>
-            new Regex(pattern, options).Count(input);
+            RegexCache.GetOrAdd(pattern, options).Count(input);
 
         /// <summary>
         /// Searches an input span for all occurrences of a regular expression and returns the number of matches.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.count?view=net-11.0#system-text-regularexpressions-regex-count(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan)
         public static int Count(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan matchTimeout) =>
-            new Regex(pattern, options, matchTimeout).Count(input);
+            RegexCache.GetOrAdd(pattern, options, matchTimeout).Count(input);
 
         /// <summary>
         /// Indicates whether the specified regular expression finds a match in the specified input span, using the specified matching options and time-out interval.
@@ -114,21 +114,21 @@ static partial class Polyfill
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-11.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))-system-string)
         public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern)
         {
-            var regex = new Regex(pattern);
+            var regex = RegexCache.GetOrAdd(pattern);
             return new ValueSplitEnumerator(input, regex, 0);
         }
 
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-11.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions)
         public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options)
         {
-            var regex = new Regex(pattern, options);
+            var regex = RegexCache.GetOrAdd(pattern, options);
             return new ValueSplitEnumerator(input, regex, 0);
         }
 
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.text.regularexpressions.regex.enumeratesplits?view=net-11.0#system-text-regularexpressions-regex-enumeratesplits(system-readonlyspan((system-char))-system-string-system-text-regularexpressions-regexoptions-system-timespan)
         public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan matchTimeout)
         {
-            var regex = new Regex(pattern, options, matchTimeout);
+            var regex = RegexCache.GetOrAdd(pattern, options, matchTimeout);
             return new ValueSplitEnumerator(input, regex, 0);
         }
 
