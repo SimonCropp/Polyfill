@@ -408,8 +408,36 @@ static class Base64Url
         return OperationStatus.Done;
     }
 
+#if NET8_0_OR_GREATER
+    // From about this many bytes, the vectorized encoder of the BCL followed by two vectorized passes
+    // to change the alphabet is faster than the loop. Below net8 there is no vectorized Replace, and
+    // a loop to change the alphabet costs as much as encoding with the loop does.
+    const int bulkThreshold = 192;
+
     // Encodes all of source. The destination must hold EncodedLength(source.Length) chars.
     static void Encode(ReadOnlySpan<byte> source, Span<char> destination)
+    {
+        if (source.Length >= bulkThreshold)
+        {
+            // Complete groups encode without padding, so they can go through the encoder of the BCL,
+            // straight into the destination. Only '+' and '/' are then left to change.
+            var bulk = source.Length / 3 * 3;
+            Convert.TryToBase64Chars(source.Slice(0, bulk), destination, out var written);
+            var encoded = destination.Slice(0, written);
+            encoded.Replace('+', '-');
+            encoded.Replace('/', '_');
+            source = source.Slice(bulk);
+            destination = destination.Slice(written);
+        }
+
+        EncodeLoop(source, destination);
+    }
+
+    static void EncodeLoop(ReadOnlySpan<byte> source, Span<char> destination)
+#else
+    // Encodes all of source. The destination must hold EncodedLength(source.Length) chars.
+    static void Encode(ReadOnlySpan<byte> source, Span<char> destination)
+#endif
     {
         var map = encodeMap;
         var sourceIndex = 0;
@@ -444,8 +472,29 @@ static class Base64Url
         }
     }
 
+#if NET8_0_OR_GREATER
     // Encodes all of source. The destination must hold EncodedLength(source.Length) bytes.
     static void Encode(ReadOnlySpan<byte> source, Span<byte> destination)
+    {
+        if (source.Length >= bulkThreshold)
+        {
+            var bulk = source.Length / 3 * 3;
+            Base64.EncodeToUtf8(source.Slice(0, bulk), destination, out _, out var written);
+            var encoded = destination.Slice(0, written);
+            encoded.Replace((byte) '+', (byte) '-');
+            encoded.Replace((byte) '/', (byte) '_');
+            source = source.Slice(bulk);
+            destination = destination.Slice(written);
+        }
+
+        EncodeLoop(source, destination);
+    }
+
+    static void EncodeLoop(ReadOnlySpan<byte> source, Span<byte> destination)
+#else
+    // Encodes all of source. The destination must hold EncodedLength(source.Length) bytes.
+    static void Encode(ReadOnlySpan<byte> source, Span<byte> destination)
+#endif
     {
         var map = encodeMap;
         var sourceIndex = 0;

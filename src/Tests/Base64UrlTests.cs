@@ -529,6 +529,70 @@ public class Base64UrlTests
     }
 
     [Test]
+    public async Task Encode_PlusAndSlash_EveryPosition()
+    {
+        var failures = new List<string>();
+
+        // In standard base-64 these encode to nothing but '+', nothing but '/', and the two alternating.
+        // 0 to 400 bytes covers both sides of the length from which the complete groups are encoded in bulk.
+        byte[][] patterns = [[0xFB, 0xEF, 0xBE], [0xFF, 0xFF, 0xFF], [0xFB, 0xFF, 0xBF], [0xFF, 0xEF, 0xFE]];
+
+        foreach (var pattern in patterns)
+        {
+            for (var length = 0; length <= 400; length++)
+            {
+                var source = new byte[length];
+                for (var i = 0; i < length; i++)
+                {
+                    source[i] = pattern[i % 3];
+                }
+
+                var expected = ReferenceEncode(source);
+                var expectedUtf8 = Encoding.ASCII.GetBytes(expected);
+
+                void Check(string name, bool condition)
+                {
+                    if (!condition)
+                    {
+                        failures.Add($"{name} pattern {pattern[0]:X2} length {length}");
+                    }
+                }
+
+                Check("reference", !expected.Contains('+') && !expected.Contains('/') && !expected.Contains('='));
+                Check("EncodeToString", Base64Url.EncodeToString(source) == expected);
+                Check("EncodeToUtf8", Base64Url.EncodeToUtf8(source).SequenceEqual(expectedUtf8));
+
+                var chars = new char[expected.Length + 1];
+                chars[expected.Length] = '+';
+                var written = Base64Url.EncodeToChars(source, chars);
+                Check("EncodeToChars", written == expected.Length && new string(chars) == expected + "+");
+
+                // what follows the output is not part of it, and stays as it is
+                var bytes = new byte[expected.Length + 2];
+                bytes[expected.Length] = (byte) '+';
+                bytes[expected.Length + 1] = (byte) '/';
+                written = Base64Url.EncodeToUtf8(source, bytes);
+                Check("EncodeToUtf8 destination", written == expected.Length && bytes.AsSpan(0, written).SequenceEqual(expectedUtf8) && bytes[written] == '+' && bytes[written + 1] == '/');
+
+                bytes = new byte[expected.Length + 2];
+                bytes[expected.Length] = (byte) '+';
+                bytes[expected.Length + 1] = (byte) '/';
+                source.CopyTo(bytes, 0);
+                var success = Base64Url.TryEncodeToUtf8InPlace(bytes, length, out written);
+                Check("TryEncodeToUtf8InPlace", success && written == expected.Length && bytes.AsSpan(0, written).SequenceEqual(expectedUtf8) && bytes[written] == '+' && bytes[written + 1] == '/');
+
+                // in place with no room to spare
+                bytes = new byte[expected.Length];
+                source.CopyTo(bytes, 0);
+                success = Base64Url.TryEncodeToUtf8InPlace(bytes, length, out written);
+                Check("TryEncodeToUtf8InPlace exact", success && written == expected.Length && bytes.SequenceEqual(expectedUtf8));
+            }
+        }
+
+        await Assert.That(failures).IsEmpty();
+    }
+
+    [Test]
     public async Task EncodeToString_Large()
     {
         var source = PatternBytes(100_000);
