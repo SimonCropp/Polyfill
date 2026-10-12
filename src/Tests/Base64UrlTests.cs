@@ -2,6 +2,8 @@
 
 using System.Buffers;
 using System.Buffers.Text;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 public class Base64UrlTests
@@ -408,6 +410,206 @@ public class Base64UrlTests
         await Assert.That(bytesConsumed).IsEqualTo(4);
         await Assert.That(bytesWritten).IsEqualTo(3);
         await Assert.That(destination.AsSpan(0, 3).ToArray()).IsEquivalentTo(new byte[] {1, 2, 3});
+    }
+
+    static string ReferenceEncode(byte[] bytes) =>
+        Convert.ToBase64String(bytes).TrimEnd('=').Replace('+', '-').Replace('/', '_');
+
+    static byte[] PatternBytes(int length)
+    {
+        var bytes = new byte[length];
+
+        for (var i = 0; i < length; i++)
+        {
+            bytes[i] = unchecked((byte) (i * 37 + 11));
+        }
+
+        return bytes;
+    }
+
+    [Test]
+    public async Task Encode_Alphabet()
+    {
+        const string alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
+        var source = Convert.FromBase64String(alphabet.Replace('-', '+').Replace('_', '/'));
+
+        await Assert.That(Base64Url.EncodeToString(source)).IsEqualTo(alphabet);
+        await Assert.That(Encoding.ASCII.GetString(Base64Url.EncodeToUtf8(source))).IsEqualTo(alphabet);
+    }
+
+    [Test]
+    public async Task Encode_AllOverloads_MatchReference()
+    {
+        var failures = new List<string>();
+
+        // 0 to 300 covers every remainder, and both the stack and the pooled path of EncodeToString
+        for (var length = 0; length <= 300; length++)
+        {
+            var source = PatternBytes(length);
+            var expected = ReferenceEncode(source);
+            var expectedUtf8 = Encoding.ASCII.GetBytes(expected);
+
+            void Check(string name, bool condition)
+            {
+                if (!condition)
+                {
+                    failures.Add($"{name} length {length}");
+                }
+            }
+
+            Check("GetEncodedLength", Base64Url.GetEncodedLength(length) == expected.Length);
+            Check("EncodeToString", Base64Url.EncodeToString(source) == expected);
+            Check("EncodeToUtf8", Base64Url.EncodeToUtf8(source).SequenceEqual(expectedUtf8));
+
+            // one spare element, to check nothing is written past the end
+            var chars = new char[expected.Length + 1];
+            chars[expected.Length] = '!';
+            var written = Base64Url.EncodeToChars(source, chars);
+            Check("EncodeToChars", written == expected.Length && new string(chars) == expected + "!");
+
+            chars = new char[expected.Length + 1];
+            chars[expected.Length] = '!';
+            var success = Base64Url.TryEncodeToChars(source, chars, out written);
+            Check("TryEncodeToChars", success && written == expected.Length && new string(chars) == expected + "!");
+
+            chars = new char[expected.Length + 1];
+            chars[expected.Length] = '!';
+            var status = Base64Url.EncodeToChars(source, chars, out var consumed, out written);
+            Check("EncodeToChars status", status == OperationStatus.Done && consumed == length && written == expected.Length && new string(chars) == expected + "!");
+
+            var bytes = new byte[expected.Length + 1];
+            bytes[expected.Length] = 0xEE;
+            written = Base64Url.EncodeToUtf8(source, bytes);
+            Check("EncodeToUtf8 destination", written == expected.Length && bytes.AsSpan(0, written).SequenceEqual(expectedUtf8) && bytes[expected.Length] == 0xEE);
+
+            bytes = new byte[expected.Length + 1];
+            bytes[expected.Length] = 0xEE;
+            success = Base64Url.TryEncodeToUtf8(source, bytes, out written);
+            Check("TryEncodeToUtf8", success && written == expected.Length && bytes.AsSpan(0, written).SequenceEqual(expectedUtf8) && bytes[expected.Length] == 0xEE);
+
+            bytes = new byte[expected.Length + 1];
+            bytes[expected.Length] = 0xEE;
+            status = Base64Url.EncodeToUtf8(source, bytes, out consumed, out written);
+            Check("EncodeToUtf8 status", status == OperationStatus.Done && consumed == length && written == expected.Length && bytes.AsSpan(0, written).SequenceEqual(expectedUtf8) && bytes[expected.Length] == 0xEE);
+
+            bytes = new byte[expected.Length + 1];
+            bytes[expected.Length] = 0xEE;
+            source.CopyTo(bytes, 0);
+            success = Base64Url.TryEncodeToUtf8InPlace(bytes, length, out written);
+            Check("TryEncodeToUtf8InPlace", success && written == expected.Length && bytes.AsSpan(0, written).SequenceEqual(expectedUtf8) && bytes[expected.Length] == 0xEE);
+
+            if (length > 0)
+            {
+                Check("TryEncodeToChars too small", !Base64Url.TryEncodeToChars(source, new char[expected.Length - 1], out _));
+                Check("TryEncodeToUtf8 too small", !Base64Url.TryEncodeToUtf8(source, new byte[expected.Length - 1], out _));
+            }
+        }
+
+        await Assert.That(failures).IsEmpty();
+    }
+
+    [Test]
+    public async Task EncodeToString_Large()
+    {
+        var source = PatternBytes(100_000);
+        await Assert.That(Base64Url.EncodeToString(source)).IsEqualTo(ReferenceEncode(source));
+    }
+
+    [Test]
+    public async Task Encode_DestinationTooSmall_Throws()
+    {
+        var source = PatternBytes(10);
+        await Assert.That(() => Base64Url.EncodeToChars(source, new char[13])).Throws<ArgumentException>();
+        await Assert.That(() => Base64Url.EncodeToUtf8(source, new byte[13])).Throws<ArgumentException>();
+    }
+
+    [Test]
+    public async Task TryEncodeToUtf8InPlace_TooSmall()
+    {
+        var buffer = PatternBytes(10);
+        var success = Base64Url.TryEncodeToUtf8InPlace(buffer, 10, out var written);
+        await Assert.That(success).IsFalse();
+        await Assert.That(written).IsEqualTo(0);
+        await Assert.That(buffer).IsEquivalentTo(PatternBytes(10));
+    }
+
+    [Test]
+    public async Task EncodeToChars_OperationStatus_Blocks()
+    {
+        var source = PatternBytes(10);
+        var expected = ReferenceEncode(source);
+
+        // final block that does not fit: only the complete groups that fit are written
+        var destination = new char[9];
+        var status = Base64Url.EncodeToChars(source, destination, out var consumed, out var written);
+        var text = new string(destination, 0, written);
+        await Assert.That(status).IsEqualTo(OperationStatus.DestinationTooSmall);
+        await Assert.That(consumed).IsEqualTo(6);
+        await Assert.That(written).IsEqualTo(8);
+        await Assert.That(text).IsEqualTo(expected.Substring(0, 8));
+        await Assert.That(destination[8]).IsEqualTo('\0');
+
+        // the trailing partial group is left for the next block
+        destination = new char[20];
+        status = Base64Url.EncodeToChars(source, destination, out consumed, out written, isFinalBlock: false);
+        text = new string(destination, 0, written);
+        await Assert.That(status).IsEqualTo(OperationStatus.NeedMoreData);
+        await Assert.That(consumed).IsEqualTo(9);
+        await Assert.That(written).IsEqualTo(12);
+        await Assert.That(text).IsEqualTo(expected.Substring(0, 12));
+
+        destination = new char[7];
+        status = Base64Url.EncodeToChars(source, destination, out consumed, out written, isFinalBlock: false);
+        text = new string(destination, 0, written);
+        await Assert.That(status).IsEqualTo(OperationStatus.DestinationTooSmall);
+        await Assert.That(consumed).IsEqualTo(3);
+        await Assert.That(written).IsEqualTo(4);
+        await Assert.That(text).IsEqualTo(expected.Substring(0, 4));
+
+        destination = new char[12];
+        status = Base64Url.EncodeToChars(source.AsSpan(0, 9), destination, out consumed, out written, isFinalBlock: false);
+        text = new string(destination, 0, written);
+        await Assert.That(status).IsEqualTo(OperationStatus.Done);
+        await Assert.That(consumed).IsEqualTo(9);
+        await Assert.That(written).IsEqualTo(12);
+        await Assert.That(text).IsEqualTo(expected.Substring(0, 12));
+
+        status = Base64Url.EncodeToChars(ReadOnlySpan<byte>.Empty, Span<char>.Empty, out consumed, out written);
+        await Assert.That(status).IsEqualTo(OperationStatus.Done);
+        await Assert.That(consumed).IsEqualTo(0);
+        await Assert.That(written).IsEqualTo(0);
+    }
+
+    [Test]
+    public async Task EncodeToUtf8_OperationStatus_Blocks()
+    {
+        var source = PatternBytes(10);
+        var expected = ReferenceEncode(source);
+
+        var destination = new byte[9];
+        var status = Base64Url.EncodeToUtf8(source, destination, out var consumed, out var written);
+        var text = Encoding.ASCII.GetString(destination, 0, written);
+        await Assert.That(status).IsEqualTo(OperationStatus.DestinationTooSmall);
+        await Assert.That(consumed).IsEqualTo(6);
+        await Assert.That(written).IsEqualTo(8);
+        await Assert.That(text).IsEqualTo(expected.Substring(0, 8));
+        await Assert.That(destination[8]).IsEqualTo((byte) 0);
+
+        destination = new byte[20];
+        status = Base64Url.EncodeToUtf8(source, destination, out consumed, out written, isFinalBlock: false);
+        text = Encoding.ASCII.GetString(destination, 0, written);
+        await Assert.That(status).IsEqualTo(OperationStatus.NeedMoreData);
+        await Assert.That(consumed).IsEqualTo(9);
+        await Assert.That(written).IsEqualTo(12);
+        await Assert.That(text).IsEqualTo(expected.Substring(0, 12));
+
+        destination = new byte[7];
+        status = Base64Url.EncodeToUtf8(source, destination, out consumed, out written, isFinalBlock: false);
+        text = Encoding.ASCII.GetString(destination, 0, written);
+        await Assert.That(status).IsEqualTo(OperationStatus.DestinationTooSmall);
+        await Assert.That(consumed).IsEqualTo(3);
+        await Assert.That(written).IsEqualTo(4);
+        await Assert.That(text).IsEqualTo(expected.Substring(0, 4));
     }
 }
 
