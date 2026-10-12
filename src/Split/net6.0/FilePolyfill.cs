@@ -2,6 +2,9 @@
 #pragma warning disable
 namespace Polyfills;
 using System;
+#if FeatureMemory
+using System.Buffers;
+#endif
 using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -64,7 +67,7 @@ static partial class Polyfill
 		public static void AppendAllBytes(string path, ReadOnlySpan<byte> bytes)
 		{
 			using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None);
-			stream.Write(bytes.ToArray(), 0, bytes.Length);
+			stream.Write(bytes);
 		}
 		/// <summary>
 		/// Asynchronously creates a new file, writes the specified byte array to the file, and then closes the file. If the target file already exists, it is truncated and overwritten.
@@ -73,7 +76,7 @@ static partial class Polyfill
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
-			await stream.WriteAsync(bytes.ToArray(), 0, bytes.Length, cancellationToken).ConfigureAwait(false);
+			await WriteMemoryAsync(stream, bytes, cancellationToken).ConfigureAwait(false);
 		}
 		/// <summary>
 		/// Creates a new file, writes the specified byte array to the file, and then closes the file.
@@ -97,8 +100,16 @@ static partial class Polyfill
 		/// Asynchronously appends the specified byte array to the end of the file at the given path.
 		/// If the file doesn't exist, this method creates a new file. If the operation is canceled, the task will return in a canceled state.
 		/// </summary>
-		public static Task AppendAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default) =>
-			AppendAllBytesAsync(path, bytes.ToArray(), cancellationToken);
+		public static async Task AppendAllBytesAsync(string path, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
+		{
+			cancellationToken.ThrowIfCancellationRequested();
+			using var stream = new FileStream(path, FileMode.Append, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true);
+			await WriteMemoryAsync(stream, bytes, cancellationToken).ConfigureAwait(false);
+		}
+		static Task WriteMemoryAsync(FileStream stream, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken)
+		{
+			return stream.WriteAsync(bytes, cancellationToken).AsTask();
+		}
 #endif
 		/// <summary>
 		/// Moves a specified file to a new location, providing the options to specify a new file name and to replace the destination file if it already exists.
