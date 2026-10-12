@@ -25,10 +25,30 @@ static partial class Polyfill
 		{
 			throw new ArgumentOutOfRangeException(nameof(index));
 		}
-		for (var i = 0; i < source.Length; i++)
+		if (source.IsEmpty)
 		{
-			var item = source[i];
-			target.Insert(i + index, item);
+			return;
+		}
+		if (source.Length == 1)
+		{
+			target.Insert(index, source[0]);
+			return;
+		}
+		var length = source.Length;
+		var pool = System.Buffers.ArrayPool<T>.Shared;
+		var buffer = pool.Rent(length);
+		try
+		{
+			source.CopyTo(buffer);
+			target.InsertRange(index, new ArraySegment<T>(buffer, 0, length));
+		}
+		finally
+		{
+			if (!typeof(T).IsPrimitive)
+			{
+				Array.Clear(buffer, 0, length);
+			}
+			pool.Return(buffer);
 		}
 	}
 	/// <summary>Copies the entire <see cref="List{T}"/> to a span.</summary>
