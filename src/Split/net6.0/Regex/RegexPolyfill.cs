@@ -16,33 +16,33 @@ static partial class Polyfill
 		/// Searches an input string for all occurrences of a regular expression and returns the number of matches.
 		/// </summary>
 		public static int Count(string input, string pattern) =>
-			new Regex(pattern).Count(input);
+			RegexCache.GetOrAdd(pattern).Count(input);
 		/// <summary>
 		/// Searches an input string for all occurrences of a regular expression and returns the number of matches.
 		/// </summary>
 		public static int Count(string input, string pattern, RegexOptions options) =>
-			new Regex(pattern, options).Count(input);
+			RegexCache.GetOrAdd(pattern, options).Count(input);
 		/// <summary>
 		/// Searches an input string for all occurrences of a regular expression and returns the number of matches.
 		/// </summary>
 		public static int Count(string input, string pattern, RegexOptions options, TimeSpan matchTimeout) =>
-			new Regex(pattern, options, matchTimeout).Count(input);
+			RegexCache.GetOrAdd(pattern, options, matchTimeout).Count(input);
 #if FeatureMemory
 		/// <summary>
 		/// Searches an input span for all occurrences of a regular expression and returns the number of matches.
 		/// </summary>
 		public static int Count(ReadOnlySpan<char> input, string pattern) =>
-			new Regex(pattern).Count(input);
+			RegexCache.GetOrAdd(pattern).Count(input);
 		/// <summary>
 		/// Searches an input span for all occurrences of a regular expression and returns the number of matches.
 		/// </summary>
 		public static int Count(ReadOnlySpan<char> input, string pattern, RegexOptions options) =>
-			new Regex(pattern, options).Count(input);
+			RegexCache.GetOrAdd(pattern, options).Count(input);
 		/// <summary>
 		/// Searches an input span for all occurrences of a regular expression and returns the number of matches.
 		/// </summary>
 		public static int Count(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan matchTimeout) =>
-			new Regex(pattern, options, matchTimeout).Count(input);
+			RegexCache.GetOrAdd(pattern, options, matchTimeout).Count(input);
 		/// <summary>
 		/// Indicates whether the specified regular expression finds a match in the specified input span, using the specified matching options and time-out interval.
 		/// </summary>
@@ -77,17 +77,17 @@ static partial class Polyfill
 #if FeatureMemory && FeatureValueTuple
 		public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern)
 		{
-			var regex = new Regex(pattern);
+			var regex = RegexCache.GetOrAdd(pattern);
 			return new ValueSplitEnumerator(input, regex, 0);
 		}
 		public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options)
 		{
-			var regex = new Regex(pattern, options);
+			var regex = RegexCache.GetOrAdd(pattern, options);
 			return new ValueSplitEnumerator(input, regex, 0);
 		}
 		public static ValueSplitEnumerator EnumerateSplits(ReadOnlySpan<char> input, string pattern, RegexOptions options, TimeSpan matchTimeout)
 		{
-			var regex = new Regex(pattern, options, matchTimeout);
+			var regex = RegexCache.GetOrAdd(pattern, options, matchTimeout);
 			return new ValueSplitEnumerator(input, regex, 0);
 		}
 #endif

@@ -1,7 +1,7 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
-#if !NET7_0_OR_GREATER && FeatureMemory
+#if !NET9_0_OR_GREATER
 #nullable enable
 namespace System.Text.RegularExpressions;
 
@@ -10,15 +10,16 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics;
+using System.Globalization;
 using System.Threading;
 
+// https://github.com/dotnet/runtime/blob/main/src/libraries/System.Text.RegularExpressions/src/System/Text/RegularExpressions/Regex.Cache.cs
+/// <summary>Cache used to store Regex instances used by the static methods on Regex.</summary>
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyUseEmbeddedAttribute
 [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
 #endif
-// https://github.com/dotnet/runtime/blob/main/src/libraries/System.Text.RegularExpressions/src/System/Text/RegularExpressions/Regex.Cache.cs
-/// <summary>Cache used to store Regex instances used by the static methods on Regex.</summary>
 internal sealed class RegexCache
 {
     const int DefaultMaxCacheSize = 15;
@@ -67,14 +68,26 @@ internal sealed class RegexCache
         }
     }
 
-    public static Regex GetOrAdd(string pattern)
+    // Keys a regex constructed without an explicit timeout, which takes the default match timeout. Not a valid
+    // match timeout, so it never collides with an explicit one.
+    static readonly TimeSpan s_defaultTimeoutKey = TimeSpan.MinValue;
+
+    public static Regex GetOrAdd(string pattern) =>
+        GetOrAdd(pattern, RegexOptions.None);
+
+    public static Regex GetOrAdd(string pattern, RegexOptions options)
     {
-        var key = new Key(pattern, RegexOptions.None, Regex.InfiniteMatchTimeout);
+        if (pattern is null)
+        {
+            throw new ArgumentNullException(nameof(pattern));
+        }
+
+        var key = new Key(pattern, GetCultureKey(options), options, s_defaultTimeoutKey);
 
         var regex = Get(key);
         if (regex is null)
         {
-            regex = new Regex(pattern);
+            regex = new Regex(pattern, options);
             Add(key, regex);
         }
 
@@ -83,7 +96,12 @@ internal sealed class RegexCache
 
     public static Regex GetOrAdd(string pattern, RegexOptions options, TimeSpan matchTimeout)
     {
-        Key key = new Key(pattern, options, matchTimeout);
+        if (pattern is null)
+        {
+            throw new ArgumentNullException(nameof(pattern));
+        }
+
+        Key key = new Key(pattern, GetCultureKey(options), options, matchTimeout);
 
         Regex? regex = Get(key);
         if (regex is null)
@@ -93,6 +111,17 @@ internal sealed class RegexCache
         }
 
         return regex;
+    }
+
+    // A regex captures the casing rules of the culture it was constructed under, so the culture is part of the key.
+    static string GetCultureKey(RegexOptions options)
+    {
+        if ((options & RegexOptions.CultureInvariant) != 0)
+        {
+            return "";
+        }
+
+        return CultureInfo.CurrentCulture.ToString();
     }
 
     static Regex? Get(Key key)
@@ -176,12 +205,14 @@ internal sealed class RegexCache
     internal readonly struct Key : IEquatable<Key>
     {
         readonly string _pattern;
+        readonly string _culture;
         readonly RegexOptions _options;
         readonly TimeSpan _matchTimeout;
 
-        public Key(string pattern, RegexOptions options, TimeSpan matchTimeout)
+        public Key(string pattern, string culture, RegexOptions options, TimeSpan matchTimeout)
         {
             _pattern = pattern;
+            _culture = culture;
             _options = options;
             _matchTimeout = matchTimeout;
         }
@@ -191,6 +222,7 @@ internal sealed class RegexCache
 
         public bool Equals(Key other) =>
             _pattern.Equals(other._pattern) &&
+            _culture.Equals(other._culture) &&
             _options == other._options &&
             _matchTimeout == other._matchTimeout;
 
