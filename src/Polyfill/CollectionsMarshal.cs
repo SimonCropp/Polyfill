@@ -92,9 +92,28 @@ static class CollectionsMarshal
         }
         else if (count > current)
         {
-            if (list.Capacity < count)
+            var capacity = list.Capacity;
+            if (capacity < count)
             {
-                list.Capacity = count;
+                // Grow geometrically, as List<T> does. Setting the capacity to exactly count would reallocate
+                // on every call when the count is raised a little at a time.
+                long grown = 4;
+                if (capacity != 0)
+                {
+                    grown = 2L * capacity;
+                }
+
+                if (grown > 0X7FEFFFFF)
+                {
+                    grown = 0X7FEFFFFF;
+                }
+
+                if (grown < count)
+                {
+                    grown = count;
+                }
+
+                list.Capacity = (int) grown;
             }
 
             for (var index = current; index < count; index++)
