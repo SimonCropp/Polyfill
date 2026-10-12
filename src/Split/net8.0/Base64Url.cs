@@ -311,7 +311,22 @@ static class Base64Url
 		}
 		return OperationStatus.Done;
 	}
+	const int bulkThreshold = 192;
 	static void Encode(ReadOnlySpan<byte> source, Span<char> destination)
+	{
+		if (source.Length >= bulkThreshold)
+		{
+			var bulk = source.Length / 3 * 3;
+			Convert.TryToBase64Chars(source.Slice(0, bulk), destination, out var written);
+			var encoded = destination.Slice(0, written);
+			encoded.Replace('+', '-');
+			encoded.Replace('/', '_');
+			source = source.Slice(bulk);
+			destination = destination.Slice(written);
+		}
+		EncodeLoop(source, destination);
+	}
+	static void EncodeLoop(ReadOnlySpan<byte> source, Span<char> destination)
 	{
 		var map = encodeMap;
 		var sourceIndex = 0;
@@ -343,6 +358,20 @@ static class Base64Url
 		}
 	}
 	static void Encode(ReadOnlySpan<byte> source, Span<byte> destination)
+	{
+		if (source.Length >= bulkThreshold)
+		{
+			var bulk = source.Length / 3 * 3;
+			Base64.EncodeToUtf8(source.Slice(0, bulk), destination, out _, out var written);
+			var encoded = destination.Slice(0, written);
+			encoded.Replace((byte) '+', (byte) '-');
+			encoded.Replace((byte) '/', (byte) '_');
+			source = source.Slice(bulk);
+			destination = destination.Slice(written);
+		}
+		EncodeLoop(source, destination);
+	}
+	static void EncodeLoop(ReadOnlySpan<byte> source, Span<byte> destination)
 	{
 		var map = encodeMap;
 		var sourceIndex = 0;
