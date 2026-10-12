@@ -1031,7 +1031,8 @@
 #### ReadOnlySpan<char>
 
  * `bool ContainsAnyWhiteSpace()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.containsanywhitespace?view=net-11.0)
- * `bool EndsWith(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith?view=net-11.0#system-memoryextensions-endswith-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
+ * `bool EndsWith(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith?view=net-11.0#system-memoryextensions-endswith(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-stringcomparison))
+ * `bool EndsWith(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.endswith?view=net-11.0#system-memoryextensions-endswith-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `SpanLineEnumerator EnumerateLines()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.enumeratelines?view=net-11.0#system-memoryextensions-enumeratelines(system-readonlyspan((system-char))))
  * `int GetNormalizedLength(NormalizationForm)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.stringnormalizationextensions.getnormalizedlength?view=net-11.0#system-stringnormalizationextensions-getnormalizedlength(system-readonlyspan((system-char))-system-text-normalizationform))
  * `int IndexOfAnyExceptWhiteSpace()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.indexofanyexceptwhitespace?view=net-11.0)
@@ -1044,7 +1045,8 @@
  * `int Split(Span<Range>, ReadOnlySpan<char>, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.split?view=net-11.0#system-memoryextensions-split(system-readonlyspan((system-char))-system-span((system-range))-system-readonlyspan((system-char))-system-stringsplitoptions))
  * `int SplitAny(Span<Range>, ReadOnlySpan<char>, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany?view=net-11.0#system-memoryextensions-splitany(system-readonlyspan((system-char))-system-span((system-range))-system-readonlyspan((system-char))-system-stringsplitoptions))
  * `int SplitAny(Span<Range>, ReadOnlySpan<string>, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.splitany?view=net-11.0#system-memoryextensions-splitany(system-readonlyspan((system-char))-system-span((system-range))-system-readonlyspan((system-string))-system-stringsplitoptions))
- * `bool StartsWith(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith?view=net-11.0#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
+ * `bool StartsWith(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith?view=net-11.0#system-memoryextensions-startswith(system-readonlyspan((system-char))-system-readonlyspan((system-char))-system-stringcomparison))
+ * `bool StartsWith(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.startswith?view=net-11.0#system-memoryextensions-startswith-1(system-readonlyspan((-0))-system-readonlyspan((-0))))
  * `int ToLowerOrdinal(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.tolowerordinal?view=net-11.0)
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `int ToUpperOrdinal(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.memoryextensions.toupperordinal?view=net-11.0)

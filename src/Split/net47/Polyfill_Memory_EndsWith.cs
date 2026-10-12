@@ -28,8 +28,15 @@ static partial class Polyfill
 	public static bool EndsWith(
 		this ReadOnlySpan<char> target,
 		string other,
-		StringComparison comparison = StringComparison.CurrentCulture) =>
+		StringComparison comparison) =>
 		target.EndsWith(other.AsSpan(), comparison);
+	/// <summary>
+	/// Determines whether the end of the span matches the specified value. Values are compared ordinally.
+	/// </summary>
+	public static bool EndsWith(
+		this ReadOnlySpan<char> target,
+		string other) =>
+		target.EndsWith(other.AsSpan());
 	/// <summary>
 	/// Determines whether the specified sequence appears at the end of a span.
 	/// </summary>

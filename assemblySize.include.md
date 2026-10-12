@@ -3,14 +3,14 @@
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
 | netstandard2.0 |          8.0KB |       406.5KB |  +398.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
-| netstandard2.1 |          8.5KB |       351.5KB |  +343.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net461         |          8.5KB |       405.0KB |  +396.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.5KB |
-| net462         |          7.0KB |       408.5KB |  +401.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
-| net47          |          7.0KB |       408.5KB |  +401.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
-| net471         |          8.5KB |       407.5KB |  +399.0KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.5KB |
-| net472         |          8.5KB |       406.5KB |  +398.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net48          |          8.5KB |       406.5KB |  +398.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net481         |          8.5KB |       406.5KB |  +398.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| netstandard2.1 |          8.5KB |       351.5KB |  +343.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net461         |          8.5KB |       405.5KB |  +397.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net462         |          7.0KB |       408.5KB |  +401.5KB |    +9.5KB |             +7.0KB |              +9.5KB |     +14.5KB |
+| net47          |          7.0KB |       408.5KB |  +401.5KB |    +9.5KB |             +6.5KB |              +9.5KB |     +14.5KB |
+| net471         |          8.5KB |       408.0KB |  +399.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net472         |          8.5KB |       406.5KB |  +398.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
+| net48          |          8.5KB |       406.5KB |  +398.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
+| net481         |          8.5KB |       406.5KB |  +398.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
 | netcoreapp2.0  |          9.0KB |       384.0KB |  +375.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
 | netcoreapp2.1  |          9.0KB |       360.5KB |  +351.5KB |    +7.5KB |             +5.5KB |              +8.0KB |     +13.0KB |
 | netcoreapp2.2  |          9.0KB |       360.5KB |  +351.5KB |    +7.5KB |             +5.5KB |              +8.0KB |     +13.0KB |
@@ -30,14 +30,14 @@
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
 | netstandard2.0 |          8.0KB |       593.8KB |  +585.8KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
-| netstandard2.1 |          8.5KB |       506.6KB |  +498.1KB |   +16.6KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net461         |          8.5KB |       593.4KB |  +584.9KB |   +16.6KB |             +8.7KB |             +14.4KB |     +19.9KB |
-| net462         |          7.0KB |       596.9KB |  +589.9KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
-| net47          |          7.0KB |       596.9KB |  +589.9KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
-| net471         |          8.5KB |       595.3KB |  +586.8KB |   +16.6KB |             +8.7KB |             +14.4KB |     +19.9KB |
-| net472         |          8.5KB |       593.2KB |  +584.7KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net48          |          8.5KB |       593.2KB |  +584.7KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net481         |          8.5KB |       593.2KB |  +584.7KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| netstandard2.1 |          8.5KB |       506.6KB |  +498.1KB |   +16.6KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net461         |          8.5KB |       593.9KB |  +585.4KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net462         |          7.0KB |       596.9KB |  +589.9KB |   +17.1KB |             +8.7KB |             +14.4KB |     +19.9KB |
+| net47          |          7.0KB |       596.9KB |  +589.9KB |   +17.1KB |             +8.2KB |             +14.4KB |     +19.9KB |
+| net471         |          8.5KB |       595.8KB |  +587.3KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net472         |          8.5KB |       593.2KB |  +584.7KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
+| net48          |          8.5KB |       593.2KB |  +584.7KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
+| net481         |          8.5KB |       593.2KB |  +584.7KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
 | netcoreapp2.0  |          9.0KB |       560.8KB |  +551.8KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | netcoreapp2.1  |          9.0KB |       522.8KB |  +513.8KB |   +15.1KB |             +7.2KB |             +12.9KB |     +18.4KB |
 | netcoreapp2.2  |          9.0KB |       522.8KB |  +513.8KB |   +15.1KB |             +7.2KB |             +12.9KB |     +18.4KB |
