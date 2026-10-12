@@ -57,13 +57,28 @@ static partial class Polyfill
 		/// <summary>
 		/// Converts the span, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer array.
 		/// </summary>
-		public static byte[] FromHexString(ReadOnlySpan<char> chars) =>
-			Polyfill.FromHexString(chars.ToString());
+		public static byte[] FromHexString(ReadOnlySpan<char> chars)
+		{
+			if (chars.Length % 2 != 0)
+				throw new FormatException("Hex string must have an even length.");
+			var result = new byte[chars.Length / 2];
+			for (var i = 0; i < result.Length; i++)
+			{
+				var hi = GetHexVal(chars[i * 2]);
+				if (hi < 0)
+					throw new FormatException($"Invalid hex character: {chars[i * 2]}");
+				var lo = GetHexVal(chars[i * 2 + 1]);
+				if (lo < 0)
+					throw new FormatException($"Invalid hex character: {chars[i * 2 + 1]}");
+				result[i] = (byte)((hi << 4) + lo);
+			}
+			return result;
+		}
 		/// <summary>
 		/// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with uppercase hex characters.
 		/// </summary>
 		public static string ToHexString(ReadOnlySpan<byte> bytes) =>
-			Polyfill.ToHexString(bytes.ToArray());
+			ToHexStringCore(bytes, "0123456789ABCDEF");
 		/// <summary>
 		/// Converts the span of chars, which encodes binary data as hex characters, to an equivalent 8-bit unsigned integer span.
 		/// </summary>
@@ -163,7 +178,7 @@ static partial class Polyfill
 		/// Converts a span of 8-bit unsigned integers to its equivalent string representation that is encoded with lowercase hex characters.
 		/// </summary>
 		public static string ToHexStringLower(ReadOnlySpan<byte> bytes) =>
-			Polyfill.ToHexStringLower(bytes.ToArray());
+			ToHexStringCore(bytes, "0123456789abcdef");
 		/// <summary>
 		/// Converts a span of 8-bit unsigned integers to its equivalent span representation that is encoded with uppercase hex characters.
 		/// </summary>
@@ -243,6 +258,18 @@ static partial class Polyfill
 				destination[index++] = hexAlphabet[b >> 4];
 				destination[index++] = hexAlphabet[b & 0xF];
 			}
+		}
+		static string ToHexStringCore(ReadOnlySpan<byte> bytes, string hexAlphabet)
+		{
+			var chars = new char[bytes.Length * 2];
+			var charIndex = 0;
+			for (var i = 0; i < bytes.Length; i++)
+			{
+				var b = bytes[i];
+				chars[charIndex++] = hexAlphabet[b >> 4];
+				chars[charIndex++] = hexAlphabet[b & 0xF];
+			}
+			return new(chars);
 		}
 		static void WriteHexBytes(ReadOnlySpan<byte> source, Span<byte> destination, string hexAlphabet)
 		{
