@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using System.Reflection;
 
 /// <summary>
@@ -37,14 +38,32 @@ static class CollectionsMarshal
             return default;
         }
 
-        var items = (T[]) ItemsAccessor<T>.Field.GetValue(list)!;
+        var items = ItemsAccessor<T>.Get(list);
         return new(items, 0, list.Count);
     }
 
     static class ItemsAccessor<T>
     {
-        public static readonly FieldInfo Field = typeof(List<T>)
-            .GetField("_items", BindingFlags.Instance | BindingFlags.NonPublic)!;
+        // FieldInfo.GetValue is slow, so the field read is compiled once per T
+        public static readonly Func<List<T>, T[]> Get = Create();
+
+        static Func<List<T>, T[]> Create()
+        {
+            var field = typeof(List<T>)
+                .GetField("_items", BindingFlags.Instance | BindingFlags.NonPublic)!;
+            try
+            {
+                var list = Expression.Parameter(typeof(List<T>), "list");
+                return Expression
+                    .Lambda<Func<List<T>, T[]>>(Expression.Field(list, field), list)
+                    .Compile();
+            }
+            catch (Exception)
+            {
+                // Expressions can not be compiled here, so read the field through reflection
+                return list => (T[]) field.GetValue(list)!;
+            }
+        }
     }
 
 #endif

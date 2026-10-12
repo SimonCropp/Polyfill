@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using System.Reflection;
 /// <summary>
 /// An unsafe class that provides a set of methods to access the underlying data representations of collections.
@@ -30,13 +31,28 @@ static class CollectionsMarshal
 		{
 			return default;
 		}
-		var items = (T[]) ItemsAccessor<T>.Field.GetValue(list)!;
+		var items = ItemsAccessor<T>.Get(list);
 		return new(items, 0, list.Count);
 	}
 	static class ItemsAccessor<T>
 	{
-		public static readonly FieldInfo Field = typeof(List<T>)
-			.GetField("_items", BindingFlags.Instance | BindingFlags.NonPublic)!;
+		public static readonly Func<List<T>, T[]> Get = Create();
+		static Func<List<T>, T[]> Create()
+		{
+			var field = typeof(List<T>)
+				.GetField("_items", BindingFlags.Instance | BindingFlags.NonPublic)!;
+			try
+			{
+				var list = Expression.Parameter(typeof(List<T>), "list");
+				return Expression
+					.Lambda<Func<List<T>, T[]>>(Expression.Field(list, field), list)
+					.Compile();
+			}
+			catch (Exception)
+			{
+				return list => (T[]) field.GetValue(list)!;
+			}
+		}
 	}
 #endif
 	/// <summary>
