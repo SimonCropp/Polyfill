@@ -20,16 +20,14 @@ static partial class Polyfill
 			{
 				throw new ArgumentNullException(nameof(source));
 			}
-			using var hasher = CryptographicOperationsCreateHashAlgorithm(hashAlgorithm);
-			return hasher.ComputeHash(source);
+			return CryptographicOperationsHashData(hashAlgorithm, source);
 		}
 		/// <summary>
 		/// Computes the hash of data using the specified algorithm.
 		/// </summary>
 		public static byte[] HashData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> source)
 		{
-			using var hasher = CryptographicOperationsCreateHashAlgorithm(hashAlgorithm);
-			return hasher.ComputeHash(source.ToArray());
+			return CryptographicOperationsHashData(hashAlgorithm, source);
 		}
 		/// <summary>
 		/// Computes the hash of data into the provided destination using the specified algorithm.
@@ -72,16 +70,7 @@ static partial class Polyfill
 		/// </summary>
 		public static bool TryHashData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
 		{
-			using var hasher = CryptographicOperationsCreateHashAlgorithm(hashAlgorithm);
-			var hash = hasher.ComputeHash(source.ToArray());
-			if (destination.Length < hash.Length)
-			{
-				bytesWritten = 0;
-				return false;
-			}
-			hash.CopyTo(destination);
-			bytesWritten = hash.Length;
-			return true;
+			return CryptographicOperationsTryHashData(hashAlgorithm, source, destination, out bytesWritten);
 		}
 		/// <summary>
 		/// Asynchronously computes the hash of a stream using the specified algorithm.
@@ -106,8 +95,7 @@ static partial class Polyfill
 			{
 				throw new ArgumentNullException(nameof(source));
 			}
-			using var hmac = CryptographicOperationsCreateHmac(hashAlgorithm, key);
-			return hmac.ComputeHash(source);
+			return CryptographicOperationsHmacData(hashAlgorithm, key, source);
 		}
 		/// <summary>
 		/// Computes the HMAC of a stream using the specified key and algorithm.
@@ -130,8 +118,7 @@ static partial class Polyfill
 		/// </summary>
 		public static byte[] HmacData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source)
 		{
-			using var hmac = CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray());
-			return hmac.ComputeHash(source.ToArray());
+			return CryptographicOperationsHmacData(hashAlgorithm, key, source);
 		}
 		/// <summary>
 		/// Computes the HMAC of data into the provided destination using the specified key and algorithm.
@@ -174,16 +161,7 @@ static partial class Polyfill
 		/// </summary>
 		public static bool TryHmacData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
 		{
-			using var hmac = CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray());
-			var mac = hmac.ComputeHash(source.ToArray());
-			if (destination.Length < mac.Length)
-			{
-				bytesWritten = 0;
-				return false;
-			}
-			mac.CopyTo(destination);
-			bytesWritten = mac.Length;
-			return true;
+			return CryptographicOperationsTryHmacData(hashAlgorithm, key, source, destination, out bytesWritten);
 		}
 		/// <summary>
 		/// Asynchronously computes the HMAC of a stream using the specified key and algorithm.
@@ -258,14 +236,14 @@ static partial class Polyfill
 		/// </summary>
 		public static bool VerifyHmac(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source, ReadOnlySpan<byte> hash)
 		{
-			using var hmac = CryptographicOperationsCreateHmac(hashAlgorithm, key.ToArray());
-			var hashSizeInBytes = hmac.HashSize / 8;
+			var hashSizeInBytes = CryptographicOperationsHashSize(hashAlgorithm);
 			if (hash.Length != hashSizeInBytes)
 			{
 				throw new ArgumentException($"The hash must be {hashSizeInBytes} bytes in length.", nameof(hash));
 			}
-			var mac = hmac.ComputeHash(source.ToArray());
-			return CryptographicOperations.FixedTimeEquals(mac, hash);
+			Span<byte> mac = stackalloc byte[64];
+			CryptographicOperations.TryHmacData(hashAlgorithm, key, source, mac, out var bytesWritten);
+			return CryptographicOperations.FixedTimeEquals(mac.Slice(0, bytesWritten), hash);
 		}
 		/// <summary>
 		/// Determines whether the HMAC of the <paramref name="source"/> stream matches <paramref name="hash"/>, using a comparison whose time does not depend on the contents.
@@ -316,6 +294,83 @@ static partial class Polyfill
 			"SHA384" => SHA384.Create(),
 			"SHA512" => SHA512.Create(),
 			"MD5" => MD5.Create(),
+			_ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
+		};
+	}
+	static byte[] CryptographicOperationsHashData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> source)
+	{
+		var name = hashAlgorithm.Name;
+		return name switch
+		{
+			"SHA256" => SHA256.HashData(source),
+			"SHA1" => SHA1.HashData(source),
+			"SHA384" => SHA384.HashData(source),
+			"SHA512" => SHA512.HashData(source),
+			"MD5" => MD5.HashData(source),
+			_ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
+		};
+	}
+	static bool CryptographicOperationsTryHashData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
+	{
+		var name = hashAlgorithm.Name;
+		switch (name)
+		{
+			case "SHA256":
+				return SHA256.TryHashData(source, destination, out bytesWritten);
+			case "SHA1":
+				return SHA1.TryHashData(source, destination, out bytesWritten);
+			case "SHA384":
+				return SHA384.TryHashData(source, destination, out bytesWritten);
+			case "SHA512":
+				return SHA512.TryHashData(source, destination, out bytesWritten);
+			case "MD5":
+				return MD5.TryHashData(source, destination, out bytesWritten);
+			default:
+				throw new CryptographicException($"'{name}' is not a known hash algorithm.");
+		}
+	}
+	static byte[] CryptographicOperationsHmacData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source)
+	{
+		var name = hashAlgorithm.Name;
+		return name switch
+		{
+			"SHA256" => HMACSHA256.HashData(key, source),
+			"SHA1" => HMACSHA1.HashData(key, source),
+			"SHA384" => HMACSHA384.HashData(key, source),
+			"SHA512" => HMACSHA512.HashData(key, source),
+			"MD5" => HMACMD5.HashData(key, source),
+			_ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
+		};
+	}
+	static bool CryptographicOperationsTryHmacData(HashAlgorithmName hashAlgorithm, ReadOnlySpan<byte> key, ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
+	{
+		var name = hashAlgorithm.Name;
+		switch (name)
+		{
+			case "SHA256":
+				return HMACSHA256.TryHashData(key, source, destination, out bytesWritten);
+			case "SHA1":
+				return HMACSHA1.TryHashData(key, source, destination, out bytesWritten);
+			case "SHA384":
+				return HMACSHA384.TryHashData(key, source, destination, out bytesWritten);
+			case "SHA512":
+				return HMACSHA512.TryHashData(key, source, destination, out bytesWritten);
+			case "MD5":
+				return HMACMD5.TryHashData(key, source, destination, out bytesWritten);
+			default:
+				throw new CryptographicException($"'{name}' is not a known hash algorithm.");
+		}
+	}
+	static int CryptographicOperationsHashSize(HashAlgorithmName hashAlgorithm)
+	{
+		var name = hashAlgorithm.Name;
+		return name switch
+		{
+			"SHA256" => 32,
+			"SHA1" => 20,
+			"SHA384" => 48,
+			"SHA512" => 64,
+			"MD5" => 16,
 			_ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
 		};
 	}
