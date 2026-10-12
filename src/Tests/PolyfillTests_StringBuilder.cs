@@ -239,6 +239,87 @@ partial class PolyfillTests
     }
 
     [Test]
+    [Arguments(0, 5)]
+    [Arguments(0, 1)]
+    [Arguments(4, 1)]
+    [Arguments(2, 3)]
+    [Arguments(1, 3)]
+    [Arguments(0, 0)]
+    [Arguments(5, 0)]
+    public async Task StringBuilder_Append_StringBuilder_Ranges(int startIndex, int count)
+    {
+        var source = new StringBuilder("hello");
+        var target = new StringBuilder("<");
+
+        var result = target.Append(source, startIndex, count);
+
+        await Assert.That(ReferenceEquals(result, target)).IsTrue();
+        await Assert.That(target.ToString()).IsEqualTo("<" + "hello".Substring(startIndex, count));
+        await Assert.That(source.ToString()).IsEqualTo("hello");
+    }
+
+    [Test]
+    [Arguments(0, 30000)]
+    [Arguments(0, 1)]
+    [Arguments(1, 29999)]
+    [Arguments(7999, 2)]
+    [Arguments(12345, 6789)]
+    [Arguments(29999, 1)]
+    public async Task StringBuilder_Append_StringBuilder_MultiChunkSource(int startIndex, int count)
+    {
+        // many small appends leave the source holding many chunks
+        var source = new StringBuilder(16);
+        for (var index = 0; source.Length < 30000; index++)
+        {
+            source.Append((char) ('a' + index % 26));
+        }
+
+        var expected = source.ToString();
+        var target = new StringBuilder("prefix");
+
+        target.Append(source, startIndex, count);
+        target.Append(source, startIndex, count);
+
+        var range = expected.Substring(startIndex, count);
+        await Assert.That(target.ToString()).IsEqualTo("prefix" + range + range);
+        await Assert.That(source.ToString()).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task StringBuilder_Append_StringBuilder_Self()
+    {
+        var builder = new StringBuilder("hello");
+
+        builder.Append(builder, 1, 3);
+
+        await Assert.That(builder.ToString()).IsEqualTo("helloell");
+    }
+
+    [Test]
+    public async Task StringBuilder_Append_StringBuilder_OutOfRange()
+    {
+        var value = new StringBuilder("world");
+
+        await Assert.That(() => new StringBuilder().Append(value, 0, 6)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => new StringBuilder().Append(value, 3, 3)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => new StringBuilder().Append(value, 5, 1)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => new StringBuilder().Append(value, 6, 1)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => new StringBuilder().Append(value, int.MaxValue, 1)).Throws<ArgumentOutOfRangeException>();
+        await Assert.That(() => new StringBuilder().Append(value, 1, int.MaxValue)).Throws<ArgumentOutOfRangeException>();
+    }
+
+    [Test]
+    public async Task StringBuilder_Append_StringBuilder_Null()
+    {
+        var target = new StringBuilder("a");
+
+        target.Append((StringBuilder?) null, 0, 0);
+
+        await Assert.That(target.ToString()).IsEqualTo("a");
+        await Assert.That(() => new StringBuilder().Append((StringBuilder?) null, 0, 1)).Throws<ArgumentNullException>();
+    }
+
+    [Test]
     public async Task StringBuilder_Append_StringBuilder_InvalidArgs()
     {
         var value = new StringBuilder("world");
