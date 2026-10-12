@@ -47,6 +47,105 @@ partial class PolyfillTests
     }
 
     [Test]
+    public async Task TryGetValue_ReturnsStoredInstance()
+    {
+        var stored = new string('a', 3);
+        var equal = new string('a', 3);
+        var set = new HashSet<string> {stored};
+
+        var found = set.TryGetValue(equal, out var result);
+        await Assert.That(found).IsTrue();
+        await Assert.That(ReferenceEquals(result, stored)).IsTrue();
+        await Assert.That(ReferenceEquals(result, equal)).IsFalse();
+    }
+
+    [Test]
+    public async Task TryGetValue_LargeSet_HitsAndMisses()
+    {
+        var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        for (var index = 0; index < 2000; index++)
+        {
+            set.Add($"Item{index}");
+        }
+
+        for (var index = 0; index < 2000; index += 37)
+        {
+            var found = set.TryGetValue($"ITEM{index}", out var result);
+            await Assert.That(found).IsTrue();
+            await Assert.That(result).IsEqualTo($"Item{index}");
+        }
+
+        var missing = set.TryGetValue("ITEM2000", out var missingResult);
+        await Assert.That(missing).IsFalse();
+        await Assert.That(missingResult).IsNull();
+    }
+
+    [Test]
+    public async Task TryGetValue_ValueTypes()
+    {
+        var ints = new HashSet<int> {0, 1, -5, int.MaxValue};
+        await Assert.That(ints.TryGetValue(-5, out var intResult)).IsTrue();
+        await Assert.That(intResult).IsEqualTo(-5);
+        await Assert.That(ints.TryGetValue(0, out intResult)).IsTrue();
+        await Assert.That(intResult).IsEqualTo(0);
+        await Assert.That(ints.TryGetValue(7, out intResult)).IsFalse();
+        await Assert.That(intResult).IsEqualTo(0);
+
+        var nullables = new HashSet<int?> {1, null};
+        await Assert.That(nullables.TryGetValue(null, out var nullableResult)).IsTrue();
+        await Assert.That(nullableResult).IsNull();
+        await Assert.That(nullables.TryGetValue(1, out nullableResult)).IsTrue();
+        await Assert.That(nullableResult).IsEqualTo(1);
+        await Assert.That(nullables.TryGetValue(2, out nullableResult)).IsFalse();
+        await Assert.That(nullableResult).IsNull();
+
+        var pairs = new HashSet<KeyValuePair<int, string>> {new(1, "a")};
+        await Assert.That(pairs.TryGetValue(new(1, "a"), out var pairResult)).IsTrue();
+        await Assert.That(pairResult.Value).IsEqualTo("a");
+        await Assert.That(pairs.TryGetValue(new(1, "b"), out pairResult)).IsFalse();
+        await Assert.That(pairResult.Value).IsNull();
+    }
+
+    [Test]
+    public async Task TryGetValue_AfterRemoveAndClear()
+    {
+        var set = new HashSet<string> {"a", "b", "c"};
+
+        set.Remove("b");
+        await Assert.That(set.TryGetValue("b", out var result)).IsFalse();
+        await Assert.That(result).IsNull();
+        await Assert.That(set.TryGetValue("c", out result)).IsTrue();
+        await Assert.That(result).IsEqualTo("c");
+
+        set.Add("b");
+        await Assert.That(set.TryGetValue("b", out result)).IsTrue();
+        await Assert.That(result).IsEqualTo("b");
+
+        set.Clear();
+        await Assert.That(set.TryGetValue("a", out result)).IsFalse();
+        await Assert.That(result).IsNull();
+
+        var empty = new HashSet<string>();
+        await Assert.That(empty.TryGetValue("a", out result)).IsFalse();
+        await Assert.That(result).IsNull();
+    }
+
+    [Test]
+    public async Task TryGetValue_DoesNotInvalidateEnumerators()
+    {
+        var set = new HashSet<int> {1, 2, 3};
+        var seen = 0;
+        foreach (var item in set)
+        {
+            await Assert.That(set.TryGetValue(item, out var result)).IsTrue();
+            await Assert.That(result).IsEqualTo(item);
+            seen++;
+        }
+
+        await Assert.That(seen).IsEqualTo(3);
+    }
+
+    [Test]
     public async Task HashSet_EnsureCapacity()
     {
         var set = new HashSet<int>();

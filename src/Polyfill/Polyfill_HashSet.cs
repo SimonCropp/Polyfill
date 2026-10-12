@@ -3,6 +3,7 @@ namespace Polyfills;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 static partial class Polyfill
 {
@@ -16,6 +17,12 @@ static partial class Polyfill
         T equalValue,
         [MaybeNullWhen(false)] out T actualValue)
     {
+        var tryGetValue = HashSetTryGetValueCache<T>.Method;
+        if (tryGetValue != null)
+        {
+            return tryGetValue(target, equalValue, out actualValue);
+        }
+
         // Contains is a hashed lookup, and handles a null value without calling comparer.GetHashCode
         if (!target.Contains(equalValue))
         {
@@ -36,6 +43,44 @@ static partial class Polyfill
 
         actualValue = default;
         return false;
+    }
+
+    delegate bool HashSetTryGetValue<T>(HashSet<T> set, T equalValue, out T actualValue);
+
+    static class HashSetTryGetValueCache<T>
+    {
+        // HashSet<T>.TryGetValue can not be compiled against on this target, but it exists in the runtime
+        // from .NET Framework 4.7.2 and .NET Core 2.0. When it is there, use its hashed lookup.
+        public static readonly HashSetTryGetValue<T>? Method = Find();
+
+        static HashSetTryGetValue<T>? Find()
+        {
+            try
+            {
+                var method = typeof(HashSet<T>).GetMethod("TryGetValue", BindingFlags.Instance | BindingFlags.Public);
+                if (method == null ||
+                    method.ReturnType != typeof(bool))
+                {
+                    return null;
+                }
+
+                var parameters = method.GetParameters();
+                if (parameters.Length != 2 ||
+                    parameters[0].ParameterType != typeof(T) ||
+                    !parameters[1].IsOut ||
+                    parameters[1].ParameterType.GetElementType() != typeof(T))
+                {
+                    return null;
+                }
+
+                return (HashSetTryGetValue<T>?) Delegate.CreateDelegate(typeof(HashSetTryGetValue<T>), method, false);
+            }
+            catch (Exception)
+            {
+                // Fall back to scanning the set
+                return null;
+            }
+        }
     }
 #endif
 

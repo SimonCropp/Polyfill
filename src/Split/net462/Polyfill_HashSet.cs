@@ -4,6 +4,7 @@ namespace Polyfills;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 static partial class Polyfill
 {
 	/// <summary>
@@ -14,6 +15,11 @@ static partial class Polyfill
 		T equalValue,
 		[MaybeNullWhen(false)] out T actualValue)
 	{
+		var tryGetValue = HashSetTryGetValueCache<T>.Method;
+		if (tryGetValue != null)
+		{
+			return tryGetValue(target, equalValue, out actualValue);
+		}
 		if (!target.Contains(equalValue))
 		{
 			actualValue = default;
@@ -30,6 +36,36 @@ static partial class Polyfill
 		}
 		actualValue = default;
 		return false;
+	}
+	delegate bool HashSetTryGetValue<T>(HashSet<T> set, T equalValue, out T actualValue);
+	static class HashSetTryGetValueCache<T>
+	{
+		public static readonly HashSetTryGetValue<T>? Method = Find();
+		static HashSetTryGetValue<T>? Find()
+		{
+			try
+			{
+				var method = typeof(HashSet<T>).GetMethod("TryGetValue", BindingFlags.Instance | BindingFlags.Public);
+				if (method == null ||
+					method.ReturnType != typeof(bool))
+				{
+					return null;
+				}
+				var parameters = method.GetParameters();
+				if (parameters.Length != 2 ||
+					parameters[0].ParameterType != typeof(T) ||
+					!parameters[1].IsOut ||
+					parameters[1].ParameterType.GetElementType() != typeof(T))
+				{
+					return null;
+				}
+				return (HashSetTryGetValue<T>?) Delegate.CreateDelegate(typeof(HashSetTryGetValue<T>), method, false);
+			}
+			catch (Exception)
+			{
+				return null;
+			}
+		}
 	}
 	/// <summary>
 	/// Ensures that the capacity of this HashSet is at least the specified capacity. If the current capacity is less than capacity, it is increased to at least the specified capacity.
