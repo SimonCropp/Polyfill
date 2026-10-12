@@ -33,6 +33,168 @@ partial class PolyfillTests
         await Assert.That(taken.SequenceEqual(['d', 'e'])).IsTrue();
     }
 
+    static IEnumerable<int> Iterate(int count)
+    {
+        for (var index = 0; index < count; index++)
+        {
+            yield return index;
+        }
+    }
+
+    static int[] ExpectedTake(int count, Range range)
+    {
+        var start = range.Start.Value;
+        if (range.Start.IsFromEnd)
+        {
+            start = count - start;
+        }
+
+        var end = range.End.Value;
+        if (range.End.IsFromEnd)
+        {
+            end = count - end;
+        }
+
+        start = Math.Max(0, start);
+        end = Math.Min(count, end);
+        if (start >= end)
+        {
+            return [];
+        }
+
+        return Enumerable.Range(start, end - start).ToArray();
+    }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(2)]
+    [Arguments(10)]
+    public async Task TakeRange_AllSourceKinds(int count)
+    {
+        var ranges = new[]
+        {
+            Range.All, 0..0, 0..1, 1..3, 2..2, 3..1, 0..count, 0..100, 5..100, 100..200,
+            ^0.., ^1.., ^3.., ^100.., ..^0, ..^1, ..^3, ..^100,
+            ^3..^1, ^1..^3, ^100..^1, ^5..^100, 1..^1, 4..^4, 100..^1, ^3..2, ^3..9, ^3..100, ^100..3
+        };
+
+        foreach (var range in ranges)
+        {
+            var expected = ExpectedTake(count, range);
+            var array = Enumerable.Range(0, count).ToArray();
+
+            await Assert.That(array.Take(range).SequenceEqual(expected)).IsTrue();
+            await Assert.That(array.ToList().Take(range).SequenceEqual(expected)).IsTrue();
+            await Assert.That(new System.Collections.ObjectModel.ReadOnlyCollection<int>(array).Take(range).SequenceEqual(expected)).IsTrue();
+            await Assert.That(new Queue<int>(array).Take(range).SequenceEqual(expected)).IsTrue();
+            await Assert.That(Iterate(count).Take(range).SequenceEqual(expected)).IsTrue();
+
+            // the result can be enumerated more than once
+            var taken = array.ToList().Take(range);
+            await Assert.That(taken.SequenceEqual(expected)).IsTrue();
+            await Assert.That(taken.SequenceEqual(expected)).IsTrue();
+        }
+    }
+
+    [Test]
+    [Arguments(0)]
+    [Arguments(1)]
+    [Arguments(2)]
+    [Arguments(10)]
+    public async Task TakeLast_AllSourceKinds(int count)
+    {
+        foreach (var take in new[] {-1, 0, 1, 2, 3, 9, 10, 11, 100})
+        {
+            var expected = ExpectedTake(count, ^Math.Max(0, take)..);
+            var array = Enumerable.Range(0, count).ToArray();
+
+            await Assert.That(array.TakeLast(take).SequenceEqual(expected)).IsTrue();
+            await Assert.That(array.ToList().TakeLast(take).SequenceEqual(expected)).IsTrue();
+            await Assert.That(new System.Collections.ObjectModel.ReadOnlyCollection<int>(array).TakeLast(take).SequenceEqual(expected)).IsTrue();
+            await Assert.That(new Queue<int>(array).TakeLast(take).SequenceEqual(expected)).IsTrue();
+            await Assert.That(Iterate(count).TakeLast(take).SequenceEqual(expected)).IsTrue();
+        }
+    }
+
+    [Test]
+    public async Task TakeRange_List_IsDeferred()
+    {
+        var list = new List<int> {0, 1, 2, 3, 4};
+        var fromStart = list.Take(1..4);
+        var fromEnd = list.Take(^2..);
+        var last = list.TakeLast(2);
+
+        list.Add(5);
+        list[1] = 100;
+
+        await Assert.That(fromStart.SequenceEqual([100, 2, 3])).IsTrue();
+        await Assert.That(fromEnd.SequenceEqual([4, 5])).IsTrue();
+        await Assert.That(last.SequenceEqual([4, 5])).IsTrue();
+
+        list.Clear();
+
+        await Assert.That(fromStart.Any()).IsFalse();
+        await Assert.That(fromEnd.Any()).IsFalse();
+        await Assert.That(last.Any()).IsFalse();
+    }
+
+    [Test]
+    public async Task TakeRange_List_ShrinksWhileEnumerating()
+    {
+        var list = new List<int> {0, 1, 2, 3, 4, 5};
+        var result = new List<int>();
+        foreach (var item in list.Take(1..5))
+        {
+            result.Add(item);
+            if (item == 2)
+            {
+                // the range ends at the new end of the list
+                list.RemoveRange(3, 3);
+            }
+        }
+
+        await Assert.That(result.SequenceEqual([1, 2])).IsTrue();
+    }
+
+    [Test]
+    public async Task TakeRange_List_ChangesWhileEnumerating()
+    {
+        var list = new List<int> {0, 1, 2, 3, 4, 5};
+        var result = new List<int>();
+        foreach (var item in list.Take(1..4))
+        {
+            result.Add(item);
+            if (item == 1)
+            {
+                // items are read from the list as the range is walked
+                list[2] = 200;
+                list.Add(6);
+            }
+        }
+
+        await Assert.That(result.SequenceEqual([1, 200, 3])).IsTrue();
+    }
+
+    [Test]
+    public async Task TakeRange_FromEnd_List_UsesCountAtFirstMoveNext()
+    {
+        var list = new List<int> {0, 1, 2, 3, 4, 5};
+        var result = new List<int>();
+        foreach (var item in list.Take(^4..^1))
+        {
+            result.Add(item);
+            if (item == 2)
+            {
+                list.RemoveAt(5);
+                list.RemoveAt(4);
+            }
+        }
+
+        // the bounds were fixed as 2..5 when enumeration started, and the list now ends at 4
+        await Assert.That(result.SequenceEqual([2, 3])).IsTrue();
+    }
+
     [Test]
     public async Task Except()
     {
