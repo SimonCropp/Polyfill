@@ -33,7 +33,7 @@ static partial class Polyfill
 		/// Tries to parse a span of characters into a value.
 		/// </summary>
 		public static bool TryParse(ReadOnlySpan<char> s, IFormatProvider? provider, out int result) =>
-			int.TryParse(s.ToString(), NumberStyles.Integer, provider, out result);
+			int.TryParse(s, NumberStyles.Integer, provider, out result);
 #endif
 		/// <summary>
 		/// Produces the full product of two 32-bit numbers.
