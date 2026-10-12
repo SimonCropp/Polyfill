@@ -12,9 +12,9 @@ static partial class Polyfill
     //Link: https://learn.microsoft.com/en-us/dotnet/api/system.collections.concurrent.concurrentbag-1.clear?view=net-11.0
     public static void Clear<T>(this ConcurrentBag<T> target)
     {
-        while (!target.IsEmpty)
+        // TryTake returns false once the bag is empty, so IsEmpty does not need checking for every item
+        while (target.TryTake(out _))
         {
-            target.TryTake(out _);
         }
     }
 }
