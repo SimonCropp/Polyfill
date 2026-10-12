@@ -180,6 +180,126 @@ partial class PolyfillTests
         await Assert.That(SliceOf(",,a,,b,,c", ranges, count)).IsEquivalentTo(new[] {"a", "b,,c"});
     }
 
+    [Test]
+    public async Task SplitAny_Strings_MatchStringSplit()
+    {
+        string[] inputs =
+        [
+            "a",
+            "::",
+            "a::b->c::d",
+            "a--b+c--d",
+            "::a::",
+            "a::::b",
+            "a:b:c",
+            "a:",
+            ":a",
+            "xaby",
+            "xabcy",
+            "aaaa",
+            "aaaaa",
+            "abababa",
+            "no separators here",
+            "ends with half a separator -",
+            "a->b-->c--->d",
+            "::->::->",
+        ];
+        string[][] separatorSets =
+        [
+            ["::"],
+            [":"],
+            ["::", "->"],
+            ["->", "::"],
+            ["--", "+"],
+            // one separator is a prefix of another: the first in the array wins at a given position
+            ["a", "ab"],
+            ["ab", "a"],
+            ["ab", "abc"],
+            ["abc", "ab"],
+            ["aa", "a"],
+            ["a", "aa"],
+            ["aa"],
+            ["aba", "b"],
+            ["-", "--", "->"],
+            ["->", "--", "-"],
+            // null and empty separators are ignored
+            [null!, "::", ""],
+            ["", "->", null!, "::"],
+            ["missing", "absent", "::"],
+            ["a very long separator that is longer than most inputs", ":"],
+        ];
+        var failures = new List<string>();
+
+        foreach (var separators in separatorSets)
+        {
+            foreach (var input in inputs)
+            {
+                foreach (var options in new[] {StringSplitOptions.None, StringSplitOptions.RemoveEmptyEntries})
+                {
+                    var expected = input.Split(separators, options);
+                    var ranges = new Range[input.Length + 2];
+                    var count = MemoryExtensions.SplitAny(input.AsSpan(), ranges, separators, options);
+                    var actual = SliceOf(input, ranges, count);
+                    if (string.Join("\n", actual) != string.Join("\n", expected) ||
+                        count != expected.Length)
+                    {
+                        failures.Add($"'{input}' split on '{string.Join("','", separators)}' ({options}): '{string.Join("','", actual)}'");
+                    }
+                }
+            }
+        }
+
+        await Assert.That(failures).IsEmpty();
+    }
+
+    [Test]
+    public async Task SplitAny_Strings_TieResolvesToFirstSeparator()
+    {
+        var ranges = new Range[8];
+
+        string[] shortFirst = ["a", "ab"];
+        var count = MemoryExtensions.SplitAny("xaby".AsSpan(), ranges, shortFirst);
+        await Assert.That(count).IsEqualTo(2);
+        await Assert.That(SliceOf("xaby", ranges, count)).IsEquivalentTo(new[] {"x", "by"});
+
+        string[] longFirst = ["ab", "a"];
+        count = MemoryExtensions.SplitAny("xaby".AsSpan(), ranges, longFirst);
+        await Assert.That(count).IsEqualTo(2);
+        await Assert.That(SliceOf("xaby", ranges, count)).IsEquivalentTo(new[] {"x", "y"});
+    }
+
+    [Test]
+    public async Task SplitAny_Strings_LastSlotGetsRemainder()
+    {
+        var ranges = new Range[2];
+        string[] separators = ["::", "->"];
+        var count = MemoryExtensions.SplitAny("a::b->c::d".AsSpan(), ranges, separators);
+        await Assert.That(count).IsEqualTo(2);
+        await Assert.That(SliceOf("a::b->c::d", ranges, count)).IsEquivalentTo(new[] {"a", "b->c::d"});
+    }
+
+    [Test]
+    public async Task SplitAny_Strings_ManyWords()
+    {
+        var builder = new StringBuilder();
+        for (var index = 0; index < 4000; index++)
+        {
+            builder.Append("word").Append(index).Append("::");
+        }
+
+        var input = builder.ToString();
+        var ranges = new Range[5000];
+        string[] separators = ["\t\t", "||", "::"];
+
+        var count = MemoryExtensions.SplitAny(input.AsSpan(), ranges, separators);
+        var first = input[ranges[0]];
+        var last = input[ranges[3999]];
+
+        await Assert.That(count).IsEqualTo(4001);
+        await Assert.That(first).IsEqualTo("word0");
+        await Assert.That(last).IsEqualTo("word3999");
+    }
+
     static string[] SliceOf(string source, Range[] ranges, int count)
     {
         var result = new string[count];
