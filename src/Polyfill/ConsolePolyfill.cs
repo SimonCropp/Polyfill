@@ -1,4 +1,3 @@
-//TODO: cehck this again in net11 preview 2
 #if !NET11_0_OR_GREATER
 namespace Polyfills;
 
