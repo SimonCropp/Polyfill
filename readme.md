@@ -578,7 +578,7 @@ Polyfills the two marker types that the compiler references when emitting [C# 15
 
 Both types ship in net11. Without them the compiler rejects a `union` declaration with `CS0518` and `CS0656`, so Polyfill supplies them on every earlier target.
 
-> Polyfill supplies only the `UnionAttribute` and `IUnion` types that the generated union struct references. The `union` keyword itself requires the C# 15 (or later) compiler and cannot be backported to an older compiler. Set `<LangVersion>preview</LangVersion>` while the feature is in preview.
+> Polyfill supplies only the `UnionAttribute` and `IUnion` types that the generated union struct references. The `union` keyword itself requires the C# 15 (or later) compiler, which ships with the .NET 11 SDK, and cannot be backported to an older compiler. C# 15 is only the default language version when targeting net11, so for earlier targets set `<LangVersion>15.0</LangVersion>` (or `latest`).
 
 > If the consuming project declares its own `UnionAttribute`/`IUnion` in `System.Runtime.CompilerServices` (as preview guidance suggested before these types shipped), delete those declarations. Keeping them results in `CS0101` on earlier targets and `CS0729` on net11.
 
@@ -595,7 +595,7 @@ record Bird(string Name);
 
 union Pet(Cat, Dog, Bird);
 ```
-<sup><a href='/src/ConsumeCsPreview/Unions.cs#L9-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-UnionDeclaration' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ConsumeCs15/Unions.cs#L9-L19' title='Snippet source file'>snippet source</a> | <a href='#snippet-UnionDeclaration' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Consuming a union, using the implicit conversion from a case type and pattern matching to unwrap it:
@@ -617,7 +617,7 @@ public static string Describe(Dog dog)
     };
 }
 ```
-<sup><a href='/src/ConsumeCsPreview/Unions.cs#L23-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-UnionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ConsumeCs15/Unions.cs#L23-L39' title='Snippet source file'>snippet source</a> | <a href='#snippet-UnionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 The generated union struct implements `IUnion`, so the current value can also be read as an `object`:
@@ -629,7 +629,7 @@ The generated union struct implements `IUnion`, so the current value can also be
 public static object? CurrentValue(Pet pet) =>
     ((IUnion) pet).Value;
 ```
-<sup><a href='/src/ConsumeCsPreview/Unions.cs#L41-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-UnionValue' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ConsumeCs15/Unions.cs#L41-L47' title='Snippet source file'>snippet source</a> | <a href='#snippet-UnionValue' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 A union can also be declared explicitly using the polyfilled attribute and interface:
@@ -661,7 +661,7 @@ Polyfills the marker attribute that the compiler references when emitting a [C# 
 
 The type ships in net11. The compiler applies it to the closed type, listing the permitted direct descendants in `DerivedTypes`, and applies [CompilerFeatureRequiredAttribute](#compilerfeaturerequiredattribute) to the closed type's constructors. Polyfill supplies both on every earlier target.
 
-> Polyfill supplies only the attribute the generated code references. The `closed` keyword itself requires the C# 15 (or later) compiler and cannot be backported to an older compiler. Set `<LangVersion>preview</LangVersion>` while the feature is in preview.
+> Polyfill supplies only the attribute the generated code references. The `closed` keyword itself requires the C# 15 (or later) compiler, which ships with the .NET 11 SDK, and cannot be backported to an older compiler. C# 15 is only the default language version when targeting net11, so for earlier targets set `<LangVersion>15.0</LangVersion>` (or `latest`).
 
 Declaring a closed hierarchy:
 
@@ -683,7 +683,7 @@ sealed class Failed(string error) : JobStatus
     public string Error => error;
 }
 ```
-<sup><a href='/src/ConsumeCsPreview/ClosedHierarchy.cs#L8-L25' title='Snippet source file'>snippet source</a> | <a href='#snippet-ClosedDeclaration' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ConsumeCs15/ClosedHierarchy.cs#L8-L25' title='Snippet source file'>snippet source</a> | <a href='#snippet-ClosedDeclaration' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 Because the hierarchy is closed, the compiler knows the full set of descendants, so a switch that handles all of them is exhaustive and needs no default arm:
@@ -701,7 +701,7 @@ public static string Describe(JobStatus status) =>
         Failed failed => $"failed: {failed.Error}"
     };
 ```
-<sup><a href='/src/ConsumeCsPreview/ClosedHierarchy.cs#L29-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-ClosedUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/ConsumeCs15/ClosedHierarchy.cs#L29-L41' title='Snippet source file'>snippet source</a> | <a href='#snippet-ClosedUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 

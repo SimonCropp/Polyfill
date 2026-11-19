@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace ConsumeCsPreview;
+namespace ConsumeCs15;
 
 // Compile-only coverage for C# union types. The compiler emits a struct that is
 // annotated with UnionAttribute and implements IUnion, so this only compiles
