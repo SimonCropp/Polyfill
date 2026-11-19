@@ -97,7 +97,8 @@ Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-
 ## Assembly size impact
 
 
-### Assembly Sizes<!-- include: assemblySize. path: /assemblySize.include.md -->
+<!-- include: assemblySize. path: /assemblySize.include.md -->
+### Assembly Sizes
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
@@ -709,7 +710,8 @@ public static string Describe(JobStatus status) =>
 The class `Polyfill` includes the following extension methods:
 
 
-### Extension methods<!-- include: api_list.include.md -->
+<!-- include: api_list.include.md -->
+### Extension methods
 
 #### ArgumentException
 
@@ -2768,7 +2770,8 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
 `Polyfills.Ensure` provides the following APIs:
 
 
-#### Ensure<!-- include: api_ensure. path: /api_ensure.include.md -->
+<!-- include: api_ensure. path: /api_ensure.include.md -->
+#### Ensure
 
  * `void DirectoryExists(String)`
  * `void FileExists(String)`
