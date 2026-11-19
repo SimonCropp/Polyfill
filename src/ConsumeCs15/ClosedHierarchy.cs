@@ -1,4 +1,4 @@
-namespace ConsumeCsPreview;
+namespace ConsumeCs15;
 
 // Compile-only coverage for the C# `closed` modifier. The compiler emits
 // IsClosedTypeAttribute on the closed type and
