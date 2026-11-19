@@ -6,5 +6,7 @@ using System.Runtime.CompilerServices;
 [assembly: TypeForwardedTo(typeof(System.Collections.Generic.KeyValuePair))]
 [assembly: TypeForwardedTo(typeof(System.IO.MatchCasing))]
 [assembly: TypeForwardedTo(typeof(System.IO.MatchType))]
+#if FeatureMemory
 [assembly: TypeForwardedTo(typeof(System.Buffers.ReadOnlySpanAction<,>))]
 [assembly: TypeForwardedTo(typeof(System.Buffers.SpanAction<,>))]
+#endif
