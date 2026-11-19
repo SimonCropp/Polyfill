@@ -25,6 +25,7 @@
   <Project Path="ConsumeClassicReferences/ConsumeClassicReferences.csproj" />
   <Project Path="ConsumeConsumeBclMemory/ConsumeConsumeBclMemory.csproj" />
   <Project Path="ConsumeCs14/ConsumeCs14.csproj" />
+  <Project Path="ConsumeCs15/ConsumeCs15.csproj" />
   <Project Path="ConsumeCsDefault/ConsumeCsDefault.csproj" />
   <Project Path="ConsumeCsLatest/ConsumeCsLatest.csproj" />
   <Project Path="ConsumeCsLatestMajor/ConsumeCsLatestMajor.csproj" />
