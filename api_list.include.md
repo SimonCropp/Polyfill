@@ -1680,7 +1680,7 @@
  * `Task ExtractToFileAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.zipfileextensions.extracttofileasync?view=net-11.0#system-io-compression-zipfileextensions-extracttofileasync(system-io-compression-ziparchiveentry-system-string-system-threading-cancellationtoken))
  * `Stream Open(FileAccess)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.open?view=net-11.0)
  * `Task<Stream> OpenAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.openasync?view=net-11.0#system-io-compression-ziparchiveentry-openasync(system-threading-cancellationtoken))
- * `ValueTask<Stream> OpenAsync(FileAccess, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.openasync?view=net-11.0#system-io-compression-ziparchiveentry-openasync(system-io-fileaccess-system-threading-cancellationtoken))
+ * `Task<Stream> OpenAsync(FileAccess, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.openasync?view=net-11.0#system-io-compression-ziparchiveentry-openasync(system-io-fileaccess-system-threading-cancellationtoken))
  * `int ExternalAttributes` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.compression.ziparchiveentry.externalattributes?view=net-11.0)
 
 

@@ -71,16 +71,14 @@ static partial class Polyfill
 	/// </summary>
 	public static Stream Open(this ZipArchiveEntry target, FileAccess access) =>
 		target.Open();
-#if FeatureValueTask
 	/// <summary>
 	/// Asynchronously opens the entry from the zip archive with the specified access mode.
 	/// </summary>
-	public static ValueTask<Stream> OpenAsync(this ZipArchiveEntry target, FileAccess access, CancellationToken cancellationToken = default)
+	public static Task<Stream> OpenAsync(this ZipArchiveEntry target, FileAccess access, CancellationToken cancellationToken = default)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
-		return new ValueTask<Stream>(target.Open());
+		return Task.FromResult(target.Open());
 	}
-#endif
 	/// <summary>
 	/// Extracts all the files in the zip archive to a directory on the file system.
 	/// </summary>
