@@ -2014,6 +2014,34 @@ class Consume
         var lastIndexOfChar = "value".LastIndexOf('a', StringComparison.Ordinal);
         var lastIndexOfCharStart = "value".LastIndexOf('a', 3, StringComparison.Ordinal);
         var lastIndexOfCharStartCount = "value".LastIndexOf('a', 3, 2, StringComparison.Ordinal);
+
+#if NETCOREAPP3_0_OR_GREATER
+        var rune = new Rune('a');
+        var containsRune = "value".Contains(rune);
+        var containsRuneComparison = "value".Contains(rune, StringComparison.Ordinal);
+        var startsWithRune = "value".StartsWith(rune);
+        var startsWithRuneComparison = "value".StartsWith(rune, StringComparison.Ordinal);
+        var endsWithRune = "value".EndsWith(rune);
+        var endsWithRuneComparison = "value".EndsWith(rune, StringComparison.Ordinal);
+        var indexOfRune = "value".IndexOf(rune);
+        var indexOfRuneStart = "value".IndexOf(rune, 1);
+        var indexOfRuneStartCount = "value".IndexOf(rune, 1, 3);
+        var indexOfRuneComparison = "value".IndexOf(rune, StringComparison.Ordinal);
+        var indexOfRuneStartComparison = "value".IndexOf(rune, 1, StringComparison.Ordinal);
+        var indexOfRuneStartCountComparison = "value".IndexOf(rune, 1, 3, StringComparison.Ordinal);
+        var lastIndexOfRune = "value".LastIndexOf(rune);
+        var lastIndexOfRuneStart = "value".LastIndexOf(rune, 3);
+        var lastIndexOfRuneStartCount = "value".LastIndexOf(rune, 3, 2);
+        var lastIndexOfRuneComparison = "value".LastIndexOf(rune, StringComparison.Ordinal);
+        var lastIndexOfRuneStartComparison = "value".LastIndexOf(rune, 3, StringComparison.Ordinal);
+        var lastIndexOfRuneStartCountComparison = "value".LastIndexOf(rune, 3, 2, StringComparison.Ordinal);
+        var replaceRune = "value".Replace(rune, new Rune('A'));
+        var splitRune = "value".Split(rune, StringSplitOptions.RemoveEmptyEntries);
+        splitRune = "value".Split(rune, 2, StringSplitOptions.RemoveEmptyEntries);
+        var trimRune = "value".Trim(rune);
+        var trimStartRune = "value".TrimStart(rune);
+        var trimEndRune = "value".TrimEnd(rune);
+#endif
     }
 
 

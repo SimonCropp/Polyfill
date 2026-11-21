@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 1184**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 1208**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
@@ -31,14 +31,14 @@ The package targets `netstandard2.0` and is designed to support the following ru
 | `netcoreapp2.0` | 1009 |
 | `netcoreapp2.1` | 922 |
 | `netcoreapp2.2` | 922 |
-| `netcoreapp3.0` | 880 |
-| `netcoreapp3.1` | 880 |
-| `net5.0` | 764 |
-| `net6.0` | 660 |
-| `net7.0` | 520 |
-| `net8.0` | 401 |
-| `net9.0` | 253 |
-| `net10.0` | 186 |
+| `netcoreapp3.0` | 904 |
+| `netcoreapp3.1` | 904 |
+| `net5.0` | 788 |
+| `net6.0` | 684 |
+| `net7.0` | 544 |
+| `net8.0` | 425 |
+| `net9.0` | 277 |
+| `net10.0` | 210 |
 | `net11.0` | 56 |
 | `uap10.0` | 1073 |
 <!-- endInclude -->
@@ -102,26 +102,26 @@ Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       423.0KB |  +415.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
-| netstandard2.1 |          8.5KB |       366.5KB |  +358.0KB |    +7.5KB |             +6.5KB |              +7.5KB |     +12.5KB |
-| net461         |          8.5KB |       422.0KB |  +413.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.5KB |
-| net462         |          7.0KB |       425.5KB |  +418.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.5KB |
+| netstandard2.0 |          8.0KB |       423.0KB |  +415.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| netstandard2.1 |          8.5KB |       366.5KB |  +358.0KB |    +7.5KB |             +6.0KB |              +7.5KB |     +12.5KB |
+| net461         |          8.5KB |       422.0KB |  +413.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
+| net462         |          7.0KB |       425.5KB |  +418.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
 | net47          |          7.0KB |       425.5KB |  +418.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
-| net471         |          8.5KB |       425.0KB |  +416.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net471         |          8.5KB |       424.5KB |  +416.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
 | net472         |          8.5KB |       422.5KB |  +414.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
 | net48          |          8.5KB |       422.5KB |  +414.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
 | net481         |          8.5KB |       422.5KB |  +414.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| netcoreapp2.0  |          9.0KB |       399.0KB |  +390.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
+| netcoreapp2.0  |          9.0KB |       399.0KB |  +390.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
 | netcoreapp2.1  |          9.0KB |       374.0KB |  +365.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | netcoreapp2.2  |          9.0KB |       374.0KB |  +365.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp3.0  |          9.5KB |       364.0KB |  +354.5KB |    +7.5KB |             +5.0KB |              +7.5KB |     +12.5KB |
-| netcoreapp3.1  |          9.5KB |       364.0KB |  +354.5KB |    +7.5KB |             +5.0KB |              +8.0KB |     +12.5KB |
-| net5.0         |          9.5KB |       326.5KB |  +317.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net6.0         |         10.0KB |       264.0KB |  +254.0KB |    +9.5KB |             +6.5KB |           +512bytes |      +3.0KB |
-| net7.0         |         10.0KB |       236.0KB |  +226.0KB |    +9.0KB |             +5.5KB |           +512bytes |      +3.0KB |
-| net8.0         |          9.5KB |       206.0KB |  +196.5KB |   +11.5KB |          +512bytes |           +512bytes |      +6.0KB |
-| net9.0         |          9.5KB |       129.5KB |  +120.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net10.0        |         10.0KB |       103.5KB |   +93.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| netcoreapp3.0  |          9.5KB |       366.0KB |  +356.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| netcoreapp3.1  |          9.5KB |       366.0KB |  +356.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
+| net5.0         |          9.5KB |       329.5KB |  +320.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net6.0         |         10.0KB |       267.0KB |  +257.0KB |    +9.5KB |             +7.0KB |           +512bytes |      +3.5KB |
+| net7.0         |         10.0KB |       239.5KB |  +229.5KB |    +9.0KB |             +5.5KB |           +512bytes |      +3.0KB |
+| net8.0         |          9.5KB |       212.0KB |  +202.5KB |    +8.5KB |          +512bytes |           +512bytes |      +3.5KB |
+| net9.0         |         10.0KB |       133.0KB |  +123.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net10.0        |         10.0KB |       107.0KB |   +97.0KB |    +8.0KB |                    |           +512bytes |      +3.5KB |
 | net11.0        |         10.0KB |        17.5KB |    +7.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 
 
@@ -129,26 +129,26 @@ Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       616.4KB |  +608.4KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
-| netstandard2.1 |          8.5KB |       526.2KB |  +517.7KB |   +15.1KB |             +8.2KB |             +12.4KB |     +17.9KB |
-| net461         |          8.5KB |       616.8KB |  +608.3KB |   +16.6KB |             +8.7KB |             +14.4KB |     +19.9KB |
-| net462         |          7.0KB |       620.3KB |  +613.3KB |   +16.6KB |             +8.7KB |             +14.4KB |     +19.9KB |
+| netstandard2.0 |          8.0KB |       616.4KB |  +608.4KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| netstandard2.1 |          8.5KB |       526.2KB |  +517.7KB |   +15.1KB |             +7.7KB |             +12.4KB |     +17.9KB |
+| net461         |          8.5KB |       616.8KB |  +608.3KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
+| net462         |          7.0KB |       620.3KB |  +613.3KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
 | net47          |          7.0KB |       620.3KB |  +613.3KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
-| net471         |          8.5KB |       619.2KB |  +610.7KB |   +16.1KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net471         |          8.5KB |       618.7KB |  +610.2KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | net472         |          8.5KB |       615.3KB |  +606.8KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | net48          |          8.5KB |       615.3KB |  +606.8KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | net481         |          8.5KB |       615.3KB |  +606.8KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| netcoreapp2.0  |          9.0KB |       581.1KB |  +572.1KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
+| netcoreapp2.0  |          9.0KB |       581.1KB |  +572.1KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
 | netcoreapp2.1  |          9.0KB |       540.7KB |  +531.7KB |   +16.1KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | netcoreapp2.2  |          9.0KB |       540.7KB |  +531.7KB |   +16.1KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp3.0  |          9.5KB |       520.2KB |  +510.7KB |   +15.1KB |             +6.7KB |             +12.4KB |     +17.9KB |
-| netcoreapp3.1  |          9.5KB |       520.2KB |  +510.7KB |   +15.1KB |             +6.7KB |             +12.9KB |     +17.9KB |
-| net5.0         |          9.5KB |       464.5KB |  +455.0KB |   +16.1KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net6.0         |         10.0KB |       380.3KB |  +370.3KB |   +17.1KB |             +8.2KB |              +1.1KB |      +3.7KB |
-| net7.0         |         10.0KB |       336.6KB |  +326.6KB |   +16.5KB |             +6.9KB |              +1.1KB |      +3.7KB |
-| net8.0         |          9.5KB |       291.4KB |  +281.9KB |   +18.9KB |          +811bytes |              +1.1KB |      +6.7KB |
-| net9.0         |          9.5KB |       185.7KB |  +176.2KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
-| net10.0        |         10.0KB |       148.9KB |  +138.9KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
+| netcoreapp3.0  |          9.5KB |       523.9KB |  +514.4KB |   +16.1KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp3.1  |          9.5KB |       523.9KB |  +514.4KB |   +16.1KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net5.0         |          9.5KB |       469.2KB |  +459.7KB |   +16.6KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net6.0         |         10.0KB |       384.9KB |  +374.9KB |   +17.1KB |             +8.7KB |              +1.1KB |      +4.2KB |
+| net7.0         |         10.0KB |       341.7KB |  +331.7KB |   +16.5KB |             +6.9KB |              +1.1KB |      +3.7KB |
+| net8.0         |          9.5KB |       299.1KB |  +289.6KB |   +15.9KB |          +811bytes |              +1.1KB |      +4.2KB |
+| net9.0         |         10.0KB |       190.9KB |  +180.9KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
+| net10.0        |         10.0KB |       154.1KB |  +144.1KB |   +15.4KB |                    |              +1.1KB |      +4.2KB |
 | net11.0        |         10.0KB |        25.7KB |   +15.7KB |   +16.4KB |                    |              +1.1KB |      +4.2KB |
 <!-- endInclude -->
 
@@ -2012,29 +2012,53 @@ The class `Polyfill` includes the following extension methods:
 
  * `bool Contains(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-11.0#system-string-contains(system-char-system-stringcomparison))
  * `bool Contains(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-11.0#system-string-contains(system-char))
+ * `bool Contains(Rune, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-11.0#system-string-contains(system-text-rune-system-stringcomparison))
+ * `bool Contains(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-11.0#system-string-contains(system-text-rune))
  * `bool Contains(string, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-11.0#system-string-contains(system-string-system-stringcomparison))
  * `void CopyTo(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.copyto?view=net-11.0)
  * `bool EndsWith(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.endswith?view=net-11.0#system-string-endswith(system-char-system-stringcomparison))
  * `bool EndsWith(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.endswith?view=net-11.0#system-string-endswith(system-char))
+ * `bool EndsWith(Rune, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.endswith?view=net-11.0#system-string-endswith(system-text-rune-system-stringcomparison))
+ * `bool EndsWith(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.endswith?view=net-11.0#system-string-endswith(system-text-rune))
  * `int GetHashCode(StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.gethashcode?view=net-11.0#system-string-gethashcode(system-stringcomparison))
  * `int IndexOf(char, int, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-char-system-int32-system-int32-system-stringcomparison))
  * `int IndexOf(char, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-char-system-int32-system-stringcomparison))
  * `int IndexOf(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-char-system-stringcomparison))
+ * `int IndexOf(Rune, int, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-text-rune-system-int32-system-int32-system-stringcomparison))
+ * `int IndexOf(Rune, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-text-rune-system-int32-system-int32))
+ * `int IndexOf(Rune, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-text-rune-system-int32-system-stringcomparison))
+ * `int IndexOf(Rune, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-text-rune-system-int32))
+ * `int IndexOf(Rune, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-text-rune-system-stringcomparison))
+ * `int IndexOf(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.indexof?view=net-11.0#system-string-indexof(system-text-rune))
  * `int LastIndexOf(char, int, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-char-system-int32-system-int32-system-stringcomparison))
  * `int LastIndexOf(char, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-char-system-int32-system-stringcomparison))
  * `int LastIndexOf(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-char-system-stringcomparison))
+ * `int LastIndexOf(Rune, int, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-text-rune-system-int32-system-int32-system-stringcomparison))
+ * `int LastIndexOf(Rune, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-text-rune-system-int32-system-int32))
+ * `int LastIndexOf(Rune, int, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-text-rune-system-int32-system-stringcomparison))
+ * `int LastIndexOf(Rune, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-text-rune-system-int32))
+ * `int LastIndexOf(Rune, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-text-rune-system-stringcomparison))
+ * `int LastIndexOf(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.lastindexof?view=net-11.0#system-string-lastindexof(system-text-rune))
+ * `string Replace(Rune, Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.replace?view=net-11.0#system-string-replace(system-text-rune-system-text-rune))
  * `string ReplaceLineEndings(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.replacelineendings?view=net-11.0#system-string-replacelineendings(system-string))
  * `string ReplaceLineEndings()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.replacelineendings?view=net-11.0#system-string-replacelineendings)
  * `string[] Split(char, int, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-char-system-int32-system-stringsplitoptions))
  * `string[] Split(char, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-char-system-stringsplitoptions))
+ * `string[] Split(Rune, int, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-text-rune-system-int32-system-stringsplitoptions))
+ * `string[] Split(Rune, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-text-rune-system-stringsplitoptions))
  * `string[] Split(string, int, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-string-system-int32-system-stringsplitoptions))
  * `string[] Split(string, StringSplitOptions)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.split?view=net-11.0#system-string-split(system-string-system-stringsplitoptions))
  * `bool StartsWith(char, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char-system-stringcomparison))
  * `bool StartsWith(char)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-char))
+ * `bool StartsWith(Rune, StringComparison)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-text-rune-system-stringcomparison))
+ * `bool StartsWith(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.startswith?view=net-11.0#system-string-startswith(system-text-rune))
  * `string ToLowerOrdinal()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.tolowerordinal?view=net-11.0)
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
  * `string ToUpperOrdinal()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.toupperordinal?view=net-11.0)
    * Note: Derived from invariant casing, so the mapping follows the Unicode version of the running framework rather than the one net11 is built against.
+ * `string Trim(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.trim?view=net-11.0#system-string-trim(system-text-rune))
+ * `string TrimEnd(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.trimend?view=net-11.0#system-string-trimend(system-text-rune))
+ * `string TrimStart(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.trimstart?view=net-11.0#system-string-trimstart(system-text-rune))
  * `bool TryCopyTo(Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.trycopyto?view=net-11.0)
  * `string Concat(ReadOnlySpan<object?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.concat?view=net-11.0#system-string-concat(system-readonlyspan((system-object))))
  * `string Concat(ReadOnlySpan<string?>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.string.concat?view=net-11.0#system-string-concat(system-readonlyspan((system-string))))
