@@ -95,7 +95,6 @@ partial class PolyfillTests
         await Assert.That(result).IsEqualTo("content");
     }
 
-#if FeatureValueTask
     [Test]
     public async Task ZipArchiveEntry_OpenAsync_WithFileAccess()
     {
@@ -114,12 +113,13 @@ partial class PolyfillTests
         using var readArchive = new ZipArchive(memStream, ZipArchiveMode.Read);
         var readEntry = readArchive.Entries[0];
 
-        using var readStream = await readEntry.OpenAsync(FileAccess.Read);
+        // typed as Task<Stream> so the test fails to compile if the polyfill drifts from the BCL return type
+        Task<Stream> openTask = readEntry.OpenAsync(FileAccess.Read);
+        using var readStream = await openTask;
         using var reader = new StreamReader(readStream);
         var result = await reader.ReadToEndAsync();
         await Assert.That(result).IsEqualTo("content");
     }
-#endif
 
     [Test]
     public async Task ExtractToDirectory_Extracts_All_Entries()
