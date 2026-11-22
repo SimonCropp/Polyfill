@@ -57,16 +57,21 @@
  * `OperationStatus DecodeFromChars(ReadOnlySpan<char>, Span<byte>, int, int, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.decodefromchars?view=net-11.0#system-buffers-text-base64-decodefromchars(system-readonlyspan((system-char))-system-span((system-byte))-system-int32@-system-int32@-system-boolean))
  * `int DecodeFromChars(ReadOnlySpan<char>, Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.decodefromchars?view=net-11.0#system-buffers-text-base64-decodefromchars(system-readonlyspan((system-char))-system-span((system-byte))))
  * `byte[] DecodeFromChars(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.decodefromchars?view=net-11.0#system-buffers-text-base64-decodefromchars(system-readonlyspan((system-char))))
+ * `int DecodeFromUtf8(ReadOnlySpan<byte>, Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.decodefromutf8?view=net-11.0#system-buffers-text-base64-decodefromutf8(system-readonlyspan((system-byte))-system-span((system-byte))))
  * `byte[] DecodeFromUtf8(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.decodefromutf8?view=net-11.0#system-buffers-text-base64-decodefromutf8(system-readonlyspan((system-byte))))
  * `OperationStatus EncodeToChars(ReadOnlySpan<byte>, Span<char>, int, int, bool)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.encodetochars?view=net-11.0#system-buffers-text-base64-encodetochars(system-readonlyspan((system-byte))-system-span((system-char))-system-int32@-system-int32@-system-boolean))
  * `int EncodeToChars(ReadOnlySpan<byte>, Span<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.encodetochars?view=net-11.0#system-buffers-text-base64-encodetochars(system-readonlyspan((system-byte))-system-span((system-char))))
  * `char[] EncodeToChars(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.encodetochars?view=net-11.0#system-buffers-text-base64-encodetochars(system-readonlyspan((system-byte))))
  * `string EncodeToString(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.encodetostring?view=net-11.0)
+ * `int EncodeToUtf8(ReadOnlySpan<byte>, Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.encodetoutf8?view=net-11.0#system-buffers-text-base64-encodetoutf8(system-readonlyspan((system-byte))-system-span((system-byte))))
  * `byte[] EncodeToUtf8(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.encodetoutf8?view=net-11.0#system-buffers-text-base64-encodetoutf8(system-readonlyspan((system-byte))))
  * `int GetEncodedLength(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.getencodedlength?view=net-11.0)
  * `int GetMaxDecodedLength(int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.getmaxdecodedlength?view=net-11.0)
  * `bool TryDecodeFromChars(ReadOnlySpan<char>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.trydecodefromchars?view=net-11.0)
+ * `bool TryDecodeFromUtf8(ReadOnlySpan<byte>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.trydecodefromutf8?view=net-11.0)
  * `bool TryEncodeToChars(ReadOnlySpan<byte>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.tryencodetochars?view=net-11.0)
+ * `bool TryEncodeToUtf8(ReadOnlySpan<byte>, Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.tryencodetoutf8?view=net-11.0)
+ * `bool TryEncodeToUtf8InPlace(Span<byte>, int, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.tryencodetoutf8inplace?view=net-11.0)
 
 
 #### BigInteger

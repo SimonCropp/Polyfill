@@ -402,6 +402,21 @@ public class Base64Tests
             var success = Base64.TryEncodeToChars(source, chars, out written);
             Check("TryEncodeToChars", success && written == expected.Length && new string(chars) == expected + "!");
 
+            var utf8 = new byte[expectedUtf8.Length + 1];
+            utf8[expectedUtf8.Length] = (byte) '!';
+            written = Base64.EncodeToUtf8(source, utf8);
+            Check("EncodeToUtf8", written == expectedUtf8.Length && utf8.AsSpan(0, written).SequenceEqual(expectedUtf8) && utf8[expectedUtf8.Length] == (byte) '!');
+
+            utf8 = new byte[expectedUtf8.Length + 1];
+            utf8[expectedUtf8.Length] = (byte) '!';
+            success = Base64.TryEncodeToUtf8(source, utf8, out written);
+            Check("TryEncodeToUtf8", success && written == expectedUtf8.Length && utf8.AsSpan(0, written).SequenceEqual(expectedUtf8) && utf8[expectedUtf8.Length] == (byte) '!');
+
+            var inPlace = new byte[expectedUtf8.Length];
+            source.CopyTo(inPlace, 0);
+            success = Base64.TryEncodeToUtf8InPlace(inPlace, length, out written);
+            Check("TryEncodeToUtf8InPlace", success && written == expectedUtf8.Length && inPlace.SequenceEqual(expectedUtf8));
+
             Check("DecodeFromChars array", Base64.DecodeFromChars(expected.AsSpan()).SequenceEqual(source));
             Check("DecodeFromUtf8 array", Base64.DecodeFromUtf8(expectedUtf8).SequenceEqual(source));
 
@@ -415,6 +430,16 @@ public class Base64Tests
             success = Base64.TryDecodeFromChars(expected.AsSpan(), bytes, out written);
             Check("TryDecodeFromChars", success && written == length && bytes.AsSpan(0, length).SequenceEqual(source) && bytes[length] == 0xEE);
 
+            bytes = new byte[length + 1];
+            bytes[length] = 0xEE;
+            written = Base64.DecodeFromUtf8(expectedUtf8, bytes);
+            Check("DecodeFromUtf8", written == length && bytes.AsSpan(0, length).SequenceEqual(source) && bytes[length] == 0xEE);
+
+            bytes = new byte[length + 1];
+            bytes[length] = 0xEE;
+            success = Base64.TryDecodeFromUtf8(expectedUtf8, bytes, out written);
+            Check("TryDecodeFromUtf8", success && written == length && bytes.AsSpan(0, length).SequenceEqual(source) && bytes[length] == 0xEE);
+
             if (length > 0)
             {
                 success = Base64.TryEncodeToChars(source, new char[expected.Length - 1], out written);
@@ -422,6 +447,18 @@ public class Base64Tests
 
                 success = Base64.TryDecodeFromChars(expected.AsSpan(), new byte[length - 1], out written);
                 Check("TryDecodeFromChars too small", !success && (written == 0 || !isPolyfill));
+
+                // the UTF-8 overloads report what was written before running out of room, as the BCL does
+                success = Base64.TryEncodeToUtf8(source, new byte[expectedUtf8.Length - 1], out _);
+                Check("TryEncodeToUtf8 too small", !success);
+
+                var tooSmall = new byte[expectedUtf8.Length - 1];
+                source.CopyTo(tooSmall, 0);
+                success = Base64.TryEncodeToUtf8InPlace(tooSmall, length, out _);
+                Check("TryEncodeToUtf8InPlace too small", !success);
+
+                success = Base64.TryDecodeFromUtf8(expectedUtf8, new byte[length - 1], out _);
+                Check("TryDecodeFromUtf8 too small", !success);
             }
         }
 
@@ -433,6 +470,7 @@ public class Base64Tests
     {
         var source = PatternBytes(10);
         await Assert.That(() => Base64.EncodeToChars(source, new char[15])).Throws<ArgumentException>();
+        await Assert.That(() => Base64.EncodeToUtf8(source, new byte[15])).Throws<ArgumentException>();
     }
 
     [Test]
@@ -441,7 +479,9 @@ public class Base64Tests
     public async Task DecodeFromChars_DestinationTooSmall(int length)
     {
         var encoded = Convert.ToBase64String(PatternBytes(length));
+        var utf8 = Encoding.ASCII.GetBytes(encoded);
         await Assert.That(() => Base64.DecodeFromChars(encoded.AsSpan(), new byte[length - 1])).Throws<ArgumentException>();
+        await Assert.That(() => Base64.DecodeFromUtf8(utf8, new byte[length - 1])).Throws<ArgumentException>();
     }
 
     [Test]
@@ -460,6 +500,12 @@ public class Base64Tests
         var success = Base64.TryDecodeFromChars(text.AsSpan(), Span<byte>.Empty, out var written);
         await Assert.That(success).IsTrue();
         await Assert.That(written).IsEqualTo(0);
+
+        await Assert.That(Base64.DecodeFromUtf8(utf8, destination)).IsEqualTo(0);
+
+        success = Base64.TryDecodeFromUtf8(utf8, Span<byte>.Empty, out written);
+        await Assert.That(success).IsTrue();
+        await Assert.That(written).IsEqualTo(0);
     }
 
     [Test]
@@ -473,6 +519,10 @@ public class Base64Tests
         var tryDestination = new byte[HelloBytes.Length];
         var written = Base64.DecodeFromChars(text.AsSpan(), destination);
         var success = Base64.TryDecodeFromChars(text.AsSpan(), tryDestination, out var tryWritten);
+        var utf8Destination = new byte[HelloBytes.Length];
+        var utf8Written = Base64.DecodeFromUtf8(utf8, utf8Destination);
+        var utf8TryDestination = new byte[HelloBytes.Length];
+        var utf8Success = Base64.TryDecodeFromUtf8(utf8, utf8TryDestination, out var utf8TryWritten);
 
         await Assert.That(Base64.DecodeFromChars(text.AsSpan())).IsEquivalentTo(HelloBytes);
         await Assert.That(Base64.DecodeFromUtf8(utf8)).IsEquivalentTo(HelloBytes);
@@ -481,6 +531,11 @@ public class Base64Tests
         await Assert.That(success).IsTrue();
         await Assert.That(tryWritten).IsEqualTo(HelloBytes.Length);
         await Assert.That(tryDestination).IsEquivalentTo(HelloBytes);
+        await Assert.That(utf8Written).IsEqualTo(HelloBytes.Length);
+        await Assert.That(utf8Destination).IsEquivalentTo(HelloBytes);
+        await Assert.That(utf8Success).IsTrue();
+        await Assert.That(utf8TryWritten).IsEqualTo(HelloBytes.Length);
+        await Assert.That(utf8TryDestination).IsEquivalentTo(HelloBytes);
     }
 
     [Test]
@@ -502,6 +557,8 @@ public class Base64Tests
         await Assert.That(() => Base64.DecodeFromUtf8(utf8)).Throws<FormatException>();
         await Assert.That(() => Base64.DecodeFromChars(text.AsSpan(), new byte[text.Length])).Throws<FormatException>();
         await Assert.That(() => Base64.TryDecodeFromChars(text.AsSpan(), new byte[text.Length], out _)).Throws<FormatException>();
+        await Assert.That(() => Base64.DecodeFromUtf8(utf8, new byte[text.Length])).Throws<FormatException>();
+        await Assert.That(() => Base64.TryDecodeFromUtf8(utf8, new byte[text.Length], out _)).Throws<FormatException>();
 
         if (isPolyfill)
         {
@@ -517,6 +574,8 @@ public class Base64Tests
         // 0xC1 would be 'A' if only the low 7 bits were looked at
         byte[] utf8 = [(byte) 'A', (byte) 'Q', (byte) 'I', 0xC1];
         await Assert.That(() => Base64.DecodeFromUtf8(utf8)).Throws<FormatException>();
+        await Assert.That(() => Base64.DecodeFromUtf8(utf8, new byte[20])).Throws<FormatException>();
+        await Assert.That(() => Base64.TryDecodeFromUtf8(utf8, new byte[20], out _)).Throws<FormatException>();
     }
 
     [Test]
