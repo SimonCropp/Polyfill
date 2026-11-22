@@ -869,6 +869,24 @@
    * Note: Copies the span to a string first, so this allocates where the BCL works straight from the span.
 
 
+#### IPEndPoint
+
+ * `IPEndPoint Parse(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipendpoint.parse?view=net-11.0#system-net-ipendpoint-parse(system-readonlyspan((system-byte))))
+   * Note: Decodes the bytes to a string first, so this allocates where the BCL works straight from the UTF-8.
+ * `IPEndPoint Parse(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipendpoint.parse?view=net-11.0#system-net-ipendpoint-parse(system-readonlyspan((system-char))))
+   * Note: Copies the span to a string first, so this allocates where the BCL works straight from the span.
+ * `IPEndPoint Parse(string)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipendpoint.parse?view=net-11.0#system-net-ipendpoint-parse(system-string))
+ * `bool TryFormat(Span<byte>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipendpoint.tryformat?view=net-11.0#system-net-ipendpoint-tryformat(system-span((system-byte))-system-int32@))
+   * Note: On .NET Framework, netstandard2.0 and netcoreapp2.0 the address goes through IPAddress.ToString() first, so this can allocate there.
+ * `bool TryFormat(Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipendpoint.tryformat?view=net-11.0#system-net-ipendpoint-tryformat(system-span((system-char))-system-int32@))
+   * Note: On .NET Framework, netstandard2.0 and netcoreapp2.0 the address goes through IPAddress.ToString() first, so this can allocate there.
+ * `bool TryParse(ReadOnlySpan<byte>, IPEndPoint?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipendpoint.tryparse?view=net-11.0#system-net-ipendpoint-tryparse(system-readonlyspan((system-byte))-system-net-ipendpoint@))
+   * Note: Decodes the bytes to a string first, so this allocates where the BCL works straight from the UTF-8.
+ * `bool TryParse(ReadOnlySpan<char>, IPEndPoint?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipendpoint.tryparse?view=net-11.0#system-net-ipendpoint-tryparse(system-readonlyspan((system-char))-system-net-ipendpoint@))
+   * Note: Copies the span to a string first, so this allocates where the BCL works straight from the span.
+ * `bool TryParse(string, IPEndPoint?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.ipendpoint.tryparse?view=net-11.0#system-net-ipendpoint-tryparse(system-string-system-net-ipendpoint@))
+
+
 #### IReadOnlyDictionary<TKey, TValue>
 
  * `TValue GetValueOrDefault<TKey, TValue>(TKey, TValue) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.getvalueordefault?view=net-11.0#system-collections-generic-collectionextensions-getvalueordefault-2(system-collections-generic-ireadonlydictionary((-0-1))-0-1))
