@@ -552,6 +552,86 @@
  * `bool TryGetValue<T>(T, T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetvalue?view=net-11.0)
 
 
+#### HMACMD5
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacmd5.verify?view=net-11.0#system-security-cryptography-hmacmd5-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacmd5.verify?view=net-11.0#system-security-cryptography-hmacmd5-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacmd5.verify?view=net-11.0#system-security-cryptography-hmacmd5-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacmd5.verify?view=net-11.0#system-security-cryptography-hmacmd5-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacmd5.verifyasync?view=net-11.0#system-security-cryptography-hmacmd5-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacmd5.verifyasync?view=net-11.0#system-security-cryptography-hmacmd5-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
+#### HMACSHA1
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha1.verify?view=net-11.0#system-security-cryptography-hmacsha1-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha1.verify?view=net-11.0#system-security-cryptography-hmacsha1-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha1.verify?view=net-11.0#system-security-cryptography-hmacsha1-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha1.verify?view=net-11.0#system-security-cryptography-hmacsha1-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha1.verifyasync?view=net-11.0#system-security-cryptography-hmacsha1-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha1.verifyasync?view=net-11.0#system-security-cryptography-hmacsha1-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
+#### HMACSHA256
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha256.verify?view=net-11.0#system-security-cryptography-hmacsha256-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha256.verify?view=net-11.0#system-security-cryptography-hmacsha256-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha256.verify?view=net-11.0#system-security-cryptography-hmacsha256-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha256.verify?view=net-11.0#system-security-cryptography-hmacsha256-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha256.verifyasync?view=net-11.0#system-security-cryptography-hmacsha256-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha256.verifyasync?view=net-11.0#system-security-cryptography-hmacsha256-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
+#### HMACSHA3_256
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_256.verify?view=net-11.0#system-security-cryptography-hmacsha3_256-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_256.verify?view=net-11.0#system-security-cryptography-hmacsha3_256-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_256.verify?view=net-11.0#system-security-cryptography-hmacsha3_256-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_256.verify?view=net-11.0#system-security-cryptography-hmacsha3_256-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_256.verifyasync?view=net-11.0#system-security-cryptography-hmacsha3_256-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_256.verifyasync?view=net-11.0#system-security-cryptography-hmacsha3_256-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
+#### HMACSHA3_384
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_384.verify?view=net-11.0#system-security-cryptography-hmacsha3_384-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_384.verify?view=net-11.0#system-security-cryptography-hmacsha3_384-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_384.verify?view=net-11.0#system-security-cryptography-hmacsha3_384-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_384.verify?view=net-11.0#system-security-cryptography-hmacsha3_384-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_384.verifyasync?view=net-11.0#system-security-cryptography-hmacsha3_384-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_384.verifyasync?view=net-11.0#system-security-cryptography-hmacsha3_384-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
+#### HMACSHA3_512
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_512.verify?view=net-11.0#system-security-cryptography-hmacsha3_512-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_512.verify?view=net-11.0#system-security-cryptography-hmacsha3_512-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_512.verify?view=net-11.0#system-security-cryptography-hmacsha3_512-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_512.verify?view=net-11.0#system-security-cryptography-hmacsha3_512-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_512.verifyasync?view=net-11.0#system-security-cryptography-hmacsha3_512-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_512.verifyasync?view=net-11.0#system-security-cryptography-hmacsha3_512-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
+#### HMACSHA384
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha384.verify?view=net-11.0#system-security-cryptography-hmacsha384-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha384.verify?view=net-11.0#system-security-cryptography-hmacsha384-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha384.verify?view=net-11.0#system-security-cryptography-hmacsha384-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha384.verify?view=net-11.0#system-security-cryptography-hmacsha384-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha384.verifyasync?view=net-11.0#system-security-cryptography-hmacsha384-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha384.verifyasync?view=net-11.0#system-security-cryptography-hmacsha384-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
+#### HMACSHA512
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha512.verify?view=net-11.0#system-security-cryptography-hmacsha512-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha512.verify?view=net-11.0#system-security-cryptography-hmacsha512-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha512.verify?view=net-11.0#system-security-cryptography-hmacsha512-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha512.verify?view=net-11.0#system-security-cryptography-hmacsha512-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha512.verifyasync?view=net-11.0#system-security-cryptography-hmacsha512-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha512.verifyasync?view=net-11.0#system-security-cryptography-hmacsha512-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
 #### HttpClient
 
  * `Task<byte[]> GetByteArrayAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getbytearrayasync?view=net-11.0#system-net-http-httpclient-getbytearrayasync(system-string-system-threading-cancellationtoken))
@@ -675,6 +755,14 @@
    * Note: Only available on netcoreapp2.1 and later, since ImmutableDictionary is a separate package below that.
  * `ImmutableDictionary<TKey, TValue> CreateRangeWithOverwrite<TKey, TValue>(ReadOnlySpan<KeyValuePair<TKey, TValue>>) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable.immutabledictionary.createrangewithoverwrite?view=net-11.0#system-collections-immutable-immutabledictionary-createrangewithoverwrite-2(system-readonlyspan((system-collections-generic-keyvaluepair((-0-1))))))
    * Note: Only available on netcoreapp2.1 and later, since ImmutableDictionary is a separate package below that.
+
+
+#### IncrementalHash
+
+ * `bool VerifyCurrentHash(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.incrementalhash.verifycurrenthash?view=net-11.0#system-security-cryptography-incrementalhash-verifycurrenthash(system-byte()))
+ * `bool VerifyCurrentHash(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.incrementalhash.verifycurrenthash?view=net-11.0#system-security-cryptography-incrementalhash-verifycurrenthash(system-readonlyspan((system-byte))))
+ * `bool VerifyHashAndReset(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.incrementalhash.verifyhashandreset?view=net-11.0#system-security-cryptography-incrementalhash-verifyhashandreset(system-byte()))
+ * `bool VerifyHashAndReset(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.incrementalhash.verifyhashandreset?view=net-11.0#system-security-cryptography-incrementalhash-verifyhashandreset(system-readonlyspan((system-byte))))
 
 
 #### Int128
@@ -805,6 +893,38 @@
 #### KeyValuePair<TKey, TValue>
 
  * `void Deconstruct<TKey, TValue>(TKey, TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct?view=net-11.0)
+
+
+#### Kmac128
+
+ * `bool VerifyCurrentHash(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac128.verifycurrenthash?view=net-11.0#system-security-cryptography-kmac128-verifycurrenthash(system-byte()))
+ * `bool VerifyCurrentHash(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac128.verifycurrenthash?view=net-11.0#system-security-cryptography-kmac128-verifycurrenthash(system-readonlyspan((system-byte))))
+ * `bool VerifyHashAndReset(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac128.verifyhashandreset?view=net-11.0#system-security-cryptography-kmac128-verifyhashandreset(system-byte()))
+ * `bool VerifyHashAndReset(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac128.verifyhashandreset?view=net-11.0#system-security-cryptography-kmac128-verifyhashandreset(system-readonlyspan((system-byte))))
+
+
+#### Kmac256
+
+ * `bool VerifyCurrentHash(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac256.verifycurrenthash?view=net-11.0#system-security-cryptography-kmac256-verifycurrenthash(system-byte()))
+ * `bool VerifyCurrentHash(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac256.verifycurrenthash?view=net-11.0#system-security-cryptography-kmac256-verifycurrenthash(system-readonlyspan((system-byte))))
+ * `bool VerifyHashAndReset(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac256.verifyhashandreset?view=net-11.0#system-security-cryptography-kmac256-verifyhashandreset(system-byte()))
+ * `bool VerifyHashAndReset(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac256.verifyhashandreset?view=net-11.0#system-security-cryptography-kmac256-verifyhashandreset(system-readonlyspan((system-byte))))
+
+
+#### KmacXof128
+
+ * `bool VerifyCurrentHash(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof128.verifycurrenthash?view=net-11.0#system-security-cryptography-kmacxof128-verifycurrenthash(system-byte()))
+ * `bool VerifyCurrentHash(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof128.verifycurrenthash?view=net-11.0#system-security-cryptography-kmacxof128-verifycurrenthash(system-readonlyspan((system-byte))))
+ * `bool VerifyHashAndReset(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof128.verifyhashandreset?view=net-11.0#system-security-cryptography-kmacxof128-verifyhashandreset(system-byte()))
+ * `bool VerifyHashAndReset(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof128.verifyhashandreset?view=net-11.0#system-security-cryptography-kmacxof128-verifyhashandreset(system-readonlyspan((system-byte))))
+
+
+#### KmacXof256
+
+ * `bool VerifyCurrentHash(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof256.verifycurrenthash?view=net-11.0#system-security-cryptography-kmacxof256-verifycurrenthash(system-byte()))
+ * `bool VerifyCurrentHash(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof256.verifycurrenthash?view=net-11.0#system-security-cryptography-kmacxof256-verifycurrenthash(system-readonlyspan((system-byte))))
+ * `bool VerifyHashAndReset(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof256.verifyhashandreset?view=net-11.0#system-security-cryptography-kmacxof256-verifyhashandreset(system-byte()))
+ * `bool VerifyHashAndReset(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof256.verifyhashandreset?view=net-11.0#system-security-cryptography-kmacxof256-verifyhashandreset(system-readonlyspan((system-byte))))
 
 
 #### List<T>

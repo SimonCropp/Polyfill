@@ -113,4 +113,12 @@ static partial class Polyfill
 	internal static bool TryHashSpan(HashAlgorithm algorithm, ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten) =>
 		algorithm.TryComputeHash(source, destination, out bytesWritten);
 #endif
+#if FeatureMemory
+	internal static bool FixedTimeEqualsAndClear(Span<byte> computed, ReadOnlySpan<byte> hash)
+	{
+		var result = CryptographicOperations.FixedTimeEquals(computed, hash);
+		CryptographicOperations.ZeroMemory(computed);
+		return result;
+	}
+#endif
 }
