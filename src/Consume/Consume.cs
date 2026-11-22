@@ -280,6 +280,28 @@ class Consume
     }
 #endif
 
+    void IPEndPointUsage()
+    {
+        var endpoint = IPEndPoint.Parse("127.0.0.1:80");
+        var result = IPEndPoint.TryParse("127.0.0.1:80", out endpoint);
+
+#if FeatureMemory
+        ReadOnlySpan<char> charSpan = default;
+        endpoint = IPEndPoint.Parse(charSpan);
+        result = IPEndPoint.TryParse(charSpan, out endpoint);
+
+        ReadOnlySpan<byte> byteSpan = default;
+        endpoint = IPEndPoint.Parse(byteSpan);
+        result = IPEndPoint.TryParse(byteSpan, out endpoint);
+
+        var formatted = new IPEndPoint(IPAddress.Loopback, 80);
+        Span<char> chars = stackalloc char[64];
+        result = formatted.TryFormat(chars, out var charsWritten);
+        Span<byte> bytes = stackalloc byte[64];
+        result = formatted.TryFormat(bytes, out var bytesWritten);
+#endif
+    }
+
 #if FeatureMemory
     void Base64UrlUsage()
     {
