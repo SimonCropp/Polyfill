@@ -199,6 +199,46 @@ static partial class Polyfill
 #endif
 
 #endif
+
+#if FeatureMemory
+
+    // Shared by the Verify polyfills: compares in fixed time, then clears the computed hash
+    internal static bool FixedTimeEqualsAndClear(Span<byte> computed, ReadOnlySpan<byte> hash)
+    {
+        var result = CryptographicOperations.FixedTimeEquals(computed, hash);
+        CryptographicOperations.ZeroMemory(computed);
+        return result;
+    }
+
+#endif
+
+#if NET8_0_OR_GREATER
+
+    // Shared by the HMACSHA3 Verify polyfills, which validate in the same order as the BCL
+    internal static void CheckHmacHashLength(int hashLength, int hashSizeInBytes)
+    {
+        if (hashLength != hashSizeInBytes)
+        {
+            throw new ArgumentException($"The hash must be {hashSizeInBytes} bytes in length.", "hash");
+        }
+    }
+
+    internal static void CheckHmacStream(Stream source, int hashLength, int hashSizeInBytes)
+    {
+        if (source == null)
+        {
+            throw new ArgumentNullException(nameof(source));
+        }
+
+        CheckHmacHashLength(hashLength, hashSizeInBytes);
+
+        if (!source.CanRead)
+        {
+            throw new ArgumentException("Stream was not readable.", nameof(source));
+        }
+    }
+
+#endif
 }
 
 #endif

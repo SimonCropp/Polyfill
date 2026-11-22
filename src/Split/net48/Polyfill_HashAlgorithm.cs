@@ -142,4 +142,12 @@ static partial class Polyfill
 		return true;
 	}
 #endif
+#if FeatureMemory
+	internal static bool FixedTimeEqualsAndClear(Span<byte> computed, ReadOnlySpan<byte> hash)
+	{
+		var result = CryptographicOperations.FixedTimeEquals(computed, hash);
+		CryptographicOperations.ZeroMemory(computed);
+		return result;
+	}
+#endif
 }

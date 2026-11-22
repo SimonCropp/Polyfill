@@ -681,6 +681,105 @@ class Consume
 #endif
     }
 
+    void HmacVerifyUsage()
+    {
+        HMACMD5.Verify((byte[]) null!, (byte[]) null!, (byte[]) null!);
+        HMACMD5.Verify((byte[]) null!, (Stream) null!, (byte[]) null!);
+        HMACSHA1.Verify((byte[]) null!, (byte[]) null!, (byte[]) null!);
+        HMACSHA1.Verify((byte[]) null!, (Stream) null!, (byte[]) null!);
+        HMACSHA256.Verify((byte[]) null!, (byte[]) null!, (byte[]) null!);
+        HMACSHA256.Verify((byte[]) null!, (Stream) null!, (byte[]) null!);
+        HMACSHA384.Verify((byte[]) null!, (byte[]) null!, (byte[]) null!);
+        HMACSHA384.Verify((byte[]) null!, (Stream) null!, (byte[]) null!);
+        HMACSHA512.Verify((byte[]) null!, (byte[]) null!, (byte[]) null!);
+        HMACSHA512.Verify((byte[]) null!, (Stream) null!, (byte[]) null!);
+#if FeatureValueTask
+        HMACMD5.VerifyAsync((byte[]) null!, (Stream) null!, (byte[]) null!, CancellationToken.None);
+        HMACSHA1.VerifyAsync((byte[]) null!, (Stream) null!, (byte[]) null!, CancellationToken.None);
+        HMACSHA256.VerifyAsync((byte[]) null!, (Stream) null!, (byte[]) null!, CancellationToken.None);
+        HMACSHA384.VerifyAsync((byte[]) null!, (Stream) null!, (byte[]) null!, CancellationToken.None);
+        HMACSHA512.VerifyAsync((byte[]) null!, (Stream) null!, (byte[]) null!, CancellationToken.None);
+#endif
+#if FeatureMemory
+        ReadOnlySpan<byte> readOnlySpan = default;
+        ReadOnlyMemory<byte> readOnlyMemory = default;
+
+        HMACMD5.Verify(readOnlySpan, readOnlySpan, readOnlySpan);
+        HMACMD5.Verify(readOnlySpan, (Stream) null!, readOnlySpan);
+        HMACSHA1.Verify(readOnlySpan, readOnlySpan, readOnlySpan);
+        HMACSHA1.Verify(readOnlySpan, (Stream) null!, readOnlySpan);
+        HMACSHA256.Verify(readOnlySpan, readOnlySpan, readOnlySpan);
+        HMACSHA256.Verify(readOnlySpan, (Stream) null!, readOnlySpan);
+        HMACSHA384.Verify(readOnlySpan, readOnlySpan, readOnlySpan);
+        HMACSHA384.Verify(readOnlySpan, (Stream) null!, readOnlySpan);
+        HMACSHA512.Verify(readOnlySpan, readOnlySpan, readOnlySpan);
+        HMACSHA512.Verify(readOnlySpan, (Stream) null!, readOnlySpan);
+#if FeatureValueTask
+        HMACMD5.VerifyAsync(readOnlyMemory, (Stream) null!, readOnlyMemory, CancellationToken.None);
+        HMACSHA1.VerifyAsync(readOnlyMemory, (Stream) null!, readOnlyMemory, CancellationToken.None);
+        HMACSHA256.VerifyAsync(readOnlyMemory, (Stream) null!, readOnlyMemory, CancellationToken.None);
+        HMACSHA384.VerifyAsync(readOnlyMemory, (Stream) null!, readOnlyMemory, CancellationToken.None);
+        HMACSHA512.VerifyAsync(readOnlyMemory, (Stream) null!, readOnlyMemory, CancellationToken.None);
+#endif
+#endif
+#if NET8_0_OR_GREATER
+        HMACSHA3_256.Verify((byte[]) null!, (byte[]) null!, (byte[]) null!);
+        HMACSHA3_256.Verify((byte[]) null!, (Stream) null!, (byte[]) null!);
+        HMACSHA3_256.Verify(readOnlySpan, readOnlySpan, readOnlySpan);
+        HMACSHA3_256.Verify(readOnlySpan, (Stream) null!, readOnlySpan);
+        HMACSHA3_256.VerifyAsync((byte[]) null!, (Stream) null!, (byte[]) null!, CancellationToken.None);
+        HMACSHA3_256.VerifyAsync(readOnlyMemory, (Stream) null!, readOnlyMemory, CancellationToken.None);
+        HMACSHA3_384.Verify((byte[]) null!, (byte[]) null!, (byte[]) null!);
+        HMACSHA3_384.Verify((byte[]) null!, (Stream) null!, (byte[]) null!);
+        HMACSHA3_384.Verify(readOnlySpan, readOnlySpan, readOnlySpan);
+        HMACSHA3_384.Verify(readOnlySpan, (Stream) null!, readOnlySpan);
+        HMACSHA3_384.VerifyAsync((byte[]) null!, (Stream) null!, (byte[]) null!, CancellationToken.None);
+        HMACSHA3_384.VerifyAsync(readOnlyMemory, (Stream) null!, readOnlyMemory, CancellationToken.None);
+        HMACSHA3_512.Verify((byte[]) null!, (byte[]) null!, (byte[]) null!);
+        HMACSHA3_512.Verify((byte[]) null!, (Stream) null!, (byte[]) null!);
+        HMACSHA3_512.Verify(readOnlySpan, readOnlySpan, readOnlySpan);
+        HMACSHA3_512.Verify(readOnlySpan, (Stream) null!, readOnlySpan);
+        HMACSHA3_512.VerifyAsync((byte[]) null!, (Stream) null!, (byte[]) null!, CancellationToken.None);
+        HMACSHA3_512.VerifyAsync(readOnlyMemory, (Stream) null!, readOnlyMemory, CancellationToken.None);
+#endif
+    }
+
+#if !NETFRAMEWORK || NET471_OR_GREATER
+    void IncrementalHashUsage(IncrementalHash hash)
+    {
+        hash.VerifyHashAndReset((byte[]) null!);
+#if FeatureMemory
+        hash.VerifyHashAndReset(ReadOnlySpan<byte>.Empty);
+#endif
+#if NET5_0_OR_GREATER
+        hash.VerifyCurrentHash((byte[]) null!);
+        hash.VerifyCurrentHash(ReadOnlySpan<byte>.Empty);
+#endif
+    }
+#endif
+
+#if NET9_0_OR_GREATER
+    void KmacUsage(Kmac128 kmac128, Kmac256 kmac256, KmacXof128 kmacXof128, KmacXof256 kmacXof256)
+    {
+        kmac128.VerifyCurrentHash((byte[]) null!);
+        kmac128.VerifyCurrentHash(ReadOnlySpan<byte>.Empty);
+        kmac128.VerifyHashAndReset((byte[]) null!);
+        kmac128.VerifyHashAndReset(ReadOnlySpan<byte>.Empty);
+        kmac256.VerifyCurrentHash((byte[]) null!);
+        kmac256.VerifyCurrentHash(ReadOnlySpan<byte>.Empty);
+        kmac256.VerifyHashAndReset((byte[]) null!);
+        kmac256.VerifyHashAndReset(ReadOnlySpan<byte>.Empty);
+        kmacXof128.VerifyCurrentHash((byte[]) null!);
+        kmacXof128.VerifyCurrentHash(ReadOnlySpan<byte>.Empty);
+        kmacXof128.VerifyHashAndReset((byte[]) null!);
+        kmacXof128.VerifyHashAndReset(ReadOnlySpan<byte>.Empty);
+        kmacXof256.VerifyCurrentHash((byte[]) null!);
+        kmacXof256.VerifyCurrentHash(ReadOnlySpan<byte>.Empty);
+        kmacXof256.VerifyHashAndReset((byte[]) null!);
+        kmacXof256.VerifyHashAndReset(ReadOnlySpan<byte>.Empty);
+    }
+#endif
+
 #if FeatureMemory
 
     void CollectionBuilderAttribute()

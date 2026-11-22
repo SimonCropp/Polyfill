@@ -13,34 +13,34 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 1213**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 1281**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
 | Target | APIs |
 | -- | -- |
-| `net461` | 1092 |
-| `net462` | 1092 |
-| `net47` | 1092 |
-| `net471` | 1090 |
-| `net472` | 1086 |
-| `net48` | 1086 |
-| `net481` | 1086 |
-| `netstandard2.0` | 1088 |
-| `netstandard2.1` | 913 |
-| `netcoreapp2.0` | 1014 |
-| `netcoreapp2.1` | 927 |
-| `netcoreapp2.2` | 927 |
-| `netcoreapp3.0` | 909 |
-| `netcoreapp3.1` | 909 |
-| `net5.0` | 793 |
-| `net6.0` | 689 |
-| `net7.0` | 549 |
-| `net8.0` | 430 |
-| `net9.0` | 282 |
-| `net10.0` | 215 |
+| `net461` | 1122 |
+| `net462` | 1122 |
+| `net47` | 1122 |
+| `net471` | 1122 |
+| `net472` | 1118 |
+| `net48` | 1118 |
+| `net481` | 1118 |
+| `netstandard2.0` | 1120 |
+| `netstandard2.1` | 945 |
+| `netcoreapp2.0` | 1046 |
+| `netcoreapp2.1` | 959 |
+| `netcoreapp2.2` | 959 |
+| `netcoreapp3.0` | 941 |
+| `netcoreapp3.1` | 941 |
+| `net5.0` | 827 |
+| `net6.0` | 723 |
+| `net7.0` | 583 |
+| `net8.0` | 482 |
+| `net9.0` | 350 |
+| `net10.0` | 283 |
 | `net11.0` | 56 |
-| `uap10.0` | 1078 |
+| `uap10.0` | 1110 |
 <!-- endInclude -->
 
 
@@ -102,26 +102,26 @@ Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       424.0KB |  +416.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netstandard2.1 |          8.5KB |       367.5KB |  +359.0KB |    +7.5KB |             +6.0KB |              +7.5KB |     +12.0KB |
-| net461         |          8.5KB |       423.0KB |  +414.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net462         |          7.0KB |       426.5KB |  +419.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net47          |          7.0KB |       426.5KB |  +419.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net471         |          8.5KB |       425.5KB |  +417.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
-| net472         |          8.5KB |       423.0KB |  +414.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
-| net48          |          8.5KB |       423.0KB |  +414.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
-| net481         |          8.5KB |       423.0KB |  +414.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.5KB |
-| netcoreapp2.0  |          9.0KB |       399.5KB |  +390.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.5KB |
-| netcoreapp2.1  |          9.0KB |       375.0KB |  +366.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp2.2  |          9.0KB |       375.0KB |  +366.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| netcoreapp3.0  |          9.5KB |       367.0KB |  +357.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| netcoreapp3.1  |          9.5KB |       367.0KB |  +357.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
-| net5.0         |          9.5KB |       330.5KB |  +321.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
-| net6.0         |         10.0KB |       268.0KB |  +258.0KB |    +9.5KB |             +7.0KB |           +512bytes |      +3.5KB |
-| net7.0         |         10.0KB |       240.0KB |  +230.0KB |    +9.5KB |             +6.0KB |              +1.0KB |      +3.5KB |
-| net8.0         |          9.5KB |       213.0KB |  +203.5KB |    +8.5KB |          +512bytes |           +512bytes |      +3.5KB |
-| net9.0         |          9.5KB |       134.0KB |  +124.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net10.0        |         10.0KB |       108.0KB |   +98.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| netstandard2.0 |          8.0KB |       429.5KB |  +421.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.5KB |
+| netstandard2.1 |          8.5KB |       373.0KB |  +364.5KB |    +7.5KB |             +5.5KB |              +8.0KB |     +12.5KB |
+| net461         |          8.5KB |       428.0KB |  +419.5KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net462         |          7.0KB |       431.5KB |  +424.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net47          |          7.0KB |       431.5KB |  +424.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| net471         |          8.5KB |       431.5KB |  +423.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net472         |          8.5KB |       429.0KB |  +420.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
+| net48          |          8.5KB |       429.0KB |  +420.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
+| net481         |          8.5KB |       429.0KB |  +420.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.5KB |
+| netcoreapp2.0  |          9.0KB |       405.5KB |  +396.5KB |    +9.0KB |             +7.0KB |              +9.5KB |     +14.5KB |
+| netcoreapp2.1  |          9.0KB |       380.5KB |  +371.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.5KB |
+| netcoreapp2.2  |          9.0KB |       381.0KB |  +372.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +14.0KB |
+| netcoreapp3.0  |          9.5KB |       372.5KB |  +363.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| netcoreapp3.1  |          9.5KB |       372.5KB |  +363.0KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net5.0         |          9.5KB |       336.0KB |  +326.5KB |    +9.0KB |             +6.5KB |              +9.5KB |     +14.0KB |
+| net6.0         |         10.0KB |       274.0KB |  +264.0KB |    +9.5KB |             +6.5KB |           +512bytes |      +3.0KB |
+| net7.0         |         10.0KB |       246.0KB |  +236.0KB |    +9.5KB |             +6.0KB |           +512bytes |      +3.5KB |
+| net8.0         |          9.5KB |       225.5KB |  +216.0KB |    +8.5KB |          +512bytes |           +512bytes |      +3.5KB |
+| net9.0         |          9.5KB |       147.5KB |  +138.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net10.0        |         10.0KB |       121.5KB |  +111.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
 | net11.0        |         10.0KB |        17.5KB |    +7.5KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 
 
@@ -129,26 +129,26 @@ Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-
 
 |                | Empty Assembly | With Polyfill | Diff      | Ensure    | ArgumentExceptions | StringInterpolation | Nullability |
 |----------------|----------------|---------------|-----------|-----------|--------------------|---------------------|-------------|
-| netstandard2.0 |          8.0KB |       617.5KB |  +609.5KB |   +16.1KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netstandard2.1 |          8.5KB |       527.4KB |  +518.9KB |   +15.1KB |             +7.7KB |             +12.4KB |     +17.4KB |
-| net461         |          8.5KB |       617.9KB |  +609.4KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net462         |          7.0KB |       621.4KB |  +614.4KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net47          |          7.0KB |       621.4KB |  +614.4KB |   +16.6KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net471         |          8.5KB |       619.8KB |  +611.3KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
-| net472         |          8.5KB |       615.9KB |  +607.4KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
-| net48          |          8.5KB |       615.9KB |  +607.4KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
-| net481         |          8.5KB |       615.9KB |  +607.4KB |   +16.6KB |             +8.7KB |             +14.4KB |     +19.9KB |
-| netcoreapp2.0  |          9.0KB |       581.7KB |  +572.7KB |   +16.6KB |             +8.7KB |             +14.4KB |     +19.9KB |
-| netcoreapp2.1  |          9.0KB |       541.9KB |  +532.9KB |   +16.1KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp2.2  |          9.0KB |       541.9KB |  +532.9KB |   +16.1KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| netcoreapp3.0  |          9.5KB |       525.1KB |  +515.6KB |   +16.1KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.1  |          9.5KB |       525.1KB |  +515.6KB |   +16.1KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net5.0         |          9.5KB |       470.3KB |  +460.8KB |   +16.6KB |             +8.2KB |             +13.9KB |     +19.4KB |
-| net6.0         |         10.0KB |       386.1KB |  +376.1KB |   +17.1KB |             +8.7KB |              +1.1KB |      +4.2KB |
-| net7.0         |         10.0KB |       342.4KB |  +332.4KB |   +17.0KB |             +7.4KB |              +1.6KB |      +4.2KB |
-| net8.0         |          9.5KB |       300.4KB |  +290.9KB |   +15.9KB |          +811bytes |              +1.1KB |      +4.2KB |
-| net9.0         |          9.5KB |       192.1KB |  +182.6KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
-| net10.0        |         10.0KB |       155.3KB |  +145.3KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
+| netstandard2.0 |          8.0KB |       626.9KB |  +618.9KB |   +16.6KB |             +8.7KB |             +14.4KB |     +19.9KB |
+| netstandard2.1 |          8.5KB |       536.7KB |  +528.2KB |   +15.1KB |             +7.2KB |             +12.9KB |     +17.9KB |
+| net461         |          8.5KB |       626.1KB |  +617.6KB |   +16.6KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net462         |          7.0KB |       629.6KB |  +622.6KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net47          |          7.0KB |       629.6KB |  +622.6KB |   +16.1KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| net471         |          8.5KB |       629.6KB |  +621.1KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net472         |          8.5KB |       625.8KB |  +617.3KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
+| net48          |          8.5KB |       625.8KB |  +617.3KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
+| net481         |          8.5KB |       625.8KB |  +617.3KB |   +16.6KB |             +8.7KB |             +14.4KB |     +19.9KB |
+| netcoreapp2.0  |          9.0KB |       591.5KB |  +582.5KB |   +16.6KB |             +8.7KB |             +14.4KB |     +19.9KB |
+| netcoreapp2.1  |          9.0KB |       551.2KB |  +542.2KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
+| netcoreapp2.2  |          9.0KB |       551.7KB |  +542.7KB |   +16.1KB |             +8.2KB |             +13.9KB |     +19.4KB |
+| netcoreapp3.0  |          9.5KB |       534.4KB |  +524.9KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| netcoreapp3.1  |          9.5KB |       534.4KB |  +524.9KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net5.0         |          9.5KB |       479.7KB |  +470.2KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.4KB |
+| net6.0         |         10.0KB |       395.9KB |  +385.9KB |   +17.1KB |             +8.2KB |              +1.1KB |      +3.7KB |
+| net7.0         |         10.0KB |       352.2KB |  +342.2KB |   +17.0KB |             +7.4KB |              +1.1KB |      +4.2KB |
+| net8.0         |          9.5KB |       319.4KB |  +309.9KB |   +15.9KB |          +811bytes |              +1.1KB |      +4.2KB |
+| net9.0         |          9.5KB |       212.7KB |  +203.2KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
+| net10.0        |         10.0KB |       175.9KB |  +165.9KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
 | net11.0        |         10.0KB |        25.7KB |   +15.7KB |   +16.4KB |                    |              +1.1KB |      +4.2KB |
 <!-- endInclude -->
 
@@ -1265,6 +1265,86 @@ The class `Polyfill` includes the following extension methods:
  * `bool TryGetValue<T>(T, T)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1.trygetvalue?view=net-11.0)
 
 
+#### HMACMD5
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacmd5.verify?view=net-11.0#system-security-cryptography-hmacmd5-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacmd5.verify?view=net-11.0#system-security-cryptography-hmacmd5-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacmd5.verify?view=net-11.0#system-security-cryptography-hmacmd5-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacmd5.verify?view=net-11.0#system-security-cryptography-hmacmd5-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacmd5.verifyasync?view=net-11.0#system-security-cryptography-hmacmd5-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacmd5.verifyasync?view=net-11.0#system-security-cryptography-hmacmd5-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
+#### HMACSHA1
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha1.verify?view=net-11.0#system-security-cryptography-hmacsha1-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha1.verify?view=net-11.0#system-security-cryptography-hmacsha1-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha1.verify?view=net-11.0#system-security-cryptography-hmacsha1-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha1.verify?view=net-11.0#system-security-cryptography-hmacsha1-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha1.verifyasync?view=net-11.0#system-security-cryptography-hmacsha1-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha1.verifyasync?view=net-11.0#system-security-cryptography-hmacsha1-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
+#### HMACSHA256
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha256.verify?view=net-11.0#system-security-cryptography-hmacsha256-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha256.verify?view=net-11.0#system-security-cryptography-hmacsha256-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha256.verify?view=net-11.0#system-security-cryptography-hmacsha256-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha256.verify?view=net-11.0#system-security-cryptography-hmacsha256-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha256.verifyasync?view=net-11.0#system-security-cryptography-hmacsha256-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha256.verifyasync?view=net-11.0#system-security-cryptography-hmacsha256-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
+#### HMACSHA3_256
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_256.verify?view=net-11.0#system-security-cryptography-hmacsha3_256-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_256.verify?view=net-11.0#system-security-cryptography-hmacsha3_256-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_256.verify?view=net-11.0#system-security-cryptography-hmacsha3_256-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_256.verify?view=net-11.0#system-security-cryptography-hmacsha3_256-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_256.verifyasync?view=net-11.0#system-security-cryptography-hmacsha3_256-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_256.verifyasync?view=net-11.0#system-security-cryptography-hmacsha3_256-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
+#### HMACSHA3_384
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_384.verify?view=net-11.0#system-security-cryptography-hmacsha3_384-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_384.verify?view=net-11.0#system-security-cryptography-hmacsha3_384-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_384.verify?view=net-11.0#system-security-cryptography-hmacsha3_384-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_384.verify?view=net-11.0#system-security-cryptography-hmacsha3_384-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_384.verifyasync?view=net-11.0#system-security-cryptography-hmacsha3_384-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_384.verifyasync?view=net-11.0#system-security-cryptography-hmacsha3_384-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
+#### HMACSHA3_512
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_512.verify?view=net-11.0#system-security-cryptography-hmacsha3_512-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_512.verify?view=net-11.0#system-security-cryptography-hmacsha3_512-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_512.verify?view=net-11.0#system-security-cryptography-hmacsha3_512-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_512.verify?view=net-11.0#system-security-cryptography-hmacsha3_512-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_512.verifyasync?view=net-11.0#system-security-cryptography-hmacsha3_512-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha3_512.verifyasync?view=net-11.0#system-security-cryptography-hmacsha3_512-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
+#### HMACSHA384
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha384.verify?view=net-11.0#system-security-cryptography-hmacsha384-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha384.verify?view=net-11.0#system-security-cryptography-hmacsha384-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha384.verify?view=net-11.0#system-security-cryptography-hmacsha384-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha384.verify?view=net-11.0#system-security-cryptography-hmacsha384-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha384.verifyasync?view=net-11.0#system-security-cryptography-hmacsha384-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha384.verifyasync?view=net-11.0#system-security-cryptography-hmacsha384-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
+#### HMACSHA512
+
+ * `bool Verify(byte[], byte[], byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha512.verify?view=net-11.0#system-security-cryptography-hmacsha512-verify(system-byte()-system-byte()-system-byte()))
+ * `bool Verify(byte[], Stream, byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha512.verify?view=net-11.0#system-security-cryptography-hmacsha512-verify(system-byte()-system-io-stream-system-byte()))
+ * `bool Verify(ReadOnlySpan<byte>, ReadOnlySpan<byte>, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha512.verify?view=net-11.0#system-security-cryptography-hmacsha512-verify(system-readonlyspan((system-byte))-system-readonlyspan((system-byte))-system-readonlyspan((system-byte))))
+ * `bool Verify(ReadOnlySpan<byte>, Stream, ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha512.verify?view=net-11.0#system-security-cryptography-hmacsha512-verify(system-readonlyspan((system-byte))-system-io-stream-system-readonlyspan((system-byte))))
+ * `ValueTask<bool> VerifyAsync(byte[], Stream, byte[], CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha512.verifyasync?view=net-11.0#system-security-cryptography-hmacsha512-verifyasync(system-byte()-system-io-stream-system-byte()-system-threading-cancellationtoken))
+ * `ValueTask<bool> VerifyAsync(ReadOnlyMemory<byte>, Stream, ReadOnlyMemory<byte>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.hmacsha512.verifyasync?view=net-11.0#system-security-cryptography-hmacsha512-verifyasync(system-readonlymemory((system-byte))-system-io-stream-system-readonlymemory((system-byte))-system-threading-cancellationtoken))
+
+
 #### HttpClient
 
  * `Task<byte[]> GetByteArrayAsync(string, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.http.httpclient.getbytearrayasync?view=net-11.0#system-net-http-httpclient-getbytearrayasync(system-string-system-threading-cancellationtoken))
@@ -1388,6 +1468,14 @@ The class `Polyfill` includes the following extension methods:
    * Note: Only available on netcoreapp2.1 and later, since ImmutableDictionary is a separate package below that.
  * `ImmutableDictionary<TKey, TValue> CreateRangeWithOverwrite<TKey, TValue>(ReadOnlySpan<KeyValuePair<TKey, TValue>>) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.immutable.immutabledictionary.createrangewithoverwrite?view=net-11.0#system-collections-immutable-immutabledictionary-createrangewithoverwrite-2(system-readonlyspan((system-collections-generic-keyvaluepair((-0-1))))))
    * Note: Only available on netcoreapp2.1 and later, since ImmutableDictionary is a separate package below that.
+
+
+#### IncrementalHash
+
+ * `bool VerifyCurrentHash(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.incrementalhash.verifycurrenthash?view=net-11.0#system-security-cryptography-incrementalhash-verifycurrenthash(system-byte()))
+ * `bool VerifyCurrentHash(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.incrementalhash.verifycurrenthash?view=net-11.0#system-security-cryptography-incrementalhash-verifycurrenthash(system-readonlyspan((system-byte))))
+ * `bool VerifyHashAndReset(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.incrementalhash.verifyhashandreset?view=net-11.0#system-security-cryptography-incrementalhash-verifyhashandreset(system-byte()))
+ * `bool VerifyHashAndReset(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.incrementalhash.verifyhashandreset?view=net-11.0#system-security-cryptography-incrementalhash-verifyhashandreset(system-readonlyspan((system-byte))))
 
 
 #### Int128
@@ -1518,6 +1606,38 @@ The class `Polyfill` includes the following extension methods:
 #### KeyValuePair<TKey, TValue>
 
  * `void Deconstruct<TKey, TValue>(TKey, TValue)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.keyvaluepair-2.deconstruct?view=net-11.0)
+
+
+#### Kmac128
+
+ * `bool VerifyCurrentHash(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac128.verifycurrenthash?view=net-11.0#system-security-cryptography-kmac128-verifycurrenthash(system-byte()))
+ * `bool VerifyCurrentHash(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac128.verifycurrenthash?view=net-11.0#system-security-cryptography-kmac128-verifycurrenthash(system-readonlyspan((system-byte))))
+ * `bool VerifyHashAndReset(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac128.verifyhashandreset?view=net-11.0#system-security-cryptography-kmac128-verifyhashandreset(system-byte()))
+ * `bool VerifyHashAndReset(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac128.verifyhashandreset?view=net-11.0#system-security-cryptography-kmac128-verifyhashandreset(system-readonlyspan((system-byte))))
+
+
+#### Kmac256
+
+ * `bool VerifyCurrentHash(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac256.verifycurrenthash?view=net-11.0#system-security-cryptography-kmac256-verifycurrenthash(system-byte()))
+ * `bool VerifyCurrentHash(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac256.verifycurrenthash?view=net-11.0#system-security-cryptography-kmac256-verifycurrenthash(system-readonlyspan((system-byte))))
+ * `bool VerifyHashAndReset(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac256.verifyhashandreset?view=net-11.0#system-security-cryptography-kmac256-verifyhashandreset(system-byte()))
+ * `bool VerifyHashAndReset(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmac256.verifyhashandreset?view=net-11.0#system-security-cryptography-kmac256-verifyhashandreset(system-readonlyspan((system-byte))))
+
+
+#### KmacXof128
+
+ * `bool VerifyCurrentHash(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof128.verifycurrenthash?view=net-11.0#system-security-cryptography-kmacxof128-verifycurrenthash(system-byte()))
+ * `bool VerifyCurrentHash(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof128.verifycurrenthash?view=net-11.0#system-security-cryptography-kmacxof128-verifycurrenthash(system-readonlyspan((system-byte))))
+ * `bool VerifyHashAndReset(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof128.verifyhashandreset?view=net-11.0#system-security-cryptography-kmacxof128-verifyhashandreset(system-byte()))
+ * `bool VerifyHashAndReset(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof128.verifyhashandreset?view=net-11.0#system-security-cryptography-kmacxof128-verifyhashandreset(system-readonlyspan((system-byte))))
+
+
+#### KmacXof256
+
+ * `bool VerifyCurrentHash(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof256.verifycurrenthash?view=net-11.0#system-security-cryptography-kmacxof256-verifycurrenthash(system-byte()))
+ * `bool VerifyCurrentHash(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof256.verifycurrenthash?view=net-11.0#system-security-cryptography-kmacxof256-verifycurrenthash(system-readonlyspan((system-byte))))
+ * `bool VerifyHashAndReset(byte[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof256.verifyhashandreset?view=net-11.0#system-security-cryptography-kmacxof256-verifyhashandreset(system-byte()))
+ * `bool VerifyHashAndReset(ReadOnlySpan<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.kmacxof256.verifyhashandreset?view=net-11.0#system-security-cryptography-kmacxof256-verifyhashandreset(system-readonlyspan((system-byte))))
 
 
 #### List<T>
@@ -2771,7 +2891,7 @@ void ObjectDisposedExceptionExample(bool isDisposed)
     ObjectDisposedException.ThrowIf(isDisposed, typeof(Consume));
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L1014-L1038' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L1113-L1137' title='Snippet source file'>snippet source</a> | <a href='#snippet-ArgumentExceptionUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
@@ -2790,7 +2910,7 @@ void EnsureExample(Order order, Customer customer, string customerId, string ema
     this.quantity = Ensure.NotNegativeOrZero(quantity);
 }
 ```
-<sup><a href='/src/Consume/Consume.cs#L1044-L1056' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
+<sup><a href='/src/Consume/Consume.cs#L1143-L1155' title='Snippet source file'>snippet source</a> | <a href='#snippet-EnsureUsage' title='Start of snippet'>anchor</a></sup>
 <!-- endSnippet -->
 
 
