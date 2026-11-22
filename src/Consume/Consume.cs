@@ -274,6 +274,7 @@ class Consume
         var result = IPAddress.TryParse(charSpan, out address);
 
         ReadOnlySpan<byte> byteSpan = default;
+        address = IPAddress.Parse(byteSpan);
         result = IPAddress.TryParse(byteSpan, out address);
         result = IPAddress.IsValid(charSpan);
         result = IPAddress.IsValidUtf8(byteSpan);

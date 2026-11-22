@@ -3,11 +3,23 @@
 namespace Polyfills;
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text;
 
-static partial class Polyfill
+// A class of its own because IPAddress.Parse(ReadOnlySpan<byte>) would otherwise share a signature with
+// Guid.Parse(ReadOnlySpan<byte>) in Polyfill, and two static extension members with one signature cannot
+// coexist on a class.
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
+#if PolyPublic
+public
+#endif
+static class IPAddressPolyfill
 {
     extension(IPAddress)
     {
@@ -34,11 +46,18 @@ static partial class Polyfill
 #if !NET10_0_OR_GREATER
 
         /// <summary>
+        /// Parses a span of UTF-8 characters into a value.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.ipaddress.parse?view=net-11.0#system-net-ipaddress-parse(system-readonlyspan((system-byte)))
+        //Note: Decodes the bytes to a string first, so this allocates where the BCL works straight from the UTF-8.
+        public static IPAddress Parse(ReadOnlySpan<byte> utf8Text) =>
+            IPAddress.Parse(Encoding.UTF8.GetString(utf8Text));
+
+        /// <summary>
         /// Tries to parse a span of UTF-8 characters into a value.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.net.ipaddress.tryparse?view=net-11.0#system-net-ipaddress-tryparse(system-readonlyspan((system-byte))-system-net-ipaddress@)
         //Note: Decodes the bytes to a string first, so this allocates where the BCL works straight from the UTF-8.
-        //Note: The matching Parse(ReadOnlySpan<byte>) is not polyfilled, since it would collide with Guid.Parse(ReadOnlySpan<byte>); two static extension members with the same signature cannot coexist on one class.
         public static bool TryParse(ReadOnlySpan<byte> utf8Text, [NotNullWhen(true)] out IPAddress? result) =>
             IPAddress.TryParse(Encoding.UTF8.GetString(utf8Text), out result);
 
