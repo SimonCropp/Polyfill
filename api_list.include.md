@@ -670,6 +670,14 @@
  * `bool TryAdd<TKey, TValue>(TKey, TValue) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.collections.generic.collectionextensions.tryadd?view=net-11.0)
 
 
+#### IdnMapping
+
+ * `bool TryGetAscii(ReadOnlySpan<char>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.idnmapping.trygetascii?view=net-11.0#system-globalization-idnmapping-trygetascii(system-readonlyspan((system-char))-system-span((system-char))-system-int32@))
+   * Note: Copies the span to a string and calls GetAscii(string), so this allocates where the BCL works straight from the span.
+ * `bool TryGetUnicode(ReadOnlySpan<char>, Span<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.idnmapping.trygetunicode?view=net-11.0#system-globalization-idnmapping-trygetunicode(system-readonlyspan((system-char))-system-span((system-char))-system-int32@))
+   * Note: Copies the span to a string and calls GetUnicode(string), so this allocates where the BCL works straight from the span.
+
+
 #### IEnumerable<KeyValuePair<TKey, TValue>>
 
  * `Dictionary<TKey, TValue> ToDictionary<TKey, TValue>(IEqualityComparer<TKey>?) where TKey : notnull` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.linq.enumerable.todictionary?view=net-11.0#system-linq-enumerable-todictionary-2(system-collections-generic-ienumerable(system-collections-generic-keyvaluepair(-0-1))-system-collections-generic-iequalitycomparer(-0)))
@@ -1612,6 +1620,14 @@
  * `ValueTask ConnectAsync(string, int, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.net.sockets.tcpclient.connectasync?view=net-11.0#system-net-sockets-tcpclient-connectasync(system-string-system-int32-system-threading-cancellationtoken))
 
 
+#### TextInfo
+
+ * `Rune ToLower(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.textinfo.tolower?view=net-11.0#system-globalization-textinfo-tolower(system-text-rune))
+   * Note: A rune outside the Basic Multilingual Plane goes through ToLower(string), so it allocates where the BCL does not.
+ * `Rune ToUpper(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.globalization.textinfo.toupper?view=net-11.0#system-globalization-textinfo-toupper(system-text-rune))
+   * Note: A rune outside the Basic Multilingual Plane goes through ToUpper(string), so it allocates where the BCL does not.
+
+
 #### TextReader
 
  * `ValueTask<int> ReadAsync(Memory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textreader.readasync?view=net-11.0#system-io-textreader-readasync(system-memory((system-char))-system-threading-cancellationtoken))
@@ -1625,11 +1641,13 @@
  * `void Write(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write?view=net-11.0#system-io-textwriter-write(system-readonlyspan((system-char))))
  * `void Write(StringBuilder?)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.write?view=net-11.0#system-io-textwriter-write(system-text-stringbuilder))
  * `Task WriteAsync(ReadOnlyMemory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-11.0#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))
+ * `Task WriteAsync(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-11.0#system-io-textwriter-writeasync(system-text-rune))
  * `Task WriteAsync(string?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-11.0#system-io-textwriter-writeasync(system-string-system-threading-cancellationtoken))
  * `Task WriteAsync(StringBuilder?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeasync?view=net-11.0#system-io-textwriter-writeasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))
  * `void WriteLine(ReadOnlySpan<char>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writeline?view=net-11.0#system-io-textwriter-writeline(system-readonlyspan((system-char))))
  * `Task WriteLineAsync(CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-11.0#system-io-textwriter-writelineasync(system-threading-cancellationtoken))
  * `Task WriteLineAsync(ReadOnlyMemory<char>, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-11.0#system-io-textwriter-writelineasync(system-readonlymemory((system-char))-system-threading-cancellationtoken))
+ * `Task WriteLineAsync(Rune)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-11.0#system-io-textwriter-writelineasync(system-text-rune))
  * `Task WriteLineAsync(string?, CancellationToken)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.writelineasync?view=net-11.0#system-io-textwriter-writelineasync(system-string-system-threading-cancellationtoken))
  * `TextWriter CreateBroadcasting(TextWriter[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.io.textwriter.createbroadcasting?view=net-11.0)
 

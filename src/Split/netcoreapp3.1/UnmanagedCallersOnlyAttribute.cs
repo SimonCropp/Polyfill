@@ -25,6 +25,10 @@ sealed class UnmanagedCallersOnlyAttribute :
 	Attribute
 {
 	/// <summary>
+	/// Optional. If specified, the entry point is emitted only when the source type is kept.
+	/// </summary>
+	public Type? AssociatedSourceType;
+	/// <summary>
 	/// Optional. If omitted, the runtime will use the default platform calling convention.
 	/// </summary>
 	public Type[]? CallConvs;

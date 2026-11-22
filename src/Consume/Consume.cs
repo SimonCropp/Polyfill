@@ -281,6 +281,37 @@ class Consume
     }
 #endif
 
+#if FeatureMemory
+    void IdnMappingUsage()
+    {
+        var mapping = new IdnMapping();
+        Span<char> destination = stackalloc char[64];
+        var result = mapping.TryGetAscii("bücher.example".AsSpan(), destination, out var charsWritten);
+        result = mapping.TryGetUnicode("xn--bcher-kva.example".AsSpan(), destination, out charsWritten);
+    }
+#endif
+
+#if NETCOREAPP3_0_OR_GREATER
+    async Task RuneUsage()
+    {
+        var rune = new Rune(0x10400);
+        var textInfo = CultureInfo.InvariantCulture.TextInfo;
+        var lower = textInfo.ToLower(rune);
+        var upper = textInfo.ToUpper(rune);
+
+        using var writer = new StringWriter();
+        await writer.WriteAsync(rune);
+        await writer.WriteLineAsync(rune);
+    }
+#endif
+
+#if !NET || NET11_0_OR_GREATER
+    [UnmanagedCallersOnly(AssociatedSourceType = typeof(Consume))]
+    static void UnmanagedCallersOnlyUsage()
+    {
+    }
+#endif
+
     void IPEndPointUsage()
     {
         var endpoint = IPEndPoint.Parse("127.0.0.1:80");
