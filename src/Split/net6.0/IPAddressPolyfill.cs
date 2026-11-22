@@ -3,13 +3,27 @@
 #if FeatureMemory
 namespace Polyfills;
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Text;
-static partial class Polyfill
+[ExcludeFromCodeCoverage]
+[DebuggerNonUserCode]
+#if PolyUseEmbeddedAttribute
+[global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+#endif
+#if PolyPublic
+public
+#endif
+static class IPAddressPolyfill
 {
 	extension(IPAddress)
 	{
+		/// <summary>
+		/// Parses a span of UTF-8 characters into a value.
+		/// </summary>
+		public static IPAddress Parse(ReadOnlySpan<byte> utf8Text) =>
+			IPAddress.Parse(Encoding.UTF8.GetString(utf8Text));
 		/// <summary>
 		/// Tries to parse a span of UTF-8 characters into a value.
 		/// </summary>

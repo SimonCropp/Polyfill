@@ -12,9 +12,9 @@ using System.Text;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
-// A class of its own because IPEndPoint.Parse(ReadOnlySpan<char>) would otherwise share a signature with
-// IPAddress.Parse(ReadOnlySpan<char>) in Polyfill, and two static extension members with one signature
-// cannot coexist on a class.
+// A class of its own because IPEndPoint.Parse(ReadOnlySpan<byte>) would otherwise share a signature with
+// Guid.Parse(ReadOnlySpan<byte>) in Polyfill, and two static extension members with one signature cannot
+// coexist on a class.
 [ExcludeFromCodeCoverage]
 [DebuggerNonUserCode]
 #if PolyUseEmbeddedAttribute
