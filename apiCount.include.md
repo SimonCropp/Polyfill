@@ -1,4 +1,4 @@
-**API count: 1184**
+**API count: 1208**
 
 ### Per Target Framework
 
@@ -16,13 +16,13 @@
 | `netcoreapp2.0` | 1009 |
 | `netcoreapp2.1` | 922 |
 | `netcoreapp2.2` | 922 |
-| `netcoreapp3.0` | 880 |
-| `netcoreapp3.1` | 880 |
-| `net5.0` | 764 |
-| `net6.0` | 660 |
-| `net7.0` | 520 |
-| `net8.0` | 401 |
-| `net9.0` | 253 |
-| `net10.0` | 186 |
+| `netcoreapp3.0` | 904 |
+| `netcoreapp3.1` | 904 |
+| `net5.0` | 788 |
+| `net6.0` | 684 |
+| `net7.0` | 544 |
+| `net8.0` | 425 |
+| `net9.0` | 277 |
+| `net10.0` | 210 |
 | `net11.0` | 56 |
 | `uap10.0` | 1073 |
