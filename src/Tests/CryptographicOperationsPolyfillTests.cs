@@ -283,6 +283,11 @@ public class CryptographicOperationsPolyfillTests
             "SHA1" => SHA1.Create(),
             "SHA256" => SHA256.Create(),
             "SHA384" => SHA384.Create(),
+#if NET8_0_OR_GREATER
+            "SHA3-256" => SHA3_256.Create(),
+            "SHA3-384" => SHA3_384.Create(),
+            "SHA3-512" => SHA3_512.Create(),
+#endif
             _ => SHA512.Create()
         };
         return hasher.ComputeHash(input);
@@ -296,10 +301,27 @@ public class CryptographicOperationsPolyfillTests
             "SHA1" => new HMACSHA1(macKey),
             "SHA256" => new HMACSHA256(macKey),
             "SHA384" => new HMACSHA384(macKey),
+#if NET8_0_OR_GREATER
+            "SHA3-256" => new HMACSHA3_256(macKey),
+            "SHA3-384" => new HMACSHA3_384(macKey),
+            "SHA3-512" => new HMACSHA3_512(macKey),
+#endif
             _ => new HMACSHA512(macKey)
         };
         return hmac.ComputeHash(input);
     }
+
+    // SHA3 depends on the platform, and the tests for it are skipped where it is missing
+    static bool IsSupported(string name) =>
+        name switch
+        {
+#if NET8_0_OR_GREATER
+            "SHA3-256" => SHA3_256.IsSupported && HMACSHA3_256.IsSupported,
+            "SHA3-384" => SHA3_384.IsSupported && HMACSHA3_384.IsSupported,
+            "SHA3-512" => SHA3_512.IsSupported && HMACSHA3_512.IsSupported,
+#endif
+            _ => true
+        };
 
     [Test]
     [Arguments("MD5")]
@@ -307,8 +329,18 @@ public class CryptographicOperationsPolyfillTests
     [Arguments("SHA256")]
     [Arguments("SHA384")]
     [Arguments("SHA512")]
+#if NET8_0_OR_GREATER
+    [Arguments("SHA3-256")]
+    [Arguments("SHA3-384")]
+    [Arguments("SHA3-512")]
+#endif
     public async Task AllOverloads_MatchReference(string name)
     {
+        if (!IsSupported(name))
+        {
+            return;
+        }
+
         var algorithm = new HashAlgorithmName(name);
         var problems = new List<string>();
 
@@ -517,6 +549,11 @@ public class CryptographicOperationsPolyfillTests
             "SHA1" => SHA1.Create(),
             "SHA256" => SHA256.Create(),
             "SHA384" => SHA384.Create(),
+#if NET8_0_OR_GREATER
+            "SHA3-256" => SHA3_256.Create(),
+            "SHA3-384" => SHA3_384.Create(),
+            "SHA3-512" => SHA3_512.Create(),
+#endif
             _ => SHA512.Create()
         };
 
@@ -527,6 +564,11 @@ public class CryptographicOperationsPolyfillTests
             "SHA1" => new HMACSHA1(key),
             "SHA256" => new HMACSHA256(key),
             "SHA384" => new HMACSHA384(key),
+#if NET8_0_OR_GREATER
+            "SHA3-256" => new HMACSHA3_256(key),
+            "SHA3-384" => new HMACSHA3_384(key),
+            "SHA3-512" => new HMACSHA3_512(key),
+#endif
             _ => new HMACSHA512(key)
         };
 
@@ -536,8 +578,18 @@ public class CryptographicOperationsPolyfillTests
     [Arguments("SHA256")]
     [Arguments("SHA384")]
     [Arguments("SHA512")]
+#if NET8_0_OR_GREATER
+    [Arguments("SHA3-256")]
+    [Arguments("SHA3-384")]
+    [Arguments("SHA3-512")]
+#endif
     public async Task HashAndHmac_Span_AnyLength(string name)
     {
+        if (!IsSupported(name))
+        {
+            return;
+        }
+
         var algorithm = new HashAlgorithmName(name);
         var failures = new List<string>();
 
@@ -744,5 +796,44 @@ public class CryptographicOperationsPolyfillTests
         await Assert.That(stream.ReadCount).IsEqualTo(0);
     }
 #endif
+#endif
+
+#if NET8_0_OR_GREATER
+    [Test]
+    [Arguments("SHA3-256")]
+    [Arguments("SHA3-384")]
+    [Arguments("SHA3-512")]
+    public async Task Sha3_StreamAndAsyncOverloads(string name)
+    {
+        if (!IsSupported(name))
+        {
+            return;
+        }
+
+        var algorithm = new HashAlgorithmName(name);
+        var expectedHash = ReferenceHash(name, data);
+        var expectedMac = ReferenceMac(name, key, data);
+        var tampered = (byte[]) expectedMac.Clone();
+        tampered[0] ^= 1;
+        var destination = new byte[expectedHash.Length];
+
+        await Assert.That(CryptographicOperations.HashData(algorithm, new MemoryStream(data)).SequenceEqual(expectedHash)).IsTrue();
+        await Assert.That(CryptographicOperations.HashData(algorithm, new MemoryStream(data), destination)).IsEqualTo(expectedHash.Length);
+        await Assert.That(destination.SequenceEqual(expectedHash)).IsTrue();
+        await Assert.That((await CryptographicOperations.HashDataAsync(algorithm, new MemoryStream(data))).SequenceEqual(expectedHash)).IsTrue();
+
+        await Assert.That(CryptographicOperations.HmacData(algorithm, key, new MemoryStream(data)).SequenceEqual(expectedMac)).IsTrue();
+        await Assert.That(CryptographicOperations.HmacData(algorithm, key.AsSpan(), new MemoryStream(data)).SequenceEqual(expectedMac)).IsTrue();
+        await Assert.That((await CryptographicOperations.HmacDataAsync(algorithm, key, new MemoryStream(data))).SequenceEqual(expectedMac)).IsTrue();
+        await Assert.That((await CryptographicOperations.HmacDataAsync(algorithm, (ReadOnlyMemory<byte>) key, new MemoryStream(data))).SequenceEqual(expectedMac)).IsTrue();
+
+        await Assert.That(CryptographicOperations.VerifyHmac(algorithm, key, new MemoryStream(data), expectedMac)).IsTrue();
+        await Assert.That(CryptographicOperations.VerifyHmac(algorithm, key, new MemoryStream(data), tampered)).IsFalse();
+        await Assert.That(CryptographicOperations.VerifyHmac(algorithm, key.AsSpan(), new MemoryStream(data), expectedMac.AsSpan())).IsTrue();
+        await Assert.That(await CryptographicOperations.VerifyHmacAsync(algorithm, key, new MemoryStream(data), expectedMac)).IsTrue();
+        await Assert.That(await CryptographicOperations.VerifyHmacAsync(algorithm, key, new MemoryStream(data), tampered)).IsFalse();
+        await Assert.That(await CryptographicOperations.VerifyHmacAsync(algorithm, (ReadOnlyMemory<byte>) key, new MemoryStream(data), (ReadOnlyMemory<byte>) expectedMac)).IsTrue();
+        await Assert.That(() => CryptographicOperations.VerifyHmac(algorithm, key, data, new byte[expectedMac.Length - 1])).Throws<ArgumentException>();
+    }
 #endif
 }

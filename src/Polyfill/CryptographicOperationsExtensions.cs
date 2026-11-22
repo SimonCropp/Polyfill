@@ -2,8 +2,9 @@
 
 // Fills in members missing from the BCL CryptographicOperations on targets where
 // the type exists (netcoreapp2.1/netstandard2.1 onwards) but predates the member:
-//   HashData family added in net8, HmacData family in net9, VerifyHmac family and
-//   FixedTimeEquals(ReadOnlySpan<byte>, byte) in net10.
+//   HashData and HmacData families added in net9, VerifyHmac family and
+//   FixedTimeEquals(ReadOnlySpan<byte>, byte) in net11.
+// The SHA3 algorithm names are accepted from net8, where the SHA3 types ship.
 // For targets where the type is entirely absent the full surface is recreated in
 // CryptographicOperations.cs instead. Span/ValueTask/ReadOnlyMemory are intrinsic
 // to every target in this window, so no Feature* gates are needed here.
@@ -426,6 +427,11 @@ static partial class Polyfill
             "SHA384" => SHA384.Create(),
             "SHA512" => SHA512.Create(),
             "MD5" => MD5.Create(),
+#if NET8_0_OR_GREATER
+            "SHA3-256" => SHA3_256.Create(),
+            "SHA3-384" => SHA3_384.Create(),
+            "SHA3-512" => SHA3_512.Create(),
+#endif
             _ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
         };
     }
@@ -445,6 +451,11 @@ static partial class Polyfill
             "SHA384" => SHA384.HashData(source),
             "SHA512" => SHA512.HashData(source),
             "MD5" => MD5.HashData(source),
+#if NET8_0_OR_GREATER
+            "SHA3-256" => SHA3_256.HashData(source),
+            "SHA3-384" => SHA3_384.HashData(source),
+            "SHA3-512" => SHA3_512.HashData(source),
+#endif
             _ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
         };
     }
@@ -464,6 +475,14 @@ static partial class Polyfill
                 return SHA512.TryHashData(source, destination, out bytesWritten);
             case "MD5":
                 return MD5.TryHashData(source, destination, out bytesWritten);
+#if NET8_0_OR_GREATER
+            case "SHA3-256":
+                return SHA3_256.TryHashData(source, destination, out bytesWritten);
+            case "SHA3-384":
+                return SHA3_384.TryHashData(source, destination, out bytesWritten);
+            case "SHA3-512":
+                return SHA3_512.TryHashData(source, destination, out bytesWritten);
+#endif
             default:
                 throw new CryptographicException($"'{name}' is not a known hash algorithm.");
         }
@@ -483,6 +502,11 @@ static partial class Polyfill
             "SHA384" => HMACSHA384.HashData(key, source),
             "SHA512" => HMACSHA512.HashData(key, source),
             "MD5" => HMACMD5.HashData(key, source),
+#if NET8_0_OR_GREATER
+            "SHA3-256" => HMACSHA3_256.HashData(key, source),
+            "SHA3-384" => HMACSHA3_384.HashData(key, source),
+            "SHA3-512" => HMACSHA3_512.HashData(key, source),
+#endif
             _ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
         };
     }
@@ -502,6 +526,14 @@ static partial class Polyfill
                 return HMACSHA512.TryHashData(key, source, destination, out bytesWritten);
             case "MD5":
                 return HMACMD5.TryHashData(key, source, destination, out bytesWritten);
+#if NET8_0_OR_GREATER
+            case "SHA3-256":
+                return HMACSHA3_256.TryHashData(key, source, destination, out bytesWritten);
+            case "SHA3-384":
+                return HMACSHA3_384.TryHashData(key, source, destination, out bytesWritten);
+            case "SHA3-512":
+                return HMACSHA3_512.TryHashData(key, source, destination, out bytesWritten);
+#endif
             default:
                 throw new CryptographicException($"'{name}' is not a known hash algorithm.");
         }
@@ -521,6 +553,12 @@ static partial class Polyfill
             "SHA384" => 48,
             "SHA512" => 64,
             "MD5" => 16,
+#if NET8_0_OR_GREATER
+            // as in the BCL, an unsupported SHA3 algorithm is reported before the hash length is checked
+            "SHA3-256" => SHA3_256.IsSupported ? 32 : throw new PlatformNotSupportedException(),
+            "SHA3-384" => SHA3_384.IsSupported ? 48 : throw new PlatformNotSupportedException(),
+            "SHA3-512" => SHA3_512.IsSupported ? 64 : throw new PlatformNotSupportedException(),
+#endif
             _ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
         };
     }
@@ -535,6 +573,11 @@ static partial class Polyfill
             "SHA384" => new HMACSHA384(key),
             "SHA512" => new HMACSHA512(key),
             "MD5" => new HMACMD5(key),
+#if NET8_0_OR_GREATER
+            "SHA3-256" => new HMACSHA3_256(key),
+            "SHA3-384" => new HMACSHA3_384(key),
+            "SHA3-512" => new HMACSHA3_512(key),
+#endif
             _ => throw new CryptographicException($"'{name}' is not a known hash algorithm.")
         };
     }
