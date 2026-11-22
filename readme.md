@@ -118,10 +118,10 @@ Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-
 | netcoreapp3.1  |          9.5KB |       377.0KB |  +367.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
 | net5.0         |          9.5KB |       340.5KB |  +331.0KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
 | net6.0         |         10.0KB |       278.0KB |  +268.0KB |    +9.5KB |             +7.0KB |              +1.0KB |      +3.5KB |
-| net7.0         |         10.0KB |       254.5KB |  +244.5KB |    +9.0KB |             +5.5KB |           +512bytes |      +3.0KB |
+| net7.0         |         10.0KB |       254.5KB |  +244.5KB |    +9.0KB |             +5.5KB |           +512bytes |      +3.5KB |
 | net8.0         |          9.5KB |       236.0KB |  +226.5KB |    +8.5KB |                    |           +512bytes |      +3.0KB |
-| net9.0         |          9.5KB |       157.0KB |  +147.5KB |    +8.0KB |                    |           +512bytes |      +3.0KB |
-| net10.0        |         10.0KB |       131.0KB |  +121.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net9.0         |          9.5KB |       157.0KB |  +147.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net10.0        |         10.0KB |       131.0KB |  +121.0KB |    +8.5KB |                    |              +1.0KB |      +3.5KB |
 | net11.0        |         10.0KB |        18.0KB |    +8.0KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 
 
@@ -141,14 +141,14 @@ Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-
 | netcoreapp2.0  |          9.0KB |       597.8KB |  +588.8KB |   +16.6KB |             +8.2KB |             +14.4KB |     +19.9KB |
 | netcoreapp2.1  |          9.0KB |       557.5KB |  +548.5KB |   +16.1KB |             +8.2KB |             +14.4KB |     +19.9KB |
 | netcoreapp2.2  |          9.0KB |       557.5KB |  +548.5KB |   +16.1KB |             +8.2KB |             +14.4KB |     +19.9KB |
-| netcoreapp3.0  |          9.5KB |       541.4KB |  +531.9KB |   +16.1KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| netcoreapp3.1  |          9.5KB |       541.4KB |  +531.9KB |   +16.1KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net5.0         |          9.5KB |       486.6KB |  +477.1KB |   +16.1KB |             +8.2KB |             +13.9KB |     +18.9KB |
-| net6.0         |         10.0KB |       402.4KB |  +392.4KB |   +17.1KB |             +8.7KB |              +1.6KB |      +4.2KB |
-| net7.0         |         10.0KB |       364.8KB |  +354.8KB |   +16.5KB |             +6.9KB |              +1.1KB |      +3.7KB |
-| net8.0         |          9.5KB |       334.0KB |  +324.5KB |   +15.9KB |          +299bytes |              +1.1KB |      +3.7KB |
-| net9.0         |          9.5KB |       226.3KB |  +216.8KB |   +15.4KB |                    |              +1.1KB |      +3.7KB |
-| net10.0        |         10.0KB |       189.6KB |  +179.6KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
+| netcoreapp3.0  |          9.5KB |       541.6KB |  +532.1KB |   +16.1KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| netcoreapp3.1  |          9.5KB |       541.6KB |  +532.1KB |   +16.1KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net5.0         |          9.5KB |       486.8KB |  +477.3KB |   +16.1KB |             +8.2KB |             +13.9KB |     +18.9KB |
+| net6.0         |         10.0KB |       402.6KB |  +392.6KB |   +17.1KB |             +8.7KB |              +1.6KB |      +4.2KB |
+| net7.0         |         10.0KB |       365.0KB |  +355.0KB |   +16.5KB |             +6.9KB |              +1.1KB |      +4.2KB |
+| net8.0         |          9.5KB |       334.3KB |  +324.8KB |   +15.9KB |          +299bytes |              +1.1KB |      +3.7KB |
+| net9.0         |          9.5KB |       226.5KB |  +217.0KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
+| net10.0        |         10.0KB |       189.9KB |  +179.9KB |   +15.9KB |                    |              +1.6KB |      +4.2KB |
 | net11.0        |         10.0KB |        26.5KB |   +16.5KB |   +16.4KB |                    |              +1.1KB |      +4.2KB |
 <!-- endInclude -->
 

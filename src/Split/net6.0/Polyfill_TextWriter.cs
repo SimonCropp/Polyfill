@@ -13,52 +13,6 @@ using System.Buffers;
 static partial class Polyfill
 {
 	/// <summary>
-	/// Writes a rune to the text stream asynchronously.
-	/// </summary>
-	public static Task WriteAsync(this TextWriter target, Rune value)
-	{
-		if (value.IsBmp)
-		{
-			return target.WriteAsync((char) value.Value);
-		}
-		Span<char> chars = stackalloc char[2];
-		value.EncodeToUtf16(chars);
-		return Task.Factory.StartNew(
-			static state =>
-			{
-				var (writer, high, low) = ((TextWriter, char, char)) state!;
-				writer.Write(high);
-				writer.Write(low);
-			},
-			(target, chars[0], chars[1]),
-			CancellationToken.None,
-			TaskCreationOptions.DenyChildAttach,
-			TaskScheduler.Default);
-	}
-	/// <summary>
-	/// Writes a rune followed by a line terminator to the text stream asynchronously.
-	/// </summary>
-	public static Task WriteLineAsync(this TextWriter target, Rune value)
-	{
-		if (value.IsBmp)
-		{
-			return target.WriteLineAsync((char) value.Value);
-		}
-		Span<char> chars = stackalloc char[2];
-		value.EncodeToUtf16(chars);
-		return Task.Factory.StartNew(
-			static state =>
-			{
-				var (writer, high, low) = ((TextWriter, char, char)) state!;
-				writer.Write(high);
-				writer.WriteLine(low);
-			},
-			(target, chars[0], chars[1]),
-			CancellationToken.None,
-			TaskCreationOptions.DenyChildAttach,
-			TaskScheduler.Default);
-	}
-	/// <summary>
 	/// Asynchronously writes a string to the stream, with a cancellation token.
 	/// </summary>
 	public static Task WriteAsync(this TextWriter target, string? value, CancellationToken cancellationToken)
