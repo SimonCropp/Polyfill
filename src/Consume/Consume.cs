@@ -1884,6 +1884,13 @@ class Consume
         random.GetHexString(hexDest);
         var rndString = random.GetString("abc".AsSpan(), 10);
 #endif
+#if NET7_0_OR_GREATER
+        var nextByte = random.NextInteger<byte>();
+        var nextUInt128 = random.NextInteger(UInt128.MaxValue);
+        var nextBigInteger = random.NextInteger(BigInteger.MinusOne, BigInteger.One);
+        var nextHalf = random.NextBinaryFloat<Half>();
+        var nextNFloat = random.NextBinaryFloat<NFloat>();
+#endif
     }
 
 #if FeatureMemory

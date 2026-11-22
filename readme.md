@@ -13,7 +13,7 @@ The package targets `netstandard2.0` and is designed to support the following ru
  * `uap10`
 
 
-**API count: 1290**<!-- include: apiCount. path: /apiCount.include.md -->
+**API count: 1294**<!-- include: apiCount. path: /apiCount.include.md -->
 
 ### Per Target Framework
 
@@ -35,10 +35,10 @@ The package targets `netstandard2.0` and is designed to support the following ru
 | `netcoreapp3.1` | 946 |
 | `net5.0` | 832 |
 | `net6.0` | 728 |
-| `net7.0` | 588 |
-| `net8.0` | 487 |
-| `net9.0` | 355 |
-| `net10.0` | 287 |
+| `net7.0` | 592 |
+| `net8.0` | 491 |
+| `net9.0` | 359 |
+| `net10.0` | 291 |
 | `net11.0` | 56 |
 | `uap10.0` | 1119 |
 <!-- endInclude -->
@@ -118,10 +118,10 @@ Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-
 | netcoreapp3.1  |          9.5KB |       375.0KB |  +365.5KB |    +8.5KB |             +6.5KB |              +9.0KB |     +13.5KB |
 | net5.0         |          9.5KB |       338.5KB |  +329.0KB |    +9.0KB |             +6.5KB |              +9.0KB |     +14.0KB |
 | net6.0         |         10.0KB |       276.0KB |  +266.0KB |    +9.5KB |             +7.0KB |           +512bytes |      +3.5KB |
-| net7.0         |         10.0KB |       248.5KB |  +238.5KB |    +9.0KB |             +6.0KB |           +512bytes |      +3.5KB |
-| net8.0         |          9.5KB |       229.5KB |  +220.0KB |    +8.5KB |          +512bytes |              +1.0KB |      +3.5KB |
-| net9.0         |         10.0KB |       150.5KB |  +140.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
-| net10.0        |         10.0KB |       124.5KB |  +114.5KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net7.0         |         10.0KB |       252.5KB |  +242.5KB |    +9.0KB |             +5.5KB |           +512bytes |      +3.0KB |
+| net8.0         |          9.5KB |       233.5KB |  +224.0KB |    +8.5KB |          +512bytes |              +1.0KB |      +3.5KB |
+| net9.0         |          9.5KB |       154.5KB |  +145.0KB |    +8.5KB |                    |           +512bytes |      +3.5KB |
+| net10.0        |         10.0KB |       129.0KB |  +119.0KB |    +8.0KB |                    |           +512bytes |      +3.5KB |
 | net11.0        |         10.0KB |        18.0KB |    +8.0KB |    +9.0KB |                    |           +512bytes |      +3.5KB |
 
 
@@ -145,10 +145,10 @@ Only [SDK-style projects](https://learn.microsoft.com/en-us/dotnet/core/project-
 | netcoreapp3.1  |          9.5KB |       538.2KB |  +528.7KB |   +16.1KB |             +8.2KB |             +13.9KB |     +18.9KB |
 | net5.0         |          9.5KB |       483.5KB |  +474.0KB |   +16.6KB |             +8.2KB |             +13.9KB |     +19.4KB |
 | net6.0         |         10.0KB |       399.2KB |  +389.2KB |   +17.1KB |             +8.7KB |              +1.1KB |      +4.2KB |
-| net7.0         |         10.0KB |       356.0KB |  +346.0KB |   +16.5KB |             +7.4KB |              +1.1KB |      +4.2KB |
-| net8.0         |          9.5KB |       324.8KB |  +315.3KB |   +15.9KB |          +811bytes |              +1.6KB |      +4.2KB |
-| net9.0         |         10.0KB |       217.1KB |  +207.1KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
-| net10.0        |         10.0KB |       180.4KB |  +170.4KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
+| net7.0         |         10.0KB |       361.6KB |  +351.6KB |   +16.5KB |             +6.9KB |              +1.1KB |      +3.7KB |
+| net8.0         |          9.5KB |       330.4KB |  +320.9KB |   +15.9KB |          +811bytes |              +1.6KB |      +4.2KB |
+| net9.0         |          9.5KB |       222.7KB |  +213.2KB |   +15.9KB |                    |              +1.1KB |      +4.2KB |
+| net10.0        |         10.0KB |       186.5KB |  +176.5KB |   +15.4KB |                    |              +1.1KB |      +4.2KB |
 | net11.0        |         10.0KB |        26.5KB |   +16.5KB |   +16.4KB |                    |              +1.1KB |      +4.2KB |
 <!-- endInclude -->
 
@@ -1861,10 +1861,14 @@ The class `Polyfill` includes the following extension methods:
  * `void GetItems<T>(ReadOnlySpan<T>, Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems?view=net-11.0#system-random-getitems-1(system-readonlyspan((-0))-system-span((-0))))
  * `T[] GetItems<T>(T[], int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.getitems?view=net-11.0#system-random-getitems-1(-0()-system-int32))
  * `string GetString(ReadOnlySpan<char>, int)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.getstring?view=net-11.0)
+ * `T NextBinaryFloat<T>() where T : IBinaryFloatingPointIeee754<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbinaryfloat?view=net-11.0)
  * `void NextBytes(Span<byte>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-11.0#system-random-nextbytes(system-span((system-byte))))
  * `long NextInt64(long, long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextint64?view=net-11.0#system-random-nextint64(system-int64-system-int64))
  * `long NextInt64(long)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextint64?view=net-11.0#system-random-nextint64(system-int64))
  * `long NextInt64()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextint64?view=net-11.0#system-random-nextint64)
+ * `T NextInteger<T>(T, T) where T : IBinaryInteger<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextinteger?view=net-11.0#system-random-nextinteger-1(-0-0))
+ * `T NextInteger<T>(T) where T : IBinaryInteger<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextinteger?view=net-11.0#system-random-nextinteger-1(-0))
+ * `T NextInteger<T>() where T : IBinaryInteger<T>, IMinMaxValue<T>` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextinteger?view=net-11.0#system-random-nextinteger-1)
  * `float NextSingle()` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextsingle?view=net-11.0)
  * `void Shuffle<T>(Span<T>)` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-11.0#system-random-nextbytes(system-span((system-byte))))
  * `void Shuffle<T>(T[])` [reference](https://learn.microsoft.com/en-us/dotnet/api/system.random.nextbytes?view=net-11.0#system-random-nextbytes(system-span((system-byte))))
