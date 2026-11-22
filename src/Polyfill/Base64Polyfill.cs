@@ -127,6 +127,34 @@ static partial class Polyfill
         }
 
         /// <summary>
+        /// Encodes the span of binary data into UTF-8 encoded text represented as base-64.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.encodetoutf8?view=net-11.0#system-buffers-text-base64-encodetoutf8(system-readonlyspan((system-byte))-system-span((system-byte)))
+        public static int EncodeToUtf8(ReadOnlySpan<byte> source, Span<byte> destination)
+        {
+            if (Base64.EncodeToUtf8(source, destination, out _, out var bytesWritten) != OperationStatus.Done)
+            {
+                throw new ArgumentException("Destination is too small.", nameof(destination));
+            }
+
+            return bytesWritten;
+        }
+
+        /// <summary>
+        /// Tries to encode the span of binary data into UTF-8 encoded text represented as base-64.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.tryencodetoutf8?view=net-11.0
+        public static bool TryEncodeToUtf8(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten) =>
+            Base64.EncodeToUtf8(source, destination, out _, out bytesWritten) == OperationStatus.Done;
+
+        /// <summary>
+        /// Tries to encode the span of binary data (in-place) into UTF-8 encoded text represented as base-64.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.tryencodetoutf8inplace?view=net-11.0
+        public static bool TryEncodeToUtf8InPlace(Span<byte> buffer, int dataLength, out int bytesWritten) =>
+            Base64.EncodeToUtf8InPlace(buffer, dataLength, out bytesWritten) == OperationStatus.Done;
+
+        /// <summary>
         /// Decodes the span of UTF-16 encoded text represented as base-64 into binary data.
         /// </summary>
         //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.decodefromchars?view=net-11.0#system-buffers-text-base64-decodefromchars(system-readonlyspan((system-char)))
@@ -229,6 +257,81 @@ static partial class Polyfill
             return System.Convert.FromBase64CharArray(chars, 0, chars.Length);
 #endif
         }
+
+        /// <summary>
+        /// Decodes the span of UTF-8 encoded text represented as base-64 into binary data.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.decodefromutf8?view=net-11.0#system-buffers-text-base64-decodefromutf8(system-readonlyspan((system-byte))-system-span((system-byte)))
+        public static int DecodeFromUtf8(ReadOnlySpan<byte> source, Span<byte> destination)
+        {
+            if (!Base64.TryDecodeFromUtf8(source, destination, out var bytesWritten))
+            {
+                throw new ArgumentException("Destination is too small.", nameof(destination));
+            }
+
+            return bytesWritten;
+        }
+
+        /// <summary>
+        /// Tries to decode the span of UTF-8 encoded text represented as base-64 into binary data.
+        /// </summary>
+        //Link: https://learn.microsoft.com/en-us/dotnet/api/system.buffers.text.base64.trydecodefromutf8?view=net-11.0
+        public static bool TryDecodeFromUtf8(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
+        {
+#if NET8_0_OR_GREATER
+            var status = Base64.DecodeFromUtf8(source, destination, out _, out bytesWritten);
+
+            if (status == OperationStatus.InvalidData)
+            {
+                throw new FormatException("The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters.");
+            }
+
+            return status == OperationStatus.Done;
+#else
+            return TryDecodeUtf8ViaChars(source, destination, out bytesWritten);
+#endif
+        }
+
+#if !NET8_0_OR_GREATER
+
+        // Base64.DecodeFromUtf8 only skips whitespace from net8, so on earlier targets the text is widened
+        // and decoded as chars, which skips whitespace as the BCL does
+        static bool TryDecodeUtf8ViaChars(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
+        {
+#if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            if (source.Length <= 256)
+            {
+                Span<char> buffer = stackalloc char[256];
+                buffer = buffer.Slice(0, source.Length);
+                Widen(source, buffer);
+                return TryDecodeBase64(buffer, destination, out bytesWritten);
+            }
+
+            var rented = ArrayPool<char>.Shared.Rent(source.Length);
+
+            try
+            {
+                var chars = rented.AsSpan(0, source.Length);
+                Widen(source, chars);
+                return TryDecodeBase64(chars, destination, out bytesWritten);
+            }
+            finally
+            {
+                ArrayPool<char>.Shared.Return(rented);
+            }
+#else
+            var chars = new char[source.Length];
+
+            for (var i = 0; i < source.Length; i++)
+            {
+                chars[i] = (char) source[i];
+            }
+
+            return TryDecodeBase64(chars, destination, out bytesWritten);
+#endif
+        }
+
+#endif
 
 #if NETCOREAPP2_1_OR_GREATER || NETSTANDARD2_1_OR_GREATER
 

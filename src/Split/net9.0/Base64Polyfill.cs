@@ -96,6 +96,27 @@ static partial class Polyfill
 			return result;
 		}
 		/// <summary>
+		/// Encodes the span of binary data into UTF-8 encoded text represented as base-64.
+		/// </summary>
+		public static int EncodeToUtf8(ReadOnlySpan<byte> source, Span<byte> destination)
+		{
+			if (Base64.EncodeToUtf8(source, destination, out _, out var bytesWritten) != OperationStatus.Done)
+			{
+				throw new ArgumentException("Destination is too small.", nameof(destination));
+			}
+			return bytesWritten;
+		}
+		/// <summary>
+		/// Tries to encode the span of binary data into UTF-8 encoded text represented as base-64.
+		/// </summary>
+		public static bool TryEncodeToUtf8(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten) =>
+			Base64.EncodeToUtf8(source, destination, out _, out bytesWritten) == OperationStatus.Done;
+		/// <summary>
+		/// Tries to encode the span of binary data (in-place) into UTF-8 encoded text represented as base-64.
+		/// </summary>
+		public static bool TryEncodeToUtf8InPlace(Span<byte> buffer, int dataLength, out int bytesWritten) =>
+			Base64.EncodeToUtf8InPlace(buffer, dataLength, out bytesWritten) == OperationStatus.Done;
+		/// <summary>
 		/// Decodes the span of UTF-16 encoded text represented as base-64 into binary data.
 		/// </summary>
 		public static byte[] DecodeFromChars(ReadOnlySpan<char> source) =>
@@ -167,6 +188,29 @@ static partial class Polyfill
 			var result = DecodeBase64(chars);
 			ArrayPool<char>.Shared.Return(rented);
 			return result;
+		}
+		/// <summary>
+		/// Decodes the span of UTF-8 encoded text represented as base-64 into binary data.
+		/// </summary>
+		public static int DecodeFromUtf8(ReadOnlySpan<byte> source, Span<byte> destination)
+		{
+			if (!Base64.TryDecodeFromUtf8(source, destination, out var bytesWritten))
+			{
+				throw new ArgumentException("Destination is too small.", nameof(destination));
+			}
+			return bytesWritten;
+		}
+		/// <summary>
+		/// Tries to decode the span of UTF-8 encoded text represented as base-64 into binary data.
+		/// </summary>
+		public static bool TryDecodeFromUtf8(ReadOnlySpan<byte> source, Span<byte> destination, out int bytesWritten)
+		{
+			var status = Base64.DecodeFromUtf8(source, destination, out _, out bytesWritten);
+			if (status == OperationStatus.InvalidData)
+			{
+				throw new FormatException("The input is not a valid Base-64 string as it contains a non-base 64 character, more than two padding characters, or an illegal character among the padding characters.");
+			}
+			return status == OperationStatus.Done;
 		}
 		static string EncodeBase64(ReadOnlySpan<byte> source) =>
 			System.Convert.ToBase64String(source);

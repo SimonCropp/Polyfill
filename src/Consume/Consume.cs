@@ -388,11 +388,16 @@ class Consume
         Base64.EncodeToChars(source, charDest, bytesConsumed: out _, charsWritten: out _, isFinalBlock: true);
         Base64.TryEncodeToChars(source, charDest, out _);
         Base64.EncodeToUtf8(source);
+        Base64.EncodeToUtf8(source, byteDest);
+        Base64.TryEncodeToUtf8(source, byteDest, out _);
+        Base64.TryEncodeToUtf8InPlace(byteDest, 0, out _);
         Base64.DecodeFromChars(charSource);
         Base64.DecodeFromChars(charSource, byteDest);
         Base64.DecodeFromChars(charSource, byteDest, charsConsumed: out _, bytesWritten: out _, isFinalBlock: true);
         Base64.TryDecodeFromChars(charSource, byteDest, out _);
         Base64.DecodeFromUtf8(source);
+        Base64.DecodeFromUtf8(source, byteDest);
+        Base64.TryDecodeFromUtf8(source, byteDest, out _);
     }
 #endif
 
